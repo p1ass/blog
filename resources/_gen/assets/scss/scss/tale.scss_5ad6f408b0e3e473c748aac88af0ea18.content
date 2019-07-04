@@ -105,7 +105,7 @@ pre code {
   .post-title {
     color: #353535;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
-    font-size: 4rem;
+    font-size: 3rem;
     margin: 1rem 0;
     text-align: center; }
   .post-line {
@@ -488,7 +488,7 @@ footer {
     right: 0; }
 
 .catalogue-item {
-  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
   color: #555;
   display: block;
   padding: 2rem 0; }
