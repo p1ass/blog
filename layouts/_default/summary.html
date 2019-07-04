@@ -1,0 +1,12 @@
+<section class="catalogue-section">
+    <a href="{{ .Permalink }}" class="catalogue-item">
+        <div>
+            <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+            <h1 class="catalogue-title">{{ .Title }}</h1>
+            <div class="catalogue-line"></div>
+        </div>
+    </a>
+    <p>
+        {{ if isset .Params "summary" }}{{ .Params.Summary }}{{ else }}{{ .Summary }}{{ end }}
+    </p>
+</section>

@@ -1,0 +1,6 @@
+baseURL = "https://blog.naoki.dev"
+languageCode = "en-us"
+title = "ぷらすのブログ"
+theme = "tale"
+hasCJKLanguage = true
+pygmentsUseClasses = true
