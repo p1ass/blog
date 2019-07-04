@@ -1,7 +1,12 @@
 ---
 title: "direnvを使うときは環境変数を.envrcに書くより.envに書いた方が使い勝手が良い"
 date: 2019-04-25T18:47:48+09:00
-draft: true
+draft: false
+categories:
+- 開発
+tags:
+- direnv
+- 環境変数
 ---
 
 こんにちは、[@plus_kyoto](https://twitter.com/plus_kyoto)です。  
@@ -19,7 +24,7 @@ draft: true
 direnvはディレクトリごとに環境変数を設定することができるツールです。  
 `.zshrc`などに`eval "$(direnv hook zsh)"`と書くことで、カレントディレクトリに存在する`.envrc`に書かれたスクリプトを実行してくれます。
 
-[https://github.com/direnv/direnv]
+{{< link url="https://github.com/direnv/direnv" text="direnv/direnv: unclutter your .profile" >}}
 
 例えば、次のように`.envrc`を記述することで、`HOGE`という環境変数を設定することができます。
 
@@ -71,10 +76,12 @@ services:
 
 幸いにもJetBrains Pluginsには、`.env`ファイルを読み込んでくれるプラグインがあるため、正しく環境変数を読み込むことができます。
 
-[https://plugins.jetbrains.com/plugin/9525--env-files-support]
+{{< link url="https://plugins.jetbrains.com/plugin/9525--env-files-support" text=".env files support - Plugins | JetBrains" >}}
 
+<br>
 
-[https://plugins.jetbrains.com/plugin/7861-envfile]
+{{< link url="https://plugins.jetbrains.com/plugin/7861-envfile" text="EnvFile - Plugins | JetBrains" >}}
+
 
 
 このように`.env`に環境変数の設定をまとめることで、いい感じに色々な場面で使い回すことができます。  
