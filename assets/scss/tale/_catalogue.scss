@@ -1,4 +1,8 @@
 .catalogue {
+    &-section{
+        margin-bottom: 1rem;
+    }
+
     &-item {
       border-top: 1px solid $grey-2;
       color: $default-color;
@@ -35,6 +39,21 @@
       border-top: .2rem solid $default-shade;
       display: block;
       width: 2rem;
+    }
+
+    &-more-button{
+        background-color: $more-button-color;
+        color: white;
+        width:120px;
+        border-radius: 0.2rem;
+        padding: 1rem 1rem;
+        margin:0 0 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    &-more-button:hover{
+        background-color: $more-button-hover-color;
     }
   }
   

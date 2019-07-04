@@ -487,6 +487,9 @@ footer {
   .pagination .right {
     right: 0; }
 
+.catalogue-section {
+  margin-bottom: 1rem; }
+
 .catalogue-item {
   border-top: 1px solid #e5e5e5;
   color: #555;
@@ -518,5 +521,18 @@ footer {
   border-top: 0.2rem solid #353535;
   display: block;
   width: 2rem; }
+
+.catalogue-more-button {
+  background-color: #353535;
+  color: white;
+  width: 120px;
+  border-radius: 0.2rem;
+  padding: 1rem 1rem;
+  margin: 0 0 0 auto;
+  display: flex;
+  justify-content: center; }
+
+.catalogue-more-button:hover {
+  background-color: #555555; }
 
 /*# sourceMappingURL=style.css.map */

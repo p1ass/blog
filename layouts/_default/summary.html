@@ -9,4 +9,5 @@
     <p>
         {{ if isset .Params "summary" }}{{ .Params.Summary }}{{ else }}{{ .Summary }}{{ end }}
     </p>
+    <a href="{{ .Permalink }}"><div class="catalogue-more-button">続きを読む</div></a>
 </section>
