@@ -55,6 +55,34 @@ img {
 td {
   vertical-align: top; }
 
+h2 {
+  padding-right: 0;
+  font-size: 1.6em;
+  color: #444;
+  margin-bottom: 1em;
+  margin-top: 1.5em; }
+
+h2:after {
+  display: block;
+  height: 2px;
+  content: "";
+  background: linear-gradient(to right, rgba(47, 128, 237, 0.7) 0%, rgba(86, 204, 242, 0.7) 100%); }
+
+h3 {
+  font-size: 1.25rem;
+  color: #444;
+  margin-bottom: 1em;
+  margin-top: 1em; }
+
+p {
+  margin: 0 0 1.8rem;
+  line-height: 1.7;
+  text-align: justify; }
+
+ul {
+  margin: 0 0 1.8em 2em;
+  padding: 0; }
+
 pre,
 code {
   font-family: Menlo, Monaco, monospace; }
