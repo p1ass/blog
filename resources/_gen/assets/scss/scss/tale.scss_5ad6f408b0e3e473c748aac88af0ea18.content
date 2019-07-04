@@ -33,7 +33,7 @@ h6 {
   line-height: normal; }
 
 a {
-  color: #4a9ae1;
+  color: #04c;
   text-decoration: none; }
 
 blockquote {
