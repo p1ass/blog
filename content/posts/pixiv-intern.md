@@ -1,0 +1,299 @@
+---
+title: "pixiv2018冬インターンシップで「最高のpixiv」を作ってきた【参加記】"
+date: 2018-12-25T22:43:38+09:00
+draft: true
+tags:
+- ピクシブ
+- インターン
+---
+
+<figure class="figure-image figure-image-fotolife" title="↑インターン最終日の成果発表のタイトルスライド">[f:id:plus_kyoto:20181220155403p:plain]<figcaption>↑インターン最終日の成果発表のタイトルスライド</figcaption></figure>
+
+
+こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+
+この度、pixivさんの2018年冬インターンシップ**「君だけのpixivを開発（つく）れ！」**に参加させていただきました！
+
+今回のような**ハッカソン形式のイベントには参加したことがなかった**のですが、とても勉強になる2日間となりました。
+
+このブログでは、インターンへの応募から、インターン最終日までの出来事をつらつら書いていこうと思います。
+
+<figure class="figure-image figure-image-fotolife" title="告知サイト">[f:id:plus_kyoto:20181224165312j:plain]<figcaption>告知サイト</figcaption></figure>
+
+## 作ったもの
+
+先に今回のインターンで作ったものを紹介したいと思います。
+
+今回作ったサービスは**「marshiv」**です。これは「沼(marsh)」x「pixiv」の造語で、ユーザーを**pixivのイラスト沼に落とし込めよう**という意味が込められています💪
+
+<!--more-->
+
+<figure class="figure-image figure-image-fotolife" title="ビューワー(著作権の関係でいらすとやを使っています)">[f:id:plus_kyoto:20181224145919j:plain]<figcaption>ビューワー(著作権の関係でいらすとやで代用しています)</figcaption></figure>
+
+<figure class="figure-image figure-image-fotolife" title="画像をクリックしたときのモーダル">[f:id:plus_kyoto:20181224152944j:plain]<figcaption>画像をクリックしたときのモーダル</figcaption></figure>
+
+
+marshivには以下の機能を実装しました。
+
+- レンガブロックスタイルのイラストビューワー
+- 遅延読み込みを用いた無限スクロール
+- 週間ランキングの上位作品を過去に遡って表示
+- 各ユーザーの投稿イラスト一覧
+- タグ検索と、**関連するタグを用いた疑似レコメンドシステム**
+
+完全に**自分が使いたい**ように作ったので、非常に満足できるものを作り上げることができました。
+~~動作チェックと言いながら、イラストに魅入ってたのは内緒。~~
+
+
+## 応募〜前日まで
+
+### 応募のきっかけ
+
+今回のインターンはTwitterのタイムラインに流れてきた告知のツイートを見て知りました。
+
+丁度、**「どこかのインターンに行きたいなぁ」**と思っていたところだったので、すぐにチェックしました。
+こういったインターンは学部3回生以上のみで、学部2回だと参加条件に満たないことが多いです。
+しかし、今回のインターンは**学部2回**でも参加でき、その記述を見た時は**「よっしゃ行けるやん！」**と言ってしまいました。
+
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">【募集開始】技術職志望学生向けピクシブ冬インターン「君だけのpixivを開発(つく)れ！」の募集を開始いたしました！今回はハッカソン形式の2日間インターンです。メンターと一緒に「あなたの考える最高のpixiv」を開発していただきます！ <a href="https://twitter.com/hashtag/pixiv_intern?src=hash&amp;ref_src=twsrc%5Etfw">#pixiv_intern</a><a href="https://t.co/SJW0I3JTbv">https://t.co/SJW0I3JTbv</a></p>&mdash; ピクシブ株式会社 pixiv Inc. (@pixiv_corp) <a href="https://twitter.com/pixiv_corp/status/1061820244526682114?ref_src=twsrc%5Etfw">November 12, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+さて、今回のインターンの内容は次のようなものでした。
+
+
+>このインターンでは、「pixiv」のWeb・アプリケーションで実際に利用している技術を使用し、参加者自身の考える**最高**のイラストコミュニケーションサービスをメンターと一緒に作り、その順位を競って頂きます。ピクシブが持つサービスを日々開発しているエンジニアがメンターになりますので、全く同じ目線でリアルなプロダクト開発を体験してください。
+
+>([告知サイト](https://recruit.pixiv.net/intern/tech/)より引用)
+
+コースとしては、**「Web開発」**と**「アプリ開発」**があり、自分に合ったコース(メンター)を選んで応募する方式でした。
+私は最近フロントエンド開発をやっていたので、**「Web開発」コース**を選択することにしました。
+
+
+選考には、**「通常選考」**と**「GitHub選考」**がありましたが、GitHubだけで通る自信がなかったので、通常選考で申し込みました。
+エントリーフォームの内容はエンジニア系のインターンでよく聞かれることが多かったです。
+自分の作った作品等の欄には[「ポートフォリオサイト」](https://naoki-kishi.github.io)や[「えもじっく」](https://emojic.ch) などを書きました。
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixivのインターン申し込んだ</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1063430022151557120?ref_src=twsrc%5Etfw">November 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+### 面接
+
+エントリーをしてから数日経つと、**書類選考をパスした旨**の連絡をいただきました🎉
+
+その数日後にはビデオ面接を行いました。
+面接の内容に関してあまり詳しいことは書けないですが、エントリーシートに書いたことなどを聞かれました。
+私は結構**喋りたがりの人間**なので、面接官の質問に対してベラベラ話してた記憶があります。
+
+同時に行われたコーディングテストは、思っていたよりも**簡単**なものでした。
+共有エディタ上で、与えられた仕様に沿ったコードを書くスタイルでした。しかし、自分の書いたVue.jsのコードは普通に2,3点間違っていました、、、(簡単とは🤔)
+
+
+間違いには面接が終わってから気づいたので、ベッドに向かって**「ああああああやらかしたあああああ」**と叫んでました😇
+
+
+
+なんやかんだしているうちに、面接の結果が返ってきました。大体インターン日の1週間前くらいだったと思います。
+ビクビクしながらメールを開いて見ると、そこには**参加できる旨が書かれていました！**
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">よく分からないですが、pixivの冬インターン受かりました (1週間ぶり2度目)</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1071012726325923841?ref_src=twsrc%5Etfw">December 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+(一週間ぶりなのは、前の週に別の春インターンに受かっていたからです)
+
+
+**こうして晴れてインターンに参加できることになりました🎉**
+
+
+### 当日まで
+
+今回のインターンのテーマは、**「君だけのpixivを開発（つく）れ！」**だったので、「どんなpixivだったら自分にとって使いやすいか」を少し考えていました。
+
+私は**pixiv歴4年**くらいなのですが、ここ最近の**レコメンド機能の進化が凄まじく**、それを使ったサービスが作りたいなぁとかぼんやりと思ってました。
+また、pixivのPC版の表示は、画像の表示サイズが小さいので、「そのUIを大胆に変更したらまた違ったものになるんじゃないか」とも考えていました。
+
+
+
+## インターン1日目
+
+### 出発 ~ インターン開始まで
+
+朝5時前に起きて京都から東京へ向かいます🚅
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">生きる <a href="https://t.co/Phvsni9IgO">pic.twitter.com/Phvsni9IgO</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1073563484737007617?ref_src=twsrc%5Etfw">December 14, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+朝起きれるか心配でしたが、なんとか起きることができました。
+
+オフィスの前に到着すると、どうやら一番乗りだったようで誰もいませんでした。
+少しオフィスの前をウロウロしてると、メンターさんに声を掛けていただき、先にオフィスに入ることになりました。
+
+その時に、全員が集合するまでの間、pixiv名物の絵馬を見ることが出来ました！
+
+
+<figure class="figure-image figure-image-fotolife" title="知ってるイラストレーターさんの絵馬があって興奮した">[f:id:plus_kyoto:20181221223141j:plain]<figcaption>知ってるイラストレーターさんの絵馬があって興奮した</figcaption></figure>
+
+全員が集合した後は、諸々のインターンの説明や書類を書いたりしました。
+
+### 午前中
+
+準備が終わったらインターン開始です！
+
+メンターさんと話ながら作りたいものを決めていきます。
+
+私はなんとなく作りたいものを決めていたのですが、**レコメンドのAPIが使えない**ということで少し沼にハマってしまいました。
+
+色々相談した結果、
+
+- 画像をレンガスタイルで表示する
+- スクロールするたびに新しい画像が表示される (無限スクロール)
+- 新しく表示される画像は検索APIを使ってなんとかする (ここでは実装方針をしっかり決めてない)
+
+という方針で進めていくことにしました。
+
+また、開発は基本ペアプロスタイルで、私がドライバー、メンターさんがナビゲーターになって進めることにしました(なりました)。
+
+使うフレームワークは、**ある程度規約があった方が開発スピードを挙げられるだろう**ということで、**Nuxt.js**を採用しました。
+
+午前中はNuxt.jsのinitial commitをして終了です。
+
+### お昼
+
+お昼は釜飯をいただきました！
+<figure class="figure-image figure-image-fotolife" title="美味しい(語彙力)">[f:id:plus_kyoto:20181221234821j:plain]<figcaption>美味しい(語彙力)</figcaption></figure>
+
+### 午後
+
+午後はゴリゴリ実装を進めていきました💪
+
+- APIデータを扱うためのVuexのストアの設計
+- 画像をグリッド状に配置できるライブラリである**「Masonry」**を使って、APIで取得した画像を表示
+- 画像をクリックした時にモーダルやサイドバーを表示
+
+あたりまで実装を進めました。(記憶があやふや)
+
+この辺りの実装は自分の知識不足のため、手が詰まってしまうことが多々ありました。
+ですが、メンターさんが簡単なところから丁寧に教えてくださり、なんとか進めていくことができました。
+
+
+### 夕食
+
+夕食はヘルシーな和食が食べられるEnjoy! EASTさんの定食をいただきました！
+
+<figure class="figure-image figure-image-fotolife" title="美味しい(2度目)">[f:id:plus_kyoto:20181222012513j:plain]<figcaption>美味しい(2度目)</figcaption></figure>
+
+
+### 夕食後~ホテル
+
+夕食後はオフィスに戻ってモーダルの実装を進めていたのですが、時間の都合上、バグを残したまま次の日に作業を持ち越すことになりました。
+
+ホテルにはインターン生みんなで帰り、**寝坊しないようにslackでみんなの部屋番号を共有したりしました✌**
+
+## インターン2日目
+
+### 午前中
+
+危うく寝坊しそうでしたが、目覚ましをかけてたおかげで、なんとか起きることができました。他のインターン生も無事起きることができたみたいです💪
+
+オフィスに着いたら、メンターさんと2日目に行う作業を決めました。
+2日目は成果発表があり、スライドを作る必要がありました。そのため、実際に作業できるのは14時くらいまででした。
+そこで、実装したいものの優先度を決めて、優先度が高いものから作業していくことにしました。
+
+相談した結果、一番優先度が高かった**「タグ検索時の無限スクロール」**の実装を進めていくことにしました。
+
+### タグを用いた疑似レコメンドシステム
+
+ここで最初に少し触れた、**関連するタグを用いた疑似レコメンドシステム**について説明したいと思います。
+
+今回使う検索APIは、人気順にソートした場合、イラストを**20件しか取得することができません。**
+新着順にソートすれば、もっとたくさんのイラストを取得することはできますが、レコメンドAPIの代わりとして検索APIを使いたかったので、今回の用途とは合わなそうでした。
+
+そこで、**取得した20件に含まれる 、使用頻度の高い別のタグを用いて、人気順で検索する**という簡単なレコメンドアルゴリズムを用いて、新しい画像をどんどん手に入れていくことにしました。
+
+
+例 : 「海」というタグを検索すると、<i>「海」→ 「夏」→ 「花火」→ ...　</i>のように関連するタグの人気イラストを表示される
+
+
+こうすることで、**検索した結果と、ある程度関係のある画像を(ほぼ)無限に表示し続けることができる**ようになりました。
+
+
+### お昼
+
+お昼は家系ラーメンを食べに行きました🍜
+スマホをオフィスに忘れたため写真はなしです。(無念)
+
+### 午後
+
+午後は全体の細かい調整やバグフィックを行いました。
+
+しかし、時間ギリギリという状況で**「`master`ブランチに作業したコミットが含まれていない」**という緊急事態に陥ってしましました😨
+
+「やばいやばい」言いながら原因を探った結果、一つトピックブランチをpushし忘れてたのが原因でした。`cherry-pick`などを駆使してなんとか復旧することができました。流石にこの時はめっちゃ焦りました、、、😅
+
+残りの時間は成果発表のスライドづくりに勤しみました。
+
+<figure class="figure-image figure-image-fotolife" title="途中で頂いたケーキ">[f:id:plus_kyoto:20181223173541j:plain]<figcaption>途中で頂いたケーキ</figcaption></figure>
+
+
+### 成果発表
+
+自分の発表は一番最後でした。
+みんな面白いコンセプトだなぁと思いながら、心の中で発表で話す内容を考え、自分の番を待っていました。
+
+発表では、スライドを作りすぎたせいもあって、巻きで喋ったのですが、予定の10分を少し超えてしまって、準備不足感が否めなかったです。
+
+<figure class="figure-image figure-image-fotolife" title="コンセプトスライド">[f:id:plus_kyoto:20181223160647p:plain]<figcaption>コンセプトスライド</figcaption></figure>
+
+<figure class="figure-image figure-image-fotolife" title="感想スライド(最後大事)">[f:id:plus_kyoto:20181223160640p:plain]<figcaption>感想スライド(最後大事)</figcaption></figure>
+
+
+### 結果発表
+
+成果発表の後、結果発表が行われたのですが、なんと**優勝することが出来ました！！**
+
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixiv冬インターン優勝しました！！！ <a href="https://t.co/xP2TKtAGQP">pic.twitter.com/xP2TKtAGQP</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1074234627064123394?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+初めて参加したハッカソン形式のインターンで優勝できて、本当にびっくりしましたし、光栄です😊
+
+
+### 懇親会
+
+諸々の書類やアンケートに答えた後は、懇親会です🍻
+
+<blockquote class="twitter-tweet"><p lang="da" dir="ltr">LGTM <a href="https://t.co/wSqlHM3L5K">pic.twitter.com/wSqlHM3L5K</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1074239620727005185?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="da" dir="ltr">LGTM 2 <a href="https://t.co/Sbz2AiHvw4">pic.twitter.com/Sbz2AiHvw4</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1074252331758178304?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+懇親会では、他のインターン生や社員の方々とたくさんお話することができました。普段自分と異なることをやってる人の話はとても参考になりました。
+自分ももっと頑張っていこうと思える良い会でした。
+
+懇親会の途中には**プログラミング言語かるた**をやりました✌
+
+<figure class="figure-image figure-image-fotolife" title="知らない言語多くてつらい">[f:id:plus_kyoto:20181223165746j:plain]<figcaption>知らない言語多くてつらい</figcaption></figure>
+
+### 東京→京都
+
+楽しい懇親会でしたが、新幹線の時間もあり、先に抜けることになりました。
+同じ京都勢だった[ちげ君](https://twitter.com/Chige12_)に急かされてなかったら、多分終電に間に合ってませんでした。ありがとう🙏
+
+
+
+## おわりに 
+
+初めてのハッカソン型のインターンでしたが、とても成長できる2日間となりました。
+
+特に**時間制約のある開発が初めて**だったため、工数管理や手の速さがもっと必要だと感じました。
+
+また、**「学生エンジニアと職業エンジニアの技術力の差」**も感じることができました。
+地方に住む自分にとって職業エンジニアの方と関わる機会は少ないです。仕事としてコードを書いてる人は知識量が桁違いです。**自分の実力がまだまだだ**と知れたのは良い経験になったと思ってます。
+
+
+最後になりますが、今回メンターをしていただいた[namazu](https://twitter.com/namazu510)さんをはじめ、pixiv社員の方々には2日間とてもお世話になりました。
+この2日間の経験を活かしてこれからも一人前のエンジニアを目指して頑張っていこうと思います。
+
+
+最後までご覧いただきありがとうございました。
+
+
+<figure class="figure-image figure-image-fotolife" title="優勝景品">[f:id:plus_kyoto:20181223173646j:plain]<figcaption>優勝景品</figcaption></figure>
+
+<figure class="figure-image figure-image-fotolife" title="お土産で頂いたクリアファイル">[f:id:plus_kyoto:20181223173643j:plain]<figcaption>お土産で頂いたクリアファイル</figcaption></figure>

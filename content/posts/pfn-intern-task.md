@@ -1,10 +1,15 @@
 ---
 title: "PFNのインターン課題が公開されたので解いてみた"
-date: 2019-07-04T18:47:48+09:00
+date: 2019-06-27T18:47:48+09:00
 draft: true
+tags:
+- PFN
+- インターン
+- Go
+- Python
 ---
 
-こんにちは、[@plus_kyoto](https://twitter.com/plus_kyoto)です。
+こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
 
 先日、PFNさんが2019年インターン用のコーディング課題を公開されました。
 
@@ -23,12 +28,11 @@ draft: true
 この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべてGitHubで管理しており、小問ごとにブランチを切って、PRでマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
 
 
-
-[https://github.com/naoki-kishi/pfn-intern-task-2019:embed:cite]
+{{< link href="https://github.com/naoki-kishi/pfn-intern-task-2019" text="naoki-kishi/pfn-intern-task-2019" >}}
 
 <!--more-->
 
-### 問題の整理
+## 問題の整理
 
 問題を解くにあたってまずは問題を一通り読んでみました。
 
@@ -56,15 +60,13 @@ draft: true
 
 ここまで一通り読んで、テストが書きやすく、実行速度も速い Go を実装言語として選択することにしました。一部を除いて外部ライブラリの使用が禁止されているため、標準ライブラリが充実しているのも選ぶポイントとなりました。
 
-### 問題1-1
+## 問題1-1
 
 ここからは問題を解いていきます。
 すべての問題でPRを出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
 
 
-
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/1:embed:cite]
-
+{{< link href="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/1" text="問題1-1を解いた by naoki-kishi · Pull Request #1 · naoki-kishi/pfn-intern-task-2019" >}}  
 
 問題1-1はジョブサーバの実装です。
 クエリパラメータに応じて適切なジョブを返すだけなので、簡単なお仕事のように思えましたが、少し一工夫する必要がありました。
@@ -81,9 +83,9 @@ draft: true
 
 後は上の方針に基づいてコードを書き、大事そうな部分のテストコードを書いて終了です。
 
-### 問題1-2
+## 問題1-2
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/2:embed:cite]
+[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/2]
 
 問題1-2は1-1で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
 
@@ -97,7 +99,7 @@ draft: true
 
 まず、ジョブの構造体を定義し、HTTPレスポンスをマッピングする処理を書きました。 `Priority` は `High` と `Low` の二値なので、int のエイリアスの型を定義し扱っています。
 
-```go
+{{< highlight go >}}
 type Priority int
 
 const (
@@ -112,11 +114,11 @@ type Job struct {
 	Tasks       []int
 	CurrentTask int
 }
-```
+{{< / highlight >}}
 
 次に、ワーカーの構造体を定義し、すべてのジョブを実行するメソッドを生やしました。
 
-```go
+{{< highlight go >}}
 type Worker struct {
 	workingJobs []*Job
 }
@@ -124,26 +126,26 @@ type Worker struct {
 func (w *Worker) ExecuteAllJob(interval int) int{
     ...
 }
-```
+{{< / highlight>}}
 
 実装の工夫としては、ジョブに関するドメインロジックは `Job` のメソッドに定義し、`Worker` の `ExecuteAllJob()` をなるべく薄くなるようにしました。 `Worker` の責務はあくまでジョブの開始と停止であり、その中身まで関与する必要はないという考えによる設計です。このように分けたことで、ユニットテストを書きやすくすることができました。
 
-### 問題2-1
+## 問題2-1
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/3:embed:cite]
+[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/3]
 
 問題2-1は問題1-2で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
 
 キャパシティが設定されると、サーバから受け取ったジョブをすべて同時に動かすことが出来なくなります。そこで、実行待ちのジョブをプールさせるキューを `Worker` に生やすことにしました。その後、受け取ったジョブをすぐ実行するかキューで待機させるか判定する処理を書きました。
 
-```go
+{{< highlight go >}}
 type Worker struct {
     ...
     jobQueue     []*Job
     capacity     int
     ...
 }
-```
+{{< / highlight>}}
 
 
 
@@ -151,7 +153,7 @@ type Worker struct {
 この問題で注意する点は、実行中のジョブのタスクが切り替わったときに、キャパシティを上回ってしまう可能性がある点です。
 
 例えば、キャパシティが5で、次のようなジョブを実行していたとします。
-```go
+{{< highlight go >}}
 j := &Job{
     ID:          0,
     Created:     time.Time{},
@@ -159,7 +161,7 @@ j := &Job{
     Tasks:       []int{1, 10},
     CurrentTask: 0,
 }
-```
+{{< / highlight>}}
 
 1秒経過すると `j.Tasks[0]` は0になるため、次のタスクの10に移ります。しかし、キャパシティは5なため、このジョブはキューに戻す必要があります。
 
@@ -167,9 +169,9 @@ j := &Job{
 
 この条件のテストを書いて、それをパスするようにコードを修正し、この問題は終了です。
 
-### 問題2-2
+## 問題2-2
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/4:embed:cite]
+[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/4]
 
 問題2-2は優先度を考慮してジョブを実行するワーカーを作成する問題です。
 
@@ -177,7 +179,7 @@ j := &Job{
 
 優先度付きキューは Go の `container/heap` パッケージを利用しました。優先度の判定は次のように書き、優先度が同じ場合は時刻の早いジョブを先に処理することにしました。
 
-```go
+{{< highlight go >}}
 func (pq JobPriorityQueue) Less(i, j int) bool {
 	if pq[i].Priority > pq[j].Priority {
 		return true
@@ -190,20 +192,20 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 		return false
 	}
 }
-```
+{{< / highlight>}}
 
 次に、実行中のジョブの優先度は `Low` だが、優先度付きキューにジョブの優先度が `High` のジョブが積まれている場合に、ジョブを入れ替える処理を書きました。
 このあたりの処理は忘れがちなので、しっかりとテストを書くことが大事だなと感じました。
 
 また余談ですが、この問題のPDFの例が間違っていたので、issue を投げました。
 
-[https://github.com/pfnet/intern-coding-tasks/issues/5:embed:cite]
+[https://github.com/pfnet/intern-coding-tasks/issues/5]
 
 素早い修正に感謝です🙏
 
-### 問題2-3
+## 問題2-3
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/5:embed:cite]
+[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/5]
 
 問題2-3はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
 
@@ -213,7 +215,7 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 
 具体的には、優先度が違う場合は優先度が高いものを選択し、優先度が同じ場合はキャパシティの空きを超えない最大のジョブを選択するようにしました。
 
-```go
+{{< highlight go >}}
 func (pq JobPriorityQueue) Less(i, j int) bool {
 	job1 := pq.data[i]
 	job2 := pq.data[j]
@@ -240,11 +242,11 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 		}
 	}
 }
-```
+{{< / highlight>}}
 
-### 問題3-1
+## 問題3-1
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/6:embed:cite]
+[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/6]
 
 大問3は自由回答で、３つの小問のうち1を選択して解く問題です。
 
@@ -256,7 +258,7 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 
 書き換えたのはHTTPレスポンスのマッピングくらいです。
 
-```go
+{{< highlight go >}}
 case "[Priority]":
     scanner.Scan()
     p := scanner.Text()
@@ -271,15 +273,15 @@ case "[Priority]":
         }
         job.Priority = domain.Priority(priority)
     }
-```
+{{< / highlight>}}
 
 以上で問題を解答し終えました！
 
 適当にリファクタリングして、コメントを付け足したものが今の `master` です。
 
-### 既知の問題点
+## 既知の問題点
 
-#### 新しいジョブが追加されることを考慮していない
+### 新しいジョブが追加されることを考慮していない
 
 サーバーを起動する際にすべてのジョブファイルを調べ、ハッシュマップでキャッシュしていますが、この方法だと新しいジョブファイルが追加されたときに、正しくレスポンスを返すことが出来ません。
 
@@ -289,13 +291,13 @@ case "[Priority]":
 
 しかし、今回はここまでの実装を求められているように感じられなかったので実装は行いませんでした。
 
-#### 同じ時間に作成されたジョブが複数存在する場合を考慮していない
+### 同じ時間に作成されたジョブが複数存在する場合を考慮していない
 
 もし、同じ時刻に作成されたジョブが複数存在しているとすると、ハッシュマップが上書きされて、片方のジョブのファイル名が失われてしまいます。
 
 しかし、今回のHTTPレスポンスの例を見るに、同じ時刻のジョブが複数あることを考慮しなくて良いように思われたので実装しませんでした。
 
-### 解いてみた感想
+## 解いてみた感想
 
 解いてみた感想ですが、率直に **「楽しかった」** です。
 

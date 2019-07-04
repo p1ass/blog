@@ -1,11 +1,14 @@
 ---
 title: "gRPC-Webでメタデータ付きのリクエストを送信する"
-date: 2019-07-04T18:47:48+09:00
+date: 2019-04-29T18:47:48+09:00
 draft: true
+tags:
+- gRPC-Web
+- Go
 ---
 
 
-こんにちは、[@plus_kyoto](https://twitter.com/plus_kyoto)です。
+こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
 
 最近、gRPC-Webについて調査しているのですが、その際にメタデータ付きのリクエストを送る方法に関するドキュメントが一切ないことに気づきました。
 
@@ -13,13 +16,13 @@ draft: true
 
 なお、サンプルコードはgRPC-Web公式のHello Worldガイドを使用します。
 
-[https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld:embed:cite]
+[grpc-web/net/grpc/gateway/examples/helloworld at master · grpc/grpc-web](https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld)
 
 <!--more-->
 
-### 方法
+## 方法
 
-#### STEP1 `enovy.yaml`の`allow_headers`にメタデータのkeyを設定する
+### STEP1 `enovy.yaml`の`allow_headers`にメタデータのkeyを設定する
 
 gRPC-Webを使うときは、EnvoyまたはNginxを通してリクエストをプロキシする必要があります。ドキュメントを見る限りEnvoyを使う方が推奨されているっぽいので、Envoyを使ってプロキシサーバを建てます。
 
@@ -27,7 +30,7 @@ gRPC-Webを使うときは、EnvoyまたはNginxを通してリクエストを�
 
 これによって、メタデータが消えることなくgRPCサーバまで届きます。
 
-```yaml
+{{< highlight yaml >}}
 admin:
   access_log_path: /tmp/admin_access.log
   address:
@@ -72,13 +75,13 @@ static_resources:
     http2_protocol_options: {}
     lb_policy: round_robin
     hosts: [{ socket_address: { address: localhost, port_value: 9090 }}]
-```
+{{< / highlight>}}
 
-#### STEP2 クライアントサイドでメタデータを付与してリクエストを行う
+### STEP2 クライアントサイドでメタデータを付与してリクエストを行う
 
 STEP1で正しくgRPCサーバまでメタデータが届くようになったので、後はクライアントサイドでメタデータを付与してリクエストを行うだけです。
 
-```javascript
+{{< highlight javascript >}}
 const {HelloRequest, HelloReply} = require('./helloworld_pb.js');
 const {GreeterClient} = require('./helloworld_grpc_web_pb.js');
 
@@ -93,9 +96,9 @@ const metadata = {'x-custom-metadata': 'metadata-value'}
 client.sayHello(request, metadata, (err, response) => {
   console.log(response.getMessage());
 });
-```
+{{< / highlight>}}
 
-### まとめ
+## まとめ
 
 gRPC-Webはまだまだ発展途上で情報も少ないですが、確実に使えるものになってきていると思います。
 

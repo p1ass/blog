@@ -1,6 +1,6 @@
 ---
 title: "Go Conference 2019 Spring 参加レポート"
-date: 2019-07-04T18:47:48+09:00
+date: 2019-05-20T18:47:48+09:00
 draft: true
 ---
 
@@ -17,11 +17,11 @@ LINE Developer Day以来、半年ぶりの大きめのカンファレンスだ�
 
 Go Conference 2019 Springでは、地方に住む学生のために交通費や宿泊費が援助されるスカラシップ枠が用意されています。今回はWantedlyさんの他に、メルカリさんやメディアドゥさんも用意されていました。
 
-[https://gocon.connpass.com/event/124530:embed]
+[https://gocon.connpass.com/event/124530]
 
 僕は元からGo Conferenceには興味を持っており、自費でも行くつもりだったので、とりあえず申し込んだら受かりました。
 
-[https://www.wantedly.com/projects/302608:embed]
+[https://www.wantedly.com/projects/302608]
 
 
 ### 為になったセッション
@@ -29,7 +29,7 @@ Go Conference 2019 Springでは、地方に住む学生のために交通費や�
 
 メルカリの[morikuniさん](https://twitter.com/inukirom)によるエラー設計に関するセッションです。
 
-[https://docs.google.com/presentation/d/1JIdZ4IVW2D3kEFUtWSvHNes3r3ykojGuUAQAnhmEVs0/edit#slide=id.g4204ea1550_1_336:embed:cite]
+[https://docs.google.com/presentation/d/1JIdZ4IVW2D3kEFUtWSvHNes3r3ykojGuUAQAnhmEVs0/edit#slide=id.g4204ea1550_1_336]
 
 GoはJavaなど他の言語に実装されている例外がありません。すべてのエラーは戻り値によって返し、そのエラーハンドリングは各実装者に任されています。そのため、人によってエラーハンドリングの設計が異なり、ベストプラクティスがはっきりとしていませんでした。
 
@@ -39,13 +39,13 @@ GoはJavaなど他の言語に実装されている例外がありません。�
 
 また、morikuniさんが作られた`morikuni/failure`とGo1.13から正式に実装される予定の`xerrors`の違いに関する話もされており、用途に応じて適切なpackageを使っていきたいです。
 
-[https://github.com/morikuni/failure:embed:cite]
+[https://github.com/morikuni/failure]
 
 
 #### Goによる外部プロセス起動ベストプラクティス及びtimeoutパッケージ徹底解決
 こちらは[songmuさん](https://twitter.com/songmu)によるセッションです。Go界隈では有名な方ですね。
 
-[http://songmu.github.io/slides/gocon2019-spring:embed:cite]
+[http://songmu.github.io/slides/gocon2019-spring]
 
 簡単なCLIアプリケーションなら作れるのですが、外部プロセスを扱う方法を理解していなかったので、セッションを聞きに行きました。
 
@@ -58,7 +58,7 @@ GoはJavaなど他の言語に実装されている例外がありません。�
 #### Expand observability in Go
 Google CloudでDeveloper Advocateをされている[ymotongpooさん](https://twitter.com/ymotongpoo)のパフォーマンスチューニングに関するセッションです。**個人的に今回のGo Conferenceで一番良かったセッションでした。**
 
-[https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0:embed:cite]
+[https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0]
 
 学生が趣味レベルでコードを書く場合、パフォーマンスチューニングを行うほどの性能を求められることはほとんどありません。そのため、`net/http/pprof`や`net/http/httptrace`は名前を聞いただけでほとんど実践したことがありませんでした。
 
@@ -82,13 +82,11 @@ APIサーバーに対する負荷はGo製の負荷テストツールである[`t
 
 {{< highlight bash >}}
 echo "GET  http://localhost:8080/json" | vegeta attack -rate=100  -duration=10s | tee result.bin
-```
-{{< / highlight >}}
+{{< / highlight>}}
 
 {{< highlight bash >}}
 go tool pprof -http=":8888" http://localhost:8080/debug/pprof/profile 
-```
-{{< / highlight >}}
+{{< / highlight>}}
 
 
 結果は以下のようになりました。
@@ -109,13 +107,12 @@ go tool pprof -http=":8888" http://localhost:8080/debug/pprof/profile
 
 ### おまけ
 
-[https://twitter.com/plus_kyoto/status/1129568723424096256:embed#問題付きのコーヒーカップ #gocon https://t.co/rDLyJxzADr]
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">問題付きのコーヒーカップ <a href="https://twitter.com/hashtag/gocon?src=hash&amp;ref_src=twsrc%5Etfw">#gocon</a> <a href="https://t.co/rDLyJxzADr">pic.twitter.com/rDLyJxzADr</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1129568723424096256?ref_src=twsrc%5Etfw">May 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-[https://twitter.com/plus_kyoto/status/1129581700835504128:embed#gopher君チロルチョコ #gocon https://t.co/5YgzdscJkl]
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">gopher君チロルチョコ <a href="https://twitter.com/hashtag/gocon?src=hash&amp;ref_src=twsrc%5Etfw">#gocon</a> <a href="https://t.co/5YgzdscJkl">pic.twitter.com/5YgzdscJkl</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1129581700835504128?ref_src=twsrc%5Etfw">May 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 メルカリのスカラシップで来ていた人のうち、2人が元からTwitterのFFでした。世間は狭いですね。
 
-
-[https://twitter.com/plus_kyoto/status/1129532777244741632:embed#TLにメルのスカラシップの人が2,3人いそうな気配がする]
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">TLにメルのスカラシップの人が2,3人いそうな気配がする</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1129532777244741632?ref_src=twsrc%5Etfw">May 17, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 おわり
