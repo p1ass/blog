@@ -13,9 +13,9 @@ $more-button-color:#353535;
 $more-button-hover-color:#555555;
 
 // Fonts
-$serif-primary: -apple-system,BlinkMacSystemFont,Helvetica Neue,YuGothic,ヒラギノ角ゴ ProN W3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif;
-$serif-secondary: -apple-system,BlinkMacSystemFont,Helvetica Neue,YuGothic,ヒラギノ角ゴ ProN W3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif;
-$sans-serif: -apple-system,BlinkMacSystemFont,Helvetica Neue,YuGothic,ヒラギノ角ゴ ProN W3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif;
+$serif-primary: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
+$serif-secondary: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
+$sans-serif: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
 $monospaced: Menlo, Monaco, monospace;
 
 @mixin box-sizing($type: border-box) {
