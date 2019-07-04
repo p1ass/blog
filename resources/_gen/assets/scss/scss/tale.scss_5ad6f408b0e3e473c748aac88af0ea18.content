@@ -104,9 +104,12 @@ pre code {
   .post-title {
     color: #353535;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 1rem 0;
     text-align: center; }
+    @media (max-width: 900px) {
+      .post-title {
+        font-size: 2rem; } }
   .post-line {
     border-top: 0.4rem solid #353535;
     display: block;
