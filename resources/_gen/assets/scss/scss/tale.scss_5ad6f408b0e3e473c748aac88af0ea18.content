@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -12,7 +13,7 @@ body {
   padding: 0; }
 
 html {
-  font-family: "Libre Baskerville", "Times New Roman", Times, serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
   font-size: 14px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
@@ -29,7 +30,7 @@ h4,
 h5,
 h6 {
   color: #353535;
-  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
   line-height: normal; }
 
 a {
@@ -96,14 +97,14 @@ pre code {
   padding: 3rem 0; }
   .post-info {
     color: #aaa;
-    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
     letter-spacing: 0.5px;
     text-align: center; }
     .post-info span {
       font-style: italic; }
   .post-title {
     color: #353535;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
     font-size: 4rem;
     margin: 1rem 0;
     text-align: center; }
@@ -122,7 +123,7 @@ pre code {
   .post img + em {
     color: #aaa;
     display: block;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
@@ -435,7 +436,7 @@ footer,
       opacity: 1; }
   .nav a {
     color: #555;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif; }
 
 @media (min-width: 600px) {
   .nav-container {
@@ -446,7 +447,7 @@ footer,
     right: 0; } }
 
 footer {
-  font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
   padding: 2rem 0;
   text-align: center; }
   footer span {
@@ -455,7 +456,7 @@ footer {
 
 .pagination {
   border-top: 0.5px solid #e5e5e5;
-  font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
   padding-top: 2rem;
   position: relative;
   text-align: center; }
@@ -467,7 +468,7 @@ footer {
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
     color: #555;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
     font-size: 1.1rem;
     opacity: .6; }
     .pagination .top:hover {
@@ -499,13 +500,13 @@ footer {
 
 .catalogue-time {
   color: #aaa;
-  font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
   letter-spacing: .5px; }
 
 .catalogue-title {
   color: #353535;
   display: block;
-  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
   font-size: 2rem;
   font-weight: 700;
   margin: .5rem 0; }
