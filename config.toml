@@ -1,5 +1,5 @@
 baseURL = "https://blog.naoki.dev"
-languageCode = "en-us"
+languageCode = "ja"
 title = "ぷらすのブログ"
 theme = "tale"
 hasCJKLanguage = true
