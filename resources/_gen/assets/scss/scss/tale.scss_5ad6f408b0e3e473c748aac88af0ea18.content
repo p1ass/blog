@@ -62,7 +62,7 @@ code {
 code {
   background-color: #f9f9f9;
   border-radius: 3px;
-  color: #bf616a;
+  color: #555;
   font-size: 85%;
   padding: .25em .5em; }
 
@@ -85,7 +85,7 @@ pre code {
     margin-bottom: 0;
     overflow-x: auto; }
   .highlight .lineno {
-    color: #aaa;
+    color: #666;
     display: inline-block;
     padding: 0 .75rem 0 .25rem;
     -webkit-user-select: none;
@@ -95,7 +95,7 @@ pre code {
 .post {
   padding: 3rem 0; }
   .post-info {
-    color: #aaa;
+    color: #666;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     letter-spacing: 0.5px;
     text-align: center; }
@@ -120,7 +120,7 @@ pre code {
   .post img {
     margin: 0 auto 0.5rem; }
   .post img + em {
-    color: #aaa;
+    color: #666;
     display: block;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     font-size: 0.9rem;
@@ -472,7 +472,7 @@ footer {
     color: #555;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
-    opacity: .6; }
+    opacity: .9; }
     .pagination .top:hover {
       opacity: 1; }
   .pagination .arrow {
@@ -504,7 +504,7 @@ footer {
     border: 0; }
 
 .catalogue-time {
-  color: #aaa;
+  color: #666;
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
   letter-spacing: .5px; }
 
