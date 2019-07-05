@@ -34,6 +34,10 @@
       &:focus {
         opacity: .6;
       }
+
+      &:after{
+        display: none;
+      }
     }
   
     ul {
