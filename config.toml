@@ -4,6 +4,7 @@ title = "ぷらすのブログ"
 theme = "tale"
 hasCJKLanguage = true
 pygmentsUseClasses = true
+timeout = 60000
 
 [params]
 description = "エンジニアリングに関することや自分のことをつらつら書いていきます。"
