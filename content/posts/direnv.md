@@ -24,7 +24,7 @@ tags:
 direnvはディレクトリごとに環境変数を設定することができるツールです。  
 `.zshrc`などに`eval "$(direnv hook zsh)"`と書くことで、カレントディレクトリに存在する`.envrc`に書かれたスクリプトを実行してくれます。
 
-{{< link url="https://github.com/direnv/direnv" text="direnv/direnv: unclutter your .profile" >}}
+{{< ex-link url="https://github.com/direnv/direnv" >}}
 
 例えば、次のように`.envrc`を記述することで、`HOGE`という環境変数を設定することができます。
 
@@ -76,12 +76,9 @@ services:
 
 幸いにもJetBrains Pluginsには、`.env`ファイルを読み込んでくれるプラグインがあるため、正しく環境変数を読み込むことができます。
 
-{{< link url="https://plugins.jetbrains.com/plugin/9525--env-files-support" text=".env files support - Plugins | JetBrains" >}}
+{{< ex-link url="https://plugins.jetbrains.com/plugin/9525--env-files-support" >}}
 
-<br>
-
-{{< link url="https://plugins.jetbrains.com/plugin/7861-envfile" text="EnvFile - Plugins | JetBrains" >}}
-
+{{< ex-link url="https://plugins.jetbrains.com/plugin/7861-envfile" >}}
 
 
 このように`.env`に環境変数の設定をまとめることで、いい感じに色々な場面で使い回すことができます。  
