@@ -145,6 +145,7 @@ pre {
 
 pre code {
   background-color: transparent;
+  border: none;
   color: inherit;
   font-size: 100%;
   padding: 0; }
