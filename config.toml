@@ -5,7 +5,7 @@ theme = "tale"
 hasCJKLanguage = true
 pygmentsUseClasses = true
 timeout = 60000
-
+googleAnalytics= "UA-127036212-7"
 [params]
 description = "プログラミングや大学に関数することをつらつら書いていきます。"
 OgpJsonBaseURL = "https://blog-api.naoki.dev/ogp?url="
