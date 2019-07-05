@@ -77,7 +77,11 @@ h3 {
 p {
   margin: 0 0 1.8rem;
   line-height: 1.7;
-  text-align: justify; }
+  text-align: justify;
+  font-size: 1rem; }
+  @media (max-width: 600px) {
+    p {
+      font-size: 1.1rem; } }
 
 ul {
   margin: 0 0 1.8em 2em;
