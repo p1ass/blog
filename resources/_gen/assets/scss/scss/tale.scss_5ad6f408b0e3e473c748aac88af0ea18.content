@@ -69,10 +69,11 @@ h2:after {
   background: linear-gradient(to right, rgba(47, 128, 237, 0.7) 0%, rgba(86, 204, 242, 0.7) 100%); }
 
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   color: #444;
   margin-bottom: 1em;
-  margin-top: 1em; }
+  margin-top: 1em;
+  border-bottom: 1px solid #ccc; }
 
 p {
   margin: 0 0 1.8rem;
