@@ -87,6 +87,10 @@ ul {
   margin: 0 0 1.8em 2em;
   padding: 0; }
 
+ol {
+  margin: 0 0 1.8em 2em;
+  padding: 0; }
+
 .embed-wrapper {
   background-color: #fff;
   font-size: 13px;
@@ -195,7 +199,6 @@ pre code {
     margin: 0 auto 3rem;
     width: 4rem; }
   .post p {
-    margin: 0 0 1rem;
     text-align: justify; }
   .post a:hover {
     text-decoration: underline; }

@@ -20,11 +20,13 @@
           {{ $description }}
         </div>
       </div>
+      {{ if $imageUrl }}
       <div class="thumb-wrapper">
         <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
           <img src="{{ $imageUrl }}" class="thumb" alt="{{ $title }}">
         </a>
       </div>
+      {{ end }}
     </div>
   </div>
 </div>
