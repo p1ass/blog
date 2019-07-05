@@ -9,6 +9,7 @@ tags:
 - LINE
 - インターン
 - Java
+eyecatch: /posts/line-intern/ogp.png
 ---
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。

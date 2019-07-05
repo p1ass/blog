@@ -8,6 +8,7 @@ categories:
 tags:
 - direnv
 - 環境変数
+eyecatch: /images/ogp.jpg
 ---
 
 こんにちは、[@plus_kyoto](https://twitter.com/plus_kyoto)です。  

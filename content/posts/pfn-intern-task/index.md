@@ -10,6 +10,7 @@ tags:
 - インターン
 - Go
 - Python
+eyecatch: /images/ogp.jpg
 ---
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。

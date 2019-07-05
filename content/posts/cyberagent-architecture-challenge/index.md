@@ -8,6 +8,7 @@ categories:
 tags:
 - Cyber Agent
 - インターン
+eyecatch: /posts/cyberagent-architecture-challenge/top.jpg
 ---
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
