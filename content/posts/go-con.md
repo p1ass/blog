@@ -17,11 +17,12 @@ LINE Developer Day以来、半年ぶりの大きめのカンファレンスだ�
 
 Go Conference 2019 Springでは、地方に住む学生のために交通費や宿泊費が援助されるスカラシップ枠が用意されています。今回はWantedlyさんの他に、メルカリさんやメディアドゥさんも用意されていました。
 
-[https://gocon.connpass.com/event/124530]
+{{< ex-link url="https://gocon.connpass.com/event/124530" >}}
 
 僕は元からGo Conferenceには興味を持っており、自費でも行くつもりだったので、とりあえず申し込んだら受かりました。
 
-[https://www.wantedly.com/projects/302608]
+{{< ex-link url="https://www.wantedly.com/projects/302608" >}}
+
 
 
 ### 為になったセッション
@@ -29,7 +30,8 @@ Go Conference 2019 Springでは、地方に住む学生のために交通費や�
 
 メルカリの[morikuniさん](https://twitter.com/inukirom)によるエラー設計に関するセッションです。
 
-[https://docs.google.com/presentation/d/1JIdZ4IVW2D3kEFUtWSvHNes3r3ykojGuUAQAnhmEVs0/edit#slide=id.g4204ea1550_1_336]
+{{< ex-link url="https://docs.google.com/presentation/d/1JIdZ4IVW2D3kEFUtWSvHNes3r3ykojGuUAQAnhmEVs0/edit#slide=id.g4204ea1550_1_336" >}}
+
 
 GoはJavaなど他の言語に実装されている例外がありません。すべてのエラーは戻り値によって返し、そのエラーハンドリングは各実装者に任されています。そのため、人によってエラーハンドリングの設計が異なり、ベストプラクティスがはっきりとしていませんでした。
 
@@ -39,13 +41,15 @@ GoはJavaなど他の言語に実装されている例外がありません。�
 
 また、morikuniさんが作られた`morikuni/failure`とGo1.13から正式に実装される予定の`xerrors`の違いに関する話もされており、用途に応じて適切なpackageを使っていきたいです。
 
-[https://github.com/morikuni/failure]
+{{< ex-link url="https://github.com/morikuni/failure" >}}
+
 
 
 #### Goによる外部プロセス起動ベストプラクティス及びtimeoutパッケージ徹底解決
 こちらは[songmuさん](https://twitter.com/songmu)によるセッションです。Go界隈では有名な方ですね。
 
-[http://songmu.github.io/slides/gocon2019-spring]
+{{< ex-link url="http://songmu.github.io/slides/gocon2019-spring" >}}
+
 
 簡単なCLIアプリケーションなら作れるのですが、外部プロセスを扱う方法を理解していなかったので、セッションを聞きに行きました。
 
@@ -58,7 +62,9 @@ GoはJavaなど他の言語に実装されている例外がありません。�
 #### Expand observability in Go
 Google CloudでDeveloper Advocateをされている[ymotongpooさん](https://twitter.com/ymotongpoo)のパフォーマンスチューニングに関するセッションです。**個人的に今回のGo Conferenceで一番良かったセッションでした。**
 
-[https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0]
+{{< ex-link url="https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0" >}}
+
+
 
 学生が趣味レベルでコードを書く場合、パフォーマンスチューニングを行うほどの性能を求められることはほとんどありません。そのため、`net/http/pprof`や`net/http/httptrace`は名前を聞いただけでほとんど実践したことがありませんでした。
 

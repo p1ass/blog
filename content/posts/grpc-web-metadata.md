@@ -1,7 +1,9 @@
 ---
 title: "gRPC-Webでメタデータ付きのリクエストを送信する"
 date: 2019-04-29T18:47:48+09:00
-draft: true
+draft: false
+categories:
+- 開発
 tags:
 - gRPC-Web
 - Go
@@ -16,7 +18,7 @@ tags:
 
 なお、サンプルコードはgRPC-Web公式のHello Worldガイドを使用します。
 
-[grpc-web/net/grpc/gateway/examples/helloworld at master · grpc/grpc-web](https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld)
+{{< ex-link url="https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld" >}}
 
 <!--more-->
 

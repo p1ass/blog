@@ -70,7 +70,8 @@ tags:
 
 詳しくは公式ブログに公開されている記事をご覧ください。
 
-[https://engineering.linecorp.com/ja/blog/internship-2019-live]
+
+{{< ex-link url="https://engineering.linecorp.com/ja/blog/internship-2019-live">}}
 
 
 
@@ -123,11 +124,11 @@ tags:
 (追記: 2019/5/7)
 今年のインターン情報が公開されてました〜。
 
-[https://engineering.linecorp.com/ja/blog/summer-intern-2019-2/]
+{{< ex-link url="https://engineering.linecorp.com/ja/blog/summer-intern-2019-2/" >}}
 
-[https://linecorp.com/ja/career/newgrads/internship/engineer-tokyo]
+{{< ex-link url="https://linecorp.com/ja/career/newgrads/internship/engineer-tokyo" >}}
 
-[https://linecorp.com/ja/career/newgrads/internship/engineer-kyoto]
+{{< ex-link url="https://linecorp.com/ja/career/newgrads/internship/engineer-kyoto" >}}
 
 
 

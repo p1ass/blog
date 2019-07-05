@@ -19,7 +19,7 @@ tags:
 ## LINE DEVELOPER DAY とは
 
 
-[https://linedevday.linecorp.com/jp/2018/]
+{{< ex-link url="https://linedevday.linecorp.com/jp/2018/" >}}
 
 
 > 「LINE DEVELOPER DAY」は、コミュニケーションアプリ「LINE」をはじめ、当社が運営する様々なサービスの技術領域でのチャレンジや取り組みなどをご紹介するエンジニア向け技術カンファレンスです。

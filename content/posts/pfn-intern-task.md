@@ -13,10 +13,7 @@ tags:
 
 先日、PFNさんが2019年インターン用のコーディング課題を公開されました。
 
-
-
-{{< link href="https://research.preferred.jp/2019/06/internship-coding-task-2019/" text="2019年 PFN夏季インターンシップのコーディング課題公開" >}}
-
+{{< ex-link url="https://research.preferred.jp/2019/06/internship-coding-task-2019/" >}}
 
 
 私は機械学習界隈の人間でないので、インターン募集時にあまり興味を持っていなかったのですが、上で公開された課題にはバックエンド用の問題も用意されていました。
@@ -27,8 +24,7 @@ tags:
 
 この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべてGitHubで管理しており、小問ごとにブランチを切って、PRでマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
 
-
-{{< link href="https://github.com/naoki-kishi/pfn-intern-task-2019" text="naoki-kishi/pfn-intern-task-2019" >}}
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019" >}}
 
 <!--more-->
 
@@ -65,8 +61,8 @@ tags:
 ここからは問題を解いていきます。
 すべての問題でPRを出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
 
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/1" >}}
 
-{{< link href="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/1" text="問題1-1を解いた by naoki-kishi · Pull Request #1 · naoki-kishi/pfn-intern-task-2019" >}}  
 
 問題1-1はジョブサーバの実装です。
 クエリパラメータに応じて適切なジョブを返すだけなので、簡単なお仕事のように思えましたが、少し一工夫する必要がありました。
@@ -85,7 +81,8 @@ tags:
 
 ## 問題1-2
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/2]
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/2" >}}
+
 
 問題1-2は1-1で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
 
@@ -132,7 +129,7 @@ func (w *Worker) ExecuteAllJob(interval int) int{
 
 ## 問題2-1
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/3]
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/3" >}}
 
 問題2-1は問題1-2で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
 
@@ -171,7 +168,7 @@ j := &Job{
 
 ## 問題2-2
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/4]
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/4" >}}
 
 問題2-2は優先度を考慮してジョブを実行するワーカーを作成する問題です。
 
@@ -199,13 +196,14 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 
 また余談ですが、この問題のPDFの例が間違っていたので、issue を投げました。
 
-[https://github.com/pfnet/intern-coding-tasks/issues/5]
+{{< ex-link url="https://github.com/pfnet/intern-coding-tasks/issues/5" >}}
+
 
 素早い修正に感謝です🙏
 
 ## 問題2-3
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/5]
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/5" >}}
 
 問題2-3はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
 
@@ -246,7 +244,8 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 
 ## 問題3-1
 
-[https://github.com/naoki-kishi/pfn-intern-task-2019/pull/6]
+{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/6" >}}
+
 
 大問3は自由回答で、３つの小問のうち1を選択して解く問題です。
 
