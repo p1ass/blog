@@ -2,6 +2,7 @@
 title: "direnvを使うときは環境変数を.envrcに書くより.envに書いた方が使い勝手が良い"
 date: 2019-04-25T18:47:48+09:00
 draft: false
+description: ローカル開発時に環境変数を設定するためにdirenvを使っていますが、.envを使うことで環境変数の設定が楽になりました。
 categories:
 - 開発
 tags:

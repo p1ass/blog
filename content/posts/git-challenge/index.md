@@ -2,6 +2,7 @@
 title: "mixiの1dayインターン『git challenge #10』に参加してきました #mixi_git"
 date: 2018-12-03T22:45:21+09:00
 draft: false
+description: mixiが開催したgit challengeというイベントに参加し、普段は学ばないgitの奥深い機能などを知ることができました。
 categories:
 - インターン
 tags:

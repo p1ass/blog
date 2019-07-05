@@ -2,6 +2,7 @@
 title: "LINEの就業型インターンに参加してきた"
 date: 2019-05-07T18:47:48+09:00
 draft: false
+description: LINEの就業型インターンに参加し、LINE LIVEの新機能開発を担当させていただきました。
 categories:
 - インターン
 tags:

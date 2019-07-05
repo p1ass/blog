@@ -2,6 +2,7 @@
 title: "Cyber Agentのインターン「Architecture Challenge」に参加してきた"
 date: 2019-02-18T22:42:07+09:00
 draft: false
+description: Cyber Agentさんが開催された「Architecture Challenge」というイベントに参加し、アーキテクチャについて学んできました。
 categories:
 - インターン
 tags:

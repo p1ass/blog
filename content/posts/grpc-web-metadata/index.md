@@ -2,6 +2,7 @@
 title: "gRPC-Webでメタデータ付きのリクエストを送信する"
 date: 2019-04-29T18:47:48+09:00
 draft: false
+description: gRPC-Webでメタデータ付きのリクエストを送信する方法について紹介します。
 categories:
 - 開発
 tags:

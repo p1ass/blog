@@ -2,6 +2,7 @@
 title: "Go Conference 2019 Spring 参加レポート"
 date: 2019-05-20T18:47:48+09:00
 draft: false
+description: 先日開催されたGo Conference 2019 SpringにWantedlyさんのスカラシップ枠として参加し、Goに関する話をたくさん聞くことが出来ました。
 categories:
 - カンファレンス
 tags:

@@ -2,6 +2,7 @@
 title: "LINE DEVELOPER DAY 2018 参加記"
 date: 2018-11-22T22:48:51+09:00
 draft: false
+description: LINEが開催するLINE DEVELOPER DAY 2018というカンファレンスに参加してきました。
 categories:
 - カンファレンス
 tags:

@@ -2,6 +2,7 @@
 title: "pixiv2018冬インターンシップで「最高のpixiv」を作ってきた【参加記】"
 date: 2018-12-25T22:43:38+09:00
 draft: false
+description: ピクシブの冬インターンで「最高のpixiv」を作るハッカソンに参加し優勝しました。
 categories:
 - インターン
 tags:
