@@ -139,6 +139,9 @@ ol {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3; }
 
+.thumb {
+  border: none; }
+
 pre,
 code {
   font-family: Menlo, Monaco, monospace; }
