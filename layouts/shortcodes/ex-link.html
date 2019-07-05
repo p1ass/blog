@@ -1,0 +1,30 @@
+{{- $url := .Get "url" -}}
+{{- $json := getJSON .Site.Params.OgpJsonBaseUrl $url -}}
+{{- $title := $json.Title -}}
+{{- $siteName := $json.SiteName -}}
+{{- $description := $json.Description -}}
+{{- $favicon := $json.Favicon -}}
+{{- $image := index $json.Image 0 -}}
+{{- $imageUrl := $image.URL -}}
+{{- $urlInfo := $json.URL -}}
+{{- $host := $urlInfo.Host -}}
+ 
+<div class="embed-wrapper">
+  <div class="embed-wrapper-inner">
+    <div class="embed-content with-thumb"> 
+      <div class="entry-body">
+        <div class="entry-title">
+          <a href="{{ $url }}" target="_blank">{{ $title }}</a>
+        </div>
+        <div class="entry-content">
+          {{ $description }}
+        </div>
+      </div>
+      <div class="thumb-wrapper">
+        <a href="{{ $url }}" target="_blank">
+          <img src="{{ $imageUrl }}" class="thumb">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
