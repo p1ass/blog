@@ -180,7 +180,7 @@ pre code {
     color: #353535;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     font-size: 2.5rem;
-    margin: 1rem 0;
+    margin: 1rem 0 2rem 0;
     text-align: center; }
     @media (max-width: 900px) {
       .post-title {
