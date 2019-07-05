@@ -14,15 +14,15 @@
     <div class="embed-content with-thumb"> 
       <div class="entry-body">
         <div class="entry-title">
-          <a href="{{ $url }}" target="_blank">{{ $title }}</a>
+          <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">{{ $title }}</a>
         </div>
         <div class="entry-content">
           {{ $description }}
         </div>
       </div>
       <div class="thumb-wrapper">
-        <a href="{{ $url }}" target="_blank">
-          <img src="{{ $imageUrl }}" class="thumb">
+        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ $imageUrl }}" class="thumb" alt="{{ $title }}">
         </a>
       </div>
     </div>
