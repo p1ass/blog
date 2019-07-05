@@ -1,14 +1,16 @@
 ---
 title: "pixiv2018冬インターンシップで「最高のpixiv」を作ってきた【参加記】"
 date: 2018-12-25T22:43:38+09:00
-draft: true
+draft: false
+categories:
+- インターン
 tags:
 - ピクシブ
 - インターン
 ---
 
-<figure class="figure-image figure-image-fotolife" title="↑インターン最終日の成果発表のタイトルスライド">[f:id:plus_kyoto:20181220155403p:plain]<figcaption>↑インターン最終日の成果発表のタイトルスライド</figcaption></figure>
-
+![インターン最終日の成果発表のタイトルスライド](./top.png)
+_インターン最終日の成果発表のタイトルスライド_
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
 
@@ -18,7 +20,9 @@ tags:
 
 このブログでは、インターンへの応募から、インターン最終日までの出来事をつらつら書いていこうと思います。
 
-<figure class="figure-image figure-image-fotolife" title="告知サイト">[f:id:plus_kyoto:20181224165312j:plain]<figcaption>告知サイト</figcaption></figure>
+![告知サイト](./baner.jpg)
+_告知サイト_
+
 
 ## 作ったもの
 
@@ -28,10 +32,11 @@ tags:
 
 <!--more-->
 
-<figure class="figure-image figure-image-fotolife" title="ビューワー(著作権の関係でいらすとやを使っています)">[f:id:plus_kyoto:20181224145919j:plain]<figcaption>ビューワー(著作権の関係でいらすとやで代用しています)</figcaption></figure>
+![ビューワー(著作権の関係でいらすとやを使っています)](./marshiv-top.jpg)
+_ビューワー(著作権の関係でいらすとやを使っています)_
 
-<figure class="figure-image figure-image-fotolife" title="画像をクリックしたときのモーダル">[f:id:plus_kyoto:20181224152944j:plain]<figcaption>画像をクリックしたときのモーダル</figcaption></figure>
-
+![画像をクリックしたときのモーダル](./marshiv-modal.jpg)
+_画像をクリックしたときのモーダル_
 
 marshivには以下の機能を実装しました。
 
@@ -127,7 +132,9 @@ marshivには以下の機能を実装しました。
 その時に、全員が集合するまでの間、pixiv名物の絵馬を見ることが出来ました！
 
 
-<figure class="figure-image figure-image-fotolife" title="知ってるイラストレーターさんの絵馬があって興奮した">[f:id:plus_kyoto:20181221223141j:plain]<figcaption>知ってるイラストレーターさんの絵馬があって興奮した</figcaption></figure>
+![知ってるイラストレーターさんの絵馬があって興奮した](./ema.jpg)
+_知ってるイラストレーターさんの絵馬があって興奮した_
+
 
 全員が集合した後は、諸々のインターンの説明や書類を書いたりしました。
 
@@ -156,7 +163,10 @@ marshivには以下の機能を実装しました。
 ### お昼
 
 お昼は釜飯をいただきました！
-<figure class="figure-image figure-image-fotolife" title="美味しい(語彙力)">[f:id:plus_kyoto:20181221234821j:plain]<figcaption>美味しい(語彙力)</figcaption></figure>
+
+![美味しい(語彙力)](./lunch.jpg)
+_美味しい(語彙力)_
+
 
 ### 午後
 
@@ -176,7 +186,8 @@ marshivには以下の機能を実装しました。
 
 夕食はヘルシーな和食が食べられるEnjoy! EASTさんの定食をいただきました！
 
-<figure class="figure-image figure-image-fotolife" title="美味しい(2度目)">[f:id:plus_kyoto:20181222012513j:plain]<figcaption>美味しい(2度目)</figcaption></figure>
+![美味しい(2度目)](./dinner.jpg)
+_美味しい(2度目)_
 
 
 ### 夕食後~ホテル
@@ -228,8 +239,8 @@ marshivには以下の機能を実装しました。
 
 残りの時間は成果発表のスライドづくりに勤しみました。
 
-<figure class="figure-image figure-image-fotolife" title="途中で頂いたケーキ">[f:id:plus_kyoto:20181223173541j:plain]<figcaption>途中で頂いたケーキ</figcaption></figure>
-
+![途中で頂いたケーキ](./cake.jpg)
+_途中で頂いたケーキ_
 
 ### 成果発表
 
@@ -238,9 +249,11 @@ marshivには以下の機能を実装しました。
 
 発表では、スライドを作りすぎたせいもあって、巻きで喋ったのですが、予定の10分を少し超えてしまって、準備不足感が否めなかったです。
 
-<figure class="figure-image figure-image-fotolife" title="コンセプトスライド">[f:id:plus_kyoto:20181223160647p:plain]<figcaption>コンセプトスライド</figcaption></figure>
+![コンセプトスライド](./concept.png)
+_コンセプトスライド_
 
-<figure class="figure-image figure-image-fotolife" title="感想スライド(最後大事)">[f:id:plus_kyoto:20181223160640p:plain]<figcaption>感想スライド(最後大事)</figcaption></figure>
+![感想スライド(最後大事)](./impression.png)
+_感想スライド(最後大事)_
 
 
 ### 結果発表
@@ -268,7 +281,8 @@ marshivには以下の機能を実装しました。
 
 懇親会の途中には**プログラミング言語かるた**をやりました✌
 
-<figure class="figure-image figure-image-fotolife" title="知らない言語多くてつらい">[f:id:plus_kyoto:20181223165746j:plain]<figcaption>知らない言語多くてつらい</figcaption></figure>
+![知らない言語多くてつらい](./caruta.jpg)
+_知らない言語多くてつらい_
 
 ### 東京→京都
 
@@ -294,6 +308,8 @@ marshivには以下の機能を実装しました。
 最後までご覧いただきありがとうございました。
 
 
-<figure class="figure-image figure-image-fotolife" title="優勝景品">[f:id:plus_kyoto:20181223173646j:plain]<figcaption>優勝景品</figcaption></figure>
+![優勝景品](./winner.jpg)
+_優勝景品_
 
-<figure class="figure-image figure-image-fotolife" title="お土産で頂いたクリアファイル">[f:id:plus_kyoto:20181223173643j:plain]<figcaption>お土産で頂いたクリアファイル</figcaption></figure>
+![お土産で頂いたクリアファイル](./clearfile.jpg)
+_お土産で頂いたクリアファイル_

@@ -1,7 +1,9 @@
 ---
 title: "LINE DEVELOPER DAY 2018 参加記"
 date: 2018-11-22T22:48:51+09:00
-draft: true
+draft: false
+categories:
+- カンファレンス
 tags:
 - LINE
 - カンファレンス
@@ -29,7 +31,7 @@ tags:
 
 以前はヒカリエで開催されていたそうですが、今年は場所を変えて八芳園で開催されました。
 
-[f:id:plus_kyoto:20181121195431j:plain]
+![始まる前](./before-start.jpg)
 
 
 ## 面白かったセッション
@@ -65,20 +67,21 @@ tags:
 
 ### ホワイトペーパーに書いていない LINE Token Economy の裏側
 最後はBlockchain関連のセッションです。
-[f:id:plus_kyoto:20181122012515j:plain]
+
+![ブロックチェイン](./blockchainjpg)
+
 最初のKeynoteで、「LINEはAIとBlockchain」に力を入れていくと話しており、このセッションも濃い内容となっていました。
 
 LINEが作るプライベートブロックチェーンであるLINK Chainやそのコンセンサスノード、コンセンサスアルゴリズムについても詳細に語られていました。
 
 (写真が見にくいのはごめんなさい、、、）
+![LINK Chain](./link-chain.jpg)
 
-[f:id:plus_kyoto:20181122012324j:plain]
+![C-Node](./c-node.jpg)
 
-[f:id:plus_kyoto:20181122012446j:plain]
+![S-Node](./s-node.jpg)
 
-[f:id:plus_kyoto:20181122012456j:plain]
-
-[f:id:plus_kyoto:20181122012515j:plain]
+![コンセンサスアルゴリズム](./consensus.jpg)
 
 
 ## まとめ
@@ -88,18 +91,19 @@ LINEが今後どういったものに投資していくのか、どういった�
 
 ~~(懇親会の寿司食べたかったなぁ〜)~~
 
-[f:id:plus_kyoto:20181122013031j:plain]
-入館証
+![入館証](./nameplate.jpg)
+_入館証_
 
-[f:id:plus_kyoto:20181122013116j:plain]
-[f:id:plus_kyoto:20181122013120j:plain]
-お弁当
+![お弁当](./lunch-box.jpg)
 
-[f:id:plus_kyoto:20181122013200j:plain]
-八芳園のエモさ
+![お弁当](./lunch.jpg)
+_お弁当_
 
-[f:id:plus_kyoto:20181122013227j:plain]
-LINE Dev Day
+![八芳園のエモさ](./happoen.jpg)
+_八芳園のエモさ_
 
+
+![LINE Dev Day](./line-dev-day.jpg)
+_LINE Dev Day_
 
 

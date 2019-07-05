@@ -1,7 +1,13 @@
 ---
 title: "Go Conference 2019 Spring 参加レポート"
 date: 2019-05-20T18:47:48+09:00
-draft: true
+draft: false
+categories:
+- カンファレンス
+tags:
+- Go
+- Wantedly
+- カンファレンス
 ---
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
@@ -97,7 +103,8 @@ go tool pprof -http=":8888" http://localhost:8080/debug/pprof/profile
 
 結果は以下のようになりました。
 
-<figure class="figure-image figure-image-fotolife" title="pprofのFrame Graph">[f:id:plus_kyoto:20190520145057p:plain]<figcaption>pprofのFrame Graph</figcaption></figure>
+![pprofのFrame Graph](./pprof.png)
+_pprofのFrame Graph_
 
 メモリに保持しているデータをJSONにシリアライズして返すだけの単純なAPIなので、`runtime`や`net/http`が支配的で、問題になりそうな部分は見当たりませんでした。
 

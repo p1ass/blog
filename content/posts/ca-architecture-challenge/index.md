@@ -1,13 +1,15 @@
 ---
 title: "Cyber Agentのインターン「Architecture Challenge」に参加してきた"
 date: 2019-02-18T22:42:07+09:00
-draft: true
+draft: false
+categories:
+- インターン
 tags:
 - Cyber Agent
 - インターン
 ---
 
-[f:id:plus_kyoto:20190322222914j:plain]
+![トップ](./top.jpg)
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
 
@@ -23,9 +25,11 @@ tags:
 ## 概要
 今回のインターンのテーマは**「架空のサービスのチャット機能部分のアーキテクチャを考える」**というものでした。
 
-<figure class="figure-image figure-image-fotolife" title="お題">[f:id:plus_kyoto:20190215173807p:plain]<figcaption>お題</figcaption></figure>
+![お題](./theme.png)
+_お題_
 
-<figure class="figure-image figure-image-fotolife" title="評価基準">[f:id:plus_kyoto:20190215174244p:plain]<figcaption>評価基準</figcaption></figure>
+![評価基準](./review.png)
+_評価基準_
 
 **他にもめっちゃ細かい仕様書が渡された**のですが、ここで全部紹介するのはしんどいので省略します。
 
@@ -36,9 +40,11 @@ tags:
 ## 作ったもの
 今回は成果物として、ER図とアーキテクチャ図を作りました。
 
-<figure class="figure-image figure-image-fotolife" title="ER図">[f:id:plus_kyoto:20190217124908p:plain]<figcaption>ER図</figcaption></figure>
+![ER図](./er.png)
+_ER図_
 
-<figure class="figure-image figure-image-fotolife" title="アーキテクチャ図">[f:id:plus_kyoto:20190217124826j:plain]<figcaption>アーキテクチャ図</figcaption></figure>
+![アーキテクチャ図](./architecture.jpg)
+_アーキテクチャ図_
 
 自分は主にアーキテクチャの方を担当したのですが、今思うと怪しいところが多かったなと反省しています。
 
@@ -68,9 +74,12 @@ tags:
 
 最後までご覧いただき、ありがとうございました。
 
-<figure class="figure-image figure-image-fotolife" title="お弁当">[f:id:plus_kyoto:20190322225333j:plain]<figcaption>お弁当</figcaption></figure>
+![お弁当](./lunch-1.jpg)
+_お弁当_
 
-<figure class="figure-image figure-image-fotolife" title="お弁当 その2">[f:id:plus_kyoto:20190322225303j:plain]<figcaption>お弁当 その2</figcaption></figure>
+![お弁当](./lunch-2.jpg)
+_お弁当その２_
 
 
-<figure class="figure-image figure-image-fotolife" title="お肉">[f:id:plus_kyoto:20190322225236j:plain]<figcaption>お肉</figcaption></figure>
+![お肉](./niku.jpg)
+_お肉_

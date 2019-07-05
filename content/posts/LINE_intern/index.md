@@ -1,7 +1,9 @@
 ---
 title: "LINEの就業型インターンに参加してきた"
 date: 2019-05-07T18:47:48+09:00
-draft: true
+draft: false
+categories:
+- インターン
 tags:
 - LINE
 - インターン
@@ -136,4 +138,5 @@ tags:
 
 ありがとうございました。
 
-<figure class="figure-image figure-image-fotolife" title="最終日にもらったモバイルバッテリー">[f:id:plus_kyoto:20190412181420j:plain]<figcaption>最終日にもらったモバイルバッテリー</figcaption></figure>
+![最終日にもらったモバイルバッテリー](./battery.jpg)
+_最終日にもらったモバイルバッテリー_
