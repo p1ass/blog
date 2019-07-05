@@ -1,7 +1,9 @@
 ---
 title: "PFNのインターン課題が公開されたので解いてみた"
 date: 2019-06-27T18:47:48+09:00
-draft: true
+draft: false
+categories:
+- インターン
 tags:
 - PFN
 - インターン
