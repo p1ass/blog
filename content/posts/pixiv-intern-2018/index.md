@@ -8,7 +8,7 @@ categories:
 tags:
 - ピクシブ
 - インターン
-eyecatch: /posts/pixiv-intern-2019/top.png
+eyecatch: /posts/pixiv-intern-2018/top.png
 ---
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。

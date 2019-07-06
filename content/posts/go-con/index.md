@@ -9,7 +9,7 @@ tags:
 - Go
 - Wantedly
 - カンファレンス
-eyecatch: /images/pprof.png
+eyecatch: /posts/go-con/pprof.png
 ---
 
 こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
