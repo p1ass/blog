@@ -7,7 +7,7 @@ pygmentsUseClasses = true
 timeout = 60000
 googleAnalytics= "UA-127036212-7"
 [params]
-description = "プログラミングや大学に関数することをつらつら書いていきます。"
+description = "プログラミングや大学に関することをつらつら書いていきます。"
 OgpJsonBaseURL = "https://blog-api.naoki.dev/ogp?url="
 
 [taxonomies]
