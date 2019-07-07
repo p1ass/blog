@@ -7,7 +7,7 @@
         <meta name="description" content="{{ .Description }}">
     {{- end }}
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="og:title" content="{{ .Title }}" />
     <meta name="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
     <meta name="og:image" content="{{ .Site.BaseURL }}{{if .IsHome}}/images/ogp.jpg{{else}}{{ .Params.eyecatch }}{{ end }}" />
