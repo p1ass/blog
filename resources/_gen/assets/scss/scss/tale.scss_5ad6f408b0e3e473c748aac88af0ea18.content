@@ -6,7 +6,7 @@
 
 html,
 body {
-  color: #444;
+  color: #353535;
   background-color: #fff;
   margin: 0;
   padding: 0; }
@@ -504,7 +504,7 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #444;
+    color: #353535;
     display: inline-block;
     margin: 0;
     padding-right: .2rem; }
@@ -521,7 +521,7 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #444;
+    color: #353535;
     display: inline-block;
     opacity: .6;
     padding: 0 2rem 0 0; }
@@ -530,7 +530,7 @@ footer,
     .nav li:hover, .nav li:focus {
       opacity: 1; }
   .nav a {
-    color: #444;
+    color: #353535;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif; }
 
 @media (min-width: 900px) {
@@ -546,7 +546,7 @@ footer {
   padding: 2rem 0;
   text-align: center; }
   footer span {
-    color: #444;
+    color: #353535;
     font-size: .8rem; }
 
 .fa-external-link-alt {
@@ -566,7 +566,7 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #444;
+    color: #353535;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
     opacity: .9; }
@@ -576,7 +576,7 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #444;
+    color: #353535;
     position: absolute; }
     .pagination .arrow:hover, .pagination .arrow:focus {
       opacity: .6;
@@ -591,7 +591,7 @@ footer {
 
 .catalogue-item {
   border-top: 1px solid #e5e5e5;
-  color: #444;
+  color: #353535;
   display: block;
   padding: 2rem 0; }
   .catalogue-item:hover .catalogue-line,
