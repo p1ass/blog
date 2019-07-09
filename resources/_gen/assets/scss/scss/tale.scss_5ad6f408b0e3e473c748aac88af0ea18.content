@@ -6,7 +6,7 @@
 
 html,
 body {
-  color: #555;
+  color: #444;
   background-color: #fff;
   margin: 0;
   padding: 0; }
@@ -28,7 +28,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #353535;
+  color: #333;
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
   line-height: normal; }
 
@@ -191,7 +191,7 @@ pre code {
     .post-info span {
       font-style: italic; }
   .post-title {
-    color: #353535;
+    color: #333;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     font-size: 2.5rem;
     margin: 1rem 0 2rem 0;
@@ -200,7 +200,7 @@ pre code {
       .post-title {
         font-size: 2rem; } }
   .post-line {
-    border-top: 0.4rem solid #353535;
+    border-top: 0.4rem solid #333;
     display: block;
     margin: 0 auto 3rem;
     width: 4rem; }
@@ -504,7 +504,7 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #555;
+    color: #444;
     display: inline-block;
     margin: 0;
     padding-right: .2rem; }
@@ -521,7 +521,7 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #555;
+    color: #444;
     display: inline-block;
     opacity: .6;
     padding: 0 2rem 0 0; }
@@ -530,7 +530,7 @@ footer,
     .nav li:hover, .nav li:focus {
       opacity: 1; }
   .nav a {
-    color: #555;
+    color: #444;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif; }
 
 @media (min-width: 900px) {
@@ -546,7 +546,7 @@ footer {
   padding: 2rem 0;
   text-align: center; }
   footer span {
-    color: #555;
+    color: #444;
     font-size: .8rem; }
 
 .fa-external-link-alt {
@@ -560,13 +560,13 @@ footer {
   position: relative;
   text-align: center; }
   .pagination span {
-    color: #353535;
+    color: #333;
     font-size: 1.1rem; }
   .pagination .top {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #555;
+    color: #444;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
     font-size: 1.1rem;
     opacity: .9; }
@@ -576,7 +576,7 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #555;
+    color: #444;
     position: absolute; }
     .pagination .arrow:hover, .pagination .arrow:focus {
       opacity: .6;
@@ -591,7 +591,7 @@ footer {
 
 .catalogue-item {
   border-top: 1px solid #e5e5e5;
-  color: #555;
+  color: #444;
   display: block;
   padding: 2rem 0; }
   .catalogue-item:hover .catalogue-line,
@@ -606,7 +606,7 @@ footer {
   letter-spacing: .5px; }
 
 .catalogue-title {
-  color: #353535;
+  color: #333;
   display: block;
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
   font-size: 2rem;
@@ -617,7 +617,7 @@ footer {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  border-top: 0.2rem solid #353535;
+  border-top: 0.2rem solid #333;
   display: block;
   width: 2rem; }
 
