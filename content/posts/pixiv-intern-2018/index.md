@@ -80,7 +80,7 @@ marshivには以下の機能を実装しました。
 
 選考には、**「通常選考」**と**「GitHub選考」**がありましたが、GitHubだけで通る自信がなかったので、通常選考で申し込みました。
 エントリーフォームの内容はエンジニア系のインターンでよく聞かれることが多かったです。
-自分の作った作品等の欄には[「ポートフォリオサイト」](https://naoki-kishi.github.io)や[「えもじっく」](https://emojic.ch) などを書きました。
+自分の作った作品等の欄には[「ポートフォリオサイト」](https://p1ass.github.io)や[「えもじっく」](https://emojic.ch) などを書きました。
 
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixivのインターン申し込んだ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1063430022151557120?ref_src=twsrc%5Etfw">November 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 

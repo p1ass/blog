@@ -63,7 +63,7 @@ _アーキテクチャ図_
 インターン中は実際にコードを書くことが出来なかったので、後日**GraphQL Subscriptions**と**Redis PubSub**を使ったリアルタイムチャットサーバーを作ってみました。
 
 
-{{< ex-link url="https://github.com/naoki-kishi/graphql-redis-realtime-chat" >}}
+{{< ex-link url="https://github.com/p1ass/graphql-redis-realtime-chat" >}}
 
 解説記事をQiitaに書いてのでよかったら読んでみてください。
 

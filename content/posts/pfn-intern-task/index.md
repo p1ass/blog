@@ -28,7 +28,7 @@ eyecatch: /images/ogp.jpg
 
 この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべてGitHubで管理しており、小問ごとにブランチを切って、PRでマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019" >}}
 
 <!--more-->
 
@@ -65,7 +65,7 @@ eyecatch: /images/ogp.jpg
 ここからは問題を解いていきます。
 すべての問題でPRを出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/1" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/1" >}}
 
 
 問題1-1はジョブサーバの実装です。
@@ -85,7 +85,7 @@ eyecatch: /images/ogp.jpg
 
 ## 問題1-2
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/2" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/2" >}}
 
 
 問題1-2は1-1で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
@@ -133,7 +133,7 @@ func (w *Worker) ExecuteAllJob(interval int) int{
 
 ## 問題2-1
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/3" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/3" >}}
 
 問題2-1は問題1-2で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
 
@@ -172,7 +172,7 @@ j := &Job{
 
 ## 問題2-2
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/4" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/4" >}}
 
 問題2-2は優先度を考慮してジョブを実行するワーカーを作成する問題です。
 
@@ -207,7 +207,7 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 
 ## 問題2-3
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/5" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/5" >}}
 
 問題2-3はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
 
@@ -248,7 +248,7 @@ func (pq JobPriorityQueue) Less(i, j int) bool {
 
 ## 問題3-1
 
-{{< ex-link url="https://github.com/naoki-kishi/pfn-intern-task-2019/pull/6" >}}
+{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/6" >}}
 
 
 大問3は自由回答で、３つの小問のうち1を選択して解く問題です。
