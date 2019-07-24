@@ -11,7 +11,7 @@ tags:
 eyecatch: /posts/cyberagent-architecture-challenge/top.jpg
 ---
 
-こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 この度、Cyber Agentさんが開催された**「Architecture Challenge」**というイベントに参加させていただきました！
 
@@ -67,7 +67,7 @@ _アーキテクチャ図_
 
 解説記事をQiitaに書いてのでよかったら読んでみてください。
 
-{{< ex-link url="https://qiita.com/plus_kyoto/items/462209fe73ece1238d85" >}}
+{{< ex-link url="https://qiita.com/p1ass/items/462209fe73ece1238d85" >}}
 
 ## おわりに
 

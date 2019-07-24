@@ -12,7 +12,7 @@ eyecatch: /images/ogp.jpg
 ---
 
 
-こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 最近、gRPC-Webについて調査しているのですが、その際にメタデータ付きのリクエストを送る方法に関するドキュメントが一切ないことに気づきました。
 

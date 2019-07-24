@@ -12,7 +12,7 @@ tags:
 eyecatch: /images/ogp.jpg
 ---
 
-こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 先日、mixi本社にて開催された**「git challenge #10」**に参加してきました！
 今までこういったイベントには参加したことがなかったのですが、自分の知らないことをたくさん学べる素晴らしいイベントでした。
@@ -39,10 +39,10 @@ git challengeを知ったのはTwitterのタイムラインでイベントの概
 しかし、git challengeは**年齢関係なく申し込める**ということで、概要を読んですぐ申し込みました。
 
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challenge申し込むわ</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1047059015509921792?ref_src=twsrc%5Etfw">October 2, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challenge申し込むわ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1047059015509921792?ref_src=twsrc%5Etfw">October 2, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challenge申し込み完了</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1047091695014227968?ref_src=twsrc%5Etfw">October 2, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challenge申し込み完了</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1047091695014227968?ref_src=twsrc%5Etfw">October 2, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 エントリーシートは思いの外、たくさんの項目がありました。
@@ -53,11 +53,11 @@ gitのイベントということでgitの使用経験はもちろん、今ま�
 
 選考結果は申し込んでから一ヶ月後くらいに返ってきて、めでたく参加できることになりました。🎉
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">あ、git challenge通った</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1063249974983450626?ref_src=twsrc%5Etfw">November 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">あ、git challenge通った</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1063249974983450626?ref_src=twsrc%5Etfw">November 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 参加が決まってからは、「ちょっとはgitの勉強としとかないとなぁ」と思いつつも、時間があまりなくあまり大したことは出来ませんでした。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challengeの予習でGit Book/Pro Git読みたいけど、時間ないから行きの新幹線で読もう<br>Git/GitHubレベル別オススメ学習サイトまとめ完全保存版【2018.11】 <a href="https://t.co/pNUPC2NZGe">https://t.co/pNUPC2NZGe</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1067605592435347456?ref_src=twsrc%5Etfw">November 28, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challengeの予習でGit Book/Pro Git読みたいけど、時間ないから行きの新幹線で読もう<br>Git/GitHubレベル別オススメ学習サイトまとめ完全保存版【2018.11】 <a href="https://t.co/pNUPC2NZGe">https://t.co/pNUPC2NZGe</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1067605592435347456?ref_src=twsrc%5Etfw">November 28, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 ## イベント当日
@@ -69,7 +69,7 @@ gitのイベントということでgitの使用経験はもちろん、今ま�
 新幹線でgitの勉強しようと言ってたのにも関わらず、普通に寝落ちしてしまいました。
 起きたら神奈川で、時すでにおすし。仕方なくもう一度寝ました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">気づいたら神奈川だった</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1068657196123078657?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">気づいたら神奈川だった</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1068657196123078657?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 なにはともあれ無事mixi本社に到着しました。
@@ -80,7 +80,7 @@ gitのイベントということでgitの使用経験はもちろん、今ま�
 という常識(?)がわからなくてエントランスであたふたしてました。
 
 
-<blockquote class="twitter-tweet"><p lang="und" dir="ltr"><a href="https://t.co/HESx8vDXsV">pic.twitter.com/HESx8vDXsV</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1068681666678337537?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="und" dir="ltr"><a href="https://t.co/HESx8vDXsV">pic.twitter.com/HESx8vDXsV</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1068681666678337537?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 ### 午前中
@@ -100,7 +100,7 @@ mixiのイベントでは、お昼ご飯にすごく力をいれてるそうで�
 
 ビーフがすごく美味しかったです😄
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">上げ忘れた<a href="https://twitter.com/hashtag/mixi_git?src=hash&amp;ref_src=twsrc%5Etfw">#mixi_git</a> <a href="https://t.co/AFLYekxk9g">pic.twitter.com/AFLYekxk9g</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1068719007358808064?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">上げ忘れた<a href="https://twitter.com/hashtag/mixi_git?src=hash&amp;ref_src=twsrc%5Etfw">#mixi_git</a> <a href="https://t.co/AFLYekxk9g">pic.twitter.com/AFLYekxk9g</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1068719007358808064?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 ### 競技スタート
@@ -140,7 +140,7 @@ mixiの社員さんたちも驚いていて、「世の中すごい学生がい�
 すごい可愛らしい料理やお酒が並んでおり、イベントの疲れを全部ふっ飛ばしてくれるとても良い会でした！
 
 
-<blockquote class="twitter-tweet"><p lang="und" dir="ltr"><a href="https://twitter.com/hashtag/mixi_git?src=hash&amp;ref_src=twsrc%5Etfw">#mixi_git</a> <a href="https://t.co/PxBhWM8Lwo">pic.twitter.com/PxBhWM8Lwo</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1068793322225844224?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="und" dir="ltr"><a href="https://twitter.com/hashtag/mixi_git?src=hash&amp;ref_src=twsrc%5Etfw">#mixi_git</a> <a href="https://t.co/PxBhWM8Lwo">pic.twitter.com/PxBhWM8Lwo</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1068793322225844224?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 他のチームの学生ともお話させていただき、「普段は〇〇してる。」とか、「〇〇にインターンに行ってた。」といった話をしながらワイワイしてました。
@@ -159,7 +159,7 @@ mixiのサービスの裏側やgit challengeの意図、選考の色々など普
 帰りは、以前から知り合いだった[@pinf0rt](https://twitter.com/pinf0rt)くんと将来のこととかを色々語りながら新幹線で帰りました。
 
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challengeの帰り、将来についてとか <a href="https://twitter.com/pinf0rt?ref_src=twsrc%5Etfw">@pinf0rt</a> と無限に話した</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1068868964313260032?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">git challengeの帰り、将来についてとか <a href="https://twitter.com/pinf0rt?ref_src=twsrc%5Etfw">@pinf0rt</a> と無限に話した</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1068868964313260032?ref_src=twsrc%5Etfw">December 1, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 ## おわりに

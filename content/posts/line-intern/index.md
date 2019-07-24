@@ -12,7 +12,7 @@ tags:
 eyecatch: /posts/line-intern/ogp.png
 ---
 
-こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 今年の2月から3月にかけて、**LINEの就業型インターン**に参加させていただきました！
 初めての就業型インターンだったのですが、とても勉強になる1ヶ月間でした。

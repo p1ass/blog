@@ -13,7 +13,7 @@ tags:
 eyecatch: /images/ogp.jpg
 ---
 
-こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 先日、PFNさんが2019年インターン用のコーディング課題を公開されました。
 

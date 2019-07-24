@@ -11,7 +11,7 @@ tags:
 eyecatch: /images/ogp.jpg
 ---
 
-こんにちは、[@plus_kyoto](https://twitter.com/plus_kyoto)です。  
+こんにちは、[@p1ass](https://twitter.com/p1ass)です。  
 自分はローカル開発時に、環境変数を設定するためにdirenvを使っています。
 その際に、環境変数を`.envrc`に書くより、`.env`に書いた方が諸々の使い勝手が良いと感じたので紹介します。
 

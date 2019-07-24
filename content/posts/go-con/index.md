@@ -12,7 +12,7 @@ tags:
 eyecatch: /posts/go-con/pprof.png
 ---
 
-こんにちは、ぷらす([@plus_kyoto](https://twitter.com/plus_kyoto))です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 先日開催されたGo Conference 2019 SpringにWantedlyさんのスカラシップ枠として参加させていただきました！
 
@@ -122,12 +122,12 @@ _pprofのFrame Graph_
 
 ### おまけ
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">問題付きのコーヒーカップ <a href="https://twitter.com/hashtag/gocon?src=hash&amp;ref_src=twsrc%5Etfw">#gocon</a> <a href="https://t.co/rDLyJxzADr">pic.twitter.com/rDLyJxzADr</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1129568723424096256?ref_src=twsrc%5Etfw">May 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">問題付きのコーヒーカップ <a href="https://twitter.com/hashtag/gocon?src=hash&amp;ref_src=twsrc%5Etfw">#gocon</a> <a href="https://t.co/rDLyJxzADr">pic.twitter.com/rDLyJxzADr</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1129568723424096256?ref_src=twsrc%5Etfw">May 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">gopher君チロルチョコ <a href="https://twitter.com/hashtag/gocon?src=hash&amp;ref_src=twsrc%5Etfw">#gocon</a> <a href="https://t.co/5YgzdscJkl">pic.twitter.com/5YgzdscJkl</a></p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1129581700835504128?ref_src=twsrc%5Etfw">May 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">gopher君チロルチョコ <a href="https://twitter.com/hashtag/gocon?src=hash&amp;ref_src=twsrc%5Etfw">#gocon</a> <a href="https://t.co/5YgzdscJkl">pic.twitter.com/5YgzdscJkl</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1129581700835504128?ref_src=twsrc%5Etfw">May 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 メルカリのスカラシップで来ていた人のうち、2人が元からTwitterのFFでした。世間は狭いですね。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">TLにメルのスカラシップの人が2,3人いそうな気配がする</p>&mdash; ぷらす (@plus_kyoto) <a href="https://twitter.com/plus_kyoto/status/1129532777244741632?ref_src=twsrc%5Etfw">May 17, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">TLにメルのスカラシップの人が2,3人いそうな気配がする</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1129532777244741632?ref_src=twsrc%5Etfw">May 17, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 おわり
