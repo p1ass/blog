@@ -8,20 +8,20 @@
     {{- end }}
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="og:title" content="{{ .Title }}" />
     <meta name="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
     <meta name="og:image" content="{{ .Site.BaseURL }}{{if .IsHome}}/images/ogp.jpg{{else}}{{ .Params.eyecatch }}{{ end }}" />
     <meta name="og:url" content="{{ .Permalink }}" />
     <meta name="twitter:site" content="@p1ass" />
     <meta name="twitter:creator" content="@p1ass" /> 
 
-    <title>
-        {{- if .IsHome }}
-            {{ .Site.Title }}
-        {{- else }}
-            {{ .Title }} &middot; {{ .Site.Title }}
-        {{- end }}
-    </title>
+    {{- if .IsHome }}
+    <meta name="og:title" content="{{ .Title }}" />
+    <title>{{ .Site.Title }}</title>
+    {{- else }}
+    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <meta name="og:title" content="{{ .Title }} - {{ .Site.Title }}" />
+    {{- end }}
+    
 
     <!-- CSS -->
     {{- $inServerMode	:= .Site.IsServer }}
