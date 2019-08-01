@@ -9,6 +9,7 @@ tags:
 - Cyber Agent
 - インターン
 eyecatch: /posts/cyberagent-architecture-challenge/top.jpg
+share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。

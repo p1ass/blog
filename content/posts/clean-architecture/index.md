@@ -9,6 +9,7 @@ tags:
 - "Clean Architecture"
 - 環境変数
 eyecatch: /images/ogp.jpg
+share: true
 ---
 
 こんにちは、{{< ex-link url="https://twitter.com/p1ass" text="@p1ass" >}}です。  

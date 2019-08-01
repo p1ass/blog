@@ -9,6 +9,7 @@ googleAnalytics= "UA-127036212-7"
 [params]
 description = "プログラミングや大学に関することをつらつら書いていきます。"
 OgpJsonBaseURL = "https://blog-api.naoki.dev/ogp?url="
+css = ["custom.css"]
 
 [taxonomies]
   tag = "tags"

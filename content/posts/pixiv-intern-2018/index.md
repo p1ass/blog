@@ -9,6 +9,7 @@ tags:
 - ピクシブ
 - インターン
 eyecatch: /posts/pixiv-intern-2018/top.png
+share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。

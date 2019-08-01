@@ -9,6 +9,7 @@ tags:
 - direnv
 - 環境変数
 eyecatch: /images/ogp.jpg
+share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。  

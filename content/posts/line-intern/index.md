@@ -10,6 +10,7 @@ tags:
 - インターン
 - Java
 eyecatch: /posts/line-intern/ogp.png
+share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。

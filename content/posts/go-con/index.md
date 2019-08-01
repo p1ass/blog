@@ -10,6 +10,7 @@ tags:
 - Wantedly
 - カンファレンス
 eyecatch: /posts/go-con/pprof.png
+share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
