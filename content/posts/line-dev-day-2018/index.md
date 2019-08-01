@@ -9,6 +9,7 @@ tags:
 - LINE
 - カンファレンス
 eyecatch: /images/ogp.jpg
+share: true
 ---
 
 ## LINE DEVELOPER DAY 2018 参加してきました

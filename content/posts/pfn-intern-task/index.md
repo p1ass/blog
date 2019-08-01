@@ -11,6 +11,7 @@ tags:
 - Go
 - Python
 eyecatch: /images/ogp.jpg
+share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。

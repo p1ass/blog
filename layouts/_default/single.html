@@ -7,10 +7,14 @@
 
 		{{ partial "single/header.html" . }}
 
+		{{ partial "share" . }}
+
 		{{ .Content }}
 
 		{{ partial "single/footer.html" . }}
 	</article>
+
+	{{ partial "share" . }}
 
 	<div class="pagination">
 		{{- if .PrevPage }}
