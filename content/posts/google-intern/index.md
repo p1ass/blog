@@ -1,6 +1,6 @@
 ---
 title: "Googleのソフトウェアエンジニアリングインターンに落ちた"
-date: 2019-08-01T20:00:00+09:00
+date: 2019-08-01T18:00:00+09:00
 draft: false
 description: インターンに申し込むと決めるまで競プロすらまともにやったことがなかったのですが、一次選考のオンラインのコーディングテストを突破し、Phone Interviewまでたどり着くことができました。残念ながらPhone Interviewは不合格となってしまいましたが、それまでの勉強で多くのこと(特にデータ構造とアルゴリズム)を学ぶことができました。この記事では、Googleのインターンに申し込むにあたってどのようなことを勉強したかなどについて共有したいと思います。
 categories:
@@ -10,6 +10,7 @@ tags:
 - Atcoder
 - Go
 eyecatch: /posts/google-intern/craking_the_coding_interview.jpg
+share: true
 ---
 
 こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。  
