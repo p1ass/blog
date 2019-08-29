@@ -25,14 +25,6 @@ share: true
 
 <!--more-->
 
-## $ whoami
-
-自己紹介は省略するので、自分のGitHubとポートフォリオを見てください。
-
-{{< ex-link url="https://github.com/p1ass" >}}
-
-{{< ex-link url="https://p1ass.com" >}}
-
 
 ## プロダクト開発コースとは
 
