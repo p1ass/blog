@@ -90,6 +90,9 @@ ul {
   margin: 0 0 1.8em 2em;
   padding: 0; }
 
+li {
+  padding: 0.3em 0; }
+
 ol {
   margin: 0 0 1.8em 2em;
   padding: 0; }
@@ -557,34 +560,32 @@ footer {
   border-top: 0.5px solid #e5e5e5;
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
   padding-top: 2rem;
-  position: relative;
+  display: inline-flex;
   text-align: center; }
   .pagination span {
     color: #333;
     font-size: 1.1rem; }
-  .pagination .top {
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    color: #353535;
-    font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
-    font-size: 1.1rem;
-    opacity: .9; }
-    .pagination .top:hover {
-      opacity: 1; }
   .pagination .arrow {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #353535;
-    position: absolute; }
+    color: #353535; }
     .pagination .arrow:hover, .pagination .arrow:focus {
       opacity: .6;
       text-decoration: none; }
-  .pagination .left {
-    left: 0; }
-  .pagination .right {
-    right: 0; }
+
+.top {
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  opacity: .9;
+  text-align: center; }
+  .top a {
+    color: #353535;
+    font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
+    font-size: 1.1rem; }
+  .top:hover {
+    opacity: 1; }
 
 .catalogue-section {
   margin-bottom: 1rem; }
