@@ -222,7 +222,7 @@ DeNAが公式Twitter等で告知するよりも早くサイトを見つけて応
 
 発表後の審査員による質問では、**「コメントの編集や削除をできるようにするとキャッシュ戦略は難しいと思うが、その点についてどう思うか」**という趣旨の質問があり、「以外と突っ込んでくるなぁ」と思いつつ、LINEのインターンで得た知識を話したらなんとかなりました。
 
-{{< ex-link url="https://blog.p1ass.com/posts/line-intern/" >}}
+{{< ex-link url="https://blog.p1ass.com/posts/line-intern" >}}
 
 
 ## 結果発表
