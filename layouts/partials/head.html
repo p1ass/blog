@@ -7,19 +7,21 @@
         <meta name="description" content="{{ .Description }}">
     {{- end }}
 
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+    <meta property="og:image" content="{{ .Site.BaseURL }}{{if .IsHome}}/images/ogp.jpg{{else}}{{ .Params.eyecatch }}{{ end }}" />
+    <meta property="og:url" content="{{ .Permalink }}" />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
-    <meta name="og:image" content="{{ .Site.BaseURL }}{{if .IsHome}}/images/ogp.jpg{{else}}{{ .Params.eyecatch }}{{ end }}" />
-    <meta name="og:url" content="{{ .Permalink }}" />
     <meta name="twitter:site" content="@p1ass" />
     <meta name="twitter:creator" content="@p1ass" /> 
 
     {{- if .IsHome }}
-    <meta name="og:title" content="{{ .Title }}" />
+    <meta property="og:title" content="{{ .Title }}" />
     <title>{{ .Site.Title }}</title>
     {{- else }}
     <title>{{ .Title }} - {{ .Site.Title }}</title>
-    <meta name="og:title" content="{{ .Title }} - {{ .Site.Title }}" />
+    <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}" />
     {{- end }}
     
 
