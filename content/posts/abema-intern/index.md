@@ -1,6 +1,6 @@
 ---
 title: "Cyber AgentのAbemaTVでインターンしてきた話"
-date: 2019-09-02T22:00:00+09:00
+date: 2019-09-03T21:00:00+09:00
 draft: false
 description: 3週間ほどCyber AgentのAbemaTVというサービスでインターンをしてきました。Goを使った開発を行ったのですが、メモリリークやDBのセッションの持ち方、goroutine内でpanicが起きた時の対処など、今まで考えたことがなかったことを多く学ぶことができました。
 categories:
