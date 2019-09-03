@@ -1,8 +1,8 @@
 ---
-title: "Cyber AgentのAbemaTVでインターンしてきた話"
-date: 2019-09-03T21:00:00+09:00
+title: "CyberAgentのAbemaTVでインターンしてきた話"
+date: 2019-09-03T20:00:00+09:00
 draft: false
-description: 3週間ほどCyber AgentのAbemaTVというサービスでインターンをしてきました。Goを使った開発を行ったのですが、メモリリークやDBのセッションの持ち方、goroutine内でpanicが起きた時の対処など、今まで考えたことがなかったことを多く学ぶことができました。
+description: 3週間ほどCyberAgentのAbemaTVというサービスでインターンをしてきました。Goを使った開発を行い、メモリリークやDBのセッションの持ち方、goroutine内でpanicが起きた時の対処など、今まで考えたことがなかったことを多く学ぶことができました。
 categories:
 - インターン
 tags:
@@ -16,7 +16,7 @@ share: true
 
 こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。  
 
-前々からTwitterを見てくれていた人はわかるかもしれませんが、3週間ほどCyber AgentのAbemaTVというサービスでインターンをしてきました。
+前々からTwitterを見てくれていた人はわかるかもしれませんが、3週間ほどCyberAgentのAbemaTVというサービスでインターンをしてきました。
 
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">わーい <a href="https://t.co/fXrMXW9e9i">pic.twitter.com/fXrMXW9e9i</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1158995483240439808?ref_src=twsrc%5Etfw">August 7, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -24,7 +24,7 @@ share: true
 
 ## AbemaTVでインターンした理由
 
-Cyber Agentは沢山の子会社を持っていて様々なサービスを提供しているのですが、その中でもAbemaTVに行きたいと思った決め手は、
+CyberAgentは沢山の子会社を持っていて様々なサービスを提供しているのですが、その中でもAbemaTVに行きたいと思った決め手は、
 
 - 自分が使っているサービスである
 - 大規模なサービスである
@@ -103,7 +103,7 @@ AbemaTVではMongoDBをメインのデータベースとして使っているの
 
 ### 渋谷人が多い問題
 
-もうCyber Agent関係ないんですが、なんであんなに人が多くて臭い土地にIT企業が集まるんですかね？？
+もうCyberAgent関係ないんですが、なんであんなに人が多くて臭い土地にIT企業が集まるんですかね？？
 
 東京にはもっと良い場所はないんですか？
 
