@@ -1,5 +1,5 @@
 ---
-title: "初参加のISUCON9で敗北した"
+title: "初参加のISUCON9 予選で敗北した"
 date: 2019-09-08T23:00:00+09:00
 draft: false
 description: ISUCON9に参加してきました。初ISUCONで結果は惨敗でしたが、来年に向けて今年やったことを備忘録として残しておきます。
