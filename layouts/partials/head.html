@@ -44,5 +44,13 @@
     <!-- RSS -->
     <link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>    
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-4978327687969784",
+          enable_page_level_ads: true
+     });
+    </script>
+
     {{ template "_internal/google_analytics_async.html" . }}
 </head>
