@@ -561,10 +561,19 @@ footer {
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
   padding-top: 2rem;
   display: inline-flex;
-  text-align: center; }
+  text-align: center;
+  justify-content: space-between;
+  width: 100%; }
   .pagination span {
+    flex-grow: 10;
     color: #333;
     font-size: 1.1rem; }
+  .pagination a {
+    max-width: 50%; }
+  .pagination .left {
+    text-align: left; }
+  .pagination .right {
+    text-align: right; }
   .pagination .arrow {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;

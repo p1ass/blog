@@ -11,6 +11,9 @@ description = "プログラミングや大学に関することをつらつら�
 OgpJsonBaseURL = "https://blog-api.p1ass.com/ogp?url="
 css = ["custom.css"]
 
+[author]
+name= "p1ass"
+
 [taxonomies]
   tag = "tags"
   category = "categories"

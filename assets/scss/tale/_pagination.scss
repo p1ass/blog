@@ -4,12 +4,25 @@
   padding-top: 2rem;
   display: inline-flex;
   text-align: center;
+  justify-content: space-between;
+  width:100%;
   span {
+    flex-grow:10;
     color: $default-shade;
     font-size: 1.1rem;
   }
 
+  a{
+    max-width: 50%;
+  }
 
+  .left{
+    text-align: left;
+  }
+
+  .right{
+    text-align: right;
+  }
 
   .arrow {
     @include transition(all .3s ease-out);
