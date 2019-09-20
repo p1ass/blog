@@ -21,6 +21,8 @@ share: true
 
 <!--more-->
 
+<script async class="speakerdeck-embed" data-id="0c518f77dec8474f99c6f80994ffbba3" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
 ## ゲーム内仮想通貨管理サービスとは
 
 アカツキでは、課金・決済といった各ソーシャルゲームが個々で作るのが大変な機能をサービスとして切り出し、APIとして機能を提供しています。
