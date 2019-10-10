@@ -2,7 +2,8 @@
 title: "Web APIでint64を返すのをやめよう"
 date: 2019-10-10T15:00:00+09:00
 draft: false
-description: 3週間ほどCyberAgentのAbemaTVというサービスでインターンをしてきました。Goを使った開発を行い、メモリリークやDBのセッションの持ち方、goroutine内でpanicが起きた時の対処など、今まで考えたことがなかったことを多く学ぶことができました。
+description: 久々にAPIを書いていて罠にハマったのでメモしておきます。 JavaScriptの数値は64ビット倍精度浮動小数点数です。よって、整数の場合は53ビットまでしか扱えないので、APIで53ビットより大きい数値を返すときはStringにしましょう。
+
 categories:
 - 開発
 tags:
