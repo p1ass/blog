@@ -111,6 +111,7 @@ ol {
   word-break: break-all; }
 
 .embed-wrapper-inner {
+  display: block;
   padding: 12px; }
 
 .embed-content.with-thumb {
@@ -123,24 +124,29 @@ ol {
   height: 100px; }
 
 .entry-body {
-  width: calc(100% - 100px);
+  color: #353535;
+  width: calc(100% - 120px);
+  margin-right: 20px;
   flex-grow: 1; }
 
 .embed-content .entry-title {
+  display: block;
   font-size: 17px;
-  margin: 0 0 2px;
+  margin: 0 0 8px;
   line-height: 1.3;
   max-height: 47px;
   overflow: hidden; }
 
 .embed-content .entry-content {
+  color: #666;
   line-height: 1.5;
   font-size: 12px;
   max-height: 72px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; }
+  -webkit-line-clamp: 3;
+  margin-bottom: 4px; }
 
 .thumb {
   border: none; }
@@ -209,8 +215,6 @@ pre code {
     width: 4rem; }
   .post p {
     text-align: justify; }
-  .post a:hover {
-    text-decoration: underline; }
   .post img {
     margin: 0 auto 0.5rem; }
   .post img + em {

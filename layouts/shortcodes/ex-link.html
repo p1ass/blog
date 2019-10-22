@@ -10,23 +10,22 @@
 {{- $host := $urlInfo.Host -}}
  
 <div class="embed-wrapper">
-  <div class="embed-wrapper-inner">
+  <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="embed-wrapper-inner">
     <div class="embed-content with-thumb"> 
       <div class="entry-body">
-        <div class="entry-title">
-          <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">{{ $title }}</a>
-        </div>
+        <strong class="entry-title">
+          {{ $title }}
+        </strong>
         <div class="entry-content">
           {{ $description }}
         </div>
       </div>
       {{ if $imageUrl }}
       <div class="thumb-wrapper">
-        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
           <img src="{{ $imageUrl }}" class="thumb" alt="{{ $title }}">
-        </a>
       </div>
       {{ end }}
     </div>
-  </div>
+    <span>{{ $host }}</span>
+  </a>
 </div>
