@@ -2,7 +2,7 @@
 title: "Markdownで書いた実験レポートをTeX組版の美しいPDFに変換するDockerイメージを作った"
 date: 2019-10-26T16:00:48+09:00
 draft: false
-description: pandocという様々なフォーマットのドキュメントを相互変換するツールを使って、Markdownで書いた実験レポートをTeX組版の美しいPDFにする方法をご紹介します。数式や図表番号、LaTexコマンドにも対応しています。Dockerさえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できます。
+description: pandocという様々なフォーマットのドキュメントを相互変換するツールを使って、Markdownで書いた実験レポートをTeX組版の美しいPDFにする方法をご紹介します。数式や図表番号、LaTeXコマンドにも対応しています。Dockerさえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できます。
 categories:
 - 開発
 tags:
@@ -34,7 +34,7 @@ Markdownはシンプルなシンタックスで様々な表現ができ、多く
 
 <a href="example-3.jpg" target="_blank" rel="noopener noreferrer"><img src="example-3.jpg" alt="PDFの例3" ></a>
 
-Dockerイメージに全てをまとめてあるので、**Dockerさえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できる**ので、皆さん是非試してみてください。
+依存は全てDockerイメージにまとめてあるので、**Dockerさえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できる**ので、皆さん是非試してみてください。
 
 
 
@@ -48,13 +48,13 @@ Dockerイメージに全てをまとめてあるので、**Dockerさえあれば
 - セクション番号の自動付与
 - LaTeX形式の数式入力
 - 数式・図表番号とその参照
-- LaTexコマンド
+- LaTeXコマンド
 - マークダウンの様々な記法がそのまま使用可能
 - etc...
 
 このように様々な特徴があります。
 
-**「Wordで書くと番号付けや数式入力が面倒くさいからLaTexで書いているけど、LaTexの文法も上長で面倒くさい、、、😔」**
+**「Wordで書くと番号付けや数式入力が面倒くさいからLaTeXで書いているけど、LaTeXの文法も上長で面倒くさい、、、😔」**
 という人にはとてもおすすめできます。
 
 実際の変換前のMarkdownファイルとPDFファイルは次のリンク先から見ることができます。
@@ -135,13 +135,13 @@ $ mdtopdf INPUT.md
 $ w-mdtopdf INPUT.md
 {{< /highlight >}}
 
-**zshの人** : `.bash_profile`を`.zshrc`にしてください。  
-**Ubuntuの人** : `.bash_profile`を`.bashrc`にしてください。
+zsh: `.bash_profile` を `.zshrc` にしてください。  
+Ubuntu: `.bash_profile` を `.bashrc` にしてください。
 
 
 ### Markdownファイルをtexファイルに変換する
 
-Tex組版を使っていることからも分かる通り、今回のPDF生成は内部的には一度texファイルにしてから行っています。
+TeX組版を使っていることからも分かる通り、今回のPDF生成は内部的には一度texファイルにしてから行われています。
 そのため、その中間ファイルを生成することもできます。
 
 {{< highlight bash >}}
@@ -156,7 +156,7 @@ $ docker run -it --rm -v `pwd`:/workdir  plass/mdtopdf mdtotex INPUT.md
 
 {{< ex-link url="https://pandoc.org/" >}}
 
-pandocはMarkdownやHTML、EPUB、Word、LaTex、PDFなど多種多様なドキュメントフォーマットを相互に変換してくれるHaskell製のツールです。
+pandocはMarkdownやHTML、EPUB、Word、LaTeX、PDFなど多種多様なドキュメントフォーマットを相互に変換してくれるHaskell製のツールです。
 Windows、macOS、Linuxなどに対応していて大体の環境では動くと思われます。
 
 
@@ -180,7 +180,7 @@ pandoc -s -N ${input%.*}.md -o ${input%.*}.pdf \
 `-N`オプションで自動でセクション番号を付与してくれます。
 
 `-F pandoc-crossref`では{{< link href="https://github.com/lierdakil/pandoc-crossref" text="pandoc-crossref" >}}という相互参照のためのフィルタを使っています。
-次の行の`-M "crossrefYaml=/config/crossref_config.yaml"`と合わせて、図表番号を正しく表示できるようにしています。
+次の行の`-M "crossrefYaml=..."`と合わせて、図表番号を正しく表示できるようにしています。
 
 {{< highlight yaml >}}
 figureTitle: '図'
