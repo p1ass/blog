@@ -1,0 +1,252 @@
+---
+title: "Goではどんなライブラリがデータベースにアクセスするときにベストか考える"
+date: 2019-12-01T00:00:00+09:00
+draft: false
+description: Goのdatabase/sqlパッケージは標準ライブラリとして必要な機能を提供していますが、欲しい機能がなく、サードパーティのライブラリを使うことがあります。ではそのライブラリをどのように選べばいいのでしょうか？この記事では、Goでデータベースをアクセスするときに何を求めるのかを考えつつ、sqlx、gorm、gorpを比較していきます。
+categories:
+- 開発
+tags:
+- Go
+- MySQL
+eyecatch: /posts/go-database-sql-wrapper/ogp.jpg
+share: true
+---
+
+この記事は{{< link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >}}の1日目の記事です。
+
+## はじめに
+
+Go のメジャーバージョンはいつの間にか5まで到達していたようですね、[@p1ass](https://twitter.com/p1ass)です。
+
+Goでデータベースにアクセスするときに使うライブラリは{{< link href="https://golang.org/pkg/database/sql/" text="database/sql" >}}やそれをラップした{{< link href="https://github.com/jmoiron/sqlx" text="sqlx">}},{{< link href="https://github.com/jinzhu/gorm" text="gorm">}},{{< link href="https://github.com/go-gorp/gorp" text="gorp">}}など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
+
+おそらく様々な理由があってどれか(ここに挙げられていないものかもしれない)を使っているでしょう。
+しかし、それは本当にベストな選択だったのでしょうか？
+
+この記事では、Goでデータベースをアクセスする際に、どんな機能が必要かを考えつつ、上に挙げたのライブラリを比較していきます。
+あくまでこの記事で述べるのは僕個人の意見ですが、この記事を通して皆さんが改めてライブラリ選定を考えるきっかけになれば幸いです。
+
+<!--more-->
+
+## 標準ライブラリの database/sql の役割を知る
+
+Go には{{< link href="https://golang.org/pkg/database/sql/" text="database/sql" >}}という標準ライブラリが存在します。
+ここでは改めて database/sql の役割を見ます。
+
+{{< link href="https://golang.org/pkg/database/sql/" text="godoc" >}}には database/sql について以下のように書かれています。
+
+> Package sql provides a generic interface around SQL (or SQL-like) databases.
+> The sql package must be used in conjunction with a database driver. See https://golang.org/s/sqldrivers for a list of drivers.
+
+database/sql は SQL に関する汎用的な機能を提供してます。
+コネクションの管理や、クエリの発行、トランザクションなどが当たります。
+
+また、データベースの違いによる差異を吸収するために{{< link href="https://golang.org/pkg/database/sql/driver/" text="database/sql/driver" >}}にインターフェイスが定義されています。これを実装することで、どのデータベースに対しても内部的に同じAPIでアクセスすることができるようになっています。
+Driver の実装は golang/go の{{< link href="https://github.com/golang/go/wiki/SQLDrivers" text="wiki" >}}に一覧でまとまっていてます。
+
+## database/sqlに足りないものは?
+
+とはいえ、database/sql は決してリッチなライブラリではありません。
+
+Goの設計思想の中に{{< link href="https://talks.golang.org/2015/simplicity-is-complicated.slide" text="Simplicity" >}}があるように、他の言語とは違い多くの機能を標準で提供していません。
+
+例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ一つ一つごとに引数でを渡す必要があります。
+
+{{< highlight go>}}
+rows, err := db.Query("SELECT id, name FROM users LIMIT 10")
+if err != nil {
+  log.Println(err)
+  os.Exit(1)
+}
+defer rows.Close()
+
+type user struct{
+  ID int32
+  Name string
+}
+
+var us []*user
+
+for rows.Next() {
+  u := &user{}
+  if err := rows.Scan(&u.ID, &u.Name); err != nil {
+    log.Println(err)
+    os.Exit(1)
+  }
+  us = append(us,u)
+}
+{{< /highlight >}}
+
+勿論これでもデータベースからデータも持ってくるという役割を果たせており、標準ライブラリとしては必要な機能を提供しています。
+
+しかし、実際に使う上では、少々面倒くさいと感じる人が多いと思います。そういった場合はサードパーティのライブラリを使用します。
+
+## 私がサードパーティのライブラリに求めるもの
+
+それでは、サードパーティのライブラリにどのような機能を求めているでしょうか？
+いくつか考えられるものを挙げてみました。
+
+- 構造体へのマッピング
+- 学習コストが低い
+- 素のSQLを書きたい or 書きたくない
+
+１つ目の「構造体へのマッピング」は上で述べた通りです。Go で database/sql のラッパーライブラリを使う理由では最も大きいものではないでしょうか？
+これは今回比較する sqlx, gorm, gorp 全てで提供されています、
+
+2つ目の「学習コストが低い」はライブラリ選定で一般的に言えることだと思います。Rails における Active Recordのような学習コストが高いが高機能を提供するライブラリも存在しますが、Goらしくないという理由で却下される場合が多いように感じます。
+
+3つ目の「素のSQLを書きたい or 書きたくない」は2つ目とも関連してくる内容です。
+**SQLはアプリケーションで使われているプログラミング言語に囚われることなく使うことができます。**そのため、今までJavaを書いていた人がGoのアプリケーションを開発することになっても、SQLの知識はそのまま転用できます。また、複雑なクエリを発行する際にはSQLを直接書いたほうが見通しがよく、インデックスが効かないなどのパフォーマンス上の問題がおきにくいでしょう。
+
+高機能なライブラリではメソッドチェーンなどを用いて、SQLを意識せずにクエリを発行できるようになっています。これは一度覚えてしまえば非常に便利に使うことができますが、SQLの知識をそのまま転用することはできず、ライブラリの学習コストが発生します。
+とはいえ、SQLを書くのが面倒くさいと感じる人がいるのも事実です。
+
+「学習コスト」と「利便性」をどちらを選ぶかは非常に難しい問題です。
+そこで、一歩踏み込んで、**どんな場合にSQLを書いたほうが良いのか**について考えてみます。
+
+## 本当に全てのSQLを書きたいのか？
+
+ここでは基本的な CRUD の SQL を database/ sql にならって Query と Exec に分けて考えます。
+Query は副作用のない `SELECT`、Exec は副作用のある `INSERT` や、`UPDATE`、`DELETE` に当たります。
+
+### Query
+
+Query、すなわち `SELECT` は往々にして複雑になりがちです。
+複数テーブルの `JOIN` や `WHERE`、`GROUP BY` などを多用するとどんどん複雑になっていきます。
+
+これをメソッドチェーンで実装するとパット見で正しいクエリが発行できているのか分からず、これなら最初からSQLを書いたほうが良かったんじゃないかと思うようになります。
+
+そのため、私は Query は見通しの良さのためにそのままSQLを書く方が良いと考えています。
+
+### Exec
+
+それでは Exec はどうでしょうか？
+
+Exec は Query とは対照的に単純になりがちです。構造体で持っているフィールドをそのままDBに反映させるだけのことが大半であり、特に複雑ではありません。しかし、テーブルのカラムが多い場合、`INSERT` や `UPDATE` のSQLを書くのは正直面倒くさいです。これをライブラリ側で隠蔽してしまっても、合計3つの関数を覚えるだけで良いので、ほとんど学習コストは増えないと考えられます。
+
+そのため、Exec は database/sql のラッパーライブラリにまかせてしまった方が良いと考えています。
+
+まとめると、SQLを書きたいと思うのは `SELECT` のみであって、他はよしなにライブラリ側でやってほしいと(私は)考えています。
+
+## 3つのライブラリを比較する
+
+以上の議論を踏まえて、{{< link href="https://github.com/jmoiron/sqlx" text="sqlx">}},{{< link href="https://github.com/jinzhu/gorm" text="gorm">}},{{< link href="https://github.com/go-gorp/gorp" text="gorp">}}の3つのライブラリを比較します。
+
+### sqlx
+
+{{< ex-link url="https://github.com/jmoiron/sqlx" >}}
+
+sqlx は非常に軽量な database/sql のラッパーライブラリです。後述する2つよりは機能は少ないですが、構造体へのマッピングや名前付きパラメータに対応しています。軽量ということで、基本的に SQL は Query、Exec 問わず書く必要があります。
+
+{{< highlight go>}}
+type Person struct {
+    FirstName string `db:"first_name"`
+    LastName  string `db:"last_name"`
+    Email     string `db:"email"`
+}
+
+db, _ := sqlx.Connect("sqlite3", "test.db")
+
+people := []Person{}
+db.Select(&people, "SELECT * FROM person ORDER BY first_name ASC")
+
+db.NamedExec("INSERT INTO person (first_name, last_name, email) VALUES (:first_name, :last_name, :email)", &Person{"Jane", "Citizen", "jane.citzen@example.com"})
+{{< /highlight >}}
+
+SQL は全部手で書きたいんだ！という人にオススメです。また、database/sql と同じ API なのも良いポイントです。
+
+私は以前 sqlx を使っていたのですが、Exec はライブラリ側でやってほしいと思うようになってから使用をやめました。
+
+### gorm
+
+{{< ex-link url="https://github.com/jinzhu/gorm" >}}
+
+gorm は sqlx とは対照的に高機能なライブラリです。公式で `Full-Featured ORM (almost)` を謳っています (GoでORMという単語が正しいのかは議論の対象外とします)。
+特に Ruby on Rails などを使ってた人が Go を書く時に使う印象があります。
+
+Query はメソッドチェーンで記述することができ、Exec も関数を呼び出すことで実行できます。そのため SQL を書く必要はありません。
+
+{{< highlight go>}}
+type Person struct {
+    FirstName string `gorm:"first_name"`
+    LastName  string `gorm:"last_name"`
+    Email     string `gorm:"email"`
+}
+
+db, err := gorm.Open("sqlite3", "test.db")
+
+people := []Person{}
+db.Order("first_name asc").Find(&people)
+
+db.Create(&Person{"Jane", "Citizen", "jane.citzen@example.com"})
+{{< /highlight >}}
+
+なお、一応 Query で SQL を書くことも可能です。
+
+{{< highlight go>}}
+type Result struct {
+  Name string
+  Age  int
+}
+
+var result Result
+db.Raw("SELECT name, age FROM users WHERE name = ?", 3).Scan(&result)
+{{< /highlight >}}
+
+gorm は Query は SQL で、Exec はライブラリ側で行うように記述することができるため、私の考えるSQLを書くべきかどうかの考えを適用することができます。
+
+しかし、SQL を書くことはあくまでオプションとして提供されているに過ぎません。複数人開発となると、SQL を書かない人が出てきて、SQL が書かれているものと書かれていないものの2種類が存在する可能性があります。この状況は将来的に負債となる可能性が高いです。
+
+そのため、gorm の採用は見送っています。
+
+
+### gorp
+
+{{< ex-link url="https://github.com/go-gorp/gorp" >}}
+
+最後は gorp です。
+
+gorp は先の2つの中間に当たるライブラリです。 Query はデフォルトで SQL を書く仕様になっていますが、Exec はライブラリ側がAPIを用意しています。
+
+{{< highlight go>}}
+type Person struct {
+    FirstName string `db:"first_name"`
+    LastName  string `db:"last_name"`
+    Email     string `db:"email"`
+}
+
+db, err := sql.Open("sqlite3", "test.db")
+dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
+dbmap.AddTableWithName(Person{}, "person").SetKeys(true, "email")
+
+var people []Person
+_, err = dbmap.Select(&posts, "SELECT * FROM person ORDER BY first_name ASC")
+
+err = dbmap.Insert(&Person{"Jane", "Citizen", "jane.citzen@example.com"})
+{{< /highlight >}}
+
+この仕様は私が求めていたものにぴったりです。
+Execの為にテーブルとの関連付け用の関数 `AddTableWithName` を呼ぶ必要がありますが、大した問題にはならないでしょう。
+
+今現在は gorp を主に使って開発を行っています。
+
+## まとめ
+
+私が考える database/sql のラッパーライブラリに求めるものは、
+
+- 構造体へのマッピング
+- 学習コストが低い
+- Query は SQL を書きたい
+- Exec は SQL を書きたくない
+
+の4つでした。
+
+この4つの要件を満たすライブラリは gorp でした。勿論他にもラッパーライブラリは存在しますが、この要件を満たしつつ、有名な (Starが多い) ライブラリはないのではないでしょうか。
+
+今回は私個人の考えからどのライブラリが適切かを考えましたが、人によって求めるものは異なると思います。今一度自分が何を求めるか考えてみると良いかもしれません。
+
+明日の{{< link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >}}の2日目はsoichisumiさんの記事になります。お楽しみに。
+
+## 合わせて読みたい
+
+{{< ex-link url="https://blog.p1ass.com/posts/go-con/" >}}
