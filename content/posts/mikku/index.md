@@ -41,7 +41,7 @@ mikkuはセマンティックバージョニングで管理しているリポジ
 
 Helmなどのパッケージマネージャは使っておらず、シンプルなスタイルで運用しています。
 
-イメージのビルドやkubectl applyはCircleCIで行っています。なるべくGitHubとCircleCIで全てが完結するようにしています。
+イメージのビルドや `kubectl apply` はCircleCIで行っています。なるべくGitHubとCircleCIで全てが完結するようにしています。
 
 ### 2つの辛さ
 
