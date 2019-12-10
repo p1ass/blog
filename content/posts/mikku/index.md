@@ -53,7 +53,7 @@ Helmなどのパッケージマネージャは使っておらず、シンプル�
 
 2つ目はGitHub Releaseの作成が面倒くさいことです。
 
-タグを切るのに合わせてGitHub Releaseを作成しているのですが、真面目にChangelogなどを書いています。
+タグを切るのに合わせてGitHub Releaseを作成しているのですが、毎回真面目にChangelogなどを書いています。
 しかし、Bug Fixなどで短時間に何回も作業しているとかなり面倒くさいです。
 
 このような問題を解決できるCLIツールが欲しいなと思ったので、{{< link href="https://github.com/p1ass/mikku" text="mikku" >}}を作成しました。
@@ -175,7 +175,7 @@ $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
 $ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 {{< /highlight >}}
 
-{{< link href="https://github.com/p1ass/mikku" text="mikku" >}}では`{{.Owner}}`と`{{.Repository}}`をテンプレートとして使えるようになっています。
+{{< link href="https://github.com/p1ass/mikku" text="mikku" >}}では`{{.Owner}}`、`{{.Repository}}`をテンプレートとして使えるようになっています。
 
 マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。そのため、テンプレートを使うことで**設定を何度も書き換えることなく使い回せるようになります**。ただ単にコマンドラインオプションで渡すのではなく、環境変数でも設定できるのはこのためです。
 
