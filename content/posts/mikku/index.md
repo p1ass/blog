@@ -1,6 +1,6 @@
 ---
-title: Kubernetesのイメージタグの更新を楽にするツールを作った
-date: 2019-12-06T00:00:00+09:00
+title: Kubernetesのイメージタグの更新を楽にするCLIツールをGoで作った
+date: 2019-12-10T00:00:00+09:00
 draft: false
 description: 今回は自分が作ったp1ass/mikkuというCLIツールを紹介をします。mikkuはセマンティックバージョニングで管理しているリポジトリの管理や、KubenetesのマニフェストにかかれているDockerイメージのタグの更新を楽にするCLIツールです。この記事ではmikkuの特徴、開発することにしたモチベーションや苦労した点などを紹介したいと思います。
 categories:
@@ -14,7 +14,7 @@ eyecatch: /posts/mikku/ogp.jpg
 share: true
 ---
 
-この記事は{{< link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}}の13日目の記事です。
+この記事は{{< link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}}の11日目の記事です。
 
 ## はじめに
 
@@ -32,12 +32,12 @@ mikkuはセマンティックバージョニングで管理しているリポジ
 
 ## モチベーション
 
-実際に機能などを紹介する前に、なんでこのツールを作ろうと思ったのかのモチベーションについて述べておきます。
+実際に機能などを紹介する前に、なんでこのツールを作ろうと思ったのかのモチベーションについて書いておきます。
 
-### 前提 : Kubernetesの運用
-私は趣味でGKEを運用していて、個人開発のWebサービスなどを様々なものをGKE上で動かしています。
+### 前提 : Kubernetesの運用方法
+私は趣味でGKEを運用していて、個人開発のWebサービスなどをGKE上で動かしています。
 
-マニフェストファイルは1つのリポジトリで管理で中央集権的に管理していて、プロダクトのソースコードは別のリポジトリで管理しています。マイクロサービス的な文脈で言うのであれば、poly repoな構成に近いです。
+マニフェストファイルは1つのリポジトリで中央集権的に管理していて、プロダクトのソースコードは別のリポジトリで管理しています。マイクロサービス的な文脈で言うのであれば、poly repoな構成に近いです。
 
 Helmなどのパッケージマネージャは使っておらず、シンプルなスタイルで運用しています。
 
@@ -53,33 +53,31 @@ Helmなどのパッケージマネージャは使っておらず、シンプル�
 
 2つ目はGitHub Releaseの作成が面倒くさいことです。
 
-タグを切るのに合わせてGitHub Releaseを作成しているのですが、ちゃんとChangelogを書いています。
+タグを切るのに合わせてGitHub Releaseを作成しているのですが、真面目にChangelogなどを書いています。
 しかし、Bug Fixなどで短時間に何回も作業しているとかなり面倒くさいです。
 
-このような問題を解決するために{{< link href="https://github.com/p1ass/mikku" text="mikku" >}}は作成されました。
+このような問題を解決できるCLIツールが欲しいなと思ったので、{{< link href="https://github.com/p1ass/mikku" text="mikku" >}}を作成しました。
 
 ## 機能
 
 {{< link href="https://github.com/p1ass/mikku" text="mikku" >}}の大まかな機能を以下の２つです。
 
-- KubernetesのマニフェストファイルにかかれているDockerイメージのタグを新しいものに書き換えるPull Requestを作成
+- Kubernetesのマニフェストファイルに書かれているDockerイメージのタグを最新のものに書き換えるPull Requestを作成
 - セマンティックバージョニングで管理しているリポジトリのバージョンをあげるGitHub Releaseを作成
 
 	
-## 使い方
-
-### インストール方法
+## インストール方法
 
 `go get` もしくは GitHub Releasesからバイナリをダウンロードしてください。
 
-#### go get
+### go get
 
 {{< highlight bash>}}
 $ GO111MODULE=off go get github.com/p1ass/mikku/cmd/mikku
 $ mikku --help
 {{< /highlight >}}
 
-#### GitHub Releases
+### GitHub Releases
 
 WindowsやLinuxをお使いの方は `darwin_amd64` をそれぞれ `windows_amd64` か `linux_amd64` に書き換えてください。
 
@@ -106,7 +104,7 @@ $ mikku --help
 
 ### 事前準備 : GitHubのPersonal access tokenを発行する
 
-GitHubのPersonal Access Tokenが必要なので発行してください。**repo**の権限が必要です。
+GitHubのPersonal access tokenが必要なので発行してください。**repo**の権限が必要です。
 
 {{< ex-link url="https://github.com/settings/tokens" >}}
 
@@ -125,7 +123,10 @@ $ export MIKKU_GITHUB_OWNER=[GITHUB_OWNER_NAME]
 
 ### mikku pr コマンド
 
-KubernetesのマニフェストファイルにかかれているDockerイメージのタグを最新のリリースのものに更新するPRを作成します。
+KubernetesのマニフェストファイルにかかれているDockerイメージのタグを最新のリリースのものに更新するPRを作成するコマンドです。
+
+![スクリーンショット](https://raw.githubusercontent.com/p1ass/mikku/master/images/diff.png)
+_スクリーンショット_
 
 {{< highlight bash>}}
 $ export MIKKU_MANIFEST_REPOSITORY=sample-manifest-repository
@@ -135,25 +136,14 @@ $ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 $ mikku pr sample-repository
 {{< /highlight >}}
 
+
 #### 環境変数
 
 これらの設定はコマンドラインオプションで上書きできます。
 
 - `MIKKU_MANIFEST_REPOSITORY` : マニフェストファイルがあるリポジトリを指定します
-- `MIKKU_MANIFEST_FILEPATH` : 実際のファイルを指定します。
+- `MIKKU_MANIFEST_FILEPATH` : 実際のファイルを指定します
 - `MIKKU_DOCKER_IMAGE_NAME` : Dockerイメージの名前を指定します
-
-
-実行するとこんな感じに書き換えます。
-
-{{< highlight bash>}}
-spec:
-    containers:
-    - name: sample-repository-container
-        image: p1ass/sample-repository:v1.0.0
-        ↓ 置き換え
-        image: p1ass/sample-repository:v1.0.1
-{{< /highlight >}}
 
 
 
@@ -164,6 +154,10 @@ spec:
 {{< highlight bash>}}
 $ mikku release <repository> <major | minor | patch | (version)>
 {{< /highlight >}}
+
+![スクリーンショット](https://raw.githubusercontent.com/p1ass/mikku/master/images/changelog.png)
+_スクリーンショット_
+
 
 #### オプション
 - patch : Ex. v1.0.0 → v1.0.1
@@ -183,9 +177,7 @@ $ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 
 {{< link href="https://github.com/p1ass/mikku" text="mikku" >}}では`{{.Owner}}`と`{{.Repository}}`をテンプレートとして使えるようになっています。
 
-マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。
-そのため、テンプレートを使うことで設定を何度も書き換えることなく使い回せるようになります。
-ただ単にコマンドラインオプションで渡すのではなく、環境変数にも設定できるのはこのためです。
+マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。そのため、テンプレートを使うことで**設定を何度も書き換えることなく使い回せるようになります**。ただ単にコマンドラインオプションで渡すのではなく、環境変数でも設定できるのはこのためです。
 
 
 
@@ -196,17 +188,29 @@ $ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 ### Slack Bot 🤖
 
 一番やりたいのはSlack Bot対応です。
-Slack Botにすれば他の開発者はチャンネルでコマンドを叩けば使えるようになるかなぁと思ってます。
 
-## まとめ
+Slack Botにすれば他の開発者はチャンネルでコマンドを叩けるようになり、便利に使えるようになるかなぁと思ってます。自分のインターン先に同じような機能のBotがいたのにも影響されてます。
 
-3行でまとめるとこんな感じです。
+### Homebrewでインストールできるようにする
 
-- Kubernetesのマニフェスト管理が面倒くさい
-- この問題を解決するために{{< link href="https://github.com/p1ass/mikku" text="mikku" >}}というOSSを作りました
-- 今後も開発を続けていきたい
+せっかくなので `brew` でインストールできるようにしたいなぁと思ってます。
 
-以上になります。
+本家のリポジトリからインストールできるようにするには、ある程度のStarが必要らしい (要出典) なので、まずは多くの人に使ってもらえるようにしたいですね。
+
+## おわりに
+
+今回初めてCLIツールを作りましたが、Goではとても簡単に作ることができ感動しました。
+
+また、GitHub Actionsを使うことでバイナリの生成などをGitHubで完結するようにできたのも良いですね。
+
+Issue、PR、Starなどはいつでも大歓迎なので、使いにくかったり、バグがあったりしたら気軽にお願いします！
+
+{{< ex-link url="https://github.com/p1ass/mikku" >}}
+
 
 明日の{{< link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}}の担当は{{< link href="https://note.mu/tomokortn" text="tomokortn" >}}さんです。お楽しみに！
+
+## 合わせて読みたい
+
+{{< ex-link url="https://blog.p1ass.com/posts/go-database-sql-wrapper/" >}}
 
