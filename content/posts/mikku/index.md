@@ -1,6 +1,6 @@
 ---
 title: Kubernetesのイメージタグの更新を楽にするCLIツールをGoで作った
-date: 2019-12-10T00:00:00+09:00
+date: 2019-12-11T00:00:00+09:00
 draft: false
 description: 今回は自分が作ったp1ass/mikkuというCLIツールを紹介をします。mikkuはセマンティックバージョニングで管理しているリポジトリの管理や、KubenetesのマニフェストにかかれているDockerイメージのタグの更新を楽にするCLIツールです。この記事ではmikkuの特徴、開発することにしたモチベーションや苦労した点などを紹介したいと思います。
 categories:
