@@ -185,11 +185,7 @@ plt.savefig("polar_plot.png")
 
 ![Jupyter Notebook](jupyter.png)
 
-以下のGitHubのリンク先からダウンロードできます。
-
-緑色の `Clone or download` を押すとzipファイルで落とすことができます。
-
-是非見てください！（GitHubアカウントをお持ちの方はStarもお待ちしています）
+以下のGitHubのリンク先からダウンロードできるので、是非見てください！（GitHubアカウントをお持ちの方はStarもお待ちしています）
 
 {{< ex-link url="https://github.com/p1ass/kuee-practice-template" >}}
 
