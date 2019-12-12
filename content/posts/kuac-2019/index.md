@@ -193,7 +193,7 @@ plt.savefig("polar_plot.png")
 
 今回の記事では電電実験をいかにして効率的にこなしていくかを紹介しました。
 
-実践できるものはしていって、効率的に実験をこなしていきましょう💪
+自分にできそうなものから実践していって、効率的に実験をこなしていきましょう💪
 
 明日の{{< link href="https://adventar.org/calendars/4251" text="Kyoto University Advent Calendar 2019" >}}は電電さんです。奇遇にも**電電**ですね。お楽しみに！
 
