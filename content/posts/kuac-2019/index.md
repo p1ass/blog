@@ -183,11 +183,15 @@ plt.savefig("polar_plot.png")
 
 そこで、実験で使えそうなプロットやデータの読み込みを関数化して使いやすくしたコードが含まれたJupyter Notebookファイルを公開します。
 
+![Jupyter Notebook](jupyter.png)
+
 以下のGitHubのリンク先からダウンロードできます。
 
 緑色の `Clone or download` を押すとzipファイルで落とすことができます。
 
 是非見てください！（GitHubアカウントをお持ちの方はStarもお待ちしています）
+
+{{< ex-link url="https://github.com/p1ass/kuee-practice-template" >}}
 
 ## 終わりに
 
