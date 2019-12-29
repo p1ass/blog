@@ -7,7 +7,7 @@ categories:
 - 開発
 tags:
 - Computer Science
-eyecatch: /posts/abema-intern/ogp.jpg
+eyecatch: /posts/i-do-not-understand-cs/ogp.jpg
 share: true
 ---
 
