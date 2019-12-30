@@ -12,6 +12,7 @@ tags:
 - CAMPHOR-
 - アニメ
 - 伊藤美来
+- SHIROBAKO
 eyecatch: /posts/review-of-2019/ogp.jpg
 share: true
 ---
@@ -128,13 +129,21 @@ _GitHubの草_
 
 来年は研究室配属があって今後が不透明なのですが、ブラックな研究室に放り込まれないように、リサーチをしつつ、ワークライフバランスを保って生活したいです。
 
+## 就活
+
+21卒なので就活をしてます。内定は複数ありますがどこに行くかは決めてません。選考も全部終わってません。
+
+行くところを決めたらブログを書くので、ここではこの程度に留めておきます。
+
 ## 趣味
 
-ここからは本当に興味がある人だけで大丈夫で
+ここから先は本当に興味がある人だけで大丈夫です。
 
 ### フェス・クラブ
 
-**酒を飲みながら爆音で音楽を聞けるのは最高だ**ということに気づいてしまってから、時間を見つけては行ってます。
+**酒を飲みながら爆音で音楽を聞けるのは最高だ**ということに気づいてしまってから、時間を見つけては足を運んでます。
+
+ダンスミュージックが好きな人は一度足を運んでみましょう！
 
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">サマソニ！！ <a href="https://t.co/IeEbxQR55n">pic.twitter.com/IeEbxQR55n</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1162898390188822528?ref_src=twsrc%5Etfw">August 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -150,9 +159,7 @@ _GitHubの草_
 
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">大江戸コントローラー <a href="https://twitter.com/hashtag/%E6%9C%AA%E6%9D%A5%E8%8C%B6%E4%BC%9A?src=hash&amp;ref_src=twsrc%5Etfw">#未来茶会</a> <a href="https://t.co/nF5RHSYNsB">pic.twitter.com/nF5RHSYNsB</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1130074286583046144?ref_src=twsrc%5Etfw">May 19, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-### オタクコンテンツ
-
-#### みっく
+### 推し
 
 今年のメイントピックは**伊藤美来の推し**になったことです。
 
@@ -161,8 +168,38 @@ _GitHubの草_
 ライブにも行きました。最高以外の言葉がないですね。
 
 ![ライブ後の飲み](mikku_live.jpg)
-_ライブ後の飲みでペンライトの写真を取る人の図_
+_ライブ後の飲みでペンライトの写真を撮る人の図_
 
  ちなみに{{< link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}}は推しの名前にちなんでます。
 
-#### 
+### SHIROBAKO熱
+
+来年SHIROBAKOの映画が公開されるということもあり、SHIROBAKOが自分の中でアツいです。Advent Calendarも書きました。
+
+{{< ex-link url="https://blog.p1ass.com/posts/shirobako-2019/" >}}
+
+**何回見ても良い作品なので、最初の方で脱落せずにとりあえず全部見てください！！！話はそれからです！！！**
+
+### 今年見たアニメ
+
+今年新規で見たアニメの中で、良かった作品は、
+
+- ヴァイオレット・エヴァーガーデン
+- まちカドまぞく
+- かぐや様は告らせたい
+- 鬼滅の刃
+- 天気の子
+- SAO3期
+- 彼方のアストラ
+
+でした。基本的にストーリーがある作品が好きなので、「まちカドまぞく」にハマってしまってしまったのは自分でも驚きです。
+
+これも全部 **「シャミ子が悪いんだよ」**
+
+## まとめ
+
+2019年は気づいたら終わってました。毎年同じようなことを言っている気がするのですが、毎年そう感じてしまうので仕方ないです。
+
+来年は「就活を終わらす」と「卒業する」という期限付きの大事な目標があるので、これだけはクリアしつつ、CAMPHOR-の代表として色々やっていきたいと思います。
+
+最後になりますが、今年一年本当にお世話になりました。来年もよろしくお願いします。
