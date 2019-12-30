@@ -174,6 +174,15 @@ Yunomiはやっぱり最The高
 ![ライブ後の飲み](mikku_live.jpg)
 _ライブ後の飲みでペンライトの写真を撮る人の図_
 
+また、LINE LIVEのプレミアムチャンネル(有料チャンネル)にも加入してしまいました。
+
+
+{{< ex-link url="https://live.line.me/channels/4120347/" >}}
+
+LINE LIVEでインターンしていた時は **「誰か課金するんだ、、、」** とか思っていたのですが、人間はチョロいですね。
+
+
+
  ちなみに{{< link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}}は推しの名前にちなんでます。
 
 ### SHIROBAKO熱
