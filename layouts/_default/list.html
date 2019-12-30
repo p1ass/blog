@@ -11,12 +11,12 @@
 		{{ if .Paginator.HasPrev }}
 			<a href="{{ .Paginator.Prev.URL }}" class="left arrow">&#8592;</a>
         {{ end }}
-       
+        <span>{{ .Paginator.PageNumber }}</span>
 		{{ if .Paginator.HasNext }}
 			<a href="{{ .Paginator.Next.URL }}" class="right arrow">&#8594;</a>
 		{{ end }}
+	
 	</div>
-	<div>{{ .Paginator.PageNumber }}</div>
 </main>
 
 {{ end }}
