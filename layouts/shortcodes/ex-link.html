@@ -16,15 +16,15 @@
         <strong class="entry-title">
           {{ $title }}
         </strong>
-        <div class="entry-content">
-          {{ $description }}
+        {{ if $imageUrl }}
+        <div class="thumb-wrapper">
+            <img src="{{ $imageUrl }}" class="thumb" alt="{{ $title }}">
         </div>
+        {{ end }}
       </div>
-      {{ if $imageUrl }}
-      <div class="thumb-wrapper">
-          <img src="{{ $imageUrl }}" class="thumb" alt="{{ $title }}">
+      <div class="entry-content">
+        {{ $description }}
       </div>
-      {{ end }}
     </div>
     <span>{{ $host }}</span>
   </a>
