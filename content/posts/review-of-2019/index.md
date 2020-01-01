@@ -70,10 +70,6 @@ _GitHubの草_
 {{< link href="https://github.com/p1ass/feeder" text="p1ass/feeder" >}} というライブラリと {{< link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}}  というCLIツールを公開しました。
 
 
-{{< ex-link url="https://github.com/p1ass/feeder" >}}
-
-{{< ex-link url="https://github.com/p1ass/mikku" >}}
-
 {{< ex-link url="https://blog.p1ass.com/posts/mikku/" >}}
 
 初めてOSSを作ったのですが、普段のWeb開発とは違った視点で設計やコーディングをする必要があってとても悩まされました。
@@ -84,17 +80,14 @@ _GitHubの草_
 
 今年は5つのインターンに行きました。
 
-{{< ex-link url="https://blog.p1ass.com/posts/aktsk-intern/" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/aktsk-intern/" text="ドメインロジックと永続化処理を分離する設計改善を行って得られた知見 - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/abema-intern/" text="CyberAgentのAbemaTVでインターンしてきた話 - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/dena-intern/" text="DeNAのエンジニアサマーインターンで優勝してきた - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/line-intern/" text="LINEの就業型インターンに参加してきた - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" text="Cyber Agentのインターン「Architecture Challenge」に参加してきた - ぷらすのブログ" >}}
 
-{{< ex-link url="https://blog.p1ass.com/posts/abema-intern/" >}}
-
-{{< ex-link url="https://blog.p1ass.com/posts/dena-intern/" >}}
-
-{{< ex-link url="https://blog.p1ass.com/posts/line-intern/" >}}
-
-{{< ex-link url="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" >}}
-
-自分でも「多すぎやろ！」とツッコミたくなるのですが、色んな会社の開発現場をこんな短期間で見て回れるのはこの先ないと思うので、参加して良かったです。
+自分でも「多すぎやろ！」とツッコミたくなるのですが、色んな会社の開発現場をこんな短期間で見て回れるのはこの先ないと思うので、参
+加して良かったです。
 
 また、他の学生や社員との相対的な立ち位置を知ることができました。自分が得意なこと、不得意なことを知ることができる良い経験でした。
 
