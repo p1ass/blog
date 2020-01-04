@@ -39,9 +39,25 @@
   .sns_button + .sns_button {
     margin: 0 0 0 12px;
   }
-  
+
+  .twitter{
+    box-shadow: inset 0 0 0 2px #1B95E0;
+  }
+
+  .twitter i{
+    color: #1B95E0;
+  }
+
   .twitter:hover a {
     color: #1B95E0;
+  }
+
+  .facebook{
+    box-shadow: inset 0 0 0 2px #3B5999;
+  }
+
+  .facebook i{
+    color: #3B5999;
   }
   
   .facebook:hover a {
@@ -56,8 +72,24 @@
     color: #2b5c84;
   }
   
+  .pocket{
+    box-shadow: inset 0 0 0 2px #EE4056;
+  }
+
+  .pocket i{
+    color: #EE4056;
+  }
+
   .pocket:hover a {
     color: #EE4056;
+  }
+
+  .hatena{
+    box-shadow: inset 0 0 0 2px #4BA3D9;
+  }
+
+  .hatena i{
+    color: #4BA3D9;
   }
   
   .hatena:hover a {
