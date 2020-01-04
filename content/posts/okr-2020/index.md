@@ -34,7 +34,7 @@ share: true
 
 ## OKRとは？
 
-{{< link href="https://blog.p1ass.com/posts/review-of-2019/" text="Google re:Workのサイト" >}}によると、OKRは目標と成果指標 (Objectives and Key Results) を設定することで、難易度の高い目標を掲げて進捗状況を確認できるようにするための手法です。
+{{< link href="https://rework.withgoogle.com/jp/guides/set-goals-with-okrs/steps/introduction/" text="Google re:Workのサイト" >}}によると、OKRは目標と成果指標 (Objectives and Key Results) を設定することで、難易度の高い目標を掲げて進捗状況を確認できるようにするための手法です。
 
 目標には簡単には達成できないもの (**ストレッチゴール**) を設定します。これは70%達成できれば成功と言えるようなものします。簡単に達成できないような目標を設定することで、チームは大きな目標を見据えて専心し、完全には達成できなくても予想外の成果を挙げられるようになることが狙いのようです。
 
