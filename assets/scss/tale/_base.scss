@@ -146,9 +146,9 @@
 }
 
 
-.thumb-wrapper{
-  width: 100px;
-}
+// .thumb-wrapper{
+//   width: 100px;
+// }
 
 .entry-body{
   color: $default-color;
@@ -188,5 +188,7 @@
 
 .thumb{
   border:none;
+  max-height: 60px;
+  margin: 0;
 }
 
