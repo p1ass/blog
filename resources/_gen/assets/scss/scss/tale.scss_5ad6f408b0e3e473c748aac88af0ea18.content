@@ -567,7 +567,7 @@ footer {
 
 .fa-external-link-alt {
   padding-left: .4rem;
-  font-size: .9rem; }
+  font-size: .85rem; }
 
 .pagination {
   border-top: 0.5px solid #e5e5e5;
