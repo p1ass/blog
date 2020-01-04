@@ -13,7 +13,7 @@
   
   html {
     font-family: $serif-primary;
-    font-size: 14px;
+    font-size: 15px;
     overflow-y: scroll;
   
     @media (min-width: 600px) {
@@ -99,14 +99,13 @@
     text-align: justify;
     font-size: 1.03rem;
 
-    @media (max-width:600px){
-      font-size: 1.1rem;
-    }
   }
 
   ul{
     margin: 0 0 1.8em 2em;
     padding: 0;
+
+
   }
 
   li{

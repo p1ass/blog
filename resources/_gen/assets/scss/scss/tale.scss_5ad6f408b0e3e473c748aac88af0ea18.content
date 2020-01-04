@@ -13,7 +13,7 @@ body {
 
 html {
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
     html {
@@ -82,9 +82,6 @@ p {
   line-height: 1.9;
   text-align: justify;
   font-size: 1.03rem; }
-  @media (max-width: 600px) {
-    p {
-      font-size: 1.1rem; } }
 
 ul {
   margin: 0 0 1.8em 2em;
