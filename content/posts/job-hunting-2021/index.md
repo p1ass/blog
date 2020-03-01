@@ -163,9 +163,9 @@ Webサービス自体は今後も１ユーザとして応援していきたい�
 
 ### 選考まとめ
 
-というわけで、2内定、1落ち、1辞退という結果になりました。苦労したわけではないですが、内定総取りというわけでもないです。
+というわけで、2内定、1落ち、1辞退という結果になりました。苦労したわけではないですが、内定総取りというわけでもないです。内定はそれぞれ9月と11月に貰って、承諾したのは1月でした。
 
-内定はそれぞれ9月と11月に貰って、承諾したのは1月でした。
+各社のインターンや選考を受けていて感じたのは、それぞれの会社ごとに集まる学生の性格やスキルに特徴があることです。自分と似た性格の人が多いところや逆にちょっと違う人が多いなど、すぐ感じ取れるぐらいには分かります。合わない会社は少し注意した方が良いかもしれません。
 
 ## FAQ
 
@@ -306,41 +306,98 @@ Webサービス自体は今後も１ユーザとして応援していきたい�
 
 ## 参考
 
-就活をする上で沢山のネットの記事やブログを読みました。就活はセンシティブなものなので情報を集めるのは一苦労ですが、情報はとても役に立ちます。そこでそれらのうち役に立ったもののリンクを貼っておこうと思います。
-ハイパーリンクを使ってどんどん知見を共有していく文化ができたら良いなぁと思ってます。
+就活をする上で沢山のネットの記事やブログを読みました。就活はセンシティブなものなので情報を集めるのは一苦労ですが、情報はとても役に立ちます。そこで役に立った記事のリンクをまとめて貼っておこうと思います。結局昔ながらのハイパーリンクが最高説。被リンク大歓迎(?)
 
 ### 学生の記事
 
+ある会社に就職する人と退職した人が混ざっているのが面白いですね。
+
+- {{< link href="https://medium.com/@konnyaku256/%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC%E3%82%BA-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A21on1%E9%9D%A2%E8%AB%87%E4%BC%9A%E3%81%AB%E5%8F%82%E5%8A%A0%E3%81%97%E3%81%A6%E3%81%8D%E3%81%9F-1bbc94a18790" text="サポーターズ エンジニア1on1面談会に参加してきた - konnyaku256 - Medium " >}}
+- {{< link href="https://denden-seven.hatenablog.com/entry/2019/04/23/175329" text="逆求人イベントに行って疲れた話 - 電電のブログ" >}}
+- {{< link href="https://lorse.hatenablog.com/entry/2019/08/03/223000" text="2019サマーインターン選考記録 - La Vie en Lorse" >}}
+- {{< link href="https://denden-seven.hatenablog.com/entry/2019/08/11/203801" text="サマーインターン2019の選考記録． - 電電のブログ" >}}
+- {{< link href="https://saram.hatenablog.com/entry/2018/12/24/165357" text="大学院に行かないことにした - 知ったかぶらない " >}}
 - {{< link href="https://note.com/ss_shopetan/n/nba8cf2c11cc2" text="19卒としてWeb系エンジニア職のJobHuntingをしたのでまとめる" >}}
 - {{< link href="http://shopetan.hatenablog.com/entry/2018/12/21/000813" text="ソフトウェアエンジニアとして就職する時に考えたこと - 未来永劫" >}}
-- {{< link href="https://saram.hatenablog.com/entry/2018/12/24/165357" text="大学院に行かないことにした - 知ったかぶらない " >}}
-- {{< link href="https://medium.com/@konnyaku256/%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC%E3%82%BA-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A21on1%E9%9D%A2%E8%AB%87%E4%BC%9A%E3%81%AB%E5%8F%82%E5%8A%A0%E3%81%97%E3%81%A6%E3%81%8D%E3%81%9F-1bbc94a18790" text="サポーターズ エンジニア1on1面談会に参加してきた - konnyaku256 - Medium " >}}
 - {{< link href="https://www.creativ.xyz/job-search-926/" text="就職活動を終えました" >}}
 - {{< link href="https://www.creativ.xyz/post-20/" text=" 就職活動を終えました（第2期）" >}}
-- {{< link href="https://lorse.hatenablog.com/entry/2019/08/03/223000" text="2019サマーインターン選考記録 - La Vie en Lorse" >}}
-- {{< link href="https://denden-seven.hatenablog.com/entry/2019/04/23/175329" text="逆求人イベントに行って疲れた話 - 電電のブログ" >}}
-- {{< link href="https://denden-seven.hatenablog.com/entry/2019/08/11/203801" text="サマーインターン2019の選考記録． - 電電のブログ" >}}
 - {{< link href="http://kuxumarin.hatenablog.com/entry/2019/03/27/154414" text="20卒地方Fラン大のウェブ系就活記録 - くうと徒然なるままに" >}}
 - {{< link href="https://anond.hatelabo.jp/20190407192318" text="新卒で入社したヤフーを退職した" >}}
 - {{< link href="http://ukuku09.hatenablog.com/entry/2019/07/04/222316" text="大悪魔でも就職したい！ - オンサイトで未確認" >}}
 - {{< link href="https://chakku.hatenablog.com/entry/2019/07/05/141305" text="IQ1も就活したんだよっ - ちゃっくのメモ帳" >}}
 - {{< link href="http://watarumon.hatenablog.com/entry/2018/11/18/222012" text="新卒配属ガチャに失敗しました - 筋肉で解決しないために。" >}}
 - {{< link href="https://note.com/naro143/n/n0cfbf94df264" text="複数のメガベンチャーに内定した就職活動の総まとめ｜naro143｜note" >}}
+- {{< link href="https://rian.hatenablog.jp/entry/2019/07/03/230000" text="レッドコーダーなので就活で俺TUEEEEをしようと思ったがそうもいかなかった件（タイトル募集中です） - うにゅーん、って感じだ" >}}
+- {{< link href="https://itkq.jp/blog/2017/07/13/get-my-first-job/" text="新卒就活を終えた" >}}
+- {{< link href="https://keens.github.io/blog/2015/02/07/shuukatsunitsuiteomottakotowokokonikakishirusu/" text="就活について思ったことをここに書き記す | κeenのHappy Hacκing Blog" >}}
+- {{< link href="https://note.com/komi3/n/n944805a8d12c" text="就活終わったので一筆とろうと思う｜コミさん｜note" >}}
+- {{< link href="https://syuchan1005.hatenablog.com/entry/2018/12/17/205130" text="LINEの内定をもらった話(新卒, 第2ターム, 2020卒) - syuchan1005のにっき" >}}
+
+## 社会人エンジニアの記事
+
+キャリアに関する記事が多めです。都元ダイスケさんの「エンジニアとしての歩き方」は10年以上前の記事なのに今読んでも色褪せないものがあります。ご冥福をお祈りします。
+
+- {{< link href="http://daisuke-m.hatenablog.com/entry/20090707/1246979611" text="エンジニアとしての歩き方 - 都元ダイスケ IT-PRESS" >}}
+- {{< link href="https://soudai.hatenablog.com/entry/2019/01/06/142202" text="文系でもプログラマになれるのか - そーだいなるらくがき帳" >}}
+- {{< link href="https://speakerdeck.com/rtechkouhou/enziniatositekofalsexian-sheng-kifalsekorutameni" text="エンジニアとしてこの先生きのこるために - Speaker Deck" >}}
+- {{< link href="https://note.com/psychs/n/n6dfa2319114b" text="ソフトウェアエンジニアとして心がけていること｜Satoshi Nakagawa｜note" >}}
+- {{< link href="http://konifar.hatenablog.com/entry/2015/05/07/101333" text="きっと何者にもなれない焦りを抱えながら、がむしゃらに前に進む - Konifar's WIP " >}}
+- {{< link href="https://speakerdeck.com/potato4d/number-bcu30-engineer-career" text="エンジニアキャリアにおける焦燥感との向き合い方 #BCU30_1 / #BCU30 Engineer Career - Speaker Deck" >}}
+- {{< link href="http://tech.fuqinho.net/?p=191" text="ソニーを退職しました。 – Happy Coder" >}}
+- {{< link href="http://tech.fuqinho.net/?p=620" text="2年間の独学をふりかえって – Happy Coder" >}}
+- {{< link href="https://engineer-lab.findy-code.io/konifar-growth-history" text="キャリアへの焦燥感を成長の糧に。新卒2年目で直面した不安を払拭するため、こにふぁーさんが試行錯誤してきたこと - Findy Engineer Lab" >}}
+- {{< link href="https://engineer-lab.findy-code.io/neet-to-cto" text="「成長できる環境に身を置く」ことが本当のスタート。就活に失敗したニートからCTOになったエンジニアの話 - Findy Engineer Lab" >}}
+- {{< link href="https://engineer-lab.findy-code.io/engineer-lab/why-study-stem" text="シリコンバレーから失意の帰国をした十年選手のITエンジニア、生き残るため大学院で情報科学を学ぶ - Findy Engineer Lab" >}}
+- {{< link href="https://blog.takanabe.tokyo/2019/03/carnegie-mellon-university-%E3%81%AB%E5%90%88%E6%A0%BC%E3%81%97%E3%81%9F%E8%A9%B1/" text="Carnegie Mellon University に合格した話afafan.hatenablog.com/entry/2020/02/25/093000" text="コード書く以外の仕事上暗黙的に必要とされている様々なスキルについてブレストしてみる - @stefafafan の fa は3つです" >}}
+- {{< link href="https://speakerdeck.com/soudai/engineer-life-hack" text=" 35歳を超えた僕たちが、 今と未来の技術と如何に向き合うか ~ 35歳の壁を超えていく ~ - Speaker Deck" >}}
+- {{< link href="http://konifar.hatenablog.com/entry/2015/05/17/224120" text="圧倒的に成長している時は実感がない - Konifar's WIP" >}}
+- {{< link href="https://yshibata.blog.ss-blog.jp/2013-10-10" text="ソフトウェアエンジニアの成長カーブ（再掲載）：柴田 芳樹 (Yoshiki Shibata)：SSブログ " >}}
+- {{< link href="https://speakerdeck.com/sogitani1107/shi-shi-togei-yu-toping-jia-falseguan-xi" text="仕事と給与と評価の関係 - Speaker Deck" >}}
+- {{< link href="https://anond.hatelabo.jp/20171202134440" text="口の悪い人間をエンジニアとして採用するべきか" >}}
 
 
-### 会社側の記事など
+### 会社側の記事
 
-- {{< link href="https://fukabori.fm/episode/20" text="20. 技術力をいかに評価するか？インターンシップにおける採用・戦略とは？ w/ makoga | Fukabori.fm" >}}
+よく見るとインターンの倍率などか書いてあって意外と面白いです。
+
 - {{< link href="https://mercan.mercari.com/articles/19653/" text="「採用面接で必ず質問することは？」に対する、スマニュー・グリー・DMM・メルペイの答え #EMTalk レポート【後編】 | mercan (メルカン) " >}}
 - {{< link href="https://publickey1.jp/blog/19/it_2019.html" text="IT系上場企業の平均給与を業種別にみてみた 2019年版［前編］ ～ ネットベンチャー、ゲーム、メディア系 － Publickey" >}}
-- {{< link href="https://anond.hatelabo.jp/20171202134440" text="口の悪い人間をエンジニアとして採用するべきか " >}}
 - {{< link href="https://blog.codecamp.jp/engineer-training-cookpad-part1" text="クックパッド 星氏「新卒でも技術力を重視、尖ったエンジニアはエキスパート枠として採用」《新卒エンジニア育成カイギ その5》" >}}
 - {{< link href="https://pages.supporterz.jp/repporterz_interview_DMM.com.html" text="DMMの多彩な事業を支えるエンジニア技術とスピード感。DMM TECH VISIONを掲げるCTOが語る、新卒エンジニア採用と課題解決とは？" >}}
 - {{< link href="https://career.levtech.jp/guide/knowhow/article/565/" text="2020年新卒エンジニア 就職活動実態調査" >}}
 - {{< link href="https://note.com/mie_roto/n/nb9e5c92d59dc" text=" いい就活をしてる人の共通点｜峰岸 啓人｜note" >}}
+- {{< link href="https://be-ars.colopl.co.jp/company/post/000759.html" text="コロプラ、技術テストの作成基準 & 過去問を公開します！ 2018年度入社エンジニア向け｜コロプラベアーズ" >}}
+- {{< link href="https://www.slideshare.net/linecorp/line-80520817" text="LINEの新卒採用試験 ズバリ問題解説" >}}
+- {{< link href="https://hrnote.jp/contents/b-contents-follow-20190628/" text="学生の不安をなくす内定者フォロー｜企業側が意識すべきポイント | 人事部から企業成長を応援するメディアHR NOTE" >}}
+- {{< link href="https://hrnote.jp/contents/b-contents-saiyo-shinsotsukyuyotaidan-180724/" text="サイバーエージェント・LINE・scoutyが「新卒の一律初任給」をやめた理由 | | 人事部から企業成長を応援するメディアHR NOTE" >}}
+- {{< link href="https://tracks.run/agilehr/column2017042501/" text="今さら聞けないGitHub採用におけるエンジニア採用の効果と注意点 | AgileHR magazine | エンジニア組織のHRを考える" >}}
+- {{< link href="https://tracks.run/agilehr/sprint08-1/" text="クックパッド株式会社のバズらせるインターン集客法とは | AgileHR magazine | エンジニア組織のHRを考える" >}}
+- {{< link href="https://tracks.run/agilehr/sprint08-3/s" text="実際のチームに従事して課題解決を体験できるのが、Gunosyのインターンシップ | AgileHR magazine | エンジニア組織のHRを考える" >}}
+- {{< link href="https://fukabori.fm/episode/20" text="20. 技術力をいかに評価するか？インターンシップにおける採用・戦略とは？ w/ makoga | Fukabori.fm" >}}
 
 ### 採用とは直接関係ない記事
+- {{< link href="http://konifar.hatenablog.com/entry/2015/05/03/013511" text="休日に何もできなかった時の虚無感対策 - Konifar's WIP" >}}
+- {{< link href="http://konifar.hatenablog.com/entry/2015/05/04/010305" text="伝えたいことがあるなら汚い言葉は控えた方がいい - Konifar's WIP" >}}
 - {{< link href="https://note.com/denden320/n/n396b58ce2b20" text=自分の決定プロセスについて｜電電｜note" >}}
 - {{< link href="https://note.com/moaikids/n/n8d1d1813ee08" text="ブリリアント・ジャーク｜moaikids｜note" >}}
+- {{< link href="https://taisyoku.company/" text="退職エントリまとめ" >}}
+
+### SHIROBAKO
+
+SHIROBAKOは多くのことを考えさせてくれる素晴らしいアニメです。見てない人はすぐ見ましょう！！！絶賛映画公開中！！！
+
+{{< ex-link url="http://shirobako-anime.com/" >}}
+{{< ex-link url="https://blog.p1ass.com/posts/shirobako-2019/" >}}
+
+### おまけ
+
+本来は有料noteにする予定だったんですけどブログで無料で公開したので{{< link href="https://www.amazon.jp/hz/wishlist/ls/32EJQUG5H8XPB?ref_=wl_share" text="例のあれ" >}}を貼っておきます。
 
 ## 合わせて読みたい
+
+- {{< block-link href="https://blog.p1ass.com/posts/aktsk-intern/" text="ドメインロジックと永続化処理を分離する設計改善を行って得られた知見 - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/abema-intern/" text="CyberAgentのAbemaTVでインターンしてきた話 - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/dena-intern/" text="DeNAのエンジニアサマーインターンで優勝してきた - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/line-intern/" text="LINEの就業型インターンに参加してきた - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" text="Cyber Agentのインターン「Architecture Challenge」に参加してきた - ぷらすのブログ" >}}
+- {{< block-link href="https://blog.p1ass.com/posts/pixiv-intern-2018/" text="pixiv2018冬インターンシップで「最高のpixiv」を作ってきた【参加記】 - ぷらすのブログ" >}}
