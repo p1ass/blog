@@ -203,6 +203,9 @@ pre code {
 
 .post {
   padding: 3rem 0; }
+  @media (max-width: 900px) {
+    .post {
+      padding: 0 0 3rem 0; } }
   .post-info {
     color: #666;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
