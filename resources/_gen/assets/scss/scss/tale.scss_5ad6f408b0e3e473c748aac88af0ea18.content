@@ -83,12 +83,18 @@ p {
   text-align: justify;
   font-size: 1.03rem; }
 
+li p {
+  margin: 0; }
+
 ul {
   margin: 0 0 1.8em 2em;
   padding: 0; }
 
 li ul {
   margin: 0 0 0 2em; }
+
+ul li {
+  padding: 0.3em 0 0 0; }
 
 li {
   padding: 0.3em 0; }
