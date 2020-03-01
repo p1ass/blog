@@ -297,9 +297,6 @@ Webサービス自体は今後も１ユーザとして応援していきたい�
 
 内定承諾先では、内定者バイトしているので入社時に交渉できるだけの職能があれば相談するかもしれません。
 
-### 結局どこに行くの？
-
-DeNAに行きます。社の方はよろしくお願いします。何かあれば、社内の #times-p1ass まで。
 
 ## おわりに
 
@@ -385,6 +382,7 @@ DeNAに行きます。社の方はよろしくお願いします。何かあれ�
 - {{< link href="https://fukabori.fm/episode/20" text="20. 技術力をいかに評価するか？インターンシップにおける採用・戦略とは？ w/ makoga | Fukabori.fm" >}}
 
 ### 採用とは直接関係ない記事
+- {{< link href="http://tokunoriben.hatenablog.com/entry/20121209/1355067152" text="就活論を熱く語ってる人間には、それでメシ食ってる人間か、女子大生と一発ヤリたい人間くらいしかいない。" >}}
 - {{< link href="http://konifar.hatenablog.com/entry/2015/05/03/013511" text="休日に何もできなかった時の虚無感対策 - Konifar's WIP" >}}
 - {{< link href="http://konifar.hatenablog.com/entry/2015/05/04/010305" text="伝えたいことがあるなら汚い言葉は控えた方がいい - Konifar's WIP" >}}
 - {{< link href="https://note.com/denden320/n/n396b58ce2b20" text="自分の決定プロセスについて｜電電｜note" >}}
