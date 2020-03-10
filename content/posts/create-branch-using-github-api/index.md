@@ -41,12 +41,12 @@ $ curl -s -H "Authorization: token ${TOKEN}" https://api.github.com/repos/${AUTH
 [
   {
     "ref": "refs/heads/master",
-    "node_id": "MDM6UmVmMjE5MjYyMTE0Om1hc3Rlcg==",
-    "url": "https://api.github.com/repos/p1ass/mikku/git/refs/heads/master",
+    "node_id": "...",
+    "url": "https://api.github.com/repos/<AUTHOR>/REPOSITORY>/git/refs/heads/master",
     "object": {
-      "sha": "332b58bc4889b929c93286a467e7c5b770bbc6ee",
+      "sha": "ハッシュ値",
       "type": "commit",
-      "url": "https://api.github.com/repos/p1ass/mikku/git/commits/332b58bc4889b929c93286a467e7c5b770bbc6ee"
+      "url": "https://api.github.com/repos/<AUTHOR>/REPOSITORY>/git/commits/...."
     }
   }
 ]
@@ -85,4 +85,4 @@ gitにおけるブランチは基本的にポインタ（参照）であり、�
 
 ## 感想
 
-gitの内部仕組みをあまりしらないので勉強になりました。
+gitの内部仕組みをあまり知らなかったので勉強になりました。
