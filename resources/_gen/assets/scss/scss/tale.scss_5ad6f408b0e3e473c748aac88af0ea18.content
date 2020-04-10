@@ -18,7 +18,6 @@ html {
   @media (min-width: 600px) {
     html {
       font-size: 16px; } }
-
 body {
   -webkit-text-size-adjust: 100%; }
 
@@ -46,7 +45,6 @@ blockquote {
   @media (min-width: 600px) {
     blockquote {
       padding: 0 5rem 0 1.25rem; } }
-
 img {
   display: block;
   margin: 0 0 1rem;
@@ -145,7 +143,6 @@ ol {
       max-height: 55px;
       margin: 0;
       max-width: calc(100% - 120px); } }
-
 .embed-content .entry-content {
   color: #666;
   line-height: 1.5;
@@ -625,8 +622,7 @@ footer {
   color: #353535;
   display: block;
   padding: 2rem 0; }
-  .catalogue-item:hover .catalogue-line,
-  .catalogue-item:focus .catalogue-line {
+  .catalogue-item:hover .catalogue-line, .catalogue-item:focus .catalogue-line {
     width: 5rem; }
   .catalogue-item:last-child {
     border: 0; }
