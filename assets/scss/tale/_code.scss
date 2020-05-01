@@ -4,7 +4,7 @@ code {
 }
 
 code {
-  background-color: $grey-3;
+  background-color: $code-background;
   border: 1px solid $grey-2;
   border-radius: 3px;
   color: $code-color;
@@ -19,13 +19,12 @@ pre {
 pre code {
   background-color: transparent;
   border:none;
-  color: inherit;
   font-size: 100%;
   padding: 0;
 }
 
 .highlight {
-  background-color: $grey-3;
+  background-color: $code-background;
   border-radius: 3px;
   line-height: 1.4;
   margin: 0 0 1rem;

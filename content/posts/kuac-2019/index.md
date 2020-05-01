@@ -150,14 +150,13 @@ Pythonでプロットや理論値を求めるのが良いと思っているの�
 
 以下のコードは先の極座標プロットを行うためのコードの一部ですが、計算は一行コードを書くだけで済んでいます。
 
-{{< highlight python >}}
+```python
 # 実測値をプロット
 df = pd.read_csv("input_data.csv")
 plt.polar(np.deg2rad(df["位相差"]),df["CH2/CH1"],  'ro', label="実測値")
 
 freq_array = np.linspace(0, 100000000, 500000)
 omega_array = 2 * np.pi * freq_array
-
 #ここが理論値を求める計算
 v = (1j * omega_array * L) / (R - omega_array**2 * L * C + 1j * omega_array * L)
 
@@ -168,7 +167,7 @@ plt.polar(theta, absolute, label="理論値")
 plt.legend() 
 
 plt.savefig("polar_plot.png")
-{{< /highlight >}}
+```
 
 もし、これがExcelであれば、何十行、何百行とある行全てに計算式を適用する必要がありますし、それを何列かに分けて行う必要があります。また、パット見でどんな計算をしているのか分かりづらく、計算があっているかどうか確かめるのが難しいです。これらの問題はコードを書くことで解決出来ます。
 

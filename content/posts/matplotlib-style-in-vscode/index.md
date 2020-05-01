@@ -25,10 +25,10 @@ VS CodeではJupyter Notebooksのノートブックをネイティブで表示�
 
 次のようにしてデフォルトのスタイルを適用します。
 
-{{< highlight python >}}
+```python
 import matplotlib as mpl
 mpl.style.use('default')
-{{< /highlight >}}
+```
 
 これだけでいつものスタイルでプロットされます。`savefig()`も同様のスタイルで保存されます。
 

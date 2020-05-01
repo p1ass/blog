@@ -52,7 +52,7 @@ Goの設計思想の中に{{< link href="https://talks.golang.org/2015/simplicit
 
 例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ一つ一つごとに引数でを渡す必要があります。
 
-{{< highlight go>}}
+```go
 rows, err := db.Query("SELECT id, name FROM users LIMIT 10")
 if err != nil {
   log.Println(err)
@@ -75,7 +75,7 @@ for rows.Next() {
   }
   us = append(us,u)
 }
-{{< /highlight >}}
+```
 
 勿論これでもデータベースからデータも持ってくるという役割を果たせており、標準ライブラリとしては必要な機能を提供しています。
 
