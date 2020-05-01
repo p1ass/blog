@@ -68,9 +68,9 @@ domain/*
 
 メッセージのやり取りはサーバからクライアントへの一方向のみ、加えてプロセスも1個なのでそこまで複雑にはならない想定です。
 
-## WebSocketを実装する上で考えたこと
+## 設計する上で考えたこと
 
-さて、このAPIサーバにWebSocketの通信を実装していくわけですが、いくつかのポイントを注意しながら設計をしていきました。
+さて、このAPIサーバにWebSocketの通信を実装していくわけですが、まずは設計をしていきます。
 
 ### レイヤーを用いた責務の分離
 
@@ -166,9 +166,9 @@ type Client struct {
 }
 ```
 
-この構造体は一つのWebSocketと一対一で対応します。そして、このClient1つごとに1つのgoroutineを起動し、メッセージを送信するループを実行します。
+この構造体は一つのWebSocketコネクションと一対一で対応します。そして、この `Client` 1つごとに1つのgoroutineを起動し、メッセージを送信するループを実行します。
 
-ループがエラーで終了したときはコネクションを閉じて、後述するHubに対して通知します。
+ループがエラーで終了したときはコネクションを閉じて後述するHubに対して通知します。
 
 ```go
 func (c *Client) PushLoop() {
@@ -243,17 +243,17 @@ func (h *Hub) Run() {
 
 func (h *Hub) register(cli *Client) {
   roomID := cli.roomID
-  if _, ok := h.clientsPerSession[roomID]; ok {
-    h.clientsPerSession[roomID][cli] = struct{}{}
+  if _, ok := h.clientsPerRoom[roomID]; ok {
+    h.clientsPerRoom[roomID][cli] = struct{}{}
     return
   }
-  h.clientsPerSession[roomID] = map[*Client]struct{}{cli: {}}
+  h.clientsPerRoom[roomID] = map[*Client]struct{}{cli: {}}
 }
 
 func (h *Hub) unregister(cli *Client) {
   roomID := cli.roomID
-  if _, ok := h.clientsPerSession[roomID][cli]; ok {
-    delete(h.clientsPerSession[roomID], cli)
+  if _, ok := h.clientsPerRoom[roomID][cli]; ok {
+    delete(h.clientsPerRoom[roomID], cli)
   }
 }
 ```
@@ -266,7 +266,7 @@ func (h *Hub) Push(pushMsg *event.PushMessage) {
 }
 
 func (h *Hub) push(pushMsg *event.PushMessage) {
-  for cli := range h.clientsPerSession[pushMsg.RoomID] {
+  for cli := range h.clientsPerRoom[pushMsg.RoomID] {
     cli.pushCh <- pushMsg.Msg
   }
 }
@@ -276,13 +276,13 @@ func (h *Hub) push(pushMsg *event.PushMessage) {
 
 `Hub` 側ではなく `Client` 側のgorutineでWebSocketコネクションへの書き込みを行っているのはデッドロックを回避するためです。
 
-もし、WebSocketコネクションへの書き込みが失敗した場合、`unregisterCh` を通じてHubから `Client` の登録解除を試みます。しかし、同じgoroutineで書き込みを行っていると`Hub` の `Run()` で動いているメインループは `h.push(pushMsg)` でブロックされており、`case cli := <-h.unregisterCh` で登録解除の通知を受け取ることはできません。
+もし、WebSocketコネクションへの書き込みが失敗した場合、`unregisterCh` を通じて `Client` の登録解除を試みます。しかし、同じgoroutineで書き込みを行っている場合、`Hub` の `Run()` で動いているメインループは `h.push(pushMsg)` でブロックされており、`case cli := <-h.unregisterCh` で登録解除のメッセージを受け取ることはできません。
 
 channelのバッファーのサイズを指定することでブロックせずキューに登録解除の通知を溜めることもできますが、キューが溢れたらデッドロックしてしまうことには変わりないです。いつ発生するか分からない恐怖に耐えるよりかは `Client` 側の別goroutineに処理を移譲した方が安心できます。
 
 
 
-後は、ハンドラーの処理と `Hub` のループをgoroutineで実行する処理を書いたら大方完成です。
+最後に、ハンドラーの処理と `Hub` のループをgoroutineで実行する処理を書きます。
 
 ```go
 func (h *WebSocketHandler) WebSocket(c echo.Context) error {
@@ -315,9 +315,9 @@ func main() {
 
 これで実装は出来ているわけですが、ベストではないと考えています。
 
-特に、`Client` の終了を `Hub` に伝える処理が微妙です。現在は `Hub` の `unregisterCh` を `Client` 側に渡していますが、`Hub` が管理しているchannelを外部に送信を許した状態で公開するのに抵抗があります。
+特に、`Client` の終了を `Hub` に伝える処理が微妙です。現在は `Hub` の `unregisterCh` を `Client` 側に渡していますが、`Hub` が管理しているchannelを送信可能状態(`chan<- T`)で外部公開するのに抵抗があります。
 
-送信可能なchannel(`chan<- T`) を外に公開すると、間違ってchannelを `close`される可能性があります。外部に公開するのは受信専用のchannel(`<-chan T`)にしておきたいところですが、そうすると `Client` 側で生成されたn個分のchannelを別途 `Hub` 側で管理する必要がありしんどいなぁと思っています。
+送信可能なchannel(`chan<- T`)を外部に公開すると、間違ってchannelを `close`される可能性があります。外部に公開するのは受信専用のchannel(`<-chan T`)にしておきたいところですが、そうすると `Client` 側で生成されたn個分のchannelを別途 `Hub` 側で管理する必要がありしんどいなぁと思っています。
 
 良さげなアイデアがあればTwitterなりブコメなりで教えてくれると助かります。
 
