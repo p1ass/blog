@@ -4,10 +4,9 @@ code {
 }
 
 code {
-  background-color: $code-background;
+  background-color: $grey-3;
   border: 1px solid $grey-2;
   border-radius: 3px;
-  color: $code-color;
   font-size: 85%;
   padding: .1em .5em;
 }
@@ -24,11 +23,13 @@ pre code {
 }
 
 .highlight {
+  color: $code-color;
   background-color: $code-background;
   border-radius: 3px;
   line-height: 1.4;
   margin: 0 0 1rem;
   padding: 1rem;
+  border-radius: 0.9rem;
 
   pre {
     margin-bottom: 0;
