@@ -100,16 +100,16 @@ WebSocketコネクションの作成/削除時に一つのmapやsliceに複数�
 type Pusher interface {
   Push(pushMsg *PushMessage) error
 }
-```
-```go
+
 type PushMessage struct {
   RoomID string
-  Event *Event
+  Event *entity.Event
 }
-
+```
+```go
 type Event struct {
   Type string `json:"type`
-  Content string `json:"content`
+  Content string `json:"content"`
 }
 ```
 
@@ -143,15 +143,15 @@ func (uc *RoomUseCase) Join(roomID string, user *entity.User) error {
 }
 ```
 
-ユースケースではWebSocketの詳細には関与せず、ただメッセージを送信するだけに留めます。将来的にRedis PubSubのクライアントを注入できるようにし、拡張に強くしています。
+ユースケースではWebSocketの詳細には関与せず、ただメッセージを送信するだけに留めます。
 
 ### Pusherインターフェースの実装
 
 次にPusherインターフェースを満たす構造体を作ります。この構造体は複数のWebSocketコネクションを一括してハンドリングし、適切なコネクションに対してメッセージを送信します。ソースコードは `web/ws/*.go` に配置します。webパッケージ内におくかどうかは悩んだのですが、HTTP上のプロトコルなのでここにしました。
 
-WebSocketを扱うライブラリはgorrila/websocketを採用しています。READMEにも書かれている通り、半公式のgolang.org/x/net/websocketは機能が不足しています。{{< link text="GoDoc" href="https://pkg.go.dev/golang.org/x/net/websocket?tab=doc" >}}には代替案としてgorrila/websocketが書いてあるので今回はこちらを採用しました。
+WebSocketを扱うライブラリはgorrila/websocketを採用しています。READMEにも書かれている通り、準標準のgolang.org/x/net/websocketは機能が不足しています。{{< link text="GoDoc" href="https://pkg.go.dev/golang.org/x/net/websocket?tab=doc" >}}には代替案としてgorrila/websocketが書いてあるので今回はこちらを採用しました。
 
-実装は{{< link text="gorrila/websocketのexample" href="https://github.com/gorilla/websocket/tree/master/examples/chat" >}}をとても参考にしています。
+実装は{{< link text="gorrila/websocketのexample" href="https://github.com/gorilla/websocket/tree/master/examples/chat" >}}を非常に参考にさせていただきました。
 
 {{< ex-link url="https://github.com/gorilla/websocket" >}}
 
@@ -160,9 +160,9 @@ WebSocketを扱うライブラリはgorrila/websocketを採用しています。
 ```go
 type Client struct {
   roomID      string
-  ws             *websocket.Conn
+  conn             *websocket.Conn
   pushCh         chan *entity.Event
-  notifyClosedCh chan<- *Client // HubのunregisterWSConnChをもらう
+  notifyClosedCh chan<- *Client // HubのunregisterChをもらう
 }
 ```
 
@@ -176,7 +176,7 @@ func (c *Client) PushLoop() {
   defer func() {
     ticker.Stop()
     c.notifyClosedCh <- c
-    c.ws.Close()
+    c.conn.Close()
   }()
 
   for {
@@ -184,19 +184,19 @@ func (c *Client) PushLoop() {
     case msg, ok := <-c.pushCh:
       if !ok {
         c.ws.SetWriteDeadline(time.Now().Add(writeWait))
-        if err := c.ws.WriteMessage(websocket.CloseMessage, []byte{}); err != nil {
+        if err := c.conn.WriteMessage(websocket.CloseMessage, []byte{}); err != nil {
           fmt.Printf("failed to write close message: %v\n", err)
           return
         }
       }
 
-      if err := c.ws.WriteJSON(msg); err != nil {
+      if err := c.conn.WriteJSON(msg); err != nil {
         fmt.Printf("failed to WriteJSON: %v\n", err)
         return
       }
     case <-ticker.C:
       c.ws.SetWriteDeadline(time.Now().Add(writeWait))
-      if err := c.ws.WriteMessage(websocket.PingMessage, nil); err != nil {
+      if err := c.conns.WriteMessage(websocket.PingMessage, nil); err != nil {
         fmt.Printf("failed to ping: %v\n", err)
         return
       }
@@ -272,7 +272,7 @@ func (h *Hub) push(pushMsg *event.PushMessage) {
 }
 ```
 
-`Push()` はchannelを通じてメッセージを送り、`Run()` で受け取って、各 `Client` で動いているgoroutineへチャネルを通じてメッセージを送ります。
+`Push()` はchannelを通じてメッセージを送り、`Run()` で受け取ります。その後、各 `Client` で動いているgoroutineへchannelを通じてメッセージを送ります。
 
 `Hub` 側ではなく `Client` 側のgorutineでWebSocketコネクションへの書き込みを行っているのはデッドロックを回避するためです。
 
