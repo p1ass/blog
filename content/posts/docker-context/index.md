@@ -30,7 +30,7 @@ share: true
 
 `docker`コマンドを使用しているときは`--default-stack-orchestrator`を指定しなくても動作しますが、`docker-compose`コマンドだとエラーで落ちてしまいます。swarmに繋いているわけではないですが、値を設定しておく必要があります。
 
-{{< highlight bash >}}
+```bash
 $ docker context create --help
 Usage:  docker context create [OPTIONS] CONTEXT
 # 中略
@@ -42,7 +42,7 @@ Options:
 $ docker context create --default-stack-orchestrator=swarm \\
  --docker "host=ssh://${SSH_USERNAME}@${SSH_IP}:${SSH_PORT}" remote
 $ docker context use remote
-{{< /highlight >}}
+```
 
 関連issue :  {{< link href="https://github.com/docker/compose/issues/7319" text="Failed to execute script docker-compose when doing docker-compose up on SSH context" >}}
 
@@ -74,9 +74,9 @@ CIで回す際はわざわざConfigに書き込むくらいなら直接設定し
 
 規模感にもよりますが、大きいイメージをビルドする際にタイムアウトで失敗してしまうことがあります。失敗したときは環境変数でタイムアウトまでの時間を伸ばすとうまくいきます。
 
-{{< highlight bash >}}
+```bash
 $ export COMPOSE_HTTP_TIMEOUT=600 # デフォルトは60秒
-{{< /highlight >}}
+```
 
 ## Caddyを使ったユーザリクエストのリバースプロキシ
 
@@ -89,7 +89,7 @@ $ export COMPOSE_HTTP_TIMEOUT=600 # デフォルトは60秒
 CaddyはNginxに比べ設定が容易で、confに証明書のパスやHTTPSリダイレクトの記述を書く必要がありません。
 
 
-{{< highlight bash >}}
+```bash
 hoge.example.jp {
 	reverse_proxy /* hoge-server:8080
 }
@@ -97,7 +97,7 @@ hoge.example.jp {
 grafana.example.com {
 	reverse_proxy /* grafana:3000
 }
-{{< /highlight >}}
+```
 
 `Caddyfile`というファイルにこのように書くことで、HTTPSの通信の準備が整います。勿論パフォーマンスを求められる環境ではNginxの方が良いと思いますが、今回はそこまでパフォーマンスを求められてないのでCaddyを使っています。
 
