@@ -1,6 +1,6 @@
 ---
 title: "WebサーバをNginxから証明書自動更新に対応したCaddy 2に移行した"
-date: 2020-05-11T09:00:00+09:00
+date: 2020-05-11T15:00:00+09:00
 draft: false
 description: 運用していたWebサーバをNginxから最近v2にメジャーバージョンアップされたCaddyに移行しました。この記事ではCaddyの特徴や移行してみた感想などを書きたいと思います。
 categories:
@@ -18,16 +18,16 @@ share: true
 
  <!--more-->
 
-## Caddyとは？
+## What is Caddy？
 
 CaddyはのデフォルトでHTTPSに対応しているOSSのWebサーバです。
 
 ![Caddy](caddy_v2.png)
 
-> **"Caddy 2 is a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"**
+{{< ex-link url="https://caddyserver.com/" >}}
 
-- HP : https://caddyserver.com/
-- 公式ドキュメント : https://caddyserver.com/docs
+- GitHub : {{< link href="https://github.com/caddyserver/caddy" text="https://github.com/caddyserver/caddy" >}}
+- 公式ドキュメント : {{< link href="https://caddyserver.com/docs" text="https://caddyserver.com/docs" >}}
 
 つい先日(2020/05/04)、v2にメジャーバージョンアップされ{{< link href="https://caddyserver.com/docs/architecture" text="アーキテクチャが刷新されました。" >}}
 
@@ -72,12 +72,12 @@ Caddyの設定は2通りの方法が用意されており、ユーザが用途�
 ```bash
 # https://hoge.p1ass.comにきたリクエストをlocalhost:8080にプロキシ
 hoge.p1ass.com {
-	reverse_proxy /* localhost:8080
+  reverse_proxy /* localhost:8080
 }
 
 # バーチャルホストで複数のドメインを設定できる
 fuga.p1ass.com {
-	reverse_proxy /* localhost:3000
+  reverse_proxy /* localhost:3000
 }
 ```
 
@@ -193,9 +193,16 @@ $ curl localhost:2019/config | jq
 }
 ```
     
-これと同じ形式で `POST /load` にJSONを投げれば動的に設定を変更できます。
+これと同じ形式で `POST /load` にJSONを投げれば動的に設定を変更できます。なお、デフォルトではJSONですが、`Content-Type: text/caddyfile` とすればそのまま`Caddyfile` を投げることもできます。
 
-なお、デフォルトではJSONですが、`Content-Type: text/caddyfile` とすればそのまま`Caddyfile` を投げることもできます。
+また、この設定の変更はACIDを保証しています。
+
+> Atomic: Multiple changes in a single request are treated as a single unit; any failed change aborts all the other changes.  
+> Consistent: No invalid configurations can be loaded; your server will never break if a problem is detected at config load.  
+> Isolated: No config changes rely on another. (It helps that HTTP is a stateless protocol!)  
+> Durable: Caddy automatically persists the current, valid configuration to disk and can safely resume it after a power cycle if the --resume flag is used.  
+
+無効な設定がPOSTされたとしてもサーバが止まる心配はありません。
 
 ### 使い分け
 
@@ -220,9 +227,13 @@ Caddyへの移行の最も大きなモチベーションは「HTTPSの自動対�
 
 ## 移行してみた感想
 
+CaddyにはNginxのコンフィグをそのまま読み込むアダプターが存在するのですが、今回は１からでCaddyfileを書きました。
+
+{{< ex-link url="https://github.com/caddyserver/nginx-adapter" >}}
+
 動作に関しては概ね問題ないです。セットアップが完了してから一度もプロセスは死んでないし、メモリリークなどもなさそうです。
 
-そして当初の目論見通り、メンテナンスのしやすさは非常に向上しました。バーチャルホストを新しく切るのに**3行追加するだけ**というのはとても楽でした。
+そして当初の目論見通り、メンテナンスのしやすさは非常に向上しました。バーチャルホストを新しく切るのに**3行追加するだけ**というのは非常に楽でした。
 
 細かいところで言うと、 `caddy fmt` で `Caddyfile` のフォーマットができるのも良いポイントでした。
 
