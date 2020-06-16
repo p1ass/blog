@@ -182,8 +182,8 @@ func (c *Client) PushLoop() {
   for {
     select {
     case msg, ok := <-c.pushCh:
+      c.ws.SetWriteDeadline(time.Now().Add(writeWait))
       if !ok {
-        c.ws.SetWriteDeadline(time.Now().Add(writeWait))
         if err := c.conn.WriteMessage(websocket.CloseMessage, []byte{}); err != nil {
           fmt.Printf("failed to write close message: %v\n", err)
           return
