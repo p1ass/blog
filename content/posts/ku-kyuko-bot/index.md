@@ -13,6 +13,6 @@ eyecatch: /images/ogp.jpg
 share: true
 ---
 
-こんにちは、{{< ex-link url="https://twitter.com/p1ass" text="@p1ass" >}}です。  
+こんにちは、{{< link url="https://twitter.com/p1ass" text="@p1ass" >}}です。  
 <!--more-->
 
