@@ -1,7 +1,7 @@
 ---
 title: "Webサービスリリース4時間でTwitterトレンド1位になるまでのインフラ改善記録"
 date: 2020-07-04T18:00:00+09:00
-draft: false
+draft: true
 description:
 categories:
   - Webサービス
@@ -58,7 +58,18 @@ share: true
 
 また、このあたりで RT 数が 100 を超え始め、ちょっと焦り始めます。
 
+この 30 分後にはアクティブユーザが 400 人を超えました。
+
+![Google Analytics](google-analytics.png)
+
 ### VPS の Grafana のアラートがなる
+
+走行しているうちに API サーバを立てている VPS のアラートがなり始めました。
+
+![Grafana Alert](grafana-alert.png)
+_プロセスがリスポーンを繰り返している様子 (上)CPU 使用率 (下)メモリ使用率_
+
+ここで、この時点におけるインフラアーキテクチャについて軽く説明しておきます。フロントエンドは Netlify でホスティング、API サーバは ConoHa の VPS(CPU1 コア、メモリ 512MB)
 
 ### Cloud Run に移行する
 
