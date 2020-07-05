@@ -1,14 +1,14 @@
 ---
 title: "Webサービスリリース4時間でTwitterトレンド1位になるまでのインフラ改善記録"
 date: 2020-07-04T18:00:00+09:00
-draft: true
+draft: false
 description:
 categories:
   - Webサービス
 tags:
   - Go
 eyecatch: /posts/pointer-of-for-range-loop-of-go/ogp.jpg
-share: false
+share: true
 ---
 
 こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
@@ -50,7 +50,13 @@ share: false
 
 <script async class="speakerdeck-embed" data-id="5cd86d0c3c6642c0aa5d45330c80d324" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 
-### 酒飲みながらアナリティクスを見たらアクティブユーザが結構いてビビる
+### 酒飲みながら LT 会を聞きつつ、アナリティクスを見たらアクティブユーザが結構いてビビる
+
+無事登壇も終了し、のんきに酒を飲みながら LT 会を聞いていたのですが、ふと気になり Google Analytics を開いたら、アクティブユーザが 100 人を超えていてビビります。
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ワロタ <a href="https://t.co/YRj4pXIqqN">pic.twitter.com/YRj4pXIqqN</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267418549745664003?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+また、このあたりで RT 数が 100 を超え始め、ちょっと焦り始めます。
 
 ### VPS の Grafana のアラートがなる
 
