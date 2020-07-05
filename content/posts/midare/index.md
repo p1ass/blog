@@ -145,7 +145,7 @@ _メモリ使用率 (後に Expire を 5 分ごとに行うようにした)_
 
 **注意及び免責**
 
-**当時は知りませんでしたが、同一のソフトウェアで複数の Twitter アプリを作成することは禁止されています。この制限に気づいてから複数の Twitter アプリを利用するのはやめ、現在は 1 つの Twitter アプリのみを利用しています。この記事では注意喚起の意味を込めて紹介しており、読んだ読者が複数の Twitter アプリを使用したとしても、一切の責任を負いません。**
+**当時は知りませんでしたが、同一のソフトウェアで複数の Twitter アプリを作成することは禁止されています。この制限に気づいてから複数の Twitter アプリを利用するのはやめ、現在は 1 つの Twitter アプリのみを利用しています。この記事では注意喚起の意味を込めて紹介しており、読者が複数の Twitter アプリを使用したとしても、一切の責任を負いません。**
 
 > You may not register multiple applications for a single use case or substantially similar or overlapping use cases. In this context, a “use case” is a consistent set of analyses, displays, or actions performed via an application. Please note that providing the same service or application to different people (including “white label” versions of a tool or service) counts as a single use case.
 
