@@ -17,7 +17,7 @@ html {
   overflow-y: scroll;
 
   @media (min-width: 600px) {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -70,7 +70,7 @@ td {
 
 h2 {
   padding-right: 0;
-  font-size: 1.6em;
+  font-size: 1.55em;
   color: $sub-shade;
   margin-bottom: 1em;
   margin-top: 1.5em;
@@ -99,7 +99,6 @@ p {
   margin: 0 0 1.8rem;
   line-height: 1.9;
   text-align: justify;
-  font-size: 1.05rem;
 }
 
 li p {
@@ -121,13 +120,11 @@ ul li {
 
 li {
   padding: 0.3em 0;
-  font-size: 1.05rem;
 }
 
 ol {
   margin: 0 0 1.8em 2em;
   padding: 0;
-  font-size: 1.05rem;
 }
 
 .embed-wrapper {
