@@ -1,13 +1,15 @@
 ---
 title: "Twitterトレンド１位になった個人開発Webサービスの負荷対応記録"
-date: 2020-07-05T18:00:00+09:00
+date: 2020-07-06T19:00:00+09:00
 draft: false
-description:
+description: この記事は、LT会のために作ったWebサービスが何故かバズってTwitterトレンド1位になってしまい、ひぃひぃ言いながら行った負荷対応をまとめたものになります。スケーラビリティを全く考慮していないLT会用の雑なWebサービスを、どのように改善していったのかについてまとめることで、個人開発者の参考になれば良いなと思っています。
 categories:
   - Webサービス
 tags:
   - Go
-eyecatch: /posts/pointer-of-for-range-loop-of-go/ogp.jpg
+  - GCP
+  - Cloud Run
+eyecatch: /posts/midare/ogp.jpg
 share: true
 ---
 
