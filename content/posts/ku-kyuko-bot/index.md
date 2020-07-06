@@ -4,15 +4,15 @@ date: 2019-07-09T18:47:48+09:00
 draft: true
 description: KU休講情報BotはPythonで書かれたBotで毎日休講情報を呟くBotです。昨年の5月から運用を始め、目立った障害もなく動いています。
 categories:
-- 開発
+  - 開発
 tags:
-- Python
-- Bot
-- スクレイピング
-eyecatch: /images/ogp.jpg
+  - Python
+  - Bot
+  - スクレイピング
+eyecatch: /images/ogp.png
 share: true
 ---
 
-こんにちは、{{< link url="https://twitter.com/p1ass" text="@p1ass" >}}です。  
-<!--more-->
+こんにちは、{{< link url="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
+<!--more-->
