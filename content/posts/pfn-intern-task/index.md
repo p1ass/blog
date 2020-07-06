@@ -4,30 +4,29 @@ date: 2019-06-27T18:47:48+09:00
 draft: false
 description: PFNさんが2019年インターン用のコーディング課題を公開されたので、Goを使ってバックエンドの課題を解いてみました。
 categories:
-- インターン
+  - インターン
 tags:
-- PFN
-- インターン
-- Go
-- Python
-eyecatch: /images/ogp.jpg
+  - PFN
+  - インターン
+  - Go
+  - Python
+eyecatch: /images/ogp.png
 share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
-先日、PFNさんが2019年インターン用のコーディング課題を公開されました。
+先日、PFN さんが 2019 年インターン用のコーディング課題を公開されました。
 
 {{< ex-link url="https://research.preferred.jp/2019/06/internship-coding-task-2019/" >}}
-
 
 私は機械学習界隈の人間でないので、インターン募集時にあまり興味を持っていなかったのですが、上で公開された課題にはバックエンド用の問題も用意されていました。
 
 中身を覗いてみると、なかなか歯ごたえのある面白そうな課題だったので、空いている時間を見つけてやってみました。
 
-実装言語はGoで、一部グラフを出力する部分にPythonを使っています。かかった時間はおおよそ14時間で、想定所要最大時間の2日以内に収められたと思います。
+実装言語は Go で、一部グラフを出力する部分に Python を使っています。かかった時間はおおよそ 14 時間で、想定所要最大時間の 2 日以内に収められたと思います。
 
-この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべてGitHubで管理しており、小問ごとにブランチを切って、PRでマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
+この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべて GitHub で管理しており、小問ごとにブランチを切って、PR でマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019" >}}
 
@@ -37,12 +36,12 @@ share: true
 
 問題を解くにあたってまずは問題を一通り読んでみました。
 
-問題は3つの大問に分かれており、そのうち2つは必須解答でした。テーマはすべての大問を通して「ジョブ実行システム」であり、
+問題は 3 つの大問に分かれており、そのうち 2 つは必須解答でした。テーマはすべての大問を通して「ジョブ実行システム」であり、
 
 - ジョブサーバー
 - ジョブワーカー
 
-の2つを実装することが求められていました。
+の 2 つを実装することが求められていました。
 
 サーバー側の実装は簡単そうなので、ワーカーの実装をどのように行うかが大事そうです。
 また、問題が進むにつれて、前の問題で実装したものに機能を付け加える必要があるので、ある程度変更に強い設計にする必要もあると感じました。
@@ -61,60 +60,58 @@ share: true
 
 ここまで一通り読んで、テストが書きやすく、実行速度も速い Go を実装言語として選択することにしました。一部を除いて外部ライブラリの使用が禁止されているため、標準ライブラリが充実しているのも選ぶポイントとなりました。
 
-## 問題1-1
+## 問題 1-1
 
 ここからは問題を解いていきます。
-すべての問題でPRを出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
+すべての問題で PR を出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/1" >}}
 
-
-問題1-1はジョブサーバの実装です。
+問題 1-1 はジョブサーバの実装です。
 クエリパラメータに応じて適切なジョブを返すだけなので、簡単なお仕事のように思えましたが、少し一工夫する必要がありました。
 
-それは、クエリパラメータは `Created` フィールドの値であり、ファイルネームと1対1対応でない点です。
+それは、クエリパラメータは `Created` フィールドの値であり、ファイルネームと 1 対 1 対応でない点です。
 
 つまり、ナイーブな実装をしてしまうと、あるリクエストが飛んできたときに、すべてのファイルを開き、一致する値を持つジョブを見つける必要があります。
 
-この実装の時間計算量はジョブの数をN、リクエスト数をQとしたとき、O(NQ)となってしまい、実行速度が速いとは言い難いです。
+この実装の時間計算量はジョブの数を N、リクエスト数を Q としたとき、O(NQ)となってしまい、実行速度が速いとは言い難いです。
 
 そこで、今回はサーバーの起動時に、 key が `Created`、 value がファイル名のハッシュマップを使ってキャッシュを作り、各リクエストごとにすべてのジョブファイルを探索しなくて済むようにしました。
 
-この実装は時間計算量はO(Q)まで減らせますが、空間計算量はO(1)からO(N)になってしまいます。このトレードオフを考えたときに、ハッシュマップを作ってもそこまでメモリを消費しないことに加え、大規模になればインメモリのKVSに移せば良いということを考慮すると、このキャッシュ戦略は良い戦略だと考えられたので採用することにしました。
+この実装は時間計算量は O(Q)まで減らせますが、空間計算量は O(1)から O(N)になってしまいます。このトレードオフを考えたときに、ハッシュマップを作ってもそこまでメモリを消費しないことに加え、大規模になればインメモリの KVS に移せば良いということを考慮すると、このキャッシュ戦略は良い戦略だと考えられたので採用することにしました。
 
 後は上の方針に基づいてコードを書き、大事そうな部分のテストコードを書いて終了です。
 
-## 問題1-2
+## 問題 1-2
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/2" >}}
 
-
-問題1-2は1-1で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
+問題 1-2 は 1-1 で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
 
 大まかに、
 
-1. forループで時間を進める
+1. for ループで時間を進める
 2. 各時間でジョブを実行しポイントの推移を記録
 3. ポイントを標準出力に書き出す
 
 という方針を立てて実装をすることにしました。
 
-まず、ジョブの構造体を定義し、HTTPレスポンスをマッピングする処理を書きました。 `Priority` は `High` と `Low` の二値なので、int のエイリアスの型を定義し扱っています。
+まず、ジョブの構造体を定義し、HTTP レスポンスをマッピングする処理を書きました。 `Priority` は `High` と `Low` の二値なので、int のエイリアスの型を定義し扱っています。
 
 {{< highlight go >}}
 type Priority int
 
 const (
-	Low Priority = iota
-	High
+Low Priority = iota
+High
 )
 
 type Job struct {
-	ID          int
-	Created     time.Time
-	Priority    Priority
-	Tasks       []int
-	CurrentTask int
+ID int
+Created time.Time
+Priority Priority
+Tasks []int
+CurrentTask int
 }
 {{< / highlight >}}
 
@@ -122,60 +119,57 @@ type Job struct {
 
 {{< highlight go >}}
 type Worker struct {
-	workingJobs []*Job
+workingJobs []\*Job
 }
 
-func (w *Worker) ExecuteAllJob(interval int) int{
-    ...
+func (w \*Worker) ExecuteAllJob(interval int) int{
+...
 }
 {{< / highlight>}}
 
 実装の工夫としては、ジョブに関するドメインロジックは `Job` のメソッドに定義し、`Worker` の `ExecuteAllJob()` をなるべく薄くなるようにしました。 `Worker` の責務はあくまでジョブの開始と停止であり、その中身まで関与する必要はないという考えによる設計です。このように分けたことで、ユニットテストを書きやすくすることができました。
 
-## 問題2-1
+## 問題 2-1
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/3" >}}
 
-問題2-1は問題1-2で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
+問題 2-1 は問題 1-2 で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
 
 キャパシティが設定されると、サーバから受け取ったジョブをすべて同時に動かすことが出来なくなります。そこで、実行待ちのジョブをプールさせるキューを `Worker` に生やすことにしました。その後、受け取ったジョブをすぐ実行するかキューで待機させるか判定する処理を書きました。
 
 {{< highlight go >}}
 type Worker struct {
-    ...
-    jobQueue     []*Job
-    capacity     int
-    ...
+...
+jobQueue []\*Job
+capacity int
+...
 }
 {{< / highlight>}}
-
-
-
 
 この問題で注意する点は、実行中のジョブのタスクが切り替わったときに、キャパシティを上回ってしまう可能性がある点です。
 
-例えば、キャパシティが5で、次のようなジョブを実行していたとします。
+例えば、キャパシティが 5 で、次のようなジョブを実行していたとします。
 {{< highlight go >}}
 j := &Job{
-    ID:          0,
-    Created:     time.Time{},
-    Priority:    Low,
-    Tasks:       []int{1, 10},
-    CurrentTask: 0,
+ID: 0,
+Created: time.Time{},
+Priority: Low,
+Tasks: []int{1, 10},
+CurrentTask: 0,
 }
 {{< / highlight>}}
 
-1秒経過すると `j.Tasks[0]` は0になるため、次のタスクの10に移ります。しかし、キャパシティは5なため、このジョブはキューに戻す必要があります。
+1 秒経過すると `j.Tasks[0]` は 0 になるため、次のタスクの 10 に移ります。しかし、キャパシティは 5 なため、このジョブはキューに戻す必要があります。
 
 私はここの処理を忘れていたため、最初実行したとき、ジョブのタスクの合計数がキャパシティより大きくなってしまいました。
 
 この条件のテストを書いて、それをパスするようにコードを修正し、この問題は終了です。
 
-## 問題2-2
+## 問題 2-2
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/4" >}}
 
-問題2-2は優先度を考慮してジョブを実行するワーカーを作成する問題です。
+問題 2-2 は優先度を考慮してジョブを実行するワーカーを作成する問題です。
 
 優先度を考慮するためにジョブキューを優先度付きキューに変更し、優先度が高いジョブが早く実行されるようにしました。
 
@@ -183,100 +177,99 @@ j := &Job{
 
 {{< highlight go >}}
 func (pq JobPriorityQueue) Less(i, j int) bool {
-	if pq[i].Priority > pq[j].Priority {
-		return true
-	} else if pq[i].Priority < pq[j].Priority {
-		return false
-	} else {
-		if pq[i].Created.Before(pq[j].Created) {
-			return true
-		}
-		return false
-	}
+if pq[i].Priority > pq[j].Priority {
+return true
+} else if pq[i].Priority < pq[j].Priority {
+return false
+} else {
+if pq[i].Created.Before(pq[j].Created) {
+return true
+}
+return false
+}
 }
 {{< / highlight>}}
 
 次に、実行中のジョブの優先度は `Low` だが、優先度付きキューにジョブの優先度が `High` のジョブが積まれている場合に、ジョブを入れ替える処理を書きました。
 このあたりの処理は忘れがちなので、しっかりとテストを書くことが大事だなと感じました。
 
-また余談ですが、この問題のPDFの例が間違っていたので、issue を投げました。
+また余談ですが、この問題の PDF の例が間違っていたので、issue を投げました。
 
 {{< ex-link url="https://github.com/pfnet/intern-coding-tasks/issues/5" >}}
 
+素早い修正に感謝です 🙏
 
-素早い修正に感謝です🙏
-
-## 問題2-3
+## 問題 2-3
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/5" >}}
 
-問題2-3はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
+問題 2-3 はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
 
 個人的にはこの問題が一番難しく感じました。
 
-かなり悩んだのですが、「効率よく実行できる」はキャパシティを余すことなく使うことだと考え(サーバのCPU使用率は高い方が良いという考えと同じ)、優先度付きキューの条件にキャパシティの空き具合を考慮するようにしました。
+かなり悩んだのですが、「効率よく実行できる」はキャパシティを余すことなく使うことだと考え(サーバの CPU 使用率は高い方が良いという考えと同じ)、優先度付きキューの条件にキャパシティの空き具合を考慮するようにしました。
 
 具体的には、優先度が違う場合は優先度が高いものを選択し、優先度が同じ場合はキャパシティの空きを超えない最大のジョブを選択するようにしました。
 
 {{< highlight go >}}
 func (pq JobPriorityQueue) Less(i, j int) bool {
-	job1 := pq.data[i]
-	job2 := pq.data[j]
+job1 := pq.data[i]
+job2 := pq.data[j]
 
-	//優先順位が高いものを先に処理する
-	if job1.Priority > job2.Priority {
-		return true
-	} else if job1.Priority < job2.Priority {
-		return false
-	}
+    //優先順位が高いものを先に処理する
+    if job1.Priority > job2.Priority {
+    	return true
+    } else if job1.Priority < job2.Priority {
+    	return false
+    }
 
-	// 優先順位が同じもの同士のときは、空いているキャパシティをなるべく埋めるようにする
-	task1 := job1.Tasks[job1.CurrentTask]
-	task2 := job2.Tasks[job2.CurrentTask]
-	if task1 <= pq.unusedCap && task2 > pq.unusedCap {
-		return true
-	} else if task1 > pq.unusedCap && task2 <= pq.unusedCap {
-		return false
-	} else {
-		if task1 < task2 {
-			return true
-		} else {
-			return false
-		}
-	}
+    // 優先順位が同じもの同士のときは、空いているキャパシティをなるべく埋めるようにする
+    task1 := job1.Tasks[job1.CurrentTask]
+    task2 := job2.Tasks[job2.CurrentTask]
+    if task1 <= pq.unusedCap && task2 > pq.unusedCap {
+    	return true
+    } else if task1 > pq.unusedCap && task2 <= pq.unusedCap {
+    	return false
+    } else {
+    	if task1 < task2 {
+    		return true
+    	} else {
+    		return false
+    	}
+    }
+
 }
 {{< / highlight>}}
 
-## 問題3-1
+## 問題 3-1
 
 {{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/6" >}}
 
+大問 3 は自由回答で、３つの小問のうち 1 を選択して解く問題です。
 
-大問3は自由回答で、３つの小問のうち1を選択して解く問題です。
+問題を眺めてみたところ、問題 3-1 が一番実装コストが低そうだったのでこれを解くことにしました。
 
-問題を眺めてみたところ、問題3-1が一番実装コストが低そうだったのでこれを解くことにしました。
-
-問題の内容は、優先度を2値ではなく、[0-100]の数値にするという問題です。
+問題の内容は、優先度を 2 値ではなく、[0-100]の数値にするという問題です。
 
 幸いにもワーカー側でジョブの優先度は `int` のエイリアスで扱っていたため、ほとんど処理を変更する必要がありませんでした。
 
-書き換えたのはHTTPレスポンスのマッピングくらいです。
+書き換えたのは HTTP レスポンスのマッピングくらいです。
 
 {{< highlight go >}}
 case "[Priority]":
-    scanner.Scan()
-    p := scanner.Text()
-    if p == "Low" {
-        job.Priority = domain.Low
-    } else if p == "High" {
-        job.Priority = domain.High
-    } else {
-        priority, err := strconv.Atoi(p)
-        if err != nil {
-            return nil, fmt.Errorf("failed to parse priority: %s", err)
-        }
-        job.Priority = domain.Priority(priority)
-    }
+scanner.Scan()
+p := scanner.Text()
+if p == "Low" {
+job.Priority = domain.Low
+} else if p == "High" {
+job.Priority = domain.High
+} else {
+priority, err := strconv.Atoi(p)
+if err != nil {
+return nil, fmt.Errorf("failed to parse priority: %s", err)
+}
+job.Priority = domain.Priority(priority)
+}
 {{< / highlight>}}
 
 以上で問題を解答し終えました！
@@ -299,7 +292,7 @@ case "[Priority]":
 
 もし、同じ時刻に作成されたジョブが複数存在しているとすると、ハッシュマップが上書きされて、片方のジョブのファイル名が失われてしまいます。
 
-しかし、今回のHTTPレスポンスの例を見るに、同じ時刻のジョブが複数あることを考慮しなくて良いように思われたので実装しませんでした。
+しかし、今回の HTTP レスポンスの例を見るに、同じ時刻のジョブが複数あることを考慮しなくて良いように思われたので実装しませんでした。
 
 ## 解いてみた感想
 
@@ -309,19 +302,16 @@ case "[Priority]":
 
 また、データ構造とアルゴリズムだけでなく、標準ライブラリのみで作り上げる実装力やテストコードが評価の対象になるという点も良いと感じました。
 
-他社のインターンでもコーディングテストを課していることがありますが、どこもデータ構造とアルゴリズムか簡単なWebAPIのどっちかに振っている問題(track (旧codecheck) の問題など)が多いように感じます。
+他社のインターンでもコーディングテストを課していることがありますが、どこもデータ構造とアルゴリズムか簡単な WebAPI のどっちかに振っている問題(track (旧 codecheck) の問題など)が多いように感じます。
 
 私はこのようなタイプの課題に懐疑的で、もっと包括的な知識を問う問題が良いと思っています。ただ競プロの問題が解けてもアプリケーションの設計が出来なければ意味がないですし、逆も然りです。
 
-そういった点で、PFNの課題はそれらの観点を総合的に判断出来るものになっており、素晴らしいと思います。
+そういった点で、PFN の課題はそれらの観点を総合的に判断出来るものになっており、素晴らしいと思います。
 
 こんな良いバックエンドの問題を作るんだったら、もっと機械学習以外も募集していることをアピールしてもいいのに、と思いました。(多分自分も申し込んでた)
 
-今回は2019年の問題を解きましたが、リポジトリには以前の問題も掲載されているので、気になった方は解いてみてはどうでしょうか？
+今回は 2019 年の問題を解きましたが、リポジトリには以前の問題も掲載されているので、気になった方は解いてみてはどうでしょうか？
 
+P.S.
 
-P.S.  
-
-PFNさん、このレベルの解答で受かるんですかね...?
-
-
+PFN さん、このレベルの解答で受かるんですかね...?

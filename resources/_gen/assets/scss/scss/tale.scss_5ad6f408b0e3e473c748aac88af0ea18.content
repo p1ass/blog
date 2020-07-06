@@ -13,7 +13,7 @@ body {
 
 html {
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 15.5px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
     html {
@@ -38,8 +38,8 @@ a {
 blockquote {
   border-left: 0.25rem solid #e5e5e5;
   color: #979797;
-  margin: .8rem 0;
-  padding: .5rem 1rem; }
+  margin: 0.8rem 0;
+  padding: 0.5rem 1rem; }
   blockquote p:last-child {
     margin-bottom: 0; }
   @media (min-width: 600px) {
@@ -57,7 +57,7 @@ td {
 
 h2 {
   padding-right: 0;
-  font-size: 1.6em;
+  font-size: 1.55em;
   color: #444;
   margin-bottom: 1em;
   margin-top: 1.5em; }
@@ -78,8 +78,7 @@ h3 {
 p {
   margin: 0 0 1.8rem;
   line-height: 1.9;
-  text-align: justify;
-  font-size: 1.03rem; }
+  text-align: justify; }
 
 li p {
   margin: 0; }
