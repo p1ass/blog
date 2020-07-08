@@ -31,7 +31,7 @@
     {{- $cssOptions		:= cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
     {{- $style			:= resources.Get "scss/tale.scss" | toCSS $cssOptions }}
       <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-      <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/ea66b8338f.js" crossorigin="anonymous"></script>
     {{ range .Site.Params.css -}}
         <link rel="stylesheet" href="{{ . | relURL }}">
     {{ end -}}
