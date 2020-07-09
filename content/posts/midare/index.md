@@ -13,7 +13,7 @@ eyecatch: /posts/midare/ogp.jpg
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
 この記事は、LT 会のために作った Web サービスが何故かバズって **Twitter トレンド 1 位** になってしまい、ひぃひぃ言いながら行った負荷対応をまとめたものになります。
 スケーラビリティを全く考慮していない LT 会用の雑な Web サービスを、どのように改善していったのかについてまとめることで、個人開発者の参考になれば良いなと思っています。
