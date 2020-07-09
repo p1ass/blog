@@ -227,7 +227,7 @@ pre code {
     text-align: justify; }
   .post img {
     margin: 0 auto 0.5rem; }
-  .post img + em {
+  .post em {
     color: #666;
     display: block;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
