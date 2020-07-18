@@ -8,7 +8,7 @@ categories:
 tags:
   - React
   - pupeteer
-eyecatch: /posts/midare/ogp.jpg
+eyecatch: /posts/pass-variable-from-pupeteer-to-react/ogp.jpg
 share: true
 ---
 
