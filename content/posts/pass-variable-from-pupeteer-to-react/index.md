@@ -1,0 +1,61 @@
+---
+title: "pupeteer内のReactコンポーネントに変数を渡す"
+date: 2020-07-18T17:00:00+09:00
+draft: false
+description: 「pupeteer を動かしている Node が持っている変数を、pupeteer 内で動いている React コンポーネントに渡したい」という状況が発生したので、やり方をメモしておきます。
+categories:
+  - 開発
+tags:
+  - React
+  - pupeteer
+eyecatch: /posts/midare/ogp.jpg
+share: true
+---
+
+こんにちは、[@p1ass](https://twitter.com/p1ass)です。
+
+タイトルの通り「pupeteer を動かしている Node が持っている変数を、pupeteer 内で動いている React コンポーネントに渡したい」という状況が発生したので、やり方をメモしておきます。
+
+## モチベーション
+
+GCP の Cloud Functions で OGP を動的生成をしているのですが、「既に React で実装されている複雑な UI コンポーネントを使った OGP を生成したい」という要望がありました。また、そのコンポーネントに渡す Props はデータサイズが大きく、React 側で API を叩たかなくても済む方法を探していました。
+
+具体的にはこのサービスで使っています。
+
+{{<ex-link url="https://midare.p1ass.com">}}
+
+## やり方
+
+`Page.exposeFunction` 関数を使います。
+
+[公式リファレンス - page.exposeFunction](https://pptr.dev/#?product=Puppeteer&version=v5.2.0&show=api-pageexposefunctionname-puppeteerfunction)
+
+この関数は pupeteer 内の window オブジェクトに任意の関数を生やすことが出来る関数です。
+
+次のようにコードを書けば、pupeteer 内の React コンポーネント側で window オブジェクトを操作して値を取得することができます。
+
+```javascript
+// pupeteer 側
+const data = ["a", "b"];
+await page.exposeFunction("getData", () => data);
+```
+
+```javascript
+// React 側
+await window.getData();
+```
+
+実際のコードはここで確認できます。
+
+- [pupeteer 側](https://github.com/p1ass/midare/blob/master/ogp_functions/src/index.ts#L26-L29)
+- [React 側](https://github.com/p1ass/midare/blob/master/frontend/src/pages/OGPCalendar.tsx#L16-L24)
+
+## 注意する点
+
+`window.getData` を呼ぶのが早いと、`undefined`になる場合があります。
+
+現在は React 側で 600ms スリープした後に`window.getData()` を実行しています。このあたりの秒数は環境差があると思うので、それぞれのプロジェクトで確認することをオススメします。
+
+## 感想
+
+正直 window オブジェクト使いたくない、、、
