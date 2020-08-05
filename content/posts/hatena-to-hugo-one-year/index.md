@@ -61,7 +61,7 @@ share: true
 ### はてブ
 
 ![はてブ](hateb.png)
-https://b.hatena.ne.jp/entrylist?url=https%3A%2F%2Fblog.p1ass.com%2F&sort=count
+[『ぷらすのブログ』 の人気エントリー - はてなブックマーク](https://b.hatena.ne.jp/entrylist?url=https%3A%2F%2Fblog.p1ass.com%2F&sort=count)
 
 トップ 3 が PV ランキングと一緒です。
 
