@@ -89,7 +89,7 @@ OS は iOS と MacOS で過半数を占めるのに対し、ブラウザは Chro
 
 ### 検索パフォーマンス
 
-こっかはら Google Search Console のデータです。
+こっからは Google Search Console のデータです。
 
 ![インプレッション](imp.png)
 
