@@ -103,7 +103,7 @@ OS は iOS と MacOS で過半数を占めるのに対し、ブラウザは Chro
 
 [direnv](/posts/direnv-dotenv)が多くて、次がインターン系、[go sql](/posts/go-database-sql-wrapper)と続きます。
 
-PV ランキングと違う顔ぶれなのがより明確に出てますね。
+PV ランキングと違う顔ぶれなのがはっきりと分かります。
 
 ## おわりに
 
