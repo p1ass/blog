@@ -18,6 +18,8 @@ Go のよくある間違いとして、ループのイテレーター変数の�
 
 そこで、僕は[メルカリのインターン](https://mercan.mercari.com/articles/22800/)で、イテレーター変数の参照をループ内で使っている箇所を検出する静的解析ツールを作成したのでそれを紹介したいと思います。
 
+<!--more-->
+
 ## Using reference to loop iterator variable
 
 検出対象である「Using reference to loop iterator variable」についてもう少し詳しく紹介します。これは golang/go の wiki で取り上げられています。
