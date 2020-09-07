@@ -13,7 +13,7 @@ body {
 
 html {
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
-  font-size: 15.5px;
+  font-size: 15px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
     html {
@@ -618,7 +618,7 @@ footer {
 .catalogue-time {
   color: #666;
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
-  letter-spacing: .5px; }
+  letter-spacing: 0.5px; }
 
 .catalogue-title {
   color: #333;
@@ -626,13 +626,13 @@ footer {
   font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  margin: .5rem 0; }
+  margin: 0.5rem 0; }
 
 .catalogue-line {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  border-top: 0.2rem solid #333;
+  border-top: 0.2rem solid rgba(47, 128, 237, 0.7);
   display: block;
   width: 2rem; }
 

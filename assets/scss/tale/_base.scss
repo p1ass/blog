@@ -13,7 +13,7 @@ body {
 
 html {
   font-family: $serif-primary;
-  font-size: 15.5px;
+  font-size: 15px;
   overflow-y: scroll;
 
   @media (min-width: 600px) {
@@ -82,8 +82,8 @@ h2:after {
   content: "";
   background: linear-gradient(
     to right,
-    rgba(47, 128, 237, 0.7) 0%,
-    rgba(86, 204, 242, 0.7) 100%
+    $bottom-line-color-1 0%,
+    $bottom-line-color-2 100%
   );
 }
 
