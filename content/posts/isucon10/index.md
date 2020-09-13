@@ -139,7 +139,7 @@ https://github.com/saba-in-the-kettle/isucon10-qualify/pull/26
 
 相変わらず DB の負荷が高い。ここで、またしても km_conner がファインプレーで、DB の垂直分割で負荷を減らせるのでは？とアイデアを出してくれた。km_conner に 3 台目のセットアップを頼んで、僕は App 側でコネクションを使い分けるようにした。
 
-これがめっちゃ効いて、スコアが 1000 を超え始めた。確か 1200 くらいまで上がった気がする。
+これがめっちゃ効いて、スコアが 1000 を超え始めた。確か 1400 くらいまで上がった気がする。
 
 https://github.com/saba-in-the-kettle/isucon10-qualify/pull/27
 
