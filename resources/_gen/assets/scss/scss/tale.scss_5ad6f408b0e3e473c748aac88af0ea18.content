@@ -34,7 +34,7 @@ h6 {
 a {
   color: #04c;
   text-decoration: none;
-  overflow-wrap: anywhere; }
+  word-break: break-all; }
 
 blockquote {
   border-left: 0.25rem solid #e5e5e5;
