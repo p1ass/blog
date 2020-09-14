@@ -33,7 +33,8 @@ h6 {
 
 a {
   color: #04c;
-  text-decoration: none; }
+  text-decoration: none;
+  word-break: break-all; }
 
 blockquote {
   border-left: 0.25rem solid #e5e5e5;
