@@ -92,7 +92,7 @@ https://github.com/saba-in-the-kettle/isucon10-qualify/pull/12
 
 検索 API の SQL を改善したかったので、km_conner と方針を相談する。クエリパラメータによって SQL の WHERE 句の条件が変わるので一筋縄ではいかない。alp を見て、数が多いクエリに対してのみ効くインデックスを貼ろうとしたが、「クエリパラメータが存在しないときは必ず true になる条件をつけて、WHERE 句のフィールドを毎回固定にしたら一つのインデックスで済むのでは?」というアイデアを出してくれたので、手分けして実装した。実際は Descending Index があるのであまり意味はなかったっぽい。
 
-https://github.com/saba-in-the-kettle/isucon10-qualify/pull/11
+https://github.com/saba-in-the-kettle/isucon10-qualify/pull/11  
 https://github.com/saba-in-the-kettle/isucon10-qualify/pull/13
 
 ### 15:40 (他メンバー) Bot に対して 503 を返す
@@ -128,9 +128,9 @@ https://github.com/saba-in-the-kettle/isucon10-qualify/pull/25
 
 16 時くらいから頑張って実装してくれたのだが、思ったより曲者だったらしく何回か Revert した末、19 時を回ってから正常なコードがマージされた。ありがてぇ。
 
-https://github.com/saba-in-the-kettle/isucon10-qualify/pull/21
-https://github.com/saba-in-the-kettle/isucon10-qualify/pull/23
-https://github.com/saba-in-the-kettle/isucon10-qualify/pull/24
+https://github.com/saba-in-the-kettle/isucon10-qualify/pull/21  
+https://github.com/saba-in-the-kettle/isucon10-qualify/pull/23  
+https://github.com/saba-in-the-kettle/isucon10-qualify/pull/24  
 https://github.com/saba-in-the-kettle/isucon10-qualify/pull/26
 
 他の参加者のブログを眺めてた感じ、generated column を使うと、実際の値を代入しなくても良い感じに計算結果を保存してくれるっぽい。初耳だった。
