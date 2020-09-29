@@ -14,7 +14,7 @@ share: true
 
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
 
-タイトルの通り。[@Lorse](https://twitter.com/LorseKudos)と[@km_conner](https://twitter/com/km_conner)の 3 人で、チーム「釜中の鯖」として ISUCON10 の予選に参加したが、競技終了後の追試に失敗して、学生枠での本戦出場を逃した。めっちゃくやしい..。
+タイトルの通り。[@Lorse](https://twitter.com/LorseKudos)と[@km_conner](https://twitter/com/km_conner)の 3 人で、チーム「釜中の鯖」として ISUCON10 の予選に参加した。結果は競技終了後の追試に失敗して、学生枠での本戦出場を逃した。めっちゃくやしい...。
 
 負けたとはいえ、ブログを書くまでが ISUCON なので、取り組んだ改善をメモっておく。
 
@@ -44,7 +44,7 @@ share: true
 
 ### 12:41 デプロイスクリプトをカスタマイズ
 
-SSH ができるようになったら、簡単にデプロイできるようにデプロイスクリプトを書き換えた。
+SSH ができるようになったら、簡単にデプロイできるようするためにデプロイスクリプトを書き換えた。
 
 https://github.com/saba-in-the-kettle/isucon10-qualify/commit/e5365f48415613b4c3d8503e6fa367a7aa4b5146
 
