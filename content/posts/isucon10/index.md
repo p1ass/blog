@@ -14,7 +14,7 @@ share: true
 
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
 
-タイトルの通り。[@Lorse](https://twitter.com/LorseKudos)と[@km_conner](https://twitter/com/km_conner)の 3 人で、チーム「釜中の鯖」として ISUCON10 の予選に参加したが、競技終了後の追試に失敗して、学生枠での本戦出場を逃した。めっちゃくやしい...
+タイトルの通り。[@Lorse](https://twitter.com/LorseKudos)と[@km_conner](https://twitter/com/km_conner)の 3 人で、チーム「釜中の鯖」として ISUCON10 の予選に参加したが、競技終了後の追試に失敗して、学生枠での本戦出場を逃した。めっちゃくやしい..。
 
 負けたとはいえ、ブログを書くまでが ISUCON なので、取り組んだ改善をメモっておく。
 
@@ -90,7 +90,7 @@ https://github.com/saba-in-the-kettle/isucon10-qualify/pull/12
 
 ### 15:06:55 検索 API の WHERE 句をすべてつける
 
-検索 API の SQL を改善したかったので、km_conner と方針を相談する。クエリパラメータによって SQL の WHERE 句の条件が変わるので一筋縄ではいかない。alp を見て、数が多いクエリに対してのみ効くインデックスを貼ろうとしたが、「クエリパラメータが存在しないときは必ず true になる条件をつけて、WHERE 句のフィールドを毎回固定にしたら一つのインデックスで済むのでは?」というアイデアを出してくれたので、手分けして実装した。実際は Descending Index があるのであまり意味はなかったっぽい。
+検索 API の SQL を改善したかったので、km_conner と方針を相談する。クエリパラメータによって SQL の WHERE 句の条件が変わるので一筋縄ではいかない。alp を見て、数が多いクエリに対してのみ効くインデックスを貼ろうとしたが、「クエリパラメータが存在しないときは必ず true になる条件をつけて、WHERE 句のフィールドを毎回固定にしたら 1 つのインデックスで済むのでは?」というアイデアを出してくれたので、手分けして実装した。実際は Descending Index があるのであまり意味はなかったっぽい。
 
 https://github.com/saba-in-the-kettle/isucon10-qualify/pull/11  
 https://github.com/saba-in-the-kettle/isucon10-qualify/pull/13
