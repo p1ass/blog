@@ -17,9 +17,9 @@ share: true
 
 皆さん RSS 使ってますか？RSS を使えば簡単にブログの更新を受け取れたりして便利ですよね。
 
-でも、流れてくる情報多くてフィルタリングしたかったり、RSS に対応していないサイトの情報を受け取りたかったりすることがたまにありませんか？
+でも、流れてくる情報多くて辛かったり、RSS に対応していないサイトの情報を受け取りたかったりすることがたまにありませんか？
 
-そんな悩みを解決するための Go のライブラリを 1 年前に作っていたのですが、ブログに書く機会を逃していたので今更ですが紹介記事を書きます。
+そんな悩みを解決するための Go のライブラリを 1 年前に作ったのですが、ブログに書く機会を逃していたので、今更ですが紹介記事を書きます。
 
 発表スライドはこちらです。
 
@@ -29,9 +29,9 @@ share: true
 
 ## 背景
 
-RSS はニュースやブログなど各種ウェブサイトの更新情報を配信するための文書フォーマットです。ブログのタイトルや URL、公開日などが xml 形式で記述されています。
+[RSS](https://ja.wikipedia.org/wiki/RSS) はニュースやブログなど各種ウェブサイトの更新情報を配信するための文書フォーマットです。ブログのタイトルや URL、公開日などが xml 形式で記述されています。
 
-RSS は広く使われているフォーマットで、はてなブログや Qiita、Zenn などはデフォルトで対応しています。(似た形式の Atom の場合もある)
+RSS は広く使われているフォーマットで、はてなブログや Qiita、Zenn はデフォルトで対応しています。(似た形式の [Atom](<https://ja.wikipedia.org/wiki/Atom_(%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E9%85%8D%E4%BF%A1)>) の場合もある)
 
 - はてなブログ: `https://[ユーザ名].hatenablog.com/rss`
 - Qiita: `https://qiita.com/[ユーザ名]/feed`
@@ -39,11 +39,12 @@ RSS は広く使われているフォーマットで、はてなブログや Qii
 
 他にも、[GCP のリリースノート](https://cloud.google.com/feeds/gcp-release-notes.xml)や [YouTube チャンネルの更新情報](https://www.youtube.com/feeds/videos.xml?channel_id=UCt30jJgChL8qeT9VPadidSw)なども RSS で配信されています。
 
-しかし、RSS にもいくつか辛い点があります。
+これらを RSS リーダーである[Feedly](https://feedly.com/)や Slack の RSS アプリに登録すれば、記事の更新を素早くキャッチできます。
 
-1 つ目は RSS で配信される情報が多い点です。GCP のリリースノートのようにサービスごとに個別で RSS があれば良いですが、全ての情報が 1 つの RSS で配信されている場合があります。その場合は自分で情報をフィルタリングする必要があります。
+しかし、個人的に RSS にはいくつか辛い点がありました。
 
-2 つ目はそもそも RSS に対応していないサイトが多くある点です。音楽アーティストの HP や映画の HP の更新情報などは RSS が配信されていないことが多いです。
+- **RSS で配信される情報が多い。** GCP のリリースノートのようにサービスごとに個別で RSS があれば良いですが、全ての情報が 1 つの RSS で配信されている場合があります。その場合は自分で情報をフィルタリングする必要があります。
+- **そもそも RSS に対応していないサイトが多くある。** 音楽アーティストの HP や映画の HP の更新情報などは RSS が配信されていないことが多いです。
 
 こういった辛みをいい感じに解決したいと考えてライブラリを作成しました。
 
@@ -66,12 +67,8 @@ func crawl(){
 	feed := &feeder.Feed{
 		Title:       "My feeds",
 		Link:        &feeder.Link{Href: "https://example.com/feed"},
-		Description: "My feeds.",
-		Author:      &feeder.Author{
-			Name: "p1ass",
-			Email: "p1ass@example.com"},
-		Created:     time.Now(),
 		Items:       items,
+		// 細かいパラメータは省略
 	}
 
 	json, err := feed.ToJSON() // json is string
@@ -87,15 +84,14 @@ func crawl(){
 _エラーハンドリングをきちんとしていない点に注意してください_
 
 `feeder.NewRSSCrawler` でクローラーを作成し、`feeder.Crawl()` に渡すことで記事の一覧を取得しています。
-その後、 `*feeder.Feed` 構造体を作成すると、RSS や JSON、Atom などを生成することが出来ます。
-後はそれをファイルに保存したり、HTTP で配信したりと好きなように使うことが出来ます。
+その後、 `*feeder.Feed` 構造体を作成すると、RSS や JSON、Atom を生成できます。
+後はそれをファイルに保存したり、HTTP で配信したりと好きなように使えます。
 
-また、feeder では以下のようなことが出来ます。
+また、feeder では次のようなこともできます。
 
 - **独自に interface を満たす構造体を作ることで、任意のサイトの情報からフィードを作成**
 - 出力は RSS だけでなく、Atom や JSON にも対応
 - RSS の記事をフィルタして新たな RSS を作成
-- 複数の RSS をマージして１つの RSS を作成
 
 ### 独自に interface を満たす構造体を作ることで、任意のサイトの情報からフィードを作成
 
@@ -117,7 +113,7 @@ type Crawler interface {
 <summary>コード</summary>
 
 ```go
-func (crawler *SamasoniCrawler) Crawl() (*feeder.Items, error) {
+func (crawler *SamasoniCrawler) Crawl() ([]*feeder.Item, error) {
 	query := url.Values{}
 	query.Add("perform_id", "85895")
 	query.Add("sort_key", "sale_start_at")
@@ -133,7 +129,7 @@ func (crawler *SamasoniCrawler) Crawl() (*feeder.Items, error) {
 	}
 
 	sec := doc.Find("div#tickets").Find("div.list-ticket")
-	items := &feeder.Items{}
+	items := make([]*feeder.Items)
 	sec.Each(func(index int, s *goquery.Selection) {
 		if s.HasClass("list-ticket") {
 			title := s.Find("h2").Find("a").Text()
@@ -144,7 +140,7 @@ func (crawler *SamasoniCrawler) Crawl() (*feeder.Items, error) {
 				Id:      path,
 				Created: &t,
 			}
-			items.Items = append(items.Items, item)
+			items = append(items, item)
 		}
 	})
 	return items, nil
@@ -163,6 +159,22 @@ func (crawler *SamasoniCrawler) Crawl() (*feeder.Items, error) {
 出力には RSS だけでなく Atom や JSON にも対応しています。
 
 私はこれを使ってブログの記事一覧を返す JSON API を建てており、[ポートフォリオサイト](https://p1ass.com)に API 経由で取得した情報を載せています。
+
+### RSS の記事をフィルタして新たな RSS を作成
+
+記事情報は `[]*feeder.Item` というスライスになっているので、スライスの中から必要な情報のみをフィルターする関数を作れば OK です。
+
+```go
+func filterIfTitleContainsGo(items []*feeder.Item) []*feeder.Items {
+	filtered = make([]*filter.Item, 0, len(items))
+	for _, item := range items {
+		if strings.Contains(item.Title, "Go") {
+			filtered = append(filtered, item)
+		}
+	}
+	return filtered
+}
+```
 
 ## 終わりに
 
