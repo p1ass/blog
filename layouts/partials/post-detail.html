@@ -1,5 +1,5 @@
 <div class="post-detail">
-  {{ $readTime := mul (div (countwords .Content) 220.0) 60 }}
+  {{ $readTime := mul (div (countrunes .Content) 700.0) 60 }}
   <span class="reading-time">
     {{ math.Floor (div $readTime 60) }} min read |
   </span>
