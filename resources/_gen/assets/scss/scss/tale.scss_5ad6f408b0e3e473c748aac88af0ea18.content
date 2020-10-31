@@ -213,9 +213,6 @@ pre code {
 
 .post {
   padding: 3rem 0 0 0; }
-  @media (max-width: 900px) {
-    .post {
-      padding: 0 0 3rem 0; } }
   .post-info {
     color: #666;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
@@ -264,6 +261,41 @@ pre code {
 
 .related {
   padding-bottom: 3rem; }
+
+.author-wrapper {
+  border: solid 1px #e5e5e5;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex; }
+  .author-wrapper .author-name {
+    font-weight: bold;
+    font-size: 1.2rem; }
+  .author-wrapper .author-image-wrapper {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin: 0 1rem 0 0;
+    width: 100px; }
+    @media (max-width: 600px) {
+      .author-wrapper .author-image-wrapper {
+        width: 80px; } }
+  .author-wrapper .author-image {
+    border-radius: 100%;
+    margin: 0;
+    width: 100%;
+    height: auto; }
+  .author-wrapper .author-description {
+    margin: 0; }
+    @media (max-width: 600px) {
+      .author-wrapper .author-description {
+        font-size: 0.85rem; } }
+  .author-wrapper .author-sns-link {
+    color: #222222;
+    margin-right: 1rem; }
+  .author-wrapper .author-sns-github {
+    color: #211f1f; }
+  .author-wrapper .author-sns-twitter {
+    color: #1b95e0; }
 
 .highlight .hll {
   background-color: #ffc; }

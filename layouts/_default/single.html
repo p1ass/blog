@@ -10,6 +10,9 @@
     {{ partial "single/footer.html" . }}
   </article>
 
+  {{ partial "share" . }} {{ partial "single/author.html" . }}
+
+  <!-- -->
   {{ $related := .Site.RegularPages.Related . | first 4 }} {{ with $related }}
   <div class="related">
     <h3>See Also...</h3>
@@ -19,7 +22,7 @@
       {{ end }}
     </ul>
   </div>
-  {{ end }} {{ partial "share" . }}
+  {{ end }}
 
   <div class="pagination">
     {{- if .PrevPage }}

@@ -1,10 +1,6 @@
 .post {
   padding: 3rem 0 0 0;
 
-  @media (max-width: 900px) {
-    padding: 0 0 3rem 0;
-  }
-
   &-info {
     color: $default-tint;
     font-family: $serif-secondary;
@@ -71,4 +67,54 @@
 
 .related {
   padding-bottom: 3rem;
+}
+
+.author-wrapper {
+  border: solid 1px $grey-2;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+
+  .author-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .author-image-wrapper {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin: 0 1rem 0 0;
+    width: 100px;
+
+    @media (max-width: 600px) {
+      width: 80px;
+    }
+  }
+
+  .author-image {
+    border-radius: 100%;
+    margin: 0;
+    width: 100%;
+    height: auto;
+  }
+  .author-description {
+    margin: 0;
+    @media (max-width: 600px) {
+      font-size: 0.85rem;
+    }
+  }
+
+  .author-sns-link {
+    color: $default-color;
+    margin-right: 1rem;
+  }
+
+  .author-sns-github {
+    color: #211f1f;
+  }
+
+  .author-sns-twitter {
+    color: #1b95e0;
+  }
 }
