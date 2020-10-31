@@ -1,11 +1,9 @@
 {{ define "main" }}
 
 <main>
-  {{ partial "index/introduction.html" . }}
-
+  <h1>{{ strings.FirstUpper .Data.Singular }} {{ .Title }}</h1>
   <div class="catalogue">
-    {{ range (.Paginate .Site.RegularPages).Pages }} {{ .Render "summary" }}
-    {{end }}
+    {{ range (.Paginate .Pages).Pages }} {{ .Render "summary" }} {{ end }}
   </div>
 
   <div class="pagination">

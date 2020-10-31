@@ -1,11 +1,14 @@
 {{ define "main" }}
-
 <main>
-  {{ partial "index/introduction.html" . }}
-
+  <h1>{{ .Title }}</h1>
   <div class="catalogue">
-    {{ range (.Paginate .Site.RegularPages).Pages }} {{ .Render "summary" }}
-    {{end }}
+    <ul>
+      {{- range (.Paginate .Data.Pages 20).Pages -}}
+      <li>
+        <a href="{{ .Permalink }}"> {{ .Title }} </a>
+      </li>
+      {{- end -}}
+    </ul>
   </div>
 
   <div class="pagination">

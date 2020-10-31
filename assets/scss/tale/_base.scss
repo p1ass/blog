@@ -72,7 +72,6 @@ td {
 h2 {
   padding-right: 0;
   font-size: 1.55em;
-  color: $sub-shade;
   margin-bottom: 1em;
   margin-top: 1.5em;
 }
@@ -90,7 +89,6 @@ h2:after {
 
 h3 {
   font-size: 1.3rem;
-  color: $sub-shade;
   margin-bottom: 1em;
   margin-top: 1em;
   border-bottom: 1px solid $h3-border;
@@ -197,4 +195,22 @@ ol {
   border: none;
   max-height: 60px;
   margin: 0;
+}
+
+.post-detail {
+  padding-bottom: 1.5rem;
+}
+
+.tag {
+  color: $default-color;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+  @include transition(all 0.3s ease-out);
+}
+
+.reading-time {
+  color: $default-color;
+  opacity: 0.6;
 }
