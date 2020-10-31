@@ -50,6 +50,7 @@
     margin: 0 0 0 auto;
     display: flex;
     justify-content: center;
+    @include transition(all 0.3s ease-out);
   }
 
   &-more-button:hover {

@@ -662,7 +662,10 @@ footer {
   padding: 1rem 1rem;
   margin: 0 0 0 auto;
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out; }
 
 .catalogue-more-button:hover {
   background-color: #555555; }
