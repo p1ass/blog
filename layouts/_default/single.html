@@ -1,31 +1,38 @@
 {{ define "main" }}
 
 <main>
-	<article class="post">
-		{{ partial "single/post-info.html" . }}
-		{{ partial "single/title.html" . }}
+  <article class="post">
+    {{ partial "single/post-info.html" . }} {{ partial "single/title.html" . }}
+    {{ partial "single/header.html" . }} {{ partial "share" . }} {{ .Content }}
+    {{ partial "single/footer.html" . }}
+  </article>
 
-		{{ partial "single/header.html" . }}
 
-		{{ partial "share" . }}
+  {{ $related := .Site.RegularPages.Related . | first 4 }} {{ with $related }}
+  <div class="related">
+	<h2>See Also...</h3>
+	<ul>
+		{{ range . }}
+		<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+		{{ end }}
+	</ul>
+  </div>
+  {{ end }}
 
-		{{ .Content }}
+  {{ partial "share" . }}
 
-		{{ partial "single/footer.html" . }}
-	</article>
-
-	{{ partial "share" . }}
-
-	<div class="pagination">
-		{{- if .PrevPage }}
-		<a href="{{ .PrevPage.RelPermalink }}" class="left arrow">&#8592; {{ .PrevPage.Title }}</a>
-		{{- end }}
-		{{- if .NextPage }}
-		<a href="{{ .NextPage.RelPermalink }}" class="right arrow">{{ .NextPage.Title }} &#8594;</a>
-		{{- end }}
-	</div>
-	<div class="top"><a href="/" >Top</a></div>
-
+  <div class="pagination">
+    {{- if .PrevPage }}
+    <a href="{{ .PrevPage.RelPermalink }}" class="left arrow"
+      >&#8592; {{ .PrevPage.Title }}</a
+    >
+    {{- end }} {{- if .NextPage }}
+    <a href="{{ .NextPage.RelPermalink }}" class="right arrow"
+      >{{ .NextPage.Title }} &#8594;</a
+    >
+    {{- end }}
+  </div>
+  <div class="top"><a href="/">Top</a></div>
 </main>
 
 {{ end }}
