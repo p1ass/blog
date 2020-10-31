@@ -3,8 +3,10 @@
   <h1>{{ .Title }}</h1>
   <div class="catalogue">
     <ul>
-      {{- range (.Paginate .Data.Pages).Pages -}}
-      <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+      {{- range (.Paginate .Data.Pages 20).Pages -}}
+      <li>
+        <a href="{{ .Permalink }}"> {{ .Title }} </a>
+      </li>
       {{- end -}}
     </ul>
   </div>
