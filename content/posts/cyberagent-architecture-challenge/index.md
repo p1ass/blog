@@ -4,28 +4,30 @@ date: 2019-02-18T22:42:07+09:00
 draft: false
 description: Cyber Agentさんが開催された「Architecture Challenge」というイベントに参加し、アーキテクチャについて学んできました。
 categories:
-- インターン
+  - インターン
 tags:
-- Cyber Agent
-- インターン
+  - Cyber Agent
+  - SRE
+  - インターン
+  - AWS
 eyecatch: /posts/cyberagent-architecture-challenge/top.jpg
 share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
-この度、Cyber Agentさんが開催された**「Architecture Challenge」**というイベントに参加させていただきました！
+この度、Cyber Agent さんが開催された**「Architecture Challenge」**というイベントに参加させていただきました！
 
 {{< ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=22634" >}}
 
-
-個人開発をしていると、しっかりと考えることのないアーキテクチャについて考えることができる2日間となりました。
+個人開発をしていると、しっかりと考えることのないアーキテクチャについて考えることができる 2 日間となりました。
 
 <!--more-->
 
 ![トップ](./top.jpg)
 
 ## 概要
+
 今回のインターンのテーマは**「架空のサービスのチャット機能部分のアーキテクチャを考える」**というものでした。
 
 ![お題](./theme.png)
@@ -41,32 +43,32 @@ _評価基準_
 また、今回はコードを一切書かないイベントでした。スケールできる構成を考えないといけないにも関わらず、**その計測ができない**ので、ネットに転がっている情報を元に考える必要がありました。
 
 ## 作ったもの
-今回は成果物として、ER図とアーキテクチャ図を作りました。
+
+今回は成果物として、ER 図とアーキテクチャ図を作りました。
 
 ![ER図](./er.png)
-_ER図_
+_ER 図_
 
 ![アーキテクチャ図](./architecture.jpg)
 _アーキテクチャ図_
 
 自分は主にアーキテクチャの方を担当したのですが、今思うと怪しいところが多かったなと反省しています。
 
-- gRPCのロードバランスの難しさ
-- L7LBとL4LBの違い
+- gRPC のロードバランスの難しさ
+- L7LB と L4LB の違い
 
 このあたりは、フワッとした知識しか持っていなかったので、かなり適当になってしまいました。
 
 しかし、同時に多くのことを学ぶことができました。
-特に、**Redis**は使ったことがなく、ほとんど知識がなかったのですが、しっかり調査することができました。**RedisにPubSub機能がある**と知れたのは良かったです。
+特に、**Redis**は使ったことがなく、ほとんど知識がなかったのですが、しっかり調査することができました。**Redis に PubSub 機能がある**と知れたのは良かったです。
 
-## GraphQL SubscriptionsとRedis PubSubを使ったリアルタイムチャットサーバー
+## GraphQL Subscriptions と Redis PubSub を使ったリアルタイムチャットサーバー
 
 インターン中は実際にコードを書くことが出来なかったので、後日**GraphQL Subscriptions**と**Redis PubSub**を使ったリアルタイムチャットサーバーを作ってみました。
 
-
 {{< ex-link url="https://github.com/p1ass/graphql-redis-realtime-chat" >}}
 
-解説記事をQiitaに書いてのでよかったら読んでみてください。
+解説記事を Qiita に書いてのでよかったら読んでみてください。
 
 {{< ex-link url="https://qiita.com/p1ass/items/462209fe73ece1238d85" >}}
 
@@ -82,7 +84,6 @@ _お弁当_
 
 ![お弁当](./lunch-2.jpg)
 _お弁当その２_
-
 
 ![お肉](./niku.jpg)
 _お肉_

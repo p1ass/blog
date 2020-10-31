@@ -4,38 +4,39 @@ date: 2020-05-01T10:00:00+09:00
 draft: false
 description: 先日、レイヤーアーキテクチャを採用しているWeb APIサーバにWebSocketを組み込むことになったのですが、コネクションの管理やどのレイヤーで各機能を管理するか悩んだのでブログにまとめておきます。使用している言語はGoで、Webフレームワークはechoです。
 categories:
-- 開発
+  - 開発
 tags:
-- GitHub
+  - GitHub
+  - Go
+  - WebSocket
 eyecatch: /posts/websocket-with-layerd-architecture/ogp.jpg
 share: true
 ---
 
 こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
-先日、レイヤーアーキテクチャを採用しているWeb APIサーバにWebSocketを組み込むことになったのですが、コネクションの管理やどのレイヤーで各機能を管理するか悩んだのでブログにまとめておきます。
+先日、レイヤーアーキテクチャを採用している Web API サーバに WebSocket を組み込むことになったのですが、コネクションの管理やどのレイヤーで各機能を管理するか悩んだのでブログにまとめておきます。
 
-使用している言語はGoで、Webフレームワークはechoです。
-
+使用している言語は Go で、Web フレームワークは echo です。
 
 <!--more-->
 
-## WebSocket実装前のAPIサーバの構成
+## WebSocket 実装前の API サーバの構成
 
-WebSocketを実装する前のAPIサーバのディレクトリ構成は次のようになっていました。（ブログ用に調整を加えてます。）
+WebSocket を実装する前の API サーバのディレクトリ構成は次のようになっていました。（ブログ用に調整を加えてます。）
 
 {{< highlight bash >}}
 .
-├── database # repositoryのインターフェースを満たす実体
-├── domain 
-│   ├── entity 
-│   └── repository 
-│   └── service 
+├── database # repository のインターフェースを満たす実体
+├── domain
+│ ├── entity
+│ └── repository
+│ └── service
 ├── main.go
-├── usecase 
+├── usecase
 └── web
-    ├── handler 
-    └── router.go 
+├── handler
+└── router.go
 {{< /highlight >}}
 
 処理の流れは以下の通りです。
@@ -43,50 +44,49 @@ WebSocketを実装する前のAPIサーバのディレクトリ構成は次の�
 {{< highlight bash >}}
 web/router.go
 ↓
-web/handler/*.go
+web/handler/_.go
 ↓
-usecase/*.go
+usecase/_.go
 ↓
-domain/*
+domain/\*
 {{< /highlight >}}
 
-
-レイヤードアーキテクチャを採用している無難なパッケージ構成になっています。明確にDDDやClean Architectureであるとは言えないですが、その思想を取り入れつつ独自にカスタマイズしています。[^1]
+レイヤードアーキテクチャを採用している無難なパッケージ構成になっています。明確に DDD や Clean Architecture であるとは言えないですが、その思想を取り入れつつ独自にカスタマイズしています。[^1]
 
 [^1]: ここではこのアーキテクチャの良し悪しについては語りません。話が逸れすぎるので。
 
-## WebSocketの機能要件
+## WebSocket の機能要件
 
-今回のWebSocketの要件は以下の通りです。
+今回の WebSocket の要件は以下の通りです。
 
-- サーバからクライアントへのイベント通知 (JSON形式)
+- サーバからクライアントへのイベント通知 (JSON 形式)
 - クライアントからサーバへの送信は**行わない**
 - クライアントは複数のセグメントに分かれている (便宜上「ルーム」と呼ぶ)
 - サーバからのイベント通知はルームごとに行う
-- 現時点ではサーバプロセスは1つだが、将来的にスケールアウトすることを考慮する
-  - Redis PubSubなどを使ってイベントの同期をする必要はないが、実装しやすいようにしておく
+- 現時点ではサーバプロセスは 1 つだが、将来的にスケールアウトすることを考慮する
+  - Redis PubSub などを使ってイベントの同期をする必要はないが、実装しやすいようにしておく
 
-メッセージのやり取りはサーバからクライアントへの一方向のみ、加えてプロセスも1個なのでそこまで複雑にはならない想定です。
+メッセージのやり取りはサーバからクライアントへの一方向のみ、加えてプロセスも 1 個なのでそこまで複雑にはならない想定です。
 
 ## 設計する上で考えたこと
 
-さて、このAPIサーバにWebSocketの通信を実装していくわけですが、まずは設計をしていきます。
+さて、この API サーバに WebSocket の通信を実装していくわけですが、まずは設計をしていきます。
 
 ### レイヤーを用いた責務の分離
 
 レイヤードアーキテクチャを利用している以上当たり前ですが、責務を分離して見通しやすい実装を目指します。
 
-### gorutineリーク、メモリリーク
+### gorutine リーク、メモリリーク
 
-通常のHTTPリクエストでは、1リクエストごとに一つのgorutineが生成されレスポンスを返したらgorotuineが終了します。
+通常の HTTP リクエストでは、1 リクエストごとに一つの gorutine が生成されレスポンスを返したら gorotuine が終了します。
 
-しかし、WebSocketのコネクションを扱う場合は接続している間はgoroutineが生きたままになります。コネクション切断されたときに正しくgoroutineの終了処理をしないと、段々使われなくなったgoroutineが溜まっていきメモリを圧迫してしまいます。
+しかし、WebSocket のコネクションを扱う場合は接続している間は goroutine が生きたままになります。コネクション切断されたときに正しく goroutine の終了処理をしないと、段々使われなくなった goroutine が溜まっていきメモリを圧迫してしまいます。
 
 ### スレッドセーフ
 
-WebSocketコネクションの作成/削除時に一つのmapやsliceに複数のgoroutineからアクセスされるため、スレッドセーフになるように実装する必要があります。
+WebSocket コネクションの作成/削除時に一つの map や slice に複数の goroutine からアクセスされるため、スレッドセーフになるように実装する必要があります。
 
-また、channelを使う場合は適切にサイズを指定してデッドロックしないように気をつける必要があります。
+また、channel を使う場合は適切にサイズを指定してデッドロックしないように気をつける必要があります。
 
 ## 実装
 
@@ -94,7 +94,7 @@ WebSocketコネクションの作成/削除時に一つのmapやsliceに複数�
 
 ### インターフェースの定義
 
-まずは、メッセージの送信です。ドメインロジックの処理結果などを通知するのに使われるため、インターフェースはdomain packageで宣言します。
+まずは、メッセージの送信です。ドメインロジックの処理結果などを通知するのに使われるため、インターフェースは domain package で宣言します。
 
 ```go
 type Pusher interface {
@@ -106,6 +106,7 @@ type PushMessage struct {
   Event *entity.Event
 }
 ```
+
 ```go
 type Event struct {
   Type string `json:"type`
@@ -143,19 +144,19 @@ func (uc *RoomUseCase) Join(roomID string, user *entity.User) error {
 }
 ```
 
-ユースケースではWebSocketの詳細には関与せず、ただメッセージを送信するだけに留めます。
+ユースケースでは WebSocket の詳細には関与せず、ただメッセージを送信するだけに留めます。
 
-### Pusherインターフェースの実装
+### Pusher インターフェースの実装
 
-次にPusherインターフェースを満たす構造体を作ります。この構造体は複数のWebSocketコネクションを一括してハンドリングし、適切なコネクションに対してメッセージを送信します。ソースコードは `web/ws/*.go` に配置します。webパッケージ内におくかどうかは悩んだのですが、HTTP上のプロトコルなのでここにしました。
+次に Pusher インターフェースを満たす構造体を作ります。この構造体は複数の WebSocket コネクションを一括してハンドリングし、適切なコネクションに対してメッセージを送信します。ソースコードは `web/ws/*.go` に配置します。web パッケージ内におくかどうかは悩んだのですが、HTTP 上のプロトコルなのでここにしました。
 
-WebSocketを扱うライブラリはgorrila/websocketを採用しています。READMEにも書かれている通り、準標準のgolang.org/x/net/websocketは機能が不足しています。{{< link text="GoDoc" href="https://pkg.go.dev/golang.org/x/net/websocket?tab=doc" >}}には代替案としてgorrila/websocketが書いてあるので今回はこちらを採用しました。
+WebSocket を扱うライブラリは gorrila/websocket を採用しています。README にも書かれている通り、準標準の golang.org/x/net/websocket は機能が不足しています。{{< link text="GoDoc" href="https://pkg.go.dev/golang.org/x/net/websocket?tab=doc" >}}には代替案として gorrila/websocket が書いてあるので今回はこちらを採用しました。
 
 実装は{{< link text="gorrila/websocketのexample" href="https://github.com/gorilla/websocket/tree/master/examples/chat" >}}を非常に参考にさせていただきました。
 
 {{< ex-link url="https://github.com/gorilla/websocket" >}}
 
-まず、WebSocketのコネクションをラップする構造体を作成します。
+まず、WebSocket のコネクションをラップする構造体を作成します。
 
 ```go
 type Client struct {
@@ -166,9 +167,9 @@ type Client struct {
 }
 ```
 
-この構造体は一つのWebSocketコネクションと一対一で対応します。そして、この `Client` 1つごとに1つのgoroutineを起動し、メッセージを送信するループを実行します。
+この構造体は一つの WebSocket コネクションと一対一で対応します。そして、この `Client` 1 つごとに 1 つの goroutine を起動し、メッセージを送信するループを実行します。
 
-ループがエラーで終了したときはコネクションを閉じて後述するHubに対して通知します。
+ループがエラーで終了したときはコネクションを閉じて後述する Hub に対して通知します。
 
 ```go
 func (c *Client) PushLoop() {
@@ -218,7 +219,7 @@ type Hub struct {
 }
 ```
 
-コメントにもある通り、コネクションが切断されたときに `Client` を削除しやすいようにmapで `Client` を持ちます。mapをスレッドセーフに扱えるように `clientsPerRoom` へのアクセスはすべて `Run()` のループから行うようにします。
+コメントにもある通り、コネクションが切断されたときに `Client` を削除しやすいように map で `Client` を持ちます。map をスレッドセーフに扱えるように `clientsPerRoom` へのアクセスはすべて `Run()` のループから行うようにします。
 
 ```go
 func (h *Hub) Register(client *Client) {
@@ -272,17 +273,15 @@ func (h *Hub) push(pushMsg *event.PushMessage) {
 }
 ```
 
-`Push()` はchannelを通じてメッセージを送り、`Run()` で受け取ります。その後、各 `Client` で動いているgoroutineへchannelを通じてメッセージを送ります。
+`Push()` は channel を通じてメッセージを送り、`Run()` で受け取ります。その後、各 `Client` で動いている goroutine へ channel を通じてメッセージを送ります。
 
-`Hub` 側ではなく `Client` 側のgorutineでWebSocketコネクションへの書き込みを行っているのはデッドロックを回避するためです。
+`Hub` 側ではなく `Client` 側の gorutine で WebSocket コネクションへの書き込みを行っているのはデッドロックを回避するためです。
 
-もし、WebSocketコネクションへの書き込みが失敗した場合、`unregisterCh` を通じて `Client` の登録解除を試みます。しかし、同じgoroutineで書き込みを行っている場合、`Hub` の `Run()` で動いているメインループは `h.push(pushMsg)` でブロックされており、`case cli := <-h.unregisterCh` で登録解除のメッセージを受け取ることはできません。
+もし、WebSocket コネクションへの書き込みが失敗した場合、`unregisterCh` を通じて `Client` の登録解除を試みます。しかし、同じ goroutine で書き込みを行っている場合、`Hub` の `Run()` で動いているメインループは `h.push(pushMsg)` でブロックされており、`case cli := <-h.unregisterCh` で登録解除のメッセージを受け取ることはできません。
 
-channelのバッファーのサイズを指定することでブロックせずキューに登録解除の通知を溜めることもできますが、キューが溢れたらデッドロックしてしまうことには変わりないです。いつ発生するか分からない恐怖に耐えるよりかは `Client` 側の別goroutineに処理を移譲した方が安心できます。
+channel のバッファーのサイズを指定することでブロックせずキューに登録解除の通知を溜めることもできますが、キューが溢れたらデッドロックしてしまうことには変わりないです。いつ発生するか分からない恐怖に耐えるよりかは `Client` 側の別 goroutine に処理を移譲した方が安心できます。
 
-
-
-最後に、ハンドラーの処理と `Hub` のループをgoroutineで実行する処理を書きます。
+最後に、ハンドラーの処理と `Hub` のループを goroutine で実行する処理を書きます。
 
 ```go
 func (h *WebSocketHandler) WebSocket(c echo.Context) error {
@@ -315,16 +314,14 @@ func main() {
 
 これで実装は出来ているわけですが、ベストではないと考えています。
 
-特に、`Client` の終了を `Hub` に伝える処理が微妙です。現在は `Hub` の `unregisterCh` を `Client` 側に渡していますが、`Hub` が管理しているchannelを送信可能状態(`chan<- T`)で外部公開するのに抵抗があります。
+特に、`Client` の終了を `Hub` に伝える処理が微妙です。現在は `Hub` の `unregisterCh` を `Client` 側に渡していますが、`Hub` が管理している channel を送信可能状態(`chan<- T`)で外部公開するのに抵抗があります。
 
-送信可能なchannel(`chan<- T`)を外部に公開すると、間違ってchannelを `close`される可能性があります。外部に公開するのは受信専用のchannel(`<-chan T`)にしておきたいところですが、そうすると `Client` 側で生成されたn個分のchannelを別途 `Hub` 側で管理する必要がありしんどいなぁと思っています。
+送信可能な channel(`chan<- T`)を外部に公開すると、間違って channel を `close`される可能性があります。外部に公開するのは受信専用の channel(`<-chan T`)にしておきたいところですが、そうすると `Client` 側で生成された n 個分の channel を別途 `Hub` 側で管理する必要がありしんどいなぁと思っています。
 
-良さげなアイデアがあればTwitterなりブコメなりで教えてくれると助かります。
+良さげなアイデアがあれば Twitter なりブコメなりで教えてくれると助かります。
 
 ## 感想
 
 - レイヤードアーキテクチャだから面倒くさいと感じる部分は結構少なかった。
-- Reids PubSubを使うなら、 `Push` でPublishして、`Hub` 側でSubscribeすれば問題なく実装できそう。
-- Goにはgoroutineやchannelといった便利な機能があるが、ソフトウェア・エンジニアリング的に「正しく使う」のは意外と難しいなと感じた。
-
-
+- Reids PubSub を使うなら、 `Push` で Publish して、`Hub` 側で Subscribe すれば問題なく実装できそう。
+- Go には goroutine や channel といった便利な機能があるが、ソフトウェア・エンジニアリング的に「正しく使う」のは意外と難しいなと感じた。
