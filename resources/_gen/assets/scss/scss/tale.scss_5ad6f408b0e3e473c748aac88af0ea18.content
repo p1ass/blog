@@ -156,6 +156,9 @@ ol {
   max-height: 60px;
   margin: 0; }
 
+.tag {
+  color: #666; }
+
 pre,
 code {
   font-family: Menlo, Monaco, monospace; }
