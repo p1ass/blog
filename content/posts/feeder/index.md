@@ -65,25 +65,18 @@ func crawl(){
 	items, err := feeder.Crawl(rss1, rss2)
 
 	feed := &feeder.Feed{
-		Title:       "My feeds",
-		Link:        &feeder.Link{Href: "https://example.com/feed"},
 		Items:       items,
 		// 細かいパラメータは省略
 	}
 
-	json, err := feed.ToJSON() // json is string
 	rss, err := feed.ToRSS() // rss is string
-	atom, err := feed.ToAtom() // atom is string
-
-	jsonReader, err := feed.ToJSONReader() // jsonReader is a io.Reader
 	rssReader, err := feed.ToRSSReader() // jsonReader is a io.Reader
-	atomReader, err := feed.ToAtomReader() // jsonReader is a io.Reader
 }
 ```
 
 _エラーハンドリングをきちんとしていない点に注意してください_
 
-`feeder.NewRSSCrawler` でクローラーを作成し、`feeder.Crawl()` に渡すことで記事の一覧を取得しています。
+`feeder.NewRSSCrawler()` でクローラーを作成し、`feeder.Crawl()` に渡すことで記事の一覧を取得しています。
 その後、 `*feeder.Feed` 構造体を作成すると、RSS や JSON、Atom を生成できます。
 後はそれをファイルに保存したり、HTTP で配信したりと好きなように使えます。
 
@@ -156,7 +149,15 @@ func (crawler *SamasoniCrawler) Crawl() ([]*feeder.Item, error) {
 
 ### 出力は RSS だけでなく、Atom や JSON にも対応
 
-出力には RSS だけでなく Atom や JSON にも対応しています。
+出力は RSS だけでなく Atom や JSON にも対応しています。
+
+```go
+json, err := feed.ToJSON() // json is string
+atom, err := feed.ToAtom() // atom is string
+
+jsonReader, err := feed.ToJSONReader() // jsonReader is a io.Reader
+atomReader, err := feed.ToAtomReader() // jsonReader is a io.Reader
+```
 
 私はこれを使ってブログの記事一覧を返す JSON API を建てており、[ポートフォリオサイト](https://p1ass.com)に API 経由で取得した情報を載せています。
 
