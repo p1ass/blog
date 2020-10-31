@@ -3,7 +3,8 @@
 <main>
   <article class="post">
     {{ partial "single/post-info.html" . }} {{ partial "single/title.html" . }}
-    {{ partial "single/header.html" . }} {{ partial "share" . }} {{ .Content }}
+    {{ partial "single/header.html" . }} {{ partial "share" . }} {{ partial "post-detail.html" . }} 
+    {{ .Content }}
     {{ partial "single/footer.html" . }}
   </article>
 

@@ -1,7 +1,0 @@
-{{ with .Params.tags }}
-<div>
-  {{ range . }}
-  <a href="/tags/{{ lower . }}/" class="tag">#{{ . }}</a>
-  {{ end }}
-</div>
-{{ end }}

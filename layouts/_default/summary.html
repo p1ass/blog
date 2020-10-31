@@ -8,12 +8,13 @@
       <div class="catalogue-line"></div>
     </div>
   </a>
-  {{ partial "category-and-tag.html" . }}
+  {{ partial "post-detail.html" . }}
 
-  <p>
-    {{ if isset .Params "summary" }} {{ .Params.Summary }}
-    <!-- -->
-    {{ else }} {{ .Summary}} {{ end }}
-  </p>
+  <!-- -->
+
+  {{ if isset .Params "summary" }} {{ .Params.Summary }}
+  <!-- -->
+  {{ else }} {{ .Summary}} {{ end }}
+
   <a class="catalogue-more-button" href="{{ .Permalink }}">続きを読む</a>
 </section>

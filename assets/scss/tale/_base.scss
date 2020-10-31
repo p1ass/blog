@@ -197,6 +197,20 @@ ol {
   margin: 0;
 }
 
+.post-detail {
+  padding-bottom: 1.5rem;
+}
+
 .tag {
-  color: $default-tint;
+  color: $default-color;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+  @include transition(all 0.3s ease-out);
+}
+
+.reading-time {
+  color: $default-color;
+  opacity: 0.6;
 }
