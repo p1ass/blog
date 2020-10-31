@@ -8,6 +8,7 @@ categories:
 tags:
   - Go
   - 静的解析
+  - OSS
 eyecatch: /posts/itervar/ogp.jpg
 share: true
 ---

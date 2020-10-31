@@ -5,6 +5,8 @@ draft: false
 description: チーム開発でレビューをしていると、「パット見は問題なさそうだが、なんかバグってそう」と感じ取ることがある。この勘を鍛えるには「良いコードを読む」ことが重要だと考えている。
 categories:
   - ポエム
+tags:
+  - ポエム
 eyecatch: /posts/intuition-in-programming/ogp.jpg
 share: true
 ---
