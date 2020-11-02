@@ -212,7 +212,7 @@ pre code {
     user-select: none; }
 
 .post {
-  padding: 3rem 0 0 0; }
+  padding: 0; }
   .post-info {
     color: #666;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
