@@ -212,7 +212,7 @@ pre code {
     user-select: none; }
 
 .post {
-  padding: 3rem 0 0 0; }
+  padding: 0; }
   .post-info {
     color: #666;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif;
@@ -552,7 +552,7 @@ footer,
   display: block;
   margin: 0 auto;
   max-width: 750px;
-  width: 85%; }
+  width: calc(100% - 2rem); }
 
 .nav {
   box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
@@ -568,9 +568,9 @@ footer,
     color: #222222;
     display: inline-block;
     margin: 0;
-    padding-right: .2rem; }
+    padding-right: 0.2rem; }
     .nav-title:hover, .nav-title:focus {
-      opacity: .6; }
+      opacity: 0.6; }
     .nav-title:after {
       display: none; }
   .nav ul {
@@ -584,7 +584,7 @@ footer,
     transition: all 0.2s ease-out;
     color: #222222;
     display: inline-block;
-    opacity: .6;
+    opacity: 0.6;
     padding: 0 2rem 0 0; }
     .nav li:last-child {
       padding-right: 0; }
@@ -608,11 +608,11 @@ footer {
   text-align: center; }
   footer span {
     color: #222222;
-    font-size: .8rem; }
+    font-size: 0.8rem; }
 
 .fa-external-link-alt {
-  padding-left: .4rem;
-  font-size: .85rem; }
+  padding-left: 0.4rem;
+  font-size: 0.85rem; }
 
 .pagination {
   border-top: 0.5px solid #e5e5e5;
