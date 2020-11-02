@@ -9,7 +9,7 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
-    <meta property="og:image" content="{{ .Site.BaseURL }}{{if .IsHome}}/images/ogp.png{{else}}{{ .Params.eyecatch }}{{ end }}" />
+    <meta property="og:image" content="{{if .IsHome}}{{ .Site.BaseURL }}/images/ogp.png{{else}}https://og-image.p1ass.com/{{ .Params.title | urlize }}.jpg{{ end }}"/>
     <meta property="og:url" content="{{ .Permalink }}" />
 
     <meta name="twitter:card" content="summary_large_image" />
