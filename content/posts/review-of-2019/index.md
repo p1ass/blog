@@ -137,23 +137,23 @@ _GitHubの草_
 
 ダンスミュージックが好きな人は一度足を運んでみましょう！
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">サマソニ！！ <a href="https://t.co/IeEbxQR55n">pic.twitter.com/IeEbxQR55n</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1162898390188822528?ref_src=twsrc%5Etfw">August 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1162898390188822528" >}}
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">これはThe Chainsmokers <a href="https://t.co/chDbWP45oe">pic.twitter.com/chDbWP45oe</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1181601117089624064?ref_src=twsrc%5Etfw">October 8, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1181601117089624064" >}}
 
 --以下オタク箱--
 
 kz(livetune)本人によるSEVENTH HAVEN
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">朝までクラブで遊んでた <a href="https://t.co/4mlDCMG16P">pic.twitter.com/4mlDCMG16P</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1160664845596819456?ref_src=twsrc%5Etfw">August 11, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1160664845596819456" >}}
 
 KMNZのVR
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Virtual Realityエモかった <a href="https://t.co/eY3T9kh5kL">pic.twitter.com/eY3T9kh5kL</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1168541938317840384?ref_src=twsrc%5Etfw">September 2, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1168541938317840384" >}}
 
 Yunomiはやっぱり最The高
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">大江戸コントローラー <a href="https://twitter.com/hashtag/%E6%9C%AA%E6%9D%A5%E8%8C%B6%E4%BC%9A?src=hash&amp;ref_src=twsrc%5Etfw">#未来茶会</a> <a href="https://t.co/nF5RHSYNsB">pic.twitter.com/nF5RHSYNsB</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1130074286583046144?ref_src=twsrc%5Etfw">May 19, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1130074286583046144" >}}
 
 ### 推し
 

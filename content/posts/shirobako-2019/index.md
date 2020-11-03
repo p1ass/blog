@@ -135,5 +135,4 @@ _SHIROBAKO 13話より_
 
 数年後見た時に振り返りたい。
 
-<blockquote class="twitter-tweet" data-partner="tweetdeck"><p lang="ja" dir="ltr">“SHIROBAKOでは<br>- 能力のない人間とは働けない<br>- 能力があっても信頼関係を築けないと仕事がこない<br>- 信頼関係を築くにはその機会がないといけないが、そもそも信頼関係を築けてない人には機会がこない<br>と、非情なくらいの仕事のリアルが描かれていました。”<br> <a href="https://t.co/64oUg5PkNs">https://t.co/64oUg5PkNs</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1207189354868658177?ref_src=twsrc%5Etfw">December 18, 2019</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1207189354868658177">}}

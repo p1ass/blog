@@ -18,7 +18,7 @@ share: true
 
 前々から Twitter を見てくれていた人はわかるかもしれませんが、3 週間ほど CyberAgent の AbemaTV というサービスでインターンをしてきました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">わーい <a href="https://t.co/fXrMXW9e9i">pic.twitter.com/fXrMXW9e9i</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1158995483240439808?ref_src=twsrc%5Etfw">August 7, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1158995483240439808" >}}
 
 <!--more-->
 
@@ -73,9 +73,10 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 自分の財布を開けたことが片手で数えても余るくらいの回数しかなかったので、本当に感謝です 🙏
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">お寿司美味しかったです🍣 <a href="https://t.co/2H7sZ5IYRo">pic.twitter.com/2H7sZ5IYRo</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1161139585306415104?ref_src=twsrc%5Etfw">August 13, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1161139585306415104" >}}
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">焼肉美味しかった <a href="https://t.co/eDwhhFt0rT">pic.twitter.com/eDwhhFt0rT</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1162215621569830913?ref_src=twsrc%5Etfw">August 16, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1162215621569830913" >}}
+
 
 ### 報酬
 
@@ -109,7 +110,7 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 トレーナーさんを始め、皆さん本当にお世話になりました 🙏
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">遅くなりましたが、昨日AbemaTVのインターンを修了しました〜<br><br>3週間という短い間でしたが、大規模なサービスを作っていくにあたっての様々な知識を得ることができました！<br><br>トレーナーさんを始め、皆さん本当にお世話になりました🙏<a href="https://twitter.com/hashtag/CATechJob?src=hash&amp;ref_src=twsrc%5Etfw">#CATechJob</a> <a href="https://t.co/t34foCxdhX">pic.twitter.com/t34foCxdhX</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1167772325992792066?ref_src=twsrc%5Etfw">August 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1167772325992792066" >}}
 
 {{< ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=23258" >}}
 
@@ -117,8 +118,9 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 深夜のラブホ街のど真ん中に集まるオタク
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Virtual Realityエモかった <a href="https://t.co/eY3T9kh5kL">pic.twitter.com/eY3T9kh5kL</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1168541938317840384?ref_src=twsrc%5Etfw">September 2, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1168541938317840384" >}}
 
 初夏フェス
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">サマソニ！！ <a href="https://t.co/IeEbxQR55n">pic.twitter.com/IeEbxQR55n</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1162898390188822528?ref_src=twsrc%5Etfw">August 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+{{<twitter url="https://twitter.com/p1ass/status/1162898390188822528" >}}

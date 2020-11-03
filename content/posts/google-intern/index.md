@@ -29,8 +29,7 @@ share: true
 
 始めて Google と接点が持ったのは、京大卒の Google エンジニアとの交流会でした。
 
-<blockquote class="twitter-tweet" data-partner="tweetdeck"><p lang="ja" dir="ltr">4月に京大で、京大出身Googleエンジニアと京大生の交流会を開きます。ChromeやAndroidから僕、Google Assistantから先輩がもう一人来ますのでぜひ！普段なかなか表に出ない弊社の面接の内容とかも伝授します！応募は<br> <a href="https://t.co/7ODjK4xG2i">https://t.co/7ODjK4xG2i</a> から。 <a href="https://t.co/ycmMrFEH9G">pic.twitter.com/ycmMrFEH9G</a></p>&mdash; [  takise  ] (@takisejr) <a href="https://twitter.com/takisejr/status/1104532614566699008?ref_src=twsrc%5Etfw">March 10, 2019</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/takisejr/status/1104532614566699008">}}
 
 交流会では、Google での働き方などを知ることができ、模擬コーディングインタビューも見ることができました。
 

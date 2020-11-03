@@ -20,7 +20,7 @@ share: true
 
 「3 日間で最高のアプリに作り直す」というミッションが課せられていたインターンでしたが、最大限の力で最高のアプリに作り直し、**優勝することが出来ました 🎉**
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">DeNA サマーインターン プロダクト開発コースで優勝しました！！！<a href="https://twitter.com/hashtag/dena_summer?src=hash&amp;ref_src=twsrc%5Etfw">#dena_summer</a> <a href="https://t.co/WxI9HxIqzH">pic.twitter.com/WxI9HxIqzH</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1165553277435383808?ref_src=twsrc%5Etfw">August 25, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1165553277435383808" >}}
 
 この記事では、インターンに参加した経緯や、インターンの詳しい内容などを紹介していきたいと思います。
 来年申し込んでみようと考えている人にも役に立ちそうな内容を盛り込んでいるので、是非読んでいってください。
@@ -46,7 +46,7 @@ DeNA では様々なサマーインターンを開催していますが、その
 そんな中 、3 月の終わり頃に DeNA のインターンの募集が始まっていることに気づき、その場で申し込みました。
 DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて応募していたので、申込みはかなり早かった部類だと思います。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">DeNAのサマーインターンの募集始まってるで<br><br>【DeNA サマーインターンシップ 2019 募集開始！】 <a href="https://t.co/iwc7gRiMgP">https://t.co/iwc7gRiMgP</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1110131164105207808?ref_src=twsrc%5Etfw">March 25, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1110131164105207808" >}}
 
 ## 選考について
 
@@ -58,7 +58,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 申し込んでから 10 日で合格が決まったのでほぼほぼ最速だったのではと思います。
 人によっては面接から合格までかなり待ったという話があったので運が良かったです。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">インターンの１次面接にCTOが出てくるのは驚きを隠せなかった</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1114047882372378624?ref_src=twsrc%5Etfw">April 5, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1114047882372378624" >}}
 
 面接の内容は他でも聞かれるような質問が多かったのですが、「プログラミングを始めたきかっけ」を根掘り葉掘り聞かれたのが印象に残っています。
 
@@ -109,7 +109,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 
 ### 1 日目
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">DeNAに来た <a href="https://t.co/Rh7AVai6EX">pic.twitter.com/Rh7AVai6EX</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1164696651182641153?ref_src=twsrc%5Etfw">August 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1164696651182641153" >}}
 
 まず初めに、インターンのクソアプリが生まれるまでの経緯の紹介(茶番?)がありました。
 
@@ -136,7 +136,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 
 夕食ではお酒を飲みながら寿司を食べました 🍣(このタイミングでお酒を飲んでいたのは自分のチームだけだったらしい)
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">優勝！！<a href="https://twitter.com/hashtag/dena_summer?src=hash&amp;ref_src=twsrc%5Etfw">#dena_summer</a> <a href="https://t.co/FRdUlRWDPk">pic.twitter.com/FRdUlRWDPk</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1164829390598881285?ref_src=twsrc%5Etfw">August 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1164829390598881285" >}}
 
 ### 2 日目
 
@@ -186,7 +186,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 
 この日はサーバサイドのタスクが多く、クライアント向けの実装はあまり出来なかったのですが、クライアントチームはサーバなしでもできることを着実に進めてくれていました。いつの間にかアプリにお絵かき機能が追加されていたときは流石に驚きました 🤭
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">叙々苑の焼肉ランチ <a href="https://twitter.com/hashtag/dena_summer?src=hash&amp;ref_src=twsrc%5Etfw">#dena_summer</a> <a href="https://t.co/H3NcKQPJ7B">pic.twitter.com/H3NcKQPJ7B</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1165094579554488321?ref_src=twsrc%5Etfw">August 24, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1165094579554488321" >}}
 
 ### 3 日目
 
@@ -216,7 +216,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 
 なんと自分のチームが優勝することが出来ました 🎉🎉🎉
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">DeNA サマーインターン プロダクト開発コースで優勝しました！！！<a href="https://twitter.com/hashtag/dena_summer?src=hash&amp;ref_src=twsrc%5Etfw">#dena_summer</a> <a href="https://t.co/WxI9HxIqzH">pic.twitter.com/WxI9HxIqzH</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1165553277435383808?ref_src=twsrc%5Etfw">August 25, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1165553277435383808" >}}
 
 優勝理由を伺ったところ、
 
@@ -234,7 +234,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 
 以下のツイートのように本気で優勝を狙いに来ていたので、優勝できたのは本当に良かったです。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">明日からはDeNAのインターン！<br>優勝していい肉食べるぞ！！！🍖</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1164527638666330115?ref_src=twsrc%5Etfw">August 22, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1164527638666330115" >}}
 
 また、普段個人で開発しているだけでは他の同年代の学生と相対的に評価される機会が少ないので、このインターンを通してかなり自分に自信がつきました。
 
