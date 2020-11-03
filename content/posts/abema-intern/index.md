@@ -17,8 +17,8 @@ share: true
 こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 前々から Twitter を見てくれていた人はわかるかもしれませんが、3 週間ほど CyberAgent の AbemaTV というサービスでインターンをしてきました。
-<div class="lozad-twitter" data-twitter-src="https://twitter.com/p1ass/status/1158995483240439808"></div>
 
+{{<twitter url="https://twitter.com/p1ass/status/1158995483240439808" >}}
 
 <!--more-->
 
@@ -73,9 +73,10 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 自分の財布を開けたことが片手で数えても余るくらいの回数しかなかったので、本当に感謝です 🙏
 
-<div class="lozad-twitter" data-twitter-src="https://twitter.com/p1ass/status/1161139585306415104"></div>
+{{<twitter url="https://twitter.com/p1ass/status/1161139585306415104" >}}
 
-<div class="lozad-twitter" data-twitter-src="https://twitter.com/p1ass/status/1162215621569830913"></div>
+{{<twitter url="https://twitter.com/p1ass/status/1162215621569830913" >}}
+
 
 ### 報酬
 
@@ -109,7 +110,7 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 トレーナーさんを始め、皆さん本当にお世話になりました 🙏
 
-<div class="lozad-twitter" data-twitter-src="https://twitter.com/p1ass/status/1167772325992792066"></div>
+{{<twitter url="https://twitter.com/p1ass/status/1167772325992792066" >}}
 
 {{< ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=23258" >}}
 
@@ -117,9 +118,9 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 深夜のラブホ街のど真ん中に集まるオタク
 
-<div class="lozad-twitter" data-twitter-src="https://twitter.com/p1ass/status/1168541938317840384"></div>
+{{<twitter url="https://twitter.com/p1ass/status/1168541938317840384" >}}
 
 初夏フェス
 
 
-<div class="lozad-twitter" data-twitter-src="https://twitter.com/p1ass/status/1162898390188822528"></div>
+{{<twitter url="https://twitter.com/p1ass/status/1162898390188822528" >}}

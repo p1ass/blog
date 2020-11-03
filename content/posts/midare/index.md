@@ -25,7 +25,7 @@ share: true
 
 最初に作った Web サービスを紹介しておきます。「生活習慣の乱れを可視化するやつ」という Web サービスを作りました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ツイートを分析して生活習慣の乱れを可視化するツイ廃向けのWebアプリを作りました！<br>Twitter連携で簡単に起床・就寝時間が分かり、どんどん生活習慣が乱れていく様子を見ることができます。<br><br>左の画像は規則正しい人、右の画像は生活習慣が乱れている人のグラフです ⏰<a href="https://t.co/5f7xlh7X6J">https://t.co/5f7xlh7X6J</a> <a href="https://t.co/6YNo02VATv">pic.twitter.com/6YNo02VATv</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267413338016804864?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267413338016804864" >}}
 
 このアプリは Twitter API を使ってツイートを解析し、カレンダー UI で直感的に起きている時間を把握することが出来るアプリです。本来は生活習慣の乱れを可視化するために作ったのですが、実態としては **「ツイ廃可視化アプリ」** なので、多くの人が Twitter ばっか開いている現実を目の当たりにしたようです。
 
@@ -55,7 +55,7 @@ share: true
 
 無事登壇も終了し、のんきに酒を飲みながら LT 会を聞いていたのですが、ふと気になり Google Analytics を開くと、アクティブユーザが 100 人を超えていてビビります。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ワロタ <a href="https://t.co/YRj4pXIqqN">pic.twitter.com/YRj4pXIqqN</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267418549745664003?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267418549745664003" >}}
 
 また、このあたりで RT 数が 100 を超え始め、ちょっと焦り始めます。
 
@@ -102,7 +102,7 @@ GCP には GAE もありますが、GAE 用のコンフィグを準備やロー�
 
 一時間弱で Cloud Run への移行が完了しました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">爆速でVPSからCloud Runに移行した <a href="https://t.co/KeMb9OWTIH">https://t.co/KeMb9OWTIH</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267441450754568192?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267441450754568192" >}}
 
 ![Cloud Runのメトリクス](cloud-run-metrics.png)
 _移行直後のメトリクス_
@@ -126,7 +126,7 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 キャッシュの実装が終わったころには、アクティブユーザが 2000 人を超えていました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">いやそれは無いやろwwww <a href="https://t.co/sitWe3r5vE">pic.twitter.com/sitWe3r5vE</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267446250904772609?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267446250904772609" >}}
 
 この数字に懐疑的だったので、後日色々メトリクスを調べてみたのですが、API レスポンスが非常に遅くなってレスポンス待ちのユーザが多く発生したため、アクティブユーザが多くなっていたようです。
 
@@ -134,7 +134,7 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 サーバが死にました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">あ、サーバ死んだ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267449807678795776?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267449807678795776" >}}
 
 原因は Twitter API の Rate Limit でした。Twitter API の User Timeline を取得する API は Twitter アプリ 1 つにつき 100,000 リクエスト/日という制限があり、これに引っかかってしまいました。
 
@@ -158,7 +158,7 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 ### 23:20 ログイン処理がバグってることに気づく
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">夜ご飯食べてないので買いに行く<br><br>TLのみんな一回試してみてだめだったらリプちょーだい</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267460825255563266?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267460825255563266" >}}
 
 コンビニから返ってきたら、ログイン処理がおかしいという報告が来ていました。調査してみると、Redis に移すべきオンメモリの情報を一部移し忘れていました。そのため、ログインが 1/n の確率で成功する状態になっていました 😇
 
@@ -170,7 +170,7 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 プリコネ[^2]や #cheeruphanabi を抑えて Twitter トレンド 1 位になりました 🎉
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">トレンド1位らしいです！<br>ありがとうございます🙏 <a href="https://t.co/PtZjehBABA">pic.twitter.com/PtZjehBABA</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267488254334398470?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267488254334398470" >}}
 
 [^2]: コッコロたん〜〜〜
 
@@ -216,8 +216,8 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 ## おまけ
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">はい <a href="https://t.co/Zwkzcch7fs">https://t.co/Zwkzcch7fs</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267430794739412998?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267430794739412998" >}}
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">落としたサーバの数だけ強くなれる</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267498932776517634?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote>
+{{<twitter url="https://twitter.com/p1ass/status/1267498932776517634" >}}
 
 {{<ex-link url="https://midare.p1ass.com">}}

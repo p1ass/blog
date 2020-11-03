@@ -21,8 +21,7 @@ share: true
 
 いつもと違う人が見てくれていると思うので軽く自己紹介しておくと、京都大学工学部電気電子工学科 (通称電電) の 3 回生で、プログラミングを少し嗜んでます。今回の{{< link href="https://twitter.com/hashtag/kuac2019" text="#kuac2019" >}}の発起人の１人です。
 
-<blockquote class="twitter-tweet" data-partner="tweetdeck"><p lang="ja" dir="ltr">これが発端で、 <a href="https://twitter.com/d0ra1998?ref_src=twsrc%5Etfw">@d0ra1998</a>  とあくたがわで昼ご飯食べてる時にやることになりました <a href="https://twitter.com/hashtag/kuac2019?src=hash&amp;ref_src=twsrc%5Etfw">#kuac2019</a> <a href="https://t.co/GQIpQSBNAI">https://t.co/GQIpQSBNAI</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1192461721685725184?ref_src=twsrc%5Etfw">November 7, 2019</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1192461721685725184">}}
 
 発起人の１人として、まともな記事を書かなきゃという気持ちもあるのであるが、今回はあえて電電生に向けた記事を書こうと思います。
 
