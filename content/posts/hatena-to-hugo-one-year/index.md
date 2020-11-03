@@ -15,7 +15,7 @@ share: true
 
 ブログをはてなブログから移行して一年経ったので、色々感想や分かったことを書いていこうと思います。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ブログ移行してから1年経ったらしい <a href="https://t.co/kRLp82lVuO">https://t.co/kRLp82lVuO</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1280907489551151104?ref_src=twsrc%5Etfw">July 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ブログ移行してから1年経ったらしい <a href="https://t.co/kRLp82lVuO">https://t.co/kRLp82lVuO</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1280907489551151104?ref_src=twsrc%5Etfw">July 8, 2020</a></blockquote>
 
 <!--more-->
 
@@ -39,7 +39,7 @@ share: true
 
 見て分かる通り、Lighthouse はかなり改善されました。体感でも感じれるレベルで速くなったので非常に満足しています。画像は移行当初のものですが、今もさほど変わっていません。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ブログ移行で幸せになれた <a href="https://t.co/ZjVfV9LH6C">pic.twitter.com/ZjVfV9LH6C</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1147207034019860481?ref_src=twsrc%5Etfw">July 5, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ブログ移行で幸せになれた <a href="https://t.co/ZjVfV9LH6C">pic.twitter.com/ZjVfV9LH6C</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1147207034019860481?ref_src=twsrc%5Etfw">July 5, 2019</a></blockquote>
 
 ### ページビュー
 

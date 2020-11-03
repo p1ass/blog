@@ -65,7 +65,7 @@ marshivには以下の機能を実装しました。
 しかし、今回のインターンは**学部2回**でも参加でき、その記述を見た時は**「よっしゃ行けるやん！」**と言ってしまいました。
 
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">【募集開始】技術職志望学生向けピクシブ冬インターン「君だけのpixivを開発(つく)れ！」の募集を開始いたしました！今回はハッカソン形式の2日間インターンです。メンターと一緒に「あなたの考える最高のpixiv」を開発していただきます！ <a href="https://twitter.com/hashtag/pixiv_intern?src=hash&amp;ref_src=twsrc%5Etfw">#pixiv_intern</a><a href="https://t.co/SJW0I3JTbv">https://t.co/SJW0I3JTbv</a></p>&mdash; ピクシブ株式会社 pixiv Inc. (@pixiv_corp) <a href="https://twitter.com/pixiv_corp/status/1061820244526682114?ref_src=twsrc%5Etfw">November 12, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">【募集開始】技術職志望学生向けピクシブ冬インターン「君だけのpixivを開発(つく)れ！」の募集を開始いたしました！今回はハッカソン形式の2日間インターンです。メンターと一緒に「あなたの考える最高のpixiv」を開発していただきます！ <a href="https://twitter.com/hashtag/pixiv_intern?src=hash&amp;ref_src=twsrc%5Etfw">#pixiv_intern</a><a href="https://t.co/SJW0I3JTbv">https://t.co/SJW0I3JTbv</a></p>&mdash; ピクシブ株式会社 pixiv Inc. (@pixiv_corp) <a href="https://twitter.com/pixiv_corp/status/1061820244526682114?ref_src=twsrc%5Etfw">November 12, 2018</a></blockquote>
 
 さて、今回のインターンの内容は次のようなものでした。
 
@@ -82,7 +82,7 @@ marshivには以下の機能を実装しました。
 エントリーフォームの内容はエンジニア系のインターンでよく聞かれることが多かったです。
 自分の作った作品等の欄には[「ポートフォリオサイト」](https://p1ass.github.io)や[「えもじっく」](https://emojic.ch) などを書きました。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixivのインターン申し込んだ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1063430022151557120?ref_src=twsrc%5Etfw">November 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixivのインターン申し込んだ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1063430022151557120?ref_src=twsrc%5Etfw">November 16, 2018</a></blockquote>
 
 ### 面接
 
@@ -103,7 +103,7 @@ marshivには以下の機能を実装しました。
 なんやかんだしているうちに、面接の結果が返ってきました。大体インターン日の1週間前くらいだったと思います。
 ビクビクしながらメールを開いて見ると、そこには**参加できる旨が書かれていました！**
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">よく分からないですが、pixivの冬インターン受かりました (1週間ぶり2度目)</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1071012726325923841?ref_src=twsrc%5Etfw">December 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">よく分からないですが、pixivの冬インターン受かりました (1週間ぶり2度目)</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1071012726325923841?ref_src=twsrc%5Etfw">December 7, 2018</a></blockquote>
 
 (一週間ぶりなのは、前の週に別の春インターンに受かっていたからです)
 
@@ -126,7 +126,7 @@ marshivには以下の機能を実装しました。
 
 朝5時前に起きて京都から東京へ向かいます🚅
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">生きる <a href="https://t.co/Phvsni9IgO">pic.twitter.com/Phvsni9IgO</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1073563484737007617?ref_src=twsrc%5Etfw">December 14, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">生きる <a href="https://t.co/Phvsni9IgO">pic.twitter.com/Phvsni9IgO</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1073563484737007617?ref_src=twsrc%5Etfw">December 14, 2018</a></blockquote>
 
 朝起きれるか心配でしたが、なんとか起きることができました。
 
@@ -265,7 +265,7 @@ _感想スライド(最後大事)_
 成果発表の後、結果発表が行われたのですが、なんと**優勝することが出来ました！！**
 
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixiv冬インターン優勝しました！！！ <a href="https://t.co/xP2TKtAGQP">pic.twitter.com/xP2TKtAGQP</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1074234627064123394?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">pixiv冬インターン優勝しました！！！ <a href="https://t.co/xP2TKtAGQP">pic.twitter.com/xP2TKtAGQP</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1074234627064123394?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote>
 
 
 初めて参加したハッカソン形式のインターンで優勝できて、本当にびっくりしましたし、光栄です😊
@@ -275,9 +275,9 @@ _感想スライド(最後大事)_
 
 諸々の書類やアンケートに答えた後は、懇親会です🍻
 
-<blockquote class="twitter-tweet"><p lang="da" dir="ltr">LGTM <a href="https://t.co/wSqlHM3L5K">pic.twitter.com/wSqlHM3L5K</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1074239620727005185?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="da" dir="ltr">LGTM <a href="https://t.co/wSqlHM3L5K">pic.twitter.com/wSqlHM3L5K</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1074239620727005185?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote>
 
-<blockquote class="twitter-tweet"><p lang="da" dir="ltr">LGTM 2 <a href="https://t.co/Sbz2AiHvw4">pic.twitter.com/Sbz2AiHvw4</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1074252331758178304?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="da" dir="ltr">LGTM 2 <a href="https://t.co/Sbz2AiHvw4">pic.twitter.com/Sbz2AiHvw4</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1074252331758178304?ref_src=twsrc%5Etfw">December 16, 2018</a></blockquote>
 
 
 懇親会では、他のインターン生や社員の方々とたくさんお話することができました。普段自分と異なることをやってる人の話はとても参考になりました。

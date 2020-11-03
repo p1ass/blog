@@ -5,7 +5,7 @@
         {{ partial "header.html" . }}
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
+    {{ partial "twitter-lazyload.html" }}
     </body>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
     {{ partial "lazyload.html" . }}
 </html>

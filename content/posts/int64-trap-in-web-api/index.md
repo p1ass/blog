@@ -56,4 +56,4 @@ _誤差が見える_
 
 int64を返すときは気をつけましょう。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ええええJavaScriptって整数のint64に対応してないのかよ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1177964450554400770?ref_src=twsrc%5Etfw">September 28, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ええええJavaScriptって整数のint64に対応してないのかよ</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1177964450554400770?ref_src=twsrc%5Etfw">September 28, 2019</a></blockquote>

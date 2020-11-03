@@ -313,7 +313,7 @@ Web サービス自体は今後も１ユーザとして応援していきたい�
 
 私の今後の予定ですが、4 月から研究室配属されて卒研をします。プライベートは CAMPHOR-の代表として他の運営からこぼれてきているものを拾いつつ、余った時間で CS 系の勉強をしていこうと思います。最近学びの少ないただコードを書くだけの時間が虚無に思えてきたので、もっとベースとなる知識を学んでいきたいです。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">これコーディングしててもほとんど学びがなくて、貯金をただ消化してる感じがするのが原因かも</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1233055323247628288?ref_src=twsrc%5Etfw">February 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">これコーディングしててもほとんど学びがなくて、貯金をただ消化してる感じがするのが原因かも</p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1233055323247628288?ref_src=twsrc%5Etfw">February 27, 2020</a></blockquote>
 
 私の就活話はこれで終わりにしますが、この文章が皆さんの役に立てば幸いです。[^6]最後の色んな方の参考記事も是非読んでみてください。長々と書いてきましたが、最後までお読みいただきありがとうございました。
 
