@@ -10,7 +10,6 @@ tags:
   - Atcoder
   - Go
   - インターン
-eyecatch: /posts/google-intern/craking_the_coding_interview.jpg
 share: true
 ---
 

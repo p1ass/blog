@@ -9,7 +9,6 @@ tags:
   - mixi
   - インターン
   - git
-eyecatch: /images/ogp.png
 share: true
 ---
 

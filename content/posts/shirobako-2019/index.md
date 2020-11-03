@@ -8,7 +8,6 @@ categories:
 tags:
 - 就活
 - SHIROBAKO
-eyecatch: /posts/shirobako-2019/ri-chan.jpg
 share: true
 ---
 

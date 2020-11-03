@@ -9,7 +9,6 @@ tags:
 - Docker
 - VPS
 - Caddy
-eyecatch: /posts/docker-context/ogp.jpg
 share: true
 ---
 

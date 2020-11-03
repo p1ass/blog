@@ -10,7 +10,6 @@ tags:
 - Go
 - MySQL
 - Nginx
-eyecatch: /posts/isucon9/result.png
 share: true
 ---
 

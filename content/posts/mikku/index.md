@@ -10,7 +10,6 @@ tags:
 - mikku
 - Kubernetes
 - Semantic Versioning
-eyecatch: /posts/mikku/ogp.jpg
 share: true
 ---
 

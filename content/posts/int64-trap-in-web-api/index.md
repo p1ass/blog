@@ -10,7 +10,6 @@ tags:
 - JavaScript
 - JSON
 - API
-eyecatch: /posts/int64-trap-in-web-api/ogp.png
 share: true
 ---
 

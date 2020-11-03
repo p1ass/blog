@@ -12,7 +12,6 @@ tags:
   - datastore
   - アカツキ
   - インターン
-eyecatch: /posts/aktsk-intern/ogp.png
 share: true
 ---
 

@@ -11,7 +11,6 @@ tags:
 - VS Code
 - Jupyter Notebooks
 - matplotlib
-eyecatch: /posts/matplotlib-style-in-vscode/ogp.png
 share: true
 ---
 

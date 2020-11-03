@@ -9,7 +9,6 @@ tags:
 - Go
 - Wantedly
 - カンファレンス
-eyecatch: /posts/go-con/pprof.png
 share: true
 ---
 

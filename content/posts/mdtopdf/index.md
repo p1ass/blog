@@ -10,7 +10,6 @@ tags:
   - TeX
   - docker
   - OSS
-eyecatch: /posts/mdtopdf/ogp.jpg
 share: true
 ---
 

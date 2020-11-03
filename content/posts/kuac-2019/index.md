@@ -10,7 +10,6 @@ tags:
   - kuac
   - Python
   - Jupyter Notebooks
-eyecatch: /posts/kuac-2019/ogp.jpg
 share: true
 ---
 

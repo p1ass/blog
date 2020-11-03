@@ -8,7 +8,6 @@ categories:
 tags:
   - ISUCON
   - Go
-eyecatch: /posts/isucon10/ogp.jpg
 share: true
 ---
 

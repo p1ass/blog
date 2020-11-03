@@ -10,7 +10,6 @@ tags:
   - Bot
   - スクレイピング
   - OSS
-eyecatch: /images/ogp.png
 share: true
 ---
 

@@ -9,7 +9,6 @@ tags:
   - direnv
   - 環境変数
   - OSS
-eyecatch: /images/ogp.png
 share: true
 ---
 

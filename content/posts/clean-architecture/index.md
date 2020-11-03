@@ -8,7 +8,6 @@ categories:
 tags:
   - "Clean Architecture"
   - 環境変数
-eyecatch: /images/ogp.png
 share: true
 ---
 

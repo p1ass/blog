@@ -10,7 +10,6 @@ tags:
   - SRE
   - インターン
   - AWS
-eyecatch: /posts/cyberagent-architecture-challenge/top.jpg
 share: true
 ---
 

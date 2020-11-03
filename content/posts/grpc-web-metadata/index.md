@@ -8,7 +8,6 @@ categories:
 tags:
   - gRPC-Web
   - Go
-eyecatch: /images/ogp.png
 share: true
 ---
 

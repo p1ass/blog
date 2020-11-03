@@ -11,7 +11,6 @@ tags:
   - Go
   - MongoDB
   - インターン
-eyecatch: /posts/abema-intern/ogp.jpg
 share: true
 ---
 

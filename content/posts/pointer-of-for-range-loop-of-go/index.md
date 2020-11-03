@@ -7,7 +7,6 @@ categories:
 - 開発
 tags:
 - Go
-eyecatch: /posts/pointer-of-for-range-loop-of-go/ogp.jpg
 share: true
 ---
   

@@ -10,7 +10,6 @@ tags:
   - インターン
   - Go
   - Python
-eyecatch: /images/ogp.png
 share: true
 ---
 

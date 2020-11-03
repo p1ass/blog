@@ -8,7 +8,6 @@ categories:
 tags:
 - 抱負
 - OKR
-eyecatch: /posts/okr-2020/ogp.jpg
 share: true
 ---
 

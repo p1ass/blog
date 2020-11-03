@@ -9,7 +9,6 @@ tags:
   - Go
   - GCP
   - Cloud Run
-eyecatch: /posts/midare/ogp.jpg
 share: true
 ---
 

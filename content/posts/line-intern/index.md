@@ -9,7 +9,6 @@ tags:
 - LINE
 - インターン
 - Java
-eyecatch: /posts/line-intern/ogp.png
 share: true
 ---
 

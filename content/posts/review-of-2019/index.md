@@ -13,7 +13,6 @@ tags:
 - アニメ
 - 伊藤美来
 - SHIROBAKO
-eyecatch: /posts/review-of-2019/ogp.jpg
 share: true
 ---
 

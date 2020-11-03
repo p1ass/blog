@@ -8,7 +8,6 @@ categories:
 tags:
   - LINE
   - カンファレンス
-eyecatch: /images/ogp.png
 share: true
 ---
 

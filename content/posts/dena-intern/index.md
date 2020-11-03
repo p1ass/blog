@@ -11,7 +11,6 @@ tags:
   - インターン
   - AWS
   - MySQL
-eyecatch: /posts/dena-intern/winner.jpg
 share: true
 ---
 

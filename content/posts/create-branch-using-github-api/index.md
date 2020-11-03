@@ -7,7 +7,6 @@ categories:
 - 開発
 tags:
 - GitHub
-eyecatch: /posts/create-branch-using-github-api/ogp.jpg
 share: true
 ---
 

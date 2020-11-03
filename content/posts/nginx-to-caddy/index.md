@@ -8,7 +8,6 @@ categories:
 tags:
   - Caddy
   - Nginx
-eyecatch: /posts/nginx-to-caddy/ogp.jpg
 share: true
 ---
 

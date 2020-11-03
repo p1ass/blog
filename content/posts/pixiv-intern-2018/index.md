@@ -8,7 +8,6 @@ categories:
 tags:
 - ピクシブ
 - インターン
-eyecatch: /posts/pixiv-intern-2018/top.png
 share: true
 ---
 

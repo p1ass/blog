@@ -7,7 +7,6 @@ categories:
 - Webサービス
 tags:
 - 1Password
-eyecatch: /posts/1password/ogp.jpg
 share: true
 ---
 

@@ -9,7 +9,6 @@ tags:
   - GitHub
   - Go
   - WebSocket
-eyecatch: /posts/websocket-with-layerd-architecture/ogp.jpg
 share: true
 ---
 

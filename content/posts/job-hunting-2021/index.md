@@ -8,7 +8,6 @@ categories:
 tags:
   - 就活
   - インターン
-eyecatch: /posts/job-hunting-2021/ogp.jpg
 share: true
 ---
 

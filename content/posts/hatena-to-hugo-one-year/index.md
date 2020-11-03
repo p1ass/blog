@@ -8,7 +8,6 @@ categories:
 tags:
   - ブログ
   - Hugo
-eyecatch: /posts/hatena-to-hugo-one-year/ogp.jpg
 share: true
 ---
 

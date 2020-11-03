@@ -9,7 +9,6 @@ tags:
   - Go
   - RSS
   - OSS
-eyecatch: /posts/feeder/ogp.jpg
 share: true
 ---
 

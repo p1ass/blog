@@ -7,7 +7,6 @@ categories:
   - ポエム
 tags:
   - ポエム
-eyecatch: /posts/intuition-in-programming/ogp.jpg
 share: true
 ---
 

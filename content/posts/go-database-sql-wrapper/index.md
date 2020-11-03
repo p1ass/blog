@@ -8,7 +8,6 @@ categories:
 tags:
 - Go
 - MySQL
-eyecatch: /posts/go-database-sql-wrapper/ogp.jpg
 share: true
 ---
 
