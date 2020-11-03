@@ -10,7 +10,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
 
-    {{- if .Params.title }}
+    {{- if .IsPage }}
     <meta property="og:image" content="https://og-image.p1ass.com/{{ .Params.Title }}.jpeg"/>
     {{- else }}
     <meta property="og:image" content="{{ .Site.BaseURL }}/images/ogp.png"/>
