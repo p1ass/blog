@@ -590,6 +590,10 @@ footer,
       padding-right: 0; }
     .nav li:hover, .nav li:focus {
       opacity: 1; }
+    @media (max-width: 600px) {
+      .nav li {
+        padding: 0 0 0.5rem 0;
+        width: 100px; } }
   .nav a {
     color: #222222;
     font-family: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial, sans-serif; }
