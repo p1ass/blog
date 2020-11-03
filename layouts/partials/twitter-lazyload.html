@@ -1,5 +1,9 @@
 {{/* https://r17n.page/2020/07/24/js-embed-tweet-lazy-load-using-lozad-twitter/ */}}
 <script>
+    {{/*  画像用Lazylaod  */}}
+    const imageObserver = lozad('.lazy')
+    imageObserver.observe()
+    
     const observer = lozad('.lozad-twitter', {
     // イベント発火時の処理内容
     load: el => {
