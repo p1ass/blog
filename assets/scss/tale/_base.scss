@@ -216,3 +216,41 @@ ol {
   color: $default-color;
   opacity: 0.6;
 }
+
+/* TwitterのLazyload用 */
+.lozad-twitter {
+  min-height: 400px;
+  max-width: 550px;
+  margin: 0 auto;
+  border-radius: 15px;
+}
+
+.loading{
+  background-color: #babbbc;
+  animation: hintloading 1.5s ease-in-out 0s infinite reverse;
+
+  @keyframes hintloading {
+    0% {
+      opacity: 0.5;
+    }
+    50%  {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+
+  @-webkit-keyframes hintloading {
+    0% {
+      opacity: 0.5;
+    }
+    50%  {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+}
+

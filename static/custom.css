@@ -102,8 +102,3 @@
   font-family: Verdana;
   font-weight: bold;
 }
-
-/* TwitterのLazyload用 */
-.lozad-twitter {
-  min-height: 100px;
-}
