@@ -188,15 +188,10 @@ ol {
   margin-bottom: 4px;
 }
 
-.thumb-wrapper{
-  flex-shrink: 0;
-  .thumb {
-    border: none;
-    max-height: 60px;
-    margin: 0;
-    height: 100%;
-    width: auto;
-  }  
+.thumb {
+  border: none;
+  max-height: 60px;
+  margin: 0;
 }
 
 .post-detail {
