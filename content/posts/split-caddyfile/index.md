@@ -1,8 +1,8 @@
 ---
 title: Caddyfileを分割する方法
-date: 2020-10-31T20:40:00+09:00
+date: 2020-11-97T22:40:00+09:00
 draft: false
-description: Caddyは自動でHTTPSに使う証明書を更新してくれるWebサーバです。Caddyfile
+description: Caddyfile は Caddy の設定ファイルですが、どんどん設定が増えていくと可読性が下がってしまいます。Nginx の `/site-enabled` のように Caddyfile を分割して読み込めないかなと思って調べたところ、分割できることが分かったのでやり方をメモしておきます。
 categories:
   - 開発
 tags:
