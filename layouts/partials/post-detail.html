@@ -1,7 +1,7 @@
 <div class="post-detail">
   {{ $readTime := mul (div (countrunes .Content) 800.0) 60 }}
   <span class="reading-time">
-    {{ math.Floor (div $readTime 60) }} min read |
+    {{ math.Ceil (div $readTime 60) }} min read |
   </span>
   {{ with .Params.tags }} {{ range . }}
   <a href="/tags/{{ lower . }}/" class="tag">#{{ . }}</a>
