@@ -23,7 +23,7 @@
       {{- if .Title }}
       <enclosure url="https://og-image.p1ass.com/{{ .Title }}.jpeg" length="0" type="image/jpeg"/>
       {{- else }}
-      <enclosure url="{{ .Site.BaseURL }}/images/ogp.png" length="0" type="image/jpeg"/>
+      <enclosure url="https://blog.p1ass.com/images/ogp.png" length="0" type="image/jpeg"/>
       {{- end}}
       <description>{{ .Description }}</description>
     </item>
