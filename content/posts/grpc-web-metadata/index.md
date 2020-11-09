@@ -19,7 +19,7 @@ share: true
 
 なお、サンプルコードは gRPC-Web 公式の Hello World ガイドを使用します。
 
-{{< ex-link url="https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld" >}}
+{{<ex-link url="https://github.com/grpc/grpc-web/tree/master/net/grpc/gateway/examples/helloworld" >}}
 
 <!--more-->
 
@@ -33,7 +33,7 @@ gRPC-Web を使うときは、Envoy または Nginx を通してリクエスト�
 
 これによって、メタデータが消えることなく gRPC サーバまで届きます。
 
-{{< highlight yaml >}}
+{{<highlight yaml >}}
 admin:
 access_log_path: /tmp/admin_access.log
 address:
@@ -72,13 +72,13 @@ listeners:
   http2_protocol_options: {}
   lb_policy: round_robin
   hosts: [{ socket_address: { address: localhost, port_value: 9090 }}]
-  {{< / highlight>}}
+  {{</ highlight>}}
 
 ### STEP2 クライアントサイドでメタデータを付与してリクエストを行う
 
 STEP1 で正しく gRPC サーバまでメタデータが届くようになったので、後はクライアントサイドでメタデータを付与してリクエストを行うだけです。
 
-{{< highlight javascript >}}
+{{<highlight javascript >}}
 const {HelloRequest, HelloReply} = require('./helloworld_pb.js');
 const {GreeterClient} = require('./helloworld_grpc_web_pb.js');
 
@@ -93,7 +93,7 @@ const metadata = {'x-custom-metadata': 'metadata-value'}
 client.sayHello(request, metadata, (err, response) => {
 console.log(response.getMessage());
 });
-{{< / highlight>}}
+{{</ highlight>}}
 
 ## まとめ
 

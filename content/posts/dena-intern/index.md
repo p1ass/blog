@@ -14,7 +14,7 @@ tags:
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 この度、8 月 23 日~25 日に開催された DeNA のエンジニアサマーインターン プロダクト開発コースにサーバサイドエンジニアとして参加してきました！
 
@@ -35,7 +35,7 @@ DeNA では様々なサマーインターンを開催していますが、その
 
 より詳しい話は DeNA の記事をご覧ください。
 
-{{< ex-link url="https://fullswing.dena.com/archives/4281" >}}
+{{<ex-link url="https://fullswing.dena.com/archives/4281" >}}
 
 ## 参加の経緯
 
@@ -97,11 +97,11 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 調べた内容は全て HackMD にまとめて後からすぐ参照できるようにしました。
 特に DB の調査は今まであまりしたことがなく、何も覚えていなかったので、これのおかげでスムーズに調査することが出来ました。やっぱり予習って大事ですね。
 
-{{< ex-link url="https://hackmd.io/@uZYUIbpYRhe7rJC6-1pVMw/HJW6t-QQB" >}}
+{{<ex-link url="https://hackmd.io/@uZYUIbpYRhe7rJC6-1pVMw/HJW6t-QQB" >}}
 
-{{< ex-link url="https://hackmd.io/@uZYUIbpYRhe7rJC6-1pVMw/HkuOfM6Xr" >}}
+{{<ex-link url="https://hackmd.io/@uZYUIbpYRhe7rJC6-1pVMw/HkuOfM6Xr" >}}
 
-{{< ex-link url="https://hackmd.io/@uZYUIbpYRhe7rJC6-1pVMw/Hkd7xfn4S" >}}
+{{<ex-link url="https://hackmd.io/@uZYUIbpYRhe7rJC6-1pVMw/Hkd7xfn4S" >}}
 
 ## インターン当日
 
@@ -210,7 +210,7 @@ DeNA が公式 Twitter 等で告知するよりも早くサイトを見つけて
 
 発表後の審査員による質問では、**「コメントの編集や削除をできるようにするとキャッシュ戦略は難しいと思うが、その点についてどう思うか」**という趣旨の質問があり、「以外と突っ込んでくるなぁ」と思いつつ、LINE のインターンで得た知識を話したらなんとかなりました。
 
-{{< ex-link url="https://blog.p1ass.com/posts/line-intern" >}}
+{{<ex-link url="https://blog.p1ass.com/posts/line-intern" >}}
 
 ## 結果発表
 

@@ -13,13 +13,13 @@ tags:
 share: true
 ---
 
-この記事は{{< link href="https://adventar.org/calendars/4251" text="Kyoto University Advent Calendar 2019" >}}の 13 日目の記事です。
+この記事は{{<link href="https://adventar.org/calendars/4251" text="Kyoto University Advent Calendar 2019" >}}の 13 日目の記事です。
 
 ## はじめに
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
-いつもと違う人が見てくれていると思うので軽く自己紹介しておくと、京都大学工学部電気電子工学科 (通称電電) の 3 回生で、プログラミングを少し嗜んでます。今回の{{< link href="https://twitter.com/hashtag/kuac2019" text="#kuac2019" >}}の発起人の１人です。
+いつもと違う人が見てくれていると思うので軽く自己紹介しておくと、京都大学工学部電気電子工学科 (通称電電) の 3 回生で、プログラミングを少し嗜んでます。今回の{{<link href="https://twitter.com/hashtag/kuac2019" text="#kuac2019" >}}の発起人の１人です。
 
 {{<twitter url="https://twitter.com/p1ass/status/1192461721685725184">}}
 
@@ -108,12 +108,12 @@ share: true
 
 csv は Comma-Separated Values の略で、コンマ区切りされたテキストデータの事です。拡張子は`.csv`で次のようなフォーマットのファイルです。
 
-{{< highlight csv>}}
+{{<highlight csv>}}
 Registance,Voltage
 1,2
 2,4
 3,6
-{{< /highlight >}}
+{{</highlight >}}
 
 このフォーマットの良いところは
 
@@ -182,7 +182,7 @@ plt.savefig("polar_plot.png")
 
 以下の GitHub のリンク先からダウンロードできるので、是非見てください！（GitHub アカウントをお持ちの方は Star もお待ちしています）
 
-{{< ex-link url="https://github.com/p1ass/kuee-practice-template" >}}
+{{<ex-link url="https://github.com/p1ass/kuee-practice-template" >}}
 
 ## 終わりに
 
@@ -190,8 +190,8 @@ plt.savefig("polar_plot.png")
 
 自分にできそうなものから実践していって、効率的に実験をこなしていきましょう 💪
 
-明日の{{< link href="https://adventar.org/calendars/4251" text="Kyoto University Advent Calendar 2019" >}}は電電さんです。奇遇にも**電電**ですね。お楽しみに！
+明日の{{<link href="https://adventar.org/calendars/4251" text="Kyoto University Advent Calendar 2019" >}}は電電さんです。奇遇にも**電電**ですね。お楽しみに！
 
 ## 合わせて読みたい
 
-{{< ex-link url="https://blog.p1ass.com/posts/mdtopdf/" >}}
+{{<ex-link url="https://blog.p1ass.com/posts/mdtopdf/" >}}

@@ -13,7 +13,7 @@ tags:
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 タイトルの通りですが、Google のインターンに落ちました。
 
@@ -45,7 +45,7 @@ Google のインターンの選考を突破するにはデータ構造とアル�
 
 ### データ構造とアルゴリズム 杉原 厚吉
 
-{{< block-link href="https://www.amazon.co.jp/gp/product/4320120345/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4320120345&linkCode=as2&tag=plus03b7-22&linkId=ee263a4bd315c12efff1ae77fc2fae5b" text="データ構造とアルゴリズム"  >}}
+{{<block-link href="https://www.amazon.co.jp/gp/product/4320120345/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4320120345&linkCode=as2&tag=plus03b7-22&linkId=ee263a4bd315c12efff1ae77fc2fae5b" text="データ構造とアルゴリズム"  >}}
 
 <a target="_blank"  href="https://www.amazon.co.jp/gp/product/4320120345/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4320120345&linkCode=as2&tag=plus03b7-22&linkId=ee263a4bd315c12efff1ae77fc2fae5b"><img border="0" src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=4320120345&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL250_&tag=plus03b7-22" ></a><img src="//ir-jp.amazon-adsystem.com/e/ir?t=plus03b7-22&l=am2&o=9&a=4320120345" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 
@@ -57,7 +57,7 @@ Google のインターンの選考を突破するにはデータ構造とアル�
 
 ### Cracking the Coding Interview
 
-{{< block-link href="https://www.amazon.co.jp/%E4%B8%96%E7%95%8C%E3%81%A7%E9%97%98%E3%81%86%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%8A%9B%E3%82%92%E9%8D%9B%E3%81%88%E3%82%8B%E6%9C%AC-%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E9%9D%A2%E6%8E%A5189%E5%95%8F%E3%81%A8%E3%81%9D%E3%81%AE%E8%A7%A3%E6%B3%95-Gayle-Laakmann-McDowell/dp/4839960100/ref=as_li_ss_il?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=1JS9G2UP6EGVD&keywords=cracking+the+coding+interview&qid=1564644328&s=books&sprefix=Crac,stripbooks,254&sr=1-2&linkCode=li3&tag=plus03b7-22&linkId=b9f2fb658641220d349adc5de977481a&language=ja_JP" text="世界で闘うプログラミング力を鍛える本 ~コーディング面接189問とその解法"  >}}
+{{<block-link href="https://www.amazon.co.jp/%E4%B8%96%E7%95%8C%E3%81%A7%E9%97%98%E3%81%86%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%8A%9B%E3%82%92%E9%8D%9B%E3%81%88%E3%82%8B%E6%9C%AC-%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E9%9D%A2%E6%8E%A5189%E5%95%8F%E3%81%A8%E3%81%9D%E3%81%AE%E8%A7%A3%E6%B3%95-Gayle-Laakmann-McDowell/dp/4839960100/ref=as_li_ss_il?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=1JS9G2UP6EGVD&keywords=cracking+the+coding+interview&qid=1564644328&s=books&sprefix=Crac,stripbooks,254&sr=1-2&linkCode=li3&tag=plus03b7-22&linkId=b9f2fb658641220d349adc5de977481a&language=ja_JP" text="世界で闘うプログラミング力を鍛える本 ~コーディング面接189問とその解法"  >}}
 
 <a href="https://www.amazon.co.jp/%E4%B8%96%E7%95%8C%E3%81%A7%E9%97%98%E3%81%86%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%8A%9B%E3%82%92%E9%8D%9B%E3%81%88%E3%82%8B%E6%9C%AC-%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E9%9D%A2%E6%8E%A5189%E5%95%8F%E3%81%A8%E3%81%9D%E3%81%AE%E8%A7%A3%E6%B3%95-Gayle-Laakmann-McDowell/dp/4839960100/ref=as_li_ss_il?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=1JS9G2UP6EGVD&keywords=cracking+the+coding+interview&qid=1564644328&s=books&sprefix=Crac,stripbooks,254&sr=1-2&linkCode=li3&tag=plus03b7-22&linkId=b9f2fb658641220d349adc5de977481a&language=ja_JP" target="_blank"><img border="0" src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=4839960100&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=plus03b7-22&language=ja_JP" ></a><img src="https://ir-jp.amazon-adsystem.com/e/ir?t=plus03b7-22&language=ja_JP&l=li3&o=9&a=4839960100" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 
@@ -80,9 +80,9 @@ Google のインターンの選考を突破するにはデータ構造とアル�
 ### LeetCode
 
 Google のソフトエンジニアの新井さんの記事
-{{< link href="https://1kohei1.com/leetcode/" text="コーディング面接対策のために解きたいLeetCode 60問" >}}に紹介されている問題を解きました。
+{{<link href="https://1kohei1.com/leetcode/" text="コーディング面接対策のために解きたいLeetCode 60問" >}}に紹介されている問題を解きました。
 
-{{< ex-link url="https://1kohei1.com/leetcode/" >}}
+{{<ex-link url="https://1kohei1.com/leetcode/" >}}
 
 良問が多く非常に参考になったのですが、最近**「LeetCode が問題をパクっているのではないか？」**という噂があったりします。
 
@@ -114,7 +114,7 @@ Atcoder のレートを上げるためにコンテストに参加しているわ
 
 提出したレジュメは GitHub で公開しているので、興味がある人は覗いてみてください。
 
-{{< ex-link url="https://github.com/p1ass/portfolio/blob/master/resume_en.md" >}}
+{{<ex-link url="https://github.com/p1ass/portfolio/blob/master/resume_en.md" >}}
 
 ### オンラインコーディングテスト
 

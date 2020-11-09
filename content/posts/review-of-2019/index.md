@@ -4,21 +4,21 @@ date: 2019-12-30T16:00:00+09:00
 draft: false
 description: 1年ぶり2度目の振り返り記事です。今年も改めて振り返ってみると、様々なことがあった一年でした。技術の面は勿論のこと、大学や交友関係、趣味など去年とはまた違う一年を過ごしました。個人開発やOSS、インターン、CAMPHOR-のことなどについてつらつら書きます。
 categories:
-- ポエム
+  - ポエム
 tags:
-- 個人開発
-- OSS
-- インターン
-- CAMPHOR-
-- アニメ
-- 伊藤美来
-- SHIROBAKO
+  - 個人開発
+  - OSS
+  - インターン
+  - CAMPHOR-
+  - アニメ
+  - 伊藤美来
+  - SHIROBAKO
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。  
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
-1年ぶり2度目の振り返り記事です。(前回の記事は諸事情により削除されました)
+1 年ぶり 2 度目の振り返り記事です。(前回の記事は諸事情により削除されました)
 
 今年も改めて振り返ってみると、様々なことがあった一年でした。技術の面は勿論のこと、大学や交友関係、趣味など去年とはまた違う一年を過ごしました。
 
@@ -29,7 +29,7 @@ share: true
 ## プログラミングが生活の一部に
 
 ![草](commit.png)
-_GitHubの草_
+_GitHub の草_
 
 一年を通してコードをたくさん書きました。息を吸うようにコードを書いていたので、草を生やす意識はしていなかったのですが、改めて見ると「こんなにコードを書いたのかぁ」という気持ちです。
 
@@ -47,43 +47,41 @@ _GitHubの草_
 
 ### Memoito
 
-夏休み明けにWebアプリを一本リリースしました。
+夏休み明けに Web アプリを一本リリースしました。
 
-{{< ex-link url="https://memoito.com" >}}
+{{<ex-link url="https://memoito.com" >}}
 
-{{< ex-link url="https://qiita.com/p1ass/items/1dfb77d5d978568686a1" >}}
+{{<ex-link url="https://qiita.com/p1ass/items/1dfb77d5d978568686a1" >}}
 
+開発期間が 10 日弱しかない突貫工事だったので、クオリティはそんなに高くないですが、SNS を通して「いつも使ってます！」といったメッセージや改善点のフィードバックをもらえて、**「良いサービスを作るにはどうしたらよいか？」** を考えることができました。
 
-開発期間が10日弱しかない突貫工事だったので、クオリティはそんなに高くないですが、SNSを通して「いつも使ってます！」といったメッセージや改善点のフィードバックをもらえて、**「良いサービスを作るにはどうしたらよいか？」** を考えることができました。
+また技術的には、Kubernetes や Terraform を新たに挑戦しました。SRE 寄りの経験はほとんどなく、Kubernetes に関しては「なんかコンテナがスケールするらしい」程度の知識しかなかったので、一度クラスタを組んでみることで基本的な機能を理解することができました。
 
-また技術的には、KubernetesやTerraformを新たに挑戦しました。SRE寄りの経験はほとんどなく、Kubernetesに関しては「なんかコンテナがスケールするらしい」程度の知識しかなかったので、一度クラスタを組んでみることで基本的な機能を理解することができました。
-
-現在は無料クレジットを有効活用してGKE上で運用しているのですが、クレジットが切れる前に安い代替手段を考えないといけないなぁという気持ちです。
+現在は無料クレジットを有効活用して GKE 上で運用しているのですが、クレジットが切れる前に安い代替手段を考えないといけないなぁという気持ちです。
 
 お金をかけられない学生にとって、**クラスタとは別にステートフルなデータを管理するためのマネージドサービスを用意する必要があるクラウドネイティブな開発はかなり厳しいです。**
 
-来年は素直にVPSを効率的に運用する方法を模索します。
+来年は素直に VPS を効率的に運用する方法を模索します。
 
 ### OSS
 
-{{< link href="https://github.com/p1ass/feeder" text="p1ass/feeder" >}} というライブラリと {{< link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}}  というCLIツールを公開しました。
+{{<link href="https://github.com/p1ass/feeder" text="p1ass/feeder" >}} というライブラリと {{<link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}} という CLI ツールを公開しました。
 
+{{<ex-link url="https://blog.p1ass.com/posts/mikku/" >}}
 
-{{< ex-link url="https://blog.p1ass.com/posts/mikku/" >}}
-
-初めてOSSを作ったのですが、普段のWeb開発とは違った視点で設計やコーディングをする必要があってとても悩まされました。
+初めて OSS を作ったのですが、普段の Web 開発とは違った視点で設計やコーディングをする必要があってとても悩まされました。
 
 作ったからにはちゃんとメンテしていきたいです。
 
 ## インターン
 
-今年は5つのインターンに行きました。
+今年は 5 つのインターンに行きました。
 
-- {{< block-link href="https://blog.p1ass.com/posts/aktsk-intern/" text="ドメインロジックと永続化処理を分離する設計改善を行って得られた知見 - ぷらすのブログ" >}}
-- {{< block-link href="https://blog.p1ass.com/posts/abema-intern/" text="CyberAgentのAbemaTVでインターンしてきた話 - ぷらすのブログ" >}}
-- {{< block-link href="https://blog.p1ass.com/posts/dena-intern/" text="DeNAのエンジニアサマーインターンで優勝してきた - ぷらすのブログ" >}}
-- {{< block-link href="https://blog.p1ass.com/posts/line-intern/" text="LINEの就業型インターンに参加してきた - ぷらすのブログ" >}}
-- {{< block-link href="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" text="Cyber Agentのインターン「Architecture Challenge」に参加してきた - ぷらすのブログ" >}}
+- {{<block-link href="https://blog.p1ass.com/posts/aktsk-intern/" text="ドメインロジックと永続化処理を分離する設計改善を行って得られた知見 - ぷらすのブログ" >}}
+- {{<block-link href="https://blog.p1ass.com/posts/abema-intern/" text="CyberAgentのAbemaTVでインターンしてきた話 - ぷらすのブログ" >}}
+- {{<block-link href="https://blog.p1ass.com/posts/dena-intern/" text="DeNAのエンジニアサマーインターンで優勝してきた - ぷらすのブログ" >}}
+- {{<block-link href="https://blog.p1ass.com/posts/line-intern/" text="LINEの就業型インターンに参加してきた - ぷらすのブログ" >}}
+- {{<block-link href="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" text="Cyber Agentのインターン「Architecture Challenge」に参加してきた - ぷらすのブログ" >}}
 
 自分でも「多すぎやろ！」とツッコミたくなるのですが、色んな会社の開発現場をこんな短期間で見て回れるのはこの先ないと思うので、参
 加して良かったです。
@@ -92,38 +90,37 @@ _GitHubの草_
 
 ## CAMPHOR-
 
-{{< link href="https://camph.net" text="CAMPHOR-" >}}という京都のエンジニアやデザイナーを目指す学生向けコミュニティの運営になりました。
+{{<link href="https://camph.net" text="CAMPHOR-" >}}という京都のエンジニアやデザイナーを目指す学生向けコミュニティの運営になりました。
 
-{{< ex-link url="https://camph.net" >}}
+{{<ex-link url="https://camph.net" >}}
 
-きっかけは、2019年の代表であった @shiba6v さんからの熱いプッシュでした。最初はあまり乗り気ではなかったのですが、気づいたら承諾して運営になっていました。
+きっかけは、2019 年の代表であった @shiba6v さんからの熱いプッシュでした。最初はあまり乗り気ではなかったのですが、気づいたら承諾して運営になっていました。
 
 運営になってから様々なイベントの企画や開発に携わりました。学校では表立って活動するタイプではなかったので、運営のような仕事をした経験はなかったのですが、周りに助けられながら様々なことにチャレンジできました。
 
 また、CAMPHOR-には普段から様々なバックグラウンドを持つ学生が訪れるので、その人達と交流することができ、多くの刺激を得ることができました。自分と違う技術スタックを持った人の話はとても面白いですし、違った視点で物事を見ているので様々な気づきを得ることができました。
 
-来年からは自分がCAMPHOR-の代表になるので、もっと良いコミュニティ作りをしていきたいと思います！
+来年からは自分が CAMPHOR-の代表になるので、もっと良いコミュニティ作りをしていきたいと思います！
 
 ついでなので宣伝ですが、**CAMPHOR-は学生なら誰でも、自由に、アポ無しで来てもらって大丈夫なので、気軽に遊びに来てください！**
 
-サークルではないので、入会という概念もなく、無料で遊びに来ることができます。技術的なスキルが必要という訳でもないので、ハードル高いと心配する必要もないです。個人の作業をするためにモニターやWi-Fiを使いにくるという形でも全然OKです。モクモク作業しつつ、たまにワイワイ技術の相談や議論をする、というスタイルでもOKです。
-
+サークルではないので、入会という概念もなく、無料で遊びに来ることができます。技術的なスキルが必要という訳でもないので、ハードル高いと心配する必要もないです。個人の作業をするためにモニターや Wi-Fi を使いにくるという形でも全然 OK です。モクモク作業しつつ、たまにワイワイ技術の相談や議論をする、というスタイルでも OK です。
 
 ## 大学
 
-3回生なので、講義室で普通に講義を受けてます。正直あまりモチベーションが高くないので、基本はPCを開いて作業をしています。
+3 回生なので、講義室で普通に講義を受けてます。正直あまりモチベーションが高くないので、基本は PC を開いて作業をしています。
 
 実験は大変なのですが、自分なりに効率化できる手段を探して、なるべく速く終わらすことができるように努力をしています。
 
-{{< ex-link url="https://blog.p1ass.com/posts/mdtopdf/" >}}
+{{<ex-link url="https://blog.p1ass.com/posts/mdtopdf/" >}}
 
-{{< ex-link url="https://blog.p1ass.com/posts/kuac-2019/" >}}
+{{<ex-link url="https://blog.p1ass.com/posts/kuac-2019/" >}}
 
 来年は研究室配属があって今後が不透明なのですが、ブラックな研究室に放り込まれないようにリサーチをしつつ、ワークライフバランスを保って生活したいです。
 
 ## 就活
 
-21卒なので就活をしてます。内定は複数ありますがどこに行くかは決めてません。選考も全部終わってません。
+21 卒なので就活をしてます。内定は複数ありますがどこに行くかは決めてません。選考も全部終わってません。
 
 行くところを決めたらブログを書くので、ここではこの程度に留めておきます。
 
@@ -143,15 +140,15 @@ _GitHubの草_
 
 --以下オタク箱--
 
-kz(livetune)本人によるSEVENTH HAVEN
+kz(livetune)本人による SEVENTH HAVEN
 
 {{<twitter url="https://twitter.com/p1ass/status/1160664845596819456" >}}
 
-KMNZのVR
+KMNZ の VR
 
 {{<twitter url="https://twitter.com/p1ass/status/1168541938317840384" >}}
 
-Yunomiはやっぱり最The高
+Yunomi はやっぱり最 The 高
 
 {{<twitter url="https://twitter.com/p1ass/status/1130074286583046144" >}}
 
@@ -166,22 +163,19 @@ Yunomiはやっぱり最The高
 ![ライブ後の飲み](mikku_live.jpg)
 _ライブ後の飲みでペンライトの写真を撮る人の図_
 
-また、LINE LIVEのプレミアムチャンネル(有料チャンネル)にも加入してしまいました。
+また、LINE LIVE のプレミアムチャンネル(有料チャンネル)にも加入してしまいました。
 
+{{<ex-link url="https://live.line.me/channels/4120347/" >}}
 
-{{< ex-link url="https://live.line.me/channels/4120347/" >}}
+LINE LIVE でインターンしていた時は **「誰か課金するんだ、、、」** とか思っていたのですが、人間はチョロいですね。
 
-LINE LIVEでインターンしていた時は **「誰か課金するんだ、、、」** とか思っていたのですが、人間はチョロいですね。
+ちなみに{{<link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}}は推しの名前にちなんでます。
 
+### SHIROBAKO 熱
 
+来年 SHIROBAKO の映画が公開されるということもあり、SHIROBAKO が自分の中でアツいです。Advent Calendar も書きました。
 
- ちなみに{{< link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >}}は推しの名前にちなんでます。
-
-### SHIROBAKO熱
-
-来年SHIROBAKOの映画が公開されるということもあり、SHIROBAKOが自分の中でアツいです。Advent Calendarも書きました。
-
-{{< ex-link url="https://blog.p1ass.com/posts/shirobako-2019/" >}}
+{{<ex-link url="https://blog.p1ass.com/posts/shirobako-2019/" >}}
 
 **何回見ても良い作品なので、最初の方で脱落せずにとりあえず全部見てください！！！話はそれからです！！！**
 
@@ -194,7 +188,7 @@ LINE LIVEでインターンしていた時は **「誰か課金するんだ、�
 - かぐや様は告らせたい
 - 鬼滅の刃
 - 天気の子
-- SAO3期
+- SAO3 期
 - 彼方のアストラ
 
 です。基本的にストーリーがある作品が好きなので、「まちカドまぞく」にハマってしまったのは自分でも驚きです。
@@ -203,7 +197,7 @@ LINE LIVEでインターンしていた時は **「誰か課金するんだ、�
 
 ## まとめ
 
-2019年は気づいたら終わってました。毎年同じようなことを言っている気がするのですが、毎年そう感じてしまうので仕方ないです。
+2019 年は気づいたら終わってました。毎年同じようなことを言っている気がするのですが、毎年そう感じてしまうので仕方ないです。
 
 来年は「就活を終わらす」と「卒業する」という期限付きの大事な目標があるので、これだけはクリアしつつ、CAMPHOR-の代表として色々やっていきたいと思います。
 

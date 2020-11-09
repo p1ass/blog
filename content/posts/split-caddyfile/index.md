@@ -22,7 +22,7 @@ Nginx の `/site-enabled` のように Caddyfile を分割して読み込めな�
 
 import ディレクトリを使えばできます。
 
-{{< ex-link url="https://caddyserver.com/docs/caddyfile/directives/import#import" >}}
+{{<ex-link url="https://caddyserver.com/docs/caddyfile/directives/import#import" >}}
 
 マスターとなる Caddyfile で import をすれば、マッチするファイルが読み込まれます。
 

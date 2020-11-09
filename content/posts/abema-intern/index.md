@@ -14,7 +14,7 @@ tags:
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 前々から Twitter を見てくれていた人はわかるかもしれませんが、3 週間ほど CyberAgent の AbemaTV というサービスでインターンをしてきました。
 
@@ -42,7 +42,7 @@ CyberAgent は沢山の子会社を持っていて様々なサービスを提供
 
 ![チーム図](team.png)
 
-{{< block-link href="https://speakerdeck.com/miyukki/the-challenge-and-anguish-of-abematv-celebrating-the-third-anniversary?slide=12" text="3周年に突入するAbemaTVの挑戦と苦悩 / The challenge and anguish of AbemaTV celebrating the third anniversary より" >}}
+{{<block-link href="https://speakerdeck.com/miyukki/the-challenge-and-anguish-of-abematv-celebrating-the-third-anniversary?slide=12" text="3周年に突入するAbemaTVの挑戦と苦悩 / The challenge and anguish of AbemaTV celebrating the third anniversary より" >}}
 
 自分はその部署で、運用側からの要望を聞いて、仕様や設計を考え、実際に実装をするという一連の流れを丸っと行いました。
 
@@ -76,7 +76,6 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 {{<twitter url="https://twitter.com/p1ass/status/1161139585306415104" >}}
 
 {{<twitter url="https://twitter.com/p1ass/status/1162215621569830913" >}}
-
 
 ### 報酬
 
@@ -112,7 +111,7 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 {{<twitter url="https://twitter.com/p1ass/status/1167772325992792066" >}}
 
-{{< ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=23258" >}}
+{{<ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=23258" >}}
 
 ## おまけ
 
@@ -121,6 +120,5 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 {{<twitter url="https://twitter.com/p1ass/status/1168541938317840384" >}}
 
 初夏フェス
-
 
 {{<twitter url="https://twitter.com/p1ass/status/1162898390188822528" >}}

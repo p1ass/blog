@@ -17,7 +17,7 @@ share: true
 
 この度、Cyber Agent さんが開催された**「Architecture Challenge」**というイベントに参加させていただきました！
 
-{{< ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=22634" >}}
+{{<ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=22634" >}}
 
 個人開発をしていると、しっかりと考えることのないアーキテクチャについて考えることができる 2 日間となりました。
 
@@ -65,11 +65,11 @@ _アーキテクチャ図_
 
 インターン中は実際にコードを書くことが出来なかったので、後日**GraphQL Subscriptions**と**Redis PubSub**を使ったリアルタイムチャットサーバーを作ってみました。
 
-{{< ex-link url="https://github.com/p1ass/graphql-redis-realtime-chat" >}}
+{{<ex-link url="https://github.com/p1ass/graphql-redis-realtime-chat" >}}
 
 解説記事を Qiita に書いてのでよかったら読んでみてください。
 
-{{< ex-link url="https://qiita.com/p1ass/items/462209fe73ece1238d85" >}}
+{{<ex-link url="https://qiita.com/p1ass/items/462209fe73ece1238d85" >}}
 
 ## おわりに
 

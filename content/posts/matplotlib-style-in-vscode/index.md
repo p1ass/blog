@@ -5,18 +5,18 @@ draft: false
 description: VS CodeではJupyter Notebooksをネイティブで表示することができますが、matplotlibでplotした時のスタイルが黒ベースのものになっています。自分は標準の色の方が好きなので変更する方法を紹介します。
 
 categories:
-- 開発
+  - 開発
 tags:
-- Python
-- VS Code
-- Jupyter Notebooks
-- matplotlib
+  - Python
+  - VS Code
+  - Jupyter Notebooks
+  - matplotlib
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。  
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
-VS CodeではJupyter Notebooksのノートブックをネイティブで表示することができますが、matplotlibでplotした時のスタイルが黒ベースのものになっています。自分は標準の色の方が好きなので変更する方法を紹介します。
+VS Code では Jupyter Notebooks のノートブックをネイティブで表示することができますが、matplotlib で plot した時のスタイルが黒ベースのものになっています。自分は標準の色の方が好きなので変更する方法を紹介します。
 
 <!--more-->
 
