@@ -99,7 +99,7 @@ $ mv mikku /usr/local/bin/mikku
 
 ### 事前準備 : GitHub の Personal access token を発行する
 
-GitHub の Personal access token が必要なので発行してください。**repo**の権限が必要です。
+GitHub の Personal access token が必要なので発行してください。 **repo** 権限が必要です。
 
 {{<ex-link url="https://github.com/settings/tokens" >}}
 
@@ -167,7 +167,7 @@ $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
 
 {{<link href="https://github.com/p1ass/mikku" text="mikku" >}}では`{{.Owner}}`、`{{.Repository}}`をテンプレートとして使えるようになっています。
 
-マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。そのため、テンプレートを使うことで**設定を何度も書き換えることなく使い回せるようになります**。ただ単にコマンドラインオプションで渡すのではなく、環境変数でも設定できるのはこのためです。
+マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。そのため、テンプレートを使うことで **設定を何度も書き換えることなく使い回せるようになります** ただ単にコマンドラインオプションで渡すのではなく、環境変数でも設定できるのはこのためです。
 
 ## 追加したい機能
 
