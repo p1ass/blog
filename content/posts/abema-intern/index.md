@@ -14,7 +14,7 @@ tags:
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 前々から Twitter を見てくれていた人はわかるかもしれませんが、3 週間ほど CyberAgent の AbemaTV というサービスでインターンをしてきました。
 
@@ -34,7 +34,7 @@ CyberAgent は沢山の子会社を持っていて様々なサービスを提供
 
 いまいちドメイン知識がないサービスでインターンするよりも学びが多いと思いましたし、絶対に落とせない大規模なサービスを作る環境に身を置くことで、品質の高いコードを書けるようになれるのではという思いがありました。
 
-そのため、**「サイバーに行くなら AbemaTV しか有り得ない」**というレベルで AbemaTV に行きたいと考えてました（そして実際に行くことができました）。
+そのため、 **「サイバーに行くなら AbemaTV しか有り得ない」** いうレベルで AbemaTV に行きたいと考えてました（そして実際に行くことができました）。
 
 ## AbemaTV でしたこと
 
@@ -42,7 +42,7 @@ CyberAgent は沢山の子会社を持っていて様々なサービスを提供
 
 ![チーム図](team.png)
 
-{{< block-link href="https://speakerdeck.com/miyukki/the-challenge-and-anguish-of-abematv-celebrating-the-third-anniversary?slide=12" text="3周年に突入するAbemaTVの挑戦と苦悩 / The challenge and anguish of AbemaTV celebrating the third anniversary より" >}}
+{{<block-link href="https://speakerdeck.com/miyukki/the-challenge-and-anguish-of-abematv-celebrating-the-third-anniversary?slide=12" text="3周年に突入するAbemaTVの挑戦と苦悩 / The challenge and anguish of AbemaTV celebrating the third anniversary より" >}}
 
 自分はその部署で、運用側からの要望を聞いて、仕様や設計を考え、実際に実装をするという一連の流れを丸っと行いました。
 
@@ -51,7 +51,7 @@ CyberAgent は沢山の子会社を持っていて様々なサービスを提供
 これだけ聞くと簡単に思えるかも知れませんが、番組情報は AbemaTV のコアとなる部分で、様々なマイクロサービスやクライアントから使われています。そのため、後方互換性を保ちながら新しいデータ構造に移行していく必要があり、さくっとフィールドを修正して終わりではないタスクでした。
 
 タスクで行った作業のうち、特に印象に残っているのは DB のデータ移行です。
-AbemaTV では MongoDB をメインのデータベースとして使っているのですが、今回のタスクに伴い旧フィールドのデータを新フィールドへコピーする必要がありました。最初は mongo shell 上で移行のコマンドを叩こうとしたのですが、データ数が多く、全てのデータを移行するのは**数十時間**かかる見込みでした。流石にこれだけの時間をかけてやるのはしんどいということで、bulk update でデータを移行するスクリプトを書いたところ、**10 分程度**で完了することができました。冪等性を担保する書き方など、とても学びが多い作業でした。
+AbemaTV では MongoDB をメインのデータベースとして使っているのですが、今回のタスクに伴い旧フィールドのデータを新フィールドへコピーする必要がありました。最初は mongo shell 上で移行のコマンドを叩こうとしたのですが、データ数が多く、全てのデータを移行するのは **数十時間**かかる見込みでした。流石にこれだけの時間をかけてやるのはしんどいということで、bulk update でデータを移行するスクリプトを書いたところ、**10 分程度** 完了することができました。冪等性を担保する書き方など、とても学びが多い作業でした。
 
 他にも、メモリリークや DB のセッションの持ち方、goroutine 内で panic が起きた時の対処など、今まで考えたことがなかったことを多く学ぶことができました。
 
@@ -76,7 +76,6 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 {{<twitter url="https://twitter.com/p1ass/status/1161139585306415104" >}}
 
 {{<twitter url="https://twitter.com/p1ass/status/1162215621569830913" >}}
-
 
 ### 報酬
 
@@ -112,7 +111,7 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 
 {{<twitter url="https://twitter.com/p1ass/status/1167772325992792066" >}}
 
-{{< ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=23258" >}}
+{{<ex-link url="https://www.cyberagent.co.jp/careers/students/event/detail/id=23258" >}}
 
 ## おまけ
 
@@ -121,6 +120,5 @@ AbemaTV では MongoDB をメインのデータベースとして使っている
 {{<twitter url="https://twitter.com/p1ass/status/1168541938317840384" >}}
 
 初夏フェス
-
 
 {{<twitter url="https://twitter.com/p1ass/status/1162898390188822528" >}}

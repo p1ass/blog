@@ -11,7 +11,7 @@ tags:
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 最近、運用していた Web サーバを Nginx から Caddy に移行しました。この記事では Caddy の特徴や移行してみた感想などを書きたいと思います。
 
@@ -23,12 +23,12 @@ Caddy はデフォルトで HTTPS に対応している OSS の Web サーバで
 
 ![Caddy](caddy_v2.png)
 
-{{< ex-link url="https://caddyserver.com/" >}}
+{{<ex-link url="https://caddyserver.com/" >}}
 
-- GitHub : {{< link href="https://github.com/caddyserver/caddy" text="https://github.com/caddyserver/caddy" >}}
-- 公式ドキュメント : {{< link href="https://caddyserver.com/docs" text="https://caddyserver.com/docs" >}}
+- GitHub : {{<link href="https://github.com/caddyserver/caddy" text="https://github.com/caddyserver/caddy" >}}
+- 公式ドキュメント : {{<link href="https://caddyserver.com/docs" text="https://caddyserver.com/docs" >}}
 
-つい先日(2020/05/04)、v2 にメジャーバージョンアップされ{{< link href="https://caddyserver.com/docs/architecture" text="アーキテクチャが刷新されました。" >}}
+つい先日(2020/05/04)、v2 にメジャーバージョンアップされ{{<link href="https://caddyserver.com/docs/architecture" text="アーキテクチャが刷新されました。" >}}
 
 Caddy は様々な特徴があるのですがいくつかピックアップして紹介します。(v2 からの新機能というわけではないです。)
 
@@ -97,7 +97,7 @@ $ caddy run --config ./Caddyfile --adapter caddyfile
 2 つ目は API 経由で設定をアタッチする方法です。
 Caddy は 80 番と 443 番以外に 2019 番も Listen していて、管理用の API が提供されています。
 
-{{< ex-link url="https://caddyserver.com/docs/api-tutorial" >}}
+{{<ex-link url="https://caddyserver.com/docs/api-tutorial" >}}
 
 例えば、現在の設定は `GET /config` で取得できます。
 
@@ -227,11 +227,11 @@ CI・CD パイプラインに組み込みたいなら API 経由での設定が�
 
 Caddy には Nginx のコンフィグをそのまま読み込むアダプターが存在するのですが、今回は１からで Caddyfile を書きました。
 
-{{< ex-link url="https://github.com/caddyserver/nginx-adapter" >}}
+{{<ex-link url="https://github.com/caddyserver/nginx-adapter" >}}
 
 動作に関しては概ね問題ないです。セットアップが完了してから一度もプロセスは死んでないし、メモリリークなどもなさそうです。
 
-そして当初の目論見通り、メンテナンスのしやすさは非常に向上しました。バーチャルホストを新しく切るのに**3 行追加するだけ**というのは非常に楽でした。
+そして当初の目論見通り、メンテナンスのしやすさは非常に向上しました。バーチャルホストを新しく切るのに **3 行追加するだけ** いうのは非常に楽でした。
 
 細かいところで言うと、 `caddy fmt` で `Caddyfile` のフォーマットができるのも良いポイントでした。
 

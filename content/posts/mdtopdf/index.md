@@ -18,7 +18,7 @@ share: true
 皆さんは、実験レポートを何で書いていますか？
 Word ですか？それとも LaTeX ですか？
 
-私はそのどちらでもなく、**Markdown**で書いています。
+私はそのどちらでもなく、 **Markdown** 書いています。
 Markdown はシンプルなシンタックスで様々な表現ができ、多くのエンジニアに愛されています。
 しかし、Markdown は実験レポート用途にあまり使われていないため、そのままでは美しい PDF を作成することができません。
 
@@ -34,7 +34,7 @@ Markdown はシンプルなシンタックスで様々な表現ができ、多�
 
 <a href="example-3.jpg" target="_blank" rel="noopener noreferrer"><img src="example-3.jpg" alt="PDFの例3" ></a>
 
-依存は全て Docker イメージにまとめてあるので、**Docker さえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できる**ので、皆さん是非試してみてください。
+依存は全て Docker イメージにまとめてあるので、 **Docker さえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できる** で、皆さん是非試してみてください。
 
 ## 特徴
 
@@ -68,31 +68,31 @@ Docker のインストール方法は各自調べてください。
 
 今回使用する Docker イメージはこのリポジトリで管理しています。スターしてくれると泣いて喜びます 😂
 
-{{< ex-link url="https://github.com/p1ass/mdtopdf" >}}
+{{<ex-link url="https://github.com/p1ass/mdtopdf" >}}
 
-PDF に変換する方法は**簡単 3STEP**です。
+PDF に変換する方法は **簡単 3STEP** す。
 
 ### STEP1 : Docker イメージを pull する
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 \$ docker pull plass/mdtopdf
-{{< /highlight >}}
+{{</highlight >}}
 
-※ この Docker イメージのサイズは**1.68GB**です。速いネット回線を使って pull することをおすすめします。
+※ この Docker イメージのサイズは **1.68GB** す。速いネット回線を使って pull することをおすすめします。
 
 ### STEP2 : 変換したい Markdown ファイルがあるディレクトリに移動する
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 \$ cd path/to/directory
-{{< /highlight >}}
+{{</highlight >}}
 
 ### STEP3 : PDF に変換する
 
 `INPUT.md`は各自自分のファイルに書き換えてください。処理が完了すると`INPUT.pdf`が生成されます。
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 \$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf INPUT.md
-{{< /highlight >}}
+{{</highlight >}}
 
 以上です。とても簡単ですね！
 
@@ -104,15 +104,15 @@ PDF に変換する方法は**簡単 3STEP**です。
 
 そこで、Markdown ファイルを保存するたびに変換するようにできるようにしましょう。
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 \$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf INPUT.md
-{{< /highlight >}}
+{{</highlight >}}
 
 1 秒間隔でファイルを監視し、変更があれば PDF に変換します。
 
 このスクリプトは以下のブログを参考にさせていただきました。
 
-{{< ex-link url="http://mizti.hatenablog.com/entry/2013/01/27/204343" >}}
+{{<ex-link url="http://mizti.hatenablog.com/entry/2013/01/27/204343" >}}
 
 ### alias を使って簡単に変換を実行できるようにする
 
@@ -120,14 +120,14 @@ PDF に変換する方法は**簡単 3STEP**です。
 
 `alias` コマンドを使って簡単に呼び出せるようにしましょう。
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 \$ echo "alias mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf'" >> ~/.bash_profile
 $ echo "alias w-mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf'" >> ~/.bash_profile
 $ source ~/.bash_profile
 
 $ mdtopdf INPUT.md
 $ w-mdtopdf INPUT.md
-{{< /highlight >}}
+{{</highlight >}}
 
 zsh: `.bash_profile` を `.zshrc` にしてください。  
 Ubuntu: `.bash_profile` を `.bashrc` にしてください。
@@ -137,9 +137,9 @@ Ubuntu: `.bash_profile` を `.bashrc` にしてください。
 TeX 組版を使っていることからも分かる通り、今回の PDF 生成は内部的には一度 tex ファイルにしてから行われています。
 そのため、その中間ファイルを生成することもできます。
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 \$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtotex INPUT.md
-{{< /highlight >}}
+{{</highlight >}}
 
 ## pandoc を使った変換
 
@@ -147,14 +147,14 @@ TeX 組版を使っていることからも分かる通り、今回の PDF 生�
 
 上で紹介した変換は全てシェルスクリプトでラップしていましたが、内部的には pandoc を使っています。
 
-{{< ex-link url="https://pandoc.org/" >}}
+{{<ex-link url="https://pandoc.org/" >}}
 
 pandoc は Markdown や HTML、EPUB、Word、LaTeX、PDF など多種多様なドキュメントフォーマットを相互に変換してくれる Haskell 製のツールです。
 Windows、macOS、Linux などに対応していて大体の環境では動くと思われます。
 
 Markdown から PDF への変換には次のスクリプトを実行しています。
 
-{{< highlight sh >}}
+{{<highlight sh >}}
 #!/bin/bash
 
 # mdtopdf
@@ -166,14 +166,14 @@ pandoc -s -N ${input%._}.md -o \${input%._}.pdf \
 -F pandoc-crossref \
 -M "crossrefYaml=/config/crossref_config.yaml"
 
-{{< /highlight >}}
+{{</highlight >}}
 
 `-N`オプションで自動でセクション番号を付与してくれます。
 
-`-F pandoc-crossref`では{{< link href="https://github.com/lierdakil/pandoc-crossref" text="pandoc-crossref" >}}という相互参照のためのフィルタを使っています。
+`-F pandoc-crossref`では{{<link href="https://github.com/lierdakil/pandoc-crossref" text="pandoc-crossref" >}}という相互参照のためのフィルタを使っています。
 次の行の`-M "crossrefYaml=..."`と合わせて、図表番号を正しく表示できるようにしています。
 
-{{< highlight yaml >}}
+{{<highlight yaml >}}
 figureTitle: '図'
 tableTitle: '表'
 listingTitle: 'コード'
@@ -181,22 +181,22 @@ figPrefix: '図'
 eqnPrefix: '式'
 tblPrefix: '表'
 lstPrefix: 'コード'
-{{< /highlight >}}
+{{</highlight >}}
 
-{{< ex-link url="https://github.com/lierdakil/pandoc-crossref" >}}
+{{<ex-link url="https://github.com/lierdakil/pandoc-crossref" >}}
 
 `--pdf-engine=lualatex`で PDF 生成のエンジンには LuaLaTeX を使用するように指定しています。これは他のエンジンでは正しく日本語を認識してくれないためです。
 また、`-V`で LuaLaTeX 用のオプションを指定しています。
 
 保存するたびに PDF に変換するのは簡単で、次のスクリプトを使っています。
 
-{{< highlight sh >}}
+{{<highlight sh >}}
 #!/bin/bash
 
 # w-mdtopdf
 
 watcher $1  mdtopdf $1
-{{< /highlight >}}
+{{</highlight >}}
 
 ２回同じファイル名を引数に指定しなくても良いようにしているだけですね。
 
@@ -211,8 +211,8 @@ pandoc を使うことで、Markdown ファイルから美しい TeX 組版の P
 
 Issue、Conrtibute、Star どれもお待ちしています！
 
-{{< ex-link url="https://github.com/p1ass/mdtopdf" >}}
+{{<ex-link url="https://github.com/p1ass/mdtopdf" >}}
 
 ## 参考
 
-{{< link href="https://qiita.com/Kumassy/items/5b6ae6b99df08fb434d9" text="まだ Word で消耗してるの？ 大学のレポートを Markdown で書こう" >}}
+{{<link href="https://qiita.com/Kumassy/items/5b6ae6b99df08fb434d9" text="まだ Word で消耗してるの？ 大学のレポートを Markdown で書こう" >}}

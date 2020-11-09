@@ -12,7 +12,7 @@ tags:
 share: true
 ---
 
-こんにちは、{{< link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
+こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
 先日、レイヤーアーキテクチャを採用している Web API サーバに WebSocket を組み込むことになったのですが、コネクションの管理やどのレイヤーで各機能を管理するか悩んだのでブログにまとめておきます。
 
@@ -24,7 +24,7 @@ share: true
 
 WebSocket を実装する前の API サーバのディレクトリ構成は次のようになっていました。（ブログ用に調整を加えてます。）
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 .
 ├── database # repository のインターフェースを満たす実体
 ├── domain
@@ -36,11 +36,11 @@ WebSocket を実装する前の API サーバのディレクトリ構成は次�
 └── web
 ├── handler
 └── router.go
-{{< /highlight >}}
+{{</highlight >}}
 
 処理の流れは以下の通りです。
 
-{{< highlight bash >}}
+{{<highlight bash >}}
 web/router.go
 ↓
 web/handler/_.go
@@ -48,7 +48,7 @@ web/handler/_.go
 usecase/_.go
 ↓
 domain/\*
-{{< /highlight >}}
+{{</highlight >}}
 
 レイヤードアーキテクチャを採用している無難なパッケージ構成になっています。明確に DDD や Clean Architecture であるとは言えないですが、その思想を取り入れつつ独自にカスタマイズしています。[^1]
 
@@ -149,11 +149,11 @@ func (uc *RoomUseCase) Join(roomID string, user *entity.User) error {
 
 次に Pusher インターフェースを満たす構造体を作ります。この構造体は複数の WebSocket コネクションを一括してハンドリングし、適切なコネクションに対してメッセージを送信します。ソースコードは `web/ws/*.go` に配置します。web パッケージ内におくかどうかは悩んだのですが、HTTP 上のプロトコルなのでここにしました。
 
-WebSocket を扱うライブラリは gorrila/websocket を採用しています。README にも書かれている通り、準標準の golang.org/x/net/websocket は機能が不足しています。{{< link text="GoDoc" href="https://pkg.go.dev/golang.org/x/net/websocket?tab=doc" >}}には代替案として gorrila/websocket が書いてあるので今回はこちらを採用しました。
+WebSocket を扱うライブラリは gorrila/websocket を採用しています。README にも書かれている通り、準標準の golang.org/x/net/websocket は機能が不足しています。{{<link text="GoDoc" href="https://pkg.go.dev/golang.org/x/net/websocket?tab=doc" >}}には代替案として gorrila/websocket が書いてあるので今回はこちらを採用しました。
 
-実装は{{< link text="gorrila/websocketのexample" href="https://github.com/gorilla/websocket/tree/master/examples/chat" >}}を非常に参考にさせていただきました。
+実装は{{<link text="gorrila/websocketのexample" href="https://github.com/gorilla/websocket/tree/master/examples/chat" >}}を非常に参考にさせていただきました。
 
-{{< ex-link url="https://github.com/gorilla/websocket" >}}
+{{<ex-link url="https://github.com/gorilla/websocket" >}}
 
 まず、WebSocket のコネクションをラップする構造体を作成します。
 

@@ -17,7 +17,7 @@ share: true
 
 先日、PFN さんが 2019 年インターン用のコーディング課題を公開されました。
 
-{{< ex-link url="https://research.preferred.jp/2019/06/internship-coding-task-2019/" >}}
+{{<ex-link url="https://research.preferred.jp/2019/06/internship-coding-task-2019/" >}}
 
 私は機械学習界隈の人間でないので、インターン募集時にあまり興味を持っていなかったのですが、上で公開された課題にはバックエンド用の問題も用意されていました。
 
@@ -27,7 +27,7 @@ share: true
 
 この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべて GitHub で管理しており、小問ごとにブランチを切って、PR でマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019" >}}
 
 <!--more-->
 
@@ -64,7 +64,7 @@ share: true
 ここからは問題を解いていきます。
 すべての問題で PR を出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/1" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/1" >}}
 
 問題 1-1 はジョブサーバの実装です。
 クエリパラメータに応じて適切なジョブを返すだけなので、簡単なお仕事のように思えましたが、少し一工夫する必要がありました。
@@ -83,7 +83,7 @@ share: true
 
 ## 問題 1-2
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/2" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/2" >}}
 
 問題 1-2 は 1-1 で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
 
@@ -97,7 +97,7 @@ share: true
 
 まず、ジョブの構造体を定義し、HTTP レスポンスをマッピングする処理を書きました。 `Priority` は `High` と `Low` の二値なので、int のエイリアスの型を定義し扱っています。
 
-{{< highlight go >}}
+{{<highlight go >}}
 type Priority int
 
 const (
@@ -112,11 +112,11 @@ Priority Priority
 Tasks []int
 CurrentTask int
 }
-{{< / highlight >}}
+{{</ highlight >}}
 
 次に、ワーカーの構造体を定義し、すべてのジョブを実行するメソッドを生やしました。
 
-{{< highlight go >}}
+{{<highlight go >}}
 type Worker struct {
 workingJobs []\*Job
 }
@@ -124,31 +124,31 @@ workingJobs []\*Job
 func (w \*Worker) ExecuteAllJob(interval int) int{
 ...
 }
-{{< / highlight>}}
+{{</ highlight>}}
 
 実装の工夫としては、ジョブに関するドメインロジックは `Job` のメソッドに定義し、`Worker` の `ExecuteAllJob()` をなるべく薄くなるようにしました。 `Worker` の責務はあくまでジョブの開始と停止であり、その中身まで関与する必要はないという考えによる設計です。このように分けたことで、ユニットテストを書きやすくすることができました。
 
 ## 問題 2-1
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/3" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/3" >}}
 
 問題 2-1 は問題 1-2 で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
 
 キャパシティが設定されると、サーバから受け取ったジョブをすべて同時に動かすことが出来なくなります。そこで、実行待ちのジョブをプールさせるキューを `Worker` に生やすことにしました。その後、受け取ったジョブをすぐ実行するかキューで待機させるか判定する処理を書きました。
 
-{{< highlight go >}}
+{{<highlight go >}}
 type Worker struct {
 ...
 jobQueue []\*Job
 capacity int
 ...
 }
-{{< / highlight>}}
+{{</ highlight>}}
 
 この問題で注意する点は、実行中のジョブのタスクが切り替わったときに、キャパシティを上回ってしまう可能性がある点です。
 
 例えば、キャパシティが 5 で、次のようなジョブを実行していたとします。
-{{< highlight go >}}
+{{<highlight go >}}
 j := &Job{
 ID: 0,
 Created: time.Time{},
@@ -156,7 +156,7 @@ Priority: Low,
 Tasks: []int{1, 10},
 CurrentTask: 0,
 }
-{{< / highlight>}}
+{{</ highlight>}}
 
 1 秒経過すると `j.Tasks[0]` は 0 になるため、次のタスクの 10 に移ります。しかし、キャパシティは 5 なため、このジョブはキューに戻す必要があります。
 
@@ -166,7 +166,7 @@ CurrentTask: 0,
 
 ## 問題 2-2
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/4" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/4" >}}
 
 問題 2-2 は優先度を考慮してジョブを実行するワーカーを作成する問題です。
 
@@ -174,7 +174,7 @@ CurrentTask: 0,
 
 優先度付きキューは Go の `container/heap` パッケージを利用しました。優先度の判定は次のように書き、優先度が同じ場合は時刻の早いジョブを先に処理することにしました。
 
-{{< highlight go >}}
+{{<highlight go >}}
 func (pq JobPriorityQueue) Less(i, j int) bool {
 if pq[i].Priority > pq[j].Priority {
 return true
@@ -187,20 +187,20 @@ return true
 return false
 }
 }
-{{< / highlight>}}
+{{</ highlight>}}
 
 次に、実行中のジョブの優先度は `Low` だが、優先度付きキューにジョブの優先度が `High` のジョブが積まれている場合に、ジョブを入れ替える処理を書きました。
 このあたりの処理は忘れがちなので、しっかりとテストを書くことが大事だなと感じました。
 
 また余談ですが、この問題の PDF の例が間違っていたので、issue を投げました。
 
-{{< ex-link url="https://github.com/pfnet/intern-coding-tasks/issues/5" >}}
+{{<ex-link url="https://github.com/pfnet/intern-coding-tasks/issues/5" >}}
 
 素早い修正に感謝です 🙏
 
 ## 問題 2-3
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/5" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/5" >}}
 
 問題 2-3 はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
 
@@ -210,7 +210,7 @@ return false
 
 具体的には、優先度が違う場合は優先度が高いものを選択し、優先度が同じ場合はキャパシティの空きを超えない最大のジョブを選択するようにしました。
 
-{{< highlight go >}}
+{{<highlight go >}}
 func (pq JobPriorityQueue) Less(i, j int) bool {
 job1 := pq.data[i]
 job2 := pq.data[j]
@@ -238,11 +238,11 @@ job2 := pq.data[j]
     }
 
 }
-{{< / highlight>}}
+{{</ highlight>}}
 
 ## 問題 3-1
 
-{{< ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/6" >}}
+{{<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/6" >}}
 
 大問 3 は自由回答で、３つの小問のうち 1 を選択して解く問題です。
 
@@ -254,7 +254,7 @@ job2 := pq.data[j]
 
 書き換えたのは HTTP レスポンスのマッピングくらいです。
 
-{{< highlight go >}}
+{{<highlight go >}}
 case "[Priority]":
 scanner.Scan()
 p := scanner.Text()
@@ -269,7 +269,7 @@ return nil, fmt.Errorf("failed to parse priority: %s", err)
 }
 job.Priority = domain.Priority(priority)
 }
-{{< / highlight>}}
+{{</ highlight>}}
 
 以上で問題を解答し終えました！
 
