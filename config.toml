@@ -1,4 +1,4 @@
-baseURL = "https://blog.p1ass.com"
+# baseURL = "https://blog.p1ass.com"
 languageCode = "ja"
 title = "ぷらすのブログ"
 hasCJKLanguage = true
