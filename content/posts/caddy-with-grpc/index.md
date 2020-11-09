@@ -1,6 +1,6 @@
 ---
 title: CaddyでgRPCのリクエストをリバースプロキシする
-date: 2020-11-09T12:40:00+09:00
+date: 2020-11-09T20:40:00+09:00
 draft: false
 description: CaddyでgRPCのリクエストをリバースプロキシするには、transportとflush_intervalを適切に設定すればよいです。
 categories:
