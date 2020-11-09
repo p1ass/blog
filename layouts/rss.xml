@@ -21,9 +21,9 @@
       {{ with .Site.Author.email }}<author>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</author>{{end}}
       <guid>https://blog.p1ass.com{{ .Permalink }}</guid>
       {{- if .Title }}
-      <enclosure url="https://og-image.p1ass.com/{{ .Title }}.jpeg" length="0" type="image/jpeg"/>
+      <enclosure url="https://og-image.p1ass.com/{{ .Title }}.png" length="0" type="image/png"/>
       {{- else }}
-      <enclosure url="https://blog.p1ass.com/images/ogp.png" length="0" type="image/jpeg"/>
+      <enclosure url="https://blog.p1ass.com/images/ogp.png" length="0" type="image/png"/>
       {{- end}}
       <description>{{ .Description }}</description>
     </item>
