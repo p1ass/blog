@@ -24,6 +24,7 @@ html {
 
 body {
   -webkit-text-size-adjust: 100%;
+  margin: 0 $spacing;
   > * {
     margin: ($spacing * 4) $spacing;
   }
