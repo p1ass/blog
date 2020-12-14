@@ -24,11 +24,13 @@ html {
 
 body {
   -webkit-text-size-adjust: 100%;
-  margin: ($spacing * 4) $spacing;
+  > * {
+    margin: ($spacing * 4) $spacing;
+  }
 }
 
 nav {
-  margin: -4 * $spacing auto 0;
+  margin: 0 auto ;
 }
 
 

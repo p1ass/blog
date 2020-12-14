@@ -20,11 +20,12 @@ html {
     html {
       font-size: 16px; } }
 body {
-  -webkit-text-size-adjust: 100%;
-  margin: 4rem 1rem; }
+  -webkit-text-size-adjust: 100%; }
+  body > * {
+    margin: 4rem 1rem; }
 
 nav {
-  margin: -4rem auto 0; }
+  margin: 0 auto; }
 
 h1,
 h2,
@@ -623,6 +624,8 @@ footer {
   padding: 1.7rem 0;
   text-align: center; }
   footer span {
+    display: inline-block;
+    padding-top: 0.85rem;
     color: #222222;
     font-size: 0.8rem; }
 
