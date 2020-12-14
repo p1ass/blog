@@ -1,6 +1,6 @@
 .sns_parent {
   text-align: center;
-  margin: 16px 0;
+  margin: $vertical-rhythm-unit 0;
 }
 
 .sns_section {
@@ -18,8 +18,8 @@
 }
 .sns_button a {
   display: table-cell;
-  width: 44px;
-  height: 44px;
+  width: $vertical-rhythm-unit * 1.625;
+  height: $vertical-rhythm-unit * 1.625;
   color: #42464c;
   text-align: center;
   vertical-align: middle;
@@ -29,7 +29,7 @@
   transition: all 280ms ease;
 }
 .sns_button i {
-  font-size: 20px;
+  font-size: 22px;
   vertical-align: middle;
   padding-bottom: 1px;
 }

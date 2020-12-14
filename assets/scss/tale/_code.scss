@@ -6,9 +6,9 @@ code {
 code {
   background-color: $grey-3;
   border: 1px solid $grey-2;
-  border-radius: 3px;
+  border-radius: $vertical-rhythm-unit * 0.125;
   font-size: 85%;
-  padding: .1em .5em;
+  padding: $vertical-rhythm-unit * 0.125 .5em;
 }
 
 pre {
@@ -20,16 +20,15 @@ pre code {
   border:none;
   font-size: 100%;
   padding: 0;
+  color: $code-color;
 }
 
 .highlight {
   color: $code-color;
   background-color: $code-background;
-  border-radius: 3px;
-  line-height: 1.4;
-  margin: 0 0 1rem;
-  padding: 1rem;
-  border-radius: 0.9rem;
+  border-radius: $vertical-rhythm-unit * 0.5;
+  margin: 0 0 $vertical-rhythm-unit;
+  padding: $vertical-rhythm-unit * 0.5;
 
   pre {
     margin-bottom: 0;

@@ -1,16 +1,9 @@
-.container {
-  margin: 0 auto;
-  max-width: 750px;
-  width: 80%;
-}
-
 main,
 footer,
 .nav-container {
   display: block;
   margin: 0 auto;
   max-width: 750px;
-  width: calc(100% - 2rem);
 }
 
 .nav {
@@ -18,17 +11,14 @@ footer,
   overflow: auto;
 
   &-container {
-    margin: 1rem auto;
-    position: relative;
+    margin: $vertical-rhythm-unit * 0.5 auto;
     text-align: center;
   }
 
   &-title {
     @include transition(all 0.2s ease-out);
     color: $default-color;
-    display: inline-block;
-    margin: 0;
-    padding-right: 0.2rem;
+    margin: $vertical-rhythm-unit * 0.25 0;
 
     &:hover,
     &:focus {
@@ -42,7 +32,7 @@ footer,
 
   ul {
     list-style-type: none;
-    margin: 1rem 0 0;
+    margin: 0;
     padding: 0;
     text-align: center;
   }
@@ -52,7 +42,8 @@ footer,
     color: $default-color;
     display: inline-block;
     opacity: 0.6;
-    padding: 0 2rem 0 0;
+    padding: 0 2rem  0 0;
+  
 
     &:last-child {
       padding-right: 0;
@@ -64,7 +55,7 @@ footer,
     }
 
     @media (max-width: 600px){
-      padding: 0 0 0.5rem 0;
+      padding: 0 0 $vertical-rhythm-unit * 0.25 0;
       width: 100px;
     }
   }
@@ -75,23 +66,10 @@ footer,
   }
 }
 
-@media (min-width: 900px) {
-  .nav {
-    &-container {
-      text-align: left;
-    }
-
-    ul {
-      bottom: 0;
-      position: absolute;
-      right: 0;
-    }
-  }
-}
 
 footer {
   font-family: $serif-secondary;
-  padding: 2rem 0;
+  padding: $vertical-rhythm-unit 0;
   text-align: center;
 
   span {
