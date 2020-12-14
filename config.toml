@@ -7,7 +7,6 @@ googleAnalytics= "UA-127036212-7"
 [params]
 description = "Webエンジニアリングについて学んだことや考えたことをまとめるブログです"
 OgpJsonBaseURL = "https://blog-api.p1ass.com/ogp?url="
-css = ["custom.css"]
 
 [author]
 name= "p1ass"
