@@ -139,7 +139,7 @@ ol {
   border-radius: $vertical-rhythm-unit * 0.5;
   background-clip: padding-box;
   box-sizing: border-box;
-  margin-bottom: 1rem;
+  margin-bottom: $vertical-rhythm-unit;
 }
 
 .embed-wrapper * {
