@@ -108,7 +108,7 @@ ol {
   border-radius: 0.85rem;
   background-clip: padding-box;
   box-sizing: border-box;
-  margin-bottom: 1rem; }
+  margin-bottom: 1.7rem; }
 
 .embed-wrapper * {
   word-wrap: break-word;
