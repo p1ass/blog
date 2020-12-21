@@ -17,13 +17,17 @@ $sub-shade: #444;
 $h3-border: #ccc;
 
 // Fonts
-$serif-primary: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica,
-  Arial, sans-serif;
-$serif-secondary: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica,
-  Arial, sans-serif;
-$sans-serif: "Open Sans", "Hiragino Kaku Gothic ProN", Meiryo, Helvetica, Arial,
-  sans-serif;
-$monospaced: Menlo, Monaco, monospace;
+$serif-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+sans-serif;
+$serif-secondary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+sans-serif;
+$sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+sans-serif;
+$monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+monospace;
 
 @mixin box-sizing($type: border-box) {
   -webkit-box-sizing: $type;
@@ -40,3 +44,8 @@ $monospaced: Menlo, Monaco, monospace;
 // custom
 $bottom-line-color-1: rgba(47, 128, 237, 0.7);
 $bottom-line-color-2: rgba(86, 204, 242, 0.7);
+ 
+// https://gist.github.com/yuheiy/89ba79fd0510f98613c217a7dbeb8d03
+$spacing: 1rem;
+$vertical-rhythm-line-height: 1.7;
+$vertical-rhythm-unit: ($vertical-rhythm-line-height * 1rem);
