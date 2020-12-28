@@ -10,6 +10,7 @@ tags:
   - 登壇
   - 本
 share: true
+eyecatch: /posts/review-of-2020/ogp.png
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
