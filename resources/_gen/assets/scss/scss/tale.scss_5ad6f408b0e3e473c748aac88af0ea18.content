@@ -52,6 +52,10 @@ h3 {
   line-height: 2.55rem;
   border-bottom: 1px solid #ccc; }
 
+h4 {
+  font-size: 1.2rem;
+  line-height: 1.7rem; }
+
 a {
   color: #04c;
   text-decoration: none;
@@ -100,6 +104,26 @@ li {
 ol {
   margin: 0 0 1.7rem 1.5rem;
   padding: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 1.7rem; }
+
+table th {
+  border-bottom: solid 2px rgba(47, 128, 237, 0.7); }
+
+table tr {
+  border-bottom: solid 1px #e5e5e5; }
+
+table th, table td {
+  text-align: center;
+  width: 25%;
+  padding: 15px 0; }
+
+iframe {
+  margin-bottom: 1.7rem; }
 
 .embed-wrapper {
   background-color: #fff;
@@ -809,5 +833,8 @@ footer {
   content: "B!";
   font-family: Verdana;
   font-weight: bold; }
+
+.speakerdeck-embed-wrapper {
+  margin-bottom: 1.7rem; }
 
 /*# sourceMappingURL=style.css.map */

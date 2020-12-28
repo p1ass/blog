@@ -9,12 +9,13 @@ tags:
   - Docker
   - VPS
   - Caddy
+  - 登壇
 share: true
 ---
 
 こんにちは、ぷらす({{<link href="https://twitter.com/p1ass" text="@p1ass" >}})です。
 
-先日、{{<link href="https://camphor.connpass.com/event/167947/" text="CAMPHOR- DAY 2020" >}}というオンラインのトークイベントで、「複数サービスを運用しやすい理想のコンテナ環境を VPS 上に構築する 」というタイトルで登壇しました。
+先日、{{<link href="https://camphor.connpass.com/event/167947/" text="CAMPHOR- DAY 2020" >}}というオンラインのトークイベントで、「複数サービスを運用しやすい理想のコンテナ環境を VPS 上に構築する」というタイトルで登壇しました。
 
 登壇資料は既にアップロードしていて見られるのですが、端折っている部分の補足をしたいと思います。また、当日頂いた質問についても回答します。
 
@@ -26,7 +27,7 @@ share: true
 
 ### `--default-stack-orchestrator`を指定する必要がある
 
-`docker`コマンドを使用しているときは`--default-stack-orchestrator`を指定しなくても動作しますが、`docker-compose`コマンドだとエラーで落ちてしまいます。swarm に繋いているわけではないですが、値を設定しておく必要があります。
+`docker`コマンドを使用しているときは `--default-stack-orchestrator` を指定しなくても動作しますが、`docker-compose`コマンドだとエラーで落ちてしまいます。swarm に繋いているわけではないですが、値を設定しておく必要があります。
 
 ```bash
 $ docker context create --help
@@ -46,7 +47,7 @@ $ docker context use remote
 
 ### SSH Config が使えない
 
-`ssh`コマンドは`~/.ssh/config` に接続先を書くと、`ssh remote`のように簡潔なコマンドで接続することができます。
+`ssh`コマンドは `~/.ssh/config` に接続先を書くと、`ssh remote`のように簡潔なコマンドで接続できます。
 {{<highlight bash >}}
 Host remote
 HostName xx.xx.xx.xx
@@ -54,7 +55,7 @@ User user
 IdentityFile ~/.ssh/id_rsa
 {{</highlight >}}
 
-これを使って Docker Context を作成したいと思うところなのですが、この方法は`docker`コマンドでは使えても、`docker-compose`コマンドでは使えません。
+これを使って Docker Context を作成したいと思うところなのですが、この方法は `docker` コマンドでは使えても、`docker-compose`コマンドでは使えません。
 
 {{<highlight bash >}}
 $ docker context create --default-stack-orchestrator=swarm \\

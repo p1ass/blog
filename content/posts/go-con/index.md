@@ -42,11 +42,11 @@ Go Conference 2019 Spring では、地方に住む学生のために交通費や
 
 Go は Java など他の言語に実装されている例外がありません。すべてのエラーは戻り値によって返し、そのエラーハンドリングは各実装者に任されています。そのため、人によってエラーハンドリングの設計が異なり、ベストプラクティスがはっきりとしていませんでした。
 
-僕が Go でなにかを実装するときは、 **「`pkg/errors`でとりあえず`Wrap`しとく」** らいの適当な感じで行っていたのですが、このセッションを聞いたことでしっかりとしたエラー設計ができそうに思えました。
+僕が Go でなにかを実装するときは、 **「`pkg/errors`でとりあえず `Wrap` しとく」** らいの適当な感じで行っていたのですが、このセッションを聞いたことでしっかりとしたエラー設計ができそうに思えました。
 
 特に「関係者によってエラーに求める情報が異なる」という点について今まで考えたことがなく、各関係者がそれぞれ欲している情報を適切にエラーに含めることができるような設計を心がけるべきだと感じました。
 
-また、morikuni さんが作られた`morikuni/failure`と Go1.13 から正式に実装される予定の`xerrors`の違いに関する話もされており、用途に応じて適切な package を使っていきたいです。
+また、morikuni さんが作られた `morikuni/failure` と Go1.13 から正式に実装される予定の `xerrors` の違いに関する話もされており、用途に応じて適切な package を使っていきたいです。
 
 {{<ex-link url="https://github.com/morikuni/failure" >}}
 
@@ -60,7 +60,7 @@ Go は Java など他の言語に実装されている例外がありません�
 
 プロセスのシグナル周りを丁寧に解説されており、`exec.CommandContext`では SIGKILL が送られてしまうので孫プロセスを止められない、といった標準 package のデメリットなども紹介されていました。
 
-また、コマンドの出力に`golang.org/x/text/transform`の`Transformer`を使ってタイムスタンプをつけるテクニックは他にも色々な用途で使えそうだと思いました。
+また、コマンドの出力に `golang.org/x/text/transform`の `Transformer` を使ってタイムスタンプをつけるテクニックは他にも色々な用途で使えそうだと思いました。
 `io.Reader`を使えるので汎用性が高い点も良いです。
 
 #### Expand observability in Go
@@ -69,7 +69,7 @@ Google Cloud で Developer Advocate をされている[ymotongpoo さん](https:
 
 {{<ex-link url="https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0" >}}
 
-学生が趣味レベルでコードを書く場合、パフォーマンスチューニングを行うほどの性能を求められることはほとんどありません。そのため、`net/http/pprof`や`net/http/httptrace`は名前を聞いただけでほとんど実践したことがありませんでした。
+学生が趣味レベルでコードを書く場合、パフォーマンスチューニングを行うほどの性能を求められることはほとんどありません。そのため、`net/http/pprof`や `net/http/httptrace` は名前を聞いただけでほとんど実践したことがありませんでした。
 
 このセッションでは、サンプルコードを例にパフォーマンスチューニングのやり方を丁寧に解説されていました。
 
@@ -103,7 +103,7 @@ go tool pprof -http=":8888" http://localhost:8080/debug/pprof/profile
 ![pprofのFrame Graph](./pprof.png)
 _pprof の Frame Graph_
 
-メモリに保持しているデータを JSON にシリアライズして返すだけの単純な API なので、`runtime`や`net/http`が支配的で、問題になりそうな部分は見当たりませんでした。
+メモリに保持しているデータを JSON にシリアライズして返すだけの単純な API なので、`runtime`や `net/http` が支配的で、問題になりそうな部分は見当たりませんでした。
 
 これが ISUCON の参考実装であれば、明確に遅い部分が見つかると思うので、今後試していきたいです。
 
