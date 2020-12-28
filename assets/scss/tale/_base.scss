@@ -67,6 +67,11 @@ h3 {
   border-bottom: 1px solid $h3-border;
 }
 
+h4 {
+  font-size: 1.2rem;
+  line-height: $vertical-rhythm-unit ; 
+}
+
 
 a {
   color: $blue;
@@ -130,6 +135,32 @@ li {
 ol {
   margin: 0 0 $vertical-rhythm-unit 1.5rem;
   padding: 0;
+}
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: $vertical-rhythm-unit;
+}
+
+table th {
+  border-bottom: solid 2px $bottom-line-color-1;
+}
+
+table tr{
+  border-bottom: solid 1px $grey-2;
+}
+
+
+table th,table td{
+  text-align: center;
+  width: 25%;
+  padding: 15px 0;
+}
+
+iframe{
+  margin-bottom: $vertical-rhythm-unit;
 }
 
 .embed-wrapper {
