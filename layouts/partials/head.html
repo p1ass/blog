@@ -11,7 +11,11 @@
     <meta property="og:description" content="{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
 
     {{- if .IsPage }}
-    <meta property="og:image" content="https://og-image.p1ass.com/apiv2/{{ replace .Params.Title " " "%20" }}.png"/>
+        {{- if .Params.eyecatch }}
+            <meta name="og:image" content="https://blog.p1ass.com{{ .Params.eyecatch }}" />
+        {{- else}}
+            <meta property="og:image" content="https://og-image.p1ass.com/apiv2/{{ replace .Params.Title " " "%20" }}.png"/>
+        {{- end }}
     {{- else }}
     <meta property="og:image" content="https://blog.p1ass.com/images/ogp.png"/>
     {{- end}}
