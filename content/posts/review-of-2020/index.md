@@ -7,7 +7,6 @@ categories:
   - ポエム
 tags:
   - 振り返り
-  - CAMPHOR-
   - 登壇
   - 本
 share: true
