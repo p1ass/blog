@@ -87,9 +87,9 @@ eyecatch: /posts/review-of-2020/ogp.png
 
 [CAMPHOR- DAY 2020](https://blog.camph.net/event/camphor-day-2020/) と [Go Conference '20 in Autumn SENDAI](https://sendaigo.connpass.com/event/185474/) で登壇した。
 
-<script async class="speakerdeck-embed" data-id="388f5d3e4da2482ba946db5c2f84d480" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+<!-- <script async class="speakerdeck-embed" data-id="388f5d3e4da2482ba946db5c2f84d480" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script> -->
 
-<script async class="speakerdeck-embed" data-id="6abe88154f9b4de19f327545fdeaf27b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+<!-- <script async class="speakerdeck-embed" data-id="6abe88154f9b4de19f327545fdeaf27b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script> -->
 
 CAMPHOR- DAY は自分が代表をしていたコミュニティでの登壇だった。自分の VPS 運用について語ったものだが、役に立った人がいたみたいで良かった。
 
@@ -147,9 +147,8 @@ Perfume だけがコロナ前で、残りはコロナ中の開催だった。
 
 趣味開発では[「Relaym」](https://relaym.camph.net)と[「生活習慣の乱れを可視化するやつ」](https://midare.p1ass.com)の 2 つをリリースした。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/%E6%8A%80%E8%82%B2%E5%B1%95?src=hash&amp;ref_src=twsrc%5Etfw">#技育展</a> でさんぽし君が発表してたRelaymのサーバサイド開発のリードやってました〜！<br><br>ソースコードやPRDなどもOSSで全部公開してあるので是非見てね〜<a href="https://t.co/9wf993LMa3">https://t.co/9wf993LMa3</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1309703226325757953?ref_src=twsrc%5Etfw">September 26, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ツイートを分析して生活習慣の乱れを可視化するツイ廃向けのWebアプリを作りました！<br>Twitter連携で簡単に起床・就寝時間が分かり、どんどん生活習慣が乱れていく様子を見ることができます。<br><br>左の画像は規則正しい人、右の画像は生活習慣が乱れている人のグラフです ⏰<a href="https://t.co/5f7xlh7X6J">https://t.co/5f7xlh7X6J</a> <a href="https://t.co/6YNo02VATv">pic.twitter.com/6YNo02VATv</a></p>&mdash; ぷらす (@p1ass) <a href="https://twitter.com/p1ass/status/1267413338016804864?ref_src=twsrc%5Etfw">June 1, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{<twitter url="https://twitter.com/p1ass/status/1309703226325757953" >}}
+{{<twitter url="https://twitter.com/p1ass/status/1267413338016804864" >}}
 
 「Relaym」はリリースするまでかなり時間をかけてしまったが、なんとか無事リリースできた。何が何でもリリースしたい気持ちがあったので、PdM っぽい立ち回りをして、最初のリリースに本当に必要な機能の検討をファシリテートすることで、どうにかリリースまで落とし込んだ。他にも開発工数のすり合わせとか色んなことをしていたので、いつかブログにまとめたい。
 
@@ -198,7 +197,7 @@ CAMPHOR-としての振り返りは CAMPHOR-の Advent Calendar に書いたの�
 こっから趣味の話。技術の話だけが気になってた人はここでブラウザバックして OK。
 
 今年は人生で 1 番旅行した年だった。
-沖縄、箱根、富士急、仙台、福島、新潟、東京、千葉と様々な場所に行った。GoTo トラベル様々である。空いてるディズニーは最高。
+沖縄、箱根、富士急、仙台、福島、新潟、東京、千葉と様々な場所に行った。GoTo トラベル様々。空いてるディズニーは最高。
 
 去年は就活のため新幹線に乗りまくってたが、今年は飛行機を乗りまくった。そろそろ飛行機のワクワクがなくなってきている自分が悲しい。
 
