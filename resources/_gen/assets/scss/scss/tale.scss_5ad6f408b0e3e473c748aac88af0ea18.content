@@ -791,7 +791,8 @@ footer {
   font-size: 13px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.85rem;
-  height: 8.5rem; }
+  height: 8.5rem;
+  overflow: hidden; }
 
 .entry-body {
   color: #222222;
