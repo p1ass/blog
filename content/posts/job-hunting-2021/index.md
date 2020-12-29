@@ -145,7 +145,7 @@ LINE の選考は他と違って tracks を使ったコーディングテスト�
 
 会社の雰囲気は穏やかな人が多い印象で、良くも悪くも中途に良さそうというイメージを持ちました。
 
-学生は高学歴の人が多かったです。東大院、筑波院、京大院はよく見かけました。コーディングテストがある → 競プロをやっている → AtCoder 人口的に高学歴が多い というロジックなのかなと勝手に推測しています。後は機械学習をガッツリやってるからですかね。批判されるような書類で学歴フィルタなんかはしてないと思います。念の為。
+学生は高学歴の人が多かったです。東大院、筑波院、京大院はよく見かけました。コーディングテストがある → 競プロをやっている → AtCoder 人口的に高学歴が多いというロジックなのかなと勝手に推測しています。後は機械学習をガッツリやってるからですかね。批判されるような書類で学歴フィルタなんかはしてないと思います。念の為。
 
 余談ですが、生理的に SB が嫌いで Yahoo!との報道が流れてから選考のモチベが削れていました。
 
@@ -408,11 +408,11 @@ SHIROBAKO は多くのことを考えさせてくれる素晴らしいアニメ�
 
 本来は有料 note にする予定だったんですけどブログで無料で公開したので{{<link href="https://www.amazon.jp/hz/wishlist/ls/32EJQUG5H8XPB?ref_=wl_share" text="例のあれ" >}}を貼っておきます。
 
-## 合わせて読みたい
+## インターン関連の記事
 
-- {{<block-link href="https://blog.p1ass.com/posts/aktsk-intern/" text="ドメインロジックと永続化処理を分離する設計改善を行って得られた知見 - ぷらすのブログ" >}}
-- {{<block-link href="https://blog.p1ass.com/posts/abema-intern/" text="CyberAgentのAbemaTVでインターンしてきた話 - ぷらすのブログ" >}}
-- {{<block-link href="https://blog.p1ass.com/posts/dena-intern/" text="DeNAのエンジニアサマーインターンで優勝してきた - ぷらすのブログ" >}}
-- {{<block-link href="https://blog.p1ass.com/posts/line-intern/" text="LINEの就業型インターンに参加してきた - ぷらすのブログ" >}}
-- {{<block-link href="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" text="Cyber Agentのインターン「Architecture Challenge」に参加してきた - ぷらすのブログ" >}}
-- {{<block-link href="https://blog.p1ass.com/posts/pixiv-intern-2018/" text="pixiv2018冬インターンシップで「最高のpixiv」を作ってきた【参加記】 - ぷらすのブログ" >}}
+- {{<link href="https://blog.p1ass.com/posts/aktsk-intern/" text="ドメインロジックと永続化処理を分離する設計改善を行って得られた知見 - ぷらすのブログ" >}}
+- {{<link href="https://blog.p1ass.com/posts/abema-intern/" text="CyberAgentのAbemaTVでインターンしてきた話 - ぷらすのブログ" >}}
+- {{<link href="https://blog.p1ass.com/posts/dena-intern/" text="DeNAのエンジニアサマーインターンで優勝してきた - ぷらすのブログ" >}}
+- {{<link href="https://blog.p1ass.com/posts/line-intern/" text="LINEの就業型インターンに参加してきた - ぷらすのブログ" >}}
+- {{<link href="https://blog.p1ass.com/posts/cyberagent-architecture-challenge/" text="Cyber Agentのインターン「Architecture Challenge」に参加してきた - ぷらすのブログ" >}}
+- {{<link href="https://blog.p1ass.com/posts/pixiv-intern-2018/" text="pixiv2018冬インターンシップで「最高のpixiv」を作ってきた【参加記】 - ぷらすのブログ" >}}

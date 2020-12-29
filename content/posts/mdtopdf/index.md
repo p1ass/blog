@@ -10,6 +10,7 @@ tags:
   - TeX
   - docker
   - OSS
+  - レポート
 share: true
 ---
 
@@ -20,7 +21,7 @@ Word ですか？それとも LaTeX ですか？
 
 私はそのどちらでもなく、 **Markdown** 書いています。
 Markdown はシンプルなシンタックスで様々な表現ができ、多くのエンジニアに愛されています。
-しかし、Markdown は実験レポート用途にあまり使われていないため、そのままでは美しい PDF を作成することができません。
+しかし、Markdown は実験レポート用途にあまり使われていないため、そのままでは美しい PDF を作成できません。
 
 この記事では、pandoc という様々なフォーマットのドキュメントを相互変換するツールを使って、Markdown で書いた実験レポートを TeX 組版の美しい PDF にする方法をご紹介します。
 
@@ -88,10 +89,10 @@ PDF に変換する方法は **簡単 3STEP** す。
 
 ### STEP3 : PDF に変換する
 
-`INPUT.md`は各自自分のファイルに書き換えてください。処理が完了すると`INPUT.pdf`が生成されます。
+`INPUT.md`は各自自分のファイルに書き換えてください。処理が完了すると `INPUT.pdf` が生成されます。
 
 {{<highlight bash >}}
-\$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf INPUT.md
+$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf INPUT.md
 {{</highlight >}}
 
 以上です。とても簡単ですね！
@@ -105,7 +106,7 @@ PDF に変換する方法は **簡単 3STEP** す。
 そこで、Markdown ファイルを保存するたびに変換するようにできるようにしましょう。
 
 {{<highlight bash >}}
-\$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf INPUT.md
+$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf INPUT.md
 {{</highlight >}}
 
 1 秒間隔でファイルを監視し、変更があれば PDF に変換します。
@@ -121,7 +122,7 @@ PDF に変換する方法は **簡単 3STEP** す。
 `alias` コマンドを使って簡単に呼び出せるようにしましょう。
 
 {{<highlight bash >}}
-\$ echo "alias mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf'" >> ~/.bash_profile
+$ echo "alias mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf'" >> ~/.bash_profile
 $ echo "alias w-mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf'" >> ~/.bash_profile
 $ source ~/.bash_profile
 
@@ -171,7 +172,7 @@ pandoc -s -N ${input%._}.md -o \${input%._}.pdf \
 `-N`オプションで自動でセクション番号を付与してくれます。
 
 `-F pandoc-crossref`では{{<link href="https://github.com/lierdakil/pandoc-crossref" text="pandoc-crossref" >}}という相互参照のためのフィルタを使っています。
-次の行の`-M "crossrefYaml=..."`と合わせて、図表番号を正しく表示できるようにしています。
+次の行の `-M "crossrefYaml=..."` と合わせて、図表番号を正しく表示できるようにしています。
 
 {{<highlight yaml >}}
 figureTitle: '図'
@@ -195,16 +196,16 @@ lstPrefix: 'コード'
 
 # w-mdtopdf
 
-watcher $1  mdtopdf $1
+watcher $1 mdtopdf $1
 {{</highlight >}}
 
 ２回同じファイル名を引数に指定しなくても良いようにしているだけですね。
 
-`mdtotex`は`mdtopdf`とほとんど同じなので省略します。
+`mdtotex`は `mdtopdf` とほとんど同じなので省略します。
 
 ## 終わりに
 
-pandoc を使うことで、Markdown ファイルから美しい TeX 組版の PDF を生成することができました。
+pandoc を使うことで、Markdown ファイルから美しい TeX 組版の PDF を生成できました。
 また、Docker とシェルスクリプトを使うことで、使用者側は pandoc などを意識せず、簡単に扱うことができます。
 
 皆さんも是非使ってみてください！
