@@ -344,10 +344,6 @@ pre code {
   color: #f00; }
 
 /* Generic.Error */
-.highlight .gh {
-  color: #030; }
-
-/* Generic.Heading */
 .highlight .gi {
   background-color: #cfc;
   border: 1px solid #0c0; }

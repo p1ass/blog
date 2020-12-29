@@ -62,13 +62,13 @@ Nginx の場合は、これらを実装するために多くのコンフィグ�
 
 などもあります。
 
-### シンプルに設定を記述できる`Caddyfile`
+### シンプルに設定を記述できる `Caddyfile`
 
 Caddy の設定の反映方法は 2 通り用意されており、ユーザが用途に合わせて選べるようになってます。
 
-一つ目は `Caddyfile` というファイルで設定する方法で、Nginx のコンフィグに似た書き方で記述できます。
+1 つ目は `Caddyfile` というファイルで設定する方法で、Nginx のコンフィグに似た書き方で記述できます。
 
-```bash
+```caddyfile
 # https://hoge.p1ass.comにきたリクエストをlocalhost:8080にプロキシ
 hoge.p1ass.com {
   reverse_proxy /* localhost:8080
@@ -192,7 +192,7 @@ $ curl -s localhost:2019/config | jq
 }
 ```
 
-これと同じ形式で `POST /load` に JSON を投げれば動的に設定を変更できます。なお、デフォルトでは JSON ですが、`Content-Type: text/caddyfile` とすればそのまま`Caddyfile` を投げることもできます。
+これと同じ形式で `POST /load` に JSON を投げれば動的に設定を変更できます。なお、デフォルトでは JSON ですが、`Content-Type: text/caddyfile` とすればそのまま `Caddyfile` を投げることもできます。
 
 また、この設定の変更は ACID を保証しています。
 
