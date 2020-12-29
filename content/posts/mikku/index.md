@@ -85,7 +85,7 @@ Windows や Linux をお使いの方は `darwin_amd64` をそれぞれ `windows_
 {{<highlight console>}}
 $ VERSION=0.2.0
 $ curl -O -L https://github.com/p1ass/mikku/releases/download/v${VERSION}/mikku_${VERSION}_darwin_amd64.tar.gz
-$ tar -zxvf mikku_${VERSION}\_darwin_amd64.tar.gz
+$ tar -zxvf mikku\_${VERSION}\_darwin_amd64.tar.gz
 $ chmod a+x mikku
 $ mv mikku /usr/local/bin/mikku
 \$ mikku --help
@@ -165,7 +165,7 @@ $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
 \$ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 {{</highlight >}}
 
-{{<link href="https://github.com/p1ass/mikku" text="mikku" >}}では`{{.Owner}}`、`{{.Repository}}`をテンプレートとして使えるようになっています。
+{{<link href="https://github.com/p1ass/mikku" text="mikku" >}}では `{{.Owner}}` 、`{{.Repository}}`をテンプレートとして使えるようになっています。
 
 マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。そのため、テンプレートを使うことで **設定を何度も書き換えることなく使い回せるようになります** ただ単にコマンドラインオプションで渡すのではなく、環境変数でも設定できるのはこのためです。
 
@@ -196,7 +196,3 @@ Issue、PR、Star などはいつでも大歓迎なので、使いにくかっ�
 {{<ex-link url="https://github.com/p1ass/mikku" >}}
 
 明日の{{<link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}}の担当は{{<link href="https://note.mu/tomokortn" text="tomokortn" >}}さんです。お楽しみに！
-
-## 合わせて読みたい
-
-{{<ex-link url="https://blog.p1ass.com/posts/go-database-sql-wrapper/" >}}

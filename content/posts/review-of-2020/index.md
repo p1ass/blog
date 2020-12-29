@@ -6,6 +6,7 @@ description: 2020年の振り返りをする。年始のOKRの振り返りや趣
 categories:
   - ポエム
 tags:
+  - ポエム
   - 振り返り
   - 登壇
   - 本
@@ -168,7 +169,6 @@ DeNA でアルバイトしている。日比谷音楽祭という音楽フェス
 CAMPHOR-としての振り返りは CAMPHOR-の Advent Calendar に書いたので、ここではより p1ass 自身にフォーカスしたことを書こうと思う。
 
 {{<ex-link url="https://blog.camph.net/news/2020-advent-final/">}}
-
 
 自分の役割は、次に挙げるようなものだと自分で定義して行動していた。
 
