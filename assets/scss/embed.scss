@@ -3,17 +3,18 @@
 }
   
 .embed-wrapper * {
-word-wrap: break-word;
-word-break: break-all;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .embed-wrapper-inner {
-display: flex;
-background-color: $white;
-font-size: 13px;
-border: 1px solid rgba(0, 0, 0, 0.1);
-border-radius: $vertical-rhythm-unit * 0.5;
-height: $vertical-rhythm-unit * 5;
+    display: flex;
+    background-color: $white;
+    font-size: 13px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: $vertical-rhythm-unit * 0.5;
+    height: $vertical-rhythm-unit * 5;
+    overflow: hidden;
 }
 
 
