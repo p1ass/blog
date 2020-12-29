@@ -26,7 +26,7 @@ import ディレクトリを使えばできます。
 
 マスターとなる Caddyfile で import をすれば、マッチするファイルが読み込まれます。
 
-```sh
+```caddyfile
 import Cadyfiles/*.Caddyfile
 ```
 

@@ -17,7 +17,7 @@ share: true
 
 Go のメジャーバージョンはいつの間にか 5 まで到達していたようですね、[@p1ass](https://twitter.com/p1ass)です。
 
-Go でデータベースにアクセスするときに使うライブラリは{{<link href="https://golang.org/pkg/database/sql/" text="database/sql" >}}や  それをラップした{{<link href="https://github.com/jmoiron/sqlx" text="sqlx">}},{{<link href="https://github.com/jinzhu/gorm" text="gorm">}},{{<link href="https://github.com/go-gorp/gorp" text="gorp">}}など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
+Go でデータベースにアクセスするときに使うライブラリは{{<link href="https://golang.org/pkg/database/sql/" text="database/sql" >}}や  それをラップした{{<link href="https://github.com/jmoiron/sqlx" text="sqlx">}},{{<link href="https://github.com/jinzhu/gorm" text="gorm">}},{{<link href="https://github.com/go-gorp/gorp" text="gorp">}}など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
 
 おそらく様々な理由があってどれか(ここに挙げられていないものかもしれない)を使っているでしょう。
 しかし、それは本当にベストな選択だったのでしょうか？
@@ -40,7 +40,7 @@ Go には{{<link href="https://golang.org/pkg/database/sql/" text="database/sql"
 database/sql は SQL に関する汎用的な機能を提供してます。
 コネクションの管理や、クエリの発行、トランザクションなどが当たります。
 
-また、データベースの違いによる差異を吸収するために{{<link href="https://golang.org/pkg/database/sql/driver/" text="database/sql/driver" >}}にインターフェイスが定義されています。これを実装することで、どのデータベースに対しても内部的に同じ API でアクセスすることができるようになっています。
+また、データベースの違いによる差異を吸収するために{{<link href="https://golang.org/pkg/database/sql/driver/" text="database/sql/driver" >}}にインターフェイスが定義されています。これを実装することで、どのデータベースに対しても内部的に同じ API でアクセスできるようになっています。
 Driver の実装は golang/go の{{<link href="https://github.com/golang/go/wiki/SQLDrivers" text="wiki" >}}に一覧でまとまっていてます。
 
 ## database/sql に足りないものは?
@@ -49,7 +49,7 @@ Driver の実装は golang/go の{{<link href="https://github.com/golang/go/wiki
 
 Go の設計思想の中に{{<link href="https://talks.golang.org/2015/simplicity-is-complicated.slide" text="Simplicity" >}}があるように、他の言語とは違い多くの機能を標準で提供していません。
 
-例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ一つ一つごとに引数でを渡す必要があります。
+例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ1つ一つごとに引数でを渡す必要があります。
 
 ```go
 rows, err := db.Query("SELECT id, name FROM users LIMIT 10")
@@ -146,7 +146,7 @@ Email string `db:"email"`
 
 db, \_ := sqlx.Connect("sqlite3", "test.db")
 
-people := []Person{}
+people :=[]Person{}
 db.Select(&people, "SELECT \* FROM person ORDER BY first_name ASC")
 
 db.NamedExec("INSERT INTO person (first_name, last_name, email) VALUES (:first_name, :last_name, :email)", &Person{"Jane", "Citizen", "jane.citzen@example.com"})
@@ -163,7 +163,7 @@ SQL は全部手で書きたいんだ！という人にオススメです。ま�
 gorm は sqlx とは対照的に高機能なライブラリです。公式で `Full-Featured ORM (almost)` を謳っています (Go で ORM という単語が正しいのかは議論の対象外とします)。
 特に Ruby on Rails などを使ってた人が Go を書く時に使う印象があります。
 
-Query はメソッドチェーンで記述することができ、Exec も関数を呼び出すことで実行できます。そのため SQL を書く必要はありません。
+Query はメソッドチェーンで記述でき、Exec も関数を呼び出すことで実行できます。そのため SQL を書く必要はありません。
 
 {{<highlight go>}}
 type Person struct {
@@ -174,7 +174,7 @@ Email string `gorm:"email"`
 
 db, err := gorm.Open("sqlite3", "test.db")
 
-people := []Person{}
+people :=[]Person{}
 db.Order("first_name asc").Find(&people)
 
 db.Create(&Person{"Jane", "Citizen", "jane.citzen@example.com"})
@@ -192,7 +192,7 @@ var result Result
 db.Raw("SELECT name, age FROM users WHERE name = ?", 3).Scan(&result)
 {{</highlight >}}
 
-gorm は Query は SQL で、Exec はライブラリ側で行うように記述することができるため、私の考える SQL を書くべきかどうかの考えを適用することができます。
+gorm は Query は SQL で、Exec はライブラリ側で行うように記述できるため、私の考える SQL を書くべきかどうかの考えを適用できます。
 
 しかし、SQL を書くことはあくまでオプションとして提供されているに過ぎません。複数人開発となると、SQL を書かない人が出てきて、SQL が書かれているものと書かれていないものの 2 種類が存在する可能性があります。この状況は将来的に負債となる可能性が高いです。
 
@@ -217,7 +217,7 @@ db, err := sql.Open("sqlite3", "test.db")
 dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
 dbmap.AddTableWithName(Person{}, "person").SetKeys(true, "email")
 
-var people []Person
+var people[]Person
 \_, err = dbmap.Select(&posts, "SELECT \* FROM person ORDER BY first_name ASC")
 
 err = dbmap.Insert(&Person{"Jane", "Citizen", "jane.citzen@example.com"})
@@ -245,6 +245,3 @@ Exec の為にテーブルとの関連付け用の関数 `AddTableWithName` を�
 
 明日の{{<link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >}}の 2 日目は soichisumi さんの記事になります。お楽しみに。
 
-## 合わせて読みたい
-
-{{<ex-link url="https://blog.p1ass.com/posts/go-con/" >}}

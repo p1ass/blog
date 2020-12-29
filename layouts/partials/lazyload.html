@@ -1,7 +1,9 @@
 {{/* https://r17n.page/2020/07/24/js-embed-tweet-lazy-load-using-lozad-twitter/ */}}
 <script>
     // 画像用Lazylaod  
-    const imageObserver = lozad('.lazy')
+    const imageObserver = lozad('.lazy',{
+        rootMargin: '20%'
+    })
     imageObserver.observe()
     
     const twitterObserver = lozad('.lozad-twitter', {
