@@ -10,6 +10,9 @@ tags:
   - 振り返り
   - 登壇
   - 本
+  - 旅行
+  - 映画
+  - アニメ
 share: true
 eyecatch: /posts/review-of-2020/ogp.png
 ---

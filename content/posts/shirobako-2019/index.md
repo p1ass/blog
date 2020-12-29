@@ -9,6 +9,7 @@ tags:
   - ポエム
   - 就活
   - SHIROBAKO
+  - アニメ
 share: true
 ---
 
