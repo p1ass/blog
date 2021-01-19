@@ -1,0 +1,12 @@
+{{- $pc := .Site.Config.Privacy.GoogleAnalytics -}}
+{{- if not $pc.Disable -}}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L66BDEDS3J"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L66BDEDS3J');
+</script>
+{{- end -}}
