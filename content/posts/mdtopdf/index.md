@@ -75,25 +75,25 @@ PDF に変換する方法は **簡単 3STEP** す。
 
 ### STEP1 : Docker イメージを pull する
 
-{{<highlight bash >}}
-\$ docker pull plass/mdtopdf
-{{</highlight >}}
+```bash
+$ docker pull plass/mdtopdf
+```
 
 ※ この Docker イメージのサイズは **1.68GB** す。速いネット回線を使って pull することをおすすめします。
 
 ### STEP2 : 変換したい Markdown ファイルがあるディレクトリに移動する
 
-{{<highlight bash >}}
-\$ cd path/to/directory
-{{</highlight >}}
+```bash
+$ cd path/to/directory
+```
 
 ### STEP3 : PDF に変換する
 
 `INPUT.md`は各自自分のファイルに書き換えてください。処理が完了すると `INPUT.pdf` が生成されます。
 
-{{<highlight bash >}}
+```bash
 $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf INPUT.md
-{{</highlight >}}
+```
 
 以上です。とても簡単ですね！
 
@@ -105,9 +105,9 @@ $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf INPUT.md
 
 そこで、Markdown ファイルを保存するたびに変換するようにできるようにしましょう。
 
-{{<highlight bash >}}
+```bash
 $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf INPUT.md
-{{</highlight >}}
+```
 
 1 秒間隔でファイルを監視し、変更があれば PDF に変換します。
 
@@ -121,14 +121,14 @@ $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf INPUT.md
 
 `alias` コマンドを使って簡単に呼び出せるようにしましょう。
 
-{{<highlight bash >}}
+```bash
 $ echo "alias mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf'" >> ~/.bash_profile
 $ echo "alias w-mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf'" >> ~/.bash_profile
 $ source ~/.bash_profile
 
 $ mdtopdf INPUT.md
 $ w-mdtopdf INPUT.md
-{{</highlight >}}
+```
 
 zsh: `.bash_profile` を `.zshrc` にしてください。  
 Ubuntu: `.bash_profile` を `.bashrc` にしてください。
@@ -138,9 +138,9 @@ Ubuntu: `.bash_profile` を `.bashrc` にしてください。
 TeX 組版を使っていることからも分かる通り、今回の PDF 生成は内部的には一度 tex ファイルにしてから行われています。
 そのため、その中間ファイルを生成することもできます。
 
-{{<highlight bash >}}
-\$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtotex INPUT.md
-{{</highlight >}}
+```bash
+$ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtotex INPUT.md
+```
 
 ## pandoc を使った変換
 
@@ -155,7 +155,7 @@ Windows、macOS、Linux などに対応していて大体の環境では動く�
 
 Markdown から PDF への変換には次のスクリプトを実行しています。
 
-{{<highlight sh >}}
+```bash
 #!/bin/bash
 
 # mdtopdf
@@ -166,23 +166,22 @@ pandoc -s -N ${input%._}.md -o \${input%._}.pdf \
 -V geometry:margin=1in \
 -F pandoc-crossref \
 -M "crossrefYaml=/config/crossref_config.yaml"
-
-{{</highlight >}}
+```
 
 `-N`オプションで自動でセクション番号を付与してくれます。
 
 `-F pandoc-crossref`では{{<link href="https://github.com/lierdakil/pandoc-crossref" text="pandoc-crossref" >}}という相互参照のためのフィルタを使っています。
 次の行の `-M "crossrefYaml=..."` と合わせて、図表番号を正しく表示できるようにしています。
 
-{{<highlight yaml >}}
-figureTitle: '図'
-tableTitle: '表'
-listingTitle: 'コード'
-figPrefix: '図'
-eqnPrefix: '式'
-tblPrefix: '表'
-lstPrefix: 'コード'
-{{</highlight >}}
+```yaml
+figureTitle: "図"
+tableTitle: "表"
+listingTitle: "コード"
+figPrefix: "図"
+eqnPrefix: "式"
+tblPrefix: "表"
+lstPrefix: "コード"
+```
 
 {{<ex-link url="https://github.com/lierdakil/pandoc-crossref" >}}
 
@@ -191,13 +190,13 @@ lstPrefix: 'コード'
 
 保存するたびに PDF に変換するのは簡単で、次のスクリプトを使っています。
 
-{{<highlight sh >}}
+```bash
 #!/bin/bash
 
 # w-mdtopdf
 
 watcher $1 mdtopdf $1
-{{</highlight >}}
+```
 
 ２回同じファイル名を引数に指定しなくても良いようにしているだけですね。
 
