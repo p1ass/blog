@@ -691,7 +691,6 @@ footer {
 
 .sns_button {
   float: left;
-  box-shadow: inset 0 0 0 2px #42464c;
   border-radius: 100%;
   -moz-transition: all 280ms ease;
   -o-transition: all 280ms ease;
@@ -722,7 +721,7 @@ footer {
   margin: 0 0 0 12px; }
 
 .twitter {
-  box-shadow: inset 0 0 0 2px #1b95e0; }
+  box-shadow: inset 0 0 0 0.1rem #1b95e0; }
 
 .twitter i {
   color: #1b95e0; }
@@ -731,7 +730,7 @@ footer {
   color: #1b95e0; }
 
 .facebook {
-  box-shadow: inset 0 0 0 2px #3b5999; }
+  box-shadow: inset 0 0 0 0.1rem #3b5999; }
 
 .facebook i {
   color: #3b5999; }
@@ -746,7 +745,7 @@ footer {
   color: #2b5c84; }
 
 .pocket {
-  box-shadow: inset 0 0 0 2px #ee4056; }
+  box-shadow: inset 0 0 0 0.1rem #ee4056; }
 
 .pocket i {
   color: #ee4056; }
@@ -755,7 +754,7 @@ footer {
   color: #ee4056; }
 
 .hatena {
-  box-shadow: inset 0 0 0 2px #4ba3d9; }
+  box-shadow: inset 0 0 0 0.1rem #4ba3d9; }
 
 .hatena i {
   color: #4ba3d9; }
