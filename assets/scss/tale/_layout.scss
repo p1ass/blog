@@ -22,7 +22,7 @@ footer,
 
     &:hover,
     &:focus {
-      opacity: 0.6;
+      opacity: 0.7;
     }
 
     &:after {
@@ -41,7 +41,7 @@ footer,
     @include transition(all 0.2s ease-out);
     color: $default-color;
     display: inline-block;
-    opacity: 0.6;
+    opacity: 0.7;
     padding: 0 2rem  0 0;
   
 
