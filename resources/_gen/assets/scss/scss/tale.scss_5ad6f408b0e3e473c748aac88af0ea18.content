@@ -7,7 +7,7 @@
 
 html,
 body {
-  color: #222222;
+  color: #222730;
   background-color: #fff;
   margin: 0;
   padding: 0; }
@@ -36,7 +36,8 @@ h5,
 h6 {
   color: #22222a;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  margin: 0 0 1.7rem; }
+  margin: 0 0 1.7rem;
+  font-weight: 400; }
 
 h1, h2 {
   line-height: 3.4rem; }
@@ -126,8 +127,8 @@ iframe {
   margin-bottom: 1.7rem; }
 
 .tag {
-  color: #222222;
-  opacity: 0.6;
+  color: #222730;
+  opacity: 0.7;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out; }
@@ -135,8 +136,8 @@ iframe {
     opacity: 1; }
 
 .reading-time {
-  color: #222222;
-  opacity: 0.6; }
+  color: #222730;
+  opacity: 0.7; }
 
 /* TwitterのLazyload用 */
 .lozad-twitter {
@@ -257,8 +258,8 @@ pre code {
   display: flex;
   margin-bottom: 1.7rem; }
   .author-wrapper .author-name {
-    font-weight: bold;
-    font-size: 1.2rem; }
+    font-size: 1.2rem;
+    margin-bottom: 0.425rem; }
   .author-wrapper .author-image-wrapper {
     display: flex;
     flex-shrink: 0;
@@ -279,7 +280,7 @@ pre code {
       .author-wrapper .author-description {
         font-size: 0.85rem; } }
   .author-wrapper .author-sns-link {
-    color: #222222;
+    color: #222730;
     margin-right: 1rem; }
   .author-wrapper .author-sns-github {
     color: #211f1f;
@@ -546,10 +547,10 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #222222;
+    color: #222730;
     margin: 0.425rem 0; }
     .nav-title:hover, .nav-title:focus {
-      opacity: 0.6; }
+      opacity: 0.7; }
     .nav-title:after {
       display: none; }
   .nav ul {
@@ -561,9 +562,9 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #222222;
+    color: #222730;
     display: inline-block;
-    opacity: 0.6;
+    opacity: 0.7;
     padding: 0 2rem  0 0; }
     .nav li:last-child {
       padding-right: 0; }
@@ -574,7 +575,7 @@ footer,
         padding: 0 0 0.425rem 0;
         width: 100px; } }
   .nav a {
-    color: #222222;
+    color: #222730;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
 
 footer {
@@ -584,7 +585,7 @@ footer {
   footer span {
     display: inline-block;
     padding-top: 0.85rem;
-    color: #222222;
+    color: #222730;
     font-size: 0.8rem; }
 
 .fa-external-link-alt {
@@ -613,7 +614,7 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #222222; }
+    color: #222730; }
     .pagination .arrow:hover, .pagination .arrow:focus {
       opacity: .6;
       text-decoration: none; }
@@ -625,7 +626,7 @@ footer {
   opacity: .9;
   text-align: center; }
   .top a {
-    color: #222222;
+    color: #222730;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1.1rem; }
   .top:hover {
@@ -636,7 +637,7 @@ footer {
 
 .catalogue-item {
   border-top: 1px solid #e5e5e5;
-  color: #222222;
+  color: #222730;
   display: block;
   padding: 1.7rem 0; }
   .catalogue-item:hover .catalogue-line, .catalogue-item:focus .catalogue-line {
@@ -654,7 +655,6 @@ footer {
   display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 2rem;
-  font-weight: 700;
   margin: 0.425rem 0; }
 
 .catalogue-line {
@@ -788,7 +788,7 @@ footer {
   overflow: hidden; }
 
 .entry-body {
-  color: #222222;
+  color: #222730;
   display: flex;
   justify-content: space-between;
   flex: 1;
