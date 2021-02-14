@@ -17,17 +17,10 @@ $sub-shade: #444;
 $h3-border: #ccc;
 
 // Fonts
-$serif-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-sans-serif;
-$serif-secondary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-sans-serif;
-$sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-sans-serif;
-$monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-monospace;
+$serif-primary: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN W4","Hiragino Sans",Meiryo,sans-serif ;
+$serif-secondary: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN W4","Hiragino Sans",Meiryo,sans-serif ;
+$sans-serif: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN W4","Hiragino Sans",Meiryo,sans-serif;
+$monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
 @mixin box-sizing($type: border-box) {
   -webkit-box-sizing: $type;

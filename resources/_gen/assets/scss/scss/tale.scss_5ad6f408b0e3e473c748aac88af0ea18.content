@@ -13,7 +13,7 @@ body {
   padding: 0; }
 
 html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
   font-size: 15.5px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
@@ -35,7 +35,7 @@ h4,
 h5,
 h6 {
   color: #22222a;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
   margin: 0 0 1.7rem;
   font-weight: 400; }
 
@@ -208,13 +208,13 @@ pre code {
   padding: 0; }
   .post-info {
     color: #666;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
     letter-spacing: 1px;
     text-align: center;
     padding: 1.275rem 0 0.85rem; }
   .post-title {
     color: #22222a;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
     font-size: 2.5rem;
     margin: 0 0 1.7rem;
     text-align: center; }
@@ -231,7 +231,7 @@ pre code {
   .post em {
     color: #666;
     display: block;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
@@ -576,10 +576,10 @@ footer,
         width: 100px; } }
   .nav a {
     color: #222730;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif; }
 
 footer {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
   padding: 1.7rem 0;
   text-align: center; }
   footer span {
@@ -594,7 +594,7 @@ footer {
 
 .pagination {
   border-top: 0.5px solid #e5e5e5;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
   padding-top: 2rem;
   display: inline-flex;
   text-align: center;
@@ -627,7 +627,7 @@ footer {
   text-align: center; }
   .top a {
     color: #222730;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
     font-size: 1.1rem; }
   .top:hover {
     opacity: 1; }
@@ -647,13 +647,13 @@ footer {
 
 .catalogue-time {
   color: #666;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
   letter-spacing: 1px; }
 
 .catalogue-title {
   color: #22222a;
   display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN W4", "Hiragino Sans", Meiryo, sans-serif;
   font-size: 2rem;
   margin: 0.425rem 0; }
 
