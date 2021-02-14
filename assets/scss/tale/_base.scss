@@ -109,7 +109,7 @@ td {
 
 p {
   margin: 0 0 $vertical-rhythm-unit;
-  line-height: $vertical-rhythm-unit;
+  line-height: $vertical-rhythm-unit * 1.25;
 }
 
 li p {
