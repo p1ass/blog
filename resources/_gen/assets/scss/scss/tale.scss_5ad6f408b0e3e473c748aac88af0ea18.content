@@ -84,7 +84,7 @@ td {
 
 p {
   margin: 0 0 1.7rem;
-  line-height: 1.7rem; }
+  line-height: 2.125rem; }
 
 li p {
   margin: 0; }
