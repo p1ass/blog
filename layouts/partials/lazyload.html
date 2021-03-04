@@ -1,43 +1,7 @@
-{{/* https://r17n.page/2020/07/24/js-embed-tweet-lazy-load-using-lozad-twitter/ */}}
 <script>
     // 画像用Lazylaod  
     const imageObserver = lozad('.lazy',{
         rootMargin: '20%'
     })
     imageObserver.observe()
-    
-    const twitterObserver = lozad('.lozad-twitter', {
-    rootMargin: '20%',
-    // イベント発火時の処理内容
-    load: el => {
-        // 最低限の要素(blockquote と script)を作成
-        const blockquote = document.createElement('blockquote');
-        blockquote.className = 'twitter-tweet';
-
-        // blockquote の中身1
-        const p = document.createElement('p');
-        p.lang = 'ja';
-        p.dir = 'ltr';
-        blockquote.appendChild(p);
-
-        // blockquote の中身2
-        const twitterSrc = el.dataset.twitterSrc;
-        const a = document.createElement('a');
-        a.href = twitterSrc;
-        blockquote.appendChild(a);
-
-        // widgets.js
-        const script = document.createElement('script');
-        script.src = 'https://platform.twitter.com/widgets.js';
-        script.charset = 'utf-8';
-        script.async = true;
-
-        // blockquote と script を追加
-        el.insertAdjacentElement('beforeEnd', blockquote);
-        el.insertAdjacentElement('beforeEnd', script);
-        setTimeout(() => el.classList.remove('loading'), 1200);
-    }
-    });
-    // 監視開始
-    twitterObserver.observe();
 </script>

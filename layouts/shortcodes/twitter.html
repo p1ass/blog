@@ -1,1 +1,4 @@
-<div class="lozad-twitter loading" data-twitter-src="{{ .Get "url" }}"></div>
+{{ $splitedUrl := .Get "url" | path.Split }}
+<a href="{{ .Get "url" }}" rel="noreferer noopener">
+  <img data-src="http://tweet2image.p1ass.com/{{ $splitedUrl.File }}.png?scale=2" class="lazy twitter-image" alt="Twitter埋め込み"/>
+</a>

@@ -97,7 +97,7 @@ blockquote {
 
 img {
   display: block;
-  margin: 0 0 $vertical-rhythm-unit;
+  margin: 0 auto $vertical-rhythm-unit;
   max-width: 100%;
   max-height: 400px;
   border: 1px solid $grey-2;
@@ -179,13 +179,6 @@ iframe{
   opacity: 0.7;
 }
 
-/* TwitterのLazyload用 */
-.lozad-twitter {
-  min-height: 300px;
-  max-width: 550px;
-  margin: $vertical-rhythm-unit * 1 auto;
-  border-radius: 15px;
-}
 
 .loading{
   background-color: #babbbc;
