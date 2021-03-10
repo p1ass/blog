@@ -1,5 +1,5 @@
 ---
-title: NODE_ENV に development と production 以外を入れると辛くない?
+title: NODE_ENV に development と production 以外を入れると辛い
 date: 2021-03-10T20:00:00+09:00
 draft: false
 description:
