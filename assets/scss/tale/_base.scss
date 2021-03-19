@@ -53,11 +53,7 @@ h2:after {
   display: block;
   height: 2px;
   content: "";
-  background: linear-gradient(
-    to right,
-    $bottom-line-color-1 0%,
-    $bottom-line-color-2 100%
-  );
+  background-color: $blue;
 }
 
 h3 {
@@ -144,7 +140,7 @@ table{
 }
 
 table th {
-  border-bottom: solid 2px $bottom-line-color-1;
+  border-bottom: solid 2px $blue;
 }
 
 table tr{
@@ -176,33 +172,4 @@ iframe{
   color: $gray-light;
 }
 
-
-.loading{
-  background-color: #babbbc;
-  animation: hintloading 1.5s ease-in-out 0s infinite reverse;
-
-  @keyframes hintloading {
-    0% {
-      opacity: 0.5;
-    }
-    50%  {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
-
-  @-webkit-keyframes hintloading {
-    0% {
-      opacity: 0.5;
-    }
-    50%  {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
-}
 

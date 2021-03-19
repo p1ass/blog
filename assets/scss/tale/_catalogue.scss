@@ -34,7 +34,7 @@
 
   &-line {
     @include transition(all 0.3s ease-out);
-    border-top: 0.2rem solid $bottom-line-color-1;
+    border-top: 0.2rem solid $blue;
     display: block;
     width: 2rem;
   }

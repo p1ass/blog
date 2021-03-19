@@ -43,7 +43,7 @@ h2:after {
   display: block;
   height: 2px;
   content: "";
-  background: linear-gradient(to right, rgba(47, 128, 237, 0.7) 0%, rgba(86, 204, 242, 0.7) 100%); }
+  background-color: #4172B5; }
 
 h3 {
   font-size: 1.3rem;
@@ -110,7 +110,7 @@ table {
   margin-bottom: 1.7rem; }
 
 table th {
-  border-bottom: solid 2px rgba(47, 128, 237, 0.7); }
+  border-bottom: solid 2px #4172B5; }
 
 table tr {
   border-bottom: solid 1px #DDE0E4; }
@@ -133,26 +133,6 @@ iframe {
 
 .reading-time {
   color: #636E7D; }
-
-.loading {
-  background-color: #babbbc;
-  animation: hintloading 1.5s ease-in-out 0s infinite reverse; }
-
-@keyframes hintloading {
-  0% {
-    opacity: 0.5; }
-  50% {
-    opacity: 1; }
-  100% {
-    opacity: 0.5; } }
-
-@-webkit-keyframes hintloading {
-  0% {
-    opacity: 0.5; }
-  50% {
-    opacity: 1; }
-  100% {
-    opacity: 0.5; } }
 
 pre,
 code {
@@ -633,7 +613,7 @@ footer {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  border-top: 0.2rem solid rgba(47, 128, 237, 0.7);
+  border-top: 0.2rem solid #4172B5;
   display: block;
   width: 2rem; }
 
