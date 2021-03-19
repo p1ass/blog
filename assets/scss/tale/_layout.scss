@@ -7,8 +7,8 @@ footer,
 }
 
 .nav {
-  box-shadow: 0 2px 2px -2px $shadow-color;
   overflow: auto;
+  border-bottom: 1px solid $border;
 
   &-container {
     margin: $vertical-rhythm-unit * 0.5 auto;
@@ -17,12 +17,12 @@ footer,
 
   &-title {
     @include transition(all 0.2s ease-out);
-    color: $default-color;
     margin: $vertical-rhythm-unit * 0.25 0;
-
+    color: $gray;
+    
     &:hover,
     &:focus {
-      opacity: 0.7;
+      color: $gray-light;
     }
 
     &:after {
@@ -38,20 +38,12 @@ footer,
   }
 
   li {
-    @include transition(all 0.2s ease-out);
-    color: $default-color;
     display: inline-block;
-    opacity: 0.7;
     padding: 0 2rem  0 0;
   
 
     &:last-child {
       padding-right: 0;
-    }
-
-    &:hover,
-    &:focus {
-      opacity: 1;
     }
 
     @media (max-width: 600px){
@@ -61,8 +53,13 @@ footer,
   }
 
   a {
-    color: $default-color;
-    font-family: $sans-serif;
+    color: $gray-light;
+    @include transition(all 0.2s ease-out);
+
+    &:hover,
+    &:focus {
+      color: $gray;
+    }
   }
 }
 
@@ -75,7 +72,6 @@ footer {
   span {
     display: inline-block;
     padding-top: $vertical-rhythm-unit * 0.5;
-    color: $default-color;
     font-size: 0.8rem;
   }
 }

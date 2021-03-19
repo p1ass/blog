@@ -1,5 +1,5 @@
 .pagination {
-  border-top: .5px solid $grey-2;
+  border-top: .5px solid $border;
   font-family: $serif-secondary;
   padding-top: 2rem;
   display: inline-flex;
@@ -8,7 +8,6 @@
   width:100%;
   span {
     flex-grow:10;
-    color: $default-shade;
     font-size: 1.1rem;
   }
 
@@ -26,28 +25,28 @@
 
   .arrow {
     @include transition(all .3s ease-out);
-    color: $default-color;
+    color: $gray;
 
     &:hover,
     &:focus {
-      opacity: .6;
+      color: $gray-light;
       text-decoration: none;
     }
   }
 }
 
 .top {
-  @include transition(all .3s ease-out);
-  opacity: .9;
   text-align: center;
 
   a{
-    color: $default-color;
+    color: $gray;
     font-family: $sans-serif;
     font-size: 1.1rem;  
-  }
 
-  &:hover {
-    opacity: 1;
+    @include transition(all .3s ease-out);
+
+    &:hover {
+      color: $gray-light;
+    }
   }
 }

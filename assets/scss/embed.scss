@@ -20,7 +20,7 @@
 
 
 .entry-body {
-    color: $default-color;
+    color: $gray;
     display: flex;
     justify-content: space-between;
     flex: 1;
@@ -48,7 +48,7 @@
     }
     
     .entry-description {
-        color: $default-tint;
+        color: $gray-light;
         font-size: 12px;
         max-height: $vertical-rhythm-unit * 2;
         overflow: hidden;
@@ -59,7 +59,7 @@
     }
     
     .entry-site-url{
-        color: $default-tint;
+        color: $gray-light;
         font-size: 12px; 
     }
 }

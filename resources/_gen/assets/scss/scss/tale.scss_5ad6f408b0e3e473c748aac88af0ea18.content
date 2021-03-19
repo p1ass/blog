@@ -6,13 +6,13 @@
 
 html,
 body {
-  color: #222730;
-  background-color: #fff;
+  color: #1E2126;
+  background-color: #FFFFFF;
   margin: 0;
   padding: 0; }
 
 html {
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   font-size: 15.5px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
@@ -33,8 +33,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #22222a;
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   margin: 0 0 1.7rem; }
 
 h1, h2 {
@@ -49,20 +48,20 @@ h2:after {
 h3 {
   font-size: 1.3rem;
   line-height: 2.55rem;
-  border-bottom: 1px solid #ccc; }
+  border-bottom: 1px solid #DDE0E4; }
 
 h4 {
   font-size: 1.2rem;
   line-height: 1.7rem; }
 
 a {
-  color: #04c;
+  color: #4172B5;
   text-decoration: none;
   word-break: break-all; }
 
 blockquote {
-  border-left: 0.25rem solid #e5e5e5;
-  color: #979797;
+  border-left: 0.25rem solid #DDE0E4;
+  color: #636E7D;
   margin: 0.8rem 0;
   padding: 0.5rem 1rem; }
   blockquote p:last-child {
@@ -75,7 +74,7 @@ img {
   margin: 0 auto 1.7rem;
   max-width: 100%;
   max-height: 400px;
-  border: 1px solid #e5e5e5; }
+  border: 1px solid #DDE0E4; }
 
 td {
   vertical-align: top; }
@@ -114,7 +113,7 @@ table th {
   border-bottom: solid 2px rgba(47, 128, 237, 0.7); }
 
 table tr {
-  border-bottom: solid 1px #e5e5e5; }
+  border-bottom: solid 1px #DDE0E4; }
 
 table th, table td {
   text-align: center;
@@ -125,17 +124,15 @@ iframe {
   margin-bottom: 1.7rem; }
 
 .tag {
-  color: #222730;
-  opacity: 0.7;
+  color: #636E7D;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out; }
   .tag:hover {
-    opacity: 1; }
+    color: #1E2126; }
 
 .reading-time {
-  color: #222730;
-  opacity: 0.7; }
+  color: #636E7D; }
 
 .loading {
   background-color: #babbbc;
@@ -162,8 +159,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
 
 code {
-  background-color: #f9f9f9;
-  border: 1px solid #e5e5e5;
+  background-color: #F9F9FA;
+  border: 1px solid #DDE0E4;
   border-radius: 0.2125rem;
   font-size: 85%;
   padding: 0.2125rem 0.5em; }
@@ -176,11 +173,11 @@ pre code {
   border: none;
   font-size: 100%;
   padding: 0;
-  color: rgba(255, 255, 255, 0.8); }
+  color: #DDE0E4; }
 
 .highlight {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: #2d3037;
+  color: #DDE0E4;
+  background-color: #1E2126;
   border-radius: 0.85rem;
   margin: 0 0 1.7rem;
   padding: 0.85rem; }
@@ -188,7 +185,7 @@ pre code {
     margin-bottom: 0;
     overflow-x: auto; }
   .highlight .lineno {
-    color: #666;
+    color: #636E7D;
     display: inline-block;
     padding: 0 .75rem 0 .25rem;
     -webkit-user-select: none;
@@ -198,31 +195,25 @@ pre code {
 .post {
   padding: 0; }
   .post-info {
-    color: #666;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+    color: #636E7D;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
     letter-spacing: 1px;
     text-align: center;
     padding: 1.275rem 0 0.85rem; }
   .post-title {
-    color: #22222a;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
     font-size: 2.5rem;
     margin: 0 0 1.7rem;
     text-align: center; }
     @media (max-width: 900px) {
       .post-title {
         font-size: 2rem; } }
-  .post-line {
-    border-top: 0.4rem solid #22222a;
-    display: block;
-    margin: 0 auto 3rem;
-    width: 4rem; }
   .post img {
     margin: 0 auto 0.85rem; }
   .post em {
-    color: #666;
+    color: #636E7D;
     display: block;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
     font-size: 0.9rem;
     font-style: normal;
     text-align: center; }
@@ -240,7 +231,7 @@ pre code {
   margin: 0 auto; }
 
 .author-wrapper {
-  border: solid 1px #e5e5e5;
+  border: solid 1px #DDE0E4;
   padding: 0.85rem;
   border-radius: 0.85rem;
   display: flex;
@@ -268,7 +259,7 @@ pre code {
       .author-wrapper .author-description {
         font-size: 0.85rem; } }
   .author-wrapper .author-sns-link {
-    color: #222730;
+    color: #1E2126;
     margin-right: 1rem; }
   .author-wrapper .author-sns-github {
     color: #211f1f;
@@ -526,8 +517,8 @@ footer,
   max-width: 750px; }
 
 .nav {
-  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
-  overflow: auto; }
+  overflow: auto;
+  border-bottom: 1px solid #DDE0E4; }
   .nav-container {
     margin: 0.85rem auto;
     text-align: center; }
@@ -535,10 +526,10 @@ footer,
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-    color: #222730;
-    margin: 0.425rem 0; }
+    margin: 0.425rem 0;
+    color: #1E2126; }
     .nav-title:hover, .nav-title:focus {
-      opacity: 0.7; }
+      color: #636E7D; }
     .nav-title:after {
       display: none; }
   .nav ul {
@@ -547,33 +538,29 @@ footer,
     padding: 0;
     text-align: center; }
   .nav li {
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    transition: all 0.2s ease-out;
-    color: #222730;
     display: inline-block;
-    opacity: 0.7;
     padding: 0 2rem  0 0; }
     .nav li:last-child {
       padding-right: 0; }
-    .nav li:hover, .nav li:focus {
-      opacity: 1; }
     @media (max-width: 600px) {
       .nav li {
         padding: 0 0 0.425rem 0;
         width: 100px; } }
   .nav a {
-    color: #222730;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji"; }
+    color: #636E7D;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out; }
+    .nav a:hover, .nav a:focus {
+      color: #1E2126; }
 
 footer {
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   padding: 1.7rem 0;
   text-align: center; }
   footer span {
     display: inline-block;
     padding-top: 0.85rem;
-    color: #222730;
     font-size: 0.8rem; }
 
 .fa-external-link-alt {
@@ -581,8 +568,8 @@ footer {
   font-size: 0.85rem; }
 
 .pagination {
-  border-top: 0.5px solid #e5e5e5;
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+  border-top: 0.5px solid #DDE0E4;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   padding-top: 2rem;
   display: inline-flex;
   text-align: center;
@@ -590,7 +577,6 @@ footer {
   width: 100%; }
   .pagination span {
     flex-grow: 10;
-    color: #22222a;
     font-size: 1.1rem; }
   .pagination a {
     max-width: 50%; }
@@ -602,30 +588,28 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #222730; }
+    color: #1E2126; }
     .pagination .arrow:hover, .pagination .arrow:focus {
-      opacity: .6;
+      color: #636E7D;
       text-decoration: none; }
 
 .top {
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-  opacity: .9;
   text-align: center; }
   .top a {
-    color: #222730;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
-    font-size: 1.1rem; }
-  .top:hover {
-    opacity: 1; }
+    color: #1E2126;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
+    font-size: 1.1rem;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out; }
+    .top a:hover {
+      color: #636E7D; }
 
 .catalogue-section {
   margin-bottom: 1.7rem; }
 
 .catalogue-item {
-  border-top: 1px solid #e5e5e5;
-  color: #222730;
+  border-top: 1px solid #DDE0E4;
   display: block;
   padding: 1.7rem 0; }
   .catalogue-item:hover .catalogue-line, .catalogue-item:focus .catalogue-line {
@@ -634,14 +618,14 @@ footer {
     border: 0; }
 
 .catalogue-time {
-  color: #666;
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+  color: #636E7D;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   letter-spacing: 1px; }
 
 .catalogue-title {
-  color: #22222a;
   display: block;
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
+  color: #1E2126;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   font-size: 2rem;
   margin: 0.425rem 0; }
 
@@ -654,8 +638,8 @@ footer {
   width: 2rem; }
 
 .catalogue-more-button {
-  background-color: #353535;
-  color: white;
+  background-color: #1E2126;
+  color: #DDE0E4;
   width: 120px;
   border-radius: 0.425rem;
   padding: 0.85rem 1rem;
@@ -667,7 +651,7 @@ footer {
   transition: all 0.3s ease-out; }
 
 .catalogue-more-button:hover {
-  background-color: #555555; }
+  background-color: #636E7D; }
 
 .sns_parent {
   text-align: center;
@@ -767,7 +751,7 @@ footer {
 
 .embed-wrapper-inner {
   display: flex;
-  background-color: #fff;
+  background-color: #FFFFFF;
   font-size: 13px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.85rem;
@@ -775,7 +759,7 @@ footer {
   overflow: hidden; }
 
 .entry-body {
-  color: #222730;
+  color: #1E2126;
   display: flex;
   justify-content: space-between;
   flex: 1;
@@ -799,7 +783,7 @@ footer {
         -webkit-line-clamp: 2;
         margin: 0 0 0.85rem 0; } }
   .entry-body .entry-description {
-    color: #666;
+    color: #636E7D;
     font-size: 12px;
     max-height: 3.4rem;
     overflow: hidden;
@@ -808,7 +792,7 @@ footer {
     -webkit-line-clamp: 1;
     line-height: 1.275rem; }
   .entry-body .entry-site-url {
-    color: #666;
+    color: #636E7D;
     font-size: 12px; }
 
 .thumb-wrapper {

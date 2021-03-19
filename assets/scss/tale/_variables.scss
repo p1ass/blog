@@ -1,25 +1,23 @@
 // Colors
-$default-color: rgb(34, 39, 48);
-$default-shade: #22222a;
-$default-tint: #666;
-$grey-1: #979797;
-$grey-2: #e5e5e5;
-$grey-3: #f9f9f9;
-$white: #fff;
-$blue: #04c;
-$shadow-color: rgba(0, 0, 0, 0.2);
-$code-color: rgba(255, 255, 255, 0.8);
-$code-background: rgba(45, 48, 55, 1);
-$more-button-color: #353535;
-$more-button-hover-color: #555555;
-$sub-shade: #444;
+$background: #FFFFFF;
+$background-dark: #F9F9FA;
 
-$h3-border: #ccc;
+$blue: #4172B5;
+
+$gray: #1E2126;
+$gray-light: #636E7D;
+
+$border: #DDE0E4;
+$border-light: #FFFFFF;
+
+$white: #FFFFFF;
+$white-dark:#DDE0E4;
+
 
 // Fonts
-$serif-primary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI" Symbol,"Noto Sans Emoji";
-$serif-secondary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI" Symbol,"Noto Sans Emoji";
-$sans-serif: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI" Symbol,"Noto Sans Emoji";
+$serif-primary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI", Symbol,"Noto Sans Emoji";
+$serif-secondary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI", Symbol,"Noto Sans Emoji";
+$sans-serif: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI", Symbol,"Noto Sans Emoji";
 $monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
 @mixin box-sizing($type: border-box) {

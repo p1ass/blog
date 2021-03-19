@@ -4,8 +4,8 @@ code {
 }
 
 code {
-  background-color: $grey-3;
-  border: 1px solid $grey-2;
+  background-color: $background-dark;
+  border: 1px solid $border;
   border-radius: $vertical-rhythm-unit * 0.125;
   font-size: 85%;
   padding: $vertical-rhythm-unit * 0.125 .5em;
@@ -20,12 +20,12 @@ pre code {
   border:none;
   font-size: 100%;
   padding: 0;
-  color: $code-color;
+  color: $white-dark;
 }
 
 .highlight {
-  color: $code-color;
-  background-color: $code-background;
+  color: $white-dark;
+  background-color: $gray;
   border-radius: $vertical-rhythm-unit * 0.5;
   margin: 0 0 $vertical-rhythm-unit;
   padding: $vertical-rhythm-unit * 0.5;
@@ -36,7 +36,7 @@ pre code {
   }
 
   .lineno {
-    color: $default-tint;
+    color: $gray-light;
     display: inline-block; // Ensures the null space also isn't selectable
     padding: 0 .75rem 0 .25rem;
     // Make sure numbers aren't selectable
