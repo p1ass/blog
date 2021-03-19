@@ -35,8 +35,7 @@ h5,
 h6 {
   color: #22222a;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI" Symbol, "Noto Sans Emoji";
-  margin: 0 0 1.7rem;
-  font-weight: 400; }
+  margin: 0 0 1.7rem; }
 
 h1, h2 {
   line-height: 3.4rem; }
@@ -789,7 +788,8 @@ footer {
     line-height: 1.275rem;
     width: 100%;
     max-height: 47px;
-    overflow: hidden; }
+    overflow: hidden;
+    font-weight: bold; }
     @media (max-width: 600px) {
       .entry-body .entry-title {
         font-size: 14px;
