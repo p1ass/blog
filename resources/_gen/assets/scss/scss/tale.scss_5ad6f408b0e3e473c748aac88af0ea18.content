@@ -625,7 +625,7 @@ footer {
 
 .catalogue-more-button {
   background-color: #1E2126;
-  color: #DDE0E4;
+  color: #FFFFFF;
   width: 120px;
   border-radius: 0.425rem;
   padding: 0.85rem 1rem;
