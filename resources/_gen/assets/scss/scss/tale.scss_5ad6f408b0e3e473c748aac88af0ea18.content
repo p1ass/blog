@@ -240,7 +240,12 @@ pre code {
         font-size: 0.85rem; } }
   .author-wrapper .author-sns-link {
     color: #1E2126;
-    margin-right: 1rem; }
+    margin-right: 1rem;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out; }
+    .author-wrapper .author-sns-link:hover {
+      color: #636E7D; }
   .author-wrapper .author-sns-github {
     color: #211f1f;
     padding-right: 0.2rem; }
@@ -750,7 +755,12 @@ footer {
   justify-content: space-between;
   flex: 1;
   flex-direction: column;
-  padding: 0.85rem; }
+  padding: 0.85rem;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out; }
+  .entry-body:hover {
+    background-color: #F9F9FA; }
   .entry-body .entry-title {
     font-size: 17px;
     margin: 0 0 0.85rem 0;

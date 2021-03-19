@@ -95,6 +95,11 @@
   .author-sns-link {
     color: $gray;
     margin-right: 1rem;
+
+    &:hover{
+      color: $gray-light;
+    }
+    @include transition(all 0.3s ease-out);
   }
 
   .author-sns-github {

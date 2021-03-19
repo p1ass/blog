@@ -1,5 +1,6 @@
 .embed-wrapper {
     margin-bottom: $vertical-rhythm-unit;
+    
 }
   
 .embed-wrapper * {
@@ -26,6 +27,11 @@
     flex: 1;
     flex-direction: column;
     padding: $vertical-rhythm-unit * 0.5;
+
+    &:hover{
+        background-color: $background-dark;
+    }
+    @include transition(all 0.3s ease-out);
 
     .entry-title {
         font-size: 17px;
