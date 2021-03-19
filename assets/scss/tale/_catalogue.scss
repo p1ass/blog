@@ -3,6 +3,10 @@
     margin-bottom: $vertical-rhythm-unit;
   }
 
+  &-item:first-child{
+    border-top: none;
+  }
+
   &-item {
     border-top: 1px solid $border;
     display: block;

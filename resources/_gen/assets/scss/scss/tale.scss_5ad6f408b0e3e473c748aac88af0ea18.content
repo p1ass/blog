@@ -547,6 +547,9 @@ footer {
   padding-left: 0.4rem;
   font-size: 0.85rem; }
 
+.main {
+  margin-top: 1.7rem; }
+
 .pagination {
   border-top: 0.5px solid #DDE0E4;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
@@ -587,6 +590,9 @@ footer {
 
 .catalogue-section {
   margin-bottom: 1.7rem; }
+
+.catalogue-item:first-child {
+  border-top: none; }
 
 .catalogue-item {
   border-top: 1px solid #DDE0E4;
