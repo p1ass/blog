@@ -17,9 +17,9 @@ $sub-shade: #444;
 $h3-border: #ccc;
 
 // Fonts
-$serif-primary: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN W4","Hiragino Sans",Meiryo,sans-serif ;
-$serif-secondary: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN W4","Hiragino Sans",Meiryo,sans-serif ;
-$sans-serif: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN W4","Hiragino Sans",Meiryo,sans-serif;
+$serif-primary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI" Symbol,"Noto Sans Emoji";
+$serif-secondary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI" Symbol,"Noto Sans Emoji";
+$sans-serif: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI" Symbol,"Noto Sans Emoji";
 $monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
 @mixin box-sizing($type: border-box) {
