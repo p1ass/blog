@@ -28,7 +28,6 @@
     padding: $vertical-rhythm-unit * 0.5;
 
     .entry-title {
-        display: inline-block;
         font-size: 17px;
         margin: 0 0 $vertical-rhythm-unit * 0.5 0;
         line-height: $vertical-rhythm-unit * 0.75;
@@ -36,13 +35,12 @@
         max-height: 47px;
         overflow: hidden;
         font-weight: bold;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
         
         @media (max-width: 600px) {
             font-size: 14px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
             margin: 0 0 $vertical-rhythm-unit * 0.5 0;
         }
     }

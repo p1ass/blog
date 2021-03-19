@@ -752,21 +752,19 @@ footer {
   flex-direction: column;
   padding: 0.85rem; }
   .entry-body .entry-title {
-    display: inline-block;
     font-size: 17px;
     margin: 0 0 0.85rem 0;
     line-height: 1.275rem;
     width: 100%;
     max-height: 47px;
     overflow: hidden;
-    font-weight: bold; }
+    font-weight: bold;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; }
     @media (max-width: 600px) {
       .entry-body .entry-title {
         font-size: 14px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
         margin: 0 0 0.85rem 0; } }
   .entry-body .entry-description {
     color: #636E7D;
