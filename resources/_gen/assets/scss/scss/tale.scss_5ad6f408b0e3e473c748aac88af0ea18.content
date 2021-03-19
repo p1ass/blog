@@ -218,7 +218,8 @@ pre code {
   margin-bottom: 1.7rem; }
   .author-wrapper .author-name {
     font-size: 1.2rem;
-    margin-bottom: 0.425rem; }
+    margin-bottom: 0.425rem;
+    font-weight: bold; }
   .author-wrapper .author-image-wrapper {
     display: flex;
     flex-shrink: 0;
