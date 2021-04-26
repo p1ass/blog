@@ -120,11 +120,11 @@ li ul {
 }
 
 ul li {
-  padding: 0 0 $vertical-rhythm-unit * 0.25;
+  margin: $vertical-rhythm-unit * 0.125 0 $vertical-rhythm-unit * 0.125;
 }
 
 li {
-  padding: 0 0 $vertical-rhythm-unit * 0.25;
+  margin: $vertical-rhythm-unit * 0.125 0 $vertical-rhythm-unit * 0.125;
 }
 
 ol {
