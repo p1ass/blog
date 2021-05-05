@@ -71,7 +71,7 @@ blockquote {
       padding: 0 5rem 0 1.25rem; } }
 img {
   display: block;
-  margin: 0 auto 1.7rem;
+  margin: 0 auto 0.85rem;
   max-width: 100%;
   max-height: 400px;
   border: 1px solid #DDE0E4; }
@@ -122,6 +122,14 @@ table th, table td {
 
 iframe {
   margin-bottom: 1.7rem; }
+
+em {
+  color: #636E7D;
+  display: block;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
+  font-size: 0.9rem;
+  font-style: normal;
+  text-align: center; }
 
 .tag {
   color: #636E7D;
@@ -190,13 +198,6 @@ pre code {
         font-size: 2rem; } }
   .post img {
     margin: 0 auto 0.85rem; }
-  .post em {
-    color: #636E7D;
-    display: block;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
-    font-size: 0.9rem;
-    font-style: normal;
-    text-align: center; }
   .post img.emoji {
     display: inline-block;
     left: 0;
