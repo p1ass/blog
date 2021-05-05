@@ -13,7 +13,7 @@ share: true
 eyecatch: /posts/moving-when-new-graduates/ogp.png
 ---
 
-![アイキャッチ](ogp.png)
+![アイキャッチ](/posts/moving-when-new-graduates/ogp.png)
 _画像はフリー素材です_
 
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
