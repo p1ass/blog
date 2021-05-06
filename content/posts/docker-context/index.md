@@ -48,22 +48,23 @@ $ docker context use remote
 ### SSH Config が使えない
 
 `ssh`コマンドは `~/.ssh/config` に接続先を書くと、`ssh remote`のように簡潔なコマンドで接続できます。
-{{<highlight bash >}}
+
+```bash
 Host remote
 HostName xx.xx.xx.xx
 User user
 IdentityFile ~/.ssh/id_rsa
-{{</highlight >}}
+```
 
 これを使って Docker Context を作成したいと思うところなのですが、この方法は `docker` コマンドでは使えても、`docker-compose`コマンドでは使えません。
 
-{{<highlight bash >}}
+```bash
 $ docker context create --default-stack-orchestrator=swarm \\
  --docker "host=ssh://remote" remote
 $ docker context use remote
 $ docker --context remote ps # これは動く
 $ docker-compose --context remote ps # これはダメ
-{{</highlight >}}
+```
 
 Docker Compose は外部ライブラリを使って SSH 接続しているのですが、それが対応していないっぽいです。（要検証）
 

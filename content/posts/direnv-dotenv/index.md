@@ -32,9 +32,9 @@ direnv はディレクトリごとに環境変数を設定することができ�
 
 例えば、次のように`.envrc`を記述することで、`HOGE`という環境変数を設定することができます。
 
-{{<highlight envrc >}}
+```bash
 export HOGE=hogehoge
-{{</ highlight>}}
+```
 
 これが direnv の README に書かれている使い方です。
 
@@ -42,40 +42,40 @@ export HOGE=hogehoge
 
 さて、環境変数をファイルで管理する際に、次のような書式で書かれた`.env`ファイルが使われることがあります。
 
-{{<highlight env >}}
+```bash
 HOGE=hogehoge
 FUGA=fugafuga
-{{</ highlight>}}
+```
 
 `.envrc`と違って`export`は書かず、単に`KEY=VALUE`という形になっています。
 
 direnv では`.envrc`を以下のように記述することで、 **`.env`ファイルを読み込むことができる** うになります。
 
-{{<highlight envrc >}}
+```bash
 dotenv
-{{</ highlight>}}
+```
 
 ## `.env`に書くことで何が嬉しいのか
 
 `.env`は汎用性が高いフォーマットであり、様々な場面で流用することができます。
 
-1 つ目の例として、docker-compose が挙げられます。  
+1 つ目の例として、docker-compose が挙げられます。
 docker-compose は以下のように書くことで、コンテナ内に環境変数を流し込むことができます。
 その際のフォーマットが`.env`と一致しています。
 
-{{<highlight yaml >}}
+```yaml
 version: "3"
 services:
 hoge:
 image: python
 restart: always
 env_file: .env
-{{</ highlight>}}
+```
 
 これにより、「ずっとコンテナ内で開発してたけど、ローカルで試したいな」と思った時に、(少なくとも環境変数は)楽に移行できます。
 
-2 つ目は、エディターのエクステンションと相性が良い点です。  
-私は **JetBrains 製の IDE を愛している人間** のですが、IDE でコンパイル・実行するときに`direnv`のフックを発火してくれません。  
+2 つ目は、エディターのエクステンションと相性が良い点です。
+私は **JetBrains 製の IDE を愛している人間** のですが、IDE でコンパイル・実行するときに`direnv`のフックを発火してくれません。
 そのため、環境変数は別の手段で読み込む必要があります。
 
 幸いにも JetBrains Plugins には、`.env`ファイルを読み込んでくれるプラグインがあるため、正しく環境変数を読み込むことができます。
@@ -84,5 +84,5 @@ env_file: .env
 
 {{<ex-link url="https://plugins.jetbrains.com/plugin/7861-envfile" >}}
 
-このように`.env`に環境変数の設定をまとめることで、いい感じに色々な場面で使い回すことができます。  
+このように`.env`に環境変数の設定をまとめることで、いい感じに色々な場面で使い回すことができます。
 同じ環境変数を複数箇所で書いていた方は一度試してみてはどうでしょうか？

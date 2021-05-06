@@ -17,7 +17,7 @@ share: true
 
 Go のメジャーバージョンはいつの間にか 5 まで到達していたようですね、[@p1ass](https://twitter.com/p1ass)です。
 
-Go でデータベースにアクセスするときに使うライブラリは{{<link href="https://golang.org/pkg/database/sql/" text="database/sql" >}}や  それをラップした{{<link href="https://github.com/jmoiron/sqlx" text="sqlx">}},{{<link href="https://github.com/jinzhu/gorm" text="gorm">}},{{<link href="https://github.com/go-gorp/gorp" text="gorp">}}など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
+Go でデータベースにアクセスするときに使うライブラリは{{<link href="https://golang.org/pkg/database/sql/" text="database/sql" >}}や それをラップした{{<link href="https://github.com/jmoiron/sqlx" text="sqlx">}},{{<link href="https://github.com/jinzhu/gorm" text="gorm">}},{{<link href="https://github.com/go-gorp/gorp" text="gorp">}}など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
 
 おそらく様々な理由があってどれか(ここに挙げられていないものかもしれない)を使っているでしょう。
 しかし、それは本当にベストな選択だったのでしょうか？
@@ -49,7 +49,7 @@ Driver の実装は golang/go の{{<link href="https://github.com/golang/go/wiki
 
 Go の設計思想の中に{{<link href="https://talks.golang.org/2015/simplicity-is-complicated.slide" text="Simplicity" >}}があるように、他の言語とは違い多くの機能を標準で提供していません。
 
-例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ1つ一つごとに引数でを渡す必要があります。
+例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ 1 つ一つごとに引数でを渡す必要があります。
 
 ```go
 rows, err := db.Query("SELECT id, name FROM users LIMIT 10")
@@ -137,20 +137,21 @@ Exec は Query とは対照的に単純になりがちです。構造体で持�
 
 sqlx は非常に軽量な database/sql のラッパーライブラリです。後述する 2 つよりは機能は少ないですが、構造体へのマッピングや名前付きパラメータに対応しています。軽量ということで、基本的に SQL は Query、Exec 問わず書く必要があります。
 
-{{<highlight go>}}
+```go
 type Person struct {
 FirstName string `db:"first_name"`
 LastName string `db:"last_name"`
 Email string `db:"email"`
 }
 
-db, \_ := sqlx.Connect("sqlite3", "test.db")
+db, _ := sqlx.Connect("sqlite3", "test.db")
 
 people :=[]Person{}
 db.Select(&people, "SELECT \* FROM person ORDER BY first_name ASC")
 
 db.NamedExec("INSERT INTO person (first_name, last_name, email) VALUES (:first_name, :last_name, :email)", &Person{"Jane", "Citizen", "jane.citzen@example.com"})
-{{</highlight >}}
+
+```
 
 SQL は全部手で書きたいんだ！という人にオススメです。また、database/sql と同じ API なのも良いポイントです。
 
@@ -165,7 +166,7 @@ gorm は sqlx とは対照的に高機能なライブラリです。公式で `F
 
 Query はメソッドチェーンで記述でき、Exec も関数を呼び出すことで実行できます。そのため SQL を書く必要はありません。
 
-{{<highlight go>}}
+```go
 type Person struct {
 FirstName string `gorm:"first_name"`
 LastName string `gorm:"last_name"`
@@ -178,11 +179,11 @@ people :=[]Person{}
 db.Order("first_name asc").Find(&people)
 
 db.Create(&Person{"Jane", "Citizen", "jane.citzen@example.com"})
-{{</highlight >}}
+```
 
 なお、一応 Query で SQL を書くことも可能です。
 
-{{<highlight go>}}
+```go
 type Result struct {
 Name string
 Age int
@@ -190,7 +191,7 @@ Age int
 
 var result Result
 db.Raw("SELECT name, age FROM users WHERE name = ?", 3).Scan(&result)
-{{</highlight >}}
+```
 
 gorm は Query は SQL で、Exec はライブラリ側で行うように記述できるため、私の考える SQL を書くべきかどうかの考えを適用できます。
 
@@ -206,7 +207,7 @@ gorm は Query は SQL で、Exec はライブラリ側で行うように記述�
 
 gorp は先の 2 つの中間に当たるライブラリです。 Query はデフォルトで SQL を書く仕様になっていますが、Exec はライブラリ側が API を用意しています。
 
-{{<highlight go>}}
+```go
 type Person struct {
 FirstName string `db:"first_name"`
 LastName string `db:"last_name"`
@@ -218,10 +219,10 @@ dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
 dbmap.AddTableWithName(Person{}, "person").SetKeys(true, "email")
 
 var people[]Person
-\_, err = dbmap.Select(&posts, "SELECT \* FROM person ORDER BY first_name ASC")
+_, err = dbmap.Select(&posts, "SELECT \* FROM person ORDER BY first_name ASC")
 
 err = dbmap.Insert(&Person{"Jane", "Citizen", "jane.citzen@example.com"})
-{{</highlight >}}
+```
 
 この仕様は私が求めていたものにぴったりです。
 Exec の為にテーブルとの関連付け用の関数 `AddTableWithName` を呼ぶ必要がありますが、大した問題にはならないでしょう。
@@ -244,4 +245,3 @@ Exec の為にテーブルとの関連付け用の関数 `AddTableWithName` を�
 今回は私個人の考えからどのライブラリが適切かを考えましたが、人によって求めるものは異なると思います。今一度自分が何を求めるか考えてみると良いかもしれません。
 
 明日の{{<link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >}}の 2 日目は soichisumi さんの記事になります。お楽しみに。
-

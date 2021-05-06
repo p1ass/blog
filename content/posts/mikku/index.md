@@ -71,10 +71,10 @@ Helm などのパッケージマネージャは使っておらず、シンプル
 
 ### go get
 
-{{<highlight bash>}}
+```bash
 $ GO111MODULE=off go get github.com/p1ass/mikku/cmd/mikku
 $ mikku --help
-{{</highlight >}}
+```
 
 ### GitHub Releases
 
@@ -82,14 +82,14 @@ Windows や Linux をお使いの方は `darwin_amd64` をそれぞれ `windows_
 
 検証は Mac でしかしていないので、動作は保証していません、、、
 
-{{<highlight console>}}
+```bash
 $ VERSION=0.2.0
 $ curl -O -L https://github.com/p1ass/mikku/releases/download/v${VERSION}/mikku_${VERSION}_darwin_amd64.tar.gz
 $ tar -zxvf mikku\_${VERSION}\_darwin_amd64.tar.gz
 $ chmod a+x mikku
 $ mv mikku /usr/local/bin/mikku
-\$ mikku --help
-{{</highlight >}}
+$ mikku --help
+```
 
 他のバイナリは GitHub Releases のページをご覧ください。
 
@@ -110,10 +110,10 @@ GitHub の Personal access token が必要なので発行してください。 *
 - `MIKKU_GITHUB_ACCESS_TOKEN`: 上で発行したアクセストークン
 - `MIKKU_GITHUB_OWNER`: 僕の場合は `p1ass`
 
-{{<highlight bash>}}
+```bash
 $ export MIKKU_GITHUB_ACCESS_TOKEN=[YOUR_ACCESS_TOKEN]
 $ export MIKKU_GITHUB_OWNER=[GITHUB_OWNER_NAME]
-{{</highlight >}}
+```
 
 ### mikku pr コマンド
 
@@ -122,13 +122,13 @@ Kubernetes のマニフェストファイルにかかれている Docker イメ�
 ![スクリーンショット](https://raw.githubusercontent.com/p1ass/mikku/master/images/diff.png)
 _スクリーンショット_
 
-{{<highlight bash>}}
+```bash
 $ export MIKKU_MANIFEST_REPOSITORY=sample-manifest-repository
 $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
-\$ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
+$ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 
-\$ mikku pr sample-repository
-{{</highlight >}}
+$ mikku pr sample-repository
+```
 
 #### 環境変数
 
@@ -142,9 +142,9 @@ $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
 
 セマンティックバージョニングに従って、バージョンを上げる GitHub Release を作成します。バージョンを明示的に設定することも出来ます。
 
-{{<highlight bash>}}
-\$ mikku release <repository> <major | minor | patch | (version)>
-{{</highlight >}}
+```bash
+$ mikku release <repository> <major | minor | patch | (version)>
+```
 
 ![スクリーンショット](https://raw.githubusercontent.com/p1ass/mikku/master/images/changelog.png)
 _スクリーンショット_
@@ -159,11 +159,11 @@ _スクリーンショット_
 
 {{<link href="https://github.com/p1ass/mikku" text="mikku" >}}の良いところは設定でテンプレートが使える点です。
 
-{{<highlight bash>}}
+```bash
 $ export MIKKU_MANIFEST_REPOSITORY=sample-manifest-repository
 $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
-\$ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
-{{</highlight >}}
+$ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
+```
 
 {{<link href="https://github.com/p1ass/mikku" text="mikku" >}}では `{{.Owner}}` 、`{{.Repository}}`をテンプレートとして使えるようになっています。
 

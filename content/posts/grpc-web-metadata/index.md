@@ -33,7 +33,7 @@ gRPC-Web を使うときは、Envoy または Nginx を通してリクエスト�
 
 これによって、メタデータが消えることなく gRPC サーバまで届きます。
 
-{{<highlight yaml >}}
+```yaml
 admin:
 access_log_path: /tmp/admin_access.log
 address:
@@ -72,28 +72,28 @@ listeners:
   http2_protocol_options: {}
   lb_policy: round_robin
   hosts: [{ socket_address: { address: localhost, port_value: 9090 }}]
-  {{</ highlight>}}
+```
 
 ### STEP2 クライアントサイドでメタデータを付与してリクエストを行う
 
 STEP1 で正しく gRPC サーバまでメタデータが届くようになったので、後はクライアントサイドでメタデータを付与してリクエストを行うだけです。
 
-{{<highlight javascript >}}
-const {HelloRequest, HelloReply} = require('./helloworld_pb.js');
-const {GreeterClient} = require('./helloworld_grpc_web_pb.js');
+```javascript
+const { HelloRequest, HelloReply } = require("./helloworld_pb.js");
+const { GreeterClient } = require("./helloworld_grpc_web_pb.js");
 
-const client = new GreeterClient('http://localhost:8080');
+const client = new GreeterClient("http://localhost:8080");
 
 const request = new HelloRequest();
-request.setName('World');
+request.setName("World");
 
-const metadata = {'x-custom-metadata': 'metadata-value'}
+const metadata = { "x-custom-metadata": "metadata-value" };
 
 // メタデータを付与する
 client.sayHello(request, metadata, (err, response) => {
-console.log(response.getMessage());
+  console.log(response.getMessage());
 });
-{{</ highlight>}}
+```
 
 ## まとめ
 

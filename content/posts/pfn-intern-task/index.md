@@ -97,7 +97,7 @@ share: true
 
 まず、ジョブの構造体を定義し、HTTP レスポンスをマッピングする処理を書きました。 `Priority` は `High` と `Low` の二値なので、int のエイリアスの型を定義し扱っています。
 
-{{<highlight go >}}
+```go
 type Priority int
 
 const (
@@ -112,11 +112,11 @@ Priority Priority
 Tasks []int
 CurrentTask int
 }
-{{</ highlight >}}
+```
 
 次に、ワーカーの構造体を定義し、すべてのジョブを実行するメソッドを生やしました。
 
-{{<highlight go >}}
+```go
 type Worker struct {
 workingJobs []\*Job
 }
@@ -124,7 +124,7 @@ workingJobs []\*Job
 func (w \*Worker) ExecuteAllJob(interval int) int{
 ...
 }
-{{</ highlight>}}
+```
 
 実装の工夫としては、ジョブに関するドメインロジックは `Job` のメソッドに定義し、`Worker` の `ExecuteAllJob()` をなるべく薄くなるようにしました。 `Worker` の責務はあくまでジョブの開始と停止であり、その中身まで関与する必要はないという考えによる設計です。このように分けたことで、ユニットテストを書きやすくすることができました。
 
@@ -136,19 +136,20 @@ func (w \*Worker) ExecuteAllJob(interval int) int{
 
 キャパシティが設定されると、サーバから受け取ったジョブをすべて同時に動かすことが出来なくなります。そこで、実行待ちのジョブをプールさせるキューを `Worker` に生やすことにしました。その後、受け取ったジョブをすぐ実行するかキューで待機させるか判定する処理を書きました。
 
-{{<highlight go >}}
+```go
 type Worker struct {
 ...
 jobQueue []\*Job
 capacity int
 ...
 }
-{{</ highlight>}}
+```
 
 この問題で注意する点は、実行中のジョブのタスクが切り替わったときに、キャパシティを上回ってしまう可能性がある点です。
 
 例えば、キャパシティが 5 で、次のようなジョブを実行していたとします。
-{{<highlight go >}}
+
+```go
 j := &Job{
 ID: 0,
 Created: time.Time{},
@@ -156,7 +157,7 @@ Priority: Low,
 Tasks: []int{1, 10},
 CurrentTask: 0,
 }
-{{</ highlight>}}
+```
 
 1 秒経過すると `j.Tasks[0]` は 0 になるため、次のタスクの 10 に移ります。しかし、キャパシティは 5 なため、このジョブはキューに戻す必要があります。
 
@@ -174,7 +175,7 @@ CurrentTask: 0,
 
 優先度付きキューは Go の `container/heap` パッケージを利用しました。優先度の判定は次のように書き、優先度が同じ場合は時刻の早いジョブを先に処理することにしました。
 
-{{<highlight go >}}
+```go
 func (pq JobPriorityQueue) Less(i, j int) bool {
 if pq[i].Priority > pq[j].Priority {
 return true
@@ -187,7 +188,7 @@ return true
 return false
 }
 }
-{{</ highlight>}}
+```
 
 次に、実行中のジョブの優先度は `Low` だが、優先度付きキューにジョブの優先度が `High` のジョブが積まれている場合に、ジョブを入れ替える処理を書きました。
 このあたりの処理は忘れがちなので、しっかりとテストを書くことが大事だなと感じました。
@@ -210,7 +211,7 @@ return false
 
 具体的には、優先度が違う場合は優先度が高いものを選択し、優先度が同じ場合はキャパシティの空きを超えない最大のジョブを選択するようにしました。
 
-{{<highlight go >}}
+```go
 func (pq JobPriorityQueue) Less(i, j int) bool {
 job1 := pq.data[i]
 job2 := pq.data[j]
@@ -238,7 +239,7 @@ job2 := pq.data[j]
     }
 
 }
-{{</ highlight>}}
+```
 
 ## 問題 3-1
 
@@ -254,22 +255,22 @@ job2 := pq.data[j]
 
 書き換えたのは HTTP レスポンスのマッピングくらいです。
 
-{{<highlight go >}}
+```go
 case "[Priority]":
-scanner.Scan()
-p := scanner.Text()
-if p == "Low" {
-job.Priority = domain.Low
-} else if p == "High" {
-job.Priority = domain.High
-} else {
-priority, err := strconv.Atoi(p)
-if err != nil {
-return nil, fmt.Errorf("failed to parse priority: %s", err)
+  scanner.Scan()
+  p := scanner.Text()
+  if p == "Low" {
+    job.Priority = domain.Low
+  } else if p == "High" {
+    job.Priority = domain.High
+  } else {
+    priority, err := strconv.Atoi(p)
+  if err != nil {
+    return nil, fmt.Errorf("failed to parse priority: %s", err)
+  }
+  job.Priority = domain.Priority(priority)
 }
-job.Priority = domain.Priority(priority)
-}
-{{</ highlight>}}
+```
 
 以上で問題を解答し終えました！
 

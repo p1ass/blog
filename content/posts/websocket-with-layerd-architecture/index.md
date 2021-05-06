@@ -24,7 +24,7 @@ share: true
 
 WebSocket を実装する前の API サーバのディレクトリ構成は次のようになっていました。（ブログ用に調整を加えてます。）
 
-{{<highlight bash >}}
+```bash
 .
 ├── database # repository のインターフェースを満たす実体
 ├── domain
@@ -36,11 +36,11 @@ WebSocket を実装する前の API サーバのディレクトリ構成は次�
 └── web
 ├── handler
 └── router.go
-{{</highlight >}}
+```
 
 処理の流れは以下の通りです。
 
-{{<highlight bash >}}
+```bash
 web/router.go
 ↓
 web/handler/_.go
@@ -48,7 +48,7 @@ web/handler/_.go
 usecase/_.go
 ↓
 domain/\*
-{{</highlight >}}
+```
 
 レイヤードアーキテクチャを採用している無難なパッケージ構成になっています。明確に DDD や Clean Architecture であるとは言えないですが、その思想を取り入れつつ独自にカスタマイズしています。[^1]
 

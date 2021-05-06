@@ -28,49 +28,49 @@ GitHub API を用いてブランチを作成するには、git の ref(参照)�
 
 まず参照を取得する API を用いて起点となるコミットのリビジョンハッシュを取得します。
 
-{{<highlight bash >}}
+```bash
 $ TOKEN=<AUTH_TOKEN>
 $ AUTHOR=<AUTHOR>
 $ REPO=<REPOSITORY>
 $ BASE_BRANCH=master
 $ curl -s -H "Authorization: token ${TOKEN}" https://api.github.com/repos/${AUTHOR}/${REPO}/git/refs/heads/${BASE_BRANCH}
-{{</highlight >}}
+```
 
-{{<highlight json >}}
+```json
 [
-{
-"ref": "refs/heads/master",
-"node_id": "...",
-"url": "https://api.github.com/repos/<AUTHOR>/REPOSITORY>/git/refs/heads/master",
-"object": {
-"sha": "ハッシュ値",
-"type": "commit",
-"url": "https://api.github.com/repos/<AUTHOR>/REPOSITORY>/git/commits/...."
-}
-}
+  {
+    "ref": "refs/heads/master",
+    "node_id": "...",
+    "url": "https://api.github.com/repos/<AUTHOR>/REPOSITORY>/git/refs/heads/master",
+    "object": {
+      "sha": "ハッシュ値",
+      "type": "commit",
+      "url": "https://api.github.com/repos/<AUTHOR>/REPOSITORY>/git/commits/...."
+    }
+  }
 ]
-{{</highlight >}}
+```
 
 リビジョンハッシュ値を取得することがでました。これを起点に参照を作成します。
 
-{{<highlight bash >}}
+```bash
 $ NEW_BRANCH=<NEW_BRANCH_NAME>
 $ HASH=<.[0].object.sha に当たるハッシュ>
 $ curl -X POST -s -H "Authorization: token ${TOKEN}" -d '{"ref": "refs/heads/'"${NEW_BRANCH}"'","sha":"'"${HASH}"'"}' https://api.github.com/repos/${AUTHOR}/${REPO}/git/refs
-{{</highlight >}}
+```
 
-{{<highlight json >}}
+```json
 {
-"ref": "refs/heads/<NEW_BRANCH_NAME>",
-"node_id": "...",
-"url": "https://api.github.com/repos/<AUTHOR>/<REPO>/git/refs/heads/<NEW_BRANCH_NAME>",
-"object": {
-"sha": "...",
-"type": "commit",
-"url": "https://api.github.com/repos/<AURHOT>/<REPO>/git/commits/..."
+  "ref": "refs/heads/<NEW_BRANCH_NAME>",
+  "node_id": "...",
+  "url": "https://api.github.com/repos/<AUTHOR>/<REPO>/git/refs/heads/<NEW_BRANCH_NAME>",
+  "object": {
+    "sha": "...",
+    "type": "commit",
+    "url": "https://api.github.com/repos/<AURHOT>/<REPO>/git/commits/..."
+  }
 }
-}
-{{</highlight >}}
+```
 
 ## なぜこれでブランチを作成できるのか？
 

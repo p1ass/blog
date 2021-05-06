@@ -90,13 +90,13 @@ Go では ↑ の各ステップを行うための様々なツールが用意さ
 
 API サーバーに対する負荷は Go 製の負荷テストツールである[`tsenart/vegeta`](https://github.com/tsenart/vegeta)を使って行い、秒間 100 リクエストを 10 秒間与え、その間の 5 秒を pprpf で計測しました。
 
-{{<highlight bash >}}
+```bash
 echo "GET http://localhost:8080/json" | vegeta attack -rate=100 -duration=10s | tee result.bin
-{{</ highlight>}}
+```
 
-{{<highlight bash >}}
+```bash
 go tool pprof -http=":8888" http://localhost:8080/debug/pprof/profile
-{{</ highlight>}}
+```
 
 結果は以下のようになりました。
 
@@ -127,3 +127,7 @@ _pprof の Frame Graph_
 {{<twitter url="https://twitter.com/p1ass/status/1129532777244741632" >}}
 
 おわり
+
+```
+
+```

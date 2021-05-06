@@ -71,56 +71,56 @@ _test automation pyramid_
 
 永続化処理をインターフェースとして定義することでモックを流し込めるようになり、ユニットテストがとても書きやすくなりました。今までのテストコードはビジネスロジックのテストをするためだけに事前に datastore にデータを流し込んだりしていましたが、モックのおかげでその必要はなくなり、返り値を宣言するだけでよくなりました。
 
-{{<highlight go >}}
+```go
 t.Parallel()
 
 tests := []struct {
-name string
-hoge *types.Hoge
-injector func(*mocks.MockHogeRepository) *mocks.MockHogeRepository
-want *types.Hoge
-wantErr bool
+  name     string
+  hoge     *types.Hoge
+  injector func(*mocks.MockHogeRepository) *mocks.MockHogeRepository
+  want     *types.Hoge
+  wantErr  bool
 }{
-{
-name: "return error when post failed",
-hoge: &types.Hoge{
-HogeID: "invalid",
-},
-injector: func(r *mocks.MockHogeRepository) *mocks.MockHogeRepository {
-r.EXPECT().Post(gomock.Any(), types.Hoge{HogeID: "invalid"}).
-Return(nil, errors.New("some error"))
-return r
-},
-want: nil,
-wantErr: true,
-},
-{
-name: "should be success",
-hoge: &types.Hoge{
-HogeID: "hogeID",
-},
-injector: func(r *mocks.MockHogeRepository) *mocks.MockHogeRepository {
-r.EXPECT().Post(gomock.Any(), types.Hoge{HogeID: "hogeID"}).
-Return(&types.Hoge{HogeID: "hogeID"}, nil)
-return r
-},
-want: &types.Hoge{
-HogeID: "hogeID",
-},
-wantErr: false,
-},
+  {
+    name: "return error when post failed",
+    hoge: &types.Hoge{
+      HogeID: "invalid",
+    },
+    injector: func(r *mocks.MockHogeRepository) *mocks.MockHogeRepository {
+      r.EXPECT().Post(gomock.Any(), types.Hoge{HogeID: "invalid"}).
+        Return(nil, errors.New("some error"))
+      return r
+    },
+    want:    nil,
+    wantErr: true,
+  },
+  {
+    name: "should be success",
+    hoge: &types.Hoge{
+      HogeID: "hogeID",
+    },
+    injector: func(r *mocks.MockHogeRepository) *mocks.MockHogeRepository {
+      r.EXPECT().Post(gomock.Any(), types.Hoge{HogeID: "hogeID"}).
+        Return(&types.Hoge{HogeID: "hogeID"}, nil)
+      return r
+    },
+    want: &types.Hoge{
+      HogeID: "hogeID",
+    },
+    wantErr: false,
+  },
 }
 
-for \_, tt := range tests {
-t.Run(tt.name, func(t \*testing.T) {
-ctrl := gomock.NewController(t)
-defer ctrl.Finish()
-mockRepo := mocks.NewMockHogeRepository(ctrl)
-mockRepo = tt.injector(mockRepo)
-// ...
+for _, tt := range tests {
+  t.Run(tt.name, func(t *testing.T) {
+    ctrl := gomock.NewController(t)
+    defer ctrl.Finish()
+    mockRepo := mocks.NewMockHogeRepository(ctrl)
+    mockRepo = tt.injector(mockRepo)
+    // ...
+  })
 }
-}
-{{</ highlight>}}
+```
 
 今の時点ではモックを使ったテストは少ないですが、今後モックを使ったユニットテストが増えていくでしょう。
 
