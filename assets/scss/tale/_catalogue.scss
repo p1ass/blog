@@ -58,4 +58,8 @@
   &-more-button:hover {
     background-color: $gray-light;
   }
+
+  &-summary a {
+    text-decoration: underline;
+  }
 }

@@ -648,6 +648,9 @@ footer {
 .catalogue-more-button:hover {
   background-color: #636E7D; }
 
+.catalogue-summary a {
+  text-decoration: underline; }
+
 .sns_parent {
   text-align: center;
   margin: 1.7rem 0; }
