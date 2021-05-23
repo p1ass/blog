@@ -9,6 +9,8 @@ categories:
 tags:
   - Go
 share: true
+eyecatch: /posts/go-faq/ogp.png
+
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
