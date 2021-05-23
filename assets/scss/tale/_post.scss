@@ -21,6 +21,10 @@
     }
   }
 
+  &-content a {
+    text-decoration: underline;
+  }
+
 
   img {
     margin: 0 auto $vertical-rhythm-unit * 0.5 ;

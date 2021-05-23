@@ -10,11 +10,12 @@
   </a>
   {{ partial "post-detail.html" . }}
 
-  <!-- -->
-
-  {{ if isset .Params "summary" }} {{ .Params.Summary }}
-  <!-- -->
-  {{ else }} {{ .Summary}} {{ end }}
+  <div class="catalogue-summary">
+    <!-- -->
+    {{ if isset .Params "summary" }} {{ .Params.Summary }}
+    <!-- -->
+    {{ else }} {{ .Summary}} {{ end }}
+  </div>
 
   <a class="catalogue-more-button" href="{{ .Permalink }}">続きを読む</a>
 </section>
