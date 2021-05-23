@@ -330,7 +330,7 @@ _GitHub より引用_
 
 {{<ex-link url="https://github.com/cweill/gotests">}}
 
-### なぜテストの構造体比較に reflect ではなく go-cmp を使うメリットは何か?
+### テストの構造体比較に reflect ではなく go-cmp を使うメリットは何か?
 
 [google/go-cmp](https://github.com/google/go-cmp) は Go の値の同一性を判定するパッケージです。
 
