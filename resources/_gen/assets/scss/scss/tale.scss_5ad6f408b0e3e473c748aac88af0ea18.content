@@ -196,6 +196,8 @@ pre code {
     @media (max-width: 900px) {
       .post-title {
         font-size: 2rem; } }
+  .post-content a {
+    text-decoration: underline; }
   .post img {
     margin: 0 auto 0.85rem; }
   .post img.emoji {
@@ -737,6 +739,9 @@ footer {
 
 .embed-wrapper {
   margin-bottom: 1.7rem; }
+
+.embed-wrapper a {
+  text-decoration: none; }
 
 .embed-wrapper * {
   word-wrap: break-word;

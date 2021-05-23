@@ -1,6 +1,9 @@
 .embed-wrapper {
     margin-bottom: $vertical-rhythm-unit;
-    
+}
+
+.embed-wrapper a {
+    text-decoration: none;
 }
   
 .embed-wrapper * {

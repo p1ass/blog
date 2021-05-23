@@ -5,19 +5,21 @@
     {{ partial "single/post-info.html" . }} {{ partial "single/title.html" . }}
     {{ partial "single/header.html" . }} {{ partial "share" . }}
     <!-- -->
-    {{ partial "post-detail.html" . }} {{ .Content }}
-
+    {{ partial "post-detail.html" . }}
+    <div class="post-content">
+      {{ .Content }}
       <!-- -->
-  {{ $related := .Site.RegularPages.Related . | first 4 }} {{ with $related }}
-  <div class="related">
-    <h2>合わせて読みたい</h3>
-    <ul>
-      {{ range . }}
-      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{ $related := .Site.RegularPages.Related . | first 4 }} {{ with $related }}
+      <div class="related">
+        <h2>合わせて読みたい</h3>
+        <ul>
+          {{ range . }}
+          <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+        </ul>
+      </div>
       {{ end }}
-    </ul>
-  </div>
-  {{ end }}
+    </div>
 
     <!-- -->
   {{ partial "single/footer.html" . }}
