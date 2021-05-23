@@ -42,8 +42,8 @@ const (
 Enum っぽいものを定義する際にはゼロ値を Unknown のようなデフォルト値を設定するようにすると便利です。
 また、`fmt.Stringer` を実装しておくとデバッグ時に役立ちます。
 
-{{<ex-link url="https://blog.y-yuki.net/entry/2017/05/09/000000">}}
-{{<ex-link url="https://qiita.com/cia_rana/items/9d00ce81252ed970f362">}}
+{{<ex-title-link url="https://blog.y-yuki.net/entry/2017/05/09/000000">}}
+{{<ex-title-link url="https://qiita.com/cia_rana/items/9d00ce81252ed970f362">}}
 
 ### goroutine と thread の違いは？
 
@@ -54,11 +54,11 @@ Go ではそのコストを下げるために、ランタイムで動く独自�
 
 詳しいデータ構造やアルゴリズムは 3 つ目のリンク先の A Journey With Go で解説されています。
 
-{{<ex-link url="https://go-tour-jp.appspot.com/concurrency/1">}}
+{{<ex-title-link url="https://go-tour-jp.appspot.com/concurrency/1">}}
 
-{{<ex-link url="https://talks.golang.org/2012/waza.slide#32">}}
+{{<ex-title-link url="https://talks.golang.org/2012/waza.slide#32">}}
 
-{{<ex-link url="https://medium.com/a-journey-with-go/tagged/goroutines">}}
+{{<ex-title-link url="https://medium.com/a-journey-with-go/tagged/goroutines">}}
 
 ### なぜ Go には try-catch のような例外がないのか？
 
@@ -77,7 +77,7 @@ if err != nil {
 >
 > There is no question the resulting code can be longer, but the clarity and simplicity of such code offsets its verbosity. Explicit error checking forces the programmer to think about errors—and deal with them—when they arise. Exceptions make it too easy to ignore them rather than handle them, passing the buck up the call stack until it is too late to fix the problem or diagnose it well.
 
-{{<ex-link url="https://talks.golang.org/2012/splash.article">}}
+{{<ex-title-link url="https://talks.golang.org/2012/splash.article">}}
 
 ### `var s []string` と `s := make([]string,0)` と `s := []string{}` の違い
 
@@ -89,11 +89,11 @@ if err != nil {
 
 Uber Go Style Guide でも nil slice が推奨されています。
 
-{{<ex-link url="https://play.golang.org/p/lJmXd0c10GC">}}
+{{<ex-title-link url="https://play.golang.org/p/lJmXd0c10GC">}}
 
-{{<ex-link url="https://github.com/golang/go/wiki/CodeReviewComments#declaring-empty-slices">}}
+{{<ex-title-link title="Declaring Empty Slices - CodeReviewComments · golang/go Wiki" url="https://github.com/golang/go/wiki/CodeReviewComments#declaring-empty-slices">}}
 
-{{<ex-link url="https://github.com/knsh14/uber-style-guide-ja/blob/master/guide.md#nil-is-a-valid-slice">}}
+{{<ex-title-link url="https://github.com/knsh14/uber-style-guide-ja/blob/master/guide.md#nil-is-a-valid-slice">}}
 
 ### Go の多値返却はタプルなのか？
 
@@ -116,26 +116,26 @@ if Join(Split(value, len(value)/2)) != value {
 }
 ```
 
-{{<ex-link url="https://golang.org/ref/spec#Calls">}}
+{{<ex-title-link url="https://golang.org/ref/spec#Calls">}}
 
 ### 関数の引数は値渡しか参照渡しか？
 
 Go はすべて値渡し (pass by value) です。
 ポインタの場合は、ポインタそのものがコピーされポインタの指し示す先の値はコピーされません。
 
-{{<ex-link url="https://golang.org/doc/faq#pass_by_value">}}
+{{<ex-title-link url="https://golang.org/doc/faq#pass_by_value">}}
 
 ### なぜジェネリクスがないのか？
 
 公式の FAQ には、Go の当初の目的であった Scalability や Readability、Concurrency を達成するために必ずしもジェネリクスは必要でなかったと書かれています。
 
-{{<ex-link url="https://golang.org/doc/faq#generics">}}
+{{<ex-title-link url="https://golang.org/doc/faq#generics">}}
 
 なお、現在はジェネリクスを実装するプロポーザルが承認されて、Go1.18 にてリリースされる予定です。
 
-{{<ex-link url="https://blog.golang.org/generics-next-step">}}
+{{<ex-title-link url="https://blog.golang.org/generics-next-step">}}
 
-{{<ex-link url="https://github.com/golang/go/issues/43651">}}
+{{<ex-title-link url="https://github.com/golang/go/issues/43651">}}
 
 ### `make([]int, 10, 100)` の第三引数の意味
 
@@ -143,7 +143,7 @@ make の第三引数はキャパシティと呼ばれ、生成するスライス
 
 予め長さ以上のメモリを確保することでスライスに `append` する際にメモリの再確保が走る回数を減らすことができます。
 
-{{<ex-link url="https://blog.golang.org/slices-intro">}}
+{{<ex-title-link url="https://blog.golang.org/slices-intro">}}
 
 ### `map[string]struct{}` の `struct{}` は何？
 
@@ -153,7 +153,7 @@ empty struct の良いところはメモリのサイズが 0 であることで�
 
 例えば、スライスから重複をなくす実装を map の key を使って実装した場合、value に入れる型は何でも良いです。こういった場合に empty struct を使うことで bool を指定するよりもメモリ使用量を抑えられます。
 
-{{<ex-link url="https://dave.cheney.net/2014/03/25/the-empty-struct">}}
+{{<ex-title-link url="https://dave.cheney.net/2014/03/25/the-empty-struct">}}
 
 ## 標準ライブラリ
 
@@ -163,29 +163,29 @@ empty struct の良いところはメモリのサイズが 0 であることで�
 
 そのため、基本的には自由度の高い `fmt` パッケージが使われます。
 
-{{<ex-link url="https://pkg.go.dev/builtin@go1.16.4#print">}}
+{{<ex-title-link url="https://pkg.go.dev/builtin@go1.16.4#print">}}
 
 ### いい感じにエラーハンドリングしたい
 
 Go 1.13 から追加された標準の errors パッケージを使うことで、エラーによって処理を分岐することができます。
 
-{{<ex-link url="https://pkg.go.dev/errors">}}
+{{<ex-title-link url="https://pkg.go.dev/errors">}}
 
 #### 私見
 
 以前は pkg/errors が使われていましたが、徐々に標準の errors パッケージが使われることが多くなってきたように感じます。
 
-{{<ex-link url="https://pkg.go.dev/github.com/pkg/errors">}}
+{{<ex-title-link url="https://pkg.go.dev/github.com/pkg/errors">}}
 
 標準の errors パッケージはスタックトレースを保持しないので、スタックトレースを表示させたい場合は準標準の xeerors を使うこともあります。
 
-{{<ex-link url="https://pkg.go.dev/golang.org/x/xerrors">}}
+{{<ex-title-link url="https://pkg.go.dev/golang.org/x/xerrors">}}
 
 ### 構造体をいい感じに標準出力に表示したい
 
 通常、構造体を `%v` や `%+v` で出力するとフィールド名やその値が表示されますが、`fmt.Stringer` インターフェイス等を実装することで表示をカスタマイズできます。
 
-{{<ex-link url="https://qiita.com/tenntenn/items/453a09c4c6d7f580d0ab">}}
+{{<ex-title-link url="https://qiita.com/tenntenn/items/453a09c4c6d7f580d0ab">}}
 
 ## 公式のエコシステム周り
 
@@ -193,21 +193,21 @@ Go 1.13 から追加された標準の errors パッケージを使うことで�
 
 現在(2021/05)では、公式で提供されている Go Module を使います。
 
-{{<ex-link url="https://blog.golang.org/using-go-modules">}}
+{{<ex-title-link url="https://blog.golang.org/using-go-modules">}}
 
 ### Go の Formatter や Linter を知りたい
 
 Formatter は Go 標準で `gofmt` コマンドがあります。
 
-{{<ex-link url="https://golang.org/cmd/gofmt/">}}
+{{<ex-title-link url="https://golang.org/cmd/gofmt/">}}
 
 Linter はいくつか種類がありますが、公式の Linter として怪しい構造をレポートする `go vet` コマンドがあります。
 
-{{<ex-link url="https://golang.org/cmd/vet/">}}
+{{<ex-title-link url="https://golang.org/cmd/vet/">}}
 
 その他にも、サードパーティの Linter を集めた golangci-lint という Linter のランナーがあります。
 
-{{<ex-link url="https://github.com/golangci/golangci-lint">}}
+{{<ex-title-link url="https://github.com/golangci/golangci-lint">}}
 
 ## スタイル周り
 
@@ -221,7 +221,7 @@ Go の FAQ では、
 
 の観点から解説されています。
 
-{{<ex-link url="https://golang.org/doc/faq#methods_on_values_or_pointers">}}
+{{<ex-title-link url="https://golang.org/doc/faq#methods_on_values_or_pointers">}}
 
 #### 私見
 
@@ -232,7 +232,7 @@ Go の FAQ では、
 
 panic は回復不可能な状況が発生したときに使うもので、エラーハンドリングで使うものではないからです。
 
-{{<ex-link url="https://github.com/knsh14/uber-style-guide-ja/blob/master/guide.md#dont-panic">}}
+{{<ex-title-link url="https://github.com/knsh14/uber-style-guide-ja/blob/master/guide.md#dont-panic">}}
 
 #### 私見
 
@@ -249,7 +249,7 @@ Go Code Review Comments にて、次のように書かれています。
 全ての変数を短くすべきというわけではなく、スコープが限定されたローカル変数や自明なものだけで良いです。
 スコープが広いものは説明的な長い変数名をつけても OK です。
 
-{{<ex-link url="https://github.com/golang/go/wiki/CodeReviewComments#variable-names">}}
+{{<ex-title-link url="https://github.com/golang/go/wiki/CodeReviewComments#variable-names">}}
 
 ## サードパーティライブラリ
 
@@ -261,7 +261,7 @@ VS Code や Goland では拡張機能にこの機能が組み込まれている�
 ![画像](https://raw.githubusercontent.com/cweill/GoTests-Sublime/master/gotests.gif)
 _GitHub より引用_
 
-{{<ex-link url="https://github.com/cweill/gotests">}}
+{{<ex-title-link url="https://github.com/cweill/gotests">}}
 
 ### なぜテストの構造体比較に reflect ではなく go-cmp を使うメリットは何か
 
@@ -303,7 +303,7 @@ MakeGatewayInfo() mismatch (-want +got):
   }
 ```
 
-{{<ex-link url="https://github.com/google/go-cmp">}}
+{{<ex-title-link url="https://github.com/google/go-cmp">}}
 
 ### Go のパッケージ構成のデファクトはあるのか？
 
@@ -311,11 +311,11 @@ MakeGatewayInfo() mismatch (-want +got):
 
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout) という Go 非公式のリポジトリがありますが、Go Team の Russ Cox から standard と呼ぶのは正確ではないという趣旨の issue が立てられています。
 
-{{<ex-link url="https://github.com/golang-standards/project-layout/issues/117">}}
+{{<ex-title-link url="https://github.com/golang-standards/project-layout/issues/117">}}
 
 パッケージ構成ではないですが、パッケージ名に関する記事は公式の The Go Blog にあります。
 
-{{<ex-link url="https://blog.golang.org/package-names">}}
+{{<ex-title-link url="https://blog.golang.org/package-names">}}
 
 #### 私見
 
@@ -375,4 +375,4 @@ golang-standards のようなパッケージ構成をしているリポジトリ
 
 ## その他のよくある質問は
 
-{{<ex-link url="https://golang.org/doc/faq">}}
+{{<ex-title-link url="https://golang.org/doc/faq">}}

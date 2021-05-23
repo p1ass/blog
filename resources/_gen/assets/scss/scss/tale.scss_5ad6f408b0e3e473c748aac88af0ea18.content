@@ -813,4 +813,8 @@ footer {
   max-height: none;
   border: none; }
 
+.ex-title-link {
+  display: block;
+  margin-bottom: 1.7rem; }
+
 /*# sourceMappingURL=style.css.map */
