@@ -35,23 +35,21 @@ Go はすべて値渡し (pass by value) です。
 
 ### Go の多値返却はタプルか？
 
-いいえ、タプルではありません。Python や JavaScript に実装されている分割代入とは異なり、複数の値を返します。そのため次のような書き方ができます。
+「タプル」の定義が言語仕様上定められていないので、Yes/Noで答えられません。
+	
+ただし、仕様書には "tuple assignment" というものが存在し、
+	
+> A tuple assignment assigns the individual elements of a multi-valued operation to a list of variables. 
+	
+	
 
 ```go
-func Split(s string, pos int) (string, string) {
-	return s[0:pos], s[pos:]
-}
-
-func Join(s, t string) string {
-	return s + t
-}
-
-if Join(Split(value, len(value)/2)) != value {
-	log.Panic("test fails")
-}
+x, y = f()
 ```
 
-{{<ex-title-link title="Calls - The Go Programming Language Specification" url="https://golang.org/ref/spec#Calls">}}
+ひとつの形態として多値返却する関数呼び出しを多変数で受ける例があげられています。
+
+{{<ex-title-link title="Assignments - The Go Programming Language Specification" url="https://golang.org/ref/spec#Assignments">}}
 
 ### `make([]int, 10, 100)` の第三引数の意味は？
 
