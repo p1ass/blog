@@ -108,7 +108,7 @@ if err != nil {
 
 ### `var s []string` と `s := make([]string,0)` と `s := []string{}` の違いは？
 
-`var s []string` は nil slice を、残りの２つ nil ではないゼロ値であるスライスを生成します。基本的には nil slice の方が好まれますが、JSON にエンコーディングする場合などはあえてゼロ値をの方を使っても良いです。
+`var s []string` は nil slice になり、残りの２つは nil ではない空スライスを生成します。基本的には nil slice の方が好まれますが、JSON にエンコーディングする場合などはあえて空スライスを使っても良いです。
 
 {{<ex-title-link title="Declaring Empty Slices - CodeReviewComments · golang/go Wiki" url="https://github.com/golang/go/wiki/CodeReviewComments#declaring-empty-slices">}}
 
