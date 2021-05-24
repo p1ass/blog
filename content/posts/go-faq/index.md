@@ -200,7 +200,7 @@ Go 1.13 から追加された標準の errors パッケージを使うことで�
 #### 私見
 
 以前は pkg/errors が使われていましたが、徐々に標準の errors パッケージが使われることが多くなってきたように感じます。
-標準の errors パッケージはスタックトレースを保持しないので、スタックトレースを表示させたい場合は準標準の xeerors を使うこともあります。
+標準の errors パッケージはスタックトレースを保持しないので、スタックトレースを表示させたい場合は準標準の xerrors を使うこともあります。
 
 {{<ex-title-link title="pkg/errors・pkg.go.dev" url="https://pkg.go.dev/github.com/pkg/errors">}}
 {{<ex-title-link url="https://pkg.go.dev/golang.org/x/xerrors">}}
