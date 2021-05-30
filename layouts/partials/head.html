@@ -13,7 +13,7 @@
 
     {{- if .IsPage }}
         {{- if .Params.eyecatch }}
-            <meta name="og:image" content="https://blog.p1ass.com{{ .Params.eyecatch }}" />
+            <meta property="og:image" content="https://blog.p1ass.com{{ .Params.eyecatch }}" />
         {{- else}}
             <meta property="og:image" content="https://og-image.p1ass.com/apiv2/{{ replace .Params.Title " " "%20" }}.png"/>
         {{- end }}
