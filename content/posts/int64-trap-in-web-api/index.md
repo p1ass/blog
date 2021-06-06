@@ -27,9 +27,8 @@ share: true
 
 ## 遭遇したバグ
 
-最近個人で開発した{{<link href="https://memoito.com" text="Memoito（めもいと）" >}}という Web サービスの API を書いているときの出来事です。
+最近個人で開発したMemoito（めもいと）という Web サービスの API を書いているときの出来事です。
 
-{{<ex-link url="https://memoito.com" >}}
 
 Memoito では ID として Twitter 社が開発した{{<link href="https://developer.twitter.com/en/docs/basics/twitter-ids" text="snowflake" >}}を採用しています。
 
