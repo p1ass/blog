@@ -1,3 +1,5 @@
+$arrow-box-width: 60px;
+
 .pagination {
   border-top: .5px solid $border;
   font-family: $serif-secondary;
@@ -25,14 +27,31 @@
 
   .arrow {
     @include transition(all .3s ease-out);
+    
+    border: solid 1px $gray;
     color: $gray;
+    width: $arrow-box-width;
+    border-radius: $vertical-rhythm-unit * 0.25;
+    padding: $vertical-rhythm-unit * 0.25 1rem;
+    margin: 0 0 0 auto;
+    display: flex;
+    justify-content: center;
 
     &:hover,
     &:focus {
-      color: $gray-light;
+      background-color: $gray;
+      color: $white;
       text-decoration: none;
     }
   }
+}
+
+.empty-arrow {
+  width: $arrow-box-width;
+}
+
+.page-number{
+  padding: $vertical-rhythm-unit * 0.25 0;
 }
 
 .top {
