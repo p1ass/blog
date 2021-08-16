@@ -10,7 +10,7 @@ tags:
   - データベース
   - インフラ
 share: true
-eyecatch: /posts/designing-data-intensive-application/ogp.png
+eyecatch: /posts/designing-data-intensive-application/ogp.jpg
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
