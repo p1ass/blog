@@ -580,10 +580,24 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #1E2126; }
+    border: solid 1px #1E2126;
+    color: #1E2126;
+    width: 60px;
+    border-radius: 0.425rem;
+    padding: 0.425rem 1rem;
+    margin: 0 0 0 auto;
+    display: flex;
+    justify-content: center; }
     .pagination .arrow:hover, .pagination .arrow:focus {
-      color: #636E7D;
+      background-color: #1E2126;
+      color: #FFFFFF;
       text-decoration: none; }
+
+.empty-arrow {
+  width: 60px; }
+
+.page-number {
+  padding: 0.425rem 0; }
 
 .top {
   text-align: center; }
