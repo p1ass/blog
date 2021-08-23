@@ -1,8 +1,8 @@
 ---
 title: ISUCON11予選に出場し48位で予選敗退しました
-date: 2021-08-23T12:00:00+09:00
+date: 2021-08-24T00:00:00+09:00
 draft: false
-description: 
+description: ISUCON11の予選に参加しました。去年は FAIL で学生枠の本戦出場を逃したので「今年こそは！」と思っていたのですが、タイトルの通り予選敗退しました。結果は Best が 71,673 点、追試スコアが 67,097 点で 48 位でした。
 categories:
   - ISUCON
 tags:
