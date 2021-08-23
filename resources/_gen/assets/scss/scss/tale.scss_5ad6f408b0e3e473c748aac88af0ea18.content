@@ -195,7 +195,7 @@ pre code {
     text-align: center; }
     @media (max-width: 900px) {
       .post-title {
-        font-size: 2rem; } }
+        font-size: 1.75rem; } }
   .post-content a {
     text-decoration: underline; }
   .post img {
@@ -637,7 +637,9 @@ footer {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   font-size: 2rem;
   margin: 0.425rem 0; }
-
+  @media (max-width: 900px) {
+    .catalogue-title {
+      font-size: 1.75rem; } }
 .catalogue-line {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
