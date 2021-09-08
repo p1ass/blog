@@ -6,7 +6,6 @@ description: 2021年の目標をOKRを使って制定した。
 categories:
   - ポエム
 tags:
-  - ポエム
   - OKR
 share: true
 ---

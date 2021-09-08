@@ -6,7 +6,6 @@ description: ISUCON9に参加してきました。初ISUCONで結果は惨敗で
 categories:
   - ISUCON
 tags:
-  - ISUCON
   - Go
   - MySQL
   - Nginx

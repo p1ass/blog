@@ -10,7 +10,6 @@ tags:
   - AbemaTV
   - Go
   - MongoDB
-  - インターン
 share: true
 ---
 

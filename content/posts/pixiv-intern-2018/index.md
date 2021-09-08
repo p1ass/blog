@@ -7,7 +7,7 @@ categories:
   - インターン
 tags:
   - ピクシブ
-  - インターン
+  - Vue.js
 share: true
 ---
 

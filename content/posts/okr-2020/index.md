@@ -6,7 +6,6 @@ description: 2020年の目標をOKRに基づいて設定しました。「イン
 categories:
   - ポエム
 tags:
-  - ポエム
   - 抱負
   - OKR
 share: true

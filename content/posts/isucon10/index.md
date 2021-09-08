@@ -4,9 +4,8 @@ date: 2020-09-14T12:00:00+09:00
 draft: false
 description: Lorseとkm_connerの 3 人で、チーム「釜中の鯖」として ISUCON10 の予選に参加したが、競技終了後の追試に失敗して、学生枠での本戦出場を逃した。負けたとはいえ、ブログを書くまでが ISUCON なので、取り組んだ改善をメモっておく。
 categories:
-  - 開発
-tags:
   - ISUCON
+tags:
   - Go
 share: true
 ---

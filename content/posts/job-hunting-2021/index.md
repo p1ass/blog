@@ -6,7 +6,6 @@ description: 本記事では私が21卒Web系のソフトウェアエンジニ�
 categories:
   - 就活
 tags:
-  - 就活
   - インターン
 share: true
 ---

@@ -9,7 +9,6 @@ tags:
   - Google
   - Atcoder
   - Go
-  - インターン
 share: true
 ---
 
