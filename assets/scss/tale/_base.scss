@@ -21,7 +21,6 @@ html {
   }
 }
 
-
 body {
   -webkit-text-size-adjust: 100%;
   margin: 0 $spacing;
@@ -31,9 +30,8 @@ body {
 }
 
 nav {
-  margin: 0 auto ;
+  margin: 0 auto;
 }
-
 
 h1,
 h2,
@@ -45,28 +43,34 @@ h6 {
   margin: 0 0 $vertical-rhythm-unit;
 }
 
-h1, h2{
-  line-height: ($vertical-rhythm-unit * 2); 
+h1,
+h2 {
+  line-height: ($vertical-rhythm-unit * 2);
+}
+
+h2 {
+  @media (max-width: 900px) {
+    line-height: ($vertical-rhythm-unit * 1.75);
+  }
 }
 
 h2:after {
   display: block;
   height: 2px;
-  content: "";
+  content: '';
   background-color: $blue;
 }
 
 h3 {
   font-size: 1.3rem;
-  line-height: ($vertical-rhythm-unit * 1.5); 
+  line-height: ($vertical-rhythm-unit * 1.5);
   border-bottom: 1px solid $border;
 }
 
 h4 {
   font-size: 1.2rem;
-  line-height: $vertical-rhythm-unit ; 
+  line-height: $vertical-rhythm-unit;
 }
-
 
 a {
   color: $blue;
@@ -91,7 +95,7 @@ blockquote {
 
 img {
   display: block;
-  margin: 0 auto $vertical-rhythm-unit * 0.5 ;
+  margin: 0 auto $vertical-rhythm-unit * 0.5;
   max-width: 100%;
   max-height: 400px;
   border: 1px solid $border;
@@ -132,7 +136,7 @@ ol {
   padding: 0;
 }
 
-table{
+table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
@@ -143,18 +147,18 @@ table th {
   border-bottom: solid 2px $blue;
 }
 
-table tr{
+table tr {
   border-bottom: solid 1px $border;
 }
 
-
-table th,table td{
+table th,
+table td {
   text-align: center;
   width: 25%;
   padding: 15px 0;
 }
 
-iframe{
+iframe {
   margin-bottom: $vertical-rhythm-unit;
 }
 
@@ -179,5 +183,3 @@ em {
 .reading-time {
   color: $gray-light;
 }
-
-
