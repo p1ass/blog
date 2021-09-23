@@ -8,7 +8,6 @@ categories:
 tags:
   - Cyber Agent
   - SRE
-  - インターン
   - AWS
 share: true
 ---

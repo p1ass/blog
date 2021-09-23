@@ -6,7 +6,6 @@ description: ISUCON11の予選に参加しました。去年は FAIL で学生�
 categories:
   - ISUCON
 tags:
-  - ISUCON
   - Go
 share: true
 eyecatch: /posts/isucon11/pprof_12pm.png

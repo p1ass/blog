@@ -8,7 +8,6 @@ categories:
 tags:
   - Go
   - Wantedly
-  - カンファレンス
 share: true
 ---
 

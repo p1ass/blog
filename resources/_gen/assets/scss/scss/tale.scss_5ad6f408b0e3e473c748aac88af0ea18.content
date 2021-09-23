@@ -36,13 +36,18 @@ h6 {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   margin: 0 0 1.7rem; }
 
-h1, h2 {
+h1,
+h2 {
   line-height: 3.4rem; }
+
+@media (max-width: 900px) {
+  h2 {
+    line-height: 2.975rem; } }
 
 h2:after {
   display: block;
   height: 2px;
-  content: "";
+  content: '';
   background-color: #4172B5; }
 
 h3 {
@@ -115,7 +120,8 @@ table th {
 table tr {
   border-bottom: solid 1px #DDE0E4; }
 
-table th, table td {
+table th,
+table td {
   text-align: center;
   width: 25%;
   padding: 15px 0; }
@@ -195,7 +201,8 @@ pre code {
     text-align: center; }
     @media (max-width: 900px) {
       .post-title {
-        font-size: 1.75rem; } }
+        font-size: 1.75rem;
+        line-height: 2.55rem; } }
   .post-content a {
     text-decoration: underline; }
   .post img {
@@ -639,7 +646,8 @@ footer {
   margin: 0.425rem 0; }
   @media (max-width: 900px) {
     .catalogue-title {
-      font-size: 1.75rem; } }
+      font-size: 1.75rem;
+      line-height: 2.975rem; } }
 .catalogue-line {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;

@@ -8,7 +8,6 @@ categories:
 tags:
   - DeNA
   - Go
-  - インターン
   - AWS
   - MySQL
 share: true

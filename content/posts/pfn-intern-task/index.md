@@ -7,7 +7,6 @@ categories:
   - インターン
 tags:
   - PFN
-  - インターン
   - Go
   - Python
 share: true

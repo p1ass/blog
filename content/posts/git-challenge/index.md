@@ -7,7 +7,6 @@ categories:
   - インターン
 tags:
   - mixi
-  - インターン
   - git
 share: true
 ---

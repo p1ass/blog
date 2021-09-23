@@ -18,6 +18,7 @@
 
     @media (max-width: 900px) {
       font-size: 1.75rem;
+      line-height: ($vertical-rhythm-unit * 1.5);
     }
   }
 
@@ -25,11 +26,9 @@
     text-decoration: underline;
   }
 
-
   img {
-    margin: 0 auto $vertical-rhythm-unit * 0.5 ;
+    margin: 0 auto $vertical-rhythm-unit * 0.5;
   }
-
 
   // CSS for making emoji inline
   img.emoji {
@@ -44,12 +43,9 @@
   }
 }
 
-
 .instagram-media {
   margin: 0 auto;
 }
-
-
 
 .author-wrapper {
   border: solid 1px $border;
@@ -93,7 +89,7 @@
     color: $gray;
     margin-right: 1rem;
 
-    &:hover{
+    &:hover {
       color: $gray-light;
     }
     @include transition(all 0.3s ease-out);

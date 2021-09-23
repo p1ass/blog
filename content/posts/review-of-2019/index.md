@@ -6,7 +6,6 @@ description: 1年ぶり2度目の振り返り記事です。今年も改めて�
 categories:
   - ポエム
 tags:
-  - ポエム
   - 振り返り
   - 個人開発
   - OSS

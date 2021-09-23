@@ -7,7 +7,6 @@ categories:
   - インターン
 tags:
   - LINE
-  - インターン
   - Java
 share: true
 ---

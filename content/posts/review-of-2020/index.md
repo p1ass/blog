@@ -6,7 +6,6 @@ description: 2020年の振り返りをする。年始のOKRの振り返りや趣
 categories:
   - ポエム
 tags:
-  - ポエム
   - 振り返り
   - 登壇
   - 本
