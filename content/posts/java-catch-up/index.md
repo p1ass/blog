@@ -9,7 +9,6 @@ tags:
   - Java
   - 入門
 share: true
-eyecatch: /posts/java-catch-up/ogp.png
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。

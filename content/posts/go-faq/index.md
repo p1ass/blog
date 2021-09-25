@@ -9,8 +9,6 @@ categories:
 tags:
   - Go
 share: true
-eyecatch: /posts/go-faq/ogp.png
-
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
@@ -35,13 +33,10 @@ Go はすべて値渡し (pass by value) です。
 
 ### Go の多値返却はタプルか？
 
-「タプル」の定義が言語仕様上定められていないので、Yes/Noで答えられません。
-	
+「タプル」の定義が言語仕様上定められていないので、Yes/No で答えられません。
 ただし、仕様書には "tuple assignment" というものが存在し、
-	
-> A tuple assignment assigns the individual elements of a multi-valued operation to a list of variables. 
-	
-	
+
+> A tuple assignment assigns the individual elements of a multi-valued operation to a list of variables.
 
 ```go
 x, y = f()
