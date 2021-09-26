@@ -1,6 +1,6 @@
 ---
 title: EnumやUnionの列挙子が増えたときに起こりうる人為的なバグを撲滅したい
-date: 2021-09-25T18:00:00+09:00
+date: 2021-09-27T18:00:00+09:00
 draft: false
 description:
 categories:
