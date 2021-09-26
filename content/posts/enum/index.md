@@ -71,7 +71,6 @@ type ErrorCode = 'Unknown' | 'InvalidArgument' | 'NotFound'
 
 const inputErrorCode = 'InvalidArgument' as ErrorCode // ここの値が変わる
 
-// switch文を使う場合
 switch (inputErrorCode) {
   case 'InvalidArgument':
     console.log('4xx error')
@@ -165,7 +164,7 @@ switch (inputErrorCode) {
 ### 静的解析ツールを用いてチェックする
 
 2 つ目の方法は静的解析ツールを使って静的に検出する方法です。
-TypeScript では ESLint のプラグインを用いることで switch のパターンチェック漏れの検出が可能です。
+TypeScript では ESLint のプラグインを用いることで switch 文のパターンチェック漏れの検出が可能です。
 
 {{<ex-link url="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md">}}
 
