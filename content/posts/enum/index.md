@@ -18,10 +18,10 @@ Enum や Union 型は、取りうる値を列挙する上で非常に便利な�
 曜日のように全列挙可能なものから、エラーコードのように本来 string 型として無限の集合だったものを有限の列挙としてアプリケーション側で扱うといったことまで様々な用途で使われます。
 
 これらは if や switch などの条件分岐やパターンマッチングを使って処理を分岐させます。
-しかし、これらの処理は列挙子を増えたときに意図しないバグを埋め込んでしまう場合も多いです。
+しかし、これらの処理は列挙子を増えたときに意図しないバグを埋め込んでしまうことも多いです。
 この記事では、Enum と switch を組み合わせたときに起こりうるバグを紹介しつつ、できるだけ静的にバグを発見するための方法を考えていきます。
 
-先に話をまとめると、この記事で伝えたいことは、
+先に話をまとめると、この記事に書いてあることは、
 
 - `default` はできるだけ使わないようにする
 - `switch` 式や `match` 式があるプログラミング言語は羨ましい
@@ -29,31 +29,23 @@ Enum や Union 型は、取りうる値を列挙する上で非常に便利な�
 
 になります。
 
-サンプルコードは TypeScript で書いています。
+サンプルコードは TypeScript と Rust で書いていますが、どの言語でも通用する話だと思っています￥。
 
 <!--more-->
 
 ## 列挙子が増えたときに起こりうるバグ
 
-次のような `DayOfWeek` 型を考えます。
+例として、次のような `Day` 型を考えます。
 
 ```typescript
-type DayOfWeek = 'Sunday' | 'Monday' | 'Thuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturdy'
+type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
 ```
 
 このとき、平日と休日で処理を分岐させるコードは次のようになります。
 
 ```typescript
-const inputDayOfWeek = 'Wednesday' as DayOfWeek // ここの値が変わる
+const inputDayOfWeek = 'Wednesday' as Day // ここの値が変わる
 
-// if文を使う場合
-if (inputDayOfWeek === 'Sunday' || inputDayOfWeek === 'Saturday') {
-  console.log('Holiday')
-} else {
-  console.log('Workday')
-}
-
-// switch文を使う場合
 switch (inputDayOfWeek) {
   case 'Sunday':
     console.log('Holiday')
@@ -68,8 +60,9 @@ switch (inputDayOfWeek) {
 ```
 
 特に変哲もないコードで、違和感ありません。
-break 忘れは話が逸れるので今回は考えません。
-また、曜日は天変地異でも怒らない限り増えないので、`DayOfWeek` 型の列挙子が増えることもないでしょう。
+break 忘れによるバグの可能性もありますが、今回の趣旨とは外れるので今回は考えません。
+
+曜日の数は天変地異でも怒らない限り増えないので、`Day` 型の列挙子が増えることもないでしょう。
 
 次に、同様のコードを `ErrorCode` 型に対して適用してみます。
 
@@ -77,13 +70,6 @@ break 忘れは話が逸れるので今回は考えません。
 type ErrorCode = 'Unknown' | 'InvalidArgument' | 'NotFound'
 
 const inputErrorCode = 'InvalidArgument' as ErrorCode // ここの値が変わる
-
-// if文を使う場合
-if (inputErrorCode === 'InvalidArgument' || inputErrorCode === 'NotFound') {
-  console.log('4xx error')
-} else {
-  console.log('5xx error')
-}
 
 // switch文を使う場合
 switch (inputErrorCode) {
@@ -110,39 +96,47 @@ type ErrorCode = 'Unknown' | 'InvalidArgument' | 'NotFound' | 'Unauthenticated'
 `inputErrorCode` が `Unauthenticated` だった場合、コンソールには `5xx error` が出力されます。
 本来、`Unauthenticated` は 4xx 系エラーなので、意図しない挙動になってしまいます。
 
+また、`default` を使っていない場合は処理が突き抜けてしまいます。
+
+```typescript
+switch (inputErrorCode) {
+  case 'InvalidArgument':
+    console.log('4xx error')
+    break
+  case 'NotFound':
+    console.log('4xx error')
+    break
+  case 'Unknown':
+    console.log('5xx error')
+    break
+}
+
+// Unauthenticated だった場合なにも出力されない
+```
+
 そのため、`ErrorCode` に新しい列挙子が追加されたタイミングで、同時にコードも修正する必要があります。
 
-## 何を当たり前なことを言っているんだ TODO
+## 修正箇所を人間が確かめるのは辛い
 
 新しい列挙子が増えたのであれば、その列挙子を使う可能性があるコードを修正しないといけないのは当たり前です。
 
 しかし、**ここで本当に問題なのは `ErrorCode` 列挙子が増えたとしてもコンパイルが成功してしまうこと**にあります。
-if 文を使った場合でも switch 文を使った場合でもコンパイルが通ってしまいます。
-コンパイルが通ってしまうということは、列挙子の追加に伴うコード変更が必要な箇所を人間が網羅チェックする必要があります。
+if 文を使った場合でも switch 文を使った場合でも、列挙子を増やしてもコンパイルが通ってしまいます。
+コンパイルが通ってしまうということは、列挙子の追加に伴うコード変更が必要な箇所を人間が網羅的にチェックすることになります。
 せっかく列挙型を使っているのに勿体ないです。
-修正箇所が少なければ良いですが、修正箇所が多いとそのうち修正を漏らしてしまうことは容易に想像がつくでしょう。
+修正箇所が少なければ良いですが、修正箇所が多いと修正を漏らす可能性が高まるは容易に想像がつくでしょう。
 
-また、こういった修正は GitHub の diff ビューとの相性が悪いです。diff だけではすべての変更が行われたか確認するのが困難で、PR Author を信頼するか、ローカルにチェックアウトして grep や LSP を駆使してチェックしなければなりません。
+また、こういった修正は GitHub の diff ビューとの相性が悪いです。diff だけではすべての変更が行われたか確認するのが困難で、PR Author を信頼するか、ローカルにチェックアウトして grep やエディターのサポートを駆使してチェックしなければなりません。
 
-## 見出し TODO
+## 機械的に仕様へ追従できる方法を考える
 
-このままだと人間を信用しないといけないので、なんらかの方法で修正すべきか確認すべきポイントを機械的にチェックできないか考えてみます。
+このままだと人間を信用しないといけないので、機械的に修正確認ポイントを網羅的にチェックできないか考えてみます。
 
-### 想定外の値の場合は例外を吐く
+### `default` を使って想定外の値の場合は例外を吐く
 
-１つ目は取りうる値は全列挙し、`default` は想定外の値の場合に例外を吐くために使う方法です。
+１つ目は取りうる値は全列挙し、`default` を想定外の値の場合に例外を吐くために使う対応です。
 
 ```typescript
-// if文を使う場合
-if (inputErrorCode === 'InvalidArgument' || inputErrorCode === 'NotFound') {
-  console.log('4xx error')
-} else if (inputErrorCode === 'Unknown') {
-  console.log('5xx error')
-} else {
-  throw new Error('unexpected input error code')
-}
-
-// switch文を使う場合
 switch (inputErrorCode) {
   case 'InvalidArgument':
     console.log('4xx error')
@@ -158,18 +152,19 @@ switch (inputErrorCode) {
 }
 ```
 
-Union 型の良いところは全列挙可能なところにあるので、`default` を使わず列挙します。
-これにより、`default` の場合は `inputErrorCode` が `never` 型に推論されるので、例外が吐かれることはありません。
+取りうる列挙子を `default` を使わず列挙します。
+これにより、`default` の場合は `inputErrorCode` が `never` 型に推論されるので、例外に到達することはありません。
 
 `ErrorCode` に新しい列挙子が増えた場合は、`default` に入りうるため例外が吐かれる可能性がでてきます。
-このようにすれば、たとえ実装の修正を忘れてリリースされても正しくアラートをセットしていれば気づく可能性が高まります。
+このようにすれば、たとえ実装の修正を忘れてリリースされても、正しくアラートをセットしていれば気づくことができます。
 
-しかし、これは予防策ではないので、対策としては微妙です。
+しかし、これは予防策ではないので、未然にバグを取り除くことはできません。
+対策としては微妙です。
 できればランタイムではなくコンパイルか静的的に検知したいです。
 
 ### 静的解析ツールを用いてチェックする
 
-静的に検出する方法として静的解析ツールが挙げられます。TypeScript では ESLint をのプラグインを用いることで検出が可能です。
+静的に検出する方法として静的解析ツールが挙げられます。TypeScript では ESLint のプラグインを用いることで検出が可能です。
 
 {{<ex-link url="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md">}}
 
@@ -189,8 +184,8 @@ switch (day) {
 }
 ```
 
-このように switch 文ですべての列挙子を網羅的にチェックしていない場合、エラーになります。
-これにより、CI で機械的に潜在的なバグを検出できます。
+このように switch 文ですべての列挙子を網羅的にチェックしていない場合、Lint がエラーになります。
+これにより、CI で機械的に潜在的なバグになりうる箇所を検出できます。
 一方で、`default`を使っていると Lint がパスしてしまうので、今回のような列挙子が増えた場合の検出には使えません。
 
 **パスする例 (リンク先より引用)**
@@ -212,7 +207,7 @@ switch (day) {
 }
 ```
 
-そのため、できるだけ `default` を使わないようにすると良いでしょう。
+そのため、この方法を取る場合はできるだけ `default` を使わないようにすると良いでしょう。
 
 なお、同様のツールは Go や Java にもあります。
 他の言語でも探せば見つかるかも知れません。
@@ -298,13 +293,13 @@ fn main() {
 
 ### それぞれの比較
 
-まず、共通して言えることはどの場合でも、`default` に相当するものを使っていると、バグとなりうる箇所の検出が難しいです。
-String の switch のように全列挙するのができなかったり面倒くさかったりするパターンはありますが、できるだけ使わないようにするほうが良さそうです。
+まず共通して言えることは、どの場合でも `default` に相当するものを使っていると、バグとなりうる箇所の検出が難しいです。
+string 型の switch のように全列挙するのができなかったり面倒くさかったりするパターンはありますが、できるだけ使わないようにするほうが良さそうです。
 
 その上で、switch 式や match 式がサポートしている言語を使うか、静的解析ツールを導入するかは使用している言語によるでしょう。
-
 静的解析ツールの場合、出来によって false negative が発生してしまう可能性は否定できませんが、なにもないよりは十分役割を果たしてくれると思います。
 
 ## 終わりに
 
-他に良い方法があれば教えて下さい。
+皆さんのプロジェクトでは、こういったバグを引き起こさないようにするための工夫をなにかしていますか？
+他に良さげな方法があれば教えて下さい。
