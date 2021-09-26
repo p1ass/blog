@@ -272,13 +272,6 @@ error[E0004]: non-exhaustive patterns: `Unauthenticated` not covered
 一方で、`_` を使ってしまうとコンパイルが通ってしまうのは他と同様です。
 
 ```rust
-enum ErrorCode {
-    Unknown,
-    InvalidArgument,
-    NotFound,
-    Unauthenticated,
-}
-
 fn main() {
     let inputErrorCode = ErrorCode::Unknown;
 
