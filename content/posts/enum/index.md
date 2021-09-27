@@ -209,6 +209,55 @@ switch (day) {
 
 そのため、この方法を取る場合はできるだけ `default` を使わないようにすると良いでしょう。
 
+**--追記--**
+
+TypeScript であれば、最後の `default` で `never` 型に代入するコードを書けばコンパイルで落とせるようです。
+
+```typescript
+interface Square {
+  kind: 'square'
+  size: number
+}
+
+interface Rectangle {
+  kind: 'rectangle'
+  width: number
+  height: number
+}
+
+// Someone just added this new `Circle` Type
+// We would like to let TypeScript give an error at any place that *needs* to cater for this
+interface Circle {
+  kind: 'circle'
+  radius: number
+}
+
+type Shape = Square | Rectangle | Circle
+
+function area(s: Shape): number {
+  if (s.kind === 'square') {
+    return s.size * s.size
+  } else if (s.kind === 'rectangle') {
+    return s.width * s.height
+  }
+  // ここをコメントアウトするとエラーが消える
+  // else if (s.kind === "circle") {
+  //     return s.radius ** 2;
+  // }
+  else {
+    // ERROR : `Circle` is not assignable to `never`
+    const _exhaustiveCheck: never = s
+    throw new Error('unimplemented')
+  }
+}
+```
+
+{{<ex-link url="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyxyA1qACYBcyARAM5Y4S0DcRJ9wAXhDSJgC2AI2jsAvgQKhIsRCgBKEBGDggA5gBt8HYuRDU6uFWq0t2JZAHdgFMAAt+Q0VAsl7EYOvtgnIsQSSBAD0wWgA9oIQ4SAoAFaY9GDIcBQUEBTIDsD0yLFWyAAGAMLAUAjahcgAKgCeAA4QIWEA6ihW4ZiamZrApChg4cjayXWNqAhQwPXJ6sAAbihqyNBQ4VApyWq1yPWa8ln2cMkAVLEZ9CdZQwjH0Mgw64c50uDQ8EjIpeXayISW+kMtAQZQq5l0yCgqWAiT8LgkUjADRQqCOjWQAF40ExcMgAD7IJQmDS-AnfMHsAgwTAgFTAGIpXBwAAU9BoqLgjQAlHD7v8SMAYMhWQA6QGYjFYhg4lhcv4Qyy4MCYKAgZD0EVcXjIK4arUQNzESSWCCaegoQXCjXiyVS4yqEmy+WWRUQZWq9Uimx2ew6z0eLw+Q3IY0kULIQDKDBHAEkMgGaGQCHDIBnhkAEwyAIoZAGUMycAmgyAaIZABYMgAqGQCXDIAfhkAMgyACNtABIMOYh4dN5uQltFNsldBBPyd-OI4dd7rVGqhFBhuROVwATMHw6HiA2dC6w2EAKIKBQAeQUyBoJVBlSbuRA4S29C46hAcGEv0GRViiyghQVJAQMSSyAA+hAAB5HRJgBYQYoPAQUh+AgO9MXVYNLAcNYCnyZAlygNYoGZAByGlgEEPYICiN4KFQrkIUkcQgA">}}
+
+{{<ex-link url="https://typescript-jp.gitbook.io/deep-dive/type-system/discriminated-unions#chekkuexhaustive-checks">}}
+
+**--追記ここまで--**
+
 なお、同様のツールは Go や Java にもあります。
 他の言語でも探せば見つかるかも知れません。
 
