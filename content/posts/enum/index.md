@@ -258,8 +258,10 @@ function area(s: Shape): number {
 
 **--追記ここまで--**
 
-なお、同様のツールは Go や Java にもあります。
+なお、同様のツールは Go や Java[^java] にもあります。
 他の言語でも探せば見つかるかも知れません。
+
+[^java]: Java は switch 式が最近導入されています(https://openjdk.java.net/jeps/361)
 
 **Go**
 
