@@ -211,7 +211,7 @@ switch (day) {
 
 **--追記--**
 
-TypeScript であれば、最後の `default` で `never` 型に代入するコードを書けばコンパイルで落とせるようです。
+[友人](https://twitter.com/d0ra1998)に教えてもらったのですが、TypeScript であれば最後の `default` で `never` 型に代入するコードを書けばコンパイルで落とせるようです。
 
 ```typescript
 interface Square {
