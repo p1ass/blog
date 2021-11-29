@@ -20,13 +20,17 @@ _この記事は[DeNA 21 新卒 ×22 新卒内定者 Advent Calendar 2021](https
 いよいよ[DeNA 21 新卒 ×22 新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)が始まります 🙌  
 今年は新卒と内定者によるこの Advent Calendar と DeNA のエンジニアが担当する[DeNA Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena)の 2 種類があるので、どちらもぜひチェックしてください！
 
-この記事は 1 日目ではありますが軽いネタを紹介できればと思います。
+---
 
-さて、世の中には何らかのコレクションから条件に一致するものをフィルターする処理がよくあります。
+さて、ここからは本題に入っていきます。
+
+世の中には何らかのコレクションから条件に一致するものをフィルターする処理がよくあります。
 例えば、「ユーザ一覧の中から年齢が一定以上の人のみを表示する」などです。(こういった条件をこれ以降「フィルター条件」と呼びます。)
 
-このようなフィルター条件は一つであれば簡単ですが、複数の条件が組み合わさると少しずつ複雑になっていき自由度が減ってしまいます。
-今回はいくつかのフィルター条件を複由自在に組み合わせて新たな合成フィルター条件を作り出すためのデータ構造を紹介します。
+このようなフィルター条件は一つであれば簡単ですが、複数の条件が組み合わさると少しずつ複雑になっていきます。
+また、これらの条件がプログラムの中に静的に埋め込まれるのではなく、エンドユーザーのリクエストによって動的に変化すると、より面倒になってきます。
+
+今回はいくつかのフィルター条件を自由自在に組み合わせて新たな合成フィルター条件を作り出すためのデータ構造を紹介します。
 簡単な構造ですが自由度を保ちつつ複雑なフィルター条件を実装できるので、参考になれば幸いです。
 
 <!-- TODO: イントロが結構微妙な気がするのであとで直す -->
@@ -53,7 +57,7 @@ func extractFilteredUsers(users []twitter.User) []twitter.User {
 }
 ```
 
-## AND や OR も１つのフィルター条件として考えるデータ構造
+## AND や OR も１つのフィルター条件として扱うデータ構造
 
 先述の要件に対して私が書いたのは次のようなコードです。
 
@@ -63,7 +67,7 @@ type FilterCondition interface {
 }
 
 // NameContainFilter はFilterConditionを実装する構造体
-// エンドユーザーが指定できるフィルター条件
+// エンドユーザーが指定できるフィルター条件の一例
 type NameContainFilter struct {
 	containWord string
 }
@@ -72,6 +76,7 @@ func (f *NameContainFilter) filter(user twitter.User) bool {
 	return strings.Contains(user.Name, f.containWord)
 }
 
+// ANDFilter はleftとright両方を満たしているか確認する
 type ANDFilter struct {
 	left  FilterCondition
 	right FilterCondition
@@ -81,6 +86,7 @@ func (f *ANDFilter) filter(user twitter.User) bool {
 	return f.left.filter(user) && f.right.filter(user)
 }
 
+// ORFilter はleftとrightのいずれかを満たしているか確認する
 type ORFilter struct {
 	left  FilterCondition
 	right FilterCondition
@@ -105,7 +111,7 @@ func extractFilteredUsers(users []twitter.User, filterCondition FilterCondition)
 まず、`FilterCondition` としてフィルター条件を表す interface を定義します。
 そして、それを実装する形で`NameContainFilter`というフィルター条件を一例として実装しています。
 
-鍵になるのが、`ANDFilter` や `ORFilter` で、これらを同様に `FilterCondition` として実装しています。
+鍵になるのが、`ANDFilter` や `ORFilter` で、これらも同様に `FilterCondition` を実装しています。
 このように実装することで、任意の `FilterCondition` を複数合成して、複雑な `FilterCondition` を生成できます。
 
 ```go
@@ -158,7 +164,7 @@ nestedFilter := &ANDFilter{
 
 今回の実装は、二項演算子の構文解析における抽象構文木(AST)から着想を得ています。
 
-例えば、Go で AND 式を AST で表すと次のような形になります。
+例えば、Go で `hoge && fuga` を AST で表すと次のような形になります。
 
 ```go
 package main
@@ -168,24 +174,26 @@ import (
 )
 
 func main() {
-	hoge && fuga
+	hoge := true
+	fuga := false
+	fmt.Println(hoge && fuga)
 }
 
 /*
-    56  .  .  .  .  .  .  X: *ast.BinaryExpr {
-    57  .  .  .  .  .  .  .  X: *ast.Ident {
-    58  .  .  .  .  .  .  .  .  NamePos: foo:8:2
-    59  .  .  .  .  .  .  .  .  Name: "hoge"
-    60  .  .  .  .  .  .  .  .  Obj: nil
-    61  .  .  .  .  .  .  .  }
-    62  .  .  .  .  .  .  .  OpPos: foo:8:7
-    63  .  .  .  .  .  .  .  Op: &&
-    64  .  .  .  .  .  .  .  Y: *ast.Ident {
-    65  .  .  .  .  .  .  .  .  NamePos: foo:8:10
-    66  .  .  .  .  .  .  .  .  Name: "fuga"
-    67  .  .  .  .  .  .  .  .  Obj: nil
-    68  .  .  .  .  .  .  .  }
-    69  .  .  .  .  .  .  }
+   119  .  .  .  .  .  .  .  .  0: *ast.BinaryExpr {
+   120  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   121  .  .  .  .  .  .  .  .  .  .  NamePos: foo:10:14
+   122  .  .  .  .  .  .  .  .  .  .  Name: "hoge"
+   123  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 60)
+   124  .  .  .  .  .  .  .  .  .  }
+   125  .  .  .  .  .  .  .  .  .  OpPos: foo:10:19
+   126  .  .  .  .  .  .  .  .  .  Op: &&
+   127  .  .  .  .  .  .  .  .  .  Y: *ast.Ident {
+   128  .  .  .  .  .  .  .  .  .  .  NamePos: foo:10:22
+   129  .  .  .  .  .  .  .  .  .  .  Name: "fuga"
+   130  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 84)
+   131  .  .  .  .  .  .  .  .  .  }
+   132  .  .  .  .  .  .  .  .  }
    */
 ```
 
@@ -193,13 +201,15 @@ _https://yuroyoro.github.io/goast-viewer/ を利用しています。_
 
 この例では、`*ast.BinaryExpr` が演算子を表し、`X` と `Y` にそれぞれ `*ast.Ident` が含まれています。
 `*ast.BinaryExpr` と `*ast.Ident` は両方とも `ast.Node` インターフェースを満たしています。
-この関係性は `FilterCondition` と同じ関係になります。
+
+この関係性は `ANDFilter` と `NameContainFilter` が両方とも `FilterCondition` を満たす関係性と同じです。
+当たり前ですがやっていることは何も変わらないわけですね。
 
 ## おわりに
 
 今回は二項演算子の AST から着想を得たデータ構造を用いて、任意のフィルター条件を自由自在に組み合わせるデータ構造を紹介しました。
 
-このデータ構造をそのまま活かせる状況に出会うことは少ないかと思いますが、「別の用途でよく使われているデータ構造が他の用途でも使えるかもしれない」と思えるきっかけになれば幸いです。
+なかなかニッチなネタなのでこのデータ構造をそのまま活かせる状況に出会うことは少ないかと思いますが、「別の用途でよく使われているデータ構造が他の用途でも使えるかもしれない」と思えるきっかけになれば幸いです。
 
 最後になりますが、[DeNA 21 新卒 ×22 新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)と[DeNA Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena)はそれぞれ新しい記事がどんどん投稿されていきます。
 新着記事の情報は[DeNA 公式 Twitter アカウント @DeNAxTech](https://twitter.com/DeNAxTech)でキャッチできるので、ぜひフォローをお願いします！
