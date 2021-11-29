@@ -160,7 +160,7 @@ nestedFilter := &ANDFilter{
 
 ## 二項演算子の AST から着想を得たアイデア
 
-今回の実装は、二項演算子の式(binary expression)の抽象構文木(AST)から着想を得ています。
+今回の実装は、二項演算子を持つ式(binary expression)の抽象構文木(AST)から着想を得ています。
 
 例えば、Go で `hoge && fuga` を AST で表すと次のような形になります。
 
