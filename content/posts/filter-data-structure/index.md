@@ -21,6 +21,7 @@ _この記事は[DeNA 21新卒×22新卒内定者 Advent Calendar 2021](https://
 <!-- prettier-ignore -->
 いよいよ[DeNA 21新卒×22新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)が始まります 🙌  
 今年は新卒と内定者によるこの Advent Calendar と DeNA のエンジニアが担当する[DeNA Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena)の 2 種類があるので、どちらもぜひチェックしてください！
+（執筆時点では新卒 Advent Calendar はまだ埋めてないですがこれから埋まっていくはず...!）
 
 ---
 
