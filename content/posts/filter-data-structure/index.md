@@ -122,7 +122,7 @@ func TestFilterCondition(t *testing.T) {
 
 	var filterCondition FilterCondition
 
-	// 名前に「太郎」か「斎藤」が含まれるユーザを抜き出すフィルター条件
+	// 名前に「太郎」か「佐藤」が含まれるユーザを抜き出すフィルター条件
 	filterCondition = &ORFilter{
 		left:  &NameContainFilter{containingWord: "太郎"},
 		right: &NameContainFilter{containingWord: "佐藤"},
