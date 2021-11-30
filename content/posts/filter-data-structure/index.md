@@ -13,11 +13,13 @@ tags:
 share: true
 ---
 
-_この記事は[DeNA 21 新卒 ×22 新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)の 1 日目の記事です。_
+<!-- prettier-ignore -->
+_この記事は[DeNA 21新卒×22新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)の 1 日目の記事です。_
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
-いよいよ[DeNA 21 新卒 ×22 新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)が始まります 🙌  
+<!-- prettier-ignore -->
+いよいよ[DeNA 21新卒×22新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)が始まります 🙌  
 今年は新卒と内定者によるこの Advent Calendar と DeNA のエンジニアが担当する[DeNA Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena)の 2 種類があるので、どちらもぜひチェックしてください！
 
 ---
@@ -201,15 +203,27 @@ _https://yuroyoro.github.io/goast-viewer/ を利用しています。_
 `*ast.BinaryExpr` と `*ast.Ident` は両方とも `ast.Node` インターフェースを満たしています。
 
 この関係性は `ANDFilter` と `NameContainFilter` が両方とも `FilterCondition` を満たす関係性と同じです。
-当たり前ですがやっていることは何も変わらないわけですね。
+
+### Composite パターン
+
+今回はボトムアップ的に AST とフィルター条件のデータ構造の共通性を見出しましたが、ある方からこのような共通のインターフェースを実装した木構造を伴う再帰的なデータ構造は Composite パターンと呼ばれていると教えてもらいました。
+
+{{<ex-link url="https://ja.wikipedia.org/wiki/Composite_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">}}
+
+![Composite パターン](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Composite_UML_class_diagram_%28fixed%29.svg/2560px-Composite_UML_class_diagram_%28fixed%29.svg.png)
+_Wikipedia より引用_
+
+Composite パターンの他の利用例としては、ファイルシステムなどが挙げられます。
 
 ## おわりに
 
 今回は二項演算子の AST から着想を得たデータ構造を用いて、任意のフィルター条件を自由自在に組み合わせるデータ構造を紹介しました。
 
-なかなかニッチなネタなのでこのデータ構造をそのまま活かせる状況に出会うことは少ないかと思いますが、「別の用途でよく使われているデータ構造が他の用途でも使えるかもしれない」と思えるきっかけになれば幸いです。
+結果としては Composite パターンを自ら発見したというだけで、目新しさがあるわけでもない記事になってしまいましたが、「別の用途でよく使われているデータ構造を他の用途にも応用できるかも？」と考えるきっかけになれば幸いです。
+また、これを機に体系化されているデザインパターンについて調べてみようかと思います。
 
-最後になりますが、[DeNA 21 新卒 ×22 新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)と[DeNA Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena)はそれぞれ新しい記事がどんどん投稿されていきます。
-新着記事の情報は[DeNA 公式 Twitter アカウント @DeNAxTech](https://twitter.com/DeNAxTech)でキャッチできるので、ぜひフォローをお願いします！
+<!-- prettier-ignore -->
+最後になりますが、[DeNA 21新卒×22新卒内定者 Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena-21x22)と [DeNA Advent Calendar 2021](https://qiita.com/advent-calendar/2021/dena)はそれぞれ新しい記事がどんどん投稿されていきます。
+新着記事の情報は [DeNA 公式 Twitter アカウント @DeNAxTech](https://twitter.com/DeNAxTech)でキャッチできるので、ぜひフォローをお願いします！
 
 それでは、明日以降の記事もお楽しみに！
