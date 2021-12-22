@@ -50,17 +50,17 @@ share: true
 そのため、仕事終わりの夜や休日は基本的に好きな時間ができるようになりました。
 言い方を変えれば**可処分時間が増えた**というところでしょうか。
 
-この可処分時間で何をしていたかを振り返ってみると、この辺が増えたと感じています。
+この可処分時間をしていたことを振り返ってみると、この辺りが増えたと感じています。
 
 - 本の読む時間が増えた
 - ゲームをする時間が増えた
 - 友人とプログラミング以外のことで遊ぶことが増えた
 
-今までも技術書は読むことには読んでいたのですが、少し空いた時間にねじ込んで読んでいました。
-しかし、今年は「暇だから読む」という流れが多く、「読みたいから時間を作る」とは逆の流れになりました。
+今までも技術書を読むことには読んでいたのですが、少し空いた時間にねじ込んで読んでいました。
+しかし、今年は「暇だから読む」という流れが多く、今までの「読みたいから時間を作る」とは逆の流れになりました。
 
 これは結構大きな変化で、今まで手を出しにくかった **「興味はあるけど、さほど急ぎではない」** という本にも手を出せるようになりました。
-読んだ本それぞれの詳細を書くことは省略しますが、いくつかの Amazon のリンクとブログ記事をおいておくので、興味があったらクリックしてみてください。
+読んだ本それぞれの詳細を書くことは省略しますが、いくつかの Amazon のリンクとブログ記事をおいておくので、興味があったら覗いてみてください。
 
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=p1ass02-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B084QBQDZ3&linkId=7d32b2090e3d052e26bffe49ad7eb860"></iframe>
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=p1ass02-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4297103265&linkId=b7ea802eae712bc6b635f4d0285ddb2c"></iframe>
