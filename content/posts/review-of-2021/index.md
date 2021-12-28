@@ -1,8 +1,8 @@
 ---
 title: 2021年の振り返り
-date: 2021-12-18T20:45:00+09:00
+date: 2021-12-28T20:45:00+09:00
 draft: false
-description: TODO
+description: 年末恒例、人生の振り返り記事です。今年は時間・仕事・投資・趣味の 4 トピックでお届けします。
 categories:
   - ポエム
 tags:
