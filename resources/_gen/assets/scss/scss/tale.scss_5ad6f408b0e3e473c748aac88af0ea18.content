@@ -841,4 +841,10 @@ footer {
   display: block;
   margin-bottom: 1.7rem; }
 
+details {
+  border: 1px solid #DDE0E4;
+  border-radius: 0.425rem;
+  padding: 0.85rem 1.7rem;
+  margin-bottom: 1.7rem; }
+
 /*# sourceMappingURL=style.css.map */

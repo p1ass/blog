@@ -7,6 +7,7 @@
     <!-- -->
     {{ partial "post-detail.html" . }}
     <div class="post-content">
+      {{ partial "toc" .}}
       {{ .Content }}
       <!-- -->
       {{ $related := .Site.RegularPages.Related . | first 4 }} {{ with $related }}
