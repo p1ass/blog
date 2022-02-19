@@ -1,0 +1,34 @@
+.note {
+  background-color: $orange-light;
+  border-radius: $vertical-rhythm-unit * 0.5;
+  padding: $vertical-rhythm-unit * 0.75 $vertical-rhythm-unit;
+  margin-bottom: $vertical-rhythm-unit;
+  display: flex;
+  align-items: stretch;
+
+  .icon-wrapper {
+    height: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .fa-circle-info {
+    font-size: 1.5rem;
+    color: $orange;
+    padding-right: $vertical-rhythm-unit;
+  }
+
+  .text {
+    margin: 0;
+    color: $text-on-orange;
+  }
+
+  @media (max-width: 600px) {
+    padding: $vertical-rhythm-unit * 0.5 $vertical-rhythm-unit $vertical-rhythm-unit * 0.5
+      $vertical-rhythm-unit * 0.5;
+
+    .fa-circle-info {
+      padding-right: $vertical-rhythm-unit * 0.5;
+    }
+  }
+}

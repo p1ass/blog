@@ -6,8 +6,8 @@
 
 html,
 body {
-  color: #1E2126;
-  background-color: #FFFFFF;
+  color: #1e2126;
+  background-color: #ffffff;
   margin: 0;
   padding: 0; }
 
@@ -48,25 +48,25 @@ h2:after {
   display: block;
   height: 2px;
   content: '';
-  background-color: #4172B5; }
+  background-color: #4172b5; }
 
 h3 {
   font-size: 1.3rem;
   line-height: 2.55rem;
-  border-bottom: 1px solid #DDE0E4; }
+  border-bottom: 1px solid #dde0e4; }
 
 h4 {
   font-size: 1.2rem;
   line-height: 1.7rem; }
 
 a {
-  color: #4172B5;
+  color: #4172b5;
   text-decoration: none;
   word-break: break-all; }
 
 blockquote {
-  border-left: 0.25rem solid #DDE0E4;
-  color: #636E7D;
+  border-left: 0.25rem solid #dde0e4;
+  color: #636e7d;
   margin: 0.8rem 0;
   padding: 0.5rem 1rem; }
   blockquote p:last-child {
@@ -79,7 +79,7 @@ img {
   margin: 0 auto 0.85rem;
   max-width: 100%;
   max-height: 400px;
-  border: 1px solid #DDE0E4; }
+  border: 1px solid #dde0e4; }
 
 td {
   vertical-align: top; }
@@ -115,10 +115,10 @@ table {
   margin-bottom: 1.7rem; }
 
 table th {
-  border-bottom: solid 2px #4172B5; }
+  border-bottom: solid 2px #4172b5; }
 
 table tr {
-  border-bottom: solid 1px #DDE0E4; }
+  border-bottom: solid 1px #dde0e4; }
 
 table th,
 table td {
@@ -130,7 +130,7 @@ iframe {
   margin-bottom: 1.7rem; }
 
 em {
-  color: #636E7D;
+  color: #636e7d;
   display: block;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   font-size: 0.9rem;
@@ -138,23 +138,23 @@ em {
   text-align: center; }
 
 .tag {
-  color: #636E7D;
+  color: #636e7d;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out; }
   .tag:hover {
-    color: #1E2126; }
+    color: #1e2126; }
 
 .reading-time {
-  color: #636E7D; }
+  color: #636e7d; }
 
 pre,
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
 
 code {
-  background-color: #F9F9FA;
-  border: 1px solid #DDE0E4;
+  background-color: #f9f9fa;
+  border: 1px solid #dde0e4;
   border-radius: 0.2125rem;
   font-size: 85%;
   padding: 0.2125rem 0.5em; }
@@ -167,11 +167,11 @@ pre code {
   border: none;
   font-size: 100%;
   padding: 0;
-  color: #DDE0E4; }
+  color: #dde0e4; }
 
 .highlight {
-  color: #DDE0E4;
-  background-color: #1E2126;
+  color: #dde0e4;
+  background-color: #1e2126;
   border-radius: 0.85rem;
   margin: 0 0 1.7rem;
   padding: 0.85rem; }
@@ -179,7 +179,7 @@ pre code {
     margin-bottom: 0;
     overflow-x: auto; }
   .highlight .lineno {
-    color: #636E7D;
+    color: #636e7d;
     display: inline-block;
     padding: 0 .75rem 0 .25rem;
     -webkit-user-select: none;
@@ -189,7 +189,7 @@ pre code {
 .post {
   padding: 0; }
   .post-info {
-    color: #636E7D;
+    color: #636e7d;
     font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
     letter-spacing: 1px;
     text-align: center;
@@ -221,7 +221,7 @@ pre code {
   margin: 0 auto; }
 
 .author-wrapper {
-  border: solid 1px #DDE0E4;
+  border: solid 1px #dde0e4;
   padding: 0.85rem;
   border-radius: 0.85rem;
   display: flex;
@@ -250,13 +250,13 @@ pre code {
       .author-wrapper .author-description {
         font-size: 0.85rem; } }
   .author-wrapper .author-sns-link {
-    color: #1E2126;
+    color: #1e2126;
     margin-right: 1rem;
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out; }
     .author-wrapper .author-sns-link:hover {
-      color: #636E7D; }
+      color: #636e7d; }
   .author-wrapper .author-sns-github {
     color: #211f1f;
     padding-right: 0.2rem; }
@@ -305,8 +305,7 @@ pre code {
 
 /* Comment.Special */
 .highlight .gd {
-  background-color: #fcc;
-  border: 1px solid #c00; }
+  background-color: #8f0000; }
 
 /* Generic.Deleted */
 .highlight .ge {
@@ -318,8 +317,7 @@ pre code {
 
 /* Generic.Error */
 .highlight .gi {
-  background-color: #cfc;
-  border: 1px solid #0c0; }
+  background-color: #004d00; }
 
 /* Generic.Inserted */
 .highlight .go {
@@ -514,7 +512,7 @@ footer,
 
 .nav {
   overflow: auto;
-  border-bottom: 1px solid #DDE0E4; }
+  border-bottom: 1px solid #dde0e4; }
   .nav-container {
     margin: 0.85rem auto;
     text-align: center; }
@@ -523,9 +521,9 @@ footer,
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
     margin: 0.425rem 0;
-    color: #1E2126; }
+    color: #1e2126; }
     .nav-title:hover, .nav-title:focus {
-      color: #636E7D; }
+      color: #636e7d; }
     .nav-title:after {
       display: none; }
   .nav ul {
@@ -543,12 +541,12 @@ footer,
         padding: 0 0 0.425rem 0;
         width: 100px; } }
   .nav a {
-    color: #636E7D;
+    color: #636e7d;
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out; }
     .nav a:hover, .nav a:focus {
-      color: #1E2126; }
+      color: #1e2126; }
 
 footer {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
@@ -567,7 +565,7 @@ footer {
   margin-top: 1.7rem; }
 
 .pagination {
-  border-top: 0.5px solid #DDE0E4;
+  border-top: 0.5px solid #dde0e4;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   padding-top: 2rem;
   display: inline-flex;
@@ -587,8 +585,8 @@ footer {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    border: solid 1px #1E2126;
-    color: #1E2126;
+    border: solid 1px #1e2126;
+    color: #1e2126;
     width: 60px;
     border-radius: 0.425rem;
     padding: 0.425rem 1rem;
@@ -596,8 +594,8 @@ footer {
     display: flex;
     justify-content: center; }
     .pagination .arrow:hover, .pagination .arrow:focus {
-      background-color: #1E2126;
-      color: #FFFFFF;
+      background-color: #1e2126;
+      color: #ffffff;
       text-decoration: none; }
 
 .empty-arrow {
@@ -609,14 +607,14 @@ footer {
 .top {
   text-align: center; }
   .top a {
-    color: #1E2126;
+    color: #1e2126;
     font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
     font-size: 1.1rem;
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out; }
     .top a:hover {
-      color: #636E7D; }
+      color: #636e7d; }
 
 .catalogue-section {
   margin-bottom: 1.7rem; }
@@ -625,7 +623,7 @@ footer {
   border-top: none; }
 
 .catalogue-item {
-  border-top: 1px solid #DDE0E4;
+  border-top: 1px solid #dde0e4;
   display: block;
   padding: 1.7rem 0; }
   .catalogue-item:hover .catalogue-line, .catalogue-item:focus .catalogue-line {
@@ -634,13 +632,13 @@ footer {
     border: 0; }
 
 .catalogue-time {
-  color: #636E7D;
+  color: #636e7d;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   letter-spacing: 1px; }
 
 .catalogue-title {
   display: block;
-  color: #1E2126;
+  color: #1e2126;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   font-size: 2rem;
   margin: 0.425rem 0; }
@@ -652,13 +650,13 @@ footer {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  border-top: 0.2rem solid #4172B5;
+  border-top: 0.2rem solid #4172b5;
   display: block;
   width: 2rem; }
 
 .catalogue-more-button {
-  background-color: #1E2126;
-  color: #FFFFFF;
+  background-color: #1e2126;
+  color: #ffffff;
   width: 120px;
   border-radius: 0.425rem;
   padding: 0.85rem 1rem;
@@ -670,7 +668,7 @@ footer {
   transition: all 0.3s ease-out; }
 
 .catalogue-more-button:hover {
-  background-color: #636E7D; }
+  background-color: #636e7d; }
 
 .catalogue-summary a {
   text-decoration: underline; }
@@ -776,7 +774,7 @@ footer {
 
 .embed-wrapper-inner {
   display: flex;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   font-size: 13px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.85rem;
@@ -784,7 +782,7 @@ footer {
   overflow: hidden; }
 
 .entry-body {
-  color: #1E2126;
+  color: #1e2126;
   display: flex;
   justify-content: space-between;
   flex: 1;
@@ -794,7 +792,7 @@ footer {
   -moz-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out; }
   .entry-body:hover {
-    background-color: #F9F9FA; }
+    background-color: #f9f9fa; }
   .entry-body .entry-title {
     font-size: 17px;
     margin: 0 0 0.85rem 0;
@@ -811,7 +809,7 @@ footer {
         font-size: 14px;
         margin: 0 0 0.85rem 0; } }
   .entry-body .entry-description {
-    color: #636E7D;
+    color: #636e7d;
     font-size: 12px;
     max-height: 3.4rem;
     overflow: hidden;
@@ -820,7 +818,7 @@ footer {
     -webkit-line-clamp: 1;
     line-height: 1.275rem; }
   .entry-body .entry-site-url {
-    color: #636E7D;
+    color: #636e7d;
     font-size: 12px; }
 
 .thumb-wrapper {
@@ -842,9 +840,33 @@ footer {
   margin-bottom: 1.7rem; }
 
 details {
-  border: 1px solid #DDE0E4;
+  border: 1px solid #dde0e4;
   border-radius: 0.425rem;
   padding: 0.85rem 1.7rem;
   margin-bottom: 1.7rem; }
+
+.note {
+  background-color: #fefae3;
+  border-radius: 0.85rem;
+  padding: 1.275rem 1.7rem;
+  margin-bottom: 1.7rem;
+  display: flex;
+  align-items: stretch; }
+  .note .icon-wrapper {
+    height: auto;
+    display: flex;
+    align-items: center; }
+  .note .fa-circle-info {
+    font-size: 1.5rem;
+    color: #f3bd55;
+    padding-right: 1.7rem; }
+  .note .text {
+    margin: 0;
+    color: #33322d; }
+  @media (max-width: 600px) {
+    .note {
+      padding: 0.85rem 1.7rem 0.85rem 0.85rem; }
+      .note .fa-circle-info {
+        padding-right: 0.85rem; } }
 
 /*# sourceMappingURL=style.css.map */
