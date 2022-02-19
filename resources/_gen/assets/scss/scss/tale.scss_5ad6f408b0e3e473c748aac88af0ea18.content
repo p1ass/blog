@@ -845,7 +845,7 @@ details {
   cursor: pointer; }
 
 .note {
-  background-color: #fefae3;
+  background-color: #e8f5fe;
   border-radius: 0.85rem;
   padding: 1.275rem 1.7rem;
   margin-bottom: 1.7rem;
@@ -857,11 +857,11 @@ details {
     align-items: center; }
   .note .fa-circle-info {
     font-size: 1.5rem;
-    color: #f3bd55;
+    color: #4172b5;
     padding-right: 1.7rem; }
   .note .text {
     margin: 0;
-    color: #33322d; }
+    color: #303233; }
   @media (max-width: 600px) {
     .note {
       padding: 0.85rem 1.7rem 0.85rem 0.85rem; }
