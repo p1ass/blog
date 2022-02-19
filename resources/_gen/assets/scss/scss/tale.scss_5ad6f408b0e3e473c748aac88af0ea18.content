@@ -13,7 +13,7 @@ body {
 
 html {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
-  font-size: 15.5px;
+  font-size: 15px;
   overflow-y: scroll; }
   @media (min-width: 600px) {
     html {
