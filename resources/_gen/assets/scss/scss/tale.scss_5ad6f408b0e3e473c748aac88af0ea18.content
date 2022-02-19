@@ -13,10 +13,9 @@ body {
 
 html {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI", "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
+  font-size: 16px;
   overflow-y: scroll; }
-  @media (min-width: 600px) {
-    html {
-      font-size: 16px; } }
+
 body {
   -webkit-text-size-adjust: 100%;
   margin: 0 1rem; }
@@ -155,7 +154,6 @@ code {
   background-color: #f9f9fa;
   border: 1px solid #dde0e4;
   border-radius: 0.2125rem;
-  font-size: 85%;
   padding: 0.2125rem 0.5em; }
 
 pre {
@@ -164,9 +162,9 @@ pre {
 pre code {
   background-color: transparent;
   border: none;
-  font-size: 100%;
   padding: 0;
-  color: #dde0e4; }
+  color: #dde0e4;
+  font-size: 15px; }
 
 .highlight {
   color: #dde0e4;
@@ -180,7 +178,7 @@ pre code {
   .highlight .lineno {
     color: #636e7d;
     display: inline-block;
-    padding: 0 .75rem 0 .25rem;
+    padding: 0 0.75rem 0 0.25rem;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none; }

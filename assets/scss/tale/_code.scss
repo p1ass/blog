@@ -7,8 +7,7 @@ code {
   background-color: $background-dark;
   border: 1px solid $border;
   border-radius: $vertical-rhythm-unit * 0.125;
-  font-size: 85%;
-  padding: $vertical-rhythm-unit * 0.125 .5em;
+  padding: $vertical-rhythm-unit * 0.125 0.5em;
 }
 
 pre {
@@ -17,10 +16,10 @@ pre {
 
 pre code {
   background-color: transparent;
-  border:none;
-  font-size: 100%;
+  border: none;
   padding: 0;
   color: $white-dark;
+  font-size: 15px;
 }
 
 .highlight {
@@ -38,10 +37,10 @@ pre code {
   .lineno {
     color: $gray-light;
     display: inline-block; // Ensures the null space also isn't selectable
-    padding: 0 .75rem 0 .25rem;
+    padding: 0 0.75rem 0 0.25rem;
     // Make sure numbers aren't selectable
     -webkit-user-select: none;
-       -moz-user-select: none;
-            user-select: none;
+    -moz-user-select: none;
+    user-select: none;
   }
 }
