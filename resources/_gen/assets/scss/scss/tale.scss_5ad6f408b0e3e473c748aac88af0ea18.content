@@ -154,6 +154,7 @@ code {
   background-color: #f9f9fa;
   border: 1px solid #dde0e4;
   border-radius: 0.2125rem;
+  font-size: 85%;
   padding: 0.2125rem 0.5em; }
 
 pre {
@@ -162,9 +163,9 @@ pre {
 pre code {
   background-color: transparent;
   border: none;
+  font-size: 15px;
   padding: 0;
-  color: #dde0e4;
-  font-size: 15px; }
+  color: #dde0e4; }
 
 .highlight {
   color: #dde0e4;

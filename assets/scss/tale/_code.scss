@@ -7,6 +7,7 @@ code {
   background-color: $background-dark;
   border: 1px solid $border;
   border-radius: $vertical-rhythm-unit * 0.125;
+  font-size: 85%;
   padding: $vertical-rhythm-unit * 0.125 0.5em;
 }
 
@@ -17,9 +18,9 @@ pre {
 pre code {
   background-color: transparent;
   border: none;
+  font-size: 15px;
   padding: 0;
   color: $white-dark;
-  font-size: 15px;
 }
 
 .highlight {
