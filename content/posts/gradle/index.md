@@ -75,7 +75,7 @@ Gradle は、柔軟性とパフォーマンスに重点を置いたオープン�
 
 今回は上記の理由により Kotlin を選びましたが、後々 Gradle を理解すれば Groovy で書いても問題になることは少ないと思います。
 
-## 3 章シンプルなプロジェクトで構成を学ぶ
+## 3 章 シンプルなプロジェクトで構成を学ぶ
 
 [Building Java Applications Sample](https://docs.gradle.org/current/samples/sample_building_java_applications.html)を参考に、シンプルなプロジェクトを使って Gradle のプロジェクトの構成について学びます。
 
