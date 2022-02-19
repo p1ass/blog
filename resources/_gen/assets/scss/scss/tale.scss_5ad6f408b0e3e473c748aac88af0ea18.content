@@ -841,8 +841,9 @@ details {
   border: 1px solid #dde0e4;
   border-radius: 0.425rem;
   padding: 0.85rem 1.7rem;
-  margin-bottom: 1.7rem;
-  cursor: pointer; }
+  margin-bottom: 1.7rem; }
+  details summary {
+    cursor: pointer; }
 
 .note {
   background-color: #e8f5fe;

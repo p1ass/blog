@@ -12,7 +12,7 @@ tags:
 share: true
 ---
 
-## 1 章はじめに
+## 1 章 はじめに
 
 こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
@@ -496,7 +496,7 @@ TaskContainer には `register` メソッドが定義されており、タスク
 
 タスクの具体的な処理は[アクション (Action)](https://docs.gradle.org/current/javadoc/org/gradle/api/Action.html)という形で抽象化されています。
 タスクが実行されるとタスクに紐付けられているのアクションが順に実行されます。
-アクションは [org.gradle.api.Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html)に定義されている`doFirst` や `doLast` を通じて、順序を指定しながらタスクに紐付けます。
+アクションは [org.gradle.api.Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html)に定義されている `doFirst` や `doLast` を通じて、順序を指定しながらタスクに紐付けます。
 
 この例では、`showJavaHome` というタスクに `JAVA_HOME` を表示するというアクションを紐付けていることになります。
 
