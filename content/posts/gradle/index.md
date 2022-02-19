@@ -227,7 +227,7 @@ Kotlin DSL としては、[org.gradle.kotlin.dsl.support.delegates.SettingsDeleg
 
 ここまで知っていれば、 `Settings`のドキュメントや IDE の定義参照を使うことで、 `settings.gradle.kts` で設定できる値がすぐ分かります。
 
-`gradle init`で生成された `settings.gradle.kts` 設定されている値の意味は次の通りです。
+`gradle init`で生成された `settings.gradle.kts` で設定されている値の意味は次の通りです。
 
 - `rootProject.name` : プロジェクトの名前を指定する。
 - `include(”app”)` : `app` というサブプロジェクトをビルドに含めることを定義する。新しいサブプロジェクトを追加したときはここに追記する。
