@@ -24,8 +24,7 @@
   }
 
   @media (max-width: 600px) {
-    padding: $vertical-rhythm-unit * 0.5 $vertical-rhythm-unit $vertical-rhythm-unit * 0.5
-      $vertical-rhythm-unit * 0.5;
+    padding: $vertical-rhythm-unit * 0.5;
 
     .fa-circle-info {
       padding-right: $vertical-rhythm-unit * 0.5;
