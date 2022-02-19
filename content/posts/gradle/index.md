@@ -16,10 +16,10 @@ share: true
 
 こんにちは、{{<link href="https://twitter.com/p1ass" text="@p1ass" >}}です。
 
-最近、Gradle を使ったプロジェクトをいじるようになりました。
-以前から Gradle を使ったことはあったのですが、ほとんど雰囲気で触っていたため、いざ Gradle スクリプトを変更しようとすると戸惑ってしまうことが多々ありました。そのため、改めて Gradle について学んだほうが良かろうということになりました。
+最近、Gradle を使ったプロジェクトを 1 から構築することがありました。
+以前から Gradle を使ったことはあったのですが、ほとんど雰囲気で触っていたため、いざ諸々をセットアップしようとすると戸惑ってしまうことが多々ありました。そのため、改めて Gradle について学んだほうが良かろうということになりました。
 
-この記事では、改めて Gradle を学んだときに自分のためにまとめたドキュメントを再編集して公開します。
+この記事では、改めて Gradle を学んだ際に自分のためにまとめたドキュメントを再編集して公開します。
 
 <!--more-->
 
@@ -59,7 +59,7 @@ OS:           Mac OS X 11.6 x86_64
 
 Gradle は、柔軟性とパフォーマンスに重点を置いたオープンソースのビルドオートメーションツールです。Gradle のビルドスクリプトは Groovy または Kotlin DSL を使って記述できます。
 
-Gradle の特徴は次の通りです。
+[Gradle の特徴](https://docs.gradle.org/current/userguide/userguide.html)は次の通りです。
 
 - **高いカスタマイズ性** - Gradle はカスタマイズと拡張が可能なようにモデル化されています。
 - **高速** - Gradle は前回の実行結果からの出力を再利用し、変更のあった入力のみを処理します。また、タスクを並行して実行することで、タスクを高速に完了させます。
@@ -77,7 +77,7 @@ Gradle の特徴は次の通りです。
 
 ## 3 章シンプルなプロジェクトで構成を学ぶ
 
-[Building Java Applications Sample](https://docs.gradle.org/current/samples/sample_building_java_applications.html)を参考に、シンプルなプロジェクトで Gradle のプロジェクトがどのような構成になっているか学びます。
+[Building Java Applications Sample](https://docs.gradle.org/current/samples/sample_building_java_applications.html)を参考に、シンプルなプロジェクトを使って Gradle のプロジェクトの構成について学びます。
 
 ### プロジェクトを作成する
 
@@ -162,7 +162,7 @@ BUILD SUCCESSFUL in 582ms
 2 actionable tasks: 1 executed, 1 up-to-date
 ```
 
-無事 `Hello World` と出力されました。実行している `./gradlew` については後述します。
+無事 `Hello World` と出力されました。`./gradlew` スクリプトについては後述します。
 
 ### 具体的なプロジェクト構成を学ぶ
 
@@ -171,28 +171,28 @@ BUILD SUCCESSFUL in 582ms
 ```bash
 $ tree
 .
-├── app
-│   ├── build.gradle.kts # 4
-│   └── src
-│       ├── main
-│       │   ├── java
-│       │   │   └── entry
-│       │   │       └── gradle
-│       │   │           └── App.java
-│       │   └── resources
-│       └── test
-│           ├── java
-│           │   └── entry
-│           │       └── gradle
-│           │           └── AppTest.java
-│           └── resources
+├── settings.gradle.kts # 1
+├── gradlew # 2
+├── gradlew.bat # 2
 ├── gradle # 3
 │   └── wrapper
 │       ├── gradle-wrapper.jar
 │       └── gradle-wrapper.properties
-├── gradlew # 2
-├── gradlew.bat # 2
-└── settings.gradle.kts # 1
+└── app
+    ├── build.gradle.kts # 4
+    └── src
+        ├── main
+        │   ├── java
+        │   │   └── entry
+        │   │       └── gradle
+        │   │           └── App.java
+        │   └── resources
+        └── test
+            ├── java
+            │   └── entry
+            │       └── gradle
+            │           └── AppTest.java
+            └── resources
 ```
 
 このプロジェクトは複数のプロジェクトに分かれた**マルチプロジェクト**構成となっています。
@@ -202,7 +202,7 @@ $ tree
 - `/`のルートプロジェクト
 - `/app`のサブプロジェクト
 
-{{<note text="1つのプロジェクトのみにすることもできますが、複数人で開発する大きめのプロジェクトではマルチプロジェクトで使うことが多いです。このドキュメントでは、マルチプロジェクトを前提として解説します。">}}
+{{<note text="1つのプロジェクトのみにすることもできますが、複数人で開発する大きめのプロジェクトではマルチプロジェクト構成にすることが多いです。このドキュメントでは、マルチプロジェクトを前提として説明します。">}}
 
 次のセクションから生成されたファイルを順に見ていきます。
 
@@ -217,18 +217,17 @@ include("app")
 
 いくつか特徴を見てきます。
 
-まず、拡張子が `kts`です。これは Kotlin を使った DSL であることを表します。`kts`がついていない場合は Groovy で書かれた DSL となります。
+まず、拡張子が `kts`です。これは Kotlin を使った DSL であることを表します。`.kts`がついていない場合は Groovy で書かれた DSL となります。
 
 次に、何も import していないのにも関わらず、代入や関数呼び出しが行われています。
 `settings.gradle.kts` は[org.gradle.api.initialization.Settings](https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html)型と 1 対 1 で対応しています。そのため、 `Settings`に定義されているプロパティに暗黙的にアクセスできます。
-
 Kotlin DSL としては、[org.gradle.kotlin.dsl.support.delegates.SettingsDelegate](https://github.com/gradle/gradle/blob/master/subprojects/kotlin-dsl/src/main/kotlin/org/gradle/kotlin/dsl/support/delegates/SettingsDelegate.kt)に対応しており、IDE の定義参照などではこのファイルが参照されています。
 
 ![スクリーンショット 2022-01-15 15.06.48.png](./スクリーンショット_2022-01-15_15.06.48.png)
 
 ここまで知っていれば、 `Settings`のドキュメントや IDE の定義参照を使うことで、 `settings.gradle.kts` で設定できる値がすぐ分かります。
 
-`gradle init`で生成された `settings.gradle.kts`では以下の 2 つがデフォルトで設定されており、それぞれの意味は次の通りです。
+`gradle init`で生成された `settings.gradle.kts` 設定されている値の意味は次の通りです。
 
 - `rootProject.name` : プロジェクトの名前を指定する。
 - `include(”app”)` : `app` というサブプロジェクトをビルドに含めることを定義する。新しいサブプロジェクトを追加したときはここに追記する。
@@ -237,10 +236,10 @@ Kotlin DSL としては、[org.gradle.kotlin.dsl.support.delegates.SettingsDeleg
 
 これらは [**Gradle Wrapper**](https://docs.gradle.org/current/userguide/gradle_wrapper.html)と呼ばれるスクリプトです。
 
-Gradle Wrapper は、指定したバージョンで Gradle を起動するスクリプトです。指定したバージョンがインストールされていなければダウンロードしてくれます。
+Gradle Wrapper は、指定したバージョンの Gradle を起動するスクリプトです。指定したバージョンがインストールされていなければダウンロードしてくれます。
 この仕組みを使うことで、開発者は手動でインストールを作業することなく、Gradle プロジェクトを素早く実行できます。
 
-基本的に Gradle のバージョンはプロジェクトを通して統一することが望ましいので、各開発者は `gradle` コマンドを直接使わず、Gradle Wrapper を通じて実行することが推奨されています。
+基本的に Gradle のバージョンは開発者間で統一することが望ましいので、各開発者は `gradle` コマンドを直接使わず、Gradle Wrapper を通じて実行することが推奨されています。
 
 ```bash
 $ gradle run
@@ -248,7 +247,6 @@ $ ./gradlew run # こちらの方が好ましい
 ```
 
 なお、このスクリプトは基本的に開発者が編集する必要はありません。多くの開発者が設定したい値は後述する `gradle/wrapper/gradle-wrapper.properties`に定義することが多いです。
-
 何らかの理由で Gradle Wrapper をカスタマイズしたい場合は、ドキュメントを参照してください。
 
 {{<ex-link url="https://docs.gradle.org/current/userguide/gradle_wrapper.html#customizing_wrapper">}}
@@ -320,8 +318,7 @@ application {
   - [Maven Central](https://search.maven.org/) は事実上デファクトとなっているリポジトリ
 - `dependencies`
   - プロジェクトで使用する依存ライブラリを定義する
-    - 依存関係の記述形式は `${group}.${name}:${version}` の形式になる
-    - [依存関係の設定は様々な方法がある](https://docs.gradle.org/current/userguide/dependency_management_for_java_projects.html#sec:configurations_java_tutorial)
+  - [依存関係の設定は様々な方法がある](https://docs.gradle.org/current/userguide/dependency_management_for_java_projects.html#sec:configurations_java_tutorial)
 - `application`
   - `application` プラグインに関する設定
   - プラグインを読み込むことで元々存在しないブロックを定義できるようになる
@@ -497,11 +494,9 @@ TaskContainer には `register` メソッドが定義されており、タスク
 
 ### タスクの構成
 
-このタスクには、[org.gradle.api.Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html)に定義されている `doFirst` メソッドが書かれています。
-
 タスクの具体的な処理は[アクション (Action)](https://docs.gradle.org/current/javadoc/org/gradle/api/Action.html)という形で抽象化されています。
-タスクが実行されるとそれぞれのアクションが順に実行されます。
-アクションは `doFirst` や `doLast` を通じて、順序を指定しながらタスクに登録されます。
+タスクが実行されるとタスクに紐付けられているのアクションが順に実行されます。
+アクションは [org.gradle.api.Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html)に定義されている`doFirst` や `doLast` を通じて、順序を指定しながらタスクに紐付けます。
 
 この例では、`showJavaHome` というタスクに `JAVA_HOME` を表示するというアクションを紐付けていることになります。
 
@@ -517,19 +512,19 @@ TaskContainer には `register` メソッドが定義されており、タスク
 
 Gradle ビルドには 3 つのフェーズが存在します。
 
-1. **Initialization** : どのプロジェクトが今回のビルドに必要か判定し、必要なプロジェクトの `Project`インスタンスを生成します
-1. **Configuration** : ビルドに含まれる全てのプロジェクトのビルドスクリプトを実行します
-1. **Execution** : まず、Configuration フェーズで作成・設定されたタスク群から実行されるタスクを特定します。実行されるタスクは、gradle コマンドに渡されたタスク名の引数と、カレントディレクトリによって決定されます。その後、特定された各タスクを実行します。
+1. **Initialization** : どのプロジェクトが今回のビルドに必要か判定し、必要なプロジェクトの `Project`インスタンスを生成します。
+1. **Configuration** : ビルドに含まれる全てのプロジェクトのビルドスクリプトを実行します。
+1. **Execution** : まず、Configuration フェーズで作成・設定されたタスク群から実行するタスクを特定します。実行するタスクは、gradle コマンドに渡されたタスク名と、カレントディレクトリによって決定されます。その後、特定されたタスクを実行します。
 
 ### ビルドフェーズと処理の実行順序
 
-ポイントは、ビルドフェーズにより実行される設定ファイル(`settings.gradle.kts`)やビルドスクリプト(`build.gradle.kts`)が異なる点です。
+ポイントは、ビルドフェーズにより、実行される設定ファイルやビルドスクリプトが異なる点です。
 
 1. 設定ファイルは Initialization フェーズで実行されます。
 1. ビルドスクリプトは Configuration フェーズで実行されます。
 1. ビルドスクリプトのうち、タスクの `doFirst`や `doLast`で登録されたアクションは Execution フェーズで実行されます。
 
-よって、先程の例では、 `println`が Confugiration フェーズで実行され、`doFirst`はその後の Execution フェーズで実行されたため、先に `this`が出力されたのです。
+先程の例では、 `println`が Configuration フェーズで実行され、`doFirst`はその後の Execution フェーズで実行されたため、先に `this`が出力されたのです。
 
 #### より複雑な例
 
@@ -587,7 +582,7 @@ BUILD SUCCESSFUL in 0s
 2 actionable tasks: 2 executed
 ```
 
-ビルドフェーズの概念が分かると、なぜこの順序で `println` が実行されているのかが分かるようになると思います。
+ビルドフェーズの概念が分かると、なぜこの順序で `println` が実行されているのか理解できるようになると思います。
 
 ### タスクの処理を Convention フェーズに書くか Execution フェーズに書くか
 
@@ -600,7 +595,7 @@ Convention フェーズでは、実行するタスク以外のタスクも構成
 
 ### タスク間の依存関係と実行順序
 
-Gradle のタスクは[他のタスクとの依存関係を定義したり、あるタスクの後に別のタスクを実行したりといったスケジューリングを定義できます](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:adding_dependencies_to_tasks)。
+Gradle のタスクは[他のタスクとの依存関係を定義したり、あるタスクの後に別のタスクを実行したりといったスケジューリングを定義できます。](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:adding_dependencies_to_tasks)
 
 `/app/build.gradle.kts` に次のようなタスクを定義して実行してみます。
 
@@ -632,7 +627,7 @@ BUILD SUCCESSFUL in 683ms
 2 actionable tasks: 2 executed
 ```
 
-`dependsOn`メソッドを使って、 `bar`タスクは `foo` タスクに依存していることを宣言しています。そのため、 `bar` タスクを実行すると、先に `foo`タスクが実行されています。
+`dependsOn` を使って、 `bar`タスクは `foo` タスクに依存していることを宣言しています。そのため、 `bar` タスクを実行すると、先に `foo`タスクが実行されます。
 
 なお、今回はタスク名を文字列で指定しましたが、 `TaskProvider`を使うことでタスクの参照を使って依存関係を定義できます。
 
@@ -717,11 +712,11 @@ BUILD SUCCESSFUL in 503ms
 1 actionable task: 1 executed
 ```
 
-他にも、 `onlyIf`でタスクを実行する条件を指定したり色々できるので、より詳しく知りたい方は[ドキュメント](https://docs.gradle.org/current/userguide/more_about_tasks.html)を参照してください。
+他にも、 `onlyIf` を使ったタスクを実行する条件の指定など色々できるので、より詳しく知りたい方は[ドキュメント](https://docs.gradle.org/current/userguide/more_about_tasks.html)を参照してください。
 
 ### タスクの Up-to-date チェック (インクリメンタルビルド)
 
-Gradle は、入力が変わらない限り、一度実行したタスクをもう一度実行しないようにしてくれます。再実行が不要なタスクをスキップすることで、ビルド時間を節約できます。この機能は[インクリメンタルビルドと呼ばれています](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:up_to_date_checks)。
+Gradle は、入力が変わらない限り、一度実行したタスクをもう一度実行しないようにしてくれます。再実行が不要なタスクをスキップすることで、ビルド時間を節約できます。この機能は[インクリメンタルビルドと呼ばれています。](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:up_to_date_checks)
 
 #### 仕組み
 
@@ -774,18 +769,19 @@ BUILD SUCCESSFUL in 458ms
 
 ### ここまでのまとめ
 
-- タスクはプロジェクトに紐付けられる
 - タスクの管理は `TaskContainer` が行う
 - タスクの処理は一連のアクションとして定義される
 - タスクの実行には 3 つのフェーズが存在する
 - タスクの処理はできるだけ Execution フェーズに実行されるアクションとして書く
-- Gradle はタスクの依存関係や実行順序を指定できる
-- Gradle は入出力の変更をチェックすることで、タスクの実行をスキップしてくれる
+- タスクの依存関係や実行順序を指定できる
+- 入出力の変更をチェックすることで、タスクの実行をスキップしビルド時間を短縮できる
 
 ## 6 章 Gradle Plugin を使った機能拡張
 
 [Gradle Plugin](https://docs.gradle.org/current/userguide/plugins.html) は Gradle に機能を追加するためのインターフェースです。
-Gradle Plugin は新しいタスクやプラグイン固有のオブジェクトや規約(convention)を追加できます。
+Gradle Plugin はプラグイン固有の新しいタスクやオブジェクト、規約(convention)を追加できます。
+
+### Gradle Plugin のメリット
 
 ある程度まとまった処理をプラグインとして抽象化することで、命令的な処理を Plugin の具体的な実装の中に閉じ込めることができます。
 結果として、ビルドスクリプト内では、プラグインを読み込むための宣言のみを含めることになり、[ビルドスクリプトのコードの理解と保守が容易になります。](https://docs.gradle.org/current/userguide/authoring_maintainable_build_scripts.html#sec:avoid_imperative_logic_in_scripts)
@@ -797,7 +793,7 @@ Gradle Plugin は新しいタスクやプラグイン固有のオブジェクト
 実際にサードパーティで提供されているプラグインを適用してみます。
 
 今回は、4 章でも使った Lombok をプラグインを通して適用してみます。
-Lombok のインストールは直接 `dependencies` に追加する方法とプラグインと適用する方法の [2 種類が提供されています。](https://projectlombok.org/setup/gradle)
+Lombok のインストールは直接 `dependencies` に追加する方法とプラグインを適用する方法の [2 種類が提供されています。](https://projectlombok.org/setup/gradle)
 プラグインを使うことでより簡単に Lombok を使うことができます。
 
 `app/build.gradle.kts` を編集します。
@@ -838,7 +834,7 @@ BUILD SUCCESSFUL in 23s
 
 Lombok のプラグインは、依存関係の追加や Lombok 用のタスクを追加してくれるため、正しく依存関係の解決が行われコンパイルできました。
 
-Lombok のプラグインによって追加されたタスクは今までと同様に `gradlew` で実行できます。
+Lombok のプラグインによって追加されたタスクは `gradlew` で実行できます。
 
 ```bash
 $ ./gradlew delombok
@@ -847,11 +843,12 @@ BUILD SUCCESSFUL in 793ms
 1 actionable task: 1 up-to-date34546
 ```
 
-また、プラグインで追加タスクに対して、追加の処理を定義できます。
+また、プラグインで追加ぢｓたタスクに対して、追加の処理を定義できます。
 
 ```kotlin
 // TaskContainerからタスクを取得している
 tasks["delombok"].doLast {
+    // サードパーティのタスクの実行にフックして何かをしたいときに便利
     println("delombok doLast")
 }
 ```
@@ -873,7 +870,7 @@ BUILD SUCCESSFUL in 4s
 では、どういったときにプラグインを自作するのでしょうか？
 公式ドキュメントでは、次の用途が紹介されています。
 
-- 命令的な的な処理をカプセル化したいとき
+- 命令的な処理をカプセル化したいとき
 - 複数のサブプロジェクト間で共通の規約(Convention)をまとめるとき
 
 ### 命令的な処理をプラグインでカプセル化する
@@ -942,19 +939,18 @@ plugins {
 }
 ```
 
-なお、ここで登場した `buildSrc` ディレクトリはプラグインの実装など、[ビルドスクリプトに含めるべきでないコードを置く場所として使われます](https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)。
-
+なお、ここで登場した `buildSrc` ディレクトリはプラグインの実装など、[ビルドスクリプトに含めるべきでないコードを置く場所として使われます。](https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)
 `buildSrc` は、Gradle がコンパイルしビルドスクリプトのクラスパスに配置してくれます。
 そのため、 `buildSrc`に書かれたプラグインをビルドスクリプトから呼び出せます。
 
 ### Convention Plugin を作成する
 
 マルチプロジェクト構成の複数のサブプロジェクトは、いくつか共通の性質を持っている場合があります。
-例えば、Foo プロジェクトと Bar プロジェクトは両方同じライブラリを使用しているといった性質です。
-しかし、このライブラリは Baz プロジェクトでは利用しておらず、マルチプロジェクト全体でこのライブラリを有効化したくないということが考えられます。
+例えば、`Foo` プロジェクトと `Bar` プロジェクトは両方同じライブラリを使用しているといった性質です。
+しかし、このライブラリは `Baz` プロジェクトでは利用しておらず、マルチプロジェクト全体でこのライブラリを有効化したくないということが考えられます。
 
-こういった場合には、Foo プロジェクトと Bar プロジェクトに[共通する規約(Convention)をプラグインという形で定義します。](https://docs.gradle.org/current/userguide/sharing_build_logic_between_subprojects.html#sec:convention_plugins)
-それぞれのプロジェクトでそのプラグインを適用することで、規約を共通化できます。
+こういった場合には、`Foo` プロジェクトと `Bar` プロジェクトに[共通する規約(Convention)をプラグインという形で定義します。](https://docs.gradle.org/current/userguide/sharing_build_logic_between_subprojects.html#sec:convention_plugins)
+それぞれのプロジェクトで定義したプラグインを適用することで、規約を共通化できます。
 
 #### 設定例
 
@@ -963,7 +959,7 @@ plugins {
 ```gradle
 // buildSrc/build.gradle
 plugins {
-    `kotlin-dsl` // Precomiled script pluginを有効にするために必要
+    `kotlin-dsl` // Kotlin DSLでPrecomiled script pluginを有効にするために必要
 }
 
 repositories {
@@ -1028,7 +1024,7 @@ BUILD SUCCESSFUL in 929ms
 ### ここまでのまとめ
 
 - Gradle Plugin を使うことで命令的なロジックをビルドスクリプトから取り除ける
-- 複数のサブプロジェクトで使いたい設定を Convention Plugin という形で共通化できる
+- 複数のサブプロジェクトで使いたい規約を Convention Plugin という形で共通化できる
 
 ## 7 章 FAQ
 
@@ -1051,4 +1047,4 @@ BUILD SUCCESSFUL in 929ms
 この記事では、Gradle について基本的な概念から少し踏み込んだ概念まで紹介しました。
 かなり長い文章になってしまいましたが、一度理解することで、Gradle のプロジェクトに対する理解がかなり深まると思います。(そうなることを願っています。)
 
-もし、誤りなどを見つけたら、[このブログの GitHub](https://github.com/p1ass/blog)の issue、もしくは PR という形でお知らせしたいただけると嬉しいです。
+もし、誤りなどを見つけたら、[ブログをホスティングしている GitHub](https://github.com/p1ass/blog)の issue、もしくは PR という形でお知らせしたいただけると嬉しいです。
