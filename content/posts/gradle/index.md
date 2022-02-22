@@ -1,8 +1,8 @@
 ---
 title: 'Gradle にしっかり入門する'
-date: 2022-02-18T18:00:00+09:00
+date: 2022-02-22T21:00:00+09:00
 draft: false
-description: 公式ドキュメントを元に、Gradleの基本的な概念から少し踏み込んだ概念まで説明します。
+description: 公式ドキュメントを元に、Gradleの基本的な概念から少し踏み込んだ概念までまとめました。
 categories:
   - 開発
 tags:
