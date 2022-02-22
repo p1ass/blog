@@ -1,23 +1,29 @@
 // Colors
-$background: #FFFFFF;
-$background-dark: #F9F9FA;
+$background: #ffffff;
+$background-dark: #f9f9fa;
 
-$blue: #4172B5;
+$blue: #4172b5;
+$blue-light: #e8f5fe;
+$text-on-blue-light: #303233;
 
-$gray: #1E2126;
-$gray-light: #636E7D;
+$gray: #1e2126;
+$gray-light: #636e7d;
 
-$border: #DDE0E4;
-$border-light: #FFFFFF;
+$border: #dde0e4;
+$border-light: #ffffff;
 
-$white: #FFFFFF;
-$white-dark:#DDE0E4;
-
+$white: #ffffff;
+$white-dark: #dde0e4;
 
 // Fonts
-$serif-primary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI", Symbol,"Noto Sans Emoji";
-$serif-secondary: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI", Symbol,"Noto Sans Emoji";
-$sans-serif: "Hiragino Kaku Gothic ProN","Hiragino Sans","Segoe UI","Roboto","Noto Sans CJK JP",sans-serif, "Apple Color Emoji","Segoe UI", "Emoji,Segoe UI", Symbol,"Noto Sans Emoji";
+$serif-primary: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Segoe UI', 'Roboto',
+  'Noto Sans CJK JP', sans-serif, 'Apple Color Emoji', 'Segoe UI', 'Emoji,Segoe UI', Symbol,
+  'Noto Sans Emoji';
+$serif-secondary: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Segoe UI', 'Roboto',
+  'Noto Sans CJK JP', sans-serif, 'Apple Color Emoji', 'Segoe UI', 'Emoji,Segoe UI', Symbol,
+  'Noto Sans Emoji';
+$sans-serif: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Segoe UI', 'Roboto', 'Noto Sans CJK JP',
+  sans-serif, 'Apple Color Emoji', 'Segoe UI', 'Emoji,Segoe UI', Symbol, 'Noto Sans Emoji';
 $monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
 @mixin box-sizing($type: border-box) {
@@ -31,7 +37,7 @@ $monospaced: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   -moz-transition: $args;
   transition: $args;
 }
- 
+
 // https://gist.github.com/yuheiy/89ba79fd0510f98613c217a7dbeb8d03
 $spacing: 1rem;
 $vertical-rhythm-line-height: 1.7;
