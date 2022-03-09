@@ -15,7 +15,7 @@
         {{- if .Params.eyecatch }}
             <meta property="og:image" content="https://blog.p1ass.com{{ .Params.eyecatch }}" />
         {{- else}}
-            <meta property="og:image" content="https://og-image.p1ass.com/apiv2/{{ replace .Params.Title " " "%20" }}.png"/>
+            <meta property="og:image" content="https://og-image.p1ass.com/apiv2/{{- replace (substr (querify  "a" .Params.Title) 2) "+" "%20" -}}.png"/>
         {{- end }}
     {{- else }}
     <meta property="og:image" content="https://blog.p1ass.com/images/ogp.png"/>
