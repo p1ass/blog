@@ -1,6 +1,6 @@
 ---
 title: 『ソフトウェアアーキテクチャの基礎 エンジニアリングに基づく体系的アプローチ』を読んだ
-date: 2022-03-13T08:00:00+09:00
+date: 2022-03-14T08:00:00+09:00
 draft: false
 description: 『ソフトウェアアーキテクチャの基礎 エンジニアリングに基づく体系的アプローチ』を読みました。「ソフトウェアアーキテクチャはトレードオフがすべてだ。」というセリフや「アーキテクチャ決定のアンチパターン」が印象に残っています。
 categories:
@@ -19,7 +19,7 @@ eyecatch: /posts/fundamentals-of-software-architecture/ogp.jpg
 
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=p1ass02-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4873119820&linkId=0b2e981e5e4dde612adf5b19739d15b7"></iframe>
 
-本書はソフトウェアアーキテクチャに関する内容を網羅的にまとめたもので、アーキテクトのようなポジションを目指す人にとっての教科書のような本です。
+本書はソフトウェアアーキテクチャに関する内容を網羅的にまとめたもので、アーキテクトのようなポジションを目指す人にとっての教科書的な存在です。
 自分の今の興味関心にドンピシャの内容で、書籍の発売後にすぐ読み切ってしまいました。
 
 この記事では、本書の感想を書こうと思います。
