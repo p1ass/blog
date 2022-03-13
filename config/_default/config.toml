@@ -3,6 +3,7 @@ title = "ぷらすのブログ"
 hasCJKLanguage = true
 pygmentsUseClasses = true
 timeout = 60000
+enableRobotsTXT = true
 [params]
 description = "Webエンジニアリングについて学んだことや考えたことをまとめるブログです"
 OgpJsonBaseURL = "https://blog-api.p1ass.com/ogp?url="
