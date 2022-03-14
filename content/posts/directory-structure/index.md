@@ -8,6 +8,7 @@ categories:
 tags:
   - ディレクトリ構成
   - マイクロサービス
+  - レイヤードアーキテクチャ
 share: true
 ---
 
