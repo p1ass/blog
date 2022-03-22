@@ -21,11 +21,11 @@ Twitter API v2 では様々な API が追加されていますが、中でも注
 
 {{<ex-link url="https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code">}}
 
-今までは、OAuth 1.0a しか対応しておらず、他の OAuth 対応の認可サーバーと比較して使いづらいと感じていました。
+今までは OAuth 1.0a しか対応しておらず、他の OAuth 対応の認可サーバーと比較して使いづらいと感じていました。
 今回の対応によって、OAuth 2.0 の Authorization Code Flow ( [RFC6749 Section4.1](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1))を利用した認可に対応し、より便利に認可をシステムに組み込めるようになりました。
 
 また、スコープを細かく制御できるようになったため、**今までのように不用意に多くの権限を要求する必要がなくなりました！**
-現在対応しているスコープは以下の通りで、非常に細かくスコープを制御できることがわかると思います。
+現在対応しているスコープは以下の通りで、非常に細かくスコープを制御できることが分かります。
 
 - tweet.read
 - tweet.write
@@ -51,7 +51,7 @@ Twitter API v2 では様々な API が追加されていますが、中でも注
 ## Twitter Developer Portal で設定する
 
 まずはじめに、Twitter の [Developer Portal](https://developer.twitter.com/en/portal/dashboard) でアプリの登録をします。
-詳細は省きますが、OAuth2.0 の設定部分だけピックアップします。
+詳細は省きますが、OAuth2.0 の設定部分はピックアップします。
 
 ![TwitterのOAuth設定画面](./setting.png)
 _Twitter の OAuth 設定画面_
@@ -72,7 +72,6 @@ _Type of App の設定_
 から、あなたのアプリケーションの種類を選択します。
 
 これは Client Type( [RFC6749 Section2.1](https://www.rfc-editor.org/rfc/rfc6749.html#section-2.1))を判別するために使われます。
-
 Client Secret を安全に保管できない Public Client の場合は、
 
 > This type of App uses public clients as they’re usually running in a browser or on a mobile device and are unable to use your client secrets.
@@ -80,17 +79,15 @@ Client Secret を安全に保管できない Public Client の場合は、
 と表示され、Client Secret が使えなくなります。
 
 そのため、Client Secret が必要な Authorization Code Flow は利用できなくなり、Implicit Flow( [RFC6749 Section4.2](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2))を使うことになると思われます。
-ただ、2022/03/22 現在では、Implicit Flow に関するドキュメントが見つからないため、実際にサポートしているかどうかは不明です。
+ただ、2022/03/22 現在では、Implicit Flow に関するドキュメントを見つけられなかったため、実際にサポートしているかどうかは不明です。
 
 今回は、Web App を選択します。
-
 設定完了後、Client ID と Client Secret が表示されるので、メモっておきます。
 
 ## OAuth クライアントを実装する
 
 クライアントの登録が完了したので、実際に認可を試してみます。
 今回は Go を使って実装します。
-
 デモ用のアプリケーションは以下の GitHub リポジトリに置いてあります。
 
 {{<ex-link url="https://github.com/p1ass/twitter-oauth-2-demo">}}
@@ -201,7 +198,8 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := config.Exchange(context.Background(), queryCode, oauth2.SetAuthURLParam("code_verifier", codeVerifier))
+	token, err := config.Exchange(context.Background(), queryCode,
+                          oauth2.SetAuthURLParam("code_verifier", codeVerifier))
 	if err != nil {
 		fmt.Printf("failed to exchange token: %v\n", err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -210,7 +208,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("token scope: %v\n", token.Extra("scope"))
 
 	oAuthClient := oauth2.NewClient(r.Context(), oauth2.StaticTokenSource(token))
-
 
 	// https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me
 	res, err := oAuthClient.Get("https://api.twitter.com/2/users/me")
