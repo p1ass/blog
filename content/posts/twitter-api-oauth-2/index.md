@@ -67,7 +67,7 @@ _Type of App の設定_
 - Native App
 - Single page App
 - Web App
-- Automated App or bit
+- Automated App or bot
 
 から、あなたのアプリケーションの種類を選択します。
 
