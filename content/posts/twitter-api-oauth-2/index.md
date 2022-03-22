@@ -21,7 +21,7 @@ Twitter API v2 では様々な API が追加されていますが、中でも注
 
 {{<ex-link url="https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code">}}
 
-今までは OAuth 1.0a しか対応しておらず、他の OAuth 対応の認可サーバーと比較して使いづらいと感じていました。
+今までは OAuth 1.0a しか対応しておらず、他の OAuth 2.0 対応の認可サーバーと比較して使いづらいと感じていました。
 今回の対応によって、OAuth 2.0 の Authorization Code Flow ( [RFC6749 Section4.1](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1))を利用した認可に対応し、より便利に認可をシステムに組み込めるようになりました。
 
 また、スコープを細かく制御できるようになったため、**今までのように不用意に多くの権限を要求する必要がなくなりました！**
