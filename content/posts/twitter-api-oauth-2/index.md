@@ -124,6 +124,8 @@ var config = oauth2.Config{
 		Scopes:      []string{"tweet.read", "users.read", "tweet.write"},
 	}
 
+var codeVerifier string
+
 func buildAuthorizationURL(config oauth2.Config) string {
 	// PKCE 対応 https://datatracker.ietf.org/doc/html/rfc7636
 	// TODO: 本番ではブラウザごとのセッションに保存してください
@@ -152,13 +154,13 @@ func main() {
 		Addr:    "127.0.0.1:8080",
 	}
 
-	fmt.Println("Click the following link to login: http://localhost:8080/login")
+	log.Println("Click the following link to login: http://localhost:8080/login")
 	log.Fatal(srv.ListenAndServe())
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	url := buildAuthorizationURL(config)
-	fmt.Println(url)
+	log.Println(url)
 	w.Header().Set("Location", url)
 	w.WriteHeader(http.StatusFound)
 	return
@@ -182,18 +184,18 @@ _新しい認可画面_
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	queryCode := r.URL.Query().Get("code")
 	if queryCode == "" {
-		fmt.Println("code not found")
+		log.Println("code not found")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	queryState := r.URL.Query().Get("state")
 	if queryState == "" {
-		fmt.Println("state not found")
+		log.Println("state not found")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	if queryState != state {
-		fmt.Println("invalid state")
+		log.Println("invalid state")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -201,27 +203,25 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	token, err := config.Exchange(context.Background(), queryCode,
                           oauth2.SetAuthURLParam("code_verifier", codeVerifier))
 	if err != nil {
-		fmt.Printf("failed to exchange token: %v\n", err)
+		log.Printf("failed to exchange token: %v\n", err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Printf("token scope: %v\n", token.Extra("scope"))
+	log.Printf("token scope: %v\n", token.Extra("scope"))
 
 	oAuthClient := oauth2.NewClient(r.Context(), oauth2.StaticTokenSource(token))
 
 	// https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me
 	res, err := oAuthClient.Get("https://api.twitter.com/2/users/me")
 	if err != nil {
-		fmt.Printf("failed to get me: %v\n", err)
+		log.Printf("failed to get me: %v\n", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	defer res.Body.Close()
 
-	body, _ := io.ReadAll(res.Body)
-
 	w.Header().Set("Content-Type", "application/json")
-	_, _ = w.Write(body)
+	_, _ = io.Copy(w, res.Body)
 }
 
 func main() {
@@ -234,7 +234,7 @@ func main() {
 		Addr:    "127.0.0.1:8080",
 	}
 
-	fmt.Println("Click the following link to login: http://localhost:8080/login")
+	log.Println("Click the following link to login: http://localhost:8080/login")
 	log.Fatal(srv.ListenAndServe())
 }
 ```
