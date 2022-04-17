@@ -24,7 +24,7 @@ share: true
 
 GitHub API を用いてブランチを作成するには、git の ref(参照)を操作する API を使用します。
 
-{{<ex-link url="https://developer.github.com/v3/git/refs/" >}}
+https://docs.github.com/ja/rest/reference/git#refs
 
 まず参照を取得する API を用いて起点となるコミットのリビジョンハッシュを取得します。
 
