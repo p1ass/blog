@@ -1,1 +1,1 @@
-<a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if strings.HasPrefix .Destination "https://blog.p1ass.com" }} {{ else }}target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+{{/* aタグの後に改行がされないようにEOFにnew lineを挿入しない */}}<a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if strings.HasPrefix .Destination "https://blog.p1ass.com" }} {{ else }}target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
