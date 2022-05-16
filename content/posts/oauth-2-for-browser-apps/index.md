@@ -17,6 +17,8 @@ GW 中に SPA で OAuth を使うときのプラクティスについて調べ�
 
 一通り読んでいたところ、現時点でのベストプラクティスが良い感じにまとまっていたので、興味深かったところを抜粋して紹介します。
 
+<!--more-->
+
 全てを網羅するわけではないので、興味がある方は原文を読んでください。
 
 {{<ex-link url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps">}}
