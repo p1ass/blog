@@ -27,10 +27,9 @@ share: true
 
 OAuth2.0 for Browser-Based Apps は、ブラウザ上で動作するアプリケーションにおける OAuth2.0 のベストプラクティスをまとめた [Best Current Practice (BCP)](https://en.wikipedia.org/wiki/Best_current_practice) のドラフトです。
 
-すでに存在するネイティブアプリ向けの Best Current Practice である OAuth 2.0 for Native Apps ( [RFC 8252](https://datatracker.ietf.org/doc/html/rfc8252)) のブラウザ版という位置づけになります。
+すでに存在するネイティブアプリ向けの Best Current Practice である [OAuth 2.0 for Native Apps (RFC 8252)](https://datatracker.ietf.org/doc/html/rfc8252) のブラウザ版という位置づけになります。
 
 OAuth 2.0 の RFC は昔ながらのサーバサイドで HTML をレンダリングするアプリケーションを想定しているため、近年の JavaScript を利用した SPA で OAuth 2.0 を使う場合のベストプラクティスはまとまっていないです。
-
 SPA に対応した Best Current Practice ができることで、モダンなブラウザベースのアプリケーションでより安全なアプリケーションを作る方法が広く認知されるのでは、と個人的に期待しています。
 
 ## 歴史的背景 : 同一オリジンポリシーと OAuth2.0
