@@ -1,8 +1,8 @@
 ---
-title: SPAで役立ちそうな OAuth 2.0 for Browser-Based Apps を読んだ
-date: 2022-05-05T00:00:00+09:00
+title: SPA で役立ちそうな OAuth 2.0 for Browser-Based Apps を読んだ
+date: 2022-05-20T00:00:00+09:00
 draft: false
-description: TODO
+description: OAuth2.0 for Browser-Based Apps は、ブラウザ上で動作するアプリケーションにおける OAuth2.0 のベストプラクティスがまとまっており、モダンなブラウザベースのアプリケーションでより安全なアプリケーションを作る方法が広く認知されるのでは、と個人的に期待しています。
 categories:
   - 開発
 tags:
@@ -73,7 +73,7 @@ OAuth2.0 をブラウザベースのアプリケーションで扱う手段を�
 
 ```
 
-_Authorization Code Flow の流れ(TODO: 図にしても良いかも)_
+_Authorization Code Flow の流れ_
 
 Implicit Flow はこの制限を回避するために定義されました。
 Implicit Flow では、アクセストークンは URL のフラグメントとして渡されます (C の部分)。
@@ -114,7 +114,7 @@ Implicit Flow では、アクセストークンは URL のフラグメントと�
      +---------+
 ```
 
-_Implicit Flow Flow の流れ(TODO: 図にしても良いかも)_
+_Implicit Flow Flow の流れ_
 
 ### Implicit Flow のセキュリティ上の懸念
 
