@@ -129,7 +129,7 @@ _Implicit Flow の流れ_
 
 ### CORS による同一オリジンポリシーの例外
 
-このような Implicit FLow 特有の攻撃が存在するため、できれば Implicit Flow は使いたくないです。
+このような Implicit Flow 特有の攻撃が存在するため、できれば Implicit Flow は使いたくないです。
 
 そこで登場するのが[オリジン間リソース共有 (CORS)](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS) です。
 OAuth2.0 が制定された当時 (2012 年) に比べ、 CORS はほとんどのブラウザで広く使われるようになり、同一オリジンポリシーの例外を作れるようになりました。
