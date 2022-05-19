@@ -16,7 +16,7 @@ share: true
 
 GW 中に SPA で OAuth を使うときのプラクティスについて調べていたところ、[OAuth2.0 for Browser-Based Apps](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps) という RFC の Internet-Draft を見つけました。
 
-一通り読んでいたところ、現時点でのベストプラクティスが良い感じにまとまっていたので、興味深かったところを抜粋して紹介します。
+一通り読んでみたところ、現時点でのベストプラクティスが良い感じにまとまっていたので、興味深かったところを抜粋して紹介します。
 
 <!--more-->
 
