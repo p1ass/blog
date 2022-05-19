@@ -7,6 +7,7 @@ categories:
   - 開発
 tags:
   - OAuth
+  - SPA
 
 share: true
 ---
