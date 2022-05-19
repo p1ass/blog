@@ -240,7 +240,7 @@ React のフロントエンド + Spring Boot のバックエンドのような�
 このアーキテクチャパターンでは、まず、Application Server から JavaScript コードが読み込まれます (A)。
 このとき、バックエンドに当たる Application Server はリソースサーバーではなく、OAuth のクライアントの一部として考えます。
 
-次に、Application Server はブラウザを認可エンドポイントにリダイレクトすることで、OAUth フローを開始させます (B)。
+次に、Application Server はブラウザを認可エンドポイントにリダイレクトすることで、OAuth フローを開始させます (B)。
 
 ユーザがリダイレクトされると、ブラウザは認可コードを Application Server に渡します (C)。
 Application Server は Client Secret を使って Token Endpoint で認可コードとアクセストークンを交換します (D)。
