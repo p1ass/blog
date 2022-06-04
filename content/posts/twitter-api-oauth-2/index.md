@@ -78,8 +78,7 @@ Client Secret を安全に保管できない Public Client の場合は、
 
 と表示され、Client Secret が使えなくなります。
 
-そのため、Client Secret が必要な Authorization Code Flow は利用できなくなり、Implicit Flow( [RFC6749 Section4.2](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2))を使うことになると思われます。
-ただ、2022/03/22 現在では、Implicit Flow に関するドキュメントを見つけられなかったため、実際にサポートしているかどうかは不明です。
+そのため、Public Client のクライアント認証は PKCE で担保することになると思われますが、動作検証はしてないので未確認です。
 
 今回は、Web App を選択します。
 設定完了後、Client ID と Client Secret が表示されるので、メモっておきます。
