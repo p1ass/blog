@@ -16,7 +16,7 @@ share: true
 
 この記事では、Protocol Buffers に関連した様々なコマンドを実行できる [Buf CLI](https://github.com/bufbuild/buf) を紹介します。
 Buf CLI は、protoc とは異なり、**Formatter や Linter、Breaking Change Detector、依存パッケージ管理など、Protocol Buffers を使う上で便利なコマンドが用意されています。**
-Protocol Buffers を使いたいけど CI のセットアップ等が面倒なので、統一して扱いたい人におすすめです。
+Protocol Buffers を使いたいけど CI のセットアップ等が面倒な人におすすめです。
 
 ![Bufのロゴ](https://raw.githubusercontent.com/bufbuild/buf/main/.github/buf-logo.svg)
 _Buf のロゴ(公式サイトより引用)_
@@ -29,10 +29,10 @@ _Buf のロゴ(公式サイトより引用)_
 
 ## Buf CLI の機能
 
-ヘルプコマンドを実行してみると、以下のようなコマンドがあることが分かります。
-いくつかピックアップして紹介します。
+ヘルプコマンドを実行して利用可能なコマンドを確認します。
+この中からいくつかピックアップして紹介します。
 
-```bash
+```text
 $ buf -h
 The Buf CLI
 
@@ -85,10 +85,10 @@ lint:
     - DEFAULT
 ```
 
-`buf.yaml` は[モジュール](https://docs.buf.build/bsr/overview#modules)における設定を管理するファイルです。
+`buf.yaml` は[Module](https://docs.buf.build/bsr/overview#modules)における設定を管理するファイルです。
 デフォルトでは、Linter や Breaking Change Detector に関する設定が書かれています。
 
-依存パッケージを追加したい場合は、`deps`に記述することで、[Buf Schema Registry](https://buf.build)からダウンロードしてくれます。
+依存パッケージを追加したい場合は `deps` に記述することで、[Buf Schema Registry](https://buf.build)からダウンロードしてくれます。
 
 ```yaml
 # buf.yaml
@@ -108,8 +108,7 @@ lint:
 ### buf lint
 
 `buf lint` は Protocol Buffers の [Lint](https://docs.buf.build/lint/overview) を実行するコマンドです。
-
-Linter では、[Style Guilde](https://docs.buf.build/best-practices/style-guide)に沿った Lint を実行する他、[カスタマイズした設定](https://docs.buf.build/lint/rules)で実行もできます。
+[Style Guilde](https://docs.buf.build/best-practices/style-guide)に沿った Lint を実行する他、[カスタマイズした設定](https://docs.buf.build/lint/rules)での実行も可能です。
 
 ```bash
 $ buf lint
@@ -135,7 +134,7 @@ _GoLand での例_
 `protoc` の代替に当たります。
 
 例えば、`buf.gen.yaml` を以下のようにした場合、Go のコードと gRPC の Go 実装を生成してくれます。
-`-I` でしていた部分を yaml で設定するイメージです。
+`-I` で指定していた部分を yaml で設定するイメージです。
 
 ```yaml
 version: v1
@@ -150,9 +149,9 @@ plugins:
       - require_unimplemented_servers=false
 ```
 
-また、Buf CLI には [Managed Mode](https://docs.buf.build/generate/managed-mode) というものが用意されており、コード生成時のオプションを"よしなに"やってくれます。
+また、Buf CLI には [Managed Mode](https://docs.buf.build/generate/managed-mode) というものが用意されており、コード生成時のオプションを"よしなに"やってくれる機能もあります。
 
-例えば、`buf.gen.yaml` に以下のような設定を追記することで、proto ファイルに `option go_package` を書かかなくても、いい感じに Go のパッケージを解決してくれます。
+例えば、`buf.gen.yaml` に以下のような設定を追記することで、proto ファイルに `option go_package` を書かかなくても、"いい感じに" Go のパッケージを解決してくれます。
 
 ```yaml
 managed:
