@@ -88,11 +88,12 @@ lint:
 `buf.yaml` は[Module](https://docs.buf.build/bsr/overview#modules)における設定を管理するファイルです。
 デフォルトでは、Linter や Breaking Change Detector に関する設定が書かれています。
 
-依存パッケージを追加したい場合は `deps` に記述することで、[Buf Schema Registry](https://buf.build)からダウンロードしてくれます。
+`deps` を記述することで、[Buf Schema Registry](https://buf.build)から依存パッケージをダウンロードしてくれます。
 
 ```yaml
 # buf.yaml
 version: v1
+# 追加
 deps:
   - buf.build/googleapis/googleapis
 breaking:
@@ -124,7 +125,7 @@ _GoLand での例_
 
 ### buf format
 
-`buf format` は名前の通り、Protocol Buffers のファイルを[フォーマット](https://docs.buf.build/format/usage)してくれます。
+`buf format` は名前の通り、proto ファイルを[フォーマット](https://docs.buf.build/format/usage)してくれます。
 
 **フォーマット結果に応じて exit code が変わる** `buf format --exit-code` コマンドも用意されているので、CI への組み込みも簡単です。
 
