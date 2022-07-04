@@ -1,6 +1,6 @@
 ---
 title: protocの代わりにBuf CLIを使ってスキーマ駆動開発の体験を向上させる
-date: 2022-07-04T22:00:00+09:00
+date: 2022-07-04T20:00:00+09:00
 draft: false
 description: Buf CLI は、protoc とは異なり、Formatter や Linter、Breaking Change Detector、依存パッケージ管理など、Protocol Buffers を使う上で便利なコマンドが用意されています。Protocol Buffers を使いたいけど CI のセットアップ等が面倒なので、統一して扱いたい人におすすめです。
 categories:
