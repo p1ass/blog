@@ -147,7 +147,7 @@ func dispenseID(ctx context.Context) (string, error) {
 
 元々の実装では tenant DB への書き込みをファイルロックで制御している見たことない実装になってました。
 
-SQLite のトランザクションを使うことも考えましたが、ほとんどが Read Lock だけで十分であることを考えると、`sync.RWLock` を使ってロックを取るほうが色々良いだろうという結論になり、Go で実装することにしました。
+SQLite のトランザクションを使うことも考えましたが、ほとんどが Read Lock だけで十分であることを考えると、`sync.RWMutex` を使ってロックを取るほうが色々良いだろうという結論になり、Go で実装することにしました。
 
 ロックの管理は `map[string]*sync.RWMutex` 相当の構造体で管理しました。
 
