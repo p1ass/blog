@@ -2,7 +2,7 @@
 title: ISUCON 12 の予選に参加して、7位で本選進出を決めました
 date: 2022-07-25T00:00:00+09:00
 draft: false
-description:
+description: ISUCON 12 の予選に参加し、35642 点・7 位で本選に行くことができました
 categories:
   - ISUCON
 tags:
