@@ -153,13 +153,11 @@ SQLite のトランザクションを使うことも考えましたが、ほと�
 
 ロックの管理は `map[string]*sync.RWMutex` 相当の構造体で管理しました。
 
-## billing の N+1 改善+早期リターン+キャッシュ (@p1ass)
+## billing の早期リターン+キャッシュ (@p1ass)
 
 billing API はこの時点(15 時)でも 6~7 秒かかる激ヤバ API だったのでどうにかしなきゃということで取り掛かりました。
 
-まず、`player_score` の `INSERT` が N 回呼ばれていたので Bulk Insert するように変更しました。
-
-次に、`BillingReport` は大会が終了していない場合は、プレイヤー人数や請求金額を計算する必要がないことに気づきました。この条件に従って早期リターンするようにしました。
+まず、`BillingReport` は大会が終了していない場合は、プレイヤー人数や請求金額を計算する必要がないことに気づきました。この条件に従って早期リターンするようにしました。
 
 ```go
 func billingReportByCompetition(ctx context.Context, tenantDB dbOrTx, tenantID int64, competitonID string) (*BillingReport, error) {
