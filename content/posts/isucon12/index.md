@@ -192,6 +192,8 @@ func billingReportByCompetition(ctx context.Context, tenantDB dbOrTx, tenantID i
 
 これらの変更で 16000 点程度まで上がりました。
 
+余談: テナントごとに `BillingReport` を読み込む処理は逐次的になっていましたが、`sync.ErrGroup` を簡単に使えるようにしてくれていたのかなと思う参考実装でニッコリしました。
+
 ## MySQL のパラメータチューニング (@km_conner)
 
 よくある `max_connection` やバッファーのチューニングをしてくれました。
