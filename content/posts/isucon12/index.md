@@ -177,14 +177,14 @@ func billingReportByCompetition(ctx context.Context, tenantDB dbOrTx, tenantID i
 
 ```go
 func billingReportByCompetition(ctx context.Context, tenantDB dbOrTx, tenantID int64, competitonID string) (*BillingReport, error) {
-  cached, ok := bililngCache.Get(competitonID)
+  cached, ok := billingCache.Get(competitonID)
   if ok {
     return cached, nil
   }
   // 中略
   // 計算後の処理でキャッシュする
   if comp.FinishedAt.Valid {
-    bililngCache.Set(comp.ID, report)
+    billingCache.Set(comp.ID, report)
   }
   // 略
 }
