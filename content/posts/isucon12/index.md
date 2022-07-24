@@ -38,7 +38,9 @@ YouTube Live を見ながら、「マルチテナント！これはデータベ�
 
 他にも、「リーダーボードで Redis 使えないかな？」など予想してましたが、実現したものは 1 つもありませんでした。
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/75YnJ_3289g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div style="width: 560px;max-width: 100%">
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/75YnJ_3289g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ## 各自初動の対応をする
 
