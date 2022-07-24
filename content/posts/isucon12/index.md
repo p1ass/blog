@@ -1,5 +1,5 @@
 ---
-title: ISUCON 12 の予選に参加して、7 位で本選進出を決めました
+title: ISUCON 12 の予選に参加して、7位で本選進出を決めました
 date: 2022-07-25T00:00:00+09:00
 draft: false
 description:
