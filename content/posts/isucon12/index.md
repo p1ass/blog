@@ -129,10 +129,14 @@ SELECT tmp.player_id, tmp.score, tmp.display_name FROM
 ## ID 生成を Go でやる (@km_conner)
 
 一意な ID を生成するために毎回 `REPLACE` をするようわからん実装になっていたので良い感じに直してくれました。
+なんでこんな採番方式したのかは本人に聞いてみないと分かりません。
+
 
 ```go
+var (
 auto_increment_id int64 = 0
 auto_increment_id_base string = strconv.FormatInt(time.Now().Unix()%100000, 10)
+)
 
 func dispenseID(ctx context.Context) (string, error) {
   newId := atomic.AddInt64(&auto_increment_id, 1)
