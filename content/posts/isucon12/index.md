@@ -258,6 +258,70 @@ _凍結時点までのスコアグラフ_
 
 1~2 時間かけてやりきった @atrn0 の実装力と @km_conner や僕の経験が合わさった、まさにチームワークと言える時間でした。
 
+## やりたかったけどやれなかったこと
+
+### 3台目のサーバーの活用
+
+今回は、
+- 1台目: Nginx + App + SQLite
+- 2台目: MySQL
+- 3台目: 不使用
+
+という構成になりました。
+
+tenant DBがファイルのため負荷分散しずらく、3台目を生かさずに終わってしまいました。
+SQLiteのまま3台構成にしたチームがいたら、どのようにやったのか聞いてみたいです。
+
+### SQLiteのTraceの活用
+
+存在は気づいていたのですが、特に使わずに終わってしまいました。
+alpでエスパーするよりも確実だし、インデックスが貼れてない箇所もすぐ見つけられたんだろうなぁと思います。
+
+```bash
+cat ${TRACE_FILE} | jq '. sort_by(.query_time)' | tail
+```
+
+とかやれば良かったのかな。
+
+## 学んだこと
+
+### コピペは役に立つ
+
+Type Parameterを使用したキャッシュのコードなど、いくつかのコードをコピペしてすぐ使えるようにしていたため、実装時間を大幅に削減できました。
+
+```go
+import (
+	"sync"
+	"time"
+
+	"github.com/patrickmn/go-cache"
+)
+
+type Cache[V any] struct {
+	cache *cache.Cache
+}
+
+func (c *Cache[V]) Get(key string) (V, bool) {
+	v, ok := c.cache.Get(key)
+	if ok {
+		return v.(V), true
+	}
+	var defaultValue V
+	return defaultValue, false
+}
+
+func (c *Cache[V]) Set(k string, v V) {
+	c.cache.Set(k, v, cache.DefaultExpiration)
+}
+```
+
+### チームでやっている場合はスコアが上がらない改善も後々効いてくる
+
+基本的に、ISUCONではその時点における最大のボトルネックを潰さないと大きな得点上昇は見込めません。
+
+3人で同時に改善に当たっている場合は、自分の改善が最大のボトルネックではないことが多いです。
+そのため、たとえスコアが上がらずとも改善をやり続けるのが大事だなと感じました。
+
 ## おわりに
 
 僕がリーダーを務めるチームは 1 回目は FAIL で本選を逃し、2 回目は 48 位で敗退していたため、3 回目の今回はなんとしても本選に行きたいと思ってました。
