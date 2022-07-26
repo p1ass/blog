@@ -584,13 +584,13 @@ BUILD SUCCESSFUL in 0s
 
 ビルドフェーズの概念が分かると、なぜこの順序で `println` が実行されているのか理解できるようになると思います。
 
-### タスクの処理を Convention フェーズに書くか Execution フェーズに書くか
+### タスクの処理を Configuration フェーズに書くか Execution フェーズに書くか
 
-タスクの処理は Convention フェーズと Execution フェーズの両方に書くことができます。
+タスクの処理は Configuration フェーズと Execution フェーズの両方に書くことができます。
 では、どちらにタスクの処理を書くべきでしょうか？
 
-[公式ドキュメントのベストプラクティス](https://docs.gradle.org/current/userguide/authoring_maintainable_build_scripts.html#sec:minimize_logic_executed_configuration_phase)によると、**Convention フェーズに実行されるロジックを最小限に抑えることが推奨されています。**
-Convention フェーズでは、実行するタスク以外のタスクも構成されます。そのため、アクションではないタスクのコードは、ビルドの実行のたびに、たとえ実行されないタスクだとしても毎回実行されてしまいます。
+[公式ドキュメントのベストプラクティス](https://docs.gradle.org/current/userguide/authoring_maintainable_build_scripts.html#sec:minimize_logic_executed_configuration_phase)によると、**Configuration フェーズに実行されるロジックを最小限に抑えることが推奨されています。**
+Configuration フェーズでは、実行するタスク以外のタスクも構成されます。そのため、アクションではないタスクのコードは、ビルドの実行のたびに、たとえ実行されないタスクだとしても毎回実行されてしまいます。
 したがって、タスクの処理はできるだけアクションに書き、Execution フェーズで実行されるようにしてください。
 
 ### タスク間の依存関係と実行順序
@@ -843,7 +843,7 @@ BUILD SUCCESSFUL in 793ms
 1 actionable task: 1 up-to-date34546
 ```
 
-また、プラグインで追加ぢｓたタスクに対して、追加の処理を定義できます。
+また、プラグインで追加したタスクに対して、追加の処理を定義できます。
 
 ```kotlin
 // TaskContainerからタスクを取得している
