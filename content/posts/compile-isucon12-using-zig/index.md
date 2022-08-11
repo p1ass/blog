@@ -2,7 +2,7 @@
 title: ZigでISUCON 12 の予選をCGOクロスコンパイルする
 date: 2022-08-11T00:15:00+09:00
 draft: false
-description: Zigを使うと簡単にCGOクロスコンパイルができたので、ISUCONの問題で試してベンチマーカーを実行シてみました。
+description: Zigを使うと簡単にCGOクロスコンパイルができたので、ISUCONの問題で試してベンチマーカーを実行してみました。
 categories:
   - 開発
 tags:
