@@ -12,7 +12,7 @@ share: true
 
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
-前日投稿した記事「[ISUCON 12 の予選に参加して、7 位で本選進出を決めました](http://localhost:60181/posts/isucon12/)」にて、CGO クロスコンパイルに苦労した話をしました。
+前日投稿した記事「[ISUCON 12 の予選に参加して、7 位で本選進出を決めました](https://blog.p1ass.com/posts/isucon12/)」にて、CGO クロスコンパイルに苦労した話をしました。
 
 その後色々調べたところ、Zig を使うと簡単にコンパイルできることを知ったので試してみました。
 
