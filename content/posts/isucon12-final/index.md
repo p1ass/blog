@@ -12,7 +12,7 @@ share: true
 
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
-前回のブログに引き続き、ISUCON 12 の本選に参加しました。
+前回のブログに引き続き、ISUCON 12 の本選に [@km_conner](https://twitter.com/km_conner) と [@atrn0](https://twitter.com/atrn0) で参加しました。
 
 {{<ex-link url="https://blog.p1ass.com/posts/isucon12/">}}
 
