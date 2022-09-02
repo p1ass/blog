@@ -1,6 +1,6 @@
 ---
 title: ISUCON 12 本選に参加しました
-date: 2022-09-01T21:00:00+09:00
+date: 2022-09-02T21:00:00+09:00
 draft: false
 description: ISUCON12の本選に参加しました。結果は、参考スコア 218,852 点で失格になりました。PASS してたら総合 5 位のスコアのようです。
 categories:
