@@ -1,8 +1,8 @@
 ---
 title: 『Googleのソフトウェアエンジニアリング』を読んだ
-date: 2022-10-15T21:00:00+09:00
+date: 2022-10-17T21:00:00+09:00
 draft: false
-description: TODO
+description: 「理想のテストとは変化しないテストである」がとても印象的でした
 categories:
   - 読書
 tags:
