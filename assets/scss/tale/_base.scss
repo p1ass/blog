@@ -39,23 +39,21 @@ h6 {
   margin: 0 0 $vertical-rhythm-unit;
 }
 
-h1,
-h2 {
+h1 {
   line-height: ($vertical-rhythm-unit * 2);
 }
 
 h2 {
+  line-height: ($vertical-rhythm-unit * 1.5);
+  font-size: 1.75rem;
+}
+
+h2 {
   @media (max-width: 900px) {
-    line-height: ($vertical-rhythm-unit * 1.75);
+    line-height: ($vertical-rhythm-unit * 1.5);
   }
 }
 
-h2:after {
-  display: block;
-  height: 2px;
-  content: '';
-  background-color: $blue;
-}
 
 h3 {
   font-size: 1.3rem;
