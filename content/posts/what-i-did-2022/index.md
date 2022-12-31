@@ -124,9 +124,7 @@ _その場で書いたイラストを終演後にもらえたの嬉しすぎた_
 
 ## 技術
 
-今年はプライベートで技術関連の活動をほとんどしませんでした。
-唯一かつ一番大きいトピックは ISUCON で本戦に出場したことでした。
-
+一番大きいトピックは ISUCON で本戦に出場したことでした。
 詳しいことは下のブログに書いています。
 
 {{<ex-link url="https://blog.p1ass.com/posts/isucon12/">}}
@@ -134,6 +132,12 @@ _その場で書いたイラストを終演後にもらえたの嬉しすぎた_
 
 ![ISUCON12本戦](./isucon.JPG)
 _本戦出場で頂いた名札_
+
+また、AWS と Google Cloud の認定資格を取りました！
+AWS は AWS Certified DevOps Engineer – Professional で、Google Cloud は Professional Cloud Architect です。
+
+![AWS Certified DevOps Engineer – Professional](./aws-certificated.png)
+![Professional Cloud Architect](https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/54045266)
 
 ## 引っ越し
 
@@ -143,4 +147,6 @@ _本戦出場で頂いた名札_
 
 ## おわりに
 
-今年はプライベートが充実した 1 年だったので、来年はもう少し技術で色々としたいですね。
+今年はプライベートが充実した 1 年だったので、来年は技術でモノを作ったりしたいなと思っています。
+
+良いお年を！
