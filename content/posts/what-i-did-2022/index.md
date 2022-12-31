@@ -2,7 +2,7 @@
 title: 2022年にやったこと
 date: 2022-12-31T19:00:00+09:00
 draft: false
-description:
+description: 年末なので2022年にやったことをまとめようと思います
 categories:
   - ポエム
 tags:
