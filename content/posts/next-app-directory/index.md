@@ -1,8 +1,8 @@
 ---
 title: バックエンドエンジニアがNext.jsのApp Directoryに夢を見る
-date: 2023-01-02T19:00:00+09:00
+date: 2023-01-04T15:00:00+09:00
 draft: false
-description: TODO
+description: 今まで SPA を採用しづらかった事業領域でも React のエコシステムを使えるようになりそうな予感がして、かなりワクワクしています。
 categories:
   - 設計
 tags:
