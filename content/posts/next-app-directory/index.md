@@ -2,7 +2,7 @@
 title: バックエンドエンジニアがNext.jsのApp Directoryに夢を見る
 date: 2023-01-04T15:00:00+09:00
 draft: false
-description: 今まで SPA を採用しづらかった事業領域でも React のエコシステムを使えるようになりそうな予感がして、かなりワクワクしています。
+description: JSXをベターテンプレートエンジンとみなして、全部SSRする構成の方がありがたい場合もあるよって話
 categories:
   - 設計
 tags:
