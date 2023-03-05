@@ -1,6 +1,6 @@
 ---
 title: 有機ELテレビを買った 【SONY BRAVIA XRJ-48A90K】
-date: 2023-03-01T00:00:00+09:00
+date: 2023-03-05T21:55:00+09:00
 draft: false
 description: SONYの有機ELテレビを買いました。画質がすごい。
 categories:
