@@ -51,7 +51,7 @@ gcloud iam service-accounts create "service-account-client" \
     --display-name="service-account-client"
 ```
 
-次に、Cloud Run サービスを読み出すために必要なロールである `roles/run.invoker` を持つ [IAM ポリシー](https://cloud.google.com/iam/docs/policies?hl=ja)を作成します。
+次に、Cloud Run サービスを呼び出すために必要なロールである `roles/run.invoker` を持つ [IAM ポリシー](https://cloud.google.com/iam/docs/policies?hl=ja)を作成します。
 このとき、IAM ポリシーのプリンシパルはロールを使いたい方、つまり呼び出し側の `service-account-client` になります。
 
 最後に、この IAM ポリシーを `Server` の Cloud Run サービスにバインドします。
