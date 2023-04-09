@@ -1,0 +1,130 @@
+---
+title: Vercel・Cloud Run間の通信をIAMで認証する
+date: 2023-04-09T22:30:00+09:00
+draft: false
+description: Vercel・Cloud Run間の通信をIAMで認証することで、Vercelからしか叩けないAPIを作る方法を調べました
+categories:
+  - 開発
+tags:
+  - Vercel
+  - Google Cloud
+  - Cloud Run
+share: true
+---
+
+こんにちは、[@p1ass](https://twitter.com)です。
+Google Cloud の IAM を使ったテクニックを紹介します。
+
+## モチベーション
+
+とある趣味のプロジェクトで、Vercel に Node.js のフロントエンドサーバー、Cloud Run にバックエンド API をホスティングするアーキテクチャを設計しました。
+Cloud Run にホスティングしている API は、フロントエンドサーバーが SSR するときに呼び出されます。
+一方で、ブラウザから直接 API を叩くことはありません。
+
+![アーキテクチャ](/posts/vercel-cloud-run-iam/architecture.png)
+_簡略化したアーキテクチャ_
+
+このようなアーキテクチャでは、Vercel から Cloud Run にアクセスできるようにするために、Cloud Run のエンドポイントをインターネットに公開する必要があります。
+しかし、何も対策をせずインターネットに公開してしまうと、URL が露出してしまった際に第三者から API を叩かれてしまう危険性がありました。
+
+そこで、IAM の仕組みを使うことで、エンドポイントをインターネットに公開しつつも、Vercel からしか Cloud Run の API を叩けないようにする仕組みを導入したいです。
+
+<!--more-->
+
+## IAM を使って認証する
+
+### IAM による Cloud Run のサービス間認証の仕組み
+
+まずは、Vercel ではなく Cloud Run 同士の通信を IAM で認証する仕組みを知る必要があります。
+
+{{<ex-link url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja">}}
+
+Cloud Run のサービス間認証では IAM が使われます。
+ここでは、`Client` と `Server` という 2 つの Cloud Run サービスがあると仮定して説明します。
+
+まず、`Client` の Cloud Run サービスにアタッチするサービスアカウント用意します。
+ここでは、`service-account-client` とします。
+
+```shell
+gcloud iam service-accounts create "service-account-client" \
+    --display-name="service-account-client"
+```
+
+作成したサービスアカウントは Cloud Run で使うように設定しておきましょう。 (コマンドは省略)
+
+次に、Cloud Run サービスを呼び出すために必要なロールである `roles/run.invoker` を持つ [IAM ポリシー](https://cloud.google.com/iam/docs/policies?hl=ja)を作成します。
+このとき、IAM ポリシーのプリンシパルはロールを使いたい方、つまり呼び出し側の `service-account-client` になります。
+
+最後に、この IAM ポリシーを `Server` の Cloud Run サービスにバインドします。
+なお、`gcloud` CLI でバインドする場合は、明示的に IAM ポリシーを作成せずに 1 コマンドで実行できます。
+Terraform を使う場合は、これらの違いを意識して resource を書く必要があります。
+
+```shell
+# memberがプリンシパルにあたる
+gcloud run services add-iam-policy-binding "Server" \
+  --member='serviceAccount:service-account-client@[PROJECT_ID].iam.gserviceaccount.com' \
+  --role='roles/run.invoker'
+```
+
+以上の設定により、`Server` の Cloud Run を叩ける権限を持つのは、`service-account-client` のみとなり、`Client` の Cloud Run からしかリクエストを送れなくなります。
+
+この設定を行うことで、開発者は特に意識せずとも裏側で認証を行ってくれます。
+
+### サービス間認証の仕組みを Vercel 上に構築する
+
+Vercel から Cloud Run へのリクエストの認証を行うためには、認証の裏側のロジックも知っておく必要があります。
+
+サービス間認証では、OpenID Connect に準拠した[IDToken](https://cloud.google.com/docs/authentication/token-types?hl=ja#id)を発行し、受け取り側が IDToken を検証することで認証が行われます。
+IDToken は Google の管理する秘密鍵によって署名されているので、受信側(`Server`)は公開鍵で署名を検証することで、リクエスト元の身元を認証できます。
+
+先程のドキュメントによれば、IDToken は次の 2 つのいずれかのヘッダーによって送信されるようです。
+
+> - `Authorization: Bearer ID_TOKEN` ヘッダー。
+> - `X-Serverless-Authorization: Bearer ID_TOKEN` ヘッダー。アプリケーションがすでにカスタム承認に Authorization ヘッダーを使用している場合は、このヘッダーを使用できます。これにより、トークンがユーザー コンテナに渡される前に署名が削除されます。
+
+Cloud Run 同士の通信の場合は IDToken は自動的に発行されますが、Vercel の場合は手動で IDToken を発行する必要があります。
+
+ここでは、Node.js で IDToken を取得・送信するコードを見ていきます。
+まず、事前準備としてサービスアカウントの JSON を発行し、環境変数に登録します。
+本来は Vercel 上で登録しますが、ローカルで試すなら以下のようなコマンドになるでしょう。
+
+```shell
+export SERVICE_ACCOUNT_JSON={....}
+```
+
+IDToken は npm に公開されている [google-auth-library](https://www.npmjs.com/package/google-auth-library) を使うことで生成できます。
+
+```typescript
+import { GoogleAuth } from 'google-auth-library'
+
+// aud="https://my-cloud-run-service.run.app"
+async function getAuthorizationHeaderWithIdToken(aud: string) {
+  const serviceAccountJsonString = process.env.SERVICE_ACCOUNT_JSON
+  if (!serviceAccountJsonString) {
+    throw new Error('The $SERVICE_ACCOUNT_JSON environment variable was not found')
+  }
+
+  const googleAuth = new GoogleAuth({
+    credentials: JSON.parse(serviceAccountJsonString),
+  })
+  const client = await googleAuth.getIdTokenClient(aud)
+
+  // clientを使ってリクエストを送っても良いが、IDTokenだけ欲しい場合はヘッダーから抜き出す
+  const clientHeaders = await client.getRequestHeaders()
+  const authorizationHeaderWithIdToken = clientHeaders['Authorization']
+  return authorizationHeaderWithIdToken // "Bearer eyJ...." の文字列
+}
+```
+
+まず、サービスアカウントを読み込み、`credentials` として渡します。
+その後、`googleAuth.getIdTokenClient(aud)` で HTTP Client を作成します。
+
+`aud` は OpenID Connect の文脈での Audience です。
+Cloud Run では、Cloud Run サービスの URL を指定します。
+なお、注意ですがカスタムドメインを `aud` として指定することは出来ないようです。 `run.app` の URL を指定する必要があります。
+
+## 終わりに
+
+この記事では、Vercel・Cloud Run 間の通信を IAM で認証認可する仕組みを紹介しました。
+
+あくまでサンプルなので、IDToken の使いまわしや有効期限チェックなどのロジックを作り込む必要がありますが、便利な仕組みなので有効活用していきたいです。
