@@ -1,6 +1,6 @@
 ---
 title: Vercel・Cloud Run間の通信をIAMで認証する
-date: 2023-04-02T00:00:00+09:00
+date: 2023-04-09T22:30:00+09:00
 draft: false
 description: Vercel・Cloud Run間の通信をIAMで認証することで、Vercelからしか叩けないAPIを作る方法を調べました
 categories:
@@ -44,12 +44,13 @@ Cloud Run のサービス間認証では IAM が使われます。
 
 まず、`Client` の Cloud Run サービスにアタッチするサービスアカウント用意します。
 ここでは、`service-account-client` とします。
-作成したサービスアカウントは Cloud Run で使うように設定しておきましょう。 (コマンドは省略)
 
 ```shell
 gcloud iam service-accounts create "service-account-client" \
     --display-name="service-account-client"
 ```
+
+作成したサービスアカウントは Cloud Run で使うように設定しておきましょう。 (コマンドは省略)
 
 次に、Cloud Run サービスを呼び出すために必要なロールである `roles/run.invoker` を持つ [IAM ポリシー](https://cloud.google.com/iam/docs/policies?hl=ja)を作成します。
 このとき、IAM ポリシーのプリンシパルはロールを使いたい方、つまり呼び出し側の `service-account-client` になります。
