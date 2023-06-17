@@ -1,6 +1,6 @@
 ---
 title: Google DomainsからCloudflareにドメインを移管した
-date: 2023-06-17T19:52:00+09:00
+date: 2023-06-17T20:00:00+09:00
 draft: false
 description: こういう作業は早めにやっておくのが吉ということで、サービス譲渡が発表されたGoogle DomainsからCloudflareにドメインを移管することにしました。
 categories:
