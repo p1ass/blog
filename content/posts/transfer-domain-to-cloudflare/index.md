@@ -48,7 +48,7 @@ Google Domains 側での作業は終了です。
 ### Cloudflare 側で移管作業をする
 
 Cloudflare にログインし、「[ドメインの移管](https://dash.cloudflare.com/?to=/:account/domains/transfer)」を開きます。
-ただし、ロックを解除した直後だと、まだドメインを移管作業ができない可能性があります。
+ただし、ロックを解除した直後だと、まだドメインの移管作業ができない可能性があります。
 その場合は少し待ちます。
 
 ![ドメインの移管ページ](./dashboard.png)
