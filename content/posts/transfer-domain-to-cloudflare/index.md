@@ -1,0 +1,95 @@
+---
+title: Google DomainsからCloudflareにドメインを移管した
+date: 2023-06-17T19:52:00+09:00
+draft: false
+description: こういう作業は早めにやっておくのが吉ということで、サービス譲渡が発表されたGoogle DomainsからCloudflareにドメインを移管することにしました。
+categories:
+  - 開発
+tags:
+  - Google Domains
+  - Cloudflare
+share: true
+---
+
+こんにちは、[@p1ass](https://twitter.com)です。
+
+先日、Google から Google Domains を Squapace に譲渡すると発表されました。
+
+{{<ex-link url="https://internet.watch.impress.co.jp/docs/news/1509243.html">}}
+
+何もせずともドメインを失うことはないですが、良い機会なのでドメインを Cloudflare に移管することにしました。
+Cloudflare を選んだ理由は、既にネームサーバーとして Cloudflare を利用していたからです。
+
+<!--more-->
+
+## 移管の手順
+
+私は既にネームサーバーとして既に Cloudflare を利用しているので作業手順が少ないです。
+Google Domains のままの方はネームサーバーの変更を先に行う必要があります。
+
+{{<ex-link url="https://developers.cloudflare.com/registrar/get-started/transfer-domain-to-cloudflare/">}}
+
+### Google Domain 側で移管の準備する
+
+まず [Google Domains](https://domains.google.com/registrar) を開き、「登録の設定」画面を開きます。
+その中に、「Google から移管」という項目があるので、「認証コードを取得」をクリック。
+
+![設定画面](./setting_page.png)
+
+すると、ドメインロックの解除のモーダルが出てくるので、「ロックを解除して続行」をクリック。
+
+![ロックを解除する](./lock.png)
+
+認証コードが表示されるので、コードをコピっておきます。
+Google Domains 側での作業は終了です。
+
+![認証コード](./auth_code.png)
+
+### Cloudflare 側で移管作業をする
+
+Cloudflare にログインし、「[ドメインの移管](https://dash.cloudflare.com/?to=/:account/domains/transfer)」を開きます。
+ただし、ロックを解除した直後だと、まだドメインを移管作業ができない可能性があります。
+その場合は少し待ちます。
+
+![ドメインの移管ページ](./dashboard.png)
+
+数時間後に確認すると、移管を開始できるようになっていました。
+「ドメインを確認する」をクリックします。
+
+![ロックが解除されている](./start_transfer.png)
+
+認証コードの入力画面になるので、先程コピっておいた認証コードを入力して、先に進みます。
+
+![認証コードを入力する](./input_auth_code.png)
+
+最後に WHOIS 用の連絡先を入力します。
+なお WHOIS 情報は Google Domains と同様に保護されます。
+
+{{<ex-link url="https://developers.cloudflare.com/registrar/get-started/whois-redaction/">}}
+
+![WHOIS用の連絡先](./input_whois.png)
+
+これで Cloudflare 側の設定は完了です。
+
+![完了画面](./complete.png)
+
+メールボックスを確認すると、Google Domains から移管の承認を求めるメールが届いています。
+
+![移管の承認を求めるメール](./verify_email.png)
+
+リンクを開いて「移管」します。
+
+![移管の承認](./verify.png)
+
+これにて完了です。
+Cloudflare からも移管が完了したことを示すメールが届いています。
+
+![移管の完了](./complete_mail.png)
+
+以上で移管作業は完了です。
+
+![完了後のコンソール](./management_console.png)
+
+## 終わりに
+
+初めてドメインの移管作業をしましたが、結構簡単ですね。
