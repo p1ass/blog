@@ -13,7 +13,9 @@ share: true
 
 こんにちは、[@p1ass](https://twitter.com)です。
 
-先日、Google から Google Domains を Squapace に譲渡すると発表されました。
+先日、Google から Google Domains を Squarespace に譲渡すると発表されました。
+
+(Edited(2023/06/18): Squarespace のスペルが間違っていました。)
 
 {{<ex-link url="https://internet.watch.impress.co.jp/docs/news/1509243.html">}}
 
