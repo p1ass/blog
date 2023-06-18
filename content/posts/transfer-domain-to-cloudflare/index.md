@@ -26,7 +26,7 @@ Cloudflare を選んだ理由は、既にネームサーバーとして Cloudfla
 
 ## 移管の手順
 
-私は既にネームサーバーとして既に Cloudflare を利用しているので作業手順が少ないです。
+私は既にネームサーバーとして Cloudflare を利用しているので作業手順が少ないです。
 Google Domains のままの方はネームサーバーの変更を先に行う必要があります。
 
 {{<ex-link url="https://developers.cloudflare.com/registrar/get-started/transfer-domain-to-cloudflare/">}}
