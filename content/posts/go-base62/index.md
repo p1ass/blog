@@ -26,7 +26,7 @@ Google で `Go base62` などと検索するとサードパーティパッケー
 
 ## 方法 2: `math/big` パッケージを使う
 
-サードパーティパッケージを使えば実現できるのですが、できれば標準ライブラリでできれば良いな〜と探していたところ、以下の記事を見つけました。
+サードパーティパッケージを使えば実現できるのですが、できれば標準ライブラリのみで実現できる良いな〜と探していたところ、以下の記事を見つけました。
 
 {{<ex-title-link url="https://ucarion.com/go-base62" title="You may not need a base62 external dependency in Go">}}
 
