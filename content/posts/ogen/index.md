@@ -2,7 +2,7 @@
 title: 最近のGoのOpenAPI Generatorの推しはogen
 date: 2023-09-12T20:00:00+09:00
 draft: false
-description: TODO
+description: OpenAPIからのコード生成であんまり満足できるものがなかったんだけど、ogenは結構良さげそうだった
 categories:
   - 開発
 tags:
