@@ -96,6 +96,12 @@ type ServerInterface interface {
 
 interface はぶっちゃけ好みの領域なところもありますが、僕は ogen の形式が好きだな〜と思ってます。
 
+##### 2023-09-13 追記
+
+SNS で教えていただいたのですが、oapi-codegen の Strict server generation の機能を使うと、似たような interface を生成できるようです。
+
+https://github.com/deepmap/oapi-codegen/tree/master#strict-server-generation
+
 ### null や optional に対してちゃんと型を付けようと努力している
 
 `null` や `optional` は OpenAPI の仕様の中でもややこしい部類のものですが、ogen はそれらに対して真っ向から対応してくれています。
