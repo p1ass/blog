@@ -2,7 +2,7 @@
 title: ISUCON13に参加して4位になりました (187,577点)
 date: 2023-11-28T21:00:00+09:00
 draft: false
-description: ISUCON13に参加して4位になりました。この記事では新たに導入したTailscaleやGitHub Copilot、OpenTelemetryや改善した点について紹介します。
+description: ISUCON13に参加して4位になりました。この記事では新たに導入したTailscale、GitHub Copilot、OpenTelemetryや改善した点について紹介します。
 categories:
   - ISUCON
 tags:
