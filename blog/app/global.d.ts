@@ -1,7 +1,10 @@
 import {} from 'hono'
+import { Meta } from './routes/types'
 
 type Head = {
   title?: string
+
+  frontmatter?: Meta
 }
 
 declare module 'hono' {
@@ -10,6 +13,9 @@ declare module 'hono' {
     Bindings: {}
   }
   interface ContextRenderer {
-    (content: string | Promise<string>, head?: Head): Response | Promise<Response>
+    (
+      content: string | Promise<string>,
+      head?: Head,
+    ): Response | Promise<Response>
   }
 }
