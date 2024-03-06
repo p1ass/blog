@@ -1,0 +1,156 @@
+---
+title: 最近のGoのOpenAPI Generatorの推しはogen
+date: 2023-09-12T20:00:00+09:00
+draft: false
+description: OpenAPIからのコード生成であんまり満足できるものがなかったんだけど、ogenは結構良さげそうだった
+categories:
+  - 開発
+tags:
+  - Go
+  - OpenAPI
+share: true
+---
+
+## はじめに
+
+OpenAPI の yaml ファイルから Go のコードを生成する OSS ツールは何種類か存在します。
+よく使われるのは[OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator)や[deepmap/oapi-codegen](https://github.com/deepmap/oapi-codegen)でしょうか。
+
+ググると日本語の記事もたくさん出てきます。
+
+{/*{<ex-link url="https://tech.layerx.co.jp/entry/generate-go-code-by-openapi-generator">}*/}
+{/*{<ex-link url="https://techblog.zozo.com/entry/openapi3/go">}*/}
+{/*{<ex-link url="https://future-architect.github.io/articles/20200701/">}*/}
+
+もちろんこれらの OSS は便利なのですが、生成される interface や型が個人的にあまり好みではなく、モヤモヤしながら使っていました。
+
+そんな中、新しめの OSS である[ogen-dev/ogen](https://github.com/ogen-go/ogen)というツールが良さげだという情報をキャッチし、実際に使ってみたところ自分の好みにフィットするツールだということが見えてきました。
+
+{/*{<ex-link url="https://ogen.dev/">}*/}
+
+{/* <!--more--> */}
+
+## ogen の良いところ
+
+### gRPC ライクな interface
+
+ogen で生成されるサーバーの interface は次のような形です。
+
+{/* <!--more--> */}
+
+```go
+// Handler handles operations described by OpenAPI v3 specification.
+type Handler interface {
+    // AddPet implements addPet operation.
+    //
+    // Add a new pet to the store.
+    //
+    // POST /pet
+    AddPet(ctx context.Context, req *Pet) (*Pet, error)
+    // DeletePet implements deletePet operation.
+    //
+    // Deletes a pet.
+    //
+    // DELETE /pet/{petId}
+    DeletePet(ctx context.Context, params DeletePetParams) error
+    // GetPetById implements getPetById operation.
+    //
+    // Returns a single pet.
+    //
+    // GET /pet/{petId}
+    GetPetById(ctx context.Context, params GetPetByIdParams) (GetPetByIdRes, error)
+    // UpdatePet implements updatePet operation.
+    //
+    // Updates a pet in the store.
+    //
+    // POST /pet/{petId}
+    UpdatePet(ctx context.Context, params UpdatePetParams) error
+}
+```
+
+gRPC や [twirp](https://github.com/twitchtv/twirp)など、Protocol Buffers ベースの RPC の interface と非常によく似た interface を吐き出してくれます。
+これに対し、openapi-generator や oapi-codegen は次のようなコードを生成します。
+
+```go
+// openapi-generatorの場合
+
+type PetAPIRouter interface {
+	AddPet(w http.ResponseWriter, r *http.Request)
+	DeletePet(w http.ResponseWriter, r *http.Request)
+	FindPetById(w http.ResponseWriter, r *http.Request)
+	FindPets(w http.ResponseWriter, r *http.Request)
+}
+```
+
+```go
+// oapi-codegen (echoベース)の場合
+
+type ServerInterface interface {
+	AddPet(ctx echo.Context) error
+	DeletePet(ctx echo.Context, id int64) error
+	GetPetById(ctx echo.Context, id int64) error
+}
+```
+
+これらのツールはオプションによって他の形式で出力することもできますが、`MethodName(ctx, param) (response, error)` という形式で出力してくれるものはありません。多分。
+
+interface はぶっちゃけ好みの領域なところもありますが、僕は ogen の形式が好きだな〜と思ってます。
+
+##### 2023-09-13 追記
+
+SNS で教えていただいたのですが、oapi-codegen の Strict server generation の機能を使うと、似たような interface を生成できるようです。
+
+https://github.com/deepmap/oapi-codegen/tree/master#strict-server-generation
+
+### null や optional に対してちゃんと型を付けようと努力している
+
+`null` や `optional` は OpenAPI の仕様の中でもややこしい部類のものですが、ogen はそれらに対して真っ向から対応してくれています。
+
+{/*{<ex-link url="https://ogen.dev/docs/types/optional">}*/}
+
+下記の 4 つの型を明確に区別し、その型に対応する形でコードを生成してくれます。
+
+- required: `T`
+- optional: `Opt[#T]`
+- nullable, but required: `Nil[#T]`
+- optional & nullable: `OptNil[#T]`
+
+optional & nullable の場合はこんな感じ。
+
+```go
+// OptNilString is optional nullable string.
+type OptNilString struct {
+    Value string
+    Set   bool
+    Null  bool
+}
+
+// IsSet returns true if OptNilString was set.
+func (o OptNilString) IsSet() bool
+// Reset unsets value.
+func (o *OptNilString) Reset()
+// SetTo sets value to v.
+func (o *OptNilString) SetTo(v string)
+// IsSet returns true if value is Null.
+func (o OptNilString) IsNull() bool
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilString) Get() (v string, ok bool)
+// Or returns value if set, or given parameter if does not.
+func (o OptNilString) Or(d string) string
+
+func NewOptNilString(v string) OptNilString
+```
+
+こういう Optional 型は自分で書くのは面倒くさいんだけど、自動生成してくれるならありがたく使っちゃおうかな〜と思える便利さがありました。
+
+### OpenTelemetry の標準サポート
+
+この手のツールでは珍しいのですが、OpenTelemetry の Trace や Metrics を標準でサポートしています。
+
+個人的に OpenTelemetry はもっと普及してほしいなぁと思ってるので、こういった HTTP サーバーや HTTP クライアントに標準で組み込まれていく動きはとても 👍 です。
+
+## おわりに
+
+今回は簡単な ogen の紹介記事でした。
+
+実際に使い込んでいくと、「このパターンの値ってどうやって取るの？」、「うまく生成できないんだけど」というパターンに遭遇することはあると思います(実際にありました)が、まずはものの試しで使ってみると色々と見えてくるものがありそうです。
