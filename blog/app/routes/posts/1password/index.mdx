@@ -10,9 +10,6 @@ tags:
 share: true
 ---
 
-import PwnedImg from "./pwned.png";
-import PasswordCheckImg from "./password_check.jpg";
-
 こんにちは、ぷらす({/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */})です。
 
 タイトルの通り、パスワードが漏れていたので 1Password を導入しました。この記事では、パスワード漏洩の発覚の経緯から 1Password の導入までを導入までを（ほぼ）時系列で紹介します。
@@ -41,10 +38,7 @@ Have I Been Pwned は過去の個人情報流出や情報漏洩事件の情報�
 
 結果は Red で漏洩していました。
 
-<img
-  src={PwnedImg}
-  alt="Have I Been Pwned でメールアドレスを入力したときの結果"
-/>
+![Have I Been Pwned でメールアドレスを入力したときの結果](./pwned.png)
 
 _Have I Been Pwned でメールアドレスを入力したときの結果_
 
@@ -52,7 +46,7 @@ _Have I Been Pwned でメールアドレスを入力したときの結果_
 
 結果は不正使用されたパスワードが 131 件、再利用されているパスワードが 335 件でした。
 
-<img src={PasswordCheckImg} alt="Googleパスワードチェックアップ" />
+![Googleパスワードチェックアップ](./password_check.jpg)
 
 流石に数が多すぎて自分でもドン引きしました。登録されているパスワードが 523 件だったので過半数以上が再利用されていました。
 

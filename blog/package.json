@@ -15,8 +15,10 @@
     "@mdx-js/rollup": "^3.0.1",
     "hono": "^4.0.9",
     "honox": "^0.1.4",
+    "rehype-highlight": "^7.0.0",
     "remark-frontmatter": "^5.0.0",
-    "remark-mdx-frontmatter": "^4.0.0"
+    "remark-mdx-frontmatter": "^4.0.0",
+    "remark-mdx-images": "^3.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
