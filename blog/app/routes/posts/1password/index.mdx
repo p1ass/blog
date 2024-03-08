@@ -1,16 +1,19 @@
 ---
-title: "131件のパスワードが不正使用されていたので1Passwordを導入した"
+title: "131 件のパスワードが不正使用されていたので 1Password を導入した"
 date: 2020-02-06T15:00:00+09:00
 draft: false
-description: Instagramに不正ログインされたことをきっかけにパスワードが漏洩していることが発覚したので1Passwordを導入して全てのアカウントのパスワードを変更することにしました。
+description: Instagram に不正ログインされたことをきっかけにパスワードが漏洩していることが発覚したので 1Password を導入して全てのアカウントのパスワードを変更することにしました。
 categories:
-  - Webサービス
+  - Web サービス
 tags:
   - 1Password
 share: true
 ---
 
-こんにちは、ぷらす({/*{<link href="https://twitter.com/p1ass" text="@p1ass" >}*/})です。
+import PwnedImg from "./pwned.png";
+import PasswordCheckImg from "./password_check.jpg";
+
+こんにちは、ぷらす({/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */})です。
 
 タイトルの通り、パスワードが漏れていたので 1Password を導入しました。この記事では、パスワード漏洩の発覚の経緯から 1Password の導入までを導入までを（ほぼ）時系列で紹介します。
 
@@ -22,7 +25,7 @@ share: true
 
 「パスワード漏れたのかなぁ、でもインスタのパスワードは他で使い回してないよな...？」と思いながらよくメールを見ると、ログイン通知が来たアカウントは今メインで使っているアカウントではなく、5 年以上放置しているアカウントでした。
 
- {/* <!--more--> */}
+{/* <!--more--> */}
 
 この時点で **「あっヤバイ」** となりました。
 
@@ -32,20 +35,24 @@ share: true
 
 ## パスワード流失の確認
 
-本当にパスワードが漏れたのか確認する必要があると感じたので、友人に教えてもらった{/*{<link href="https://haveibeenpwned.com/" text="Have I Been Pwned" >}*/}を使ってみました。
+本当にパスワードが漏れたのか確認する必要があると感じたので、友人に教えてもらった{/* {<link href="https://haveibeenpwned.com/" text="Have I Been Pwned" >} */}を使ってみました。
 
 Have I Been Pwned は過去の個人情報流出や情報漏洩事件の情報を元にメールアドレスを入力するだけで個人情報やパスワード漏洩を確認することができるサイトです。
 
 結果は Red で漏洩していました。
 
-![Have I Been Pwned](pwned.png)
+<img
+  src={PwnedImg}
+  alt="Have I Been Pwned でメールアドレスを入力したときの結果"
+/>
+
 _Have I Been Pwned でメールアドレスを入力したときの結果_
 
 次に Google のパスワードチェックアップでパスワードの不正使用を確認しました。今までパスワードの管理は全て Google に任せていて自分が作成したアカウントのパスワードは全て登録されているので、どれだけパスワードを使い回しているか分かると思ったからです。
 
 結果は不正使用されたパスワードが 131 件、再利用されているパスワードが 335 件でした。
 
-![Googleパスワードチェックアップ](password_check.jpg)
+<img src={PasswordCheckImg} alt="Googleパスワードチェックアップ" />
 
 流石に数が多すぎて自分でもドン引きしました。登録されているパスワードが 523 件だったので過半数以上が再利用されていました。
 
@@ -70,7 +77,7 @@ _Have I Been Pwned でメールアドレスを入力したときの結果_
 
 次に Google のパスワードマネージャに登録されているパスワードを一括エクスポートして、1Password にインポートしました。方法は以下の公式サポートが参考になりました。
 
-{/*{<block-link href="https://support.1password.com/import-chrome/" >}*/}
+{/* {<block-link href="https://support.1password.com/import-chrome/" >} */}
 
 移行が終わった時点で 1Password に登録されたパスワードは **523 件** した。しかしよく見てみると、ドメイン違いで同じサービスのパスワードが複数登録されている様子が確認できました。(api.twittter.com と twitter.com で同じアカウントが登録されているなど)
 

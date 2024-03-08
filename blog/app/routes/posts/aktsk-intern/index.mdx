@@ -15,13 +15,19 @@ tags:
 share: true
 ---
 
-こんにちは、株式会社アカツキでインターンしている {/*{<link href="https://twitter.com/p1ass" text="@p1ass" >}*/} です。
+こんにちは、株式会社アカツキでインターンしている {/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */} です。
 
 今回は、ゲーム内仮想通貨管理サービスの設計改善を行った上で分かった、コードの可読性やテスタビリティを向上させる設計方法や、実際の作業を行う上で苦労したポイントを紹介します。
 
 {/* <!--more--> */}
 
-<script async class="speakerdeck-embed" data-id="0c518f77dec8474f99c6f80994ffbba3" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+<script
+  async
+  class="speakerdeck-embed"
+  data-id="0c518f77dec8474f99c6f80994ffbba3"
+  data-ratio="1.77777777777778"
+  src="//speakerdeck.com/assets/embed.js"
+></script>
 
 ## ゲーム内仮想通貨管理サービスとは
 
@@ -32,7 +38,7 @@ share: true
 
 今回の移行を行うことになった発端はライブラリ移行でした。
 
-このサービスは GAE 上で動いていて、データベースには datastore が使われています。datastore へのアクセスには自動キャッシュをしていくれる{/*{<link href="https://github.com/mjibson/goon" text="mjibson/goon" >}*/}というライブラリを使っているのですが、これを使っているせいで微妙な実装になっている部分がありました。その流れで、使用するライブラリを{/*{<link href="https://github.com/mercari/datastore" text="mercari/datastore" >}*/}に移行しようという話になり、自分が担当することになりました。
+このサービスは GAE 上で動いていて、データベースには datastore が使われています。datastore へのアクセスには自動キャッシュをしていくれる{/* {<link href="https://github.com/mjibson/goon" text="mjibson/goon" >}*/}というライブラリを使っているのですが、これを使っているせいで微妙な実装になっている部分がありました。その流れで、使用するライブラリを{/*{<link href="https://github.com/mercari/datastore" text="mercari/datastore" >} */}に移行しようという話になり、自分が担当することになりました。
 
 ## 現状の課題
 
@@ -150,9 +156,9 @@ for _, tt := range tests {
 
 私は以前から Clean Architecture などのアプリケーションレベルのアーキテクチャに興味を持っており、実際に趣味で開発しているコードでも Clean Architecture **ライク** アーキテクチャの導入を検討していました。
 
-{/*{<block-link href="https://www.amazon.co.jp/dp/4048930656/ref=cm_sw_r_tw_dp_U_x_1zCGDbBZ0R26Y" text="Clean Architecture 達人に学ぶソフトウェアの構造と設計"  >}*/}
+{/* {<block-link href="https://www.amazon.co.jp/dp/4048930656/ref=cm_sw_r_tw_dp_U_x_1zCGDbBZ0R26Y" text="Clean Architecture 達人に学ぶソフトウェアの構造と設計"  >} */}
 
-{/*<a href="https://www.amazon.co.jp/%E4%B8%96%E7%95%8C%E3%81%A7%E9%97%98%E3%81%86%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%8A%9B%E3%82%92%E9%8D%9B%E3%81%88%E3%82%8B%E6%9C%AC-%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E9%9D%A2%E6%8E%A5189%E5%95%8F%E3%81%A8%E3%81%9D%E3%81%AE%E8%A7%A3%E6%B3%95-Gayle-Laakmann-McDowell/dp/4839960100/ref=as_li_ss_il?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=1JS9G2UP6EGVD&keywords=cracking+the+coding+interview&qid=1564644328&s=books&sprefix=Crac,stripbooks,254&sr=1-2&linkCode=li3&tag=plus03b7-22&linkId=b9f2fb658641220d349adc5de977481a&language=ja_JP" target="_blank"><img src="https://images-na.ssl-images-amazon.com/images/I/51LkcwTMC8L._SX387_BO1,204,203,200_.jpg" alt="Clean Architecture 達人に学ぶソフトウェアの構造と設計" ></a> */}
+{/* <a href="https://www.amazon.co.jp/%E4%B8%96%E7%95%8C%E3%81%A7%E9%97%98%E3%81%86%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%8A%9B%E3%82%92%E9%8D%9B%E3%81%88%E3%82%8B%E6%9C%AC-%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E9%9D%A2%E6%8E%A5189%E5%95%8F%E3%81%A8%E3%81%9D%E3%81%AE%E8%A7%A3%E6%B3%95-Gayle-Laakmann-McDowell/dp/4839960100/ref=as_li_ss_il?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=1JS9G2UP6EGVD&keywords=cracking+the+coding+interview&qid=1564644328&s=books&sprefix=Crac,stripbooks,254&sr=1-2&linkCode=li3&tag=plus03b7-22&linkId=b9f2fb658641220d349adc5de977481a&language=ja_JP" target="_blank"><img src="https://images-na.ssl-images-amazon.com/images/I/51LkcwTMC8L._SX387_BO1,204,203,200_.jpg" alt="Clean Architecture 達人に学ぶソフトウェアの構造と設計" ></a> */}
 
 しかし、個人レベルのコードでは嬉しみが見えづらいものなので、 **「ただ冗長な書き方をしているだけでメリットがないのでは？」** 思うようになっていました。
 

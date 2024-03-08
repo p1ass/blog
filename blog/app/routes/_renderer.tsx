@@ -1,15 +1,43 @@
 import { Style, css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
+import { Header } from '../components/Header'
+import { gray } from '../styles/color'
 
 const bodyCss = css`
-  color: #1e2126;
+  color: ${gray};
+  font-size: 16px;
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI",
     "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI",
     "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
-`
 
-const titleCss = css``
+  margin: 0;
+  padding: 0;
+
+  * {
+    line-height: 1.7rem;
+  }
+
+  h1 {
+    line-height: 3.4rem;
+}
+
+h2 {
+    line-height: 2.55rem;
+    font-size: 1.75rem
+}
+
+h3 {
+font-size: 1.3rem;
+line-height: 2.55rem;
+border-bottom: 1px solid #dde0e4;
+}
+
+p {
+  margin: 0 0 1.7rem;
+  line-height: 2.125rem;
+}
+`
 
 const mainCss = css`
   margin: 0 auto;
@@ -44,6 +72,11 @@ export default jsxRenderer(({ children, title }) => {
         <meta name='twitter:creator' content='@p1ass' />
         <meta property='og:title' content='{{ .Title }}' />
 
+        <link
+          rel='stylesheet'
+          href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css'
+        />
+
         <script
           src='https://kit.fontawesome.com/ea66b8338f.js'
           crossorigin='anonymous'
@@ -65,17 +98,7 @@ export default jsxRenderer(({ children, title }) => {
         <Style />
       </head>
       <body class={bodyCss}>
-        <nav>
-          <h2 class={titleCss}>ぷらすのブログ</h2>
-          <ul>
-            <li>Categories</li>
-            <li>Tags</li>
-            <li>RSS</li>
-            <li>Portfolio</li>
-            <li>GitHub</li>
-            <li>Twitter</li>
-          </ul>
-        </nav>
+        <Header />
         <main class={mainCss}>{children}</main>
       </body>
     </html>
