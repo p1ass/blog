@@ -1,6 +1,6 @@
 ---
 title: GitHub APIを使ってブランチを新規作成する
-date: 2020-03-10T23:00:00+09:00
+date: 2020-03-10T23:00:00
 draft: false
 description: GitHub APIを用いてブランチを作成するには、gitのref(参照)を操作するAPIを使用します。
 categories:
@@ -10,7 +10,7 @@ tags:
 share: true
 ---
 
-こんにちは、({/*{<link href="https://twitter.com/p1ass" text="@p1ass" >}*/})です。
+こんにちは、({/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */})です。
 
 先日、GitHub API を使用して git のブランチを作成しようとしたのですが、純粋にブランチを作成する API が生えておらず、色々調べた結果作成できることが分かってのでメモを残しておきます。
 
@@ -20,7 +20,7 @@ share: true
 
 ここに書いてありました。
 
-{/*{<ex-link url="https://stackoverflow.com/questions/9506181/github-api-create-branch/9513594" >}*/}
+{/* {<ex-link url="https://stackoverflow.com/questions/9506181/github-api-create-branch/9513594" >} */}
 
 GitHub API を用いてブランチを作成するには、git の ref(参照)を操作する API を使用します。
 
@@ -78,7 +78,7 @@ git におけるブランチは基本的にポインタ（参照）であり、�
 
 ![](data-model-4.png)
 
-引用: {/*{<link text="Gitの内側 - Gitの参照" href="https://git-scm.com/book/ja/v2/Git%E3%81%AE%E5%86%85%E5%81%B4-Git%E3%81%AE%E5%8F%82%E7%85%A7" >}*/}
+引用: {/* {<link text="Gitの内側 - Gitの参照" href="https://git-scm.com/book/ja/v2/Git%E3%81%AE%E5%86%85%E5%81%B4-Git%E3%81%AE%E5%8F%82%E7%85%A7" >} */}
 
 そのため、起点となるコミットのハッシュ値に対して参照を作ることはブランチを作成する行為を一致します。
 

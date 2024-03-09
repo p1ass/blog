@@ -1,6 +1,6 @@
 ---
 title: Goのmath/bigパッケージを使ってbase62エンコードをする
-date: 2023-06-28T21:30:00+09:00
+date: 2023-06-28T21:30:00
 draft: false
 description: Goのmath/bigパッケージを使うことであるバイト列を `[a-zA-Z0-9]` の範囲の文字を使ってエンコードすることができます。
 categories:
@@ -22,13 +22,13 @@ Go で base62 エンコード、つまりあるバイト列を `[a-zA-Z0-9]` の
 
 Google で `Go base62` などと検索するとサードパーティパッケージが検索結果に出てきます。
 
-{/*{<ex-link url="https://github.com/jxskiss/base62">}*/}
+{/* {<ex-link url="https://github.com/jxskiss/base62">} */}
 
 ## 方法 2: `math/big` パッケージを使う
 
 サードパーティパッケージを使えば実現できるのですが、できれば標準ライブラリのみで実現できる良いな〜と探していたところ、以下の記事を見つけました。
 
-{/*{<ex-title-link url="https://ucarion.com/go-base62" title="You may not need a base62 external dependency in Go">}*/}
+{/* {<ex-title-link url="https://ucarion.com/go-base62" title="You may not need a base62 external dependency in Go">} */}
 
 この記事を参考にすると、ランダムに生成したバイト列を base62 エンコードするコードは次のように書くことができます。
 
@@ -100,7 +100,7 @@ var i big.Int
 i.SetBytes(b)  // []byte型で初期化
 ```
 
-{/*{<ex-link url="https://pkg.go.dev/math/big#Int.SetString">}*/}
+{/* {<ex-link url="https://pkg.go.dev/math/big#Int.SetString">} */}
 
 #### `big.Int` は 2~62 の範囲を基底にした文字列表現が可能
 
@@ -138,7 +138,7 @@ func main() {
 
 と書かれており、base62 でのエンコーディングまでサポートしていることが分かります。
 
-{/*{<ex-link url="https://pkg.go.dev/math/big#Int.Text">}*/}
+{/* {<ex-link url="https://pkg.go.dev/math/big#Int.Text">} */}
 
 ## おわりに
 

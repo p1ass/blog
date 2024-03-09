@@ -1,6 +1,6 @@
 ---
 title: Vercel・Cloud Run間の通信をIAMで認証する
-date: 2023-04-09T22:30:00+09:00
+date: 2023-04-09T22:30:00
 draft: false
 description: Vercel・Cloud Run間の通信をIAMで認証することで、Vercelからしか叩けないAPIを作る方法を調べました
 categories:
@@ -37,7 +37,7 @@ _簡略化したアーキテクチャ_
 
 まずは、Vercel ではなく Cloud Run 同士の通信を IAM で認証する仕組みを知る必要があります。
 
-{/*{<ex-link url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja">}*/}
+{/* {<ex-link url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja">} */}
 
 Cloud Run のサービス間認証では IAM が使われます。
 ここでは、`Client` と `Server` という 2 つの Cloud Run サービスがあると仮定して説明します。
@@ -95,24 +95,26 @@ export SERVICE_ACCOUNT_JSON={....}
 IDToken は npm に公開されている [google-auth-library](https://www.npmjs.com/package/google-auth-library) を使うことで生成できます。
 
 ```typescript
-import { GoogleAuth } from 'google-auth-library'
+import { GoogleAuth } from "google-auth-library";
 
 // aud="https://my-cloud-run-service.run.app"
 async function getAuthorizationHeaderWithIdToken(aud: string) {
-  const serviceAccountJsonString = process.env.SERVICE_ACCOUNT_JSON
+  const serviceAccountJsonString = process.env.SERVICE_ACCOUNT_JSON;
   if (!serviceAccountJsonString) {
-    throw new Error('The $SERVICE_ACCOUNT_JSON environment variable was not found')
+    throw new Error(
+      "The $SERVICE_ACCOUNT_JSON environment variable was not found"
+    );
   }
 
   const googleAuth = new GoogleAuth({
     credentials: JSON.parse(serviceAccountJsonString),
-  })
-  const client = await googleAuth.getIdTokenClient(aud)
+  });
+  const client = await googleAuth.getIdTokenClient(aud);
 
   // clientを使ってリクエストを送っても良いが、IDTokenだけ欲しい場合はヘッダーから抜き出す
-  const clientHeaders = await client.getRequestHeaders()
-  const authorizationHeaderWithIdToken = clientHeaders['Authorization']
-  return authorizationHeaderWithIdToken // "Bearer eyJ...." の文字列
+  const clientHeaders = await client.getRequestHeaders();
+  const authorizationHeaderWithIdToken = clientHeaders["Authorization"];
+  return authorizationHeaderWithIdToken; // "Bearer eyJ...." の文字列
 }
 ```
 

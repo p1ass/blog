@@ -1,6 +1,6 @@
 ---
 title: ISUCON11予選に出場し48位で予選敗退しました
-date: 2021-08-24T00:00:00+09:00
+date: 2021-08-24T00:00:00
 draft: false
 description: ISUCON11の予選に参加しました。去年は FAIL で学生枠の本戦出場を逃したので「今年こそは！」と思っていたのですが、タイトルの通り予選敗退しました。結果は Best が 71,673 点、追試スコアが 67,097 点で 48 位でした。
 categories:
@@ -19,7 +19,6 @@ eyecatch: /posts/isucon11/pprof_12pm.png
 
 この記事では、競技中にやったことをまとめておきます。
 実装言語は Go で、メンバーは [@Lorse](https://twitter.com/LorseKudos)と [@usagiga](https://twitter.com/usagiga_dev)です。
-
 
 {/* <!--more--> */}
 
@@ -40,34 +39,34 @@ usagiga が全サーバに alp などの初期設置を撒くスクリプトと 
 `jia_isu_uuid, timestamp` のインデックスを貼ってくれました。
 MariaDB では降順インデックスが効かないのですが、とりあえず放置で ASC のインデックスを貼ってくれました。
 
-
 ### `getTrend` の N+1 の改善を試みる
 
 pprof を取ったところ `getTrend` が重たそうだったので改善を試みました。(`postIsuCondition` は後回しにしたけど、理由は忘れました。)
 
 ![初期のpprof](pprof_10am.png)
-_初期のpprof_
+_初期の pprof_
 
-`getTrend` は 
-- `character` と `isuList` の2重ループ
+`getTrend` は
+
+- `character` と `isuList` の 2 重ループ
 - 各 `isu` ごとに最新の `condition` しかいらないのにすべて取得している
 
- という2つの問題があったので、これらをどうにか 1 回で取ってこようとしました。
+という 2 つの問題があったので、これらをどうにか 1 回で取ってこようとしました。
 
-ただ、`character` は25 個固定で増える様子がなかったので先に `condition` のほうを改善しようと思い、次のようなクエリを書きました。
+ただ、`character` は 25 個固定で増える様子がなかったので先に `condition` のほうを改善しようと思い、次のようなクエリを書きました。
 
 ```sql
 SELECT SUB.id, MAIN.timestamp, MAIN.`condition`
 FROM isu_condition as MAIN
-INNER JOIN ( 
+INNER JOIN (
   SELECT isu.id as id, MAX(ic.timestamp) as max_timestamp,
-         `condition`, ic.jia_isu_uuid 
+         `condition`, ic.jia_isu_uuid
   FROM `isu` as isu
-  LEFT JOIN isu_condition as ic 
+  LEFT JOIN isu_condition as ic
     ON isu.jia_isu_uuid = ic.jia_isu_uuid
-  WHERE `character` = ? 
+  WHERE `character` = ?
   GROUP BY id
-) as SUB 
+) as SUB
 ON MAIN.jia_isu_uuid = SUB.jia_isu_uuid AND MAIN.timestamp = SUB.max_timestamp
 ORDER BY MAIN.timestamp DESC
 ```
@@ -79,7 +78,7 @@ ORDER BY MAIN.timestamp DESC
 
 よくコードを見ると、トランザクションを貼る必要がないのにトランザクションを貼っている部分があったので、剥がしました。
 
-### APP : DBを 1 : 1 構成にする
+### APP : DB を 1 : 1 構成にする
 
 事前に DB を別サーバに移すことは決まっていたので、裏でやってくれました。
 「`bind-address` の設定がうまくいかない」と少し詰まってたみたいですが、見ていたファイルが違っていて `/etc/mysql/mariadb.conf.d/50-server.cnf` の設定を書き換えたらできたらしいです。
@@ -149,15 +148,16 @@ pprof を見ると、 `postIsuCondition` が大きくなってきたので対策
 ```
 
 ログを見た結果、方針としては、
+
 - 相変わらず `api/trend` が重いので改善したい
 - `/api/condition/.+ ` を改善したい
 - `/api/isu/.+/icon` を改善したい
 
-の3つで戦っていくことにしました。
+の 3 つで戦っていくことにしました。
 
 ### `getTrend` のレスポンスを go-cache でキャッシュする
 
-上の方針を経ててから2時間後くらいに、「整合性保たなくていいならキャッシュすればよくね？クエリパラメータもないし」と思い立ち、 [go-cache](https://github.com/patrickmn/go-cache) で 500ms で有効期限が切れるキャッシュにぶち込むことにしました。
+上の方針を経ててから 2 時間後くらいに、「整合性保たなくていいならキャッシュすればよくね？クエリパラメータもないし」と思い立ち、 [go-cache](https://github.com/patrickmn/go-cache) で 500ms で有効期限が切れるキャッシュにぶち込むことにしました。
 
 結果としてはスコアは上がらなかったものの、DB の負荷が 100% 張り付きから 30% くらいまで下がりました。
 また、レスポンスタイムの平均は 546ms から 74ms まで下がりました。
@@ -174,7 +174,7 @@ Nginx のロードバランスは `/api/condition.+` だけ 2 台目に回し、
 
 Go で配信していたのを Nginx で配信するようにしました。
 
-### 暗黒時代その2 (16 時台)
+### 暗黒時代その 2 (16 時台)
 
 16 時台も改善ができず苦しんでいました。
 
@@ -189,7 +189,7 @@ alp や pprof を見たところ、 `postIsuCondition` 、`getIsuCondition` 、`
 
 色々な箇所で、`COUNT(*)` を使って `isu` や `user` の存在確認を行っているところがあったので、`LIMIT 1` で取ってきて比較するようにしました。
 
-この改善により、6万点台になりました。
+この改善により、6 万点台になりました。
 
 ### 不要なミドルウェアやログを消す
 
@@ -203,11 +203,11 @@ alp や pprof を見たところ、 `postIsuCondition` 、`getIsuCondition` 、`
 
 ## 結果
 
-結果は先にも書いたとおり、48位でした。
-凍結前のリーダーボードでは14位まで上がれたので「ワンチャンあるか！？」と思っていましたが、普通に追い上げられて駄目でした。
+結果は先にも書いたとおり、48 位でした。
+凍結前のリーダーボードでは 14 位まで上がれたので「ワンチャンあるか！？」と思っていましたが、普通に追い上げられて駄目でした。
 
 ![終了時のリーダーボード](latest_score.png)
-_終了時のリーダーボード(他のチームは1時間前のスコア)_
+_終了時のリーダーボード(他のチームは 1 時間前のスコア)_
 
 ## 感想
 

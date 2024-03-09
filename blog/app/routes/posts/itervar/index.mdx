@@ -1,6 +1,6 @@
 ---
 title: Goのよくあるミスを発見する静的解析ツールを作った話
-date: 2020-09-04T21:00:00+09:00
+date: 2020-09-04T21:00:00
 draft: false
 description: Go のよくある間違いとして、ループのイテレーター変数の参照をループの中で使ってしまうという間違いがありますが、現状では公式でこの間違いを検出する静的解析ツールは用意されていません。今回はこの間違いを検出する静的解析ツールを作成したのでそれを紹介したいと思います。
 categories:
@@ -53,11 +53,11 @@ func main() {
 // 3
 ```
 
-{/*{<ex-link url="https://play.golang.org/p/3j5V3yHWx4G">}*/}
+{/* {<ex-link url="https://play.golang.org/p/3j5V3yHWx4G">} */}
 
 このコードを実行すると、`out` の中身は`{3, 3, 3}` と、同じ値になってしまいます。`i`のポインタ値がどのイテレーションでも同じなことが原因です。詳しくは以前ブログに書きました。
 
-{/*{<ex-link url="https://blog.p1ass.com/posts/pointer-of-for-range-loop-of-go/">}*/}
+{/* {<ex-link url="https://blog.p1ass.com/posts/pointer-of-for-range-loop-of-go/">} */}
 
 この対策はいたって簡単です。イテレーター変数をブロックの最初で再定義してしまえば OK です。再定義することでイテレーションのたびにポインターのアドレスが変わるので、問題なく動くようになります。
 
@@ -82,15 +82,15 @@ func main() {
 この間違いは頻出なのにもかかわらず、go vet 等の標準の静的解析ツールでは検出してくれません。
 非常に有名な問題なので以前から「公式で静的解析ツールを用意すべきなのでは」と言う意見が上がっているのですが、今のところ導入される予定はなく、Russ Cox は 「Go2 でこの挙動の無効化を考えてる」と言っていました。
 
-{/*{<ex-link url="https://github.com/golang/go/issues/16520">}*/}
+{/* {<ex-link url="https://github.com/golang/go/issues/16520">} */}
 
-{/*{<ex-link url="https://github.com/golang/go/issues/20725">}*/}
+{/* {<ex-link url="https://github.com/golang/go/issues/20725">} */}
 
 ## 作ったもの
 
 この間違いを検出する静的解析ツールを作りました。名前は itervar です。
 
-{/*{<ex-link url="https://github.com/p1ass/itervar">}*/}
+{/* {<ex-link url="https://github.com/p1ass/itervar">} */}
 
 使い方としては go get でバイナリをダウンロードした後に、go vet の `-vettool`で itervar を選択して使います。先程の例であれば、9 行目の部分でエラーが表示されます。
 
@@ -104,7 +104,7 @@ $ go vet -vettool=`which itervar` ./...
 
 このツールは gostaticanalysis オーガナイゼーションにある skeleton と言う CLI ツールを使って雛形を作成しています。
 
-{/*{<ex-link url="https://github.com/gostaticanalysis/skeleton">}*/}
+{/* {<ex-link url="https://github.com/gostaticanalysis/skeleton">} */}
 
 このツールを使うと analysis package を使った雛形のソースコードが生成されるだけでなく、テストデータの雛形とテストコードも一緒に作ってくれます。これにより、ロジックに集中して、静的解析ツールを作成することができます。
 

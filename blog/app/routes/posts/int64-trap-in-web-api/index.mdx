@@ -1,6 +1,6 @@
 ---
 title: "Web APIでint64を返すのをやめよう"
-date: 2019-10-10T15:00:00+09:00
+date: 2019-10-10T15:00:00
 draft: false
 description: 久々にAPIを書いていて罠にハマったのでメモしておきます。 JavaScriptの数値は64ビット倍精度浮動小数点数です。よって、整数の場合は53ビットまでしか扱えないので、APIで53ビットより大きい数値を返すときはStringにしましょう。
 
@@ -13,7 +13,7 @@ tags:
 share: true
 ---
 
-こんにちは、{/*{<link href="https://twitter.com/p1ass" text="@p1ass" >}*/}です。
+こんにちは、{/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */}です。
 
 久々に API を書いていて罠にハマったのでメモしておきます。
 
@@ -27,10 +27,9 @@ share: true
 
 ## 遭遇したバグ
 
-最近個人で開発したMemoito（めもいと）という Web サービスの API を書いているときの出来事です。
+最近個人で開発した Memoito（めもいと）という Web サービスの API を書いているときの出来事です。
 
-
-Memoito では ID として Twitter 社が開発した{/*{<link href="https://developer.twitter.com/en/docs/basics/twitter-ids" text="snowflake" >}*/}を採用しています。
+Memoito では ID として Twitter 社が開発した{/* {<link href="https://developer.twitter.com/en/docs/basics/twitter-ids" text="snowflake" >} */}を採用しています。
 
 これは、int64 の ID 生成器で、Timestamp と Sequence Number、Machine ID を元に生成されます。実運用上問題のない程度に一意性が担保されている上に、UUID よりも見た目的にスッキリした ID なため、URL に使っても良さそうということで採用しました。
 
@@ -55,4 +54,4 @@ _誤差が見える_
 
 int64 を返すときは気をつけましょう。
 
-{/*{<twitter url="https://twitter.com/p1ass/status/1177964450554400770" >}*/}
+{/* {<twitter url="https://twitter.com/p1ass/status/1177964450554400770" >} */}

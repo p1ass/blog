@@ -1,6 +1,6 @@
 ---
 title: 最近のGoのOpenAPI Generatorの推しはogen
-date: 2023-09-12T20:00:00+09:00
+date: 2023-09-12T20:00:00
 draft: false
 description: OpenAPIからのコード生成であんまり満足できるものがなかったんだけど、ogenは結構良さげそうだった
 categories:
@@ -18,15 +18,15 @@ OpenAPI の yaml ファイルから Go のコードを生成する OSS ツール
 
 ググると日本語の記事もたくさん出てきます。
 
-{/*{<ex-link url="https://tech.layerx.co.jp/entry/generate-go-code-by-openapi-generator">}*/}
-{/*{<ex-link url="https://techblog.zozo.com/entry/openapi3/go">}*/}
-{/*{<ex-link url="https://future-architect.github.io/articles/20200701/">}*/}
+{/* {<ex-link url="https://tech.layerx.co.jp/entry/generate-go-code-by-openapi-generator">} */}
+{/* {<ex-link url="https://techblog.zozo.com/entry/openapi3/go">} */}
+{/* {<ex-link url="https://future-architect.github.io/articles/20200701/">} */}
 
 もちろんこれらの OSS は便利なのですが、生成される interface や型が個人的にあまり好みではなく、モヤモヤしながら使っていました。
 
 そんな中、新しめの OSS である[ogen-dev/ogen](https://github.com/ogen-go/ogen)というツールが良さげだという情報をキャッチし、実際に使ってみたところ自分の好みにフィットするツールだということが見えてきました。
 
-{/*{<ex-link url="https://ogen.dev/">}*/}
+{/* {<ex-link url="https://ogen.dev/">} */}
 
 {/* <!--more--> */}
 
@@ -106,7 +106,7 @@ https://github.com/deepmap/oapi-codegen/tree/master#strict-server-generation
 
 `null` や `optional` は OpenAPI の仕様の中でもややこしい部類のものですが、ogen はそれらに対して真っ向から対応してくれています。
 
-{/*{<ex-link url="https://ogen.dev/docs/types/optional">}*/}
+{/* {<ex-link url="https://ogen.dev/docs/types/optional">} */}
 
 下記の 4 つの型を明確に区別し、その型に対応する形でコードを生成してくれます。
 

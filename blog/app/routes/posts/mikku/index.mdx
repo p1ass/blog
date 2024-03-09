@@ -1,6 +1,6 @@
 ---
 title: Kubernetesのイメージタグの更新を楽にするCLIツールをGoで作った
-date: 2019-12-11T00:00:00+09:00
+date: 2019-12-11T00:00:00
 draft: false
 description: 今回は自分が作ったp1ass/mikkuというCLIツールを紹介をします。mikkuはセマンティックバージョニングで管理しているリポジトリの管理や、KubenetesのマニフェストにかかれているDockerイメージのタグの更新を楽にするCLIツールです。この記事ではmikkuの特徴、開発することにしたモチベーションや苦労した点などを紹介したいと思います。
 categories:
@@ -13,17 +13,17 @@ tags:
 share: true
 ---
 
-この記事は{/*{<link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}*/}の 11 日目の記事です。
+この記事は{/* {<link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >} */}の 11 日目の記事です。
 
 ## はじめに
 
-こんにちは、{/*{<link href="https://twitter.com/p1ass" text="@p1ass" >}*/}です。
+こんにちは、{/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */}です。
 
-今回は自分が作った{/*{<link href="https://github.com/p1ass/mikku" text="mikku" >}*/}という CLI ツールを紹介をします。
+今回は自分が作った{/* {<link href="https://github.com/p1ass/mikku" text="mikku" >} */}という CLI ツールを紹介をします。
 
 mikku はセマンティックバージョニングで管理しているリポジトリの管理や、Kubenetes のマニフェストにかかれている Docker イメージのタグの更新を楽にする CLI ツールです。
 
-{/*{<ex-link url="https://github.com/p1ass/mikku" >}*/}
+{/* {<ex-link url="https://github.com/p1ass/mikku" >} */}
 
 この記事では mikku の特徴、開発することにしたモチベーションや苦労した点などを紹介したいと思います。
 
@@ -56,11 +56,11 @@ Helm などのパッケージマネージャは使っておらず、シンプル
 タグを切るのに合わせて GitHub Release を作成しているのですが、毎回真面目に Changelog などを書いています。
 しかし、Bug Fix などで短時間に何回も作業しているとかなり面倒くさいです。
 
-このような問題を解決できる CLI ツールが欲しいなと思ったので、{/*{<link href="https://github.com/p1ass/mikku" text="mikku" >}*/}を作成しました。
+このような問題を解決できる CLI ツールが欲しいなと思ったので、{/* {<link href="https://github.com/p1ass/mikku" text="mikku" >} */}を作成しました。
 
 ## 機能
 
-{/*{<link href="https://github.com/p1ass/mikku" text="mikku" >}*/}の大まかな機能を以下の２つです。
+{/* {<link href="https://github.com/p1ass/mikku" text="mikku" >} */}の大まかな機能を以下の２つです。
 
 - Kubernetes のマニフェストファイルに書かれている Docker イメージのタグを最新のものに書き換える Pull Request を作成
 - セマンティックバージョニングで管理しているリポジトリのバージョンをあげる GitHub Release を作成
@@ -93,7 +93,7 @@ $ mikku --help
 
 他のバイナリは GitHub Releases のページをご覧ください。
 
-{/*{<ex-link url="https://github.com/p1ass/mikku/releases" >}*/}
+{/* {<ex-link url="https://github.com/p1ass/mikku/releases" >} */}
 
 ## 使い方
 
@@ -101,7 +101,7 @@ $ mikku --help
 
 GitHub の Personal access token が必要なので発行してください。 **repo** 権限が必要です。
 
-{/*{<ex-link url="https://github.com/settings/tokens" >}*/}
+{/* {<ex-link url="https://github.com/settings/tokens" >} */}
 
 ### 事前準備 : 環境変数をセット
 
@@ -157,7 +157,7 @@ _スクリーンショット_
 
 ## 良さみポイント
 
-{/*{<link href="https://github.com/p1ass/mikku" text="mikku" >}*/}の良いところは設定でテンプレートが使える点です。
+{/* {<link href="https://github.com/p1ass/mikku" text="mikku" >} */}の良いところは設定でテンプレートが使える点です。
 
 ```bash
 $ export MIKKU_MANIFEST_REPOSITORY=sample-manifest-repository
@@ -165,7 +165,7 @@ $ export MIKKU_MANIFEST_FILEPATH=manifests/{{.Repository}}/deployment.yml
 $ export MIKKU_DOCKER_IMAGE_NAME={{.Owner}}/{{.Repository}}
 ```
 
-{/*{<link href="https://github.com/p1ass/mikku" text="mikku" >}*/}では `{{.Owner}}` 、`{{.Repository}}`をテンプレートとして使えるようになっています。
+{/* {<link href="https://github.com/p1ass/mikku" text="mikku" >} */}では `{{.Owner}}` 、`{{.Repository}}`をテンプレートとして使えるようになっています。
 
 マニフェストファイルのファイルパスなどはある程度規則的な階層構造になっている場合は多いです。そのため、テンプレートを使うことで **設定を何度も書き換えることなく使い回せるようになります** ただ単にコマンドラインオプションで渡すのではなく、環境変数でも設定できるのはこのためです。
 
@@ -193,6 +193,6 @@ Slack Bot にすれば他の開発者はチャンネルでコマンドを叩け�
 
 Issue、PR、Star などはいつでも大歓迎なので、使いにくかったり、バグがあったりしたら気軽にお願いします！
 
-{/*{<ex-link url="https://github.com/p1ass/mikku" >}*/}
+{/* {<ex-link url="https://github.com/p1ass/mikku" >} */}
 
-明日の{/*{<link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}*/}の担当は{/*{<link href="https://note.mu/tomokortn" text="tomokortn" >}*/}さんです。お楽しみに！
+明日の{/* {<link href="https://advent.camph.net/" text="CAMPHOR- Advent Calendar 2019" >}*/}の担当は{/*{<link href="https://note.mu/tomokortn" text="tomokortn" >} */}さんです。お楽しみに！

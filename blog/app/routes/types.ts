@@ -1,6 +1,6 @@
 export type Meta = {
   title: string
-  date: Date
+  date: string
   draft: boolean
   description: string
   categories: string[]

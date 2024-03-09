@@ -1,6 +1,6 @@
 ---
 title: EnumやUnionの列挙子が増えたときに起こりうる人為的なバグを撲滅したい
-date: 2021-09-27T18:00:00+09:00
+date: 2021-09-27T18:00:00
 draft: false
 description: Enum や Union 型は、取りうる値を列挙する上で非常に便利な構文ですが、列挙子を増えたときに意図しないバグを埋め込んでしまうことも多いです。この記事では、Enum と switch を組み合わせたときに人為的に起こしうるバグを紹介しつつ、できるだけ静的にバグを発見するための方法を考えていきます。
 categories:
@@ -38,24 +38,31 @@ Enum や Union 型は、取りうる値を列挙する上で非常に便利な�
 例として、次のような `Day` 型を考えます。
 
 ```typescript
-type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
+type Day =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 ```
 
 このとき、平日と休日で処理を分岐させるコードは次のようになります。
 
 ```typescript
-const inputDayOfWeek = 'Wednesday' as Day // ここの値が変わる
+const inputDayOfWeek = "Wednesday" as Day; // ここの値が変わる
 
 switch (inputDayOfWeek) {
-  case 'Sunday':
-    console.log('Holiday')
-    break
-  case 'Saturday':
-    console.log('Holiday')
-    break
+  case "Sunday":
+    console.log("Holiday");
+    break;
+  case "Saturday":
+    console.log("Holiday");
+    break;
   default:
-    console.log('Workday')
-    break
+    console.log("Workday");
+    break;
 }
 ```
 
@@ -67,20 +74,20 @@ break 忘れによるバグの可能性もありますが、今回の趣旨と�
 次に、同様のコードを `ErrorCode` 型に対して書いてみます。
 
 ```typescript
-type ErrorCode = 'Unknown' | 'InvalidArgument' | 'NotFound'
+type ErrorCode = "Unknown" | "InvalidArgument" | "NotFound";
 
-const inputErrorCode = 'InvalidArgument' as ErrorCode // ここの値が変わる
+const inputErrorCode = "InvalidArgument" as ErrorCode; // ここの値が変わる
 
 switch (inputErrorCode) {
-  case 'InvalidArgument':
-    console.log('4xx error')
-    break
-  case 'NotFound':
-    console.log('4xx error')
-    break
+  case "InvalidArgument":
+    console.log("4xx error");
+    break;
+  case "NotFound":
+    console.log("4xx error");
+    break;
   default:
-    console.log('5xx error')
-    break
+    console.log("5xx error");
+    break;
 }
 ```
 
@@ -89,7 +96,7 @@ switch (inputErrorCode) {
 さて、ここで `Unauthenticated` を `ErrorCode` に追加するとどうなるでしょうか。
 
 ```typescript
-type ErrorCode = 'Unknown' | 'InvalidArgument' | 'NotFound' | 'Unauthenticated'
+type ErrorCode = "Unknown" | "InvalidArgument" | "NotFound" | "Unauthenticated";
 ```
 
 `inputErrorCode` が `Unauthenticated` だった場合、コンソールには `5xx error` が出力されます。
@@ -99,15 +106,15 @@ type ErrorCode = 'Unknown' | 'InvalidArgument' | 'NotFound' | 'Unauthenticated'
 
 ```typescript
 switch (inputErrorCode) {
-  case 'InvalidArgument':
-    console.log('4xx error')
-    break
-  case 'NotFound':
-    console.log('4xx error')
-    break
-  case 'Unknown':
-    console.log('5xx error')
-    break
+  case "InvalidArgument":
+    console.log("4xx error");
+    break;
+  case "NotFound":
+    console.log("4xx error");
+    break;
+  case "Unknown":
+    console.log("5xx error");
+    break;
 }
 
 // Unauthenticated だった場合は何も出力されない
@@ -137,17 +144,17 @@ switch (inputErrorCode) {
 
 ```typescript
 switch (inputErrorCode) {
-  case 'InvalidArgument':
-    console.log('4xx error')
-    break
-  case 'NotFound':
-    console.log('4xx error')
-    break
-  case 'Unknown':
-    console.log('5xx error')
-    break
+  case "InvalidArgument":
+    console.log("4xx error");
+    break;
+  case "NotFound":
+    console.log("4xx error");
+    break;
+  case "Unknown":
+    console.log("5xx error");
+    break;
   default:
-    throw new Error('unexpected input error code')
+    throw new Error("unexpected input error code");
 }
 ```
 
@@ -166,20 +173,27 @@ switch (inputErrorCode) {
 2 つ目の方法は静的解析ツールを使って静的に検出する方法です。
 TypeScript では ESLint のプラグインを用いることで switch 文のパターンチェック漏れの検出が可能です。
 
-{/*{<ex-link url="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md">}*/}
+{/* {<ex-link url="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md">} */}
 
 **検出される例 (リンク先より引用)**
 
 ```typescript
-type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
+type Day =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
-const day = 'Monday' as Day
-let result = 0
+const day = "Monday" as Day;
+let result = 0;
 
 switch (day) {
-  case 'Monday': {
-    result = 1
-    break
+  case "Monday": {
+    result = 1;
+    break;
   }
 }
 ```
@@ -191,18 +205,25 @@ switch (day) {
 **パスする例 (リンク先より引用)**
 
 ```typescript
-type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
+type Day =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
-const day = 'Monday' as Day
-let result = 0
+const day = "Monday" as Day;
+let result = 0;
 
 switch (day) {
-  case 'Monday': {
-    result = 1
-    break
+  case "Monday": {
+    result = 1;
+    break;
   }
   default: {
-    result = 42
+    result = 42;
   }
 }
 ```
@@ -215,30 +236,30 @@ switch (day) {
 
 ```typescript
 interface Square {
-  kind: 'square'
-  size: number
+  kind: "square";
+  size: number;
 }
 
 interface Rectangle {
-  kind: 'rectangle'
-  width: number
-  height: number
+  kind: "rectangle";
+  width: number;
+  height: number;
 }
 
 // Someone just added this new `Circle` Type
 // We would like to let TypeScript give an error at any place that *needs* to cater for this
 interface Circle {
-  kind: 'circle'
-  radius: number
+  kind: "circle";
+  radius: number;
 }
 
-type Shape = Square | Rectangle | Circle
+type Shape = Square | Rectangle | Circle;
 
 function area(s: Shape): number {
-  if (s.kind === 'square') {
-    return s.size * s.size
-  } else if (s.kind === 'rectangle') {
-    return s.width * s.height
+  if (s.kind === "square") {
+    return s.size * s.size;
+  } else if (s.kind === "rectangle") {
+    return s.width * s.height;
   }
   // ここをコメントアウトするとエラーが消える
   // else if (s.kind === "circle") {
@@ -246,15 +267,15 @@ function area(s: Shape): number {
   // }
   else {
     // ERROR : `Circle` is not assignable to `never`
-    const _exhaustiveCheck: never = s
-    throw new Error('unimplemented')
+    const _exhaustiveCheck: never = s;
+    throw new Error("unimplemented");
   }
 }
 ```
 
-{/*{<ex-link url="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyxyA1qACYBcyARAM5Y4S0DcRJ9wAXhDSJgC2AI2jsAvgQKhIsRCgBKEBGDggA5gBt8HYuRDU6uFWq0t2JZAHdgFMAAt+Q0VAsl7EYOvtgnIsQSSBAD0wWgA9oIQ4SAoAFaY9GDIcBQUEBTIDsD0yLFWyAAGAMLAUAjahcgAKgCeAA4QIWEA6ihW4ZiamZrApChg4cjayXWNqAhQwPXJ6sAAbihqyNBQ4VApyWq1yPWa8ln2cMkAVLEZ9CdZQwjH0Mgw64c50uDQ8EjIpeXayISW+kMtAQZQq5l0yCgqWAiT8LgkUjADRQqCOjWQAF40ExcMgAD7IJQmDS-AnfMHsAgwTAgFTAGIpXBwAAU9BoqLgjQAlHD7v8SMAYMhWQA6QGYjFYhg4lhcv4Qyy4MCYKAgZD0EVcXjIK4arUQNzESSWCCaegoQXCjXiyVS4yqEmy+WWRUQZWq9Uimx2ew6z0eLw+Q3IY0kULIQDKDBHAEkMgGaGQCHDIBnhkAEwyAIoZAGUMycAmgyAaIZABYMgAqGQCXDIAfhkAMgyACNtABIMOYh4dN5uQltFNsldBBPyd-OI4dd7rVGqhFBhuROVwATMHw6HiA2dC6w2EAKIKBQAeQUyBoJVBlSbuRA4S29C46hAcGEv0GRViiyghQVJAQMSSyAA+hAAB5HRJgBYQYoPAQUh+AgO9MXVYNLAcNYCnyZAlygNYoGZAByGlgEEPYICiN4KFQrkIUkcQgA">}*/}
+{/* {<ex-link url="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyxyA1qACYBcyARAM5Y4S0DcRJ9wAXhDSJgC2AI2jsAvgQKhIsRCgBKEBGDggA5gBt8HYuRDU6uFWq0t2JZAHdgFMAAt+Q0VAsl7EYOvtgnIsQSSBAD0wWgA9oIQ4SAoAFaY9GDIcBQUEBTIDsD0yLFWyAAGAMLAUAjahcgAKgCeAA4QIWEA6ihW4ZiamZrApChg4cjayXWNqAhQwPXJ6sAAbihqyNBQ4VApyWq1yPWa8ln2cMkAVLEZ9CdZQwjH0Mgw64c50uDQ8EjIpeXayISW+kMtAQZQq5l0yCgqWAiT8LgkUjADRQqCOjWQAF40ExcMgAD7IJQmDS-AnfMHsAgwTAgFTAGIpXBwAAU9BoqLgjQAlHD7v8SMAYMhWQA6QGYjFYhg4lhcv4Qyy4MCYKAgZD0EVcXjIK4arUQNzESSWCCaegoQXCjXiyVS4yqEmy+WWRUQZWq9Uimx2ew6z0eLw+Q3IY0kULIQDKDBHAEkMgGaGQCHDIBnhkAEwyAIoZAGUMycAmgyAaIZABYMgAqGQCXDIAfhkAMgyACNtABIMOYh4dN5uQltFNsldBBPyd-OI4dd7rVGqhFBhuROVwATMHw6HiA2dC6w2EAKIKBQAeQUyBoJVBlSbuRA4S29C46hAcGEv0GRViiyghQVJAQMSSyAA+hAAB5HRJgBYQYoPAQUh+AgO9MXVYNLAcNYCnyZAlygNYoGZAByGlgEEPYICiN4KFQrkIUkcQgA">} */}
 
-{/*{<ex-link url="https://typescript-jp.gitbook.io/deep-dive/type-system/discriminated-unions#chekkuexhaustive-checks">}*/}
+{/* {<ex-link url="https://typescript-jp.gitbook.io/deep-dive/type-system/discriminated-unions#chekkuexhaustive-checks">} */}
 
 **--追記ここまで--**
 
@@ -265,11 +286,11 @@ function area(s: Shape): number {
 
 **Go**
 
-{/*{<ex-link url="https://qiita.com/hogedigo/items/de9a1c53519aedfdc8ae">}*/}
+{/* {<ex-link url="https://qiita.com/hogedigo/items/de9a1c53519aedfdc8ae">} */}
 
 **Java**
 
-{/*{<ex-link url="https://errorprone.info/bugpattern/MissingCasesInEnumSwitch">}*/}
+{/* {<ex-link url="https://errorprone.info/bugpattern/MissingCasesInEnumSwitch">} */}
 
 ## switch 式や match 式がサポートされているプログラミング言語を使う
 

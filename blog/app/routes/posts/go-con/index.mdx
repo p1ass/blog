@@ -1,6 +1,6 @@
 ---
 title: "Go Conference 2019 Spring 参加レポート"
-date: 2019-05-20T18:47:48+09:00
+date: 2019-05-20T18:47:48
 draft: false
 description: 先日開催されたGo Conference 2019 SpringにWantedlyさんのスカラシップ枠として参加し、Goに関する話をたくさん聞くことが出来ました。
 categories:
@@ -25,11 +25,11 @@ LINE Developer Day 以来、半年ぶりの大きめのカンファレンスだ�
 
 Go Conference 2019 Spring では、地方に住む学生のために交通費や宿泊費が援助されるスカラシップ枠が用意されています。今回は Wantedly さんの他に、メルカリさんやメディアドゥさんも用意されていました。
 
-{/*{<ex-link url="https://gocon.connpass.com/event/124530" >}*/}
+{/* {<ex-link url="https://gocon.connpass.com/event/124530" >} */}
 
 僕は元から Go Conference には興味を持っており、自費でも行くつもりだったので、とりあえず申し込んだら受かりました。
 
-{/*{<ex-link url="https://www.wantedly.com/projects/302608" >}*/}
+{/* {<ex-link url="https://www.wantedly.com/projects/302608" >} */}
 
 ### 為になったセッション
 
@@ -37,7 +37,7 @@ Go Conference 2019 Spring では、地方に住む学生のために交通費や
 
 メルカリの[morikuni さん](https://twitter.com/inukirom)によるエラー設計に関するセッションです。
 
-{/*{<ex-link url="https://docs.google.com/presentation/d/1JIdZ4IVW2D3kEFUtWSvHNes3r3ykojGuUAQAnhmEVs0/edit#slide=id.g4204ea1550_1_336" >}*/}
+{/* {<ex-link url="https://docs.google.com/presentation/d/1JIdZ4IVW2D3kEFUtWSvHNes3r3ykojGuUAQAnhmEVs0/edit#slide=id.g4204ea1550_1_336" >} */}
 
 Go は Java など他の言語に実装されている例外がありません。すべてのエラーは戻り値によって返し、そのエラーハンドリングは各実装者に任されています。そのため、人によってエラーハンドリングの設計が異なり、ベストプラクティスがはっきりとしていませんでした。
 
@@ -47,13 +47,13 @@ Go は Java など他の言語に実装されている例外がありません�
 
 また、morikuni さんが作られた `morikuni/failure` と Go1.13 から正式に実装される予定の `xerrors` の違いに関する話もされており、用途に応じて適切な package を使っていきたいです。
 
-{/*{<ex-link url="https://github.com/morikuni/failure" >}*/}
+{/* {<ex-link url="https://github.com/morikuni/failure" >} */}
 
 #### Go による外部プロセス起動ベストプラクティス及び timeout パッケージ徹底解決
 
 こちらは[songmu さん](https://twitter.com/songmu)によるセッションです。Go 界隈では有名な方ですね。
 
-{/*{<ex-link url="http://songmu.github.io/slides/gocon2019-spring" >}*/}
+{/* {<ex-link url="http://songmu.github.io/slides/gocon2019-spring" >} */}
 
 簡単な CLI アプリケーションなら作れるのですが、外部プロセスを扱う方法を理解していなかったので、セッションを聞きに行きました。
 
@@ -66,7 +66,7 @@ Go は Java など他の言語に実装されている例外がありません�
 
 Google Cloud で Developer Advocate をされている[ymotongpoo さん](https://twitter.com/ymotongpoo)のパフォーマンスチューニングに関するセッションです。**個人的に今回の Go Conference で一番良かったセッションでした。**
 
-{/*{<ex-link url="https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0" >}*/}
+{/* {<ex-link url="https://docs.google.com/presentation/d/e/2PACX-1vRiua4UZzSEGuS-IIHLjwEA9VpQda8eo_z59AYSd5z8oFm7t5cjM6Jrxh3XqMLjQ6dM13WBtUd7IEH7/pub?slide=id.g405a9dc47b_0_0" >} */}
 
 学生が趣味レベルでコードを書く場合、パフォーマンスチューニングを行うほどの性能を求められることはほとんどありません。そのため、`net/http/pprof`や `net/http/httptrace` は名前を聞いただけでほとんど実践したことがありませんでした。
 
@@ -117,13 +117,13 @@ _pprof の Frame Graph_
 
 ### おまけ
 
-{/*{<twitter url="https://twitter.com/p1ass/status/1129568723424096256" >}*/}
+{/* {<twitter url="https://twitter.com/p1ass/status/1129568723424096256" >} */}
 
-{/*{<twitter url="https://twitter.com/p1ass/status/1129581700835504128" >}*/}
+{/* {<twitter url="https://twitter.com/p1ass/status/1129581700835504128" >} */}
 
 メルカリのスカラシップで来ていた人のうち、2 人が元から Twitter の FF でした。世間は狭いですね。
 
-{/*{<twitter url="https://twitter.com/p1ass/status/1129532777244741632" >}*/}
+{/* {<twitter url="https://twitter.com/p1ass/status/1129532777244741632" >} */}
 
 おわり
 

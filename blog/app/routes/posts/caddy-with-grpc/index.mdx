@@ -1,6 +1,6 @@
 ---
 title: CaddyでgRPCのリクエストをリバースプロキシする
-date: 2020-11-09T20:40:00+09:00
+date: 2020-11-09T20:40:00
 draft: false
 description: CaddyでgRPCのリクエストをリバースプロキシするには、transportとflush_intervalを適切に設定すればよいです。
 categories:
@@ -15,7 +15,7 @@ share: true
 Caddy はデフォルトで HTTPS・HTTP/2 に対応している OSS の Web サーバです。
 デフォルトで HTTP/2 に対応しているということは gRPC のリクエストもリバースプロキシできるのでは？と思い調べていたのですが、日本語でまとまってる記事がなかったのでここにメモしておきます。
 
-{/*{<ex-link url="https://blog.p1ass.com/posts/nginx-to-caddy/" >}*/}
+{/* {<ex-link url="https://blog.p1ass.com/posts/nginx-to-caddy/" >} */}
 
 {/* <!--more--> */}
 
@@ -55,14 +55,14 @@ foo.example.com {
 そこで `h2c` (HTTP/2 over TCP)を有効にすることにより、TCP 上で HTTP/2 の通信を行えるようにします。
 これにより、Caddy で TLS を終端しつつも gRPC サーバと通信できるようになります。
 
-{/*{<block-link href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport" text="The http transport | reverse_proxy (Caddyfile directive) - Caddy Documentation" >}*/}
+{/* {<block-link href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport" text="The http transport | reverse_proxy (Caddyfile directive) - Caddy Documentation" >} */}
 
-{/*{<block-link href="https://knowledge.sakura.ad.jp/7734/" text="普及が進む「HTTP/2」の仕組みとメリットとは | さくらのナレッジ" >}*/}
+{/* {<block-link href="https://knowledge.sakura.ad.jp/7734/" text="普及が進む「HTTP/2」の仕組みとメリットとは | さくらのナレッジ" >} */}
 
 gRPC の Streaming RPC を使いたい場合は `flush_interval -1` を指定します。  
 このパラメータは「Caddy がレスポンスボディをどれだけの時間バッファリングするか」を決めるものです。`text/event-stream` は自動で `-1` に設定されますが、gRPC の Streaming PRC は自動で `-1` にならないので手動で設定する必要があります。
 
-{/*{<block-link href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#streaming" text="Streaming | reverse_proxy (Caddyfile directive) - Caddy Documentation" >}*/}
+{/* {<block-link href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#streaming" text="Streaming | reverse_proxy (Caddyfile directive) - Caddy Documentation" >} */}
 
 ## まとめ
 
@@ -70,5 +70,5 @@ gRPC の Streaming RPC を使いたい場合は `flush_interval -1` を指定し
 
 ## 参考
 
-{/*{<ex-link url="https://github.com/caddyserver/caddy/issues/3227">}*/}
-{/*{<ex-link url="https://github.com/caddyserver/caddy/issues/3236">}*/}
+{/* {<ex-link url="https://github.com/caddyserver/caddy/issues/3227">} */}
+{/* {<ex-link url="https://github.com/caddyserver/caddy/issues/3236">} */}

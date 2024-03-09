@@ -1,6 +1,6 @@
 ---
 title: "[Go] スライスのfor rangeループ内で新しいスライスにappendしたらバグらせた"
-date: 2020-06-11T20:00:00+09:00
+date: 2020-06-11T20:00:00
 draft: false
 description: Goのfor rangeループのvalueは常に同じアドレス値を取る。ループ内で変数を定義することで新しいアドレスの変数が使われるようになるので、期待した出力になる。なお、これの挙動はスライスだけでなく、マップでも発生する。
 categories:
@@ -114,7 +114,7 @@ for _, f := range filtered {
 
 なお、これの挙動はスライスだけでなく、マップでも発生する。再現用のコードはこちらに用意してある。
 
-{/*{<ex-link url="https://play.golang.org/p/S7otaqYUaXW" >}*/}
+{/* {<ex-link url="https://play.golang.org/p/S7otaqYUaXW" >} */}
 
 ## 終わりに
 

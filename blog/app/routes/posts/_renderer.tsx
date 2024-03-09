@@ -1,3 +1,4 @@
+import { format, parse } from '@formkit/tempo'
 import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { ShareButtons } from '../../components/ShareIcons'
@@ -65,7 +66,12 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
   return (
     <Layout title={frontmatter.title}>
       <div class={postDateCss}>
-        <time datetime={frontmatter.date.toString()}>{frontmatter?.date}</time>
+        <time datetime={frontmatter.date}>
+          {format(
+            parse(frontmatter.date, 'YYYY-MM-DDTHH:mm:ss', 'Asia/Tokyo'),
+            'YYYY/MM/DD',
+          )}
+        </time>
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
       <ShareButtons title={frontmatter.title} permalink={'TODO'} />

@@ -1,6 +1,6 @@
 ---
 title: ISUCON 12 の予選に参加して、7位で本選進出を決めました
-date: 2022-07-25T00:00:00+09:00
+date: 2022-07-25T00:00:00
 draft: false
 description: ISUCON 12 の予選に参加し、35642 点・7 位で本選に行くことができました
 categories:
@@ -17,16 +17,16 @@ share: true
 
 ![スコア](/posts/isucon12/score.png)
 
-{/*{<ex-link url="https://isucon.net/archives/56838181.html">}*/}
+{/* {<ex-link url="https://isucon.net/archives/56838181.html">} */}
 
 この記事では、事前準備や本番中に入れた改善について紹介します。
 なお、今回はコミットごとのベンチのスコアをほとんどメモしておらず、途中のスコアは概算となる点にご注意ください。
 
-GitHubはこちらです。
-masterがバグることが何回かあり、コミットやPR単位で実装を見てもFAILするコードになっている場合があるので注意してください。
+GitHub はこちらです。
+master がバグることが何回かあり、コミットや PR 単位で実装を見ても FAIL するコードになっている場合があるので注意してください。
 (主に僕の実装)
 
-{/*{<ex-link url="https://github.com/saba-in-the-kettle/isucon12-qualify">}*/}
+{/* {<ex-link url="https://github.com/saba-in-the-kettle/isucon12-qualify">} */}
 
 {/* <!--more--> */}
 
@@ -45,7 +45,15 @@ YouTube Live を見ながら、「マルチテナント！これはデータベ�
 他にも、「リーダーボードで Redis 使えないかな？」など予想してましたが、実現したものは 1 つもありませんでした。
 
 <div style="width: 560px;max-width: 100%">
-<iframe width="100%" height="315" src="https://www.youtube.com/embed/75YnJ_3289g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe
+    width="100%"
+    height="315"
+    src="https://www.youtube.com/embed/75YnJ_3289g"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
 </div>
 
 ## 各自初動の対応をする
@@ -84,8 +92,8 @@ SQLite に対してインデックスを貼っていきました。特にスコ�
 
 終了してから気づいたのですが、tenant DB のスキーマは新規のテナントを作るときにしか実行されないので、初期から存在していた tenant DB に対してはインデックスを貼れていない説が濃厚です。
 
-MySQLにもインデックスを貼りましたが、同様にインデックスが反映されてませんでした。
-こちらは途中で気づき、MySQLに直接 `CREATE INDEX` を打ちました。
+MySQL にもインデックスを貼りましたが、同様にインデックスが反映されてませんでした。
+こちらは途中で気づき、MySQL に直接 `CREATE INDEX` を打ちました。
 
 ## MySQL を別インスタンスにする (@km_conner)
 
@@ -139,7 +147,6 @@ SELECT tmp.player_id, tmp.score, tmp.display_name FROM
 
 一意な ID を生成するために毎回 `REPLACE` をするようわからん実装になっていたので良い感じに直してくれました。
 なんでこんな採番方式したのかは本人に聞いてみないと分かりません。
-
 
 ```go
 var (
@@ -220,9 +227,9 @@ func billingReportByCompetition(ctx context.Context, tenantDB dbOrTx, tenantID i
 この時点での alp の sum のトップはランキングだったため、ランキングさえ改善できればスコアが跳ねそうということが見えていました。
 そこで、その改善をすべて @atrn0 に任せることにしました。
 
-## `retrievePlayer` で毎回DBを引かないようにする (@p1ass)
+## `retrievePlayer` で毎回 DB を引かないようにする (@p1ass)
 
-`PlayerRow` をメモリで持って、DBへアクセスしないようにしました。
+`PlayerRow` をメモリで持って、DB へアクセスしないようにしました。
 
 ## 大会のスコアの INSERT 処理を Bulk Insert 化 (@km_conner)
 
@@ -282,22 +289,23 @@ _最終的なスコア_
 
 ## やりたかったけどやれなかったこと
 
-### 3台目のサーバーの活用
+### 3 台目のサーバーの活用
 
 今回は、
-- 1台目: Nginx + App + SQLite
-- 2台目: MySQL
-- 3台目: 不使用
+
+- 1 台目: Nginx + App + SQLite
+- 2 台目: MySQL
+- 3 台目: 不使用
 
 という構成になりました。
 
-tenant DBがファイルのため負荷分散しずらく、3台目を活かさずに終わってしまいました。
-SQLiteのまま3台構成にしたチームがいたら、どのようにやったのか聞いてみたいです。
+tenant DB がファイルのため負荷分散しずらく、3 台目を活かさずに終わってしまいました。
+SQLite のまま 3 台構成にしたチームがいたら、どのようにやったのか聞いてみたいです。
 
-### SQLiteのTraceの活用
+### SQLite の Trace の活用
 
 存在は気づいていたのですが、特に使わずに終わってしまいました。
-alpでエスパーするよりも確実だし、インデックスが貼れてない箇所もすぐ見つけられたんだろうなぁと思います。
+alp でエスパーするよりも確実だし、インデックスが貼れてない箇所もすぐ見つけられたんだろうなぁと思います。
 
 ```bash
 cat ${TRACE_FILE} | jq '. | sort_by(.query_time)' | tail
@@ -309,7 +317,7 @@ cat ${TRACE_FILE} | jq '. | sort_by(.query_time)' | tail
 
 ### コピペは役に立つ
 
-Type Parameterを使用したキャッシュのコードなど、いくつかのコードをコピペしてすぐ使えるようにしていたため、実装時間を大幅に削減できました。
+Type Parameter を使用したキャッシュのコードなど、いくつかのコードをコピペしてすぐ使えるようにしていたため、実装時間を大幅に削減できました。
 
 ```go
 import (
@@ -339,25 +347,24 @@ func (c *Cache[V]) Set(k string, v V) {
 
 ### チームでやっている場合はスコアが上がらない改善も後々効いてくる
 
-基本的に、ISUCONではその時点における最大のボトルネックを潰さないと大きな得点上昇は見込めません。
+基本的に、ISUCON ではその時点における最大のボトルネックを潰さないと大きな得点上昇は見込めません。
 
-3人で同時に改善に当たっている場合は、自分の改善が最大のボトルネックではないことが多いです。
+3 人で同時に改善に当たっている場合は、自分の改善が最大のボトルネックではないことが多いです。
 そのため、たとえスコアが上がらずとも改善をやり続けるのが大事だなと感じました。
 
 ### 初期化方法はきちんと確認しよう
 
-SQLiteにインデックス貼れてない問題は本当に誤算でした。
+SQLite にインデックス貼れてない問題は本当に誤算でした。
 いつもの同じと勝手に思い込んでました 😇
 
 ちゃんと初期化方法は確認しましょう。
 (インデックス貼ったらスコアもっと上がるのかな)
 
-### 集計データはインメモリじゃなくてDBに保存した方が良いかも
+### 集計データはインメモリじゃなくて DB に保存した方が良いかも
 
-メモリがあること、どうせAppを複数台構成にしないことに甘えて、インメモリで持つ実装をしがちでした。
+メモリがあること、どうせ App を複数台構成にしないことに甘えて、インメモリで持つ実装をしがちでした。
 しかし、もっとスコアを上げるには複数台構成を見据えないといけないため、そういった場合は永続化層に保存されている方が良いんだろうなあと思ってます。
 業務ではそうしますし。
-
 
 ## おわりに
 

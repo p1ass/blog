@@ -1,6 +1,6 @@
 ---
 title: SPA で役立ちそうな OAuth 2.0 for Browser-Based Apps を読んだ
-date: 2022-05-20T00:00:00+09:00
+date: 2022-05-20T00:00:00
 draft: false
 description: OAuth2.0 for Browser-Based Apps は、ブラウザ上で動作するアプリケーションにおける OAuth2.0 のベストプラクティスがまとまっており、モダンなブラウザベースのアプリケーションでより安全なアプリケーションを作る方法が広く認知されるのでは、と個人的に期待しています。
 categories:
@@ -22,9 +22,9 @@ GW 中に SPA で OAuth を使うときのプラクティスについて調べ�
 
 全てを網羅するわけではないので、興味がある方は原文を読んでください。
 
-{/*{<ex-link url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps">}*/}
+{/* {<ex-link url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps">} */}
 
-{/*{<note text="Internet-Draftは参考文献にするには不適切です。ただ今回の内容はベストプラクティスであり、ドラフトの段階でも価値があると判断して紹介しています。今後内容に変更があるかもしれない点に注意してください。">}*/}
+{/* {<note text="Internet-Draftは参考文献にするには不適切です。ただ今回の内容はベストプラクティスであり、ドラフトの段階でも価値があると判断して紹介しています。今後内容に変更があるかもしれない点に注意してください。">} */}
 
 ## OAuth2.0 for Browser-Based Apps の概要
 
@@ -185,7 +185,7 @@ _バックエンドがない場合のアプリケーションパターン_
 
 その後、適切なブラウザ API を使用して、アクセストークン（と、ある場合はリフレッシュトークン）を可能な限り安全に保存します。
 
-{/*{<note text="「この出版物の日付の時点では、完全に安全な方法でトークンを保存できるブラウザ API は存在しない」と書かれています。Local Storage などを使っても「絶対な」安全は達成できないことが示唆されてます。">}*/}
+{/* {<note text="「この出版物の日付の時点では、完全に安全な方法でトークンを保存できるブラウザ API は存在しない」と書かれています。Local Storage などを使っても「絶対な」安全は達成できないことが示唆されてます。">} */}
 
 ブラウザの JavaScript アプリケーションはリソースサーバーに対してアクセストークンを含めたリクエストを送り (D)、リソースサーバーからレスポンスを受け取ります (E)。
 
@@ -284,7 +284,7 @@ _認可コードの乗っ取り攻撃の図 (Authlete さんの記事より引�
 
 詳しくは、RFC や Authlete さんの記事がおすすめです。
 
-{/*{<ex-link url="https://www.authlete.com/ja/developers/pkce/">}*/}
+{/* {<ex-link url="https://www.authlete.com/ja/developers/pkce/">} */}
 
 ## OAuth 2.0 Authorization Code Flow with PKCE を使う際のベストプラクティス
 
