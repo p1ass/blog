@@ -3,6 +3,7 @@ import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeMdxCodeProps from 'rehype-mdx-code-props'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import remarkMdxImages from 'remark-mdx-images'
@@ -31,7 +32,7 @@ export default defineConfig(({ mode }) => {
           remarkMdxFrontmatter,
           remarkMdxImages,
         ],
-        rehypePlugins: [rehypeHighlight],
+        rehypePlugins: [rehypeHighlight, rehypeMdxCodeProps],
       }),
     ],
   }

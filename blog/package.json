@@ -16,6 +16,7 @@
     "hono": "^4.0.9",
     "honox": "^0.1.4",
     "rehype-highlight": "^7.0.0",
+    "rehype-mdx-code-props": "^2.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
     "remark-mdx-images": "^3.0.0"
