@@ -1,14 +1,15 @@
 import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import { ShareButtons } from '../../components/ShareIcons'
 import { gray, grayLight } from '../../styles/color'
 import { Meta } from '../types'
 
 const postTitleCss = css`
-    font-size: 2.5rem;
-    margin: 0 0 1.7rem;
-    text-align: center;
-    line-height: 3.4rem;
-  `
+  font-size: 2.5rem;
+  margin: 0 0 1.7rem;
+  text-align: center;
+  line-height: 3.4rem;
+`
 
 const postDateCss = css`
   color: ${grayLight};
@@ -67,6 +68,7 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
         <time datetime={frontmatter.date.toString()}>{frontmatter?.date}</time>
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
+      <ShareButtons title={frontmatter.title} permalink={'TODO'} />
       <PostDetails frontmatter={frontmatter} />
       <article>{children}</article>
     </Layout>
