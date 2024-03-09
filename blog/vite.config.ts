@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => {
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
+        providerImportSource: './app/lib/mdx-components',
         remarkPlugins: [
           remarkFrontmatter,
           remarkMdxFrontmatter,

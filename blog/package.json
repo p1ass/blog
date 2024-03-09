@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@hono/node-server": "^1.8.2",
+    "@mdx-js/mdx": "^3.0.1",
     "@mdx-js/rollup": "^3.0.1",
     "hono": "^4.0.9",
     "honox": "^0.1.4",
@@ -26,6 +27,8 @@
     "@cloudflare/workers-types": "^4.20240208.0",
     "@hono/vite-cloudflare-pages": "^0.2.4",
     "@hono/vite-ssg": "0.1.0",
+    "@types/mdx": "2.0.11",
+    "@types/mdx-js__react": "1.5.8",
     "vite": "^5.0.12",
     "wrangler": "^3.27.0"
   }

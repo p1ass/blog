@@ -28,7 +28,7 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
           <span key={index}>#{tag}</span>
         ))}
       </div>
-      <div>{children}</div>
+      <article>{children}</article>
     </Layout>
   )
 })
