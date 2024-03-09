@@ -73,6 +73,10 @@ const moreButtonCss = css`
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
+
+  &:hover{
+    background-color: ${grayLight};
+  }
 `
 
 export function PostSummarySection({ frontmatter, summary, permalink }: Props) {
