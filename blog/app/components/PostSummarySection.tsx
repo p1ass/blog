@@ -93,7 +93,7 @@ export function PostSummarySection({ frontmatter, summary, permalink }: Props) {
       <PostDetails frontmatter={frontmatter} />
       <div class='catalogue-summary'>{summary}</div>
 
-      <a class={moreButtonCss} href='{{ .Permalink }}'>
+      <a class={moreButtonCss} href={permalink}>
         続きを読む
       </a>
     </section>
