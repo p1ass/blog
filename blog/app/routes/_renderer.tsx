@@ -74,7 +74,7 @@ export default jsxRenderer(({ children, title }) => {
 
         <link
           rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css'
+          href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one.min.css'
         />
 
         <script

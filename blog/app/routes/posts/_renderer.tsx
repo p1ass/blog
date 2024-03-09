@@ -41,16 +41,16 @@ const tagCss = css`
   transition: all 0.2s ease-out;
 `
 
-function PostDetails({ frontmatter }: { frontmatter: Meta }) {
+export function PostDetails({ frontmatter }: { frontmatter: Meta }) {
   return (
     <div class={postDetailsCss}>
       <span class={readingTimeCss}>xx min read |</span>
-      {frontmatter.categories.map((category, _) => (
+      {frontmatter.categories?.map((category, _) => (
         <a href='/categories/{{ lower . }}/' class={tagCss}>
           #{category}
         </a>
       ))}
-      {frontmatter.tags.map((tag, _) => (
+      {frontmatter.tags?.map((tag, _) => (
         <a href='/tags/{{ lower . }}/' class={tagCss}>
           #{tag}
         </a>

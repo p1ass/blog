@@ -28,8 +28,8 @@ const shareButtonCss = css`
 
 const shareButtonLinkCss = css`
   display: table-cell;
-  width: ${verticalRhythmUnit * 1.625}rem;
-  height: ${verticalRhythmUnit * 1.625}rem;
+  width: ${verticalRhythmUnit * 1.625}rem ;
+  height: ${verticalRhythmUnit * 1.625} rem;
   color: #42464c;
   text-align: center;
   vertical-align: middle;
