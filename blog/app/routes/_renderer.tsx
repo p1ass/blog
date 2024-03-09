@@ -11,7 +11,7 @@ const bodyCss = css`
     "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI",
     "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
 
-  margin: 0;
+  margin: 0 1rem;
   padding: 0;
 
   * {
