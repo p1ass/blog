@@ -1,5 +1,5 @@
-import { parse } from '@formkit/tempo'
 import { PostSummarySection } from '../components/PostSummarySection'
+import { parseDate } from '../lib/time'
 import type { Meta } from './types'
 
 export const title = 'ぷらすのブログ'
@@ -11,16 +11,8 @@ function sortByDateDesc():
     ) => number)
   | undefined {
   return ([_aid, aPost], [_bid, bPost]) => {
-    const aDate = parse(
-      aPost.frontmatter.date,
-      'YYYY-MM-DDTHH:mm:ss',
-      'Asia/Tokyo',
-    )
-    const bDate = parse(
-      bPost.frontmatter.date,
-      'YYYY-MM-DDTHH:mm:ss',
-      'Asia/Tokyo',
-    )
+    const aDate = parseDate(aPost.frontmatter.date)
+    const bDate = parseDate(bPost.frontmatter.date)
     return aDate.getTime() < bDate.getTime() ? 1 : -1
   }
 }

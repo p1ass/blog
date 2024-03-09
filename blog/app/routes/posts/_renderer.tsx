@@ -2,6 +2,7 @@ import { format, parse } from '@formkit/tempo'
 import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { ShareButtons } from '../../components/ShareIcons'
+import { parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
 import { Meta } from '../types'
 
@@ -67,10 +68,7 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
     <Layout title={frontmatter.title}>
       <div class={postDateCss}>
         <time datetime={frontmatter.date}>
-          {format(
-            parse(frontmatter.date, 'YYYY-MM-DDTHH:mm:ss', 'Asia/Tokyo'),
-            'YYYY/MM/DD',
-          )}
+          {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
         </time>
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>

@@ -1,5 +1,6 @@
 import { format, parse } from '@formkit/tempo'
 import { css } from 'hono/css'
+import { parseDate } from '../lib/time'
 import { PostDetails } from '../routes/posts/_renderer'
 import { Meta } from '../routes/types'
 import { blue, gray, grayLight, white } from '../styles/color'
@@ -85,10 +86,7 @@ export function PostSummarySection({ frontmatter, summary, permalink }: Props) {
       <a href={permalink} class={itemCss}>
         <div>
           <time datetime={frontmatter.date} class={timeCss}>
-            {format(
-              parse(frontmatter.date, 'YYYY-MM-DDTHH:mm:ss', 'Asia/Tokyo'),
-              'YYYY/MM/DD',
-            )}
+            {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
           </time>
           <h1 class={titleCss}>{frontmatter.title}</h1>
           <div class={underlineCss} />
