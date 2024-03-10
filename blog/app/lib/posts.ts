@@ -1,9 +1,12 @@
 import { Meta } from '../routes/types'
 import { parseDate } from './time'
 
-const posts = import.meta.glob<{ frontmatter: Meta }>('../posts/**/*.mdx', {
-  eager: true,
-})
+const posts = import.meta.glob<{ frontmatter: Meta }>(
+  '../routes/posts/**/*.mdx',
+  {
+    eager: true,
+  },
+)
 
 function sortByDateDesc():
   | ((
