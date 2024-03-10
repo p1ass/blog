@@ -1,6 +1,7 @@
 import { Style, css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
+import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { gray } from '../styles/color'
 
@@ -100,6 +101,7 @@ export default jsxRenderer(({ children, title }) => {
       <body class={bodyCss}>
         <Header />
         <main class={mainCss}>{children}</main>
+        <Footer />
       </body>
     </html>
   )
