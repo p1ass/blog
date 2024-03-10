@@ -1,6 +1,7 @@
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import { Author } from '../../components/Author'
 import { PostDetails } from '../../components/PostDetails'
 import { ShareButtons } from '../../components/ShareIcons'
 import { parseDate } from '../../lib/time'
@@ -36,6 +37,8 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
       <ShareButtons title={frontmatter.title} permalink={'TODO'} />
       <PostDetails frontmatter={frontmatter} />
       <article>{children}</article>
+      <ShareButtons title={frontmatter.title} permalink={'TODO'} />
+      <Author />
     </Layout>
   )
 })
