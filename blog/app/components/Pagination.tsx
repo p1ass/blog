@@ -71,7 +71,7 @@ export function Pagination({ pageNumber, hasPrev, hasNext, basePath }: Props) {
   return (
     <div class={paginationCss}>
       {hasPrev ? (
-        <a href={`${basePath}/page/${pageNumber - 1}`} class={leftCss}>
+        <a href={`${basePath ?? ''}/page/${pageNumber - 1}`} class={leftCss}>
           &#8592;
         </a>
       ) : (
@@ -79,7 +79,7 @@ export function Pagination({ pageNumber, hasPrev, hasNext, basePath }: Props) {
       )}
       <span class={pageNumberCss}>{pageNumber}</span>
       {hasNext ? (
-        <a href={`${basePath}/page/${pageNumber + 1}`} class={rightCss}>
+        <a href={`${basePath ?? ''}/page/${pageNumber + 1}`} class={rightCss}>
           &#8594;
         </a>
       ) : null}

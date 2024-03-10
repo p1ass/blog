@@ -61,6 +61,23 @@ export function getPosts(page: number): Posts {
   }
 }
 
+export type PaginationPosts = {
+  prevPost: Post | null
+  nextPost: Post | null
+}
+
+export function getPaginationPosts(currentPostTitle: string): PaginationPosts {
+  const allPosts = getAllPosts()
+  const currentIndex = allPosts.findIndex(
+    p => p.frontmatter.title === currentPostTitle,
+  )
+  return {
+    prevPost:
+      currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null,
+    nextPost: currentIndex > 0 ? allPosts[currentIndex - 1] : null,
+  }
+}
+
 type Category = {
   id: string
   name: string

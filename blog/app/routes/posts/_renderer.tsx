@@ -3,7 +3,9 @@ import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Author } from '../../components/Author'
 import { PostDetails } from '../../components/PostDetails'
+import { PostPagination } from '../../components/PostPagination'
 import { ShareButtons } from '../../components/ShareIcons'
+import { getPaginationPosts } from '../../lib/posts'
 import { parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
 
@@ -22,10 +24,30 @@ const postDateCss = css`
   padding: 1.275rem 0 0.85rem;
 `
 
+const toTopLinkCss = css`
+  text-align: center;
+
+a{
+  color: ${gray};
+  text-decoration: none;
+
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    color: ${grayLight};
+  }
+}
+`
+
 export default jsxRenderer(({ children, Layout, frontmatter }) => {
   if (!frontmatter) {
     return <div>Not Post Page</div>
   }
+
+  const paginationPosts = getPaginationPosts(frontmatter.title)
+
   return (
     <Layout title={frontmatter.title}>
       <div class={postDateCss}>
@@ -39,6 +61,10 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
       <article>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={'TODO'} />
       <Author />
+      <PostPagination paginationPosts={paginationPosts} />
+      <div class={toTopLinkCss}>
+        <a href='/'>Topへ戻る</a>
+      </div>
     </Layout>
   )
 })
