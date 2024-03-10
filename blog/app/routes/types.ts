@@ -3,7 +3,7 @@ export type Meta = {
   date: string
   draft: boolean
   description: string
-  categories?: string[]
+  categories: string[]
   tags?: string[]
   share: boolean
 }

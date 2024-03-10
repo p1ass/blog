@@ -2,9 +2,9 @@ import { css } from 'hono/css'
 import { border, gray, grayLight } from '../styles/color'
 
 const headerCss = css`
-overflow: auto;
+  overflow: auto;
   border-bottom: 1px solid ${border};
-  `
+`
 
 const headerContainerCss = css`
   margin: 0.85rem auto;
@@ -20,6 +20,7 @@ const titleCss = css`
   margin: 0.425rem 0;
   color: ${gray};
   text-decoration: none;
+  
   
   &:hover,
   &:focus {
