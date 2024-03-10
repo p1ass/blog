@@ -1,16 +1,17 @@
-import { format, parse } from '@formkit/tempo'
+import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import { PostDetails } from '../../components/PostDetails'
 import { ShareButtons } from '../../components/ShareIcons'
 import { parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
-import { Meta } from '../types'
 
 const postTitleCss = css`
   font-size: 2.5rem;
   margin: 0 0 1.7rem;
   text-align: center;
   line-height: 3.4rem;
+  word-break: auto-phrase;
 `
 
 const postDateCss = css`
@@ -19,46 +20,6 @@ const postDateCss = css`
   text-align: center;
   padding: 1.275rem 0 0.85rem;
 `
-
-const postDetailsCss = css`
-  padding-bottom: 1.7rem;
-`
-
-const readingTimeCss = css`
-  color: ${grayLight};
-`
-
-const tagCss = css`
-  color: ${grayLight};
-  text-decoration: none;
-  padding: 0 2px;
-
-  &:hover {
-    color: ${gray};
-  }
-  
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
-`
-
-export function PostDetails({ frontmatter }: { frontmatter: Meta }) {
-  return (
-    <div class={postDetailsCss}>
-      <span class={readingTimeCss}>xx min read |</span>
-      {frontmatter.categories?.map((category, _) => (
-        <a href='/categories/{{ lower . }}/' class={tagCss}>
-          #{category}
-        </a>
-      ))}
-      {frontmatter.tags?.map((tag, _) => (
-        <a href='/tags/{{ lower . }}/' class={tagCss}>
-          #{tag}
-        </a>
-      ))}
-    </div>
-  )
-}
 
 export default jsxRenderer(({ children, Layout, frontmatter }) => {
   if (!frontmatter) {

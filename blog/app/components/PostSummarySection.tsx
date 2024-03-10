@@ -1,10 +1,10 @@
 import { format, parse } from '@formkit/tempo'
 import { css } from 'hono/css'
 import { parseDate } from '../lib/time'
-import { PostDetails } from '../routes/posts/_renderer'
 import { Meta } from '../routes/types'
 import { blue, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
+import { PostDetails } from './PostDetails'
 
 type Props = {
   frontmatter: Meta

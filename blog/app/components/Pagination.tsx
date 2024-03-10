@@ -2,13 +2,6 @@ import { css } from 'hono/css'
 import { border, gray, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
-type Props = {
-  pageNumber: number
-
-  hasPrev: boolean
-  hasNext: boolean
-}
-
 const paginationCss = css`
   border-top: .5px solid ${border};
   padding-top: 2rem;
@@ -65,11 +58,20 @@ const pageNumberCss = css`
   padding: ${verticalRhythmUnit * 0.25}rem;
 `
 
-export function Pagination({ pageNumber, hasPrev, hasNext }: Props) {
+type Props = {
+  pageNumber: number
+
+  hasPrev: boolean
+  hasNext: boolean
+
+  basePath?: string
+}
+
+export function Pagination({ pageNumber, hasPrev, hasNext, basePath }: Props) {
   return (
     <div class={paginationCss}>
       {hasPrev ? (
-        <a href={`/page/${pageNumber - 1}`} class={leftCss}>
+        <a href={`${basePath}/page/${pageNumber - 1}`} class={leftCss}>
           &#8592;
         </a>
       ) : (
@@ -77,7 +79,7 @@ export function Pagination({ pageNumber, hasPrev, hasNext }: Props) {
       )}
       <span class={pageNumberCss}>{pageNumber}</span>
       {hasNext ? (
-        <a href={`/page/${pageNumber + 1}`} class={rightCss}>
+        <a href={`${basePath}/page/${pageNumber + 1}`} class={rightCss}>
           &#8594;
         </a>
       ) : null}

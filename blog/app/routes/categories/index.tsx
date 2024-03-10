@@ -8,6 +8,8 @@ const linkCss = css`
   text-decoration: none;
 `
 
+export const title = 'Categories'
+
 export default function CategoryTop() {
   const categories = getCategories()
   console.log(categories)
@@ -17,7 +19,7 @@ export default function CategoryTop() {
       <ul>
         {categories.map(category => (
           <li>
-            <a href={`/categories/${category.name}`} class={linkCss}>
+            <a href={`/categories/${category.id}`} class={linkCss}>
               {category.name}
             </a>
           </li>

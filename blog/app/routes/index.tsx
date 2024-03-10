@@ -3,8 +3,6 @@ import { Pagination } from '../components/Pagination'
 import { PostSummarySection } from '../components/PostSummarySection'
 import { getPosts } from '../lib/posts'
 
-export const title = 'ぷらすのブログ'
-
 export default function Top() {
   const pageNum = 1
   const { posts, hasPrev, hasNext } = getPosts(pageNum)

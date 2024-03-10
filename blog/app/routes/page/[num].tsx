@@ -7,18 +7,21 @@ import { getPosts } from '../../lib/posts'
 export default createRoute(c => {
   const numStr = c.req.param('num')
   const num = parseInt(numStr)
+  if (Number.isNaN(num)) {
+    return c.notFound()
+  }
 
   const { posts, hasPrev, hasNext } = getPosts(num)
 
   return c.render(
     <Fragment>
       <div>
-        {posts.map(posts => {
+        {posts.map(post => {
           return (
             <PostSummarySection
-              frontmatter={posts.frontmatter}
+              frontmatter={post.frontmatter}
               summary='TODO'
-              permalink={`${posts.id.replace(/\/index\.mdx$/, '')}`}
+              permalink={`${post.id.replace(/\/index\.mdx$/, '')}`}
             />
           )
         })}

@@ -1,5 +1,6 @@
 import { Meta } from '../routes/types'
 import { parseDate } from './time'
+import { groupBy } from './util'
 
 const POSTS_PER_PAGE = 10
 
@@ -27,6 +28,7 @@ type Post = {
   id: string
   frontmatter: Meta
 }
+
 type Posts = {
   posts: Post[]
   hasPrev: boolean
@@ -60,6 +62,7 @@ export function getPosts(page: number): Posts {
 }
 
 type Category = {
+  id: string
   name: string
   posts: Post[]
 }
@@ -70,26 +73,42 @@ export function getCategories(): Category[] {
 
   return Object.entries(groupedByCategory).map(([name, posts]) => {
     return {
+      id: categoryNameToId(name),
       name: name,
       posts: posts,
     }
   })
 }
 
-const groupBy = <K extends PropertyKey, V>(
-  array: readonly V[],
-  getKey: (cur: V, idx: number, src: readonly V[]) => K,
-) =>
-  array.reduce(
-    (obj, cur, idx, src) => {
-      const key = getKey(cur, idx, src)
-      if (obj[key]) {
-        obj[key]?.push(cur)
-        return obj
-      }
-      obj[key] = []
-      obj[key]?.push(cur)
-      return obj
-    },
-    {} as Record<K, V[]>,
-  )
+type CategoryPosts = {
+  hasPrev: boolean
+  hasNext: boolean
+} & Category
+
+export function getCategoryPosts(
+  categoryId: string,
+  page: number,
+): CategoryPosts | null {
+  const start = POSTS_PER_PAGE * (page - 1)
+  const end = POSTS_PER_PAGE * page
+
+  const category = getCategories().find(c => c.id === categoryId)
+
+  if (!category) {
+    return null
+  }
+
+  const pagePosts = category.posts.slice(start, end)
+
+  return {
+    id: category.id,
+    name: category.name,
+    posts: pagePosts,
+    hasPrev: page > 1,
+    hasNext: category.posts.length > end,
+  }
+}
+
+export function categoryNameToId(name: string): string {
+  return name.toLowerCase()
+}
