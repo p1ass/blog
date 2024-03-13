@@ -1,10 +1,12 @@
 import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
 import { MDXComponents } from 'mdx/types'
+import { StyledPre } from '../components/StyledPre'
 
 export function useMDXComponents(): MDXComponents {
   const components = {
     img: Image,
+    pre: StyledPre,
   }
   return components
 }

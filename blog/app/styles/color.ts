@@ -9,3 +9,6 @@ export const borderLight = '#ffffff'
 
 export const white = '#ffffff'
 export const whiteDark = '#dde0e4'
+
+export const background = '#ffffff'
+export const backgroundDark = '#f9f9fa'
