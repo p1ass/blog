@@ -129,3 +129,58 @@ export function getCategoryPosts(
 export function categoryNameToId(name: string): string {
   return name.toLowerCase()
 }
+
+type Tag = {
+  id: string
+  name: string
+}
+
+export function getTags(): Tag[] {
+  const allPosts = getAllPosts()
+
+  const tags: Tag[] = allPosts.flatMap(p => {
+    return (
+      p.frontmatter.tags?.map(tag => {
+        return {
+          id: tagNameToId(tag),
+          name: tag,
+        }
+      }) || []
+    )
+  })
+  return Array.from(new Map(tags.map(tag => [tag.id, tag])).values())
+}
+
+export function tagNameToId(name: string): string {
+  return name.toLowerCase()
+}
+
+type TagPosts = {
+  posts: Post[]
+  hasPrev: boolean
+  hasNext: boolean
+} & Tag
+
+export function getTagPosts(tagId: string, page: number): TagPosts | null {
+  const start = POSTS_PER_PAGE * (page - 1)
+  const end = POSTS_PER_PAGE * page
+
+  const tag = getTags().find(tag => tag.id === tagId)
+
+  if (!tag) {
+    return null
+  }
+
+  const tagPosts = getAllPosts().filter(p =>
+    p.frontmatter.tags?.includes(tag.name),
+  )
+  const pagePosts = tagPosts.slice(start, end)
+
+  return {
+    id: tag.id,
+    name: tag.name,
+    posts: pagePosts,
+    hasPrev: page > 1,
+    hasNext: tagPosts.length > end,
+  }
+}

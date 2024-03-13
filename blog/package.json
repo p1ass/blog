@@ -30,6 +30,7 @@
     "@hono/vite-ssg": "0.1.0",
     "@types/mdx": "2.0.11",
     "@types/mdx-js__react": "1.5.8",
+    "typescript": "^5.4.2",
     "vite": "^5.0.12",
     "wrangler": "^3.27.0"
   }
