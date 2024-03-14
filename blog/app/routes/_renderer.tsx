@@ -3,7 +3,8 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { gray } from '../styles/color'
+import { backgroundDark, border, gray } from '../styles/color'
+import { verticalRhythmUnit } from '../styles/variables'
 
 const bodyCss = css`
   color: ${gray};
@@ -37,6 +38,15 @@ border-bottom: 1px solid #dde0e4;
 p {
   margin: 0 0 1.7rem;
   line-height: 2.125rem;
+}
+
+code {
+  background-color: ${backgroundDark};
+  border: 1px solid ${border};
+  border-radius: ${verticalRhythmUnit * 0.125}rem;
+  font-family: monospace;
+  font-size: 85%;
+  padding: ${verticalRhythmUnit * 0.125}rem 0.5em;
 }
 `
 
@@ -72,11 +82,6 @@ export default jsxRenderer(({ children, title }) => {
         <meta name='twitter:site' content='@p1ass' />
         <meta name='twitter:creator' content='@p1ass' />
         <meta property='og:title' content='{{ .Title }}' />
-
-        <link
-          rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one.min.css'
-        />
 
         <script
           src='https://kit.fontawesome.com/ea66b8338f.js'

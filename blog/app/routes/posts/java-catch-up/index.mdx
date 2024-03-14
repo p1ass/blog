@@ -11,6 +11,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
 この記事は、他のプログラミング言語は書いているが Java はそんなに書いていない/忘れた私が Java をキャッチアップするために得た知識をまとめたものです。
@@ -30,12 +32,12 @@ share: true
 
 ### 事前知識: Java 自体の開発とディストリビューション
 
-{/* {<ex-link url="https://news.mynavi.jp/article/imajava-1/">} */}
-{/* {<ex-link url="https://news.mynavi.jp/article/imajava-2/">} */}
+<ExLinkCard url="https://news.mynavi.jp/article/imajava-1/" />
+<ExLinkCard url="https://news.mynavi.jp/article/imajava-2/" />
 
 ### 事前知識: `JAVA_HOME`とは
 
-{/* {<ex-link url="https://lalupin4.hatenablog.jp/entry/2015/04/15/163126">} */}
+<ExLinkCard url="https://lalupin4.hatenablog.jp/entry/2015/04/15/163126" />
 
 ### 選択肢 1: `/usr/libexec/java_home` を使う
 
@@ -71,7 +73,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.3+7, mixed mode)
 
 ### 選択肢 2: jenv を使う
 
-{/* {<ex-link url="https://github.com/jenv/jenv">} */}
+<ExLinkCard url="https://github.com/jenv/jenv" />
 
 jenv は Java のバージョンを切り替えて、自動で `JAVA_HOME`を設定してくれるライブラリ。
 ディストリビューションは自分でインストールする必要がある点に注意する。
@@ -81,7 +83,7 @@ jenv は Java のバージョンを切り替えて、自動で `JAVA_HOME`を設
 
 ### Amazon Corretto のインストール
 
-{/* {<ex-link url="https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/macos-install.html">} */}
+<ExLinkCard url="https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/macos-install.html" />
 
 いろんなディストリビューションがあるが、今回は Corretto を使う。
 pkg を落としたら、 `jenv add` して `jenv global` で切り替える。
@@ -90,11 +92,11 @@ pkg を落としたら、 `jenv add` して `jenv global` で切り替える。
 
 IntelliJ IDEA を使う。
 
-{/* {<ex-link url="https://www.jetbrains.com/ja-jp/idea/">} */}
+<ExLinkCard url="https://www.jetbrains.com/ja-jp/idea/" />
 
 Community 版なら無料で使える。使い方は公式の日本語ドキュメントを参照。
 
-{/* {<ex-link url="https://pleiades.io/help/idea/discover-intellij-idea.html#multi-platform-IDE">} */}
+<ExLinkCard url="https://pleiades.io/help/idea/discover-intellij-idea.html#multi-platform-IDE" />
 
 設定せずに先程インストールした Corretto が選択できるようになっているはず。
 
@@ -103,7 +105,7 @@ Community 版なら無料で使える。使い方は公式の日本語ドキュ�
 Gradle は Java で使われる OSS のビルドツール。
 Maven が使われることもあるが、周りは Gradle を使っている人が多いので、ここでは Gradle を使う。
 
-{/* {<ex-link url="https://gradle.org/">} */}
+<ExLinkCard url="https://gradle.org/" />
 
 ![intellij.png](intellij.png)
 
@@ -159,7 +161,7 @@ Hello World
 
 Gradle から直接実行する場合は `build.gradle`を変更する。
 
-{/* {<ex-link url="https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files">} */}
+<ExLinkCard url="https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files" />
 
 ```groovy
 // build.gradle
@@ -186,7 +188,7 @@ BUILD SUCCESSFUL in 532ms
 
 ある程度他のオブジェクト指向の言語を書いた人ならスルッと入れるので、サクッと流す。
 
-{/* {<ex-link url="https://www.javadrive.jp/start/">} */}
+<ExLinkCard url="https://www.javadrive.jp/start/" />
 
 ## 5. Java8 以降に追加された文法・ライブラリを学ぶ
 
@@ -207,7 +209,7 @@ Java8 以前と以降でだいぶ異なるところがある。
 
 Gradle でサードパーティライブラリを扱う仕組みは公式ドキュメントに書かれている。
 
-{/* {<ex-link url="https://docs.gradle.org/current/userguide/core_dependency_management.html">} */}
+<ExLinkCard url="https://docs.gradle.org/current/userguide/core_dependency_management.html" />
 
 ### リポジトリの指定
 
@@ -227,7 +229,7 @@ repositories {
 今回は JSON ライブラリである Jackson をインストールする。
 `implementation` 等の意味は先ほどの Gradle の公式ドキュメントだけでなく、Android の公式ドキュメントなどにも書かれている。
 
-{/* {<ex-link url="https://developer.android.com/studio/build/dependencies?hl=ja#dependency_configurations">} */}
+<ExLinkCard url="https://developer.android.com/studio/build/dependencies?hl=ja#dependency_configurations" />
 
 ```groovy
 dependencies {
@@ -272,13 +274,13 @@ $ ./gradlew run
 
 必要になったときにググれるように、ある程度インデックスを貼っておく。
 
-{/* {<ex-link url="https://qiita.com/disc99/items/727b51dbe737602a5c91">} */}
+<ExLinkCard url="https://qiita.com/disc99/items/727b51dbe737602a5c91" />
 
 ## 8. スタイルガイドを知る
 
 より良い書き方を学ぶ。
 
-{/* {<ex-link url="https://kazurof.github.io/GoogleJavaStyle-ja/">} */}
+<ExLinkCard url="https://kazurof.github.io/GoogleJavaStyle-ja/" />
 
 <iframe
   style="width:120px;height:240px;"
@@ -313,7 +315,7 @@ API・バッチ・共通ライブラリをそれぞれ別のプロジェクト�
 
 自分で 1 からプロジェクトを作ることは少ないかも知れないが、既存のプロジェクトがマルチプロジェクトになっていることは結構あるので、「`build.gradle` が複数あるんだけど！」ってならないために知っておくと良さそう。
 
-{/* {<ex-link url="https://docs.gradle.org/current/samples/sample_building_java_applications_multi_project.html">} */}
+<ExLinkCard url="https://docs.gradle.org/current/samples/sample_building_java_applications_multi_project.html" />
 
 ## おわりに
 

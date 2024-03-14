@@ -12,6 +12,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
 GW 中に SPA で OAuth を使うときのプラクティスについて調べていたところ、[OAuth2.0 for Browser-Based Apps](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps) という RFC の Internet-Draft を見つけました。
@@ -22,7 +24,7 @@ GW 中に SPA で OAuth を使うときのプラクティスについて調べ�
 
 全てを網羅するわけではないので、興味がある方は原文を読んでください。
 
-{/* {<ex-link url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps">} */}
+<ExLinkCard url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps" />
 
 {/* {<note text="Internet-Draftは参考文献にするには不適切です。ただ今回の内容はベストプラクティスであり、ドラフトの段階でも価値があると判断して紹介しています。今後内容に変更があるかもしれない点に注意してください。">} */}
 
@@ -284,7 +286,7 @@ _認可コードの乗っ取り攻撃の図 (Authlete さんの記事より引�
 
 詳しくは、RFC や Authlete さんの記事がおすすめです。
 
-{/* {<ex-link url="https://www.authlete.com/ja/developers/pkce/">} */}
+<ExLinkCard url="https://www.authlete.com/ja/developers/pkce/" />
 
 ## OAuth 2.0 Authorization Code Flow with PKCE を使う際のベストプラクティス
 

@@ -12,6 +12,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com)です。
 Google Cloud の IAM を使ったテクニックを紹介します。
 
@@ -37,7 +39,7 @@ _簡略化したアーキテクチャ_
 
 まずは、Vercel ではなく Cloud Run 同士の通信を IAM で認証する仕組みを知る必要があります。
 
-{/* {<ex-link url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja">} */}
+<ExLinkCard url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja" />
 
 Cloud Run のサービス間認証では IAM が使われます。
 ここでは、`Client` と `Server` という 2 つの Cloud Run サービスがあると仮定して説明します。

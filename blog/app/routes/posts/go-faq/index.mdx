@@ -10,6 +10,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
 最近研修で Go を書いていて、その際にいくつか質問をされるのですが、聞いてみると前にも答えたような質問が多かったので、これを機にブログに参考リンクをまとめようと思います。
@@ -98,7 +100,7 @@ if err != nil {
 既に Go に染まってしまったからかもしれませんが、個人的にはこのエラーハンドリングは好きです。
 逆に try-catch を使った例外処理が書けなくなりました。
 
-{/* {<ex-link url="https://talks.golang.org/2012/splash.article">} */}
+<ExLinkCard url="https://talks.golang.org/2012/splash.article" />
 
 ### `var s []string` と `s := make([]string,0)` と `s := []string{}` の違いは？
 
@@ -149,9 +151,9 @@ Uber Go Style Guide では nil slice が推奨されています。
 
 なお、現在はジェネリクスを実装するプロポーザルが承認されており、Go1.18 にてリリースされる予定です。
 
-{/* {<ex-link url="https://blog.golang.org/generics-next-step">} */}
+<ExLinkCard url="https://blog.golang.org/generics-next-step" />
 
-{/* {<ex-link url="https://github.com/golang/go/issues/43651">} */}
+<ExLinkCard url="https://github.com/golang/go/issues/43651" />
 
 ### Enum を定義したい
 
@@ -201,7 +203,7 @@ Go 1.13 から追加された標準の errors パッケージを使うことで�
 
 通常、構造体を `%v` や `%+v` で出力するとフィールド名やその値が表示されますが、`fmt.Stringer` インターフェイスを実装することで表示をカスタマイズできます。
 
-{/* {<ex-link url="https://qiita.com/tenntenn/items/453a09c4c6d7f580d0ab">} */}
+<ExLinkCard url="https://qiita.com/tenntenn/items/453a09c4c6d7f580d0ab" />
 
 ## 公式のエコシステム周り
 
@@ -209,7 +211,7 @@ Go 1.13 から追加された標準の errors パッケージを使うことで�
 
 現在(2021/05)では、公式で提供されている Go Module を使います。
 
-{/* {<ex-link url="https://blog.golang.org/using-go-modules">} */}
+<ExLinkCard url="https://blog.golang.org/using-go-modules" />
 
 ### Go の Formatter や Linter を知りたい
 
@@ -223,7 +225,7 @@ Linter はいくつか種類がありますが、公式のでは怪しい構造�
 
 その他にも、サードパーティの Linter を集めた golangci-lint という Linter のランナーがあります。
 
-{/* {<ex-link url="https://github.com/golangci/golangci-lint">} */}
+<ExLinkCard url="https://github.com/golangci/golangci-lint" />
 
 ## スタイル周り
 
@@ -260,11 +262,11 @@ Go の FAQ では、
 
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout) という Go 非公式のリポジトリがありますが、Go Team の Russ Cox から standard と呼ぶのは正確ではないという趣旨の issue が立てられています。
 
-{/* {<ex-link url="https://github.com/golang-standards/project-layout/issues/117">} */}
+<ExLinkCard url="https://github.com/golang-standards/project-layout/issues/117" />
 
 パッケージ構成ではないですが、パッケージ名に関する記事は公式の The Go Blog にあります。
 
-{/* {<ex-link url="https://blog.golang.org/package-names">} */}
+<ExLinkCard url="https://blog.golang.org/package-names" />
 
 #### 私見
 
@@ -323,7 +325,7 @@ VS Code や Goland では拡張機能にこの機能が組み込まれている�
 ![画像](https://raw.githubusercontent.com/cweill/GoTests-Sublime/master/gotests.gif)
 _GitHub より引用_
 
-{/* {<ex-link url="https://github.com/cweill/gotests">} */}
+<ExLinkCard url="https://github.com/cweill/gotests" />
 
 ### テストの構造体比較に reflect ではなく go-cmp を使うメリットは何か?
 
@@ -365,7 +367,7 @@ MakeGatewayInfo() mismatch (-want +got):
   }
 ```
 
-{/* {<ex-link url="https://github.com/google/go-cmp">} */}
+<ExLinkCard url="https://github.com/google/go-cmp" />
 
 ## その他のよくある質問は?
 

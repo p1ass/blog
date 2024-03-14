@@ -10,6 +10,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
 去年に引き続き、 [@km_conner](https://twitter.com/km_conner) と [@atrn0](https://twitter.com/atrn0) と一緒にチーム「釜中の鯖」として ISUCON13 に参加しました。
@@ -61,7 +63,7 @@ graph TB;
 トレンドには乗っかろうの精神で、LLM 系のツールを導入しました。
 GitHub Copilot は言わずもながですが、加えて[JetBrains AI Assistant](https://blog.jetbrains.com/ja/idea/2023/06/ai-assistant-in-jetbrains-ides/)も使ってみました。
 
-{/* {<ex-link url="https://blog.jetbrains.com/ja/idea/2023/06/ai-assistant-in-jetbrains-ides/">} */}
+<ExLinkCard url="https://blog.jetbrains.com/ja/idea/2023/06/ai-assistant-in-jetbrains-ides/" />
 
 JetBrains AI Assistant はちょうどよいタイミングで早期プレビューの案内が来たこと、JetBrain IDE で GitHub Copilot Chat を使えなかったことを加味して利用を決めました。
 (プレビュー段階であるためチームメンバー全員が使えたわけではなかったです)
@@ -100,7 +102,7 @@ HTTP ログやスローログは良くも悪くも統計データとして丸め
 さて、ここからは競技中に行った改善について紹介します。
 当日のコードは GitHub で公開しています。
 
-{/* {<ex-link url="https://github.com/saba-in-the-kettle/isucon13">} */}
+<ExLinkCard url="https://github.com/saba-in-the-kettle/isucon13" />
 
 ### 10:51 App 用の MySQL を 2 台目に移行 (5,333 点)
 
@@ -168,7 +170,7 @@ PowerDNS が使う MySQL の負荷がずっと高いと話題になっていま�
 途中途中で実装方針の説明を受けていたのですが、DNS の仕組みをあまり知らないので「良い感じになるならそれでいいや」くらいの返事をしていました。
 後々実装を読んだのですが、miekg/dns という OSS を使って自前で DNS サーバーを実装していました。すごい。
 
-{/* {<ex-link url="https://github.com/miekg/dns">} */}
+<ExLinkCard url="https://github.com/miekg/dns" />
 
 ### 15:35 NG ワードのチェックを Go でやる (25,261 点)
 

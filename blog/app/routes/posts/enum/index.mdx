@@ -12,6 +12,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
 Enum や Union 型は、取りうる値を列挙する上で非常に便利な構文です。
@@ -173,7 +175,7 @@ switch (inputErrorCode) {
 2 つ目の方法は静的解析ツールを使って静的に検出する方法です。
 TypeScript では ESLint のプラグインを用いることで switch 文のパターンチェック漏れの検出が可能です。
 
-{/* {<ex-link url="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md">} */}
+<ExLinkCard url="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md" />
 
 **検出される例 (リンク先より引用)**
 
@@ -273,9 +275,9 @@ function area(s: Shape): number {
 }
 ```
 
-{/* {<ex-link url="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyxyA1qACYBcyARAM5Y4S0DcRJ9wAXhDSJgC2AI2jsAvgQKhIsRCgBKEBGDggA5gBt8HYuRDU6uFWq0t2JZAHdgFMAAt+Q0VAsl7EYOvtgnIsQSSBAD0wWgA9oIQ4SAoAFaY9GDIcBQUEBTIDsD0yLFWyAAGAMLAUAjahcgAKgCeAA4QIWEA6ihW4ZiamZrApChg4cjayXWNqAhQwPXJ6sAAbihqyNBQ4VApyWq1yPWa8ln2cMkAVLEZ9CdZQwjH0Mgw64c50uDQ8EjIpeXayISW+kMtAQZQq5l0yCgqWAiT8LgkUjADRQqCOjWQAF40ExcMgAD7IJQmDS-AnfMHsAgwTAgFTAGIpXBwAAU9BoqLgjQAlHD7v8SMAYMhWQA6QGYjFYhg4lhcv4Qyy4MCYKAgZD0EVcXjIK4arUQNzESSWCCaegoQXCjXiyVS4yqEmy+WWRUQZWq9Uimx2ew6z0eLw+Q3IY0kULIQDKDBHAEkMgGaGQCHDIBnhkAEwyAIoZAGUMycAmgyAaIZABYMgAqGQCXDIAfhkAMgyACNtABIMOYh4dN5uQltFNsldBBPyd-OI4dd7rVGqhFBhuROVwATMHw6HiA2dC6w2EAKIKBQAeQUyBoJVBlSbuRA4S29C46hAcGEv0GRViiyghQVJAQMSSyAA+hAAB5HRJgBYQYoPAQUh+AgO9MXVYNLAcNYCnyZAlygNYoGZAByGlgEEPYICiN4KFQrkIUkcQgA">} */}
+<ExLinkCard url="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyxyA1qACYBcyARAM5Y4S0DcRJ9wAXhDSJgC2AI2jsAvgQKhIsRCgBKEBGDggA5gBt8HYuRDU6uFWq0t2JZAHdgFMAAt+Q0VAsl7EYOvtgnIsQSSBAD0wWgA9oIQ4SAoAFaY9GDIcBQUEBTIDsD0yLFWyAAGAMLAUAjahcgAKgCeAA4QIWEA6ihW4ZiamZrApChg4cjayXWNqAhQwPXJ6sAAbihqyNBQ4VApyWq1yPWa8ln2cMkAVLEZ9CdZQwjH0Mgw64c50uDQ8EjIpeXayISW+kMtAQZQq5l0yCgqWAiT8LgkUjADRQqCOjWQAF40ExcMgAD7IJQmDS-AnfMHsAgwTAgFTAGIpXBwAAU9BoqLgjQAlHD7v8SMAYMhWQA6QGYjFYhg4lhcv4Qyy4MCYKAgZD0EVcXjIK4arUQNzESSWCCaegoQXCjXiyVS4yqEmy+WWRUQZWq9Uimx2ew6z0eLw+Q3IY0kULIQDKDBHAEkMgGaGQCHDIBnhkAEwyAIoZAGUMycAmgyAaIZABYMgAqGQCXDIAfhkAMgyACNtABIMOYh4dN5uQltFNsldBBPyd-OI4dd7rVGqhFBhuROVwATMHw6HiA2dC6w2EAKIKBQAeQUyBoJVBlSbuRA4S29C46hAcGEv0GRViiyghQVJAQMSSyAA+hAAB5HRJgBYQYoPAQUh+AgO9MXVYNLAcNYCnyZAlygNYoGZAByGlgEEPYICiN4KFQrkIUkcQgA" />
 
-{/* {<ex-link url="https://typescript-jp.gitbook.io/deep-dive/type-system/discriminated-unions#chekkuexhaustive-checks">} */}
+<ExLinkCard url="https://typescript-jp.gitbook.io/deep-dive/type-system/discriminated-unions#chekkuexhaustive-checks" />
 
 **--追記ここまで--**
 
@@ -286,11 +288,11 @@ function area(s: Shape): number {
 
 **Go**
 
-{/* {<ex-link url="https://qiita.com/hogedigo/items/de9a1c53519aedfdc8ae">} */}
+<ExLinkCard url="https://qiita.com/hogedigo/items/de9a1c53519aedfdc8ae" />
 
 **Java**
 
-{/* {<ex-link url="https://errorprone.info/bugpattern/MissingCasesInEnumSwitch">} */}
+<ExLinkCard url="https://errorprone.info/bugpattern/MissingCasesInEnumSwitch" />
 
 ## switch 式や match 式がサポートされているプログラミング言語を使う
 
