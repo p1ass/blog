@@ -18,6 +18,7 @@ const imageCss = css`
   max-height: 500px;
   max-width: 100%;
   margin: 0 auto;
+  border: 1px solid ${border};
 `
 
 export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
