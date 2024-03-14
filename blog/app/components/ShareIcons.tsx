@@ -44,17 +44,37 @@ const shareButtonLinkCss = css`
     padding-bottom: 1px;
   
     &:hover {
-      box-shadow: inset 0 0 0 22px #eaeaea;
+      box-shadow: none;
     }
   }
 `
 
-const twitterCss = css`
+const xCss = css`
     ${shareButtonCss}
-    box-shadow: inset 0 0 0 0.1rem #1b95e0;
-    i {
-    color: #1b95e0;
+    background-color: black;
+
+    &:hover{
+        box-shadow: inset 0 0 0 22px #444444;
+        background-color: #dddddd;
     }
+`
+
+const xShareButtonLinkCss = css`
+  ${shareButtonLinkCss}
+
+  i {
+    color: #ffffff;
+  }
+`
+
+const xIconCss = css`
+  &:before {
+    content: "𝕏";
+    font-family: Verdana;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 1.5rem;
+  }
 `
 
 const pocketCss = css`
@@ -93,15 +113,15 @@ export function ShareButtons({ title, permalink }: Props) {
   return (
     <section class={shareIconsSectionCss}>
       <div class={shareIconWrapperCss}>
-        <div class={twitterCss}>
+        <div class={xCss}>
           <a
             href={`http://twitter.com/intent/tweet?url=https://blog.p1ass.com${permalink}&text=${title} - ぷらすのブログ`}
             target='_blank'
             rel='noreferrer noopener'
-            title='Tweet'
-            class={shareButtonLinkCss}
+            title='Post'
+            class={xShareButtonLinkCss}
           >
-            <i class='fab fa-twitter' />
+            <i class={xIconCss} />
           </a>
         </div>
         <div class={pocketCss}>
