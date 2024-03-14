@@ -88,6 +88,11 @@ export default jsxRenderer(({ children, title }) => {
           crossorigin='anonymous'
           async
         />
+        <script
+          async
+          src='https://platform.twitter.com/widgets.js'
+          charset='utf-8'
+        />
 
         <link rel='icon' sizes='48x48' href='TOOD' />
         <link rel='apple-touch-icon' sizes='180x180' href='TODO' />

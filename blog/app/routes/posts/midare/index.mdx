@@ -13,6 +13,7 @@ share: true
 ---
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
+import { Twitter } from "../../../components/Twitter";
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
@@ -27,7 +28,7 @@ import { ExLinkCard } from "../../../components/ExLinkCard";
 
 最初に作った Web サービスを紹介しておきます。「生活習慣の乱れを可視化するやつ」という Web サービスを作りました。
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267413338016804864" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267413338016804864" />
 
 このアプリは Twitter API を使ってツイートを解析し、カレンダー UI で直感的に起きている時間を把握することが出来るアプリです。本来は生活習慣の乱れを可視化するために作ったのですが、実態としては **「ツイ廃可視化アプリ」** なので、多くの人が Twitter ばっか開いている現実を目の当たりにしたようです。
 
@@ -63,7 +64,7 @@ import { ExLinkCard } from "../../../components/ExLinkCard";
 
 無事登壇も終了し、のんきに酒を飲みながら LT 会を聞いていたのですが、ふと気になり Google Analytics を開くと、アクティブユーザが 100 人を超えていてビビります。
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267418549745664003" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267418549745664003" />
 
 また、このあたりで RT 数が 100 を超え始め、ちょっと焦り始めます。
 
@@ -110,7 +111,7 @@ GCP には GAE もありますが、GAE 用のコンフィグを準備やロー�
 
 一時間弱で Cloud Run への移行が完了しました。
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267441450754568192" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267441450754568192" />
 
 ![Cloud Runのメトリクス](cloud-run-metrics.png)
 _移行直後のメトリクス_
@@ -134,7 +135,7 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 キャッシュの実装が終わったころには、アクティブユーザが 2000 人を超えていました。
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267446250904772609" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267446250904772609" />
 
 この数字に懐疑的だったので、後日色々メトリクスを調べてみたのですが、API レスポンスが非常に遅くなってレスポンス待ちのユーザが多く発生したため、アクティブユーザが多くなっていたようです。
 
@@ -142,7 +143,7 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 サーバが死にました。
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267449807678795776" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267449807678795776" />
 
 原因は Twitter API の Rate Limit でした。Twitter API の User Timeline を取得する API は Twitter アプリ 1 つにつき 100,000 リクエスト/日という制限があり、これに引っかかってしまいました。
 
@@ -166,7 +167,7 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 ### 23:20 ログイン処理がバグってることに気づく
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267460825255563266" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267460825255563266" />
 
 コンビニから返ってきたら、ログイン処理がおかしいという報告が来ていました。調査してみると、Redis に移すべきオンメモリの情報を一部移し忘れていました。そのため、ログインが 1/n の確率で成功する状態になっていました 😇
 
@@ -178,7 +179,7 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 プリコネ[^2]や #cheeruphanabi を抑えて Twitter トレンド 1 位になりました 🎉
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267488254334398470" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267488254334398470" />
 
 [^2]: コッコロたん〜〜〜
 
@@ -224,8 +225,8 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 ## おまけ
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267430794739412998" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267430794739412998" />
 
-{/* {<twitter url="https://twitter.com/p1ass/status/1267498932776517634" >} */}
+<Twitter url="https://twitter.com/p1ass/status/1267498932776517634" />
 
 <ExLinkCard url="https://midare.p1ass.com" />
