@@ -11,6 +11,7 @@ share: true
 ---
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
+import { BlockLink } from "../../../components/BlockLink";
 
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
 
@@ -57,14 +58,20 @@ foo.example.com {
 そこで `h2c` (HTTP/2 over TCP)を有効にすることにより、TCP 上で HTTP/2 の通信を行えるようにします。
 これにより、Caddy で TLS を終端しつつも gRPC サーバと通信できるようになります。
 
-{/* {<block-link href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport" text="The http transport | reverse_proxy (Caddyfile directive) - Caddy Documentation" >} */}
+<BlockLink href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport">
+  The http transport | reverse_proxy (Caddyfile directive) - Caddy Documentation
+</BlockLink>
 
-{/* {<block-link href="https://knowledge.sakura.ad.jp/7734/" text="普及が進む「HTTP/2」の仕組みとメリットとは | さくらのナレッジ" >} */}
+<BlockLink href="https://knowledge.sakura.ad.jp/7734/">
+  普及が進む「HTTP/2」の仕組みとメリットとは | さくらのナレッジ
+</BlockLink>
 
 gRPC の Streaming RPC を使いたい場合は `flush_interval -1` を指定します。  
 このパラメータは「Caddy がレスポンスボディをどれだけの時間バッファリングするか」を決めるものです。`text/event-stream` は自動で `-1` に設定されますが、gRPC の Streaming PRC は自動で `-1` にならないので手動で設定する必要があります。
 
-{/* {<block-link href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#streaming" text="Streaming | reverse_proxy (Caddyfile directive) - Caddy Documentation" >} */}
+<BlockLink href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#streaming">
+  Streaming | reverse_proxy (Caddyfile directive) - Caddy Documentation
+</BlockLink>
 
 ## まとめ
 
