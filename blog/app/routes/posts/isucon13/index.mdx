@@ -17,7 +17,7 @@ import { ExLinkCard } from "../../../components/ExLinkCard";
 去年に引き続き、 [@km_conner](https://twitter.com/km_conner) と [@atrn0](https://twitter.com/atrn0) と一緒にチーム「釜中の鯖」として ISUCON13 に参加しました。
 結果は**187,577 点で総合 4 位**になりました。わいわい 🙌
 
-![スコア](/posts/isucon13/score.png)
+![スコア](./score.png)
 _4 位 187,577 　釜中の鯖_
 
 {/* <!--more--> */}
@@ -71,7 +71,7 @@ JetBrains AI Assistant はちょうどよいタイミングで早期プレビュ
 コードの概要説明やリファクタリングの示唆を貰うための手段として有用でしたが、使いこなせたかというと正直微妙でした...。
 頭で考えていることをそのままダンプしてくれる GitHub Copilot の方が便利だと感じました。
 
-![JetBrains AI Assistant](/posts/isucon13/jetbrains-ai-assistant.png)
+![JetBrains AI Assistant](./jetbrains-ai-assistant.png)
 _JetBrains AI Assistant に「NG ワードを含むコメント削除の実装のリファクタリング」を任せてみた様子_
 
 ### OpenTelemetry
@@ -86,10 +86,10 @@ HTTP ログを集計し、改善対象となる EP を特定したとしても�
 集計したデータは Tailscale の VPN を通じ監視用サーバーに送られ、そこに立っている[Jaeger](https://github.com/jaegertracing/jaeger)の UI を用いて分析しています。
 Tailscale のおかげで競技用インスタンスに色々準備する必要がなくて楽ちんでした。
 
-![Jaegerのトレース例 1](/posts/isucon13/jaeger-1.png)
+![Jaegerのトレース例 1](./jaeger-1.png)
 _fillLivestreamResponse が N 回呼ばれている様子_
 
-![Jaegerのトレース例 2](/posts/isucon13/jaeger-2.png)
+![Jaegerのトレース例 2](./jaeger-2.png)
 _発行されている SQL も確認できる_
 
 トレースはチームメンバーにも好評でした。
