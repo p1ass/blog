@@ -23,7 +23,7 @@ Google Cloud の IAM を使ったテクニックを紹介します。
 Cloud Run にホスティングしている API は、フロントエンドサーバーが SSR するときに呼び出されます。
 一方で、ブラウザから直接 API を叩くことはありません。
 
-![アーキテクチャ](/posts/vercel-cloud-run-iam/architecture.png)
+![アーキテクチャ](./architecture.png)
 _簡略化したアーキテクチャ_
 
 このようなアーキテクチャでは、Vercel から Cloud Run にアクセスできるようにするために、Cloud Run のエンドポイントをインターネットに公開する必要があります。
