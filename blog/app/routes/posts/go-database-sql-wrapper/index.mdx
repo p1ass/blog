@@ -11,6 +11,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 この記事は{/* {<link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >} */}の 1 日目の記事です。
 
 ## はじめに
@@ -133,7 +135,7 @@ Exec は Query とは対照的に単純になりがちです。構造体で持�
 
 ### sqlx
 
-{/* {<ex-link url="https://github.com/jmoiron/sqlx" >} */}
+<ExLinkCard url="https://github.com/jmoiron/sqlx" />
 
 sqlx は非常に軽量な database/sql のラッパーライブラリです。後述する 2 つよりは機能は少ないですが、構造体へのマッピングや名前付きパラメータに対応しています。軽量ということで、基本的に SQL は Query、Exec 問わず書く必要があります。
 
@@ -159,7 +161,7 @@ SQL は全部手で書きたいんだ！という人にオススメです。ま�
 
 ### gorm
 
-{/* {<ex-link url="https://github.com/jinzhu/gorm" >} */}
+<ExLinkCard url="https://github.com/jinzhu/gorm" />
 
 gorm は sqlx とは対照的に高機能なライブラリです。公式で `Full-Featured ORM (almost)` を謳っています (Go で ORM という単語が正しいのかは議論の対象外とします)。
 特に Ruby on Rails などを使ってた人が Go を書く時に使う印象があります。
@@ -201,7 +203,7 @@ gorm は Query は SQL で、Exec はライブラリ側で行うように記述�
 
 ### gorp
 
-{/* {<ex-link url="https://github.com/go-gorp/gorp" >} */}
+<ExLinkCard url="https://github.com/go-gorp/gorp" />
 
 最後は gorp です。
 

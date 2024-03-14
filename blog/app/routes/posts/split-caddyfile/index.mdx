@@ -10,6 +10,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
 
 Caddyfile は Caddy の設定ファイルですが、どんどん設定が増えていくと可読性が下がってしまいます。
@@ -22,7 +24,7 @@ Nginx の `/site-enabled` のように Caddyfile を分割して読み込めな�
 
 \import ディレクトリを使えばできます。
 
-{/* {<ex-link url="https://caddyserver.com/docs/caddyfile/directives/import#import" >} */}
+<ExLinkCard url="https://caddyserver.com/docs/caddyfile/directives/import#import" />
 
 マスターとなる Caddyfile で import をすれば、マッチするファイルが読み込まれます。
 

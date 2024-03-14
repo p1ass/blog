@@ -12,11 +12,13 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 先日、PFN さんが 2019 年インターン用のコーディング課題を公開されました。
 
-{/* {<ex-link url="https://research.preferred.jp/2019/06/internship-coding-task-2019/" >} */}
+<ExLinkCard url="https://research.preferred.jp/2019/06/internship-coding-task-2019/" />
 
 私は機械学習界隈の人間でないので、インターン募集時にあまり興味を持っていなかったのですが、上で公開された課題にはバックエンド用の問題も用意されていました。
 
@@ -26,7 +28,7 @@ share: true
 
 この記事では、各問題に対する自分なりの解法を紹介していきます。コードはすべて GitHub で管理しており、小問ごとにブランチを切って、PR でマージしているので、私がどのように解いていったのかを簡単に見れるようになっています。
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019" />
 
 {/* <!--more--> */}
 
@@ -63,7 +65,7 @@ share: true
 ここからは問題を解いていきます。
 すべての問題で PR を出しているのでコードをすべて読みたい場合は GitHub に飛んで読んでください。
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/1" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019/pull/1" />
 
 問題 1-1 はジョブサーバの実装です。
 クエリパラメータに応じて適切なジョブを返すだけなので、簡単なお仕事のように思えましたが、少し一工夫する必要がありました。
@@ -82,7 +84,7 @@ share: true
 
 ## 問題 1-2
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/2" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019/pull/2" />
 
 問題 1-2 は 1-1 で作成したサーバーに対してリクエストを行い、得られた結果からジョブを実行するワーカーを作る問題です。
 
@@ -129,7 +131,7 @@ func (w \*Worker) ExecuteAllJob(interval int) int{
 
 ## 問題 2-1
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/3" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019/pull/3" />
 
 問題 2-1 は問題 1-2 で実装したワーカーにキャパシティ(実行タスクの合計の上限)をつける問題です。
 
@@ -166,7 +168,7 @@ CurrentTask: 0,
 
 ## 問題 2-2
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/4" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019/pull/4" />
 
 問題 2-2 は優先度を考慮してジョブを実行するワーカーを作成する問題です。
 
@@ -194,13 +196,13 @@ return false
 
 また余談ですが、この問題の PDF の例が間違っていたので、issue を投げました。
 
-{/* {<ex-link url="https://github.com/pfnet/intern-coding-tasks/issues/5" >} */}
+<ExLinkCard url="https://github.com/pfnet/intern-coding-tasks/issues/5" />
 
 素早い修正に感謝です 🙏
 
 ## 問題 2-3
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/5" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019/pull/5" />
 
 問題 2-3 はキャパシティと優先度を考慮してより効率良く実行できるワーカーを作る問題です。
 
@@ -242,7 +244,7 @@ job2 := pq.data[j]
 
 ## 問題 3-1
 
-{/* {<ex-link url="https://github.com/p1ass/pfn-intern-task-2019/pull/6" >} */}
+<ExLinkCard url="https://github.com/p1ass/pfn-intern-task-2019/pull/6" />
 
 大問 3 は自由回答で、３つの小問のうち 1 を選択して解く問題です。
 

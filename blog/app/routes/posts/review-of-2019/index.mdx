@@ -17,6 +17,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、{/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */}です。
 
 1 年ぶり 2 度目の振り返り記事です。(前回の記事は諸事情により削除されました)
@@ -50,7 +52,7 @@ _GitHub の草_
 
 夏休み明けに Web アプリを一本リリースしました。
 
-{/* {<ex-link url="https://qiita.com/p1ass/items/1dfb77d5d978568686a1" >} */}
+<ExLinkCard url="https://qiita.com/p1ass/items/1dfb77d5d978568686a1" />
 
 開発期間が 10 日弱しかない突貫工事だったので、クオリティはそんなに高くないですが、SNS を通して「いつも使ってます！」といったメッセージや改善点のフィードバックをもらえて、**「良いサービスを作るにはどうしたらよいか？」** を考えることができました。
 
@@ -66,7 +68,7 @@ _GitHub の草_
 
 {/* {<link href="https://github.com/p1ass/feeder" text="p1ass/feeder" >}*/} というライブラリと {/*{<link href="https://github.com/p1ass/mikku" text="p1ass/mikku" >} */} という CLI ツールを公開しました。
 
-{/* {<ex-link url="https://blog.p1ass.com/posts/mikku/" >} */}
+<ExLinkCard url="https://blog.p1ass.com/posts/mikku/" />
 
 初めて OSS を作ったのですが、普段の Web 開発とは違った視点で設計やコーディングをする必要があってとても悩まされました。
 
@@ -91,7 +93,7 @@ _GitHub の草_
 
 {/* {<link href="https://camph.net" text="CAMPHOR-" >} */}という京都のエンジニアやデザイナーを目指す学生向けコミュニティの運営になりました。
 
-{/* {<ex-link url="https://camph.net" >} */}
+{/* <ExLinkCard url="https://camph.net" /> */}
 
 きっかけは、2019 年の代表であった @shiba6v さんからの熱いプッシュでした。最初はあまり乗り気ではなかったのですが、気づいたら承諾して運営になっていました。
 
@@ -111,9 +113,9 @@ _GitHub の草_
 
 実験は大変なのですが、自分なりに効率化できる手段を探して、なるべく速く終わらすことができるように努力をしています。
 
-{/* {<ex-link url="https://blog.p1ass.com/posts/mdtopdf/" >} */}
+<ExLinkCard url="https://blog.p1ass.com/posts/mdtopdf/" />
 
-{/* {<ex-link url="https://blog.p1ass.com/posts/kuac-2019/" >} */}
+<ExLinkCard url="https://blog.p1ass.com/posts/kuac-2019/" />
 
 来年は研究室配属があって今後が不透明なのですが、ブラックな研究室に放り込まれないようにリサーチをしつつ、ワークライフバランスを保って生活したいです。
 
@@ -159,8 +161,8 @@ Yunomi はやっぱり最 The 高
   class="instagram-media"
   data-instgrm-captioned
   data-instgrm-permalink="https://www.instagram.com/p/B6IH-DOFfQ4/?utm_source=ig_embed&amp;utm_campaign=loading"
-  data-instgrm-version="12"
-  style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"
+  data-instgrm-version="14"
+  style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"
 >
   <div style="padding:16px;">
     {" "}
@@ -179,7 +181,7 @@ Yunomi はやっぱり最 The 高
           <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
         </div>
       </div>
-      <div style="padding: 19% 0;"></div> <div style="display:block; height:50px; width:50px;">
+      <div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;">
         <svg
           width="50px"
           height="50px"
@@ -200,7 +202,6 @@ Yunomi はやっぱり最 The 高
       <div style="padding-top: 8px;">
         {" "}
         <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">
-          {" "}
           この投稿をInstagramで見る
         </div>
       </div>
@@ -223,37 +224,22 @@ Yunomi はやっぱり最 The 高
           <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div>{" "}
           <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div>
         </div>
+      </div>{" "}
+      <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+        {" "}
+        <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div>{" "}
+        <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
       </div>
-    </a> <p style=" margin:8px 0 0 0; padding:0 4px;">
-      {" "}
+    </a>
+    <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
       <a
         href="https://www.instagram.com/p/B6IH-DOFfQ4/?utm_source=ig_embed&amp;utm_campaign=loading"
-        style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;"
+        style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;"
         target="_blank"
       >
-        週刊プレイボーイの公式グラビアサイト「週プレグラジャパ！」が主催する『グラジャパアワード2019』の「声優部門賞」に、週刊プレイボーイにて掲載された伊藤美来ちゃんの『追憶とモノローグ』が選ばれました！
-        素敵！嬉しい！
-        応援しくれているファンの皆さん、そしてこの掲載をきっかけに知ってくれた皆さんに感謝です！
-        本当にありがとうございました。
-        記念に未公開のオフショットを追加で公開しちゃいます！ #伊藤美来
-        #グラジャパ #アワード2019 #週プレグラジャパ #声優部門賞 #NC龍神
+        伊藤美来オフィシャル / Ito Miku
+        Official(@itomiku_official)がシェアした投稿
       </a>
-    </p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
-      <a
-        href="https://www.instagram.com/itomiku_official/?utm_source=ig_embed&amp;utm_campaign=loading"
-        style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;"
-        target="_blank"
-      >
-        {" "}
-        伊藤美来オフィシャル
-      </a>
-      (@itomiku_official)がシェアした投稿 -{" "}
-      <time
-        style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;"
-        datetime="2019-12-16T08:40:40+00:00"
-      >
-        2019年12月月16日午前12時40分PST
-      </time>
     </p>
   </div>
 </blockquote> <script async src="//www.instagram.com/embed.js"></script>
@@ -275,7 +261,7 @@ LINE LIVE でインターンしていた時は **「誰か課金するんだ、�
 
 来年 SHIROBAKO の映画が公開されるということもあり、SHIROBAKO が自分の中でアツいです。Advent Calendar も書きました。
 
-{/* {<ex-link url="https://blog.p1ass.com/posts/shirobako-2019/" >} */}
+<ExLinkCard url="https://blog.p1ass.com/posts/shirobako-2019/" />
 
 **何回見ても良い作品なので、最初の方で脱落せずにとりあえず全部見てください！！！話はそれからです！！！**
 

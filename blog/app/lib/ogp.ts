@@ -40,6 +40,10 @@ type Image = {
 
 export async function fetchOgp(url: string): Promise<OgpApiResponse> {
   const res = await fetch(`https://blog-api.p1ass.com/ogp?url=${url}`)
+  if (res.status !== 200) {
+    console.error(res)
+    throw new Error(`failed to fetch ogp: ${url}`)
+  }
   const body = await res.json<OgpApiResponse>()
   return body
 }

@@ -13,6 +13,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、ぷらす({/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */})です。
 
 先日、{/* {<link href="https://camphor.connpass.com/event/167947/" text="CAMPHOR- DAY 2020" >} */}というオンラインのトークイベントで、「複数サービスを運用しやすい理想のコンテナ環境を VPS 上に構築する」というタイトルで登壇しました。
@@ -90,7 +92,7 @@ $ export COMPOSE_HTTP_TIMEOUT=600 # デフォルトは60秒
 
 僕は Caddy という **自動で Let's Encrypt を用いた証明書の更新をやってくれる Go 製の Web サーバ** 使ってリバースプロキシしています。
 
-{/* {<ex-link url="https://caddyserver.com/" >} */}
+<ExLinkCard url="https://caddyserver.com/" />
 
 Caddy は Nginx に比べ設定が容易で、conf に証明書のパスや HTTPS リダイレクトの記述を書く必要がありません。
 

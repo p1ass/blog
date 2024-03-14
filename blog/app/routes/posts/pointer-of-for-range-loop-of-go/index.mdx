@@ -10,6 +10,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 久々にポインタ関連でバグらせてしまったので、自戒のためにメモしておく。
 
 ### tl;dr
@@ -114,7 +116,7 @@ for _, f := range filtered {
 
 なお、これの挙動はスライスだけでなく、マップでも発生する。再現用のコードはこちらに用意してある。
 
-{/* {<ex-link url="https://play.golang.org/p/S7otaqYUaXW" >} */}
+<ExLinkCard url="https://play.golang.org/p/S7otaqYUaXW" />
 
 ## 終わりに
 

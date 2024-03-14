@@ -12,6 +12,8 @@ tags:
 share: true
 ---
 
+import { ExLinkCard } from "../../../components/ExLinkCard";
+
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。  
 自分はローカル開発時に、環境変数を設定するために direnv を使っています。
 その際に、環境変数を`.envrc`に書くより、`.env`に書いた方が諸々の使い勝手が良いと感じたので紹介します。
@@ -28,7 +30,7 @@ share: true
 direnv はディレクトリごとに環境変数を設定することができるツールです。  
 `.zshrc`などに`eval "$(direnv hook zsh)"`と書くことで、カレントディレクトリに存在する`.envrc`に書かれたスクリプトを実行してくれます。
 
-{/* {<ex-link url="https://github.com/direnv/direnv" >} */}
+<ExLinkCard url="https://github.com/direnv/direnv" />
 
 例えば、次のように`.envrc`を記述することで、`HOGE`という環境変数を設定することができます。
 
@@ -80,9 +82,9 @@ env_file: .env
 
 幸いにも JetBrains Plugins には、`.env`ファイルを読み込んでくれるプラグインがあるため、正しく環境変数を読み込むことができます。
 
-{/* {<ex-link url="https://plugins.jetbrains.com/plugin/9525--env-files-support" >} */}
+<ExLinkCard url="https://plugins.jetbrains.com/plugin/9525--env-files-support" />
 
-{/* {<ex-link url="https://plugins.jetbrains.com/plugin/7861-envfile" >} */}
+<ExLinkCard url="https://plugins.jetbrains.com/plugin/7861-envfile" />
 
 このように`.env`に環境変数の設定をまとめることで、いい感じに色々な場面で使い回すことができます。
 同じ環境変数を複数箇所で書いていた方は一度試してみてはどうでしょうか？
