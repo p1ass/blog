@@ -3,6 +3,8 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
+import appleTouchIcon from '../public/static/apple-touch-icon.png'
+import favicon from '../public/static/favicon.ico'
 import { backgroundDark, border, gray } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
@@ -94,8 +96,8 @@ export default jsxRenderer(({ children, title }) => {
           charset='utf-8'
         />
 
-        <link rel='icon' sizes='48x48' href='TOOD' />
-        <link rel='apple-touch-icon' sizes='180x180' href='TODO' />
+        <link rel='icon' sizes='48x48' href={favicon} />
+        <link rel='apple-touch-icon' sizes='180x180' href={appleTouchIcon} />
         <link
           href='TODO'
           rel='alternate'
