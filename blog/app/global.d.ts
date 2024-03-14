@@ -3,7 +3,6 @@ import { Meta } from './routes/types'
 
 type Head = {
   title?: string
-  description?: string
 
   frontmatter?: Meta
 }

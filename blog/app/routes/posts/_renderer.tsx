@@ -49,7 +49,7 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
   const paginationPosts = getPaginationPosts(frontmatter.title)
 
   return (
-    <Layout title={frontmatter.title}>
+    <Layout title={frontmatter.title} frontmatter={frontmatter}>
       <div class={postDateCss}>
         <time datetime={frontmatter.date}>
           {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}

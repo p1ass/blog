@@ -57,21 +57,23 @@ const mainCss = css`
   max-width: 800px;
 `
 
-export default jsxRenderer(({ children, title }) => {
+export default jsxRenderer(({ children, title: propsTitle, frontmatter }) => {
+  const description =
+    frontmatter?.description ||
+    'Webエンジニアリングについて学んだことや考えたことをまとめるブログです'
+
+  const title = propsTitle ? `${propsTitle} - ぷらすのブログ` : 'ぷらすのブログ'
   return (
     <html lang='ja'>
       <head>
         <meta charset='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-        <title>{title ? `${title} - ぷらすのブログ` : 'ぷらすのブログ'}</title>
+        <title>{title}</title>
 
         {/* TODO */}
-        <meta name='description' content='TODO' />
+        <meta name='description' content={description} />
         <meta property='og:type' content='website' />
-        <meta
-          property='og:description'
-          content='{{ if .IsPage }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}'
-        />
+        <meta property='og:description' content={description} />
         <meta
           property='og:image'
           content='https://blog.p1ass.com/images/ogp.png'
@@ -83,7 +85,7 @@ export default jsxRenderer(({ children, title }) => {
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:site' content='@p1ass' />
         <meta name='twitter:creator' content='@p1ass' />
-        <meta property='og:title' content='{{ .Title }}' />
+        <meta property='og:title' content={title} />
 
         <script
           src='https://kit.fontawesome.com/ea66b8338f.js'
