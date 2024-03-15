@@ -15,9 +15,9 @@ share: true
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
 
-こんにちは、ぷらす({/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */})です。
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
-先日、{/* {<link href="https://camphor.connpass.com/event/167947/" text="CAMPHOR- DAY 2020" >} */}というオンラインのトークイベントで、「複数サービスを運用しやすい理想のコンテナ環境を VPS 上に構築する」というタイトルで登壇しました。
+先日、[CAMPHOR- DAY 2020](https://camphor.connpass.com/event/167947/)というオンラインのトークイベントで、「複数サービスを運用しやすい理想のコンテナ環境を VPS 上に構築する」というタイトルで登壇しました。
 
 登壇資料は既にアップロードしていて見られるのですが、端折っている部分の補足をしたいと思います。また、当日頂いた質問についても回答します。
 
@@ -51,7 +51,7 @@ $ docker context create --default-stack-orchestrator=swarm \\
 $ docker context use remote
 ```
 
-関連 issue : {/* {<link href="https://github.com/docker/compose/issues/7319" text="Failed to execute script docker-compose when doing docker-compose up on SSH context" >} */}
+関連 issue : [Failed to execute script docker-compose when doing docker-compose up on SSH context](https://github.com/docker/compose/issues/7319)
 
 ### SSH Config が使えない
 

@@ -13,13 +13,13 @@ share: true
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
 
-この記事は{/* {<link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >} */}の 1 日目の記事です。
+この記事は[Go5 Advent Calendar 2019](https://qiita.com/advent-calendar/2019/go5)の 1 日目の記事です。
 
 ## はじめに
 
 Go のメジャーバージョンはいつの間にか 5 まで到達していたようですね、[@p1ass](https://twitter.com/p1ass)です。
 
-Go でデータベースにアクセスするときに使うライブラリは{/* {<link href="https://golang.org/pkg/database/sql/" text="database/sql" >}*/}や それをラップした{/*{<link href="https://github.com/jmoiron/sqlx" text="sqlx">}*/},{/*{<link href="https://github.com/jinzhu/gorm" text="gorm">}*/},{/*{<link href="https://github.com/go-gorp/gorp" text="gorp">} */}など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
+Go でデータベースにアクセスするときに使うライブラリは[database/sql](https://golang.org/pkg/database/sql/)や それをラップした[sqlx](https://github.com/jmoiron/sqlx), [gorm](https://github.com/jinzhu/gorm), [gorp](https://github.com/go-gorp/gorp)など様々なライブラリがありますが、皆さんはどのライブラリを使っていますか？
 
 おそらく様々な理由があってどれか(ここに挙げられていないものかもしれない)を使っているでしょう。
 しかし、それは本当にベストな選択だったのでしょうか？
@@ -31,10 +31,10 @@ Go でデータベースにアクセスするときに使うライブラリは{/
 
 ## 標準ライブラリの database/sql の役割を知る
 
-Go には{/* {<link href="https://golang.org/pkg/database/sql/" text="database/sql" >} */}という標準ライブラリが存在します。
+Go には[database/sql](https://golang.org/pkg/database/sql/)という標準ライブラリが存在します。
 ここでは改めて database/sql の役割を見ます。
 
-{/* {<link href="https://golang.org/pkg/database/sql/" text="godoc" >} */}には database/sql について以下のように書かれています。
+[godoc](https://golang.org/pkg/database/sql/)には database/sql について以下のように書かれています。
 
 > Package sql provides a generic interface around SQL (or SQL-like) databases.
 > The sql package must be used in conjunction with a database driver. See https://golang.org/s/sqldrivers for a list of drivers.
@@ -42,14 +42,14 @@ Go には{/* {<link href="https://golang.org/pkg/database/sql/" text="database/s
 database/sql は SQL に関する汎用的な機能を提供してます。
 コネクションの管理や、クエリの発行、トランザクションなどが当たります。
 
-また、データベースの違いによる差異を吸収するために{/* {<link href="https://golang.org/pkg/database/sql/driver/" text="database/sql/driver" >} */}にインターフェイスが定義されています。これを実装することで、どのデータベースに対しても内部的に同じ API でアクセスできるようになっています。
-Driver の実装は golang/go の{/* {<link href="https://github.com/golang/go/wiki/SQLDrivers" text="wiki" >} */}に一覧でまとまっていてます。
+また、データベースの違いによる差異を吸収するために[database/sql/driver](https://golang.org/pkg/database/sql/driver/)にインターフェイスが定義されています。これを実装することで、どのデータベースに対しても内部的に同じ API でアクセスできるようになっています。
+Driver の実装は golang/go の[wiki](https://github.com/golang/go/wiki/SQLDrivers)に一覧でまとまっていてます。
 
 ## database/sql に足りないものは?
 
 とはいえ、database/sql は決してリッチなライブラリではありません。
 
-Go の設計思想の中に{/* {<link href="https://talks.golang.org/2015/simplicity-is-complicated.slide" text="Simplicity" >} */}があるように、他の言語とは違い多くの機能を標準で提供していません。
+Go の設計思想の中に[Simplicity](https://talks.golang.org/2015/simplicity-is-complicated.slide)があるように、他の言語とは違い多くの機能を標準で提供していません。
 
 例えば、database/sql ではスキャンしたデータを構造体にマッピングする機能はありません。マッピングするにはスキャンしたデータ 1 つ一つごとに引数でを渡す必要があります。
 
@@ -131,7 +131,7 @@ Exec は Query とは対照的に単純になりがちです。構造体で持�
 
 ## 3 つのライブラリを比較する
 
-以上の議論を踏まえて、{/* {<link href="https://github.com/jmoiron/sqlx" text="sqlx">}*/},{/*{<link href="https://github.com/jinzhu/gorm" text="gorm">}*/},{/*{<link href="https://github.com/go-gorp/gorp" text="gorp">} */}の 3 つのライブラリを比較します。
+以上の議論を踏まえて、[sqlx](https://github.com/jmoiron/sqlx), [gorm](https://github.com/jinzhu/gorm), [gorp](https://github.com/go-gorp/gorp)の 3 つのライブラリを比較します。
 
 ### sqlx
 
@@ -246,4 +246,4 @@ Exec の為にテーブルとの関連付け用の関数 `AddTableWithName` を�
 
 今回は私個人の考えからどのライブラリが適切かを考えましたが、人によって求めるものは異なると思います。今一度自分が何を求めるか考えてみると良いかもしれません。
 
-明日の{/* {<link href="https://qiita.com/advent-calendar/2019/go5" text="Go5 Advent Calendar 2019" >} */}の 2 日目は soichisumi さんの記事になります。お楽しみに。
+明日の[Go5 Advent Calendar 2019](https://qiita.com/advent-calendar/2019/go5)の 2 日目は soichisumi さんの記事になります。お楽しみに。

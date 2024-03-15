@@ -2,13 +2,14 @@ import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
 import { MDXComponents } from 'mdx/types'
 import { StyledPre } from '../components/StyledPre'
-import { border, grayLight } from '../styles/color'
+import { blue, border, grayLight } from '../styles/color'
 
 export function useMDXComponents(): MDXComponents {
   const components = {
     img: Image,
     pre: StyledPre,
     blockquote: BlockQuote,
+    a: Link,
   }
   return components
 }
@@ -49,5 +50,17 @@ function BlockQuote(props: PropsWithChildren<Hono.BlockquoteHTMLAttributes>) {
     <blockquote class={blockQuoteCss} cite={props.cite}>
       {props.children}
     </blockquote>
+  )
+}
+
+const linkCss = css`
+  color: ${blue};
+`
+
+function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
+  return (
+    <a href={props.href} class={linkCss}>
+      {props.children}
+    </a>
   )
 }

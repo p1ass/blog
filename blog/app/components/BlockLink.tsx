@@ -1,8 +1,13 @@
+import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
+import { blue } from '../styles/color'
 
-export function BlockLink(props: PropsWithChildren<Hono.LinkHTMLAttributes>) {
+const blockLinkCss = css`
+  color: ${blue};
+`
+export function BlockLink(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
   return (
-    <div style='padding-bottom:16px'>
+    <div style='padding-bottom:16px' class={blockLinkCss}>
       <a href={props.href}>{props.children}</a>
     </div>
   )
