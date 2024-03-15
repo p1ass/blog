@@ -15,7 +15,7 @@ tags:
 share: true
 ---
 
-こんにちは、株式会社アカツキでインターンしている {/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */} です。
+こんにちは、株式会社アカツキでインターンしている [@p1ass](https://twitter.com/p1ass) です。
 
 今回は、ゲーム内仮想通貨管理サービスの設計改善を行った上で分かった、コードの可読性やテスタビリティを向上させる設計方法や、実際の作業を行う上で苦労したポイントを紹介します。
 
@@ -38,7 +38,7 @@ share: true
 
 今回の移行を行うことになった発端はライブラリ移行でした。
 
-このサービスは GAE 上で動いていて、データベースには datastore が使われています。datastore へのアクセスには自動キャッシュをしていくれる{/* {<link href="https://github.com/mjibson/goon" text="mjibson/goon" >}*/}というライブラリを使っているのですが、これを使っているせいで微妙な実装になっている部分がありました。その流れで、使用するライブラリを{/*{<link href="https://github.com/mercari/datastore" text="mercari/datastore" >} */}に移行しようという話になり、自分が担当することになりました。
+このサービスは GAE 上で動いていて、データベースには datastore が使われています。datastore へのアクセスには自動キャッシュをしていくれる[mjibson/goon](https://github.com/mjibson/goon)というライブラリを使っているのですが、これを使っているせいで微妙な実装になっている部分がありました。その流れで、使用するライブラリを[mercari/datastore](https://github.com/mercari/datastore)に移行しようという話になり、自分が担当することになりました。
 
 ## 現状の課題
 

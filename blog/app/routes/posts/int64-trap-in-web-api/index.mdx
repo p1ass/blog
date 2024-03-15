@@ -15,7 +15,7 @@ share: true
 
 import { Twitter } from "../../../components/Twitter";
 
-こんにちは、{/* {<link href="https://twitter.com/p1ass" text="@p1ass" >} */}です。
+こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
 久々に API を書いていて罠にハマったのでメモしておきます。
 
@@ -31,7 +31,7 @@ import { Twitter } from "../../../components/Twitter";
 
 最近個人で開発した Memoito（めもいと）という Web サービスの API を書いているときの出来事です。
 
-Memoito では ID として Twitter 社が開発した{/* {<link href="https://developer.twitter.com/en/docs/basics/twitter-ids" text="snowflake" >} */}を採用しています。
+Memoito では ID として Twitter 社が開発した[snowflake](https://developer.twitter.com/en/docs/basics/twitter-ids)を採用しています。
 
 これは、int64 の ID 生成器で、Timestamp と Sequence Number、Machine ID を元に生成されます。実運用上問題のない程度に一意性が担保されている上に、UUID よりも見た目的にスッキリした ID なため、URL に使っても良さそうということで採用しました。
 
