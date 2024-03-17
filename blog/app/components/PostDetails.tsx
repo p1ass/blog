@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { categoryNameToId } from '../lib/posts'
+import { categoryNameToId, tagNameToId } from '../lib/posts'
 import { Meta } from '../routes/types'
 import { gray, grayLight } from '../styles/color'
 
@@ -37,9 +37,9 @@ export function PostDetails({ frontmatter }: { frontmatter: Meta }) {
           #{categoryName}
         </a>
       ))}
-      {frontmatter.tags?.map((tag, _) => (
-        <a href='/tags/{{ lower . }}' class={tagCss}>
-          #{tag}
+      {frontmatter.tags?.map((tagName, _) => (
+        <a href={`/tags/${tagNameToId(tagName)}`} class={tagCss}>
+          #{tagName}
         </a>
       ))}
     </div>
