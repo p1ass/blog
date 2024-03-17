@@ -10,6 +10,8 @@ tags:
 share: true
 ---
 
+import { BlockLink } from "../../../components/BlockLink";
+
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
 
 タイトルの通り、パスワードが漏れていたので 1Password を導入しました。この記事では、パスワード漏洩の発覚の経緯から 1Password の導入までを導入までを（ほぼ）時系列で紹介します。
@@ -71,7 +73,9 @@ _Have I Been Pwned でメールアドレスを入力したときの結果_
 
 次に Google のパスワードマネージャに登録されているパスワードを一括エクスポートして、1Password にインポートしました。方法は以下の公式サポートが参考になりました。
 
-{/* {<block-link href="https://support.1password.com/import-chrome/" >} */}
+<BlockLink href="https://support.1password.com/import-chrome/">
+  https://support.1password.com/import-chrome/
+</BlockLink>
 
 移行が終わった時点で 1Password に登録されたパスワードは **523 件** した。しかしよく見てみると、ドメイン違いで同じサービスのパスワードが複数登録されている様子が確認できました。(api.twittter.com と twitter.com で同じアカウントが登録されているなど)
 

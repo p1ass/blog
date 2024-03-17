@@ -11,6 +11,7 @@ share: true
 ---
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
+import { BlockLink } from "../../../components/BlockLink";
 
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
 
@@ -30,7 +31,9 @@ Google で `Go base62` などと検索するとサードパーティパッケー
 
 サードパーティパッケージを使えば実現できるのですが、できれば標準ライブラリのみで実現できる良いな〜と探していたところ、以下の記事を見つけました。
 
-{/* {<ex-title-link url="https://ucarion.com/go-base62" title="You may not need a base62 external dependency in Go">} */}
+<BlockLink href="https://ucarion.com/go-base62">
+  You may not need a base62 external dependency in Go
+</BlockLink>
 
 この記事を参考にすると、ランダムに生成したバイト列を base62 エンコードするコードは次のように書くことができます。
 
@@ -145,3 +148,4 @@ func main() {
 ## おわりに
 
 `math/big` パッケージはなかなか使う機会がなかったのですが、面白い使う方ができるパッケージなので、他にも使い道がないか考えてみようと思います。
+import { BlockLink } from "../../../components/BlockLink"
