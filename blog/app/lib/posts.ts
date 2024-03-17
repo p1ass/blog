@@ -1,10 +1,10 @@
-import { Meta } from '../routes/types'
+import { Frontmatter } from '../routes/posts/types'
 import { parseDate } from './time'
 import { groupBy } from './util'
 
 const POSTS_PER_PAGE = 10
 
-const posts = import.meta.glob<{ frontmatter: Meta }>(
+const posts = import.meta.glob<{ frontmatter: Frontmatter }>(
   '../routes/posts/**/*.mdx',
   {
     eager: true,
@@ -13,8 +13,8 @@ const posts = import.meta.glob<{ frontmatter: Meta }>(
 
 function sortByDateDesc():
   | ((
-      a: [string, { frontmatter: Meta }],
-      b: [string, { frontmatter: Meta }],
+      a: [string, { frontmatter: Frontmatter }],
+      b: [string, { frontmatter: Frontmatter }],
     ) => number)
   | undefined {
   return ([_aid, aPost], [_bid, bPost]) => {
@@ -26,7 +26,7 @@ function sortByDateDesc():
 
 type Post = {
   id: string
-  frontmatter: Meta
+  frontmatter: Frontmatter
 }
 
 type Posts = {

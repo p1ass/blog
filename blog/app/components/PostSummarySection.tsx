@@ -1,13 +1,13 @@
 import { format, parse } from '@formkit/tempo'
 import { css } from 'hono/css'
 import { parseDate } from '../lib/time'
-import { Meta } from '../routes/types'
+import { Frontmatter } from '../routes/posts/types'
 import { blue, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { PostDetails } from './PostDetails'
 
 type Props = {
-  frontmatter: Meta
+  frontmatter: Frontmatter
   summary: string
   permalink: string
 }

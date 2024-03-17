@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { categoryNameToId, tagNameToId } from '../lib/posts'
-import { Meta } from '../routes/types'
+import { Frontmatter } from '../routes/posts/types'
 import { gray, grayLight } from '../styles/color'
 
 const postDetailsCss = css`
@@ -25,7 +25,7 @@ const tagCss = css`
   transition: all 0.2s ease-out;
 `
 
-export function PostDetails({ frontmatter }: { frontmatter: Meta }) {
+export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {
   return (
     <div class={postDetailsCss}>
       <span class={readingTimeCss}>xx min read |</span>
