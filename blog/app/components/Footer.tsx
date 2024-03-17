@@ -46,7 +46,7 @@ export function Footer() {
       <br />
       <span>
         &copy;<time datetime={format(now)}>{format(now, 'YYYY')}</time>
-        &nbsp;p1ass. Made with{' '}
+        &nbsp;p1ass. Powered By{' '}
         <a href='https://hono.dev/' target='_blank' rel='noopener noreferrer'>
           Hono
         </a>

@@ -7,10 +7,6 @@ const postDetailsCss = css`
   padding-bottom: 1.7rem;
 `
 
-const readingTimeCss = css`
-  color: ${grayLight};
-`
-
 const tagCss = css`
   color: ${grayLight};
   text-decoration: none;
@@ -28,7 +24,6 @@ const tagCss = css`
 export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {
   return (
     <div class={postDetailsCss}>
-      <span class={readingTimeCss}>xx min read |</span>
       {frontmatter.categories?.map(categoryName => (
         <a
           href={`/categories/${categoryNameToId(categoryName)}`}
