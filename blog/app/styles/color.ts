@@ -3,6 +3,7 @@ export const grayLight = '#636e7d'
 
 export const blue = '#4172b5'
 export const blueLight = '#e8f5fe'
+export const textOnBlueLight = '#303233'
 
 export const border = '#dde0e4'
 export const borderLight = '#ffffff'

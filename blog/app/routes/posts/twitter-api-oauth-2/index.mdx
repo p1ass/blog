@@ -12,6 +12,7 @@ share: true
 ---
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
+import { Note } from "../../../components/Note";
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
@@ -98,7 +99,9 @@ Client Secret を安全に保管できない Public Client の場合は、
 まずは、認可画面にリダイレクトするための URL を生成します。
 Twitter API は、Proof Key for Code Exchange (PKCE) ( [RFC7636](https://datatracker.ietf.org/doc/html/rfc7636))に対応しているので、その処理も行います。
 
-{/* {<note text="今回は検証用のため、stateやcode_verifierの保存は適当です。正しい処理はRFCを参考にしてください。">} */}
+<Note>
+  今回は検証用のため、stateやcode_verifierの保存は適当です。正しい処理はRFCを参考にしてください。
+</Note>
 
 ```go
 package main
