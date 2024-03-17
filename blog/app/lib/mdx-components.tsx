@@ -10,6 +10,7 @@ export function useMDXComponents(): MDXComponents {
     pre: StyledPre,
     blockquote: BlockQuote,
     a: Link,
+    em: Em,
   }
   return components
 }
@@ -63,4 +64,17 @@ function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
       {props.children}
     </a>
   )
+}
+
+const emCss = css`
+  color: ${grayLight};
+  display: block;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  font-style: normal;
+  text-align: center;
+`
+
+function Em(props: PropsWithChildren<Hono.HTMLAttributes>) {
+  return <em class={emCss}>{props.children}</em>
 }
