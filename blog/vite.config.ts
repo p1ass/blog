@@ -24,7 +24,6 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       honox(),
-      ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
         providerImportSource: './app/lib/mdx-components',
@@ -35,6 +34,7 @@ export default defineConfig(({ mode }) => {
         ],
         rehypePlugins: [rehypeHighlight, rehypeMdxCodeProps],
       }),
+      ssg({ entry }),
     ],
   }
 })
