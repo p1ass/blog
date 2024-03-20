@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import p1assIcon from '../public/static/icon.png'
+import p1assIcon from '../../public/static/icon.png'
 import { border, gray, grayLight } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 

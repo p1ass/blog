@@ -24,9 +24,14 @@ const imageCss = css`
 `
 
 export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
+  // 本番ビルドではviteStaticCopyによって画像がコピーされているので、それに合わせたパスになるようにしている
+  const src = import.meta.env.PROD
+    ? props.src?.replaceAll('/app/routes', '')
+    : props.src
+  console.log(props.src)
   return (
-    <a href={props.src}>
-      <img src={props.src} alt={props.alt} class={imageCss} />
+    <a href={src}>
+      <img src={src} alt={props.alt} class={imageCss} />
     </a>
   )
 }

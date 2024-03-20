@@ -1,10 +1,10 @@
 import { Style, css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
+import appleTouchIcon from '../../public/static/apple-touch-icon.png'
+import favicon from '../../public/static/favicon.ico'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import appleTouchIcon from '../public/static/apple-touch-icon.png'
-import favicon from '../public/static/favicon.ico'
 import { backgroundDark, border, gray } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
