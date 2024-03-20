@@ -4,14 +4,11 @@ import mdx from '@mdx-js/rollup'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeMdxCodeProps from 'rehype-mdx-code-props'
-import remarkFrontmatter from 'remark-frontmatter'
-import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
-import remarkMdxImages from 'remark-mdx-images'
+
 import { defineConfig } from 'vite'
 import { normalizePath } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
 
 const entry = './app/server.ts'
 
@@ -37,18 +34,17 @@ export default defineConfig(({ mode }) => {
           'extend',
           'style-to-object',
           'inline-style-parser',
+          'highlight.js',
+          'toml',
+          'yaml',
         ],
       }),
       honox(),
       mdx({
         jsxImportSource: 'hono/jsx',
         providerImportSource: './app/lib/mdx-components',
-        remarkPlugins: [
-          remarkFrontmatter,
-          remarkMdxFrontmatter,
-          remarkMdxImages,
-        ],
-        rehypePlugins: [rehypeHighlight, rehypeMdxCodeProps],
+        remarkPlugins: remarkPlugins,
+        rehypePlugins: rehypePlugins,
       }),
       ssg({ entry }),
       // 記事内でco-locationして配置している画像たちを `dist/posts` にコピーする

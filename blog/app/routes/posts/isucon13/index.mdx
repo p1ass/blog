@@ -11,16 +11,21 @@ share: true
 ---
 
 import { ExLinkCard } from "../../../components/ExLinkCard";
+import { MarkdownRenderer } from "../../../components/MarkdownRederer";
 
+export const ContentSummary = () => (<MarkdownRenderer content="
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
 去年に引き続き、 [@km_conner](https://twitter.com/km_conner) と [@atrn0](https://twitter.com/atrn0) と一緒にチーム「釜中の鯖」として ISUCON13 に参加しました。
 結果は**187,577 点で総合 4 位**になりました。わいわい 🙌
 
-![スコア](./score.png)
-_4 位 187,577 　釜中の鯖_
+![スコア](/app/routes/posts/isucon13/score.png)
+_4 位 187,577 　釜中の鯖_">
 
-{/* <!--more--> */}
+</MarkdownRenderer>
+)
+
+<ContentSummary />
 
 ## 今年新たに導入した文明の利器
 
@@ -243,3 +248,4 @@ DNS サーバーをアプリケーションで実装したことで、DNS 水責
 
 毎年になりますが、ISUCON の作問や運営に携われた方々のお陰により、ISUCON というお祭りを楽しむことができました。
 本当にありがとうございました！！
+MarkdownRendererMarkdownRendererMarkdownRendererMarkdownRendererMarkdownRederer: MarkdownRenderer
