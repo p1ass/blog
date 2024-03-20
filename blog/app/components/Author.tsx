@@ -1,5 +1,4 @@
 import { css } from 'hono/css'
-import p1assIcon from '../../public/static/icon.png'
 import { border, gray, grayLight } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
@@ -78,7 +77,7 @@ export function Author() {
   return (
     <aside class={authorWrapperCss}>
       <div class={authorImageWrapper}>
-        <img src={p1assIcon} class={authorImageCss} alt='筆者画像' />
+        <img src={'/static/icon.png'} class={authorImageCss} alt='筆者画像' />
       </div>
       <div>
         <div class={authorNameCss}>ぷらす (p1ass)</div>
