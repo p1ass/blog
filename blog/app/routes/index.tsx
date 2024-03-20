@@ -14,7 +14,7 @@ export default function Top() {
             <PostSummarySection
               frontmatter={post.frontmatter}
               ContentSummary={post.ContentSummary}
-              permalink={`${post.id.replace(/\/index\.mdx$/, '')}`}
+              permalink={`${post.id.replace(/\/index\.mdx$/, '')}/`}
             />
           )
         })}

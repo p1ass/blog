@@ -38,7 +38,7 @@ export function PostPagination({ paginationPosts }: Props) {
     <div class={postPaginationCss}>
       {paginationPosts.prevPost ? (
         <a
-          href={`${paginationPosts.prevPost.id.replace(/\/index\.mdx$/, '')}`}
+          href={`${paginationPosts.prevPost.id.replace(/\/index\.mdx$/, '')}/`}
           class={leftCss}
         >
           &#8592; {paginationPosts.prevPost.frontmatter.title}
@@ -48,7 +48,7 @@ export function PostPagination({ paginationPosts }: Props) {
       )}
       {paginationPosts.nextPost ? (
         <a
-          href={`${paginationPosts.nextPost.id.replace(/\/index\.mdx$/, '')}`}
+          href={`${paginationPosts.nextPost.id.replace(/\/index\.mdx$/, '')}/`}
           class={rightCss}
         >
           {paginationPosts.nextPost.frontmatter.title} &#8594;
