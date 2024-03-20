@@ -3,7 +3,7 @@ import { createRoute } from 'honox/factory'
 import { Pagination } from '../../../../components/Pagination'
 import { PostSummarySection } from '../../../../components/PostSummarySection'
 import { Head } from '../../../../global'
-import { getCategoryPosts, getTagPosts } from '../../../../lib/posts'
+import { getTagPosts } from '../../../../lib/posts'
 
 export default createRoute(c => {
   const tagId = c.req.param('id')
