@@ -1,15 +1,19 @@
+import { MDXProps } from 'mdx/types'
 import { Frontmatter } from '../routes/posts/types'
 import { parseDate } from './time'
 import { groupBy } from './util'
 
 const POSTS_PER_PAGE = 10
 
-const posts = import.meta.glob<{ frontmatter: Frontmatter }>(
-  '../routes/posts/**/*.mdx',
-  {
-    eager: true,
-  },
-)
+type MDXExports = {
+  frontmatter: Frontmatter
+  default: (props: MDXProps) => JSX.Element
+  ContentSummary?: () => JSX.Element
+}
+
+const posts = import.meta.glob<MDXExports>('../routes/posts/**/*.mdx', {
+  eager: true,
+})
 
 function sortByDateDesc():
   | ((
@@ -27,6 +31,8 @@ function sortByDateDesc():
 type Post = {
   id: string
   frontmatter: Frontmatter
+  MDXContent: (props: MDXProps) => JSX.Element
+  ContentSummary?: () => JSX.Element
 }
 
 type Posts = {
@@ -42,6 +48,8 @@ function getAllPosts(): Post[] {
       return {
         id: id.replace(/^\.\.\/routes/, ''),
         frontmatter: module.frontmatter,
+        MDXContent: module.default,
+        ContentSummary: module.ContentSummary,
       }
     })
   return allPosts

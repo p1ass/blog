@@ -1,5 +1,6 @@
-import { format, parse } from '@formkit/tempo'
+import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
+import { MDXProps } from 'mdx/types'
 import { parseDate } from '../lib/time'
 import { Frontmatter } from '../routes/posts/types'
 import { blue, gray, grayLight, white } from '../styles/color'
@@ -8,7 +9,7 @@ import { PostDetails } from './PostDetails'
 
 type Props = {
   frontmatter: Frontmatter
-  summary: string
+  ContentSummary?: () => JSX.Element
   permalink: string
 }
 
@@ -80,7 +81,11 @@ const moreButtonCss = css`
   }
 `
 
-export function PostSummarySection({ frontmatter, summary, permalink }: Props) {
+export function PostSummarySection({
+  frontmatter,
+  ContentSummary,
+  permalink,
+}: Props) {
   return (
     <section class={sectionCss}>
       <a href={permalink} class={itemCss}>
@@ -93,7 +98,9 @@ export function PostSummarySection({ frontmatter, summary, permalink }: Props) {
         </div>
       </a>
       <PostDetails frontmatter={frontmatter} />
-      <div class='catalogue-summary'>{summary}</div>
+      <div class='catalogue-summary'>
+        {ContentSummary ? <ContentSummary /> : null}
+      </div>
 
       <a class={moreButtonCss} href={permalink}>
         続きを読む

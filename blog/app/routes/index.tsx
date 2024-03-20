@@ -13,7 +13,7 @@ export default function Top() {
           return (
             <PostSummarySection
               frontmatter={post.frontmatter}
-              summary='TODO'
+              ContentSummary={post.ContentSummary}
               permalink={`${post.id.replace(/\/index\.mdx$/, '')}`}
             />
           )
