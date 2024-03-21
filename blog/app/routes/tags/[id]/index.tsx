@@ -30,7 +30,7 @@ export default createRoute(c => {
         pageNumber={1}
         hasPrev={tagPosts.hasPrev}
         hasNext={tagPosts.hasNext}
-        basePath={`/tags/${tagId}`}
+        basePath={`/tags/${tagId}/`}
       />
     </Fragment>,
     head,

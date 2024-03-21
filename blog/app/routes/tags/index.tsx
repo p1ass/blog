@@ -18,7 +18,7 @@ export default function TagTop() {
       <ul>
         {tags.map(tag => (
           <li>
-            <a href={`/tags/${tag.id}`} class={linkCss}>
+            <a href={`/tags/${tag.id}/`} class={linkCss}>
               {tag.name}
             </a>
           </li>

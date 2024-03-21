@@ -26,14 +26,14 @@ export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {
     <div class={postDetailsCss}>
       {frontmatter.categories?.map(categoryName => (
         <a
-          href={`/categories/${categoryNameToId(categoryName)}`}
+          href={`/categories/${categoryNameToId(categoryName)}/`}
           class={tagCss}
         >
           #{categoryName}
         </a>
       ))}
       {frontmatter.tags?.map((tagName, _) => (
-        <a href={`/tags/${tagNameToId(tagName)}`} class={tagCss}>
+        <a href={`/tags/${tagNameToId(tagName)}/`} class={tagCss}>
           #{tagName}
         </a>
       ))}

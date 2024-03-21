@@ -35,7 +35,7 @@ export default createRoute(c => {
         pageNumber={num}
         hasPrev={category.hasPrev}
         hasNext={category.hasNext}
-        basePath={`/categories/${categoryId}`}
+        basePath={`/categories/${categoryId}/`}
       />
     </Fragment>,
     head,

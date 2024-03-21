@@ -18,7 +18,7 @@ export default function CategoryTop() {
       <ul>
         {categories.map(category => (
           <li>
-            <a href={`/categories/${category.id}`} class={linkCss}>
+            <a href={`/categories/${category.id}/`} class={linkCss}>
               {category.name}
             </a>
           </li>

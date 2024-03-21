@@ -67,10 +67,10 @@ export const Header = () => {
         </a>
         <ul class={navigationListCss}>
           <li>
-            <a href='/categories'>Categories</a>
+            <a href='/categories/'>Categories</a>
           </li>
           <li>
-            <a href='/tags'>Tags</a>
+            <a href='/tags/'>Tags</a>
           </li>
           <li>
             <a href='/index.xml'>RSS</a>
