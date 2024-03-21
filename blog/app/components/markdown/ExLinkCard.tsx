@@ -1,8 +1,8 @@
 import { css } from 'hono/css'
-import { fetchOgp } from '../lib/ogp'
-import { backgroundDark, gray, grayLight, white } from '../styles/color'
-import { transition } from '../styles/transition'
-import { verticalRhythmUnit } from '../styles/variables'
+import { fetchOgp } from '../../lib/ogp'
+import { backgroundDark, gray, grayLight, white } from '../../styles/color'
+import { transition } from '../../styles/transition'
+import { verticalRhythmUnit } from '../../styles/variables'
 const cardWrapperCss = css`
     margin-bottom: ${verticalRhythmUnit}rem;
 `

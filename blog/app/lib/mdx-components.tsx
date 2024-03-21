@@ -1,11 +1,11 @@
 import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
 import { MDXComponents } from 'mdx/types'
-import { BlockLink } from '../components/BlockLink'
-import { ExLinkCard } from '../components/ExLinkCard'
-import { Note } from '../components/Note'
-import { StyledPre } from '../components/StyledPre'
-import { Twitter } from '../components/Twitter'
+import { BlockLink } from '../components/markdown/BlockLink'
+import { ExLinkCard } from '../components/markdown/ExLinkCard'
+import { Note } from '../components/markdown/Note'
+import { StyledPre } from '../components/markdown/StyledPre'
+import { Twitter } from '../components/markdown/Twitter'
 import { blue, border, grayLight } from '../styles/color'
 
 export function useMDXComponents(): MDXComponents {

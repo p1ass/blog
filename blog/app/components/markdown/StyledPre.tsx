@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
-import { verticalRhythmUnit } from '../styles/variables'
+import { verticalRhythmUnit } from '../../styles/variables'
 
 export function StyledPre(props: PropsWithChildren) {
   return <pre class={atomOneDarkCss}>{props.children}</pre>

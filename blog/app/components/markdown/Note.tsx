@@ -1,7 +1,7 @@
 import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
-import { blue, blueLight, textOnBlueLight } from '../styles/color'
-import { verticalRhythmUnit } from '../styles/variables'
+import { blue, blueLight, textOnBlueLight } from '../../styles/color'
+import { verticalRhythmUnit } from '../../styles/variables'
 
 const noteCss = css`
   background-color: ${blueLight};
