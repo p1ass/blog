@@ -1,5 +1,5 @@
-import { MDXProps } from 'mdx/types'
-import { Frontmatter } from '../routes/posts/types'
+import type { MDXProps } from 'mdx/types'
+import type { Frontmatter } from '../routes/posts/types'
 import { parseDate } from './time'
 import { groupBy } from './util'
 
@@ -55,6 +55,10 @@ function getAllPosts(): Post[] {
       } satisfies Post
     })
   return allPosts
+}
+
+export function getMaxPageNumber(): number {
+  return Math.ceil(getAllPosts().length / POSTS_PER_PAGE)
 }
 
 export function getPosts(page: number): Posts {
