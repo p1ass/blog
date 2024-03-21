@@ -28,7 +28,7 @@ export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
   const src = import.meta.env.PROD
     ? props.src?.replaceAll('/app/routes', '')
     : props.src
-  console.log(props.src)
+
   return (
     <a href={src}>
       <img src={src} alt={props.alt} class={imageCss} />

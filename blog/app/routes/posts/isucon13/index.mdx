@@ -10,22 +10,15 @@ tags:
 share: true
 ---
 
-import { ExLinkCard } from "../../../components/ExLinkCard";
-import { MarkdownRenderer } from "../../../components/MarkdownRederer";
-
-export const ContentSummary = () => (<MarkdownRenderer content="
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
 
 去年に引き続き、 [@km_conner](https://twitter.com/km_conner) と [@atrn0](https://twitter.com/atrn0) と一緒にチーム「釜中の鯖」として ISUCON13 に参加しました。
 結果は**187,577 点で総合 4 位**になりました。わいわい 🙌
 
 ![スコア](/app/routes/posts/isucon13/score.png)
-_4 位 187,577 　釜中の鯖_">
+_4 位 187,577 　釜中の鯖_
 
-</MarkdownRenderer>
-)
-
-<ContentSummary />
+{/* <!--more--> */}
 
 ## 今年新たに導入した文明の利器
 
@@ -67,6 +60,8 @@ graph TB;
 
 トレンドには乗っかろうの精神で、LLM 系のツールを導入しました。
 GitHub Copilot は言わずもながですが、加えて[JetBrains AI Assistant](https://blog.jetbrains.com/ja/idea/2023/06/ai-assistant-in-jetbrains-ides/)も使ってみました。
+
+import { ExLinkCard } from "../../../components/ExLinkCard";
 
 <ExLinkCard url="https://blog.jetbrains.com/ja/idea/2023/06/ai-assistant-in-jetbrains-ides/" />
 
@@ -248,4 +243,3 @@ DNS サーバーをアプリケーションで実装したことで、DNS 水責
 
 毎年になりますが、ISUCON の作問や運営に携われた方々のお陰により、ISUCON というお祭りを楽しむことができました。
 本当にありがとうございました！！
-MarkdownRendererMarkdownRendererMarkdownRendererMarkdownRendererMarkdownRederer: MarkdownRenderer

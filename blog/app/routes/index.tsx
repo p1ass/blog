@@ -10,13 +10,7 @@ export default function Top() {
     <Fragment>
       <div>
         {posts.map(post => {
-          return (
-            <PostSummarySection
-              frontmatter={post.frontmatter}
-              ContentSummary={post.ContentSummary}
-              permalink={`${post.id.replace(/\/index\.mdx$/, '')}/`}
-            />
-          )
+          return <PostSummarySection post={post} />
         })}
       </div>
       <Pagination pageNumber={pageNum} hasPrev={hasPrev} hasNext={hasNext} />

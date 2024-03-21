@@ -1,17 +1,13 @@
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
-import { MDXProps } from 'mdx/types'
+
+import { Post } from '../lib/posts'
 import { parseDate } from '../lib/time'
 import { Frontmatter } from '../routes/posts/types'
 import { blue, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
+import { MarkdownRenderer } from './MarkdownRenderer'
 import { PostDetails } from './PostDetails'
-
-type Props = {
-  frontmatter: Frontmatter
-  ContentSummary?: () => JSX.Element
-  permalink: string
-}
 
 const sectionCss = css`
   margin-bottom: ${verticalRhythmUnit}rem;
@@ -81,25 +77,34 @@ const moreButtonCss = css`
   }
 `
 
-export function PostSummarySection({
-  frontmatter,
-  ContentSummary,
-  permalink,
-}: Props) {
+type Props = {
+  post: Post
+}
+
+export async function PostSummarySection({ post }: Props) {
+  const permalink = `${post.id.replace(/\/index\.mdx$/, '')}/`
+  // console.log(permalink)
+  const postUrl = `../routes${permalink}index.mdx?raw`
+  const { default: postText } = await import(postUrl)
+
+  // この辺ヌルポになりそう
+  let summaryText = postText.split('{/* <!--more--> */}')[0] as string
+  summaryText = summaryText.split('---')[2]
+
   return (
     <section class={sectionCss}>
       <a href={permalink} class={itemCss}>
         <div>
-          <time datetime={frontmatter.date} class={timeCss}>
-            {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
+          <time datetime={post.frontmatter.date} class={timeCss}>
+            {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
-          <h1 class={titleCss}>{frontmatter.title}</h1>
+          <h1 class={titleCss}>{post.frontmatter.title}</h1>
           <div class={underlineCss} />
         </div>
       </a>
-      <PostDetails frontmatter={frontmatter} />
+      <PostDetails frontmatter={post.frontmatter} />
       <div class='catalogue-summary'>
-        {ContentSummary ? <ContentSummary /> : null}
+        <MarkdownRenderer content={summaryText} baseUrl={post.fullPath.href} />
       </div>
 
       <a class={moreButtonCss} href={permalink}>

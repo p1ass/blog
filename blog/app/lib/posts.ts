@@ -3,7 +3,7 @@ import { Frontmatter } from '../routes/posts/types'
 import { parseDate } from './time'
 import { groupBy } from './util'
 
-const POSTS_PER_PAGE = 10
+const POSTS_PER_PAGE = 2
 
 type MDXExports = {
   frontmatter: Frontmatter
@@ -28,9 +28,10 @@ function sortByDateDesc():
   }
 }
 
-type Post = {
+export type Post = {
   id: string
   frontmatter: Frontmatter
+  fullPath: URL
   MDXContent: (props: MDXProps) => JSX.Element
   ContentSummary?: () => JSX.Element
 }
@@ -47,10 +48,11 @@ function getAllPosts(): Post[] {
     .map(([id, module]) => {
       return {
         id: id.replace(/^\.\.\/routes/, ''),
+        fullPath: new URL(id, import.meta.url),
         frontmatter: module.frontmatter,
         MDXContent: module.default,
         ContentSummary: module.ContentSummary,
-      }
+      } satisfies Post
     })
   return allPosts
 }
