@@ -23,13 +23,7 @@ export default createRoute(c => {
       <h1>{`Category ${category.name}`}</h1>
       <div>
         {category.posts.map(post => {
-          return (
-            <PostSummarySection
-              frontmatter={post.frontmatter}
-              ContentSummary={post.ContentSummary}
-              permalink={`${post.id.replace(/\/index\.mdx$/, '')}/`}
-            />
-          )
+          return <PostSummarySection post={post} />
         })}
       </div>
       <Pagination

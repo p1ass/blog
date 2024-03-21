@@ -8,7 +8,6 @@ type Props = {
 
 export async function MarkdownRenderer({ content, baseUrl }: Props) {
   const compiled = await compile(content, {
-    baseUrl: baseUrl,
     jsxImportSource: 'hono/jsx',
     outputFormat: 'function-body',
     providerImportSource: './app/lib/mdx-components',
@@ -16,18 +15,15 @@ export async function MarkdownRenderer({ content, baseUrl }: Props) {
 
   const transformed = String(compiled)
 
-  console.log(transformed)
   const { default: MDXContent } = await run(transformed, {
-    baseUrl: import.meta.url,
+    // @ts-ignore
     jsx: jsx,
+    // @ts-ignore
     jsxDEV: jsx,
+    // @ts-ignore
     jsxs: jsx,
     Fragment: Fragment,
     useMDXComponents: useMDXComponents,
-
-    // コメントアウトを消すとエラーになる
-    // remarkPlugins: remarkPlugins,
-    // rehypePlugins: rehypePlugins,
   })
   return <MDXContent />
 }

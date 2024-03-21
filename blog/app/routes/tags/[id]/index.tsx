@@ -23,13 +23,7 @@ export default createRoute(c => {
       <h1>{`Tag ${tagPosts.name}`}</h1>
       <div>
         {tagPosts.posts.map(post => {
-          return (
-            <PostSummarySection
-              frontmatter={post.frontmatter}
-              ContentSummary={post.ContentSummary}
-              permalink={`${post.id.replace(/\/index\.mdx$/, '')}/`}
-            />
-          )
+          return <PostSummarySection post={post} />
         })}
       </div>
       <Pagination

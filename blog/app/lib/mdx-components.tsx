@@ -1,7 +1,11 @@
 import { css } from 'hono/css'
 import { PropsWithChildren } from 'hono/jsx'
 import { MDXComponents } from 'mdx/types'
+import { BlockLink } from '../components/BlockLink'
+import { ExLinkCard } from '../components/ExLinkCard'
+import { Note } from '../components/Note'
 import { StyledPre } from '../components/StyledPre'
+import { Twitter } from '../components/Twitter'
 import { blue, border, grayLight } from '../styles/color'
 
 export function useMDXComponents(): MDXComponents {
@@ -11,7 +15,12 @@ export function useMDXComponents(): MDXComponents {
     blockquote: BlockQuote,
     a: Link,
     em: Em,
+    ExLinkCard: ExLinkCard,
+    BlockLink: BlockLink,
+    Note: Note,
+    Twitter: Twitter,
   }
+  // @ts-ignore
   return components
 }
 

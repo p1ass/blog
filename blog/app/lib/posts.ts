@@ -3,7 +3,7 @@ import { Frontmatter } from '../routes/posts/types'
 import { parseDate } from './time'
 import { groupBy } from './util'
 
-const POSTS_PER_PAGE = 2
+const POSTS_PER_PAGE = 10
 
 type MDXExports = {
   frontmatter: Frontmatter
