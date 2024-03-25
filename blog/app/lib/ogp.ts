@@ -41,8 +41,10 @@ type Image = {
 const cache: { [url: string]: OgpApiResponse } = {}
 
 export async function fetchOgp(url: string): Promise<OgpApiResponse> {
+  console.log(`fetch ogp: ${url}`)
+
   if (cache[url]) {
-    console.log('user  cache')
+    console.log(`use  cache: ${url}`)
     return cache[url]
   }
   const res = await fetch(`https://blog-api.p1ass.com/ogp?url=${url}`)

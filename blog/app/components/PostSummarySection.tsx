@@ -1,9 +1,8 @@
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 
-import { Post } from '../lib/posts'
+import type { Post } from '../lib/posts'
 import { parseDate } from '../lib/time'
-import { Frontmatter } from '../routes/posts/types'
 import { blue, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { MarkdownRenderer } from './MarkdownRenderer'

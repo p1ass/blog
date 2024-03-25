@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { PropsWithChildren } from 'hono/jsx'
+import type { PropsWithChildren } from 'hono/jsx'
 import { blue } from '../../styles/color'
 
 const blockLinkCss = css`

@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { PropsWithChildren } from 'hono/jsx'
+import type { PropsWithChildren } from 'hono/jsx'
 import { verticalRhythmUnit } from '../../styles/variables'
 
 export function StyledPre(props: PropsWithChildren) {

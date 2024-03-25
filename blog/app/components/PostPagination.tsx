@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { PaginationPosts } from '../lib/posts'
+import type { PaginationPosts } from '../lib/posts'
 import { blue, border } from '../styles/color'
 
 const postPaginationCss = css`

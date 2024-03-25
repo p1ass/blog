@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { categoryNameToId, tagNameToId } from '../lib/posts'
-import { Frontmatter } from '../routes/posts/types'
+import type { Frontmatter } from '../routes/posts/types'
 import { gray, grayLight } from '../styles/color'
 
 const postDetailsCss = css`

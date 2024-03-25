@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
-import { PropsWithChildren } from 'hono/jsx'
-import { MDXComponents } from 'mdx/types'
+import type { PropsWithChildren } from 'hono/jsx'
+import type { MDXComponents } from 'mdx/types'
 import { BlockLink } from '../components/markdown/BlockLink'
 import { ExLinkCard } from '../components/markdown/ExLinkCard'
 import { Note } from '../components/markdown/Note'
