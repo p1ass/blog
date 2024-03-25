@@ -2,10 +2,18 @@ import { Fragment } from 'hono/jsx/jsx-runtime'
 import { createRoute } from 'honox/factory'
 import { Pagination } from '../../../components/Pagination'
 import { PostSummarySection } from '../../../components/PostSummarySection'
-import { Head } from '../../../global'
-import { getCategoryPosts, getTagPosts } from '../../../lib/posts'
+import type { Head } from '../../../global'
+import { getTagPosts, getTags } from '../../../lib/posts'
+import { ssgParams } from 'hono/ssg'
+import type { Env } from 'hono'
 
-export default createRoute(c => {
+const param = ssgParams<Env>(c => {
+  return getTags().map(tag => {
+    return { id: tag.id }
+  })
+})
+
+export default createRoute(param, c => {
   const tagId = c.req.param('id')
 
   const tagPosts = getTagPosts(tagId, 1)
@@ -30,7 +38,7 @@ export default createRoute(c => {
         pageNumber={1}
         hasPrev={tagPosts.hasPrev}
         hasNext={tagPosts.hasNext}
-        basePath={`/tags/${tagId}/`}
+        basePath={`/tags/${tagId}`}
       />
     </Fragment>,
     head,

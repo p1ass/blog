@@ -42,7 +42,7 @@ type Posts = {
   hasNext: boolean
 }
 
-function getAllPosts(): Post[] {
+export function getAllPosts(): Post[] {
   const allPosts = Object.entries(posts)
     .sort(sortByDateDesc())
     .map(([id, module]) => {
@@ -57,8 +57,8 @@ function getAllPosts(): Post[] {
   return allPosts
 }
 
-export function getMaxPageNumber(): number {
-  return Math.ceil(getAllPosts().length / POSTS_PER_PAGE)
+export function getMaxPageNumber(posts: Post[]): number {
+  return Math.ceil(posts.length / POSTS_PER_PAGE)
 }
 
 export function getPosts(page: number): Posts {
@@ -147,12 +147,13 @@ export function categoryNameToId(name: string): string {
 type Tag = {
   id: string
   name: string
+  posts: Post[]
 }
 
 export function getTags(): Tag[] {
   const allPosts = getAllPosts()
 
-  const tags: Tag[] = allPosts.flatMap(p => {
+  const tags = allPosts.flatMap(p => {
     return (
       p.frontmatter.tags?.map(tag => {
         return {
@@ -162,7 +163,17 @@ export function getTags(): Tag[] {
       }) || []
     )
   })
-  return Array.from(new Map(tags.map(tag => [tag.id, tag])).values())
+  const uniqueTags = Array.from(
+    new Map(tags.map(tag => [tag.id, tag])).values(),
+  )
+
+  return uniqueTags.map(tag => {
+    return {
+      id: tag.id,
+      name: tag.name,
+      posts: getAllPosts().filter(p => p.frontmatter.tags?.includes(tag.name)),
+    }
+  })
 }
 
 export function tagNameToId(name: string): string {

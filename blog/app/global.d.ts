@@ -1,5 +1,5 @@
 import {} from 'hono'
-import { Frontmatter } from './routes/posts/types'
+import type { Frontmatter } from './routes/posts/types'
 
 type Head = {
   title?: string

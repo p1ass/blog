@@ -4,14 +4,13 @@ import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
 import { Pagination } from '../../../components/Pagination'
 import { PostSummarySection } from '../../../components/PostSummarySection'
-import { getMaxPageNumber, getPosts } from '../../../lib/posts'
+import { getAllPosts, getMaxPageNumber, getPosts } from '../../../lib/posts'
 
 const param = ssgParams<Env>(c => {
-  const maxPageNumber = getMaxPageNumber()
+  const posts = getAllPosts()
+  const maxPageNumber = getMaxPageNumber(posts)
   const params = []
-  for (let i = 0; i < maxPageNumber; i++) {
-    // ページ番号は1-indexed
-    const num = i + 1
+  for (let num = 1; num <= maxPageNumber; num++) {
     // 1ページ目はトップページなので生成する必要がない
     if (num <= 1) {
       continue
