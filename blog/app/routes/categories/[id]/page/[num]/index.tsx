@@ -24,7 +24,7 @@ const param = ssgParams<Env>(c => {
       params.push({ id: category.id, num: num.toString() })
     }
   })
-
+  console.log(params)
   return params
 })
 

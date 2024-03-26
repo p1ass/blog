@@ -23,7 +23,7 @@ const param = ssgParams<Env>(c => {
       params.push({ id: tag.id, num: num.toString() })
     }
   })
-
+  console.log(params)
   return params
 })
 
