@@ -1,0 +1,120 @@
+diff --git a/src/common.js b/src/common.js
+index e3291b20faa1a61fa5acff50d84dba10a97cc3b6..8ec95c2f202021a533b246c4e3e84ec47f2bfb61 100644
+--- a/src/common.js
++++ b/src/common.js
+@@ -40,13 +40,14 @@ function setup(env) {
+ 	*/
+ 	function selectColor(namespace) {
+ 		let hash = 0;
+-
++		
++		namespace = namespace ?? ''
+ 		for (let i = 0; i < namespace.length; i++) {
+ 			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+ 			hash |= 0; // Convert to 32bit integer
+ 		}
+ 
+-		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
++		return 0;
+ 	}
+ 	createDebug.selectColor = selectColor;
+ 
+@@ -114,7 +115,7 @@ function setup(env) {
+ 		}
+ 
+ 		debug.namespace = namespace;
+-		debug.useColors = createDebug.useColors();
++		// debug.useColors = createDebug.useColors();
+ 		debug.color = createDebug.selectColor(namespace);
+ 		debug.extend = extend;
+ 		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
+@@ -266,7 +267,7 @@ function setup(env) {
+ 		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+ 	}
+ 
+-	createDebug.enable(createDebug.load());
++	// createDebug.enable(createDebug.load());
+ 
+ 	return createDebug;
+ }
+diff --git a/src/index.js b/src/index.js
+index bf4c57f259df2e16761b45e2636db307c89ba419..a23827c73f2da725294298467fc3a07a0e4df34a 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -3,8 +3,5 @@
+  * treat as a browser.
+  */
+ 
+-if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+-	module.exports = require('./browser.js');
+-} else {
+-	module.exports = require('./node.js');
+-}
++module.exports = require('./node.js');
++
+diff --git a/src/node.js b/src/node.js
+index 79bc085cb0230c69aaeb76bbc1374f43ab6414f4..643e98ad15ee8eda2777bc44cd4d4833b7a6c445 100644
+--- a/src/node.js
++++ b/src/node.js
+@@ -9,16 +9,13 @@ const util = require('util');
+  * This is the Node.js implementation of `debug()`.
+  */
+ 
+-exports.init = init;
+-exports.log = log;
+-exports.formatArgs = formatArgs;
+-exports.save = save;
+-exports.load = load;
+-exports.useColors = useColors;
+-exports.destroy = util.deprecate(
+-	() => {},
+-	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
+-);
++exports.init = ()=>{};
++exports.log = ()=>{};
++exports.formatArgs = ()=>{};
++exports.save = ()=>{};
++exports.load = ()=>{};
++exports.useColors = ()=>{};
++exports.destroy = ()=>{};
+ 
+ /**
+  * Colors.
+@@ -239,25 +236,25 @@ function init(debug) {
+ 
+ module.exports = require('./common')(exports);
+ 
+-const {formatters} = module.exports;
++// const {formatters} = module.exports;
+ 
+ /**
+  * Map %o to `util.inspect()`, all on a single line.
+  */
+ 
+-formatters.o = function (v) {
+-	this.inspectOpts.colors = this.useColors;
+-	return util.inspect(v, this.inspectOpts)
+-		.split('\n')
+-		.map(str => str.trim())
+-		.join(' ');
+-};
++// formatters.o = function (v) {
++// 	this.inspectOpts.colors = this.useColors;
++// 	return util.inspect(v, this.inspectOpts)
++// 		.split('\n')
++// 		.map(str => str.trim())
++// 		.join(' ');
++// };
+ 
+ /**
+  * Map %O to `util.inspect()`, allowing multiple lines if needed.
+  */
+ 
+-formatters.O = function (v) {
+-	this.inspectOpts.colors = this.useColors;
+-	return util.inspect(v, this.inspectOpts);
+-};
++// formatters.O = function (v) {
++// 	this.inspectOpts.colors = this.useColors;
++// 	return util.inspect(v, this.inspectOpts);
++// };
