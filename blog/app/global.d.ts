@@ -2,9 +2,10 @@ import {} from 'hono'
 import type { Frontmatter } from './routes/posts/types'
 
 type Head = {
-  title?: string
-
   frontmatter?: Frontmatter
+  filepath?: string
+
+  title?: string
 }
 
 declare module 'hono' {

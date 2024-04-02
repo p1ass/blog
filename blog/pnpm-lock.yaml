@@ -54,21 +54,24 @@ devDependencies:
   '@types/mdx-js__react':
     specifier: 1.5.8
     version: 1.5.8
+  recma-export-filepath:
+    specifier: ^1.1.0
+    version: 1.1.0
   rehype-highlight:
     specifier: ^7.0.0
     version: 7.0.0
   rehype-mdx-code-props:
     specifier: ^3.0.0
     version: 3.0.0
+  rehype-mdx-import-media:
+    specifier: ^1.0.0
+    version: 1.0.0
   remark-frontmatter:
     specifier: ^5.0.0
     version: 5.0.0
   remark-mdx-frontmatter:
     specifier: ^4.0.0
     version: 4.0.0
-  remark-mdx-images:
-    specifier: ^3.0.0
-    version: 3.0.0
   typescript:
     specifier: ^5.4.3
     version: 5.4.3
@@ -2502,6 +2505,21 @@ packages:
       '@types/hast': 3.0.4
     dev: true
 
+  /hast-util-properties-to-mdx-jsx-attributes@1.0.0:
+    resolution: {integrity: sha512-MZEdAYiXC8wDBfntAc7syyWHbcg/X1h03DQ7IQ6MKagMttpYhnKqOZR/nia0657Dt2v2vuXB8YuKNExw0Fljew==}
+    dependencies:
+      '@types/estree': 1.0.5
+      '@types/hast': 3.0.4
+      comma-separated-tokens: 2.0.3
+      estree-util-value-to-estree: 3.0.1
+      mdast-util-mdx-jsx: 3.1.2
+      property-information: 6.4.1
+      space-separated-tokens: 2.0.2
+      style-to-js: 1.1.12
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /hast-util-to-estree@3.1.0:
     resolution: {integrity: sha512-lfX5g6hqVh9kjS/B9E2gSkvHH4SZNiQFiqWS0x9fENzEl+8W12RqdRxX6d/Cwxi30tPQs3bIO+aolQJNp1bIyw==}
     dependencies:
@@ -3347,6 +3365,10 @@ packages:
       is-hexadecimal: 2.0.1
     dev: true
 
+  /parse-srcset@1.0.2:
+    resolution: {integrity: sha512-/2qh0lav6CmI15FzA3i/2Bzk2zCgQhGMkvhOhKNcBVQ1ldgpbfiNTVslmooUmWJcADi1f1kIeynbDRVzNlfR6Q==}
+    dev: true
+
   /parse5-htmlparser2-tree-adapter@7.0.0:
     resolution: {integrity: sha512-B77tOZrqqfUfnVcOrUvfdLbz4pu4RopLD/4vmu3HUPswwTA8OH0EMW9BlWR2B0RCoiZRAHEUu7IxeP1Pd1UU+g==}
     dependencies:
@@ -3538,6 +3560,15 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /recma-export-filepath@1.1.0:
+    resolution: {integrity: sha512-Xvs7R84WI72PxORtkusu1pwzgrqfXX+7TzFBdUBv1fZreB4F0a9xWI+3zH1pvciS+PkkuwfYAt26wMmEl3Yp3w==}
+    dependencies:
+      '@types/estree': 1.0.5
+      estree-util-is-identifier-name: 3.0.0
+      normalize-path: 3.0.0
+      unified: 11.0.4
+    dev: true
+
   /rehype-highlight@7.0.0:
     resolution: {integrity: sha512-QtobgRgYoQaK6p1eSr2SD1i61f7bjF2kZHAQHxeCHAuJf7ZUDMvQ7owDq9YTkmar5m5TSUol+2D3bp3KfJf/oA==}
     dependencies:
@@ -3566,6 +3597,18 @@ packages:
       - supports-color
     dev: true
 
+  /rehype-mdx-import-media@1.0.0:
+    resolution: {integrity: sha512-roD8MCrdugisDb8W/nGHlO+fQRSu/JohJZsIsAnMfGJSHEP49UlJ5oduFI+ybl+DbJNfvzdfF3MBKqzgVuRh1g==}
+    dependencies:
+      '@types/hast': 3.0.4
+      hast-util-properties-to-mdx-jsx-attributes: 1.0.0
+      parse-srcset: 1.0.2
+      unified: 11.0.4
+      unist-util-visit: 5.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /remark-frontmatter@5.0.0:
     resolution: {integrity: sha512-XTFYvNASMe5iPN0719nPrdItC9aU0ssC4v14mH1BCi1u0n1gAocqcujWUrByftZTbLhRtiKRyjYTSIOcr69UVQ==}
     dependencies:
@@ -3586,15 +3629,6 @@ packages:
       toml: 3.0.0
       unified: 11.0.4
       yaml: 2.4.1
-    dev: true
-
-  /remark-mdx-images@3.0.0:
-    resolution: {integrity: sha512-EKpqw11XUprx/kFQPEkH3GdPEqI63Wcq5GT120N2hGlKCSwOM09NtL1i3G9HQ4TBIR2aF471HF5YStME5ukbJw==}
-    deprecated: Use rehype-mdx-import-media instead
-    dependencies:
-      '@types/mdast': 4.0.3
-      unified: 11.0.4
-      unist-util-visit: 5.0.0
     dev: true
 
   /remark-mdx@3.0.1:

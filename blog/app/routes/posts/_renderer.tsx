@@ -41,12 +41,14 @@ a{
 }
 `
 
-export default jsxRenderer(({ children, Layout, frontmatter }) => {
-  if (!frontmatter) {
+export default jsxRenderer(({ children, Layout, frontmatter,filepath }) => {
+  if (!(frontmatter && filepath)){
     return <div>Not Post Page</div>
   }
 
   const paginationPosts = getPaginationPosts(frontmatter.title)
+
+  const permalink = `${import.meta.env.BASE_URL}${filepath.replaceAll('app/routes/','').replaceAll("index.mdx","")}`;
 
   return (
     <Layout title={frontmatter.title} frontmatter={frontmatter}>
@@ -56,10 +58,10 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
         </time>
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
-      <ShareButtons title={frontmatter.title} permalink={'TODO'} />
+      <ShareButtons title={frontmatter.title} permalink={permalink} />
       <PostDetails frontmatter={frontmatter} />
       <article>{children}</article>
-      <ShareButtons title={frontmatter.title} permalink={'TODO'} />
+      <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
       <PostPagination paginationPosts={paginationPosts} />
       <div class={toTopLinkCss}>
