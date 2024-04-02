@@ -103,7 +103,7 @@ export default jsxRenderer(({ children, title: propsTitle, frontmatter }) => {
           href='/static/apple-touch-icon.png'
         />
         <link
-          href='TODO'
+          href='/index.xml'
           rel='alternate'
           type='application/rss+xml'
           title='TODO'
