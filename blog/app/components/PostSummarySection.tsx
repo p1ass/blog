@@ -81,9 +81,8 @@ type Props = {
 }
 
 export async function PostSummarySection({ post }: Props) {
-  const permalink = `${post.id.replace(/\/index\.mdx$/, '')}/`
   // console.log(permalink)
-  const postUrl = `../routes${permalink}index.mdx?raw`
+  const postUrl = `../routes${post.permalink}index.mdx?raw`
   const { default: postText } = await import(postUrl)
 
   // この辺ヌルポになりそう
@@ -92,7 +91,7 @@ export async function PostSummarySection({ post }: Props) {
 
   return (
     <section class={sectionCss}>
-      <a href={permalink} class={itemCss}>
+      <a href={post.permalink} class={itemCss}>
         <div>
           <time datetime={post.frontmatter.date} class={timeCss}>
             {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
@@ -103,10 +102,13 @@ export async function PostSummarySection({ post }: Props) {
       </a>
       <PostDetails frontmatter={post.frontmatter} />
       <div class='catalogue-summary'>
-        <MarkdownRenderer content={summaryText} baseUrl={post.fullPath.href} />
+        <MarkdownRenderer
+          content={summaryText}
+          baseUrl={post.fullFilePath.href}
+        />
       </div>
 
-      <a class={moreButtonCss} href={permalink}>
+      <a class={moreButtonCss} href={post.permalink}>
         続きを読む
       </a>
     </section>

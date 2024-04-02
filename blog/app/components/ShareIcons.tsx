@@ -137,7 +137,7 @@ export function ShareButtons({ title, permalink }: Props) {
         </div>
         <div class={hatenaCss}>
           <a
-            href={`http://b.hatena.ne.jp/add?mode=confirm&url=https://blog.p1ass.com${permalink}}&title=${title} - ぷらすのブログ`}
+            href={`http://b.hatena.ne.jp/add?mode=confirm&url=https://blog.p1ass.com${permalink}&title=${title} - ぷらすのブログ`}
             target='_blank'
             rel='noreferrer noopener'
             title='hatena'

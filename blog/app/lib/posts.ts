@@ -31,7 +31,8 @@ function sortByDateDesc():
 export type Post = {
   id: string
   frontmatter: Frontmatter
-  fullPath: URL
+  permalink: string
+  fullFilePath: URL
   MDXContent: (props: MDXProps) => JSX.Element
   ContentSummary?: () => JSX.Element
 }
@@ -48,7 +49,10 @@ export function getAllPosts(): Post[] {
     .map(([id, module]) => {
       return {
         id: id.replace(/^\.\.\/routes/, ''),
-        fullPath: new URL(id, import.meta.url),
+        fullFilePath: new URL(id, import.meta.url),
+        permalink: `${id
+          .replace(/^\.\.\/routes/, '')
+          .replace(/\/index\.mdx$/, '')}/`,
         frontmatter: module.frontmatter,
         MDXContent: module.default,
         ContentSummary: module.ContentSummary,

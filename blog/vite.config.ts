@@ -9,7 +9,7 @@ import { defineConfig } from 'vite'
 import { normalizePath } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
-import recmaExportFilepath from "recma-export-filepath";
+import recmaExportFilepath from 'recma-export-filepath'
 
 const entry = './app/server.ts'
 
@@ -22,7 +22,8 @@ export default defineConfig(({ mode }) => {
 
   return {
     assetsInclude: ['**/*.JPG'],
-    base: process.env.NODE_ENV === 'production'  ? "https://blog.p1ass.com" : "/",
+    base:
+      process.env.NODE_ENV === 'production' ? 'https://blog.p1ass.com' : '/',
     build: {
       emptyOutDir: false,
     },
@@ -48,7 +49,7 @@ export default defineConfig(({ mode }) => {
         providerImportSource: './app/lib/mdx-components',
         remarkPlugins: remarkPlugins,
         rehypePlugins: rehypePlugins,
-        recmaPlugins: [recmaExportFilepath]
+        recmaPlugins: [recmaExportFilepath],
       }),
       ssg({ entry }),
       // 記事内でco-locationして配置している画像たちを `dist/posts` にコピーする
