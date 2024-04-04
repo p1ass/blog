@@ -1,6 +1,0 @@
-User-agent: *
-Disallow: /tags/
-Disallow: /categories/
-Allow: /
-
-Sitemap: https://blog.p1ass.com/sitemap.xml

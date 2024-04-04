@@ -1,5 +1,0 @@
-{{ if .IsNamedParams }}
-<a href="{{ .Get "href" }}" >{{ if .Get "text"}}{{ .Get "text" }}{{ else }}{{ .Get "href"}}{{ end }}</a>
-{{ else }}
-<a href="{{ .Get 0 }}" >{{ .Get 0 }}</a>
-{{ end }}

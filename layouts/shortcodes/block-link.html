@@ -1,9 +1,0 @@
-{{ if .IsNamedParams }}
-<div style="padding-bottom:16px">
-<a href="{{ .Get "href" }}" >{{ if .Get "text"}}{{ .Get "text" }}{{ else }}{{ .Get "href"}}{{ end }}</a>
-</div>
-{{ else }}
-<div style="padding-bottom:16px">
-<a href="{{ .Get 0 }}">{{ .Get 0 }}</a>
-{{ end }}
-</div>
