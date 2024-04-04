@@ -22,7 +22,7 @@ Go で base62 エンコード、つまりあるバイト列を `[a-zA-Z0-9]` の
 
 Google で `Go base62` などと検索するとサードパーティパッケージが検索結果に出てきます。
 
-<ExLinkCard url="https://github.com/jxskiss/base62" />
+<ExLinkCard url="https://github.com/jxskiss/base62"/>
 
 ## 方法 2: `math/big` パッケージを使う
 
@@ -102,7 +102,7 @@ var i big.Int
 i.SetBytes(b)  // []byte型で初期化
 ```
 
-<ExLinkCard url="https://pkg.go.dev/math/big#Int.SetString" />
+<ExLinkCard url="https://pkg.go.dev/math/big#Int.SetString"/>
 
 #### `big.Int` は 2~62 の範囲を基底にした文字列表現が可能
 
@@ -140,9 +140,8 @@ func main() {
 
 と書かれており、base62 でのエンコーディングまでサポートしていることが分かります。
 
-<ExLinkCard url="https://pkg.go.dev/math/big#Int.Text" />
+<ExLinkCard url="https://pkg.go.dev/math/big#Int.Text"/>
 
 ## おわりに
 
 `math/big` パッケージはなかなか使う機会がなかったのですが、面白い使う方ができるパッケージなので、他にも使い道がないか考えてみようと思います。
-import { BlockLink } from "../../../components/BlockLink"

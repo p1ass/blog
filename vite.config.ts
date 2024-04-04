@@ -60,6 +60,7 @@ export default defineConfig(({ mode }) => {
               './app/routes/posts/**/*.png',
               './app/routes/posts/**/*.jpg',
               './app/routes/posts/**/*.jpeg',
+              './app/routes/posts/**/*.webp',
             ],
             dest: 'posts',
             rename: (
