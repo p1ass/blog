@@ -37,6 +37,7 @@ const shareButtonLinkCss = css`
   -o-transition: all 280ms ease;
   -webkit-transition: all 280ms ease;
   transition: all 280ms ease;
+  text-decoration: none;
 
   i {
     font-size: 22px;
