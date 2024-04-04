@@ -57,6 +57,11 @@ export default jsxRenderer(({ children, title: propsTitle, frontmatter }) => {
     'Webエンジニアリングについて学んだことや考えたことをまとめるブログです'
 
   const title = propsTitle ? `${propsTitle} - ぷらすのブログ` : 'ぷらすのブログ'
+  const ogImage = frontmatter?.title
+    ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
+        frontmatter?.title,
+      )}.png`
+    : 'https://blog.p1ass.com/images/ogp.png'
   return (
     <html lang='ja'>
       <head>
@@ -68,10 +73,7 @@ export default jsxRenderer(({ children, title: propsTitle, frontmatter }) => {
         <meta name='description' content={description} />
         <meta property='og:type' content='website' />
         <meta property='og:description' content={description} />
-        <meta
-          property='og:image'
-          content='https://blog.p1ass.com/images/ogp.png'
-        />
+        <meta property='og:image' content={ogImage} />
         <meta
           property='og:url'
           content='https://blog.p1ass.com{{ .Permalink }}'
