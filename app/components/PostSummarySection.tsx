@@ -50,6 +50,8 @@ const titleCss = css`
   color: ${gray};
   font-size: 2rem;
   margin: ${verticalRhythmUnit * 0.25}rem 0;
+  line-height: 3.4rem;
+  
   @media (max-width: 900px) {
     font-size: 1.75rem;
     line-height: ${verticalRhythmUnit * 1.75}rem;

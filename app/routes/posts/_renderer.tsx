@@ -15,6 +15,11 @@ const postTitleCss = css`
   text-align: center;
   line-height: 3.4rem;
   word-break: auto-phrase;
+  
+  @media (max-width: 900px) {
+    font-size: 1.75rem;
+    line-height: 2.55rem;
+}
 `
 
 const postDateCss = css`

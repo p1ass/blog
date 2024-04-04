@@ -10,6 +10,7 @@ import {
 } from '../../../../../lib/posts'
 import { ssgParams } from 'hono/ssg'
 import type { Env } from 'hono'
+import { Heading } from '../../../../../components/Heading'
 
 const param = ssgParams<Env>(c => {
   const params: { id: string; num: string }[] = []
@@ -47,7 +48,7 @@ export default createRoute(param, c => {
 
   return c.render(
     <Fragment>
-      <h1>{`Tag ${tagPosts.name}`}</h1>
+      <Heading>{`Tag ${tagPosts.name}`}</Heading>
       <div>
         {tagPosts.posts.map(post => {
           return <PostSummarySection post={post} />

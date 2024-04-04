@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { Fragment } from 'hono/jsx/jsx-runtime'
 import { getCategories } from '../../lib/posts'
 import { blue } from '../../styles/color'
+import { Heading } from '../../components/Heading'
 
 const linkCss = css`
   color: ${blue};
@@ -14,7 +15,7 @@ export default function CategoryTop() {
   const categories = getCategories()
   return (
     <Fragment>
-      <h1>Categories</h1>
+      <Heading>Categories</Heading>
       <ul>
         {categories.map(category => (
           <li>

@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { Fragment } from 'hono/jsx/jsx-runtime'
 import { getCategories, getTags } from '../../lib/posts'
 import { blue } from '../../styles/color'
+import { Heading } from '../../components/Heading'
 
 const linkCss = css`
   color: ${blue};
@@ -14,7 +15,7 @@ export default function TagTop() {
   const tags = getTags()
   return (
     <Fragment>
-      <h1>Tags</h1>
+      <Heading>Tags</Heading>
       <ul>
         {tags.map(tag => (
           <li>

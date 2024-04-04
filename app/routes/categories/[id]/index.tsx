@@ -6,6 +6,7 @@ import type { Head } from '../../../global'
 import { getCategories, getCategoryPosts } from '../../../lib/posts'
 import { ssgParams } from 'hono/ssg'
 import type { Env } from 'hono'
+import { Heading } from '../../../components/Heading'
 
 const param = ssgParams<Env>(c => {
   return getCategories().map(category => {
@@ -28,7 +29,7 @@ export default createRoute(param, c => {
 
   return c.render(
     <Fragment>
-      <h1>{`Category ${category.name}`}</h1>
+      <Heading>{`Category ${category.name}`}</Heading>
       <div>
         {category.posts.map(post => {
           return <PostSummarySection post={post} />

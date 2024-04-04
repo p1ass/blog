@@ -20,10 +20,6 @@ const bodyCss = css`
     line-height: 1.7rem;
   }
 
-  h1 {
-    line-height: 3.4rem;
-}
-
 h2 {
     line-height: 2.55rem;
     font-size: 1.75rem
