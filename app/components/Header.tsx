@@ -42,6 +42,11 @@ const navigationListCss = css`
     display: inline-block;
     padding: 0 1.5rem;
     margin: 0.2125rem 0 0.2125rem;
+    
+    @media (max-width: 600px) {
+    padding: 0 0 .425rem 0;
+    width: 100px;
+    }
 
     a {
       color: ${grayLight};
