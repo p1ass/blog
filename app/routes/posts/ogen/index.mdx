@@ -18,15 +18,15 @@ OpenAPI の yaml ファイルから Go のコードを生成する OSS ツール
 
 ググると日本語の記事もたくさん出てきます。
 
-<ExLinkCard url="https://tech.layerx.co.jp/entry/generate-go-code-by-openapi-generator" />
-<ExLinkCard url="https://techblog.zozo.com/entry/openapi3/go" />
-<ExLinkCard url="https://future-architect.github.io/articles/20200701/" />
+<ExLinkCard url="https://tech.layerx.co.jp/entry/generate-go-code-by-openapi-generator"/>
+<ExLinkCard url="https://techblog.zozo.com/entry/openapi3/go"/>
+<ExLinkCard url="https://future-architect.github.io/articles/20200701/"/>
 
 もちろんこれらの OSS は便利なのですが、生成される interface や型が個人的にあまり好みではなく、モヤモヤしながら使っていました。
 
 そんな中、新しめの OSS である[ogen-dev/ogen](https://github.com/ogen-go/ogen)というツールが良さげだという情報をキャッチし、実際に使ってみたところ自分の好みにフィットするツールだということが見えてきました。
 
-<ExLinkCard url="https://ogen.dev/" />
+<ExLinkCard url="https://ogen.dev/"/>
 
 {/* <!--more--> */}
 
@@ -100,13 +100,15 @@ interface はぶっちゃけ好みの領域なところもありますが、僕�
 
 SNS で教えていただいたのですが、oapi-codegen の Strict server generation の機能を使うと、似たような interface を生成できるようです。
 
-https://github.com/deepmap/oapi-codegen/tree/master#strict-server-generation
+<BlockLink href="https://github.com/deepmap/oapi-codegen/tree/master#strict-server-generation">
+  https://github.com/deepmap/oapi-codegen/tree/master#strict-server-generation
+</BlockLink>
 
 ### null や optional に対してちゃんと型を付けようと努力している
 
 `null` や `optional` は OpenAPI の仕様の中でもややこしい部類のものですが、ogen はそれらに対して真っ向から対応してくれています。
 
-<ExLinkCard url="https://ogen.dev/docs/types/optional" />
+<ExLinkCard url="https://ogen.dev/docs/types/optional"/>
 
 下記の 4 つの型を明確に区別し、その型に対応する形でコードを生成してくれます。
 
