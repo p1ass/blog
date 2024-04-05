@@ -22,20 +22,20 @@ share: true
 
 現在の環境は次の通り。
 
-| 項目              | 値            |
-| :---------------- | :------------ |
-| OS                | macOS Big Sur |
+| 項目           | 値             |
+|:-------------|:--------------|
+| OS           | macOS Big Sur |
 | Java バージョン   | 17            |
 | Gradle バージョン | 7,2           |
 
 ### 事前知識: Java 自体の開発とディストリビューション
 
-<ExLinkCard url="https://news.mynavi.jp/article/imajava-1/" />
-<ExLinkCard url="https://news.mynavi.jp/article/imajava-2/" />
+<ExLinkCard url="https://news.mynavi.jp/article/imajava-1/"/>
+<ExLinkCard url="https://news.mynavi.jp/article/imajava-2/"/>
 
 ### 事前知識: `JAVA_HOME`とは
 
-<ExLinkCard url="https://lalupin4.hatenablog.jp/entry/2015/04/15/163126" />
+<ExLinkCard url="https://lalupin4.hatenablog.jp/entry/2015/04/15/163126"/>
 
 ### 選択肢 1: `/usr/libexec/java_home` を使う
 
@@ -71,7 +71,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.3+7, mixed mode)
 
 ### 選択肢 2: jenv を使う
 
-<ExLinkCard url="https://github.com/jenv/jenv" />
+<ExLinkCard url="https://github.com/jenv/jenv"/>
 
 jenv は Java のバージョンを切り替えて、自動で `JAVA_HOME`を設定してくれるライブラリ。
 ディストリビューションは自分でインストールする必要がある点に注意する。
@@ -81,7 +81,7 @@ jenv は Java のバージョンを切り替えて、自動で `JAVA_HOME`を設
 
 ### Amazon Corretto のインストール
 
-<ExLinkCard url="https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/macos-install.html" />
+<ExLinkCard url="https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/macos-install.html"/>
 
 いろんなディストリビューションがあるが、今回は Corretto を使う。
 pkg を落としたら、 `jenv add` して `jenv global` で切り替える。
@@ -90,11 +90,11 @@ pkg を落としたら、 `jenv add` して `jenv global` で切り替える。
 
 IntelliJ IDEA を使う。
 
-<ExLinkCard url="https://www.jetbrains.com/ja-jp/idea/" />
+<ExLinkCard url="https://www.jetbrains.com/ja-jp/idea/"/>
 
 Community 版なら無料で使える。使い方は公式の日本語ドキュメントを参照。
 
-<ExLinkCard url="https://pleiades.io/help/idea/discover-intellij-idea.html#multi-platform-IDE" />
+<ExLinkCard url="https://pleiades.io/help/idea/discover-intellij-idea.html#multi-platform-IDE"/>
 
 設定せずに先程インストールした Corretto が選択できるようになっているはず。
 
@@ -103,7 +103,7 @@ Community 版なら無料で使える。使い方は公式の日本語ドキュ�
 Gradle は Java で使われる OSS のビルドツール。
 Maven が使われることもあるが、周りは Gradle を使っている人が多いので、ここでは Gradle を使う。
 
-<ExLinkCard url="https://gradle.org/" />
+<ExLinkCard url="https://gradle.org/"/>
 
 ![intellij.png](intellij.png)
 
@@ -159,7 +159,8 @@ Hello World
 
 Gradle から直接実行する場合は `build.gradle`を変更する。
 
-<ExLinkCard url="https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files" />
+<ExLinkCard
+    url="https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files"/>
 
 ```groovy
 // build.gradle
@@ -186,7 +187,7 @@ BUILD SUCCESSFUL in 532ms
 
 ある程度他のオブジェクト指向の言語を書いた人ならスルッと入れるので、サクッと流す。
 
-<ExLinkCard url="https://www.javadrive.jp/start/" />
+<ExLinkCard url="https://www.javadrive.jp/start/"/>
 
 ## 5. Java8 以降に追加された文法・ライブラリを学ぶ
 
@@ -194,20 +195,20 @@ Java8 以前と以降でだいぶ異なるところがある。
 適当にググると古いやり方が出てきたりするので注意する。
 
 - Stream
-  - map や filter といった高階関数系のメソッドやラムダ式など
+- map や filter といった高階関数系のメソッドやラムダ式など
 - Optional
-  - Null を扱いやすくするクラス
+- Null を扱いやすくするクラス
 - `var` を用いた型推論
-  - 変数定義時に毎回型を省略できる
+- 変数定義時に毎回型を省略できる
 - `java.time.LocalDate`など新しい日時クラス
-  - 以前は `java.util.Date`や `java.time.Calendar`が使われていたらしい
-  - ネットで日時系の処理を調べると古いやり方が引っかかたりするので注意
+- 以前は `java.util.Date`や `java.time.Calendar`が使われていたらしい
+- ネットで日時系の処理を調べると古いやり方が引っかかたりするので注意
 
 ## 6. サードパーティライブラリを使う
 
 Gradle でサードパーティライブラリを扱う仕組みは公式ドキュメントに書かれている。
 
-<ExLinkCard url="https://docs.gradle.org/current/userguide/core_dependency_management.html" />
+<ExLinkCard url="https://docs.gradle.org/current/userguide/core_dependency_management.html"/>
 
 ### リポジトリの指定
 
@@ -227,7 +228,8 @@ repositories {
 今回は JSON ライブラリである Jackson をインストールする。
 `implementation` 等の意味は先ほどの Gradle の公式ドキュメントだけでなく、Android の公式ドキュメントなどにも書かれている。
 
-<ExLinkCard url="https://developer.android.com/studio/build/dependencies?hl=ja#dependency_configurations" />
+<ExLinkCard
+    url="https://developer.android.com/studio/build/dependencies?hl=ja#dependency_configurations"/>
 
 ```groovy
 dependencies {
@@ -272,22 +274,16 @@ $ ./gradlew run
 
 必要になったときにググれるように、ある程度インデックスを貼っておく。
 
-<ExLinkCard url="https://qiita.com/disc99/items/727b51dbe737602a5c91" />
+<ExLinkCard url="https://qiita.com/disc99/items/727b51dbe737602a5c91"/>
 
 ## 8. スタイルガイドを知る
 
 より良い書き方を学ぶ。
 
-<ExLinkCard url="https://kazurof.github.io/GoogleJavaStyle-ja/" />
+<ExLinkCard url="https://kazurof.github.io/GoogleJavaStyle-ja/"/>
 
-<iframe
-  style="width:120px;height:240px;"
-  marginwidth="0"
-  marginheight="0"
-  scrolling="no"
-  frameborder="0"
-  src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=p1ass02-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4621303252&linkId=d8a2840be719aa666e8b5acbee030bc6"
-></iframe>
+<ExLinkCard
+    url="https://www.amazon.co.jp/dp/4621303252?&linkCode=ll1&tag=p1ass02-22&linkId=2c2e6e7a09c64829a2fd6c06ed45e3ff&language=ja_JP&ref_=as_li_ss_tl"/>
 
 ## 9. Linter・Formatter
 
@@ -303,8 +299,8 @@ $ ./gradlew run
 
 - [https://github.com/diffplug/spotless](https://github.com/diffplug/spotless)
 - [https://github.com/google/google-java-format](https://github.com/google/google-java-format)
-  - Spotless と合わせて使うか、プラグインを使う
-  - [https://github.com/sherter/google-java-format-gradle-plugin](https://github.com/sherter/google-java-format-gradle-plugin)
+- Spotless と合わせて使うか、プラグインを使う
+- [https://github.com/sherter/google-java-format-gradle-plugin](https://github.com/sherter/google-java-format-gradle-plugin)
 
 ## 10. Gradle のマルチプロジェクトを使って大規模なプロジェクトを作る
 
@@ -313,7 +309,8 @@ API・バッチ・共通ライブラリをそれぞれ別のプロジェクト�
 
 自分で 1 からプロジェクトを作ることは少ないかも知れないが、既存のプロジェクトがマルチプロジェクトになっていることは結構あるので、「`build.gradle` が複数あるんだけど！」ってならないために知っておくと良さそう。
 
-<ExLinkCard url="https://docs.gradle.org/current/samples/sample_building_java_applications_multi_project.html" />
+<ExLinkCard
+    url="https://docs.gradle.org/current/samples/sample_building_java_applications_multi_project.html"/>
 
 ## おわりに
 

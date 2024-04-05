@@ -16,6 +16,7 @@
     "hono": "^4.2.2",
     "honox": "0.1.9",
     "ogp-parser": "^0.8.1",
+    "remark-gfm": "^4.0.0",
     "vite-plugin-require": "^1.1.14"
   },
   "devDependencies": {
