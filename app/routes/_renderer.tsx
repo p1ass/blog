@@ -65,7 +65,7 @@ export default jsxRenderer(
       ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
           frontmatter?.title,
         )}.png`
-      : 'https://blog.p1ass.com/images/ogp.png'
+      : 'https://blog.p1ass.com/static/ogp.png'
     return (
       <html lang='ja'>
         <head>
