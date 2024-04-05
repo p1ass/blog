@@ -34,7 +34,11 @@ border-bottom: 1px solid #dde0e4;
 
 p {
   margin: 0 0 1.7rem;
-  line-height: 2.125rem;
+  line-height: ${verticalRhythmUnit * 1.25}rem;
+  
+  @media (max-width: 600px) {
+    line-height: 2rem;
+  }
 }
 
 code {
