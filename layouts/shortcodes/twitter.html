@@ -1,4 +1,0 @@
-{{ $splitedUrl := .Get "url" | path.Split }}
-<a href="{{ .Get "url" }}" rel="noreferer noopener">
-  <img data-src="https://tweet2image.p1ass.com/{{ $splitedUrl.File }}.jpg?scale=2" class="lazy twitter-image" alt="Twitter埋め込み"/>
-</a>

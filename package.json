@@ -1,24 +1,47 @@
 {
-  "name": "blog",
-  "version": "1.0.0",
-  "description": "[ぷらすのブログ](https://blog.p1ass.com)のコードです。",
-  "dependencies": {
-    "textlint": "^11.7.6",
-    "textlint-rule-preset-ja-spacing": "^2.0.2",
-    "textlint-rule-preset-ja-technical-writing": "^4.0.1"
-  },
-  "devDependencies": {},
+  "name": "basic",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build --mode client && vite build",
+    "preview": "wrangler pages dev ./dist",
+    "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint ./",
+    "lint:fix": "biome lint --apply ./"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/p1ass/blog.git"
+  "private": true,
+  "dependencies": {
+    "@formkit/tempo": "^0.0.19",
+    "hono": "^4.2.2",
+    "honox": "0.1.9",
+    "ogp-parser": "^0.8.1",
+    "vite-plugin-require": "^1.1.14"
   },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/p1ass/blog/issues"
+  "devDependencies": {
+    "@biomejs/biome": "1.6.4",
+    "@cloudflare/workers-types": "^4.20240404.0",
+    "@hono/vite-cloudflare-pages": "^0.2.5",
+    "@hono/vite-ssg": "0.1.0",
+    "@mdx-js/mdx": "^3.0.1",
+    "@mdx-js/rollup": "^3.0.1",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
+    "@types/mdx": "^2.0.12",
+    "@types/mdx-js__react": "1.5.8",
+    "recma-export-filepath": "^1.1.0",
+    "rehype-highlight": "^7.0.0",
+    "rehype-mdx-code-props": "^3.0.0",
+    "rehype-mdx-import-media": "^1.1.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^4.0.0",
+    "typescript": "^5.4.4",
+    "vite": "^5.2.8",
+    "vite-plugin-static-copy": "^1.0.2",
+    "wrangler": "^3.47.1"
   },
-  "homepage": "https://github.com/p1ass/blog#readme"
+  "pnpm": {
+    "patchedDependencies": {
+      "debug@4.3.4": "patches/debug@4.3.4.patch"
+    }
+  }
 }

@@ -1,0 +1,71 @@
+---
+title: ZigでISUCON 12 の予選をCGOクロスコンパイルする
+date: 2022-08-11T00:15:00
+draft: false
+description: Zigを使うと簡単にCGOクロスコンパイルができたので、ISUCONの問題で試してベンチマーカーを実行してみました。
+categories:
+  - 開発
+tags:
+  - Zig
+share: true
+---
+
+こんにちは、[@p1ass](https://twitter.com/p1ass) です。
+
+先日投稿した記事「[ISUCON 12 の予選に参加して、7 位で本選進出を決めました](https://blog.p1ass.com/posts/isucon12/)」にて、CGO クロスコンパイルに苦労した話をしました。
+
+その後色々調べたところ、Zig を使うと簡単にコンパイルできることを知ったので試してみました。
+
+{/* <!--more--> */}
+
+## Zig を使って CGO クロスコンパイルする
+
+以下の記事を参考にしました。
+
+<ExLinkCard url="https://zig.news/kristoff/building-sqlite-with-cgo-for-every-os-4cic" />
+
+今回は、M1 Mac で Linux AMD64 用のバイナリを作ってみます。
+以下のコマンドでコンパイルできます。
+
+```bash
+$ brew install zig
+$ CGO_ENABLED=1 GOOS=linux GOARCH=amd64 CC="zig cc -target x86_64-linux" CXX="zig c++ -target x86_64-linux" make isuports
+```
+
+Go では `CC` や `CXX` を使って、CGO コンパイルで使う C・C++ コンパイラを指定できます。
+
+Zig は C や C++コンパイラとして使うこともできるため、環境変数に `zig` コマンドを指定することで、CGO コンパイル時に Zig を使ってくれるようになります。
+
+<ExLinkCard url="https://ziglearn.org/chapter-4/#zig-cc-zig-c" />
+
+Zig は `target` を指定することで、異なる OS・CPU アーキテクチャのコンパイルを簡単にできるため、今回の用途にピッタリです。
+
+## 実際にベンチマーカーを実行してみる
+
+せっかくコンパイルできるようになったので、実際にベンチマーカーを実行してみます。
+
+詳細なベンチマーカーのログは GitHub の PR に記載してあります。
+改善後のブランチなので、初期実装ではないです。
+
+<ExLinkCard url="https://github.com/saba-in-the-kettle/isucon12-qualify/pull/52" />
+
+### Docker を使ってビルドした場合
+
+- 52317 点
+- 52824 点
+- 46159 点
+
+### Zig を使ってビルドした場合
+
+- 47907 点
+- 52239 点
+- 43645 点
+
+点数のブレはありますが、ベンチは PASS していますし、最大値も 52000 点程度で同じなので、特に問題なく使えていそうです。
+
+詳細なベンチマークを取っているわけではないので参考程度にしてください。
+
+## おわりに
+
+Zig 便利ですね。
+Zig をプログラミング言語として使う機会は少ないかもしれませんが、C コンパイラとして使う機会は今後もありそうです。

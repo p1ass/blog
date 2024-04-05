@@ -1,0 +1,147 @@
+---
+title: Goのmath/bigパッケージを使ってbase62エンコードをする
+date: 2023-06-28T21:30:00
+draft: false
+description: Goのmath/bigパッケージを使うことであるバイト列を `[a-zA-Z0-9]` の範囲の文字を使ってエンコードすることができます。
+categories:
+  - 開発
+tags:
+  - Go
+share: true
+---
+
+こんにちは [@p1ass](https://twitter.com/p1ass) です。
+
+Go で base62 エンコード、つまりあるバイト列を `[a-zA-Z0-9]` の範囲の文字を使ってエンコードする方法を調べたのでまとめます。
+
+最終的には、`math/big` パッケージを使うことで実現できることを知りました。
+
+{/* <!--more--> */}
+
+## 方法 1: サードパーティパッケージを使う
+
+Google で `Go base62` などと検索するとサードパーティパッケージが検索結果に出てきます。
+
+<ExLinkCard url="https://github.com/jxskiss/base62"/>
+
+## 方法 2: `math/big` パッケージを使う
+
+サードパーティパッケージを使えば実現できるのですが、できれば標準ライブラリのみで実現できる良いな〜と探していたところ、以下の記事を見つけました。
+
+<BlockLink href="https://ucarion.com/go-base62">
+  You may not need a base62 external dependency in Go
+</BlockLink>
+
+この記事を参考にすると、ランダムに生成したバイト列を base62 エンコードするコードは次のように書くことができます。
+
+```go
+package main
+
+import (
+	"crypto/rand"
+	"fmt"
+	"math/big"
+)
+
+func generateRandomStr(byteLength int) (string, error) {
+	b := make([]byte, byteLength)
+	if _, err := rand.Read(b); err != nil {
+		return "", fmt.Errorf("failed to generate random bytes: %w", err)
+	}
+
+	// エンコード部分
+	var i big.Int
+	i.SetBytes(b)
+	encoded := i.Text(62)
+	return encoded, nil
+}
+
+func main() {
+	fmt.Println(generateRandomStr(16))
+	// 19KY3PkuoDVAxRz0R2AUJ3 <nil>
+}
+```
+
+### 仕組み
+
+ポイントとなる点は次の 2 つです。
+
+- `math/big` パッケージを使うことで任意の長さのバイト列を扱うことが可能
+- `big.Int` は 2~62 の範囲を基底にした文字列表現が可能
+
+#### `math/big` パッケージを使うことで任意の長さのバイト列を扱うことが可能
+
+`math/big` パッケージは本来、任意精度演算 (Arbitrary-precision arithmetic)を扱うためのパッケージです。
+したがって、本来扱うべき値はバイト列ではなく数値です。
+
+しかし、任意精度演算をする都合上、`int64` を超える値で `big.Int` を初期化しなければならないケースがありえます。
+そういったケースに対応するために、`big.Int` では文字列やバイト列から `big.Int` を初期化するメソッドが用意されています。
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/big"
+)
+
+func main() {
+	i := new(big.Int)
+	i.SetString("644", 8) // octal
+	fmt.Println(i)
+	// 420
+}
+```
+
+このコードでは、文字列 `"644"` を８進数として解釈して `big.Int` を初期化しています。
+同様の仕組みで、バイト列から `big.Int` を初期化することができます。
+今回はこの仕組みを応用しています。
+
+```go
+var i big.Int
+i.SetBytes(b)  // []byte型で初期化
+```
+
+<ExLinkCard url="https://pkg.go.dev/math/big#Int.SetString"/>
+
+#### `big.Int` は 2~62 の範囲を基底にした文字列表現が可能
+
+上記のコードスニペットでも既に使っていますが、`big.Int` は基底を指定することで文字列表現が可能です。
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/big"
+)
+
+func main() {
+	i := new(big.Int)
+	i.SetString("644", 8) // octal
+	fmt.Printf("base 8: %s\n", i.Text(8))
+	fmt.Printf("base 10: %s\n", i.Text(10))
+	fmt.Printf("base 16: %s\n", i.Text(16))
+	fmt.Printf("base 62: %s\n", i.Text(62))
+	/*
+		base 8: 644
+		base 10: 420
+		base 16: 1a4
+		base 62: 6M
+	*/
+}
+```
+
+`big.Int` に生えている `Text` メソッドを使うことで、基底を指定して文字列表現に変換できます。
+
+`Text` メソッドの GoDoc を見ると、
+
+> Text returns the string representation of x in the given base. Base must be between 2 and 62, inclusive. The result uses the lower-case letters 'a' to 'z' for digit values 10 to 35, and the upper-case letters 'A' to 'Z' for digit values 36 to 61. No prefix (such as "0x") is added to the string. If x is a nil pointer it returns "\<nil\>".
+
+と書かれており、base62 でのエンコーディングまでサポートしていることが分かります。
+
+<ExLinkCard url="https://pkg.go.dev/math/big#Int.Text"/>
+
+## おわりに
+
+`math/big` パッケージはなかなか使う機会がなかったのですが、面白い使う方ができるパッケージなので、他にも使い道がないか考えてみようと思います。

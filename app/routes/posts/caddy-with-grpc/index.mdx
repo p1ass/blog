@@ -1,0 +1,80 @@
+---
+title: CaddyでgRPCのリクエストをリバースプロキシする
+date: 2020-11-09T20:40:00
+draft: false
+description: CaddyでgRPCのリクエストをリバースプロキシするには、transportとflush_intervalを適切に設定すればよいです。
+categories:
+  - 開発
+tags:
+  - Caddy
+share: true
+---
+
+こんにちは [@p1ass](https://twitter.com/p1ass) です。
+
+Caddy はデフォルトで HTTPS・HTTP/2 に対応している OSS の Web サーバです。
+デフォルトで HTTP/2 に対応しているということは gRPC のリクエストもリバースプロキシできるのでは？と思い調べていたのですが、日本語でまとまってる記事がなかったのでここにメモしておきます。
+
+<ExLinkCard url="https://blog.p1ass.com/posts/nginx-to-caddy/" />
+
+{/* <!--more--> */}
+
+## やりたいこと
+
+今回やりたいことの要件は以下の通りです。
+
+- Caddy が HTTPS で gRPC のリクエストを受け付ける
+- Caddy で TLS の終端を行う
+- Caddy と gRPC のサーバは平文で通信する
+- gRPC Streaming も対応する
+
+Caddy は外からのリクエストを受けるので TLS で通信をしたいです。しかし、Caddy・gRPC サーバ間はインターナルなネットワークなので暗号化は不要です。Go のクライアントであれば、`grpc.WithInsecure()` で通信するイメージですね。
+
+また、Unary RPC だけでなく Streaming RPC も使っているので、こちらの対応もさせたいです。
+
+## 方法
+
+以下のように `Caddyfile` を設定することで gRPC のリクエストをリバースプロキシできます。
+
+```bash
+foo.example.com {
+	reverse_proxy {
+		to localhost:5000 # リバースプロキシ先のサーバを指定
+		transport http {
+			versions h2c 2 # H2CかHTTP2を使う
+		}
+		flush_interval -1 # Streaming RPCを使う場合は指定
+	}
+}
+```
+
+`versions h2c 2` で、リバースプロキシ先がサポートしている HTTP のバージョンを指定します。  
+デフォルトは `1.1 2` ですが、gRPC は HTTP/2 が必須で HTTP/1.1 を使えないので、`1.1` を省きます。
+
+先述した通り、gRPC サーバとの通信は TLS ではなく TCP で行いたいのですが、`h2` だと暗黙的に TLS 前提として扱われてしまいます。
+そこで `h2c` (HTTP/2 over TCP)を有効にすることにより、TCP 上で HTTP/2 の通信を行えるようにします。
+これにより、Caddy で TLS を終端しつつも gRPC サーバと通信できるようになります。
+
+<BlockLink href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport">
+  The http transport | reverse_proxy (Caddyfile directive) - Caddy Documentation
+</BlockLink>
+
+<BlockLink href="https://knowledge.sakura.ad.jp/7734/">
+  普及が進む「HTTP/2」の仕組みとメリットとは | さくらのナレッジ
+</BlockLink>
+
+gRPC の Streaming RPC を使いたい場合は `flush_interval -1` を指定します。  
+このパラメータは「Caddy がレスポンスボディをどれだけの時間バッファリングするか」を決めるものです。`text/event-stream` は自動で `-1` に設定されますが、gRPC の Streaming PRC は自動で `-1` にならないので手動で設定する必要があります。
+
+<BlockLink href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#streaming">
+  Streaming | reverse_proxy (Caddyfile directive) - Caddy Documentation
+</BlockLink>
+
+## まとめ
+
+`transport` と `flush_interval` を適切に設定することで、gRPC をリバースプロキシできるようになります。
+
+## 参考
+
+<ExLinkCard url="https://github.com/caddyserver/caddy/issues/3227" />
+<ExLinkCard url="https://github.com/caddyserver/caddy/issues/3236" />
