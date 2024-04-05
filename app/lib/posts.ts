@@ -44,7 +44,13 @@ type Posts = {
 }
 
 export function getAllPosts(): Post[] {
-  const allPosts = Object.entries(posts)
+  return allPosts
+}
+
+const allPosts = _getAllPosts()
+
+function _getAllPosts(): Post[] {
+  return Object.entries(posts)
     .sort(sortByDateDesc())
     .map(([id, module]) => {
       return {
@@ -58,7 +64,6 @@ export function getAllPosts(): Post[] {
         ContentSummary: module.ContentSummary,
       } satisfies Post
     })
-  return allPosts
 }
 
 export function getMaxPageNumber(posts: Post[]): number {
@@ -103,6 +108,12 @@ type Category = {
 }
 
 export function getCategories(): Category[] {
+  return categories
+}
+
+const categories = _getCategories()
+
+export function _getCategories(): Category[] {
   const allPosts = getAllPosts()
   const groupedByCategory = groupBy(allPosts, p => p.frontmatter.categories[0])
 
@@ -155,6 +166,12 @@ type Tag = {
 }
 
 export function getTags(): Tag[] {
+  return tags
+}
+
+const tags: Tag[] = _getTags()
+
+function _getTags(): Tag[] {
   const allPosts = getAllPosts()
 
   const tags = allPosts.flatMap(p => {
