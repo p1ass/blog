@@ -5,6 +5,7 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { backgroundDark, border, gray } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
+import { html } from 'hono/html'
 
 const bodyCss = css`
   color: ${gray};
@@ -88,6 +89,8 @@ export default jsxRenderer(
           <meta name='twitter:creator' content='@p1ass' />
           <meta property='og:title' content={title} />
 
+          {import.meta.env.PROD ? <GoogleAnalytics /> : null}
+
           <script
             src='https://kit.fontawesome.com/ea66b8338f.js'
             crossorigin='anonymous'
@@ -111,9 +114,6 @@ export default jsxRenderer(
             type='application/rss+xml'
             title='TODO'
           />
-
-          {/* TODO: Google Absence / Analytics */}
-
           <Script src='/app/client.ts' async />
           <Style />
         </head>
@@ -126,3 +126,23 @@ export default jsxRenderer(
     )
   },
 )
+
+const GoogleAnalytics = () => {
+  return (
+    <>
+      <script
+        async
+        src='https://www.googletagmanager.com/gtag/js?id=G-L66BDEDS3J'
+      />
+      {html`
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-L66BDEDS3J');
+        </script>
+      `}
+    </>
+  )
+}
