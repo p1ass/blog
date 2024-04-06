@@ -4,6 +4,7 @@ on:
 permissions:
   pull-requests: write
   deployments: write
+  repository-projects: write
 jobs:
   build:
     timeout-minutes: 60
