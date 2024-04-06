@@ -9,7 +9,7 @@
     "format": "biome format --write ./",
     "lint": "biome lint ./",
     "lint:fix": "biome lint --apply ./",
-    "install:playwirhgt": "npx playwright install --with-deps chromium"
+    "install:playwirhgt": "$npm_execpath run install && npx playwright install --with-deps chromium"
   },
   "private": true,
   "dependencies": {
