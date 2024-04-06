@@ -3,6 +3,7 @@ on:
   push
 permissions:
   pull-requests: write
+  deployments: write
 jobs:
   build:
     timeout-minutes: 60
