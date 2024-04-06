@@ -5,6 +5,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import type { PluggableList } from 'unified'
 import rehypeMdxImportMedia from 'rehype-mdx-import-media'
 import remarkGfm from 'remark-gfm'
+import rehypeMermaid from 'rehype-mermaid'
 
 export const remarkPlugins: PluggableList = [
   remarkFrontmatter,
@@ -16,4 +17,5 @@ export const rehypePlugins: PluggableList = [
   rehypeHighlight,
   rehypeMdxCodeProps,
   rehypeMdxImportMedia,
+  rehypeMermaid,
 ]
