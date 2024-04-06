@@ -8,7 +8,8 @@
     "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
     "format": "biome format --write ./",
     "lint": "biome lint ./",
-    "lint:fix": "biome lint --apply ./"
+    "lint:fix": "biome lint --apply ./",
+    "install:playwirhgt": "npx playwright install --with-deps chromium"
   },
   "private": true,
   "dependencies": {
@@ -16,6 +17,7 @@
     "hono": "^4.2.2",
     "honox": "0.1.9",
     "ogp-parser": "^0.8.1",
+    "rehype-mermaid": "^2.1.0",
     "remark-gfm": "^4.0.0",
     "vite-plugin-require": "^1.1.14"
   },
