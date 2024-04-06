@@ -1,13 +1,11 @@
 ---
 title: CaddyでgRPCのリクエストをリバースプロキシする
 date: 2020-11-09T20:40:00
-draft: false
 description: CaddyでgRPCのリクエストをリバースプロキシするには、transportとflush_intervalを適切に設定すればよいです。
 categories:
   - 開発
 tags:
   - Caddy
-share: true
 ---
 
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
@@ -15,7 +13,7 @@ share: true
 Caddy はデフォルトで HTTPS・HTTP/2 に対応している OSS の Web サーバです。
 デフォルトで HTTP/2 に対応しているということは gRPC のリクエストもリバースプロキシできるのでは？と思い調べていたのですが、日本語でまとまってる記事がなかったのでここにメモしておきます。
 
-<ExLinkCard url="https://blog.p1ass.com/posts/nginx-to-caddy/" />
+<ExLinkCard url="https://blog.p1ass.com/posts/nginx-to-caddy/"/>
 
 {/* <!--more--> */}
 
@@ -55,7 +53,8 @@ foo.example.com {
 そこで `h2c` (HTTP/2 over TCP)を有効にすることにより、TCP 上で HTTP/2 の通信を行えるようにします。
 これにより、Caddy で TLS を終端しつつも gRPC サーバと通信できるようになります。
 
-<BlockLink href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport">
+<BlockLink
+    href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#the-http-transport">
   The http transport | reverse_proxy (Caddyfile directive) - Caddy Documentation
 </BlockLink>
 
@@ -76,5 +75,5 @@ gRPC の Streaming RPC を使いたい場合は `flush_interval -1` を指定し
 
 ## 参考
 
-<ExLinkCard url="https://github.com/caddyserver/caddy/issues/3227" />
-<ExLinkCard url="https://github.com/caddyserver/caddy/issues/3236" />
+<ExLinkCard url="https://github.com/caddyserver/caddy/issues/3227"/>
+<ExLinkCard url="https://github.com/caddyserver/caddy/issues/3236"/>

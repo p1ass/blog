@@ -1,13 +1,11 @@
 ---
 title: ZigでISUCON 12 の予選をCGOクロスコンパイルする
 date: 2022-08-11T00:15:00
-draft: false
 description: Zigを使うと簡単にCGOクロスコンパイルができたので、ISUCONの問題で試してベンチマーカーを実行してみました。
 categories:
   - 開発
 tags:
   - Zig
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass) です。
@@ -22,7 +20,7 @@ share: true
 
 以下の記事を参考にしました。
 
-<ExLinkCard url="https://zig.news/kristoff/building-sqlite-with-cgo-for-every-os-4cic" />
+<ExLinkCard url="https://zig.news/kristoff/building-sqlite-with-cgo-for-every-os-4cic"/>
 
 今回は、M1 Mac で Linux AMD64 用のバイナリを作ってみます。
 以下のコマンドでコンパイルできます。
@@ -36,7 +34,7 @@ Go では `CC` や `CXX` を使って、CGO コンパイルで使う C・C++ コ
 
 Zig は C や C++コンパイラとして使うこともできるため、環境変数に `zig` コマンドを指定することで、CGO コンパイル時に Zig を使ってくれるようになります。
 
-<ExLinkCard url="https://ziglearn.org/chapter-4/#zig-cc-zig-c" />
+<ExLinkCard url="https://ziglearn.org/chapter-4/#zig-cc-zig-c"/>
 
 Zig は `target` を指定することで、異なる OS・CPU アーキテクチャのコンパイルを簡単にできるため、今回の用途にピッタリです。
 
@@ -47,7 +45,7 @@ Zig は `target` を指定することで、異なる OS・CPU アーキテク�
 詳細なベンチマーカーのログは GitHub の PR に記載してあります。
 改善後のブランチなので、初期実装ではないです。
 
-<ExLinkCard url="https://github.com/saba-in-the-kettle/isucon12-qualify/pull/52" />
+<ExLinkCard url="https://github.com/saba-in-the-kettle/isucon12-qualify/pull/52"/>
 
 ### Docker を使ってビルドした場合
 

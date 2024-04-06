@@ -1,7 +1,6 @@
 ---
 title: "ドメインロジックと永続化処理を分離する設計改善を行って得られた知見"
 date: 2019-09-19T12:00:00
-draft: false
 description: こんにちは、株式会社アカツキでインターンしている@p1assです。今回は、ゲーム内仮想通貨管理サービスの設計改善を行った上で分かった、コードの可読性やテスタビリティを向上させる設計方法や、実際の作業を行う上で苦労したポイントを紹介します。
 categories:
   - インターン
@@ -12,7 +11,6 @@ tags:
   - datastore
   - アカツキ
   - インターン
-share: true
 ---
 
 こんにちは、株式会社アカツキでインターンしている [@p1ass](https://twitter.com/p1ass) です。
@@ -22,11 +20,11 @@ share: true
 {/* <!--more--> */}
 
 <script
-  async
-  class="speakerdeck-embed"
-  data-id="0c518f77dec8474f99c6f80994ffbba3"
-  data-ratio="1.77777777777778"
-  src="//speakerdeck.com/assets/embed.js"
+    async
+    class="speakerdeck-embed"
+    data-id="0c518f77dec8474f99c6f80994ffbba3"
+    data-ratio="1.77777777777778"
+    src="//speakerdeck.com/assets/embed.js"
 ></script>
 
 ## ゲーム内仮想通貨管理サービスとは
@@ -162,8 +160,8 @@ for _, tt := range tests {
 
 <a href="https://amzn.to/49XQg12" target="_blank">
   <img
-    src="https://images-na.ssl-images-amazon.com/images/I/51LkcwTMC8L._SX387_BO1,204,203,200_.jpg"
-    alt="Clean Architecture 達人に学ぶソフトウェアの構造と設計"
+      src="https://images-na.ssl-images-amazon.com/images/I/51LkcwTMC8L._SX387_BO1,204,203,200_.jpg"
+      alt="Clean Architecture 達人に学ぶソフトウェアの構造と設計"
   />
 </a>
 

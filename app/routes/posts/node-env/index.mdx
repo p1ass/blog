@@ -1,7 +1,6 @@
 ---
 title: NODE_ENVにdevelopmentとproduction以外を入れると辛い
 date: 2021-03-10T20:00:00
-draft: false
 description:
 categories:
   - 設計
@@ -9,7 +8,6 @@ tags:
   - Node
   - 環境変数
   - direnv
-share: true
 ---
 
 結構前に Node における `NODE_ENV` と環境変数の設定方法について Slack で軽く議論したんだけど、その後色々と考えるものがあったのでここにまとめておく。
@@ -42,9 +40,9 @@ Node のエコシステムでよく使われる環境変数として `NODE_ENV` 
 例えば、Node の設定ファイルの管理として有名で頻繁に使っている node-config は `NODE_ENV` を見て、 `development.json` や `production.ts` といった設定ファイルを読み込む。
 また、Next.js であれば `NODE_ENV` を見て `.env.development` や `.env.production` を読み込む。
 
-<ExLinkCard url="https://github.com/lorenwest/node-config" />
+<ExLinkCard url="https://github.com/lorenwest/node-config"/>
 
-<ExLinkCard url="https://nextjs.org/docs/basic-features/environment-variables" />
+<ExLinkCard url="https://nextjs.org/docs/basic-features/environment-variables"/>
 
 しかし、`NODE_ENV` が 2 値しか取らないように制限をかけると、2 種類のファイルからしか読み込めないので、ステージング環境や QA 環境としった環境が新たに増えると、この方法では破綻してしまう。
 

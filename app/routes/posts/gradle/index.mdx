@@ -1,7 +1,6 @@
 ---
 title: "Gradle にしっかり入門する"
 date: 2022-02-22T21:00:00
-draft: false
 description: 公式ドキュメントを元に、Gradleの基本的な概念から少し踏み込んだ概念までまとめました。
 categories:
   - 開発
@@ -9,7 +8,6 @@ tags:
   - Gradle
   - Java
   - Kotlin
-share: true
 ---
 
 ## 1 章 はじめに
@@ -70,8 +68,8 @@ Gradle は、柔軟性とパフォーマンスに重点を置いたオープン�
 今回は DSL に Kotlin を利用します。理由は次の通りです。
 
 - 始めて学ぶ人にとって、動的型付け言語が分かりにくい
-  - 知らないシンタックスやメソッドを推測する手段が少ない
-  - Kotlin だと IDE 上から型が推測しやすい
+- 知らないシンタックスやメソッドを推測する手段が少ない
+- Kotlin だと IDE 上から型が推測しやすい
 
 今回は上記の理由により Kotlin を選びましたが、後々 Gradle を理解すれば Groovy で書いても問題になることは少ないと思います。
 
@@ -251,7 +249,8 @@ $ ./gradlew run # こちらの方が好ましい
 なお、このスクリプトは基本的に開発者が編集する必要はありません。多くの開発者が設定したい値は後述する `gradle/wrapper/gradle-wrapper.properties`に定義することが多いです。
 何らかの理由で Gradle Wrapper をカスタマイズしたい場合は、ドキュメントを参照してください。
 
-<ExLinkCard url="https://docs.gradle.org/current/userguide/gradle_wrapper.html#customizing_wrapper" />
+<ExLinkCard
+    url="https://docs.gradle.org/current/userguide/gradle_wrapper.html#customizing_wrapper"/>
 
 #### 3. `gradle/wrapper/gradle-wrapper.properties`
 
@@ -316,18 +315,18 @@ application {
 定義されている各設定は次の通りです。
 
 - `plugins`
-  - **Gradle Plugin**と呼ばれる Gradle プロジェクトを拡張するプラグインを使うための設定
-  - ここでは、 `application`という Gradle 標準のプラグインを読み込んでいる
-  - プラグインの詳細は後述
+- **Gradle Plugin**と呼ばれる Gradle プロジェクトを拡張するプラグインを使うための設定
+- ここでは、 `application`という Gradle 標準のプラグインを読み込んでいる
+- プラグインの詳細は後述
 - `repositories`
-  - `dependencies` で指定する依存ライブラリがホスティングされているリポジトリを設定する
-  - [Maven Central](https://search.maven.org/) は事実上デファクトとなっているリポジトリ
+- `dependencies` で指定する依存ライブラリがホスティングされているリポジトリを設定する
+- [Maven Central](https://search.maven.org/) は事実上デファクトとなっているリポジトリ
 - `dependencies`
-  - プロジェクトで使用する依存ライブラリを定義する
-  - [依存関係の設定は様々な方法がある](https://docs.gradle.org/current/userguide/dependency_management_for_java_projects.html#sec:configurations_java_tutorial)
+- プロジェクトで使用する依存ライブラリを定義する
+- [依存関係の設定は様々な方法がある](https://docs.gradle.org/current/userguide/dependency_management_for_java_projects.html#sec:configurations_java_tutorial)
 - `application`
-  - `application` プラグインに関する設定
-  - プラグインを読み込むことで元々存在しないブロックを定義できるようになる
+- `application` プラグインに関する設定
+- プラグインを読み込むことで元々存在しないブロックを定義できるようになる
 
 ### ここまでのまとめ
 
@@ -336,9 +335,9 @@ application {
 - マルチプロジェクトと呼ばれる複数のサブプロジェクトに分かれたプロジェクトを作成できる
 - Gradle Wrapper は Gradle のバージョンなどを固定するためのスクリプト
 - `settings.gradle.kts`は `org.gradle.api.initialization.Settings`と 1 対 1 対応している
-  - 困ったら https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html を見れば良い
+- 困ったら https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html を見れば良い
 - `build.gradle.kts`は `org.gradle.api.Project`と 1 対 1 対応している
-  - 困ったら https://docs.gradle.org/current/dsl/org.gradle.api.Project.htmlを見れば良い
+- 困ったら https://docs.gradle.org/current/dsl/org.gradle.api.Project.htmlを見れば良い
 - `build.gradle.kts` の `dependencies` ブロックで依存関係を記述する (この章では概要のみ)
 - Gradle Plugin はプロジェクトを拡張するためのプラグイン (この章では概要のみ)
 
@@ -389,9 +388,10 @@ Lombok はコンパイル時にアノテーションを解釈するので、コ�
 
 その他のメソッドを含め詳しい動作は、Android および Gradle の公式ドキュメントが詳しいので参照してください。
 
-<ExLinkCard url="https://developer.android.com/studio/build/dependencies?hl=ja#dependency_configurations" />
+<ExLinkCard
+    url="https://developer.android.com/studio/build/dependencies?hl=ja#dependency_configurations"/>
 
-<ExLinkCard url="https://docs.gradle.org/current/userguide/java_library_plugin.html" />
+<ExLinkCard url="https://docs.gradle.org/current/userguide/java_library_plugin.html"/>
 
 ### Java から追加した依存関係を呼び出す
 
@@ -1038,15 +1038,16 @@ BUILD SUCCESSFUL in 929ms
 
 公式ドキュメントにあります。
 
-<ExLinkCard url="https://docs.gradle.org/current/userguide/organizing_gradle_projects.html" />
+<ExLinkCard url="https://docs.gradle.org/current/userguide/organizing_gradle_projects.html"/>
 
-<ExLinkCard url="https://docs.gradle.org/current/userguide/authoring_maintainable_build_scripts.html" />
+<ExLinkCard
+    url="https://docs.gradle.org/current/userguide/authoring_maintainable_build_scripts.html"/>
 
 ### 大規模なプロジェクトを作るときのコツはありますか？
 
 公式ドキュメントにあります。
 
-<ExLinkCard url="https://docs.gradle.org/6.8/userguide/structuring_software_products.html" />
+<ExLinkCard url="https://docs.gradle.org/6.8/userguide/structuring_software_products.html"/>
 
 ## 8 章 終わりに
 

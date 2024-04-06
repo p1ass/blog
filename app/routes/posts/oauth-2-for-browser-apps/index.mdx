@@ -1,7 +1,6 @@
 ---
 title: SPA で役立ちそうな OAuth 2.0 for Browser-Based Apps を読んだ
 date: 2022-05-20T00:00:00
-draft: false
 description: OAuth2.0 for Browser-Based Apps は、ブラウザ上で動作するアプリケーションにおける OAuth2.0 のベストプラクティスがまとまっており、モダンなブラウザベースのアプリケーションでより安全なアプリケーションを作る方法が広く認知されるのでは、と個人的に期待しています。
 categories:
   - 開発
@@ -9,7 +8,6 @@ tags:
   - OAuth
   - SPA
 
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
@@ -22,7 +20,7 @@ GW 中に SPA で OAuth を使うときのプラクティスについて調べ�
 
 全てを網羅するわけではないので、興味がある方は原文を読んでください。
 
-<ExLinkCard url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps" />
+<ExLinkCard url="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps"/>
 
 <Note>
   Internet-Draftは参考文献にするには不適切です。ただ今回の内容はベストプラクティスであり、ドラフトの段階でも価値があると判断して紹介しています。今後内容に変更があるかもしれない点に注意してください。
@@ -290,7 +288,7 @@ _認可コードの乗っ取り攻撃の図 (Authlete さんの記事より引�
 
 詳しくは、RFC や Authlete さんの記事がおすすめです。
 
-<ExLinkCard url="https://www.authlete.com/ja/developers/pkce/" />
+<ExLinkCard url="https://www.authlete.com/ja/developers/pkce/"/>
 
 ## OAuth 2.0 Authorization Code Flow with PKCE を使う際のベストプラクティス
 
@@ -300,8 +298,8 @@ _認可コードの乗っ取り攻撃の図 (Authlete さんの記事より引�
 
 - アクセストークンを取得する際に、OAuth 2.0 Authorization Code Flow with PKCE を使用しなければならない [MUST]
 - リダイレクト URI の CSRF 攻撃から身を守るために、以下のいずれかを行わなければならない [MUST]
-  - 認証サーバーが PKCE をサポートしていることを確認する
-  - OAuth 2.0 の "state" パラメータまたは OpenID Connect の "nonce" パラメータを使用する
+- 認証サーバーが PKCE をサポートしていることを確認する
+- OAuth 2.0 の "state" パラメータまたは OpenID Connect の "nonce" パラメータを使用する
 - 1 つ以上のリダイレクト URI を登録し、正確なリダイレクト URI のみを使用しなければならない。 登録されたリダイレクト URI のみを認可リクエストで使用しなければならない [MUST]
 
 ### ブラウザベースアプリケーションをサポートする認可サーバー
@@ -310,8 +308,8 @@ _認可コードの乗っ取り攻撃の図 (Authlete さんの記事より引�
 - PKCE をサポートしなければならない[MUST]
 - 認可レスポンスでアクセストークンを発行してはならない [MUST NOT]
 - ブラウザベースアプリケーションにリフレッシュトークンを発行する場合
-  - リフレッシュ・トークンを使用するたびにローテーションしなければならない [MUST]
-  - リフレッシュ・トークンに最大有効期間を設定するか、一定時間使用されないと失効させなければならない [MUST]
+- リフレッシュ・トークンを使用するたびにローテーションしなければならない [MUST]
+- リフレッシュ・トークンに最大有効期間を設定するか、一定時間使用されないと失効させなければならない [MUST]
 
 ### 感想
 

@@ -1,25 +1,24 @@
 ---
 title: Twitter API v2のOAuth 2.0 Authorization Code Flow with PKCEを試した
 date: 2022-03-23T00:00:00
-draft: false
 description: スコープを細かく制御できるようになったため、今までのように不用意に多くの権限を要求する必要がなくなりました！
 categories:
   - 開発
 tags:
   - Twitter
   - OAuth
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
 Twitter API の v2 が正式リリースされてから数ヶ月経ちました。
 
-<ExLinkCard url="https://forest.watch.impress.co.jp/docs/news/1366790.html" />
+<ExLinkCard url="https://forest.watch.impress.co.jp/docs/news/1366790.html"/>
 
 Twitter API v2 では様々な API が追加されていますが、中でも注目すべきは OAuth 2.0 対応だと思います。
 
-<ExLinkCard url="https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code" />
+<ExLinkCard
+    url="https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code"/>
 
 今までは OAuth 1.0a しか対応しておらず、他の OAuth 2.0 対応の認可サーバーと比較して使いづらいと感じていました。
 今回の対応によって、OAuth 2.0 の Authorization Code Flow ( [RFC6749 Section4.1](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1))を利用した認可に対応し、より便利に認可をシステムに組み込めるようになりました。
@@ -89,7 +88,7 @@ Client Secret を安全に保管できない Public Client の場合は、
 今回は Go を使って実装します。
 デモ用のアプリケーションは以下の GitHub リポジトリに置いてあります。
 
-<ExLinkCard url="https://github.com/p1ass/twitter-oauth-2-demo" />
+<ExLinkCard url="https://github.com/p1ass/twitter-oauth-2-demo"/>
 
 ### 認可 URL の生成
 

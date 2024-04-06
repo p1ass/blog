@@ -1,7 +1,6 @@
 ---
 title: Docker Contextsを使ってDocker Composeをデプロイする際の注意点
 date: 2020-04-10T16:00:00
-draft: false
 description: Docker Contextsを使ってDocker Composeをデプロイする際の注意点やCaddyを使ってユーザのリクエストをリバースプロキシする方法について解説しています。
 categories:
   - 開発
@@ -10,7 +9,6 @@ tags:
   - VPS
   - Caddy
   - 登壇
-share: true
 ---
 
 こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
@@ -20,11 +18,11 @@ share: true
 登壇資料は既にアップロードしていて見られるのですが、端折っている部分の補足をしたいと思います。また、当日頂いた質問についても回答します。
 
 <script
-  async
-  class="speakerdeck-embed"
-  data-id="388f5d3e4da2482ba946db5c2f84d480"
-  data-ratio="1.33333333333333"
-  src="//speakerdeck.com/assets/embed.js"
+    async
+    class="speakerdeck-embed"
+    data-id="388f5d3e4da2482ba946db5c2f84d480"
+    data-ratio="1.33333333333333"
+    src="//speakerdeck.com/assets/embed.js"
 ></script>
 
 {/* <!--more--> */}
@@ -90,7 +88,7 @@ $ export COMPOSE_HTTP_TIMEOUT=600 # デフォルトは60秒
 
 僕は Caddy という **自動で Let's Encrypt を用いた証明書の更新をやってくれる Go 製の Web サーバ** 使ってリバースプロキシしています。
 
-<ExLinkCard url="https://caddyserver.com/" />
+<ExLinkCard url="https://caddyserver.com/"/>
 
 Caddy は Nginx に比べ設定が容易で、conf に証明書のパスや HTTPS リダイレクトの記述を書く必要がありません。
 

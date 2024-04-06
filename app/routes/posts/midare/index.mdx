@@ -1,7 +1,6 @@
 ---
 title: "Twitterトレンド１位になった個人開発Webサービスの負荷対応記録"
 date: 2020-07-06T19:00:00
-draft: false
 description: この記事は、LT会のために作ったWebサービスが何故かバズってTwitterトレンド1位になってしまい、ひぃひぃ言いながら行った負荷対応をまとめたものになります。スケーラビリティを全く考慮していないLT会用の雑なWebサービスを、どのように改善していったのかについてまとめることで、個人開発者の参考になれば良いなと思っています。
 categories:
   - Webサービス
@@ -9,7 +8,6 @@ tags:
   - Go
   - GCP
   - Cloud Run
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
@@ -25,16 +23,16 @@ share: true
 
 最初に作った Web サービスを紹介しておきます。「生活習慣の乱れを可視化するやつ」という Web サービスを作りました。
 
-<Twitter url="https://twitter.com/p1ass/status/1267413338016804864" />
+<Twitter url="https://twitter.com/p1ass/status/1267413338016804864"/>
 
 このアプリは Twitter API を使ってツイートを解析し、カレンダー UI で直感的に起きている時間を把握することが出来るアプリです。本来は生活習慣の乱れを可視化するために作ったのですが、実態としては **「ツイ廃可視化アプリ」** なので、多くの人が Twitter ばっか開いている現実を目の当たりにしたようです。
 
 また、いくつかのネットメディアにも Web サービスを掲載していただきました。[^a]
 
-[^a]: お願いしたわけではない
+[^a]  お願いしたわけではない
 
 <BlockLink href="https://nlab.itmedia.co.jp/nl/articles/2006/03/news042.html">
-  ツイート時刻から「生活習慣の乱れ」を可視化してくれるアプリが登場　「ツイ廃判定アプリ」「なんて恐ろしいものを」
+  ツイート時刻から「生活習慣の乱れ」を可視化してくれるアプリが登場 「ツイ廃判定アプリ」「なんて恐ろしいものを」
   - ねとらぼ
 </BlockLink>
 
@@ -46,7 +44,7 @@ share: true
 
 ソースコードは GitHub で全て公開してあるので、興味のある方は是非ご覧ください。Go x React で書いてます。
 
-<ExLinkCard url="https://github.com/p1ass/midare" />
+<ExLinkCard url="https://github.com/p1ass/midare"/>
 
 ## 負荷対応記録
 
@@ -57,18 +55,18 @@ share: true
 冒頭で書いたとおり、このアプリは LT 会のために作ったものです。友人の誕生日 LT 会でこのアプリに関する登壇をしました。
 
 <script
-  async
-  class="speakerdeck-embed"
-  data-id="5cd86d0c3c6642c0aa5d45330c80d324"
-  data-ratio="1.77777777777778"
-  src="//speakerdeck.com/assets/embed.js"
+    async
+    class="speakerdeck-embed"
+    data-id="5cd86d0c3c6642c0aa5d45330c80d324"
+    data-ratio="1.77777777777778"
+    src="//speakerdeck.com/assets/embed.js"
 ></script>
 
 ### 20:30 LT 会を聞きつつアナリティクスを見たら、アクティブユーザが結構いてビビる
 
 無事登壇も終了し、のんきに酒を飲みながら LT 会を聞いていたのですが、ふと気になり Google Analytics を開くと、アクティブユーザが 100 人を超えていてビビります。
 
-<Twitter url="https://twitter.com/p1ass/status/1267418549745664003" />
+<Twitter url="https://twitter.com/p1ass/status/1267418549745664003"/>
 
 また、このあたりで RT 数が 100 を超え始め、ちょっと焦り始めます。
 
@@ -115,7 +113,7 @@ GCP には GAE もありますが、GAE 用のコンフィグを準備やロー�
 
 一時間弱で Cloud Run への移行が完了しました。
 
-<Twitter url="https://twitter.com/p1ass/status/1267441450754568192" />
+<Twitter url="https://twitter.com/p1ass/status/1267441450754568192"/>
 
 ![Cloud Runのメトリクス](cloud-run-metrics.png)
 _移行直後のメトリクス_
@@ -139,7 +137,7 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 キャッシュの実装が終わったころには、アクティブユーザが 2000 人を超えていました。
 
-<Twitter url="https://twitter.com/p1ass/status/1267446250904772609" />
+<Twitter url="https://twitter.com/p1ass/status/1267446250904772609"/>
 
 この数字に懐疑的だったので、後日色々メトリクスを調べてみたのですが、API レスポンスが非常に遅くなってレスポンス待ちのユーザが多く発生したため、アクティブユーザが多くなっていたようです。
 
@@ -147,13 +145,14 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 サーバが死にました。
 
-<Twitter url="https://twitter.com/p1ass/status/1267449807678795776" />
+<Twitter url="https://twitter.com/p1ass/status/1267449807678795776"/>
 
 原因は Twitter API の Rate Limit でした。Twitter API の User Timeline を取得する API は Twitter アプリ 1 つにつき 100,000 リクエスト/日という制限があり、これに引っかかってしまいました。
 
 > Important notice: On June 19, 2019, we began enforcing a limit of 100,000 requests per day to the /statuses/user_timeline endpoint, in addition to existing user-level and app-level rate limits.
 
-<ExLinkCard url="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline" />
+<ExLinkCard
+    url="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline"/>
 
 応急処置として新たに Twitter アプリを作成し、トークンを差し替えることにしました。
 
@@ -163,7 +162,7 @@ _メモリ使用率 (後に Expire を 5 分に設定し直した)_
 
 > You may not register multiple applications for a single use case or substantially similar or overlapping use cases. In this context, a “use case” is a consistent set of analyses, displays, or actions performed via an application. Please note that providing the same service or application to different people (including “white label” versions of a tool or service) counts as a single use case.
 
-<ExLinkCard url="https://developer.twitter.com/en/developer-terms/policy" />
+<ExLinkCard url="https://developer.twitter.com/en/developer-terms/policy"/>
 
 ### 23:05 ログインセッションを Redis に移す
 
@@ -171,7 +170,7 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 ### 23:20 ログイン処理がバグってることに気づく
 
-<Twitter url="https://twitter.com/p1ass/status/1267460825255563266" />
+<Twitter url="https://twitter.com/p1ass/status/1267460825255563266"/>
 
 コンビニから返ってきたら、ログイン処理がおかしいという報告が来ていました。調査してみると、Redis に移すべきオンメモリの情報を一部移し忘れていました。そのため、ログインが 1/n の確率で成功する状態になっていました 😇
 
@@ -183,9 +182,9 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 プリコネ[^2]や #cheeruphanabi を抑えて Twitter トレンド 1 位になりました 🎉
 
-<Twitter url="https://twitter.com/p1ass/status/1267488254334398470" />
+<Twitter url="https://twitter.com/p1ass/status/1267488254334398470"/>
 
-[^2]: コッコロたん〜〜〜
+[^2]  コッコロたん〜〜〜
 
 ### 深夜 色々微調整を行う
 
@@ -215,7 +214,7 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 この方法の良いところは、オンメモリでログインセッションを持ったままでよいことです。Redis などを準備する必要がないので、インフラの設定時間を短縮できます。しかし、この方法を実装するには、アプリケーションのコードを多く書き換える必要があり、テストのないアプリケーションで急いで行うには少々リスキーです。このトレードオフを考えると、今回の Redis を使ったスケールアウト戦略は妥当だったかなと思っています。[^時間]
 
-[^時間]: 勿論時間をかけて検討する場合はこの限りではない
+[^時間]  勿論時間をかけて検討する場合はこの限りではない
 
 ## さいごに
 
@@ -229,8 +228,8 @@ Cloud Run で動く API サーバのスケールアウトを可能にするた�
 
 ## おまけ
 
-<Twitter url="https://twitter.com/p1ass/status/1267430794739412998" />
+<Twitter url="https://twitter.com/p1ass/status/1267430794739412998"/>
 
-<Twitter url="https://twitter.com/p1ass/status/1267498932776517634" />
+<Twitter url="https://twitter.com/p1ass/status/1267498932776517634"/>
 
-<ExLinkCard url="https://midare.p1ass.com" />
+<ExLinkCard url="https://midare.p1ass.com"/>

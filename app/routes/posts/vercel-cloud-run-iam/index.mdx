@@ -1,7 +1,6 @@
 ---
 title: Vercel・Cloud Run間の通信をIAMで認証する
 date: 2023-04-09T22:30:00
-draft: false
 description: Vercel・Cloud Run間の通信をIAMで認証することで、Vercelからしか叩けないAPIを作る方法を調べました
 categories:
   - 開発
@@ -9,7 +8,6 @@ tags:
   - Vercel
   - Google Cloud
   - Cloud Run
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com)です。
@@ -37,7 +35,7 @@ _簡略化したアーキテクチャ_
 
 まずは、Vercel ではなく Cloud Run 同士の通信を IAM で認証する仕組みを知る必要があります。
 
-<ExLinkCard url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja" />
+<ExLinkCard url="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja"/>
 
 Cloud Run のサービス間認証では IAM が使われます。
 ここでは、`Client` と `Server` という 2 つの Cloud Run サービスがあると仮定して説明します。
@@ -79,8 +77,7 @@ IDToken は Google の管理する秘密鍵によって署名されているの�
 
 先程のドキュメントによれば、IDToken は次の 2 つのいずれかのヘッダーによって送信されるようです。
 
-> - `Authorization: Bearer ID_TOKEN` ヘッダー。
-> - `X-Serverless-Authorization: Bearer ID_TOKEN` ヘッダー。アプリケーションがすでにカスタム承認に Authorization ヘッダーを使用している場合は、このヘッダーを使用できます。これにより、トークンがユーザー コンテナに渡される前に署名が削除されます。
+> - `Authorization: Bearer ID_TOKEN` ヘッダー。- `X-Serverless-Authorization: Bearer ID_TOKEN` ヘッダー。アプリケーションがすでにカスタム承認に Authorization ヘッダーを使用している場合は、このヘッダーを使用できます。これにより、トークンがユーザー コンテナに渡される前に署名が削除されます。
 
 Cloud Run 同士の通信の場合は IDToken は自動的に発行されますが、Vercel の場合は手動で IDToken を発行する必要があります。
 

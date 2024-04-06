@@ -1,7 +1,6 @@
 ---
 title: "Markdownで書いた実験レポートをTeX組版の美しいPDFに変換するDockerイメージを作った"
 date: 2019-10-26T16:00:48
-draft: false
 description: pandocという様々なフォーマットのドキュメントを相互変換するツールを使って、Markdownで書いた実験レポートをTeX組版の美しいPDFにする方法をご紹介します。数式や図表番号、LaTeXコマンドにも対応しています。Dockerさえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できます。
 categories:
   - 開発
@@ -11,7 +10,6 @@ tags:
   - docker
   - OSS
   - レポート
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
@@ -69,7 +67,7 @@ Docker のインストール方法は各自調べてください。
 
 今回使用する Docker イメージはこのリポジトリで管理しています。スターしてくれると泣いて喜びます 😂
 
-<ExLinkCard url="https://github.com/p1ass/mdtopdf" />
+<ExLinkCard url="https://github.com/p1ass/mdtopdf"/>
 
 PDF に変換する方法は **簡単 3STEP** す。
 
@@ -113,7 +111,7 @@ $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf w-mdtopdf INPUT.md
 
 このスクリプトは以下のブログを参考にさせていただきました。
 
-<ExLinkCard url="http://mizti.hatenablog.com/entry/2013/01/27/204343" />
+<ExLinkCard url="http://mizti.hatenablog.com/entry/2013/01/27/204343"/>
 
 ### alias を使って簡単に変換を実行できるようにする
 
@@ -148,7 +146,7 @@ $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtotex INPUT.md
 
 上で紹介した変換は全てシェルスクリプトでラップしていましたが、内部的には pandoc を使っています。
 
-<ExLinkCard url="https://pandoc.org/" />
+<ExLinkCard url="https://pandoc.org/"/>
 
 pandoc は Markdown や HTML、EPUB、Word、LaTeX、PDF など多種多様なドキュメントフォーマットを相互に変換してくれる Haskell 製のツールです。
 Windows、macOS、Linux などに対応していて大体の環境では動くと思われます。
@@ -183,7 +181,7 @@ tblPrefix: "表"
 lstPrefix: "コード"
 ```
 
-<ExLinkCard url="https://github.com/lierdakil/pandoc-crossref" />
+<ExLinkCard url="https://github.com/lierdakil/pandoc-crossref"/>
 
 `--pdf-engine=lualatex`で PDF 生成のエンジンには LuaLaTeX を使用するように指定しています。これは他のエンジンでは正しく日本語を認識してくれないためです。
 また、`-V`で LuaLaTeX 用のオプションを指定しています。
@@ -211,7 +209,7 @@ pandoc を使うことで、Markdown ファイルから美しい TeX 組版の P
 
 Issue、Conrtibute、Star どれもお待ちしています！
 
-<ExLinkCard url="https://github.com/p1ass/mdtopdf" />
+<ExLinkCard url="https://github.com/p1ass/mdtopdf"/>
 
 ## 参考
 

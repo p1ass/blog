@@ -1,14 +1,12 @@
 ---
 title: Google DomainsからCloudflareにドメインを移管した
 date: 2023-06-17T20:00:00
-draft: false
 description: こういう作業は早めにやっておくのが吉ということで、サービス譲渡が発表されたGoogle DomainsからCloudflareにドメインを移管することにしました。
 categories:
   - 開発
 tags:
   - Google Domains
   - Cloudflare
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com)です。
@@ -16,7 +14,7 @@ share: true
 先日、Google から Google Domains を Squarespace に譲渡すると発表されました。
 (Edited(2023/06/18): Squarespace のスペルが間違っていました。)
 
-<ExLinkCard url="https://internet.watch.impress.co.jp/docs/news/1509243.html" />
+<ExLinkCard url="https://internet.watch.impress.co.jp/docs/news/1509243.html"/>
 
 何もせずともドメインを失うことはないですが、良い機会なのでドメインを Cloudflare に移管することにしました。
 Cloudflare を選んだ理由は、既にネームサーバーとして Cloudflare を利用していたからです。
@@ -28,7 +26,8 @@ Cloudflare を選んだ理由は、既にネームサーバーとして Cloudfla
 私は既にネームサーバーとして Cloudflare を利用しているので作業手順が少ないです。
 Google Domains のままの方はネームサーバーの変更を先に行う必要があります。
 
-<ExLinkCard url="https://developers.cloudflare.com/registrar/get-started/transfer-domain-to-cloudflare/" />
+<ExLinkCard
+    url="https://developers.cloudflare.com/registrar/get-started/transfer-domain-to-cloudflare/"/>
 
 ### Google Domain 側で移管の準備する
 
@@ -66,7 +65,7 @@ Cloudflare にログインし、「[ドメインの移管](https://dash.cloudfla
 最後に WHOIS 用の連絡先を入力します。
 なお WHOIS 情報は Google Domains と同様に保護されます。
 
-<ExLinkCard url="https://developers.cloudflare.com/registrar/get-started/whois-redaction/" />
+<ExLinkCard url="https://developers.cloudflare.com/registrar/get-started/whois-redaction/"/>
 
 ![WHOIS用の連絡先](./input_whois.png)
 

@@ -1,7 +1,6 @@
 ---
 title: 複数のRSSや任意の情報をまとめて1つのRSSやJSONを生成するライブラリを作成した
 date: 2020-10-31T20:40:00
-draft: false
 description: 皆さん RSS 使ってますか？RSS を使えば簡単にブログの更新を受け取れたりして便利ですよね。でも、流れてくる情報多くて辛かったり、RSS に対応していないサイトの情報を受け取りたかったりすることがたまにありませんか？そんな悩みを解決するための Go のライブラリを 1 年前に作ったのですが、ブログに書く機会を逃していたので、今更ですが紹介記事を書きます。
 categories:
   - 開発
@@ -9,7 +8,6 @@ tags:
   - Go
   - RSS
   - OSS
-share: true
 ---
 
 こんにちは [@p1ass](https://twitter.com/p1ass) です。
@@ -23,11 +21,11 @@ share: true
 発表スライドはこちらです。
 
 <script
-  async
-  class="speakerdeck-embed"
-  data-id="a8fdbaceeffc42a3b2b46592c824034e"
-  data-ratio="1.33333333333333"
-  src="//speakerdeck.com/assets/embed.js"
+    async
+    class="speakerdeck-embed"
+    data-id="a8fdbaceeffc42a3b2b46592c824034e"
+    data-ratio="1.33333333333333"
+    src="//speakerdeck.com/assets/embed.js"
 ></script>
 
 {/* <!--more--> */}
@@ -108,43 +106,43 @@ type Crawler interface {
 例としてサマソニのチケットサイトをクロールする SamasoniCrawler のコードを載せておきます。
 
 <details>
-<summary>コード</summary>
+  <summary>コード</summary>
 
-```go
-func (crawler *SamasoniCrawler) Crawl() ([]*feeder.Item, error) {
-	query := url.Values{}
-	query.Add("perform_id", "85895")
-	query.Add("sort_key", "sale_start_at")
-	query.Add("sort_order", "asc")
-	res, err := http.Get(crawler.url + "?" + query.Encode())
-	if err != nil {
-		return nil, errors.New("failed to get html document")
-	}
-	defer res.Body.Close()
-	doc, err := goquery.NewDocumentFromReader(res.Body)
-	if err != nil {
-		return nil, errors.New("failed to read from response body")
-	}
-
-	sec := doc.Find("div#tickets").Find("div.list-ticket")
-	items := make([]*feeder.Items)
-	sec.Each(func(index int, s *goquery.Selection) {
-		if s.HasClass("list-ticket") {
-			title := s.Find("h2").Find("a").Text()
-			path, _ := s.Find("h2").Find("a").Attr("href")
-			t := time.Now()
-			item := &feeder.Item{Title: title, Link: &feeder.Link{Href: "https://tiketore.com" + path,
-				Rel: "", Type: "", Length: ""},
-				Id:      path,
-				Created: &t,
-			}
-			items = append(items, item)
-		}
-	})
-	return items, nil
+  ```go
+  func (crawler *SamasoniCrawler) Crawl() ([]*feeder.Item, error) {
+  query := url.Values{}
+  query.Add("perform_id", "85895")
+  query.Add("sort_key", "sale_start_at")
+  query.Add("sort_order", "asc")
+  res, err := http.Get(crawler.url + "?" + query.Encode())
+  if err != nil {
+  return nil, errors.New("failed to get html document")
+}
+  defer res.Body.Close()
+  doc, err := goquery.NewDocumentFromReader(res.Body)
+  if err != nil {
+  return nil, errors.New("failed to read from response body")
 }
 
-```
+  sec := doc.Find("div#tickets").Find("div.list-ticket")
+  items := make([]*feeder.Items)
+  sec.Each(func(index int, s *goquery.Selection) {
+  if s.HasClass("list-ticket") {
+  title := s.Find("h2").Find("a").Text()
+  path, _ := s.Find("h2").Find("a").Attr("href")
+  t := time.Now()
+  item := &feeder.Item{Title: title, Link: &feeder.Link{Href: "https://tiketore.com" + path,
+  Rel: "", Type: "", Length: ""},
+  Id:      path,
+  Created: &t,
+}
+  items = append(items, item)
+}
+})
+  return items, nil
+}
+
+  ```
 
 </details>
 

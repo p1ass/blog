@@ -1,7 +1,6 @@
 ---
 title: "Web APIでint64を返すのをやめよう"
 date: 2019-10-10T15:00:00
-draft: false
 description: 久々にAPIを書いていて罠にハマったのでメモしておきます。 JavaScriptの数値は64ビット倍精度浮動小数点数です。よって、整数の場合は53ビットまでしか扱えないので、APIで53ビットより大きい数値を返すときはStringにしましょう。
 
 categories:
@@ -10,7 +9,6 @@ tags:
   - JavaScript
   - JSON
   - API
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
@@ -54,4 +52,4 @@ _誤差が見える_
 
 int64 を返すときは気をつけましょう。
 
-<Twitter url="https://twitter.com/p1ass/status/1177964450554400770" />
+<Twitter url="https://twitter.com/p1ass/status/1177964450554400770"/>

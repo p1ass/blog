@@ -1,7 +1,6 @@
 ---
 title: レイヤードアーキテクチャを採用した際のWebSocket実装例
 date: 2020-05-01T10:00:00
-draft: false
 description: 先日、レイヤーアーキテクチャを採用しているWeb APIサーバにWebSocketを組み込むことになったのですが、コネクションの管理やどのレイヤーで各機能を管理するか悩んだのでブログにまとめておきます。使用している言語はGoで、Webフレームワークはechoです。
 categories:
   - 開発
@@ -9,7 +8,6 @@ tags:
   - GitHub
   - Go
   - WebSocket
-share: true
 ---
 
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
@@ -52,7 +50,7 @@ domain/\*
 
 レイヤードアーキテクチャを採用している無難なパッケージ構成になっています。明確に DDD や Clean Architecture であるとは言えないですが、その思想を取り入れつつ独自にカスタマイズしています。[^1]
 
-[^1]: ここではこのアーキテクチャの良し悪しについては語りません。話が逸れすぎるので。
+[^1]  ここではこのアーキテクチャの良し悪しについては語りません。話が逸れすぎるので。
 
 ## WebSocket の機能要件
 
@@ -63,7 +61,7 @@ domain/\*
 - クライアントは複数のセグメントに分かれている (便宜上「ルーム」と呼ぶ)
 - サーバからのイベント通知はルームごとに行う
 - 現時点ではサーバプロセスは 1 つだが、将来的にスケールアウトすることを考慮する
-  - Redis PubSub などを使ってイベントの同期をする必要はないが、実装しやすいようにしておく
+- Redis PubSub などを使ってイベントの同期をする必要はないが、実装しやすいようにしておく
 
 メッセージのやり取りはサーバからクライアントへの一方向のみ、加えてプロセスも 1 個なのでそこまで複雑にはならない想定です。
 
@@ -153,7 +151,7 @@ WebSocket を扱うライブラリは gorrila/websocket を採用しています
 
 実装は[gorrila/websocket の example](https://github.com/gorilla/websocket/tree/master/examples/chat)を非常に参考にさせていただきました。
 
-<ExLinkCard url="https://github.com/gorilla/websocket" />
+<ExLinkCard url="https://github.com/gorilla/websocket"/>
 
 まず、WebSocket のコネクションをラップする構造体を作成します。
 
