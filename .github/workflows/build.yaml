@@ -2,7 +2,7 @@ name: Build
 on:
   push
 jobs:
-  test:
+  build:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -30,5 +30,11 @@ jobs:
         run: pnpm install
       - name: Install Playwright Browsers
         run: pnpm run install:playwright
-      - name: Install Playwright Browsers
+      - name: Build blog
         run: pnpm run build
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy
