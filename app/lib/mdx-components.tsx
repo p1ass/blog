@@ -6,7 +6,15 @@ import { ExLinkCard } from '../components/markdown/ExLinkCard'
 import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
-import { blue, border, grayLight } from '../styles/color'
+import {
+  backgroundDark,
+  blue,
+  blueLight,
+  border,
+  grayLight,
+  whiteDark,
+} from '../styles/color'
+import { verticalRhythmUnit } from '../styles/variables'
 
 export function useMDXComponents(): MDXComponents {
   const components = {
@@ -15,6 +23,9 @@ export function useMDXComponents(): MDXComponents {
     blockquote: BlockQuote,
     a: Link,
     em: Em,
+    table: Table,
+    th: Th,
+    td: Td,
     ExLinkCard: ExLinkCard,
     BlockLink: BlockLink,
     Note: Note,
@@ -91,4 +102,42 @@ const emCss = css`
 
 function Em(props: PropsWithChildren<Hono.HTMLAttributes>) {
   return <em class={emCss}>{props.children}</em>
+}
+
+const tableCss = css`
+  border-spacing: 0;
+  border-collapse: collapse;
+  
+  tr:nth-child(odd) td {
+    background: ${backgroundDark};
+  }
+`
+
+function Table(props: PropsWithChildren<Hono.TableHTMLAttributes>) {
+  return (
+    <table class={tableCss} align={props.align}>
+      {props.children}
+    </table>
+  )
+}
+
+const thTdCss = css`
+  border: solid 1px ${border};
+  padding: ${verticalRhythmUnit * 0.25}rem ${verticalRhythmUnit * 0.5}rem;
+`
+
+function Th(props: PropsWithChildren<Hono.ThHTMLAttributes>) {
+  return (
+    <th class={thTdCss} align={props.align}>
+      {props.children}
+    </th>
+  )
+}
+
+function Td(props: PropsWithChildren<Hono.TdHTMLAttributes>) {
+  return (
+    <td class={thTdCss} align={props.align}>
+      {props.children}
+    </td>
+  )
 }
