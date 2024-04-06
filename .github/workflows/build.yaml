@@ -2,9 +2,8 @@ name: Build
 on:
   push
 permissions:
-  pull-requests: write
-  deployments: write
-  repository-projects: write
+  contents: read
+  statuses: write
 jobs:
   build:
     timeout-minutes: 60
