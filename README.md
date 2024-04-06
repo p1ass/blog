@@ -4,5 +4,7 @@
 
 ## Getting Started
 
-1. Hugoをインストールする
-1. `hugo server -D`
+```shell
+pnpm install
+pnpm dev
+```
