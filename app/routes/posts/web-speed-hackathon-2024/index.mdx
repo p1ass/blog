@@ -312,14 +312,14 @@ validationSchema: yup.object().shape({
     .required('メールアドレスを入力してください')
     .test({
       message: 'メールアドレスには @ を含めてください',
-      test: (v) => v.includes('@'),
+      test: (v) => v.includes('@'), // ここ
     }),
   password: yup
     .string()
     .required('パスワードを入力してください')
     .test({
       message: 'パスワードには記号を含めてください',
-      test: (v) => /[^a-zA-Z0-9]/.test(v),
+      test: (v) => /[^a-zA-Z0-9]/.test(v), // ここ
     }),
 ```
 
