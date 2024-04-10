@@ -152,14 +152,14 @@ index.htmlでNoto Sans JPを読み込んでいたのですが、どこでも使�
 競技中に具体的なコードは読み解かなかったのですが、コメントやUIを見る限り単に `object-fit: cover` 相当の表示をしているだけだったので、canvasの実装を全部消してCSSで表示を整えるようにしました。
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Ffoundation%2Fhooks%2FuseImage.ts%23L5-L46&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Ffoundation%2Fhooks%2FuseImage.ts%23L5-L46&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 ### 画像の WebP 化 & 適切ななサイズに事前リサイズ
 
 今回の実装では、クエリパラメーターで指定されたサイズに画像をリサイズして返す実装が用意されていました。
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Froutes%2Fimage%2Findex.ts%23L109-L119&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Froutes%2Fimage%2Findex.ts%23L109-L119&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 しかし、画像のリアルタイム変換はCPU負荷もメモリ負荷も高いので、あらかじめ必要な画像を作成しておき、ランタイムではその画像をそのまま返すようにしました。
 ついでにファイル形式をWebP(非可逆圧縮)にしています。
@@ -172,7 +172,7 @@ index.htmlでNoto Sans JPを読み込んでいたのですが、どこでも使�
 さらに、それをなぜかThree.jsを使って画像をレンダリングしていました。
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Fpages%2FTopPage%2Finternal%2FHeroImage.tsx%23L50-L70&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Fpages%2FTopPage%2Finternal%2FHeroImage.tsx%23L50-L70&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 Three.js のコードが長々書かれていたのですがこんなことをする必要はないので、普通の画像タグ(`<img>`)で表示させるようにしました。
 (未だにどういう実装なのか分かってない)
@@ -185,12 +185,12 @@ Three.js のコードが長々書かれていたのですがこんなことを�
 #### クライアント側
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fclient%2Fsrc%2Fserviceworker%2FzstdFetch.ts%23L3-L33&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fclient%2Fsrc%2Fserviceworker%2FzstdFetch.ts%23L3-L33&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 #### サーバー側
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Fmiddlewares%2FcompressMiddleware.ts%23L7-L26&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Fmiddlewares%2FcompressMiddleware.ts%23L7-L26&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 確かに、レスポンスを圧縮することでレスポンスサイズを削減することはできますが、ランタイムで毎回圧縮しているとCPUとメモリを消費します。
 また、今回の競技用のサーバーは0.1vCPU、メモリが512MBとインスタンスタイプが非常に小さいので、圧縮処理がボトルネックになってしまいます。
@@ -273,7 +273,7 @@ export default defineConfig({
 サーバーの負荷を軽減するという名目で500ms以上のjitterが `fetch` に差さっていたのですが、これまでの改善でサーバーの負荷はかなり下がっていたので、まるっと削除しました。
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fclient%2Fsrc%2Fserviceworker%2Fjitter.ts%23L1-L3&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fclient%2Fsrc%2Fserviceworker%2Fjitter.ts%23L1-L3&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 ### いらないライブラリを消す
 
@@ -293,7 +293,7 @@ export default defineConfig({
 漫画ビューワーで世界の変化についていくために 2 \*\* 12 回のループが回っていたのですが、そんなに世界の変化に追従する必要はないので、ループ回数を減らしました。
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2F1337939986070d89da3e28da82c441dcbe2a7625%2Fworkspaces%2Fapp%2Fsrc%2Ffeatures%2Fviewer%2Fcomponents%2FComicViewerCore.tsx%23L30-L35&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2F1337939986070d89da3e28da82c441dcbe2a7625%2Fworkspaces%2Fapp%2Fsrc%2Ffeatures%2Fviewer%2Fcomponents%2FComicViewerCore.tsx%23L30-L35&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 ### ログイン画面の正規表現をやめる
 
@@ -301,7 +301,7 @@ export default defineConfig({
 ユーザー向けのメッセージを見る限り、単純な判定しかしなくて良さそうだったので、シンプルな実装に変更しました。
 
 <script
-    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2F1337939986070d89da3e28da82c441dcbe2a7625%2Fworkspaces%2Fadmin%2Fsrc%2Fpages%2FAuthPage%2Finternal%2FLoginContent.tsx%23L20-L34&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2F1337939986070d89da3e28da82c441dcbe2a7625%2Fworkspaces%2Fadmin%2Fsrc%2Fpages%2FAuthPage%2Finternal%2FLoginContent.tsx%23L20-L34&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 #### 改善後の実装
 

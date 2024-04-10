@@ -14,10 +14,8 @@ const atomOneDarkCss = css`
   overflow-x: auto;
   padding: ${verticalRhythmUnit * 0.5}rem;
 
-  border-radius: ${verticalRhythmUnit * 0.5}rem;
-
   /* グローバルのcodeスタイルを上書き */
-  font-size: 1rem;
+  font-size: 0.95rem;
   border: none;
   }
   /*
