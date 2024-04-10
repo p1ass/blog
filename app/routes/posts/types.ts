@@ -4,4 +4,6 @@ export type Frontmatter = {
   description: string
   categories: string[]
   tags?: string[]
+  // ルートからのパス (ex. /posts/web-speed-hackathon-2024/ogp.jpg)
+  ogImage?: string
 }

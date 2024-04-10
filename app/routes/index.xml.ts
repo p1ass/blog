@@ -27,12 +27,16 @@ function generateRss(posts: Post[]): string {
 
 function generateRssItem(post: Post): string {
   const encodedTitle = encodeURIComponent(post.frontmatter.title)
+  const ogImage = post.frontmatter.ogImage
+    ? `${post.frontmatter.ogImage}`
+    : `https://og-image.p1ass.com/apiv2/${encodedTitle}.png`
+
   return `<item>
       <title>${post.frontmatter.title}</title>
       <link>https://blog.p1ass.com${post.permalink}</link>
       <pubDate>${format(post.frontmatter.date, RSS_DATE_FORMAT, 'en')}</pubDate>
       <guid>https://blog.p1ass.com${post.permalink}</guid>
-      <enclosure url="https://og-image.p1ass.com/apiv2/${encodedTitle}.png" length="0" type="image/png"/>
+      <enclosure url=${ogImage} length="0" type="image/png"/>
       <description>${post.frontmatter.description}</description>
     </item>`
 }

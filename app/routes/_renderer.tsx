@@ -65,11 +65,14 @@ export default jsxRenderer(
     const title = propsTitle
       ? `${propsTitle} - ぷらすのブログ`
       : 'ぷらすのブログ'
-    const ogImage = frontmatter?.title
-      ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
-          frontmatter?.title,
-        )}.png`
-      : 'https://blog.p1ass.com/static/ogp.png'
+
+    const ogImage = frontmatter?.ogImage
+      ? `${frontmatter.ogImage}`
+      : frontmatter?.title
+        ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
+            frontmatter?.title,
+          )}.png`
+        : 'https://blog.p1ass.com/static/ogp.png'
     return (
       <html lang='ja'>
         <head>
