@@ -67,7 +67,7 @@ export default jsxRenderer(
       : 'ぷらすのブログ'
 
     const ogImage = frontmatter?.ogImage
-      ? `${frontmatter.ogImage}`
+      ? `https://blog.p1ass.com${frontmatter.ogImage}`
       : frontmatter?.title
         ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
             frontmatter?.title,

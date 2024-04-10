@@ -28,7 +28,7 @@ function generateRss(posts: Post[]): string {
 function generateRssItem(post: Post): string {
   const encodedTitle = encodeURIComponent(post.frontmatter.title)
   const ogImage = post.frontmatter.ogImage
-    ? `${post.frontmatter.ogImage}`
+    ? `https://blog.p1ass.com${post.frontmatter.ogImage}`
     : `https://og-image.p1ass.com/apiv2/${encodedTitle}.png`
 
   return `<item>
