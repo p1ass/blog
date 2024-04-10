@@ -1,7 +1,7 @@
 ---
 title: Web Speed Hackathon 2024に参加したら2位になりました
-date: 2024-03-26T22:30:00+09:00
-description: TODO
+date: 2024-04-10T22:30:00+09:00
+description: Web Speed Hackathon 2024 というISUCONのWebフロント版とも言えるチューニングコンテストに参加しました。
 categories:
   - 開発
 tags:
@@ -244,15 +244,16 @@ export default defineConfig({
 });
 ```
 
-### 利用規約とかを lazy で読み込む
+### 利用規約など超長文のテキストを表示するコンポーネントを React.lazy で読み込む
 
-利用規約のテキストがバカでかく、これが `index.js` に含まれちゃっているのが微妙でした。
+利用規約などのテキストがバカでかく 1 ~ 2MBありました。
+既存実装では、これが `index.js` に含まれちゃっていてバンドルサイズが肥大化していました。
 
-サーバーから API で返すか lazy で読み込むか悩んだのですが、Vite 移行によって簡単にチャンク分割ができるようになったので、後者のやり方で対応しました。
+サーバーから API でデータを返す案と、React.lazyで読み込む案で悩んだのですが、Vite 移行によって簡単にチャンク分割ができるようになったので、後者のやり方で対応しました。
 
-### `@mui/icons-material` を Named Export で読み込む
+### `@mui/icons-material` を named export で読み込む
 
-必要なファイルだけバンドルされるようにアイコンを Named Export で読み込むようにしました。
+必要なファイルだけバンドルされるようにアイコンを named export で読み込むようにしました。
 
 ### 内部遷移を React Router の Link でやるようにする
 
@@ -261,16 +262,18 @@ export default defineConfig({
 
 ### jitter を消す
 
-サーバーの負荷を軽減するという名目で 500ms 以上の jitter が差さっていたのですが、これまでの改善でサーバーの負荷はかなり下がっていたので、削除しました。
+サーバーの負荷を軽減するという名目で 500ms 以上の jitter が `fetch` に差さっていたのですが、これまでの改善でサーバーの負荷はかなり下がっていたので、まるっと削除しました。
+
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fclient%2Fsrc%2Fserviceworker%2Fjitter.ts%23L1-L3&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 ### いらないライブラリを消す
 
 バンドルサイズがでかいライブラリ群を消して、素直な実装に置き換えました。
-消したのは、以下のライブラリたちです。
+消したのは、次のライブラリらです。
 
 - moment-timezone
 - magika
-- unicode なんとか
+- unicode-collation-algorithm2
 
 ### 検索画面でユーザーの入力を少し待つようにする
 
@@ -280,14 +283,38 @@ export default defineConfig({
 
 漫画ビューワーで世界の変化についていくために 2 \*\* 12 回のループが回っていたのですが、そんなに世界の変化に追従する必要はないので、ループ回数を減らしました。
 
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2F1337939986070d89da3e28da82c441dcbe2a7625%2Fworkspaces%2Fapp%2Fsrc%2Ffeatures%2Fviewer%2Fcomponents%2FComicViewerCore.tsx%23L30-L35&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
 ### ログイン画面の正規表現をやめる
 
 ログイン画面の正規表現がクソ重いものになっていました。
 ユーザー向けのメッセージを見る限り、単純な判定しかしなくて良さそうだったので、シンプルな実装に変更しました。
 
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2F1337939986070d89da3e28da82c441dcbe2a7625%2Fworkspaces%2Fadmin%2Fsrc%2Fpages%2FAuthPage%2Finternal%2FLoginContent.tsx%23L20-L34&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
+#### 改善後の実装
+
+```typescript
+validationSchema: yup.object().shape({
+  email: yup
+    .string()
+    .required('メールアドレスを入力してください')
+    .test({
+      message: 'メールアドレスには @ を含めてください',
+      test: (v) => v.includes('@'),
+    }),
+  password: yup
+    .string()
+    .required('パスワードを入力してください')
+    .test({
+      message: 'パスワードには記号を含めてください',
+      test: (v) => /[^a-zA-Z0-9]/.test(v),
+    }),
+```
+
 ### CLS の改善を試みようとするが諦める
 
-CLS のスコアを上げるために、スケルトンを追加したり頑張っていたのですが、時間もあまり無く、やる気も失ったので、数カ所だけ改善して、作業を終えることにしました。
+CLS のスコアを上げるために、スケルトンを追加したり頑張っていたのですが、時間もあまり無かったて数カ所だけ改善して、作業を終えることにしました。
 
 ### 結果
 
@@ -306,18 +333,22 @@ CLS のスコアを上げるために、スケルトンを追加したり頑張�
 | [Admin] 作品の情報を編集する       |   0.75 / 50.00 |
 | [Admin] 作品に新しいエピソードを追加する |  24.25 / 50.00 |
 
-合計 433.70 / 700.00
-（暫定 12 位）
+
+**合計 433.70 / 700.00 （暫定 12 位）**
+
+暫定結果では12位たっだのですが、結果発表時に上位勢がFAILしたため、繰り上げで2位となりました 🎉
+
+![リーダーボード](./leaderboard.png)
+_最終的なリーダーボード_
 
 ## 感想
 
 ### ISUCON と違って、無駄に複雑化しているものをシンプルな実装に戻すことが多かった
 
 ISUCON では、「シンプルに実装すると重くなっちゃうよね、さあどう工夫しようか？」と悩むことが多いと感じています。
+一方で今回の問題は **「悪意を持って無駄に複雑になっているコードを読み解いて本当の意図を理解し、どう簡単に 実装できるか」** という観点で問題に取り組んでいました。
 
-一方で今回の問題は、「悪意を持って無駄に複雑になっているコードを読み解いて本当の意図を理解し、どう簡単に 実装できるか」という観点で問題に取り組んでいました。
-
-ISUCON とは逆のメンタルモデルで問題を解いている気分になり、新鮮だな〜と感じました。
+あくまで傾向の話であり、一方が他方の傾向を持つ課題もあるのですが、ISUCON とは逆のメンタルモデルで問題を解いている気分になり、新鮮だな〜と感じました。
 
 ## 終わりに
 
