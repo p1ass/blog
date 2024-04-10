@@ -1,5 +1,5 @@
 ---
-title: Web Speed Hackathon 2024にこっそり参加したら2位になりました
+title: Web Speed Hackathon 2024に参加したら2位になりました
 date: 2024-03-26T22:30:00+09:00
 description: TODO
 categories:
@@ -10,34 +10,77 @@ tags:
   - CyberAgent
 ---
 
+
 こんにちは、[@p1ass](https://twitter.com/p1ass)です。
 
-先日、こっそり Web Speed Hackathon 2024 に参加していました。
+先日、Web Speed Hackathon 2024 というイベントに参加しました。
 
-<ExLinkCard url="https://cyberagent.connpass.com/event/300386/" />
+<ExLinkCard url="https://cyberagent.connpass.com/event/300386/"/>
 
-元々、イベントに参加する予定はなく、connpass の登録もしていなかったですが、当日余裕があったのでこっそり GitHub から参加登録して挑戦していました。
-
-当日の競技終了時点での順位は 10 位以下だったのですが、上位の多くが FAIL したため、最終順位で 2 位を取ることができました 👏
-
-ただ、こっそり参加していたため、運営さんにはイレギュラーな形で入賞者向けの連絡をしていただくことになってしまい、その節はご迷惑をおかけしました 🙏
-
-今回は、せっかく入賞したので、Web Speed Hackathon 2024 でチューニングした内容を簡単にまとめてみます。
-当日のリポジトリはこちらです。
-
-<ExLinkCard url="https://github.com/p1ass/web-speed-hackathon-2024" />
 
 {/* <!--more--> */}
 
+## Web Speed Hackathonとは?
+
+![トップ画像](./top.png)
+
+[公式のconnpass](https://cyberagent.connpass.com/event/300386/)から引用します。
+
+> Web Speed Hackathonとは、予め準備してあるWebアプリケーションのパフォーマンスを改善することで競い合うハッカソンです。
+> 主にWeb技術（フロントエンドおよびNode.js）に関するチューニングを出題いたします。 表示に非常に時間がかかるサービスをどこまで高速化できるかを競います。
+
+端的に言えば、**ISUCONのWebフロント版**です。
+ISUCONは主にバックエンドのAPIなどWebサーバーのレスポンスを高速化することに主眼を置いています。
+そのため、基本的にHTMLやCSS、JavaScriptのチューニングは対象外になっています。
+
+一方で、Web Speed HackathonはWebブラウザでの表示の高速化に主眼を置いています。
+APIサーバーの高速化だけでなく、ブラウザのレンダリングの最適化やダウンロードするファイル容量の削減といったブラウザの表示に関するチューニングに競技性を持たせている点が特徴です。
+
+## Web Speed Hackathon 2024のテーマ
+
+今年の問題のテーマは **「漫画サイト」** でした。
+すごくそれっぽい。
+
+![トップページ](./cybertoon_top.png)
+_トップページ_
+
+![エピソード一覧ページ](./cybertoon_episode.png)
+_エピソード一覧ページ_
+
+![漫画ビューワー](./cybertoon_viewer.png)
+_漫画ビューワー_
+
 ## チューニング内容
+
+ここまでWeb Speed Hackathonについて簡単に紹介してきました。
+ここからは競技時間中に行った具体的な改善について紹介します。
+
+詳細な実装はGitHubのリポジトリからコードを見れるので、気になる方はそちらを参照してください。
+
+<ExLinkCard url="https://github.com/p1ass/web-speed-hackathon-2024"/>
+
+また、スコア遷移は次のGitHub Issueから確認できます。
+
+<ExLinkCard
+    url="https://github.com/CyberAgentHack/web-speed-hackathon-2024-scoring-tool/issues/130"/>
 
 ### SQLite のテーブルにインデックスを貼る
 
-僕はバックエンド・インフラ領域が主戦場で、フロントエンドについては趣味でしか触っていません。
-そこで、「せっかくならバックエンドのコードから直すか」ということでバックエンドから改善していくことにしました。
+「いきなりSQLかよ！」と思われるかもしれませんが、僕はバックエンド・インフラ領域が主戦場なソフトウェアエンジニアです。
+そこで、「せっかくならバックエンドのコードから直そうかな〜」と思い、でバックエンドから改善していくことにしました。
+(ISUCONでは、しっかりと計測してボトルネックを探してから改善にあたるのですが、今回はラフに！)
 
-開発環境を準備し、ぱっとコードを見たところデータベースのインデックスが貼られていないことに気づきました。
-貼っておいて損はないだろう、ということで、インデックスを追加しました。
+今回のコードベースでは、ORMとしてDrizzleが使われていました。
+
+![Drizzle ORM](./drizzle.png)
+_Drizzle ORM_
+
+<ExLinkCard url="https://orm.drizzle.team/"/>
+
+Drizzleは初見でしたが、ドキュメントにインデックスの貼り方が書かれていたので、その通りに実装しました。
+また、既存実装ではSQLiteのmigrationの仕組みが用意されていなかったので、合わせてmigrationを実行できるようにする対応も同時に行っています。
+
+<ExLinkCard url="https://orm.drizzle.team/docs/indexes-constraints#indexes"/>
 
 ### API の呼び出し回数の最適化
 
@@ -46,48 +89,160 @@ tags:
 
 各要素ごとに API を叩くのではなく、一括で取得した値を React の Props として渡すことで、不必要に API を叩かないようにしました。
 
+#### Before
+
+```typescript jsx
+type Props = {
+  bookId: string;
+};
+
+const RankingCard: React.FC<Props> = ({ bookId }) => {
+  // ここでAPI呼び出しが走るので、ランキングのBookの数だけAPIが呼び出されてしまう
+  const { data: book } = useBook({ params: { bookId } });
+  // ....
+}
+```
+
+#### After
+
+```typescript jsx
+type Props = {
+  book: Book;
+};
+
+// 親コンポーネントでランキングを一括で取得し、そのデータをこのコンポーネントに渡す
+const RankingCard: React.FC<Props> = ({ book }) => {
+  // ....
+}
+```
+
+この例では `RankingCard` でしたが、他にも似たような実装になっているコンポーネントがあったので一緒に直しています。
+
 ### アセットの配信時に Cache-Control ヘッダーをつけるようにする
 
-今回、サーバーは Hono を使って書かれていたのですが、そのミドルウェアで、Cache-Control を `no-store` にしていました。
-アセットや画像はキャッシュされて問題ないので、URL を見てキャッシュして良い場合はキャッシュするようにしました。
+今回、サーバーは [Hono](https://hono.dev/) を使って書かれていたのですが、そのカスタムミドルウェアで`Cache-Control` を常に `no-store` にするような実装が入っていました。
 
-### Web フォントの読み込みを直す
+しかし、アセットや画像はキャッシュされて問題ないので、キャッシュして良い場合はキャッシュするような分岐を入れました。
 
-index.html で Noto Sans JP を読み込んでいるのですが、どこでも使われていなさそうだったので削除しました。
+```diff
+export const cacheControlMiddleware = createMiddleware(async (c, next) => {
+  await next();
+
++  if (c.req.path.includes("/assets")){
++    c.res.headers.append('Cache-Control', 'public, max-age=1000000');
++    return
+  }
+  c.res.headers.append('Cache-Control', 'private');
+  c.res.headers.append('Cache-Control', 'no-store');
+});
+```
+
+### 不要なWeb フォントの読み込みを消す
+
+index.html で Noto Sans JP を読み込んでいたのですが、どこでも使われていなさそうだったのでバサッと削除しました。
+(本当に使われていないのか自信ない😇)
 
 ### 意味もなく canvas を使っている部分をやめる
 
-UI を見るとただ画像を表示しているだけなのに、なぜか canvas を使って描画している箇所があったので、素直に `<img href={url}>` で表示するようにしました。
+`useImage` フックのコードを見ると、画像URLを取得したあとになぜか canvas を使って描画している箇所がありました。
+
+競技中に具体的なコードは読み解かなかったのですが、コメントやUIを見る限り単に `object-fit: cover` 相当の表示をしているだけだったので、canvasの実装を全部消してCSSで表示を整えるようにしました。
+
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Ffoundation%2Fhooks%2FuseImage.ts%23L5-L46&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 ### 画像の WebP 化 & 適切ななサイズに事前リサイズ
 
 今回の実装では、クエリパラメーターで指定されたサイズに画像をリサイズして返す実装が用意されていました。
-しかし、画像のリアルタイム変換は CPU 負荷もメモリ負荷も高いので、事前に必要な画像を作成し、その画像を返すようにしました。
 
-ついでにファイル形式を WebP(非可逆圧縮)にしました。
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Froutes%2Fimage%2Findex.ts%23L109-L119&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
+しかし、画像のリアルタイム変換は CPU 負荷もメモリ負荷も高いので、あらかじめ必要な画像を作成しておき、ランタイムではその画像をそのまま返すようにしました。
+ついでにファイル形式を WebP(非可逆圧縮)にしています。
+
+画像の変換スクリプトはChatGPTに作ってもらいました。
 
 ### ヒーロー画像が意味もなく data url 形式で埋め込まれいたので、普通の画像として扱う
 
 ヒーロー画像が data url として TypeScript のコードに埋め込まれていました。
-加えて、それをなぜか Three.js を使って画像をレンダリングしていました。
+さらに、それをなぜか Three.js を使って画像をレンダリングしていました。
 
-Three.js のコードが長々書かれていたのですが、こんなことをする必要はないので、あまり読まず全部削除して、普通の画像として表示させるようにしました。
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Fpages%2FTopPage%2Finternal%2FHeroImage.tsx%23L50-L70&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
-### なぜか zstd を使って圧縮をしていたのでやめる
+Three.js のコードが長々書かれていたのですがこんなことをする必要はないので、普通の画像タグ(`<img>`)で表示させるようにしました。
+(未だにどういう実装なのか分かってない)
 
-わざわざ Service Worker を使ってまで、zstd 形式でサーバーからのデータを圧縮していました。
-CPU やメモリの小さいインスタンスを使っているので、圧縮のためにデータを毎回メモリに載せるのはよろしくないので、そのコードを全部消しました。
+### 全てのレスポンスを zstd で圧縮をしていたのでやめる
+
+よくよくコードを見ると、Service Workerで `fetch` リクエストをインターセプトして、独自の `zstdFetch` という関数を使うような実装が入っていました。
+内容を読むと、全てのレスポンスをzstdで圧縮していることがわかりました。
+
+#### クライアント側
+
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fclient%2Fsrc%2Fserviceworker%2FzstdFetch.ts%23L3-L33&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
+#### サーバー側
+
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Fmiddlewares%2FcompressMiddleware.ts%23L7-L26&style=atom-one-light&type=code&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
+確かに、レスポンスを圧縮することでレスポンスサイズを削減することはできますが、ランタイムで毎回圧縮しているとCPUとメモリを消費します。
+また、今回の競技用のサーバーは0.1vCPU、メモリが512MBとインスタンスタイプが非常に小さいので、圧縮処理がボトルネックになってしまいます。
+
+そのため、zstd関連のコードは全部コメントアウトして消しました。
 
 ### クライアントのバンドルを Vite に移行する
 
-このあたりから、ちゃんとフロントエンドの最適化と向き合っていかないといけないと感じ始めました。
+今回の初期実装のバンドラーはtsupでした。
 
-手始めに、Suspense と lazy を使ってチャンクの分割を試みようとしたのですが、元々の実装である tsup ではできないことがわかりました。
+<ExLinkCard url="https://github.com/egoist/tsup" />
 
-そこで、クライアントのバンドルのみ Vite に移行し、チャンク分割をできるようにしました。
+tsupはライブラリやサーバーのバンドルには便利ですが、バンドル結果をチャンク分割する機能がサポートされていませんでした。
+(少なくとも今回のユースケースにおいては)
 
-この移行が曲者で、Buffer のポリフィルが必要だっだりして、かなりの時間を溶かしました。
-最終的には以下のような `vite.confg.ts` でビルドするようになりました。
+色々と悩んだのですが、最終的にクライアントのバンドルのみ Vite に移行し、チャンク分割をできるようにしました。
+
+この移行作業はかなり難航しました。Buffer のポリフィルが必要だっだりと、Nodeのエコシステム関連のエラーに悩まされました。
+普段業務でNodeを書くことはほどんどないので、知見もなく大変でした...。
+
+最終的には次のような `vite.confg.ts` でビルドできるようになりました。(もっとシンプルに書けるかもしれません)
+
+```typescript
+export default defineConfig({
+  build: {
+    assetsDir: './',
+    minify: 'esbuild',
+    outDir: OUTPUT_DIR,
+    rollupOptions: {
+      plugins: [
+        inject({
+          "globalThis.Buffer": ["buffer", "Buffer"],
+        }),
+        visualizer(),
+      ]
+    },
+    sourcemap: true,
+    target: 'esnext',
+  },
+  define: {
+    global: 'globalThis',
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis'
+      },
+    }
+  },
+  plugins: [
+    react(),
+    nodePolyfills({
+      globals: {
+        Buffer: true,
+      },
+      include: ["buffer"],
+    }),
+  ],
+});
+```
 
 ### 利用規約とかを lazy で読み込む
 
@@ -95,7 +250,7 @@ CPU やメモリの小さいインスタンスを使っているので、圧縮�
 
 サーバーから API で返すか lazy で読み込むか悩んだのですが、Vite 移行によって簡単にチャンク分割ができるようになったので、後者のやり方で対応しました。
 
-### '@mui/icons-material' を Named Export で読み込む
+### `@mui/icons-material` を Named Export で読み込む
 
 必要なファイルだけバンドルされるようにアイコンを Named Export で読み込むようにしました。
 
@@ -138,17 +293,19 @@ CLS のスコアを上げるために、スケルトンを追加したり頑張�
 
 最終スコアは次の通りです。
 
-テスト項目 スコア
-[App] ホームを開く 70.35 / 100.00
-[App] 作者詳細を開く 74.10 / 100.00
-[App] 作品詳細を開く 64.15 / 100.00
-[App] エピソード詳細を開く 25.10 / 100.00
-[App] 作品を検索する 25.75 / 50.00
-[App] 漫画をスクロールして読む 50.00 / 50.00
-[App] 利用規約を開く 50.00 / 50.00
-[Admin] ログインする 49.25 / 50.00
-[Admin] 作品の情報を編集する 0.75 / 50.00
-[Admin] 作品に新しいエピソードを追加する 24.25 / 50.00
+| テスト項目                    |            スコア |
+|--------------------------|---------------:|
+| [App] ホームを開く             | 70.35 / 100.00 |
+| [App] 作者詳細を開く            | 74.10 / 100.00 |
+| [App] 作品詳細を開く            | 64.15 / 100.00 |
+| [App] エピソード詳細を開く         | 25.10 / 100.00 |
+| [App] 作品を検索する            |  25.75 / 50.00 |
+| [App] 漫画をスクロールして読む       |  50.00 / 50.00 |
+| [App] 利用規約を開く            |  50.00 / 50.00 |
+| [Admin] ログインする           |  49.25 / 50.00 |
+| [Admin] 作品の情報を編集する       |   0.75 / 50.00 |
+| [Admin] 作品に新しいエピソードを追加する |  24.25 / 50.00 |
+
 合計 433.70 / 700.00
 （暫定 12 位）
 
