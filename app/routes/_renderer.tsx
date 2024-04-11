@@ -7,47 +7,134 @@ import { backgroundDark, border, gray } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { html } from 'hono/html'
 
+const codeBlockFontSize = 14
+
 const bodyCss = css`
-  color: ${gray};
-  font-size: 16px;
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI",
-    "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI",
-    "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
-
-  margin: 0 1rem;
-  padding: 0;
-
-  * {
-    line-height: 1.7rem;
-  }
-
-h2 {
-    line-height: 2.55rem;
-    font-size: 1.75rem
-}
-
-h3 {
-font-size: 1.3rem;
-line-height: 2.55rem;
-border-bottom: 1px solid #dde0e4;
-}
-
-p {
-  margin: 0 0 1.7rem;
-  line-height: ${verticalRhythmUnit * 1.25}rem;
+:-hono-global {
+  body {
+    color: ${gray};
+    font-size: 16px;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI",
+      "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI",
+      "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
   
-  @media (max-width: 600px) {
-    line-height: 2rem;
-  }
-}
+    margin: 0 1rem;
+    padding: 0;
 
-code {
-  background-color: ${backgroundDark};
-  border: 1px solid ${border};
-  border-radius: ${verticalRhythmUnit * 0.125}rem;
-  font-family: monospace;
-  font-size: 85%;
-  padding: ${verticalRhythmUnit * 0.125}rem 0.5em;
+    * {
+      line-height: 1.7rem;
+    }
+
+    h2 {
+      line-height: 2.55rem;
+      font-size: 1.75rem
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      line-height: 2.55rem;
+      border-bottom: 1px solid #dde0e4;
+    }
+
+    p {
+      margin: 0 0 1.7rem;
+      line-height: ${verticalRhythmUnit * 1.25}rem;
+      
+      @media (max-width: 600px) {
+        line-height: 2rem;
+      }
+    }
+
+    code {
+      background-color: ${backgroundDark};
+      border: 1px solid ${border};
+      border-radius: ${verticalRhythmUnit * 0.125}rem;
+      font-family: monospace;
+      font-size: 85%;
+      padding: ${verticalRhythmUnit * 0.125}rem 0.5em;
+    }
+  }
+  
+  .hljs {
+    color: #abb2bf;
+    background: #282c34;
+  }
+  .hljs-comment,
+  .hljs-quote {
+    color: #5c6370;
+    font-style: italic;
+  }
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-formula {
+    color: #c678dd;
+  }
+  .hljs-section,
+  .hljs-name,
+  .hljs-selector-tag,
+  .hljs-deletion,
+  .hljs-subst {
+    color: #e06c75;
+  }
+  .hljs-literal {
+    color: #56b6c2;
+  }
+  .hljs-string,
+  .hljs-regexp,
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-meta .hljs-string {
+    color: #98c379;
+  }
+  .hljs-attr,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-selector-class,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo,
+  .hljs-number {
+    color: #d19a66;
+  }
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-link,
+  .hljs-meta,
+  .hljs-selector-id,
+  .hljs-title {
+    color: #61aeee;
+  }
+  .hljs-built_in,
+  .hljs-title.class_,
+  .hljs-class .hljs-title {
+    color: #e6c07b;
+  }
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  .hljs-strong {
+    font-weight: bold;
+  }
+  .hljs-link {
+    text-decoration: underline;
+  }
+  
+  code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: ${verticalRhythmUnit * 0.5}rem;
+  
+    /* グローバルのcodeスタイルを上書き */
+    font-size: ${codeBlockFontSize}px;
+    font-family: monospace;
+    border: none;
+  }
+  
+  /* emgithub用 */
+  .emgithub-file .code-area td.hljs-ln-line {
+    font-size: ${codeBlockFontSize}px !important;
+    font-family: monospace !important;
+  }
 }
 `
 

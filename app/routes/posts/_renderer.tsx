@@ -46,13 +46,6 @@ a{
 }
 `
 
-// emgithub用
-const articleCss = css`
-.emgithub-file .code-area td.hljs-ln-line {
-  font-size: 14px;
-}
-`
-
 export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
   if (!(frontmatter && filepath)) {
     return <div>Not Post Page</div>
@@ -74,7 +67,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <PostDetails frontmatter={frontmatter} />
-      <article class={articleCss}>{children}</article>
+      <article>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
       <PostPagination paginationPosts={paginationPosts} />
