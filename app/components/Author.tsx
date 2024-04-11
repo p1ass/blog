@@ -37,10 +37,10 @@ const authorNameCss = css`
 `
 
 const authorDescriptionCss = css`
-    margin: 0;
-    @media (max-width: 600px) {
-      font-size: 0.85rem;
-    }
+  margin: 0;
+  @media (max-width: 600px) {
+    font-size: 0.85rem;
+  }
 `
 
 const authorSNSLinkCss = css`
@@ -59,7 +59,7 @@ const authorSNSLinkCss = css`
 
 const authorSNSGitHubCss = css`
   ${authorSNSLinkCss}
-  i {
+  & i {
     color: #211f1f;
     padding-right: 0.2rem;
   }
@@ -67,7 +67,7 @@ const authorSNSGitHubCss = css`
 
 const authorSNSTwitterCss = css`
   ${authorSNSLinkCss}
-  i {
+  & i {
     color: #1b95e0;
     padding-right: 0.2rem;
   }

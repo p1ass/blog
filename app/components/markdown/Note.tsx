@@ -23,7 +23,7 @@ const noteCss = css`
     padding-right: ${verticalRhythmUnit}rem;
   }
 
-  p {
+  & p {
     margin: 0;
     color: ${textOnBlueLight};
   }

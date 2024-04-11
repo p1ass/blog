@@ -32,18 +32,18 @@ const postDateCss = css`
 const toTopLinkCss = css`
   text-align: center;
 
-a{
-  color: ${gray};
-  text-decoration: none;
-
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
-
-  &:hover {
-    color: ${grayLight};
+  & a{
+    color: ${gray};
+    text-decoration: none;
+  
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+  
+    &:hover {
+      color: ${grayLight};
+    }
   }
-}
 `
 
 export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {

@@ -44,7 +44,7 @@ const entryBodyCss = css`
     }
     ${transition(0.3)}
 
-    p {
+    & p {
       font-size: 17px;
       margin: 0 0 ${verticalRhythmUnit * 0.5}rem 0;
       line-height: ${verticalRhythmUnit * 0.75}rem;

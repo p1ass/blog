@@ -20,39 +20,39 @@ const bodyCss = css`
   
     margin: 0 1rem;
     padding: 0;
+  }
 
-    * {
-      line-height: 1.7rem;
-    }
+  * {
+    line-height: 1.7rem;
+  }
 
-    h2 {
-      line-height: 2.55rem;
-      font-size: 1.75rem
-    }
+  h2 {
+    line-height: 2.55rem;
+    font-size: 1.75rem
+  }
 
-    h3 {
-      font-size: 1.3rem;
-      line-height: 2.55rem;
-      border-bottom: 1px solid #dde0e4;
-    }
+  h3 {
+    font-size: 1.3rem;
+    line-height: 2.55rem;
+    border-bottom: 1px solid #dde0e4;
+  }
 
-    p {
-      margin: 0 0 1.7rem;
-      line-height: ${verticalRhythmUnit * 1.25}rem;
-      
-      @media (max-width: 600px) {
-        line-height: 2rem;
-      }
+  p {
+    margin: 0 0 1.7rem;
+    line-height: ${verticalRhythmUnit * 1.25}rem;
+    
+    @media (max-width: 600px) {
+      line-height: 2rem;
     }
+  }
 
-    code {
-      background-color: ${backgroundDark};
-      border: 1px solid ${border};
-      border-radius: ${verticalRhythmUnit * 0.125}rem;
-      font-family: monospace;
-      font-size: 85%;
-      padding: ${verticalRhythmUnit * 0.125}rem 0.5em;
-    }
+  code {
+    background-color: ${backgroundDark};
+    border: 1px solid ${border};
+    border-radius: ${verticalRhythmUnit * 0.125}rem;
+    font-family: monospace;
+    font-size: 85%;
+    padding: ${verticalRhythmUnit * 0.125}rem 0.5em;
   }
   
   .hljs {

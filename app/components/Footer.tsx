@@ -7,13 +7,13 @@ const footerCss = css`
   padding: ${verticalRhythmUnit}rem 0;
   text-align: center;
 
-  span {
+  & span {
     display: inline-block;
     padding-top: ${verticalRhythmUnit * 0.5}rem;
     font-size: 0.8rem;
   }
 
-  a {
+  & a {
     color: ${blue};
     text-decoration: none;
   }

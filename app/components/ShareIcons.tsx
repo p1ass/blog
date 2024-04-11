@@ -39,7 +39,7 @@ const shareButtonLinkCss = css`
   transition: all 280ms ease;
   text-decoration: none;
 
-  i {
+  & i {
     font-size: 22px;
     vertical-align: middle;
     padding-bottom: 1px;
@@ -63,7 +63,7 @@ const xCss = css`
 const xShareButtonLinkCss = css`
   ${shareButtonLinkCss}
 
-  i {
+  & i {
     color: #ffffff;
   }
 `
@@ -82,7 +82,7 @@ const pocketCss = css`
     ${shareButtonCss}
     box-shadow: inset 0 0 0 0.1rem #ee4056;
 
-    i {
+    & i {
         color: #ee4056;
     }
 `
@@ -91,7 +91,7 @@ const hatenaCss = css`
     ${shareButtonCss}
     box-shadow: inset 0 0 0 0.1rem #4ba3d9;
 
-    i {
+    & i {
         color: #4ba3d9;
     }
 `

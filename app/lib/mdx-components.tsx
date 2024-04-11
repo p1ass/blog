@@ -108,7 +108,7 @@ const tableCss = css`
   border-spacing: 0;
   border-collapse: collapse;
   
-  tr:nth-child(odd) td {
+  & tr:nth-child(odd) td {
     background: ${backgroundDark};
   }
 `
