@@ -15,7 +15,7 @@ const atomOneDarkCss = css`
   padding: ${verticalRhythmUnit * 0.5}rem;
 
   /* グローバルのcodeスタイルを上書き */
-  font-size: 0.95rem;
+  font-size: 14px;
   border: none;
   }
   /*
