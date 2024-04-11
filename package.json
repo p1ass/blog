@@ -15,7 +15,7 @@
   "dependencies": {
     "@formkit/tempo": "^0.0.19",
     "hono": "^4.2.3",
-    "honox": "0.1.9",
+    "honox": "0.1.10",
     "ogp-parser": "^0.8.1",
     "rehype-mermaid": "^2.1.0",
     "remark-gfm": "^4.0.0",
