@@ -1,5 +1,5 @@
 ---
-title: Web Speed Hackathon 2024に参加したら2位になりました
+title: Web Speed Hackathon 2024に参加して2位になりました
 date: 2024-04-10T22:30:00+09:00
 description: Web Speed Hackathon 2024というISUCONのWebフロント版とも言えるチューニングコンテストに参加しました。
 categories:
@@ -33,11 +33,11 @@ _abemaくんとトロフィー_
 > 主にWeb技術（フロントエンドおよびNode.js）に関するチューニングを出題いたします。 表示に非常に時間がかかるサービスをどこまで高速化できるかを競います。
 
 端的に言えば、**ISUCONのWebフロント版**です。
-ISUCONは主にバックエンドのAPIなどWebサーバーのレスポンスを高速化することに主眼を置いています。
+ISUCONは主にバックエンドのAPIなど、Webサーバーのレスポンスを高速化することに主眼を置いています。
 そのため、基本的にHTMLやCSS、JavaScriptはチューニングの対象外になっています。
 
 一方で、Web Speed HackathonはWebブラウザの表示の高速化に主眼を置いています。
-APIサーバーの高速化だけでなく、ブラウザのレンダリングの最適化やダウンロードするファイル容量の削減といったブラウザの表示に関するチューニングに競技性を持たせている点が特徴です。
+APIサーバーの高速化だけでなく、ブラウザのレンダリングの最適化やダウンロードするファイル容量の削減といった、ブラウザの表示に関するチューニングに競技性を持たせている点が特徴です。
 
 ## Web Speed Hackathon 2024のテーマ
 
@@ -154,14 +154,14 @@ index.htmlでNoto Sans JPを読み込んでいたのですが、どこでも使�
 <script
     src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fapp%2Fsrc%2Ffoundation%2Fhooks%2FuseImage.ts%23L5-L46&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
-### 画像の WebP 化 & 適切ななサイズに事前リサイズ
+### 画像の WebP 化 & 適切なサイズに事前リサイズ
 
 今回の実装では、クエリパラメーターで指定されたサイズに画像をリサイズして返す実装が用意されていました。
 
 <script
     src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FCyberAgentHack%2Fweb-speed-hackathon-2024%2Fblob%2Fmain%2Fworkspaces%2Fserver%2Fsrc%2Froutes%2Fimage%2Findex.ts%23L109-L119&style=atom-one-dark&type=code&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
-しかし、画像のリアルタイム変換はCPU負荷もメモリ負荷も高いので、あらかじめ必要な画像を作成しておき、ランタイムではその画像をそのまま返すようにしました。
+しかし、画像のリアルタイム変換はCPU負荷もメモリ負荷も高いので、あらかじめ必要な画像を作成しておき、ランタイムでは変換後の画像をそのまま返すようにしました。
 ついでにファイル形式をWebP(非可逆圧縮)にしています。
 
 画像の変換スクリプトはChatGPTに作ってもらいました。
@@ -208,9 +208,7 @@ tsupはライブラリやサーバーのバンドルには便利ですが、バ�
 
 色々と悩んだのですが、最終的にクライアントのバンドルのみViteに移行し、チャンク分割をできるようにしました。
 
-この移行作業はかなり難航しました。Bufferのポリフィルが必要だっだりと、Nodeのエコシステム関連のエラーに悩まされました。
-普段業務でNodeを書くことはほどんどないので、知見もなく大変でした...。
-
+この移行作業はかなり難航しました。Bufferのポリフィルが必要だっだりと、Nodeのエコシステム関連のエラーに悩まされました...。
 最終的には次のような `vite.confg.ts` でビルドできるようになりました。(もっとシンプルに書けるかもしれません)
 
 ```typescript
