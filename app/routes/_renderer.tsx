@@ -20,6 +20,9 @@ const bodyCss = css`
   
     margin: 0 1rem;
     padding: 0;
+    
+    /* https://alpacat.com/posts/unexpected-font-size-change */
+    -webkit-text-size-adjust: 100%;
   }
 
   * {
