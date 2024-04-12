@@ -29,7 +29,7 @@
     "@mdx-js/mdx": "^3.0.1",
     "@mdx-js/rollup": "^3.0.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
-    "@types/mdx": "^2.0.12",
+    "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "1.5.8",
     "recma-export-filepath": "^1.1.0",
     "rehype-highlight": "^7.0.0",
