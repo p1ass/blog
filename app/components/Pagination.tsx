@@ -9,12 +9,12 @@ const paginationCss = css`
   text-align: center;
   justify-content: space-between;
   width:100%;
-  span {
+  & span {
     flex-grow:10;
     font-size: 1.1rem;
   }
 
-  a{
+  & a {
     max-width: 50%;
   }
 `

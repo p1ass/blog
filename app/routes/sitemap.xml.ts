@@ -3,7 +3,7 @@ import { format } from '@formkit/tempo'
 import type { Post } from '../lib/posts'
 import { getAllPosts } from '../lib/posts'
 
-const SITEMAP_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
+const SITEMAP_DATE_FORMAT = 'YYYY-MM-DD'
 
 function generateSitemap(posts: Post[]): string {
   const now = new Date()

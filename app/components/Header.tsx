@@ -38,7 +38,7 @@ const navigationListCss = css`
   padding: 0;
   text-align: center;
 
-  li {
+  & li {
     display: inline-block;
     padding: 0 1.5rem;
     margin: 0.2125rem 0 0.2125rem;
@@ -48,7 +48,7 @@ const navigationListCss = css`
     width: 100px;
     }
 
-    a {
+    & a {
       color: ${grayLight};
       -webkit-transition: all 0.2s ease-out;
       -moz-transition: all 0.2s ease-out;
