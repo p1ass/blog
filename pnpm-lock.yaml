@@ -17,8 +17,8 @@ dependencies:
     specifier: ^4.2.4
     version: 4.2.4
   honox:
-    specifier: 0.1.10
-    version: 0.1.10(hono@4.2.4)
+    specifier: 0.1.12
+    version: 0.1.12(hono@4.2.4)
   ogp-parser:
     specifier: ^0.8.1
     version: 0.8.1
@@ -759,8 +759,8 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@hono/node-server@1.9.0:
-    resolution: {integrity: sha512-oJjk7WXBlENeHhWiMqSyxPIZ3Kmf5ZYxqdlcSIXyN8Rn50bNJsPl99G4POBS03Jxh56FdfRJ0SEnC8mAVIiavQ==}
+  /@hono/node-server@1.10.0:
+    resolution: {integrity: sha512-XXFmIT4swUm3gG9yPU/HMAqHAHTP/Wr2mqgJakOFQhbbWipomaLu7ys0h9KrgF9032j18efBYk2aHz2SfgDbTA==}
     engines: {node: '>=18.14.1'}
     dev: false
 
@@ -773,15 +773,15 @@ packages:
       hono: 4.2.4
     dev: true
 
-  /@hono/vite-dev-server@0.9.0(hono@4.2.4):
-    resolution: {integrity: sha512-2kyl0Ly5lBwXodF0YEKlCWXRX8g4ovFZo++O+9LPA+SGvUQLfF2NVs8iTPJ7ZyL2VRa1ZRnUtjK+rFyEbqCJzg==}
+  /@hono/vite-dev-server@0.11.0(hono@4.2.4):
+    resolution: {integrity: sha512-qFx7lCOtNFM4B7bATrsDvaqTTcjejwvKH0o5lwW34Nqerx/YPXgnEYVCi0uXu9HaapRpD2gs04AzuFZHdZNVRg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '*'
     dependencies:
-      '@hono/node-server': 1.9.0
+      '@hono/node-server': 1.10.0
       hono: 4.2.4
-      miniflare: 3.20240405.0
+      miniflare: 3.20240405.1
       minimatch: 9.0.3
     transitivePeerDependencies:
       - bufferutil
@@ -3027,8 +3027,8 @@ packages:
     resolution: {integrity: sha512-2T5Ahxh8tT0ISKCrNeA+OIwfD5W4EZ00iIMYBBCuiIivr+sOrZYOphinARSG7wL3nFsY6zkFHMMZbcR9CzEzug==}
     engines: {node: '>=16.0.0'}
 
-  /honox@0.1.10(hono@4.2.4):
-    resolution: {integrity: sha512-6lH8Zklcl0CKYZYYlx+OpiJ0Lj0UsShu8eYEguqjb78vks+z1nvqp5TEgLua7a6v1AOgaWCtVpHD4rYwS3yZdg==}
+  /honox@0.1.12(hono@4.2.4):
+    resolution: {integrity: sha512-i3YxjdgCW1T5cO+LAirtlsJL7uBZCxkN9Pjw/qkRJdGLpbJsES9nR3ZNnA8CcruV0hovS2w7o/j2y4PvI6vM/g==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.*'
@@ -3037,7 +3037,7 @@ packages:
       '@babel/parser': 7.24.1
       '@babel/traverse': 7.24.1
       '@babel/types': 7.24.0
-      '@hono/vite-dev-server': 0.9.0(hono@4.2.4)
+      '@hono/vite-dev-server': 0.11.0(hono@4.2.4)
       hono: 4.2.4
       precinct: 11.0.5
     optionalDependencies:
@@ -4143,29 +4143,6 @@ packages:
     hasBin: true
     dev: false
 
-  /miniflare@3.20240405.0:
-    resolution: {integrity: sha512-OlC/96bIJA9FHvcjQMe4ZLU8FMXp4d2cGuIKOK7TxCmYRZqdVDLvVuOPUatWO8z9EtjWgiP9eGmY7O0KEdblvw==}
-    engines: {node: '>=16.13'}
-    hasBin: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      capnp-ts: 0.7.0
-      exit-hook: 2.2.1
-      glob-to-regexp: 0.4.1
-      stoppable: 1.1.0
-      undici: 5.28.4
-      workerd: 1.20240405.0
-      ws: 8.16.0
-      youch: 3.3.3
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /miniflare@3.20240405.1:
     resolution: {integrity: sha512-oShOR/ckr9JTO1bkPQH0nXvuSgJjoE+E5+M1tvP01Q8Z+Q0GJnzU2+FDYUH8yIK/atHv7snU8yy0X6KWVn1YdQ==}
     engines: {node: '>=16.13'}
@@ -4187,7 +4164,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: true
 
   /minimatch@5.1.6:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
