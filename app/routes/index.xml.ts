@@ -36,7 +36,7 @@ function generateRssItem(post: Post): string {
       <link>https://blog.p1ass.com${post.permalink}</link>
       <pubDate>${format(post.frontmatter.date, RSS_DATE_FORMAT, 'en')}</pubDate>
       <guid>https://blog.p1ass.com${post.permalink}</guid>
-      <enclosure url=${ogImage} length="0" type="image/png"/>
+      <enclosure url="${ogImage}" length="0" type="image/png"/>
       <description>${post.frontmatter.description}</description>
     </item>`
 }
