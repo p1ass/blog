@@ -70,8 +70,8 @@ devDependencies:
     specifier: ^3.0.0
     version: 3.0.0
   rehype-mdx-import-media:
-    specifier: ^1.1.1
-    version: 1.1.1
+    specifier: ^1.2.0
+    version: 1.2.0
   remark-frontmatter:
     specifier: ^5.0.0
     version: 5.0.0
@@ -4535,8 +4535,8 @@ packages:
       - supports-color
     dev: true
 
-  /rehype-mdx-import-media@1.1.1:
-    resolution: {integrity: sha512-dEq4bsaNfaiu7CypDU5MRf06BAy3L5bg0CBQv6x5uPNPxpww8oHV7NS7HXynfVSWrYHAaumxfYrvWgSj+D9VsQ==}
+  /rehype-mdx-import-media@1.2.0:
+    resolution: {integrity: sha512-rf+2qnPv3LTqLtCr8GjhHUja2TEbmwWtD1o4jigrmGWbVDggOMxyNeqJhGpC4E3vtH+sY+a+u9WPSEaskEWPFA==}
     dependencies:
       '@types/hast': 3.0.4
       hast-util-properties-to-mdx-jsx-attributes: 1.0.0
