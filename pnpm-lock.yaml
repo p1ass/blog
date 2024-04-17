@@ -17,8 +17,8 @@ dependencies:
     specifier: ^4.2.4
     version: 4.2.4
   honox:
-    specifier: 0.1.13
-    version: 0.1.13(hono@4.2.4)
+    specifier: 0.1.14
+    version: 0.1.14(hono@4.2.4)
   ogp-parser:
     specifier: ^0.8.1
     version: 0.8.1
@@ -179,7 +179,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.24.2
-      '@babel/parser': 7.24.1
+      '@babel/parser': 7.24.4
       '@babel/types': 7.24.0
     dev: false
 
@@ -193,7 +193,7 @@ packages:
       '@babel/helper-function-name': 7.23.0
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/parser': 7.24.1
+      '@babel/parser': 7.24.4
       '@babel/types': 7.24.0
       debug: 4.3.4(patch_hash=dgp7fmkfjycjr4pda6hyck42xa)
       globals: 11.12.0
@@ -790,7 +790,7 @@ packages:
       '@hono/node-server': 1.10.0
       hono: 4.2.4
       miniflare: 3.20240405.1
-      minimatch: 9.0.3
+      minimatch: 9.0.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -1179,7 +1179,7 @@ packages:
   /@vue/compiler-core@3.4.22:
     resolution: {integrity: sha512-FBDRCBE/rFPA8OfTUrARx2c49N7zoImlGT7hsFikv0pZxQlFhffQwewpEXaLynZW0/DspVXmNA+QQ9dXINpWmg==}
     dependencies:
-      '@babel/parser': 7.24.1
+      '@babel/parser': 7.24.4
       '@vue/shared': 3.4.22
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -1196,7 +1196,7 @@ packages:
   /@vue/compiler-sfc@3.4.22:
     resolution: {integrity: sha512-Pncp5Vc8E2Ef1o5uveO8WA1IqM7rt0R1jN8D4qitQYOUxC97iITGYA8oMInQ3UcDS7ip+SegyA2HbAEB4V6NMQ==}
     dependencies:
-      '@babel/parser': 7.24.1
+      '@babel/parser': 7.24.4
       '@vue/compiler-core': 3.4.22
       '@vue/compiler-dom': 3.4.22
       '@vue/compiler-ssr': 3.4.22
@@ -3092,14 +3092,14 @@ packages:
     resolution: {integrity: sha512-2T5Ahxh8tT0ISKCrNeA+OIwfD5W4EZ00iIMYBBCuiIivr+sOrZYOphinARSG7wL3nFsY6zkFHMMZbcR9CzEzug==}
     engines: {node: '>=16.0.0'}
 
-  /honox@0.1.13(hono@4.2.4):
-    resolution: {integrity: sha512-n8hX5w5ntuQU3ZLU/MDwyXY2rEh/vpDGwLsGoundMYwAeZOhRUbPgMqI8rz82vJZ4oP9+0mxONRYBqBbmr1+bA==}
+  /honox@0.1.14(hono@4.2.4):
+    resolution: {integrity: sha512-E1AktbEZyk1USstFODYtv0R/LnyXjpq1d6lsFXbxDL8TsE+/8WLANklrtrxzgmCmNEWVQgxtghhUj3eC1tapxQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.*'
     dependencies:
       '@babel/generator': 7.24.1
-      '@babel/parser': 7.24.1
+      '@babel/parser': 7.24.4
       '@babel/traverse': 7.24.1
       '@babel/types': 7.24.0
       '@hono/vite-dev-server': 0.11.0(hono@4.2.4)
@@ -4243,13 +4243,6 @@ packages:
     dependencies:
       brace-expansion: 2.0.1
     dev: true
-
-  /minimatch@9.0.3:
-    resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
-    engines: {node: '>=16 || 14 >=14.17'}
-    dependencies:
-      brace-expansion: 2.0.1
-    dev: false
 
   /minimatch@9.0.4:
     resolution: {integrity: sha512-KqWh+VchfxcMNRAJjj2tnsSJdNbHsVgnkBhTNrW7AjVo6OvLtxw8zfT9oLw1JSohlFzJ8jCoTgaoXvJ+kHt6fw==}
