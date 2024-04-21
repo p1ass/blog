@@ -767,8 +767,8 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@hono/node-server@1.10.0:
-    resolution: {integrity: sha512-XXFmIT4swUm3gG9yPU/HMAqHAHTP/Wr2mqgJakOFQhbbWipomaLu7ys0h9KrgF9032j18efBYk2aHz2SfgDbTA==}
+  /@hono/node-server@1.11.0:
+    resolution: {integrity: sha512-TLIJq9TMtD1NEG1mVoqNUn1Ita0qSaB5XboZErjFBcO/GJYXwWY4dVdTi9G0lbxtu0x+hJXDItcLaFHb7rlFTw==}
     engines: {node: '>=18.14.1'}
     dev: false
 
@@ -787,7 +787,7 @@ packages:
     peerDependencies:
       hono: '*'
     dependencies:
-      '@hono/node-server': 1.10.0
+      '@hono/node-server': 1.11.0
       hono: 4.2.5
       miniflare: 3.20240405.2
       minimatch: 9.0.4
