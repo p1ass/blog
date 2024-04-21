@@ -1,12 +1,12 @@
+import type { Env } from 'hono'
 import { Fragment } from 'hono/jsx/jsx-runtime'
+import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
+import { Heading } from '../../../components/Heading'
 import { Pagination } from '../../../components/Pagination'
 import { PostSummarySection } from '../../../components/PostSummarySection'
 import type { Head } from '../../../global'
 import { getCategories, getCategoryPosts } from '../../../lib/posts'
-import { ssgParams } from 'hono/ssg'
-import type { Env } from 'hono'
-import { Heading } from '../../../components/Heading'
 
 const param = ssgParams<Env>(c => {
   return getCategories().map(category => {
