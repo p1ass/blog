@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@formkit/tempo": "^0.0.19",
+    "@formkit/tempo": "^0.1.1",
     "hono": "^4.2.5",
     "honox": "0.1.15",
     "ogp-parser": "^0.8.1",
