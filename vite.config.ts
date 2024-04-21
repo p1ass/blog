@@ -5,11 +5,11 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
 
+import recmaExportFilepath from 'recma-export-filepath'
 import { defineConfig } from 'vite'
 import { normalizePath } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
-import recmaExportFilepath from 'recma-export-filepath'
 
 const entry = './app/server.ts'
 

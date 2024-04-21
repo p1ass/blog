@@ -1,5 +1,5 @@
-import { createRoute } from 'honox/factory'
 import { format } from '@formkit/tempo'
+import { createRoute } from 'honox/factory'
 import type { Post } from '../lib/posts'
 import { getAllPosts } from '../lib/posts'
 

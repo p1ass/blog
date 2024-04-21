@@ -1,8 +1,8 @@
 import { css } from 'hono/css'
 import { Fragment } from 'hono/jsx/jsx-runtime'
+import { Heading } from '../../components/Heading'
 import { getCategories } from '../../lib/posts'
 import { blue } from '../../styles/color'
-import { Heading } from '../../components/Heading'
 
 const linkCss = css`
   color: ${blue};
