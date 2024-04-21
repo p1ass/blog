@@ -7,8 +7,11 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: mongolyy/reviewdog-action-biome@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
         with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
+          version: latest
+      - name: Run Biome
+        run: biome ci .
