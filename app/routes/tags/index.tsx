@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { Fragment } from 'hono/jsx/jsx-runtime'
-import { getCategories, getTags } from '../../lib/posts'
+import { getTags } from '../../lib/posts'
 import { blue } from '../../styles/color'
 import { Heading } from '../../components/Heading'
 
