@@ -11,8 +11,8 @@ patchedDependencies:
 
 dependencies:
   '@formkit/tempo':
-    specifier: ^0.0.19
-    version: 0.0.19
+    specifier: ^0.1.1
+    version: 0.1.1
   hono:
     specifier: ^4.2.5
     version: 4.2.5
@@ -757,8 +757,8 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  /@formkit/tempo@0.0.19:
-    resolution: {integrity: sha512-f8Ek6aKVqhQj8keQ1Iy8J8M+soMUDnACf+acPjv8bvlPVVXIdt/7c1jwxk/fp9+VW04ccoG3NRILfdhpMnk20Q==}
+  /@formkit/tempo@0.1.1:
+    resolution: {integrity: sha512-nepRwKnCIjukLkblqh339sSXYI6P3cqktF/T7ECj3vURW+Pd+YzTv/I/lwjRqPGmlQJG93LORodIAkvgoExIAg==}
     dev: false
 
   /@fortawesome/fontawesome-free@6.5.2:
