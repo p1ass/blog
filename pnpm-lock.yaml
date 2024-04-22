@@ -85,8 +85,8 @@ devDependencies:
     specifier: ^5.2.10
     version: 5.2.10
   vite-plugin-static-copy:
-    specifier: ^1.0.2
-    version: 1.0.2(vite@5.2.10)
+    specifier: ^1.0.3
+    version: 1.0.3(vite@5.2.10)
   wrangler:
     specifier: ^3.51.2
     version: 3.51.2(@cloudflare/workers-types@4.20240419.0)
@@ -5223,8 +5223,8 @@ packages:
       - whiskers
     dev: false
 
-  /vite-plugin-static-copy@1.0.2(vite@5.2.10):
-    resolution: {integrity: sha512-AfmEF+a/mfjsUsrgjbCkhzUCeIUF4EKQXXt3Ie1cour9MBpy6f6GphbdW2td28oYfOrwCyRzFCksgLkpk58q6Q==}
+  /vite-plugin-static-copy@1.0.3(vite@5.2.10):
+    resolution: {integrity: sha512-hBCCz6T0uNI3oF5oJ/Ju73rhoR+ADrJ2iLAea5+wA7kpQ8clYgY8BD+GL0w0BrqsYCbgBITOByBP/3y9Y+h93A==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
