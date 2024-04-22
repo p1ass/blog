@@ -37,7 +37,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.9",
+    "vite": "^5.2.10",
     "vite-plugin-static-copy": "^1.0.2",
     "wrangler": "^3.51.2"
   },
