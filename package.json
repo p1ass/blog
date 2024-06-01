@@ -18,7 +18,7 @@
     "ogp-parser": "^0.8.1",
     "rehype-mermaid": "^2.1.0",
     "remark-gfm": "^4.0.0",
-    "vite-plugin-require": "^1.1.14"
+    "vite-plugin-require": "^1.2.14"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.2",
