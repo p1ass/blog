@@ -61,8 +61,8 @@ devDependencies:
     specifier: ^2.0.13
     version: 2.0.13
   '@types/mdx-js__react':
-    specifier: 1.5.8
-    version: 1.5.8
+    specifier: 2.0.0
+    version: 2.0.0(@types/react@18.2.73)(react@18.3.1)
   recma-export-filepath:
     specifier: ^1.1.0
     version: 1.1.0
@@ -1032,6 +1032,17 @@ packages:
       - supports-color
     dev: true
 
+  /@mdx-js/react@3.0.1(@types/react@18.2.73)(react@18.3.1):
+    resolution: {integrity: sha512-9ZrPIU4MGf6et1m1ov3zKf+q9+deetI51zprKB1D/z3NOb+rUxxtEl3mCjW5wTGh6VhRdwPueh1oRzi6ezkA8A==}
+    peerDependencies:
+      '@types/react': '>=16'
+      react: '>=16'
+    dependencies:
+      '@types/mdx': 2.0.13
+      '@types/react': 18.2.73
+      react: 18.3.1
+    dev: true
+
   /@mdx-js/rollup@3.0.1(rollup@4.13.1):
     resolution: {integrity: sha512-j0II91OCm4ld+l5QVgXXMQGxVVcAWIQJakYWi1dv5pefDHASJyCYER2TsdH7Alf958GoFSM7ugukWyvDq/UY4A==}
     peerDependencies:
@@ -1260,10 +1271,14 @@ packages:
     dependencies:
       '@types/unist': 3.0.2
 
-  /@types/mdx-js__react@1.5.8:
-    resolution: {integrity: sha512-iLQL8JZ4AZ+rpZvGUsQwENffpsSCMLYB8kE6OhGasLmdYn7aSLq53uOvZrKx5FM+hymE2nm08HDfq7tFx02ElA==}
+  /@types/mdx-js__react@2.0.0(@types/react@18.2.73)(react@18.3.1):
+    resolution: {integrity: sha512-CULRBwQwLTb2RrhERg43x4857LaAjWcA2oncJdW0zj9m6eZQbGcOxZTHMiOxYmNmSrbDJQwJ6JiokqzBLAenEA==}
+    deprecated: This is a stub types definition. @mdx-js/react provides its own type definitions, so you do not need this installed.
     dependencies:
-      '@types/react': 18.2.73
+      '@mdx-js/react': 3.0.1(@types/react@18.2.73)(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/react'
+      - react
     dev: true
 
   /@types/mdx@2.0.13:
@@ -3179,7 +3194,6 @@ packages:
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-    dev: false
 
   /jschardet@2.1.1:
     resolution: {integrity: sha512-pA5qG9Zwm8CBpGlK/lo2GE9jPxwqRgMV7Lzc/1iaPccw6v4Rhj8Zg2BTyrdmHmxlJojnbLupLeRnaPLsq03x6Q==}
@@ -3248,6 +3262,13 @@ packages:
 
   /longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
+
+  /loose-envify@1.4.0:
+    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
+    dependencies:
+      js-tokens: 4.0.0
+    dev: true
 
   /lowlight@3.1.0:
     resolution: {integrity: sha512-CEbNVoSikAxwDMDPjXlqlFYiZLkDJHwyGu/MfOsJnF3d7f3tds5J3z8s/l9TMXhzfsJCCJEAsD78842mwmg0PQ==}
@@ -4384,6 +4405,13 @@ packages:
     dependencies:
       safe-buffer: 5.2.1
     dev: false
+
+  /react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: true
 
   /readdirp@3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
