@@ -39,7 +39,7 @@
     "remark-mdx-frontmatter": "^4.0.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
-    "vite-plugin-static-copy": "^1.0.4",
+    "vite-plugin-static-copy": "^1.0.5",
     "wrangler": "^3.53.1"
   },
   "pnpm": {
