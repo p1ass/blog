@@ -40,8 +40,8 @@ devDependencies:
     specifier: ^4.20240529.0
     version: 4.20240529.0
   '@hono/vite-cloudflare-pages':
-    specifier: ^0.2.5
-    version: 0.2.5(hono@4.2.9)
+    specifier: ^0.4.0
+    version: 0.4.0(hono@4.2.9)
   '@hono/vite-ssg':
     specifier: 0.1.0
     version: 0.1.0(hono@4.2.9)
@@ -776,8 +776,8 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: false
 
-  /@hono/vite-cloudflare-pages@0.2.5(hono@4.2.9):
-    resolution: {integrity: sha512-/Cw4bREPf2OelHDc/2oVXYXemyKz+wXkC+5uK8ZLo8c2JV7vthSchQPWK7O6BGe7al0z5qKVqhTYkfZvuW0T5w==}
+  /@hono/vite-cloudflare-pages@0.4.0(hono@4.2.9):
+    resolution: {integrity: sha512-+vmfgphNc2DZx457HqrefZmpVVhJmz3bQaDpylBgInt9uPEV+xuFwnTaHwVn00R00HPmJuSDT+9ybvYDPIDQuQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '*'
