@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "@formkit/tempo": "^0.1.1",
-    "hono": "^4.4.2",
+    "hono": "^4.4.3",
     "honox": "0.1.18",
     "ogp-parser": "^0.8.1",
     "rehype-mermaid": "^2.1.0",

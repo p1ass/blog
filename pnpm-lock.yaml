@@ -14,11 +14,11 @@ dependencies:
     specifier: ^0.1.1
     version: 0.1.1
   hono:
-    specifier: ^4.4.2
-    version: 4.4.2
+    specifier: ^4.4.3
+    version: 4.4.3
   honox:
     specifier: 0.1.18
-    version: 0.1.18(hono@4.4.2)
+    version: 0.1.18(hono@4.4.3)
   ogp-parser:
     specifier: ^0.8.1
     version: 0.8.1
@@ -41,10 +41,10 @@ devDependencies:
     version: 4.20240603.0
   '@hono/vite-cloudflare-pages':
     specifier: ^0.4.0
-    version: 0.4.0(hono@4.4.2)
+    version: 0.4.0(hono@4.4.3)
   '@hono/vite-ssg':
     specifier: 0.1.0
-    version: 0.1.0(hono@4.4.2)
+    version: 0.1.0(hono@4.4.3)
   '@mdx-js/mdx':
     specifier: ^3.0.1
     version: 3.0.1
@@ -927,23 +927,23 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: false
 
-  /@hono/vite-cloudflare-pages@0.4.0(hono@4.4.2):
+  /@hono/vite-cloudflare-pages@0.4.0(hono@4.4.3):
     resolution: {integrity: sha512-+vmfgphNc2DZx457HqrefZmpVVhJmz3bQaDpylBgInt9uPEV+xuFwnTaHwVn00R00HPmJuSDT+9ybvYDPIDQuQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '*'
     dependencies:
-      hono: 4.4.2
+      hono: 4.4.3
     dev: true
 
-  /@hono/vite-dev-server@0.12.1(hono@4.4.2):
+  /@hono/vite-dev-server@0.12.1(hono@4.4.3):
     resolution: {integrity: sha512-Fm7BXm9onjEaU5OqkLhU4pkdBKenlulrExDSkBxXULF+7NQznHppWnKcDI6A0pvjz0oNykNy5F7QnHhofmnMdQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '*'
     dependencies:
       '@hono/node-server': 1.11.0
-      hono: 4.4.2
+      hono: 4.4.3
       miniflare: 3.20240419.0
       minimatch: 9.0.4
     transitivePeerDependencies:
@@ -952,13 +952,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hono/vite-ssg@0.1.0(hono@4.4.2):
+  /@hono/vite-ssg@0.1.0(hono@4.4.3):
     resolution: {integrity: sha512-tnkBilZ2/+y8w/X+R2Pf4Heu+Xyk4wO2KiBiEOvqqiXQC2yT8WAdiB17qk87og3ZuRCC/721ZZ736TpB6fGkWQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.0.0'
     dependencies:
-      hono: 4.4.2
+      hono: 4.4.3
     dev: true
 
   /@jridgewell/gen-mapping@0.3.5:
@@ -3047,11 +3047,11 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: true
 
-  /hono@4.4.2:
-    resolution: {integrity: sha512-bRhZ+BM9r04lRN2i9wiZ18yQNbZxHsmmRIItoAb43nRkHnIDsFhFh4mJ0seEs06FvenibpAgSVNHQ8ZzcDQx2A==}
+  /hono@4.4.3:
+    resolution: {integrity: sha512-G7rTruKzrHXPz1KB4B50deKydPA9+aeei+WC1hikP0abN9N+a6yORuweageaqWocYfYNkpoqA5ezGV2mzQasvw==}
     engines: {node: '>=16.0.0'}
 
-  /honox@0.1.18(hono@4.4.2):
+  /honox@0.1.18(hono@4.4.3):
     resolution: {integrity: sha512-4PjVcTVFqYwLHMJPPkalztRYPOYZY4f9dnWwpUouJAj3w4CQrppljPMpFafaYjHQgD+fP96mmnv02txakxXGmA==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -3061,8 +3061,8 @@ packages:
       '@babel/parser': 7.24.4
       '@babel/traverse': 7.24.1
       '@babel/types': 7.24.0
-      '@hono/vite-dev-server': 0.12.1(hono@4.4.2)
-      hono: 4.4.2
+      '@hono/vite-dev-server': 0.12.1(hono@4.4.3)
+      hono: 4.4.3
       jsonc-parser: 3.2.1
       precinct: 12.1.1
     optionalDependencies:
