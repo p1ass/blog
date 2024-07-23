@@ -28,7 +28,7 @@
     "@mdx-js/mdx": "^3.0.1",
     "@mdx-js/rollup": "^3.0.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
-    "@playwright/test": "1.43.0",
+    "@playwright/test": "1.45.3",
     "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "2.0.0",
     "recma-export-filepath": "^1.1.0",
