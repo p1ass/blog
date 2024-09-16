@@ -52,13 +52,13 @@ x, y = f()
 
 make の第三引数はキャパシティと呼ばれ、どれだけのメモリを確保するかを指定できます。予めスライスの長さ以上のメモリを確保することで、`append` 時のメモリ再確保の回数を減らすことができます。
 
-<ExLinkCard url="https://blog.golang.org/slices-intro"/>
+<ExLinkCard url="https://blog.golang.org/slices-intro" />
 
 ### `map[string]struct{}` の `struct{}` は何？
 
 `struct{}` は empty struct と呼ばれ、フィールドを持たない構造体です。empty struct のメリットはメモリのサイズが 0 であることです。つまり、どれだけ使ってもメモリを消費しません。
 
-<ExLinkCard url="https://dave.cheney.net/2014/03/25/the-empty-struct"/>
+<ExLinkCard url="https://dave.cheney.net/2014/03/25/the-empty-struct" />
 
 #### 私見
 
@@ -77,9 +77,9 @@ Go ではそのコストを下げるために、ランタイムで動く独自�
   Goroutines - A Tour of Go
 </BlockLink>
 
-<ExLinkCard url="https://talks.golang.org/2012/waza.slide#32"/>
+<ExLinkCard url="https://talks.golang.org/2012/waza.slide#32" />
 
-<ExLinkCard url="https://medium.com/a-journey-with-go/tagged/goroutines"/>
+<ExLinkCard url="https://medium.com/a-journey-with-go/tagged/goroutines" />
 
 ### なぜ Go には try-catch のような例外がないのか？
 
@@ -101,7 +101,7 @@ if err != nil {
 既に Go に染まってしまったからかもしれませんが、個人的にはこのエラーハンドリングは好きです。
 逆に try-catch を使った例外処理が書けなくなりました。
 
-<ExLinkCard url="https://talks.golang.org/2012/splash.article"/>
+<ExLinkCard url="https://talks.golang.org/2012/splash.article" />
 
 ### `var s []string` と `s := make([]string,0)` と `s := []string{}` の違いは？
 
@@ -141,12 +141,11 @@ s3 len: 0
 */
 ```
 
-<ExLinkCard url="https://play.golang.org/p/lJmXd0c10GC"/>
+<ExLinkCard url="https://play.golang.org/p/lJmXd0c10GC" />
 
 Uber Go Style Guide では nil slice が推奨されています。
 
-<BlockLink
-    href="https://github.com/knsh14/uber-style-guide-ja/blob/master/guide.md#nil-is-a-valid-slice">
+<BlockLink href="https://github.com/knsh14/uber-style-guide-ja/blob/master/guide.md#nil-is-a-valid-slice">
   nil is a valid slice - Uber Go Style Guide
 </BlockLink>
 
@@ -161,9 +160,9 @@ Uber Go Style Guide では nil slice が推奨されています。
 
 なお、現在はジェネリクスを実装するプロポーザルが承認されており、Go1.18 にてリリースされる予定です。
 
-<ExLinkCard url="https://blog.golang.org/generics-next-step"/>
+<ExLinkCard url="https://blog.golang.org/generics-next-step" />
 
-<ExLinkCard url="https://github.com/golang/go/issues/43651"/>
+<ExLinkCard url="https://github.com/golang/go/issues/43651" />
 
 ### Enum を定義したい
 
@@ -184,8 +183,7 @@ const (
 Enum っぽいものを定義する際にはゼロ値を Unknown のようなデフォルト値を設定するようにすると便利です。
 また、`fmt.Stringer` を実装しておくとデバッグ時に役立ちます。
 
-<ExLinkCard url="https://blog.y-yuki.net/entry/2017/05/09/000000"/>
-<ExLinkCard url="https://qiita.com/cia_rana/items/9d00ce81252ed970f362"/>
+<ExLinkCard url="https://qiita.com/cia_rana/items/9d00ce81252ed970f362" />
 
 ## 標準ライブラリ
 
@@ -193,13 +191,13 @@ Enum っぽいものを定義する際にはゼロ値を Unknown のようなデ
 
 ビルドインの `print` や `println` 関数の表示方法は実装依存で定めがありません。また、出力は必ず標準エラー出力に出力されます。そのため、基本的には自由度の高い `fmt` パッケージが使われます。
 
-<ExLinkCard url="https://pkg.go.dev/builtin@go1.16.4#print"/>
+<ExLinkCard url="https://pkg.go.dev/builtin@go1.16.4#print" />
 
 ### いい感じにエラーハンドリングしたい
 
 Go 1.13 から追加された標準の errors パッケージを使うことで、エラーによって処理を分岐できます。
 
-<ExLinkCard url="https://pkg.go.dev/errors"/>
+<ExLinkCard url="https://pkg.go.dev/errors" />
 
 #### 私見
 
@@ -209,13 +207,13 @@ Go 1.13 から追加された標準の errors パッケージを使うことで�
 <BlockLink href="https://pkg.go.dev/github.com/pkg/errors">
   pkg/errors・pkg.go.dev
 </BlockLink>
-<ExLinkCard url="https://pkg.go.dev/golang.org/x/xerrors"/>
+<ExLinkCard url="https://pkg.go.dev/golang.org/x/xerrors" />
 
 ### 構造体をいい感じに標準出力に出したい
 
 通常、構造体を `%v` や `%+v` で出力するとフィールド名やその値が表示されますが、`fmt.Stringer` インターフェイスを実装することで表示をカスタマイズできます。
 
-<ExLinkCard url="https://qiita.com/tenntenn/items/453a09c4c6d7f580d0ab"/>
+<ExLinkCard url="https://qiita.com/tenntenn/items/453a09c4c6d7f580d0ab" />
 
 ## 公式のエコシステム周り
 
@@ -223,21 +221,21 @@ Go 1.13 から追加された標準の errors パッケージを使うことで�
 
 現在(2021/05)では、公式で提供されている Go Module を使います。
 
-<ExLinkCard url="https://blog.golang.org/using-go-modules"/>
+<ExLinkCard url="https://blog.golang.org/using-go-modules" />
 
 ### Go の Formatter や Linter を知りたい
 
 Formatter は Go 標準で `gofmt` コマンドがあります。
 
-<ExLinkCard url="https://golang.org/cmd/gofmt/"/>
+<ExLinkCard url="https://golang.org/cmd/gofmt/" />
 
 Linter はいくつか種類がありますが、公式のでは怪しい構造をレポートする `go vet` コマンドがあります。
 
-<ExLinkCard url="https://golang.org/cmd/vet/"/>
+<ExLinkCard url="https://golang.org/cmd/vet/" />
 
 その他にも、サードパーティの Linter を集めた golangci-lint という Linter のランナーがあります。
 
-<ExLinkCard url="https://github.com/golangci/golangci-lint"/>
+<ExLinkCard url="https://github.com/golangci/golangci-lint" />
 
 ## スタイル周り
 
@@ -279,11 +277,11 @@ Go の FAQ では、
 
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout) という Go 非公式のリポジトリがありますが、Go Team の Russ Cox から standard と呼ぶのは正確ではないという趣旨の issue が立てられています。
 
-<ExLinkCard url="https://github.com/golang-standards/project-layout/issues/117"/>
+<ExLinkCard url="https://github.com/golang-standards/project-layout/issues/117" />
 
 パッケージ構成ではないですが、パッケージ名に関する記事は公式の The Go Blog にあります。
 
-<ExLinkCard url="https://blog.golang.org/package-names"/>
+<ExLinkCard url="https://blog.golang.org/package-names" />
 
 #### 私見
 
@@ -342,7 +340,7 @@ VS Code や Goland では拡張機能にこの機能が組み込まれている�
 ![画像](https://raw.githubusercontent.com/cweill/GoTests-Sublime/master/gotests.gif)
 _GitHub より引用_
 
-<ExLinkCard url="https://github.com/cweill/gotests"/>
+<ExLinkCard url="https://github.com/cweill/gotests" />
 
 ### テストの構造体比較に reflect ではなく go-cmp を使うメリットは何か?
 
@@ -384,10 +382,10 @@ MakeGatewayInfo() mismatch (-want +got):
   }
 ```
 
-<ExLinkCard url="https://github.com/google/go-cmp"/>
+<ExLinkCard url="https://github.com/google/go-cmp" />
 
 ## その他のよくある質問は?
 
 すでに何度かリンクを貼りましたが、公式の FAQ があるので一読をオススメします。
 
-<ExLinkCard url="https://golang.org/doc/faq"/>
+<ExLinkCard url="https://golang.org/doc/faq" />
