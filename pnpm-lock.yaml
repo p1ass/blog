@@ -90,8 +90,8 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5(@types/node@20.11.30)(terser@5.30.0)
       vite-plugin-static-copy:
-        specifier: ^1.0.5
-        version: 1.0.5(vite@5.4.5(@types/node@20.11.30)(terser@5.30.0))
+        specifier: ^1.0.6
+        version: 1.0.6(vite@5.4.5(@types/node@20.11.30)(terser@5.30.0))
       wrangler:
         specifier: ^3.61.0
         version: 3.61.0(@cloudflare/workers-types@4.20240909.0)
@@ -2201,9 +2201,6 @@ packages:
   periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
 
-  picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
-
   picocolors@1.1.0:
     resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
 
@@ -2576,8 +2573,8 @@ packages:
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
-  vite-plugin-static-copy@1.0.5:
-    resolution: {integrity: sha512-02k0Rox+buYdEOfeilKZSgs1gXfPf9RjVztZEIYZgVIxjsVZi6AXssjzdi+qW6zYt00d3bq+tpP2voVXN2fKLw==}
+  vite-plugin-static-copy@1.0.6:
+    resolution: {integrity: sha512-3uSvsMwDVFZRitqoWHj0t4137Kz7UynnJeq1EZlRW7e25h2068fyIZX4ORCCOAkfp1FklGxJNVJBkBOD+PZIew==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
@@ -2701,7 +2698,7 @@ snapshots:
   '@babel/code-frame@7.24.6':
     dependencies:
       '@babel/highlight': 7.24.6
-      picocolors: 1.0.0
+      picocolors: 1.1.0
 
   '@babel/generator@7.24.6':
     dependencies:
@@ -5182,8 +5179,6 @@ snapshots:
       estree-walker: 3.0.3
       is-reference: 3.0.2
 
-  picocolors@1.0.0: {}
-
   picocolors@1.1.0: {}
 
   picomatch@2.3.1: {}
@@ -5206,7 +5201,7 @@ snapshots:
   postcss@8.4.38:
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.0
+      picocolors: 1.1.0
       source-map-js: 1.2.0
 
   postcss@8.4.47:
@@ -5678,12 +5673,12 @@ snapshots:
       - vue
       - webpack-cli
 
-  vite-plugin-static-copy@1.0.5(vite@5.4.5(@types/node@20.11.30)(terser@5.30.0)):
+  vite-plugin-static-copy@1.0.6(vite@5.4.5(@types/node@20.11.30)(terser@5.30.0)):
     dependencies:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       fs-extra: 11.2.0
-      picocolors: 1.0.0
+      picocolors: 1.1.0
       vite: 5.4.5(@types/node@20.11.30)(terser@5.30.0)
 
   vite@5.4.5(@types/node@20.11.30)(terser@5.30.0):
