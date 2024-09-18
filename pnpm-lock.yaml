@@ -93,8 +93,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(vite@5.4.6(@types/node@20.11.30)(terser@5.30.0))
       wrangler:
-        specifier: ^3.78.3
-        version: 3.78.3(@cloudflare/workers-types@4.20240909.0)
+        specifier: ^3.78.4
+        version: 3.78.4(@cloudflare/workers-types@4.20240909.0)
 
 packages:
 
@@ -2105,11 +2105,6 @@ packages:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
 
-  miniflare@3.20240909.1:
-    resolution: {integrity: sha512-tdzJFApHmqFYlpjfpqBDnsE6dHUDLHejBrNgXftLfTf/ni5NySgXKnuntCCMdRtnTpjUKmkHiusGrBCf9b1rnA==}
-    engines: {node: '>=16.13'}
-    hasBin: true
-
   miniflare@3.20240909.2:
     resolution: {integrity: sha512-rZe7d0GkP02DnsgLD6qT+0K3O1azWCbDQIeHyH7WHJeyfkGPONS8U5FeNJEmus05z+2F6jcMI/Gc/Irc+UFTAA==}
     engines: {node: '>=16.13'}
@@ -2647,8 +2642,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@3.78.3:
-    resolution: {integrity: sha512-IRQ0HCmaVGeQVsW+4kqJfYuA1uBIAtjSCu8/aLRBXzdpiQ+0VSSj/uQ54wBRS08n4twFXTLiPAsYiNVF1aHyyA==}
+  wrangler@3.78.4:
+    resolution: {integrity: sha512-tIzfqg9yLk1mCxD2jwczN24vVK1W5CQ+xDCBZPxI24qWyGH5nE0n5xMnS6eknXNw0bhKaHCN7bzfxpE3DP4lPg==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -2998,7 +2993,7 @@ snapshots:
     dependencies:
       '@hono/node-server': 1.13.0(hono@4.6.2)
       hono: 4.6.2
-      miniflare: 3.20240909.1
+      miniflare: 3.20240909.2
       minimatch: 9.0.4
     transitivePeerDependencies:
       - bufferutil
@@ -5058,25 +5053,6 @@ snapshots:
 
   mini-svg-data-uri@1.4.4: {}
 
-  miniflare@3.20240909.1:
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      capnp-ts: 0.7.0
-      exit-hook: 2.2.1
-      glob-to-regexp: 0.4.1
-      stoppable: 1.1.0
-      undici: 5.28.4
-      workerd: 1.20240909.0
-      ws: 8.17.1
-      youch: 3.3.3
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   miniflare@3.20240909.2:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -5737,7 +5713,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20240909.0
       '@cloudflare/workerd-windows-64': 1.20240909.0
 
-  wrangler@3.78.3(@cloudflare/workers-types@4.20240909.0):
+  wrangler@3.78.4(@cloudflare/workers-types@4.20240909.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@cloudflare/workers-shared': 0.5.3
