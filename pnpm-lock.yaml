@@ -17,11 +17,11 @@ importers:
         specifier: ^0.1.2
         version: 0.1.2
       hono:
-        specifier: ^4.6.2
-        version: 4.6.2
+        specifier: ^4.6.3
+        version: 4.6.3
       honox:
         specifier: 0.1.24
-        version: 0.1.24(hono@4.6.2)
+        version: 0.1.24(hono@4.6.3)
       ogp-parser:
         specifier: ^0.8.1
         version: 0.8.1
@@ -43,10 +43,10 @@ importers:
         version: 4.20240919.0
       '@hono/vite-cloudflare-pages':
         specifier: ^0.4.2
-        version: 0.4.2(hono@4.6.2)
+        version: 0.4.2(hono@4.6.3)
       '@hono/vite-ssg':
         specifier: 0.1.0
-        version: 0.1.0(hono@4.6.2)
+        version: 0.1.0(hono@4.6.3)
       '@mdx-js/mdx':
         specifier: ^3.0.1
         version: 3.0.1
@@ -1681,8 +1681,8 @@ packages:
     resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
 
-  hono@4.6.2:
-    resolution: {integrity: sha512-v+39817TgAhetmHUEli8O0uHDmxp2Up3DnhS4oUZXOl5IQ9np9tYtldd42e5zgdLVS0wsOoXQNZ6mx+BGmEvCA==}
+  hono@4.6.3:
+    resolution: {integrity: sha512-0LeEuBNFeSHGqZ9sNVVgZjB1V5fmhkBSB0hZrpqStSMLOWgfLy0dHOvrjbJh0H2khsjet6rbHfWTHY0kpYThKQ==}
     engines: {node: '>=16.9.0'}
 
   honox@0.1.24:
@@ -2986,18 +2986,18 @@ snapshots:
 
   '@fortawesome/fontawesome-free@6.5.2': {}
 
-  '@hono/node-server@1.13.0(hono@4.6.2)':
+  '@hono/node-server@1.13.0(hono@4.6.3)':
     dependencies:
-      hono: 4.6.2
+      hono: 4.6.3
 
-  '@hono/vite-cloudflare-pages@0.4.2(hono@4.6.2)':
+  '@hono/vite-cloudflare-pages@0.4.2(hono@4.6.3)':
     dependencies:
-      hono: 4.6.2
+      hono: 4.6.3
 
-  '@hono/vite-dev-server@0.14.0(hono@4.6.2)':
+  '@hono/vite-dev-server@0.14.0(hono@4.6.3)':
     dependencies:
-      '@hono/node-server': 1.13.0(hono@4.6.2)
-      hono: 4.6.2
+      '@hono/node-server': 1.13.0(hono@4.6.3)
+      hono: 4.6.3
       miniflare: 3.20240909.4
       minimatch: 9.0.4
     transitivePeerDependencies:
@@ -3005,9 +3005,9 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@hono/vite-ssg@0.1.0(hono@4.6.2)':
+  '@hono/vite-ssg@0.1.0(hono@4.6.3)':
     dependencies:
-      hono: 4.6.2
+      hono: 4.6.3
 
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
@@ -4258,16 +4258,16 @@ snapshots:
 
   highlight.js@11.9.0: {}
 
-  hono@4.6.2: {}
+  hono@4.6.3: {}
 
-  honox@0.1.24(hono@4.6.2):
+  honox@0.1.24(hono@4.6.3):
     dependencies:
       '@babel/generator': 7.24.6
       '@babel/parser': 7.24.6
       '@babel/traverse': 7.24.6
       '@babel/types': 7.24.6
-      '@hono/vite-dev-server': 0.14.0(hono@4.6.2)
-      hono: 4.6.2
+      '@hono/vite-dev-server': 0.14.0(hono@4.6.3)
+      hono: 4.6.3
       jsonc-parser: 3.2.1
       precinct: 12.1.1
     optionalDependencies:
