@@ -21,7 +21,7 @@ importers:
         version: 4.6.3
       honox:
         specifier: 0.1.26
-        version: 0.1.26(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.2(@cloudflare/workers-types@4.20241004.0))
+        version: 0.1.26(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.3(@cloudflare/workers-types@4.20241004.0))
       ogp-parser:
         specifier: ^0.8.1
         version: 0.8.1
@@ -93,8 +93,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(vite@5.4.8(@types/node@20.11.30)(terser@5.30.0))
       wrangler:
-        specifier: ^3.80.2
-        version: 3.80.2(@cloudflare/workers-types@4.20241004.0)
+        specifier: ^3.80.3
+        version: 3.80.3(@cloudflare/workers-types@4.20241004.0)
 
 packages:
 
@@ -2531,8 +2531,8 @@ packages:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
     engines: {node: '>=14.0'}
 
-  unenv-nightly@2.0.0-20240919-125358-9a64854:
-    resolution: {integrity: sha512-XjsgUTrTHR7iw+k/SRTNjh6EQgwpC9voygnoCJo5kh4hKqsSDHUW84MhL9EsHTNfLctvVBHaSw8e2k3R2fKXsQ==}
+  unenv-nightly@2.0.0-20241009-125958-e8ea22f:
+    resolution: {integrity: sha512-hRxmKz1iSVRmuFx/vBdPsx7rX4o7Cas9vdjDNeUeWpQTK2LzU3Xy3Jz0zbo7MJX0bpqo/LEFCA+GPwsbl6zKEQ==}
 
   unified@11.0.4:
     resolution: {integrity: sha512-apMPnyLjAX+ty4OrNap7yumyVAMlKx5IWU2wlzzUdYJO9A8f1p9m/gywF/GM2ZDFcjQPrx59Mc90KwmxsoklxQ==}
@@ -2679,8 +2679,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@3.80.2:
-    resolution: {integrity: sha512-WSMDXoNcg+DjZ4i0RMJpz2TKrCbTtsxNsQAwyYg7LRZlfmTZQZOPbHWhATVa4fCsNL6eElN050fMHOW9MptM9g==}
+  wrangler@3.80.3:
+    resolution: {integrity: sha512-Qe/7Sp8Vf7LYrdLPVsQFznac/1FweLI4aRgHmdCr6SCP5V81PP5ArogQX6BcuZ1tHvtNLNk4B4JC39awJdZvUg==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -3071,14 +3071,14 @@ snapshots:
     dependencies:
       hono: 4.6.3
 
-  '@hono/vite-dev-server@0.16.0(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.2(@cloudflare/workers-types@4.20241004.0))':
+  '@hono/vite-dev-server@0.16.0(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.3(@cloudflare/workers-types@4.20241004.0))':
     dependencies:
       '@hono/node-server': 1.13.0(hono@4.6.3)
       hono: 4.6.3
       minimatch: 9.0.4
     optionalDependencies:
       miniflare: 3.20240925.1
-      wrangler: 3.80.2(@cloudflare/workers-types@4.20241004.0)
+      wrangler: 3.80.3(@cloudflare/workers-types@4.20241004.0)
 
   '@hono/vite-ssg@0.1.0(hono@4.6.3)':
     dependencies:
@@ -4333,13 +4333,13 @@ snapshots:
 
   hono@4.6.3: {}
 
-  honox@0.1.26(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.2(@cloudflare/workers-types@4.20241004.0)):
+  honox@0.1.26(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.3(@cloudflare/workers-types@4.20241004.0)):
     dependencies:
       '@babel/generator': 7.25.6
       '@babel/parser': 7.25.6
       '@babel/traverse': 7.25.6
       '@babel/types': 7.25.6
-      '@hono/vite-dev-server': 0.16.0(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.2(@cloudflare/workers-types@4.20241004.0))
+      '@hono/vite-dev-server': 0.16.0(hono@4.6.3)(miniflare@3.20240925.1)(wrangler@3.80.3(@cloudflare/workers-types@4.20241004.0))
       hono: 4.6.3
       jsonc-parser: 3.3.1
       precinct: 12.1.2
@@ -5602,7 +5602,7 @@ snapshots:
     dependencies:
       '@fastify/busboy': 2.1.1
 
-  unenv-nightly@2.0.0-20240919-125358-9a64854:
+  unenv-nightly@2.0.0-20241009-125958-e8ea22f:
     dependencies:
       defu: 6.1.4
       ohash: 1.1.4
@@ -5791,7 +5791,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20240925.0
       '@cloudflare/workerd-windows-64': 1.20240925.0
 
-  wrangler@3.80.2(@cloudflare/workers-types@4.20241004.0):
+  wrangler@3.80.3(@cloudflare/workers-types@4.20241004.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@cloudflare/workers-shared': 0.5.4
@@ -5807,7 +5807,7 @@ snapshots:
       resolve.exports: 2.0.2
       selfsigned: 2.4.1
       source-map: 0.6.1
-      unenv: unenv-nightly@2.0.0-20240919-125358-9a64854
+      unenv: unenv-nightly@2.0.0-20241009-125958-e8ea22f
       workerd: 1.20240925.0
       xxhash-wasm: 1.0.2
     optionalDependencies:
