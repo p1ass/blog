@@ -33,7 +33,7 @@ importers:
         version: 4.0.0
       vite-plugin-require:
         specifier: ^1.2.14
-        version: 1.2.14(esbuild@0.17.19)(vite@5.4.8(@types/node@20.11.30)(terser@5.30.0))
+        version: 1.2.14(esbuild@0.17.19)(vite@5.4.9(@types/node@20.11.30)(terser@5.30.0))
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -87,11 +87,11 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
       vite:
-        specifier: ^5.4.8
-        version: 5.4.8(@types/node@20.11.30)(terser@5.30.0)
+        specifier: ^5.4.9
+        version: 5.4.9(@types/node@20.11.30)(terser@5.30.0)
       vite-plugin-static-copy:
         specifier: ^2.0.0
-        version: 2.0.0(vite@5.4.8(@types/node@20.11.30)(terser@5.30.0))
+        version: 2.0.0(vite@5.4.9(@types/node@20.11.30)(terser@5.30.0))
       wrangler:
         specifier: ^3.80.4
         version: 3.80.4(@cloudflare/workers-types@4.20241004.0)
@@ -2615,8 +2615,8 @@ packages:
     peerDependencies:
       vite: ^5.0.0
 
-  vite@5.4.8:
-    resolution: {integrity: sha512-FqrItQ4DT1NC4zCUqMB4c4AZORMKIa0m8/URVCZ77OZ/QSNeJ54bU1vrFADbDsuwfIPcgknRkmqakQcgnL4GiQ==}
+  vite@5.4.9:
+    resolution: {integrity: sha512-20OVpJHh0PAM0oSOELa5GaZNWeDjcAvQjGXy2Uyr+Tp+/D2/Hdz6NLgpJLsarPTA2QJ6v8mX2P1ZfbsSKvdMkg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -3244,7 +3244,7 @@ snapshots:
 
   '@types/acorn@4.0.6':
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
 
   '@types/d3-scale-chromatic@3.0.3': {}
 
@@ -4830,7 +4830,7 @@ snapshots:
 
   micromark-extension-mdx-expression@3.0.0:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       devlop: 1.1.0
       micromark-factory-mdx-expression: 2.0.1
       micromark-factory-space: 2.0.0
@@ -4842,7 +4842,7 @@ snapshots:
   micromark-extension-mdx-jsx@3.0.0:
     dependencies:
       '@types/acorn': 4.0.6
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       devlop: 1.1.0
       estree-util-is-identifier-name: 3.0.0
       micromark-factory-mdx-expression: 2.0.1
@@ -4858,7 +4858,7 @@ snapshots:
 
   micromark-extension-mdxjs-esm@3.0.0:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.0
       micromark-util-character: 2.1.0
@@ -4907,7 +4907,7 @@ snapshots:
 
   micromark-factory-mdx-expression@2.0.1:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       devlop: 1.1.0
       micromark-util-character: 2.1.0
       micromark-util-events-to-acorn: 2.0.2
@@ -5023,7 +5023,7 @@ snapshots:
   micromark-util-events-to-acorn@2.0.2:
     dependencies:
       '@types/acorn': 4.0.6
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       '@types/unist': 3.0.2
       devlop: 1.1.0
       estree-util-visit: 2.0.0
@@ -5710,14 +5710,14 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vite-plugin-require@1.2.14(esbuild@0.17.19)(vite@5.4.8(@types/node@20.11.30)(terser@5.30.0)):
+  vite-plugin-require@1.2.14(esbuild@0.17.19)(vite@5.4.9(@types/node@20.11.30)(terser@5.30.0)):
     dependencies:
       '@babel/generator': 7.24.6
       '@babel/parser': 7.24.6
       '@babel/traverse': 7.24.6
       '@babel/types': 7.24.6
       '@vue/compiler-sfc': 3.4.27
-      vite: 5.4.8(@types/node@20.11.30)(terser@5.30.0)
+      vite: 5.4.9(@types/node@20.11.30)(terser@5.30.0)
       vue-loader: 17.4.2(@vue/compiler-sfc@3.4.27)(webpack@5.94.0(esbuild@0.17.19))
       webpack: 5.94.0(esbuild@0.17.19)
     transitivePeerDependencies:
@@ -5728,15 +5728,15 @@ snapshots:
       - vue
       - webpack-cli
 
-  vite-plugin-static-copy@2.0.0(vite@5.4.8(@types/node@20.11.30)(terser@5.30.0)):
+  vite-plugin-static-copy@2.0.0(vite@5.4.9(@types/node@20.11.30)(terser@5.30.0)):
     dependencies:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       fs-extra: 11.2.0
       picocolors: 1.1.0
-      vite: 5.4.8(@types/node@20.11.30)(terser@5.30.0)
+      vite: 5.4.9(@types/node@20.11.30)(terser@5.30.0)
 
-  vite@5.4.8(@types/node@20.11.30)(terser@5.30.0):
+  vite@5.4.9(@types/node@20.11.30)(terser@5.30.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.47
