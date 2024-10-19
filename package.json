@@ -16,7 +16,7 @@
     "hono": "^4.6.5",
     "honox": "0.1.26",
     "ogp-parser": "^0.8.1",
-    "rehype-mermaid": "^2.1.0",
+    "rehype-mermaid": "^3.0.0",
     "remark-gfm": "^4.0.0",
     "vite-plugin-require": "^1.2.14"
   },
