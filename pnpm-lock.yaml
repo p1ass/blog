@@ -20,8 +20,8 @@ importers:
         specifier: ^4.6.11
         version: 4.6.11
       honox:
-        specifier: 0.1.26
-        version: 0.1.26(hono@4.6.11)(miniflare@3.20241106.1)(wrangler@3.89.0(@cloudflare/workers-types@4.20241112.0))
+        specifier: 0.1.27
+        version: 0.1.27(hono@4.6.11)(miniflare@3.20241106.1)(wrangler@3.89.0(@cloudflare/workers-types@4.20241112.0))
       ogp-parser:
         specifier: ^0.8.1
         version: 0.8.1
@@ -767,11 +767,6 @@ packages:
   '@rollup/rollup-linux-s390x-gnu@4.24.0':
     resolution: {integrity: sha512-mjBaoo4ocxJppTorZVKWFpy1bfFj9FeCMJqzlMQGjpNPY9JwQi7OuS1axzNIk0nMX6jSgy6ZURDZ2w0QW6D56g==}
     cpu: [s390x]
-    os: [linux]
-
-  '@rollup/rollup-linux-x64-gnu@4.21.3':
-    resolution: {integrity: sha512-kZPbX/NOPh0vhS5sI+dR8L1bU2cSO9FgxwM8r7wHzGydzfSjLRCFAT87GR5U9scj2rhzN3JPYVC7NoBbl4FZ0g==}
-    cpu: [x64]
     os: [linux]
 
   '@rollup/rollup-linux-x64-gnu@4.24.0':
@@ -1790,8 +1785,8 @@ packages:
     resolution: {integrity: sha512-f0LwJQFKdUUrCUAVowxSvNCjyzI7ZLt8XWYU/EApyeq5FfOvHFarBaE5rjU9HTNFk4RI0FkdB2edb3p/7xZjzQ==}
     engines: {node: '>=16.9.0'}
 
-  honox@0.1.26:
-    resolution: {integrity: sha512-UuocP0ND8MxyhQv4Qibt5TgXgH4Wn4+r9zOTkRwaQRlH3QHzrlPzQ3lxpd5wLTISpZ39ymu+0IAVv9x+BU2CgA==}
+  honox@0.1.27:
+    resolution: {integrity: sha512-lNYRMjB1N6Vr+KQUhLctxvQ4xiQxGdqYv32U2r8SASa3hBzZCHXwA5KdEQJBaEYuBZEr2kFn/jWeMz4vxgy7AQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.*'
@@ -2889,7 +2884,7 @@ snapshots:
       '@babel/parser': 7.25.6
       '@babel/template': 7.25.0
       '@babel/types': 7.25.6
-      debug: 4.3.4(patch_hash=dgp7fmkfjycjr4pda6hyck42xa)
+      debug: 4.3.7
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -3321,9 +3316,6 @@ snapshots:
     optional: true
 
   '@rollup/rollup-linux-s390x-gnu@4.24.0':
-    optional: true
-
-  '@rollup/rollup-linux-x64-gnu@4.21.3':
     optional: true
 
   '@rollup/rollup-linux-x64-gnu@4.24.0':
@@ -4482,7 +4474,7 @@ snapshots:
 
   hono@4.6.11: {}
 
-  honox@0.1.26(hono@4.6.11)(miniflare@3.20241106.1)(wrangler@3.89.0(@cloudflare/workers-types@4.20241112.0)):
+  honox@0.1.27(hono@4.6.11)(miniflare@3.20241106.1)(wrangler@3.89.0(@cloudflare/workers-types@4.20241112.0)):
     dependencies:
       '@babel/generator': 7.25.6
       '@babel/parser': 7.25.6
@@ -4493,7 +4485,7 @@ snapshots:
       jsonc-parser: 3.3.1
       precinct: 12.1.2
     optionalDependencies:
-      '@rollup/rollup-linux-x64-gnu': 4.21.3
+      '@rollup/rollup-linux-x64-gnu': 4.24.0
     transitivePeerDependencies:
       - miniflare
       - supports-color
@@ -5105,7 +5097,7 @@ snapshots:
   micromark@4.0.0:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.4(patch_hash=dgp7fmkfjycjr4pda6hyck42xa)
+      debug: 4.3.7
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.0
