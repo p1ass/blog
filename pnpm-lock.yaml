@@ -90,8 +90,8 @@ importers:
         specifier: ^5.4.11
         version: 5.4.11(@types/node@20.11.30)(terser@5.30.0)
       vite-plugin-static-copy:
-        specifier: ^2.1.0
-        version: 2.1.0(vite@5.4.11(@types/node@20.11.30)(terser@5.30.0))
+        specifier: ^2.2.0
+        version: 2.2.0(vite@5.4.11(@types/node@20.11.30)(terser@5.30.0))
       wrangler:
         specifier: ^3.91.0
         version: 3.91.0(@cloudflare/workers-types@4.20241112.0)
@@ -2641,11 +2641,11 @@ packages:
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
-  vite-plugin-static-copy@2.1.0:
-    resolution: {integrity: sha512-n8lEOIVM00Y/zronm0RG8RdPyFd0SAAFR0sii3NWmgG3PSCyYMsvUNRQTlb3onp1XeMrKIDwCrPGxthKvqX9OQ==}
+  vite-plugin-static-copy@2.2.0:
+    resolution: {integrity: sha512-ytMrKdR9iWEYHbUxs6x53m+MRl4SJsOSoMu1U1+Pfg0DjPeMlsRVx3RR5jvoonineDquIue83Oq69JvNsFSU5w==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
-      vite: ^5.0.0
+      vite: ^5.0.0 || ^6.0.0
 
   vite@5.4.11:
     resolution: {integrity: sha512-c7jFQRklXua0mTzneGW9QVyxFjUgwcihC4bXEtujIo2ouWCe1Ajt/amn2PCxYnhYfd5k09JX3SB7OYWFKYqj8Q==}
@@ -5767,7 +5767,7 @@ snapshots:
       - vue
       - webpack-cli
 
-  vite-plugin-static-copy@2.1.0(vite@5.4.11(@types/node@20.11.30)(terser@5.30.0)):
+  vite-plugin-static-copy@2.2.0(vite@5.4.11(@types/node@20.11.30)(terser@5.30.0)):
     dependencies:
       chokidar: 3.6.0
       fast-glob: 3.3.2
