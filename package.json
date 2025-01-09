@@ -37,7 +37,7 @@
     "rehype-mdx-import-media": "^1.2.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "vite": "^5.4.11",
     "vite-plugin-static-copy": "^2.2.0",
     "wrangler": "^3.100.0"
