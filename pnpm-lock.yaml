@@ -20,8 +20,8 @@ importers:
         specifier: ^4.6.16
         version: 4.6.16
       honox:
-        specifier: 0.1.30
-        version: 0.1.30(hono@4.6.16)(miniflare@3.20241230.1)(wrangler@3.101.0(@cloudflare/workers-types@4.20250109.0))
+        specifier: 0.1.31
+        version: 0.1.31(hono@4.6.16)(miniflare@3.20241230.1)(wrangler@3.101.0(@cloudflare/workers-types@4.20250109.0))
       ogp-parser:
         specifier: ^0.8.1
         version: 0.8.1
@@ -2163,8 +2163,8 @@ packages:
     resolution: {integrity: sha512-iE6xOPwDYlfnZFwk6BfIMMIH4WZm3pPhz6rc1uJM/OPew0pjG5K6p8WTLaMBY1/szF/T0TaEjprMpwn16BA0NQ==}
     engines: {node: '>=16.9.0'}
 
-  honox@0.1.30:
-    resolution: {integrity: sha512-uNHGiW0li/CvIZ7f36YSjMLT9BVGChfWSzHrG6KKka3/6/z96fC/Ju7WsOaRTUratS4/dJ/yLgOmjyOEvsa54A==}
+  honox@0.1.31:
+    resolution: {integrity: sha512-tvFiHB+p+Yyrr5kYXyVn5KiT/KwBaxoLBDuojAvLUzV2P6P4ZOmhoZQ7gH+ZPYEby69IlR42qDHIkHqIXQTqqQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.*'
@@ -5687,7 +5687,7 @@ snapshots:
 
   hono@4.6.16: {}
 
-  honox@0.1.30(hono@4.6.16)(miniflare@3.20241230.1)(wrangler@3.101.0(@cloudflare/workers-types@4.20250109.0)):
+  honox@0.1.31(hono@4.6.16)(miniflare@3.20241230.1)(wrangler@3.101.0(@cloudflare/workers-types@4.20250109.0)):
     dependencies:
       '@babel/generator': 7.25.6
       '@babel/parser': 7.25.6
