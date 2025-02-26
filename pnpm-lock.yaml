@@ -21,7 +21,7 @@ importers:
         version: 4.6.20
       honox:
         specifier: 0.1.35
-        version: 0.1.35(hono@4.6.20)(miniflare@3.20250214.0)(wrangler@3.109.3(@cloudflare/workers-types@4.20250224.0))
+        version: 0.1.35(hono@4.6.20)(miniflare@3.20250214.1)(wrangler@3.110.0(@cloudflare/workers-types@4.20250224.0))
       ogp-parser:
         specifier: ^0.8.1
         version: 0.8.1
@@ -93,8 +93,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(vite@5.4.12(@types/node@20.11.30)(terser@5.30.0))
       wrangler:
-        specifier: ^3.109.3
-        version: 3.109.3(@cloudflare/workers-types@4.20250224.0)
+        specifier: ^3.110.0
+        version: 3.110.0(@cloudflare/workers-types@4.20250224.0)
 
 packages:
 
@@ -2394,8 +2394,8 @@ packages:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
 
-  miniflare@3.20250214.0:
-    resolution: {integrity: sha512-XKwn+X/V2CEpbRhoeaIcJHpV/Duz5Md5rxVT8I6S1oqd3aLZkn8cUX1tuxHpUvfQSPuXwWH+2ESLNnTf9PKEWg==}
+  miniflare@3.20250214.1:
+    resolution: {integrity: sha512-NE66QV+2n9ZndaP5jgPlcVref3Arvizb+l2QqhgeXtKM5Orhi8UU2mijoiN3mHEUexKaBES2S1VubT4LDPqkxQ==}
     engines: {node: '>=16.13'}
     hasBin: true
 
@@ -2979,8 +2979,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@3.109.3:
-    resolution: {integrity: sha512-T+SfFYEbkWDzf8WRR1JzaVKPH7wAzyciRIua8qszT+UqPqFNb6M5beCHHK/de7Zk5z6W5lvLly9SHToC11maDQ==}
+  wrangler@3.110.0:
+    resolution: {integrity: sha512-ldTaxtcYozSHo8QRcxTQUckO9C7zSZgG0/AMCqFLdKK7fYLFPWEwmbnh+gxzlxzWEMfa8fV/5NtR0k2bCBxAoA==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -3392,14 +3392,14 @@ snapshots:
     dependencies:
       hono: 4.6.20
 
-  '@hono/vite-dev-server@0.18.2(hono@4.6.20)(miniflare@3.20250214.0)(wrangler@3.109.3(@cloudflare/workers-types@4.20250224.0))':
+  '@hono/vite-dev-server@0.18.2(hono@4.6.20)(miniflare@3.20250214.1)(wrangler@3.110.0(@cloudflare/workers-types@4.20250224.0))':
     dependencies:
       '@hono/node-server': 1.13.8(hono@4.6.20)
       hono: 4.6.20
       minimatch: 9.0.5
     optionalDependencies:
-      miniflare: 3.20250214.0
-      wrangler: 3.109.3(@cloudflare/workers-types@4.20250224.0)
+      miniflare: 3.20250214.1
+      wrangler: 3.110.0(@cloudflare/workers-types@4.20250224.0)
 
   '@hono/vite-ssg@0.1.1(hono@4.6.20)':
     dependencies:
@@ -4887,13 +4887,13 @@ snapshots:
 
   hono@4.6.20: {}
 
-  honox@0.1.35(hono@4.6.20)(miniflare@3.20250214.0)(wrangler@3.109.3(@cloudflare/workers-types@4.20250224.0)):
+  honox@0.1.35(hono@4.6.20)(miniflare@3.20250214.1)(wrangler@3.110.0(@cloudflare/workers-types@4.20250224.0)):
     dependencies:
       '@babel/generator': 7.25.6
       '@babel/parser': 7.25.6
       '@babel/traverse': 7.25.6
       '@babel/types': 7.25.6
-      '@hono/vite-dev-server': 0.18.2(hono@4.6.20)(miniflare@3.20250214.0)(wrangler@3.109.3(@cloudflare/workers-types@4.20250224.0))
+      '@hono/vite-dev-server': 0.18.2(hono@4.6.20)(miniflare@3.20250214.1)(wrangler@3.110.0(@cloudflare/workers-types@4.20250224.0))
       hono: 4.6.20
       jsonc-parser: 3.3.1
       precinct: 12.1.2
@@ -5697,7 +5697,7 @@ snapshots:
 
   mini-svg-data-uri@1.4.4: {}
 
-  miniflare@3.20250214.0:
+  miniflare@3.20250214.1:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       acorn: 8.14.0
@@ -6465,14 +6465,14 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20250214.0
       '@cloudflare/workerd-windows-64': 1.20250214.0
 
-  wrangler@3.109.3(@cloudflare/workers-types@4.20250224.0):
+  wrangler@3.110.0(@cloudflare/workers-types@4.20250224.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
       '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
       blake3-wasm: 2.1.5
       esbuild: 0.17.19
-      miniflare: 3.20250214.0
+      miniflare: 3.20250214.1
       path-to-regexp: 6.3.0
       unenv: 2.0.0-rc.1
       workerd: 1.20250214.0
