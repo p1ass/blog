@@ -31,7 +31,7 @@
     "@playwright/test": "1.51.1",
     "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "2.0.0",
-    "recma-export-filepath": "^1.1.0",
+    "recma-export-filepath": "^1.2.0",
     "rehype-highlight": "^7.0.2",
     "rehype-mdx-code-props": "^3.0.1",
     "rehype-mdx-import-media": "^1.2.0",
