@@ -66,8 +66,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0(@types/react@18.2.73)(react@18.3.1)
       recma-export-filepath:
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       rehype-highlight:
         specifier: ^7.0.2
         version: 7.0.2
@@ -955,9 +955,6 @@ packages:
 
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
-
-  '@types/estree@1.0.5':
-    resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -2569,8 +2566,8 @@ packages:
   recma-build-jsx@1.0.0:
     resolution: {integrity: sha512-8GtdyqaBcDfva+GUKDr3nev3VpKAhup1+RvkMvUxURHpW7QyIvk9F5wz7Vzo06CEMSilw6uArgRqhpiUcWp8ew==}
 
-  recma-export-filepath@1.1.0:
-    resolution: {integrity: sha512-Xvs7R84WI72PxORtkusu1pwzgrqfXX+7TzFBdUBv1fZreB4F0a9xWI+3zH1pvciS+PkkuwfYAt26wMmEl3Yp3w==}
+  recma-export-filepath@1.2.0:
+    resolution: {integrity: sha512-tsaQbFU5Opw5Q8YOgyvrX8cTe5U94vx9D3GvKYxJSoBjhrziX4seaB6qzHJeAhMbtDBUP9lM6Pz/JrG3a43hKQ==}
 
   recma-jsx@1.0.0:
     resolution: {integrity: sha512-5vwkv65qWwYxg+Atz95acp8DMu1JDSqdGkA2Of1j6rCreyFUE/gp15fC8MnGEuG1W68UKjM6x6+YTWIh7hZM/Q==}
@@ -3681,8 +3678,6 @@ snapshots:
   '@types/estree-jsx@1.0.5':
     dependencies:
       '@types/estree': 1.0.6
-
-  '@types/estree@1.0.5': {}
 
   '@types/estree@1.0.6': {}
 
@@ -5882,12 +5877,13 @@ snapshots:
       estree-util-build-jsx: 3.0.1
       vfile: 6.0.1
 
-  recma-export-filepath@1.1.0:
+  recma-export-filepath@1.2.0:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.6
       estree-util-is-identifier-name: 3.0.0
       normalize-path: 3.0.0
-      unified: 11.0.4
+      unified: 11.0.5
+      unist-util-mdx-define: 1.1.1
 
   recma-jsx@1.0.0(acorn@8.11.3):
     dependencies:
