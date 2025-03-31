@@ -40,7 +40,7 @@
     "typescript": "^5.7.3",
     "vite": "^5.4.15",
     "vite-plugin-static-copy": "^2.3.0",
-    "wrangler": "^4.5.1"
+    "wrangler": "^4.6.0"
   },
   "pnpm": {
     "patchedDependencies": {
