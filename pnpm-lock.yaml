@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  debug@4.3.4:
-    hash: aed306eafe9cc8822dffa65190fafcd637713568af26aab60ebfd08d6b980149
-    path: patches/debug@4.3.4.patch
   debug@4.4.0:
     hash: a5d93caebcdc11860f585460ccac897ddbe3e55a4ba3c2d8a62c22eeab8e607b
     path: patches/debug@4.4.0.patch
@@ -3124,7 +3121,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.24.6
       '@babel/parser': 7.27.0
       '@babel/types': 7.27.0
-      debug: 4.3.4(patch_hash=aed306eafe9cc8822dffa65190fafcd637713568af26aab60ebfd08d6b980149)
+      debug: 4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -4333,7 +4330,7 @@ snapshots:
 
   dayjs@1.11.10: {}
 
-  debug@4.3.4(patch_hash=aed306eafe9cc8822dffa65190fafcd637713568af26aab60ebfd08d6b980149):
+  debug@4.3.4:
     dependencies:
       ms: 2.1.2
 
