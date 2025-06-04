@@ -1,0 +1,146 @@
+diff --git a/src/browser.js b/src/browser.js
+index df8e179e8b5d9b1d215e4bb06beca85272031859..4ee7d618b74ce8df1de97a182d2c260f78f0fb3c 100644
+--- a/src/browser.js
++++ b/src/browser.js
+@@ -125,17 +125,14 @@ function useColors() {
+ 		return false;
+ 	}
+ 
+-	let m;
+-
+ 	// Is webkit? http://stackoverflow.com/a/16459606/376773
+ 	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+-	// eslint-disable-next-line no-return-assign
+ 	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+ 		// Is firebug? http://stackoverflow.com/a/398120/376773
+ 		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+ 		// Is firefox >= v31?
+ 		// https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+-		(typeof navigator !== 'undefined' && navigator.userAgent && (m = navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/)) && parseInt(m[1], 10) >= 31) ||
++		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+ 		// Double check webkit in userAgent just in case we are in a worker
+ 		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+ }
+@@ -256,6 +253,7 @@ function localstorage() {
+ }
+ 
+ module.exports = require('./common')(exports);
++module.exports.load = exports.load;
+ 
+ const {formatters} = module.exports;
+ 
+@@ -263,10 +261,12 @@ const {formatters} = module.exports;
+  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+  */
+ 
+-formatters.j = function (v) {
+-	try {
+-		return JSON.stringify(v);
+-	} catch (error) {
+-		return '[UnexpectedJSONParseError]: ' + error.message;
+-	}
+-};
++if (formatters) {
++	formatters.j = function (v) {
++		try {
++			return JSON.stringify(v);
++		} catch (error) {
++			return '[UnexpectedJSONParseError]: ' + error.message;
++		}
++	};
++}
+diff --git a/src/common.js b/src/common.js
+index 528c7ecf417cd5bcd1c20ce2fa2a961412cf660f..b6a8a88ecdaef19b55c6535011e1b59853db6350 100644
+--- a/src/common.js
++++ b/src/common.js
+@@ -1,4 +1,3 @@
+-
+ /**
+  * This is the common logic for both the Node.js and web browser
+  * implementations of `debug()`.
+@@ -39,14 +38,15 @@ function setup(env) {
+ 	* @api private
+ 	*/
+ 	function selectColor(namespace) {
++		namespace = namespace ?? ''
+ 		let hash = 0;
+ 
+ 		for (let i = 0; i < namespace.length; i++) {
+ 			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+ 			hash |= 0; // Convert to 32bit integer
+ 		}
+-
+-		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
++		return 0;
++		// return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+ 	}
+ 	createDebug.selectColor = selectColor;
+ 
+@@ -114,7 +114,7 @@ function setup(env) {
+ 		}
+ 
+ 		debug.namespace = namespace;
+-		debug.useColors = createDebug.useColors();
++		// debug.useColors = createDebug.useColors();
+ 		debug.color = createDebug.selectColor(namespace);
+ 		debug.extend = extend;
+ 		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
+@@ -284,7 +284,7 @@ function setup(env) {
+ 		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+ 	}
+ 
+-	createDebug.enable(createDebug.load());
++	// createDebug.enable(createDebug.load());
+ 
+ 	return createDebug;
+ }
+diff --git a/src/node.js b/src/node.js
+index 715560a4ca8fb4c8dd6353eafdde6e83af28f05e..0ff6c40c4d91e8adb01ba6ffe7aa4f5f3f3b637f 100644
+--- a/src/node.js
++++ b/src/node.js
+@@ -238,26 +238,28 @@ function init(debug) {
+ }
+ 
+ module.exports = require('./common')(exports);
++module.exports.load = exports.load;
+ 
+ const {formatters} = module.exports;
+ 
+ /**
+- * Map %o to `util.inspect()`, all on a single line.
++ * Map %o to `util.inspect()`, since no Web Inspectors do that by default.
+  */
+ 
+-formatters.o = function (v) {
+-	this.inspectOpts.colors = this.useColors;
+-	return util.inspect(v, this.inspectOpts)
+-		.split('\n')
+-		.map(str => str.trim())
+-		.join(' ');
+-};
+-
+-/**
+- * Map %O to `util.inspect()`, allowing multiple lines if needed.
+- */
+-
+-formatters.O = function (v) {
+-	this.inspectOpts.colors = this.useColors;
+-	return util.inspect(v, this.inspectOpts);
+-};
++if (formatters) {
++	formatters.o = function (v) {
++		this.inspectOpts.colors = this.useColors;
++		return require('util').inspect(v, this.inspectOpts)
++			.split('\n')
++			.map(str => str.trim())
++			.join(' ');
++	};
++
++	/**
++	 * Map %O to `util.inspect()`, allowing multiple lines if needed.
++	 */
++	formatters.O = function (v) {
++		this.inspectOpts.colors = this.useColors;
++		return util.inspect(v, this.inspectOpts);
++	};
++}
