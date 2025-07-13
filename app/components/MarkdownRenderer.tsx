@@ -1,6 +1,7 @@
 import { compile, run } from '@mdx-js/mdx'
 import { Fragment, jsx } from 'hono/jsx/jsx-runtime'
 import { useMDXComponents } from '../lib/mdx-components'
+
 type Props = {
   content: string
   baseUrl: string

@@ -1,4 +1,4 @@
-import { Style, css } from 'hono/css'
+import { css, Style } from 'hono/css'
 import { html } from 'hono/html'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'

@@ -6,7 +6,7 @@ import { Pagination } from '../../../components/Pagination'
 import { PostSummarySection } from '../../../components/PostSummarySection'
 import { getAllPosts, getMaxPageNumber, getPosts } from '../../../lib/posts'
 
-const param = ssgParams<Env>(c => {
+const param = ssgParams<Env>(_c => {
   const posts = getAllPosts()
   const maxPageNumber = getMaxPageNumber(posts)
   const params = []

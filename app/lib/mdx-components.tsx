@@ -6,14 +6,7 @@ import { ExLinkCard } from '../components/markdown/ExLinkCard'
 import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
-import {
-  backgroundDark,
-  blue,
-  blueLight,
-  border,
-  grayLight,
-  whiteDark,
-} from '../styles/color'
+import { backgroundDark, blue, border, grayLight } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
 export function useMDXComponents(): MDXComponents {

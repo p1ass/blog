@@ -12,7 +12,7 @@ import {
   getMaxPageNumber,
 } from '../../../../../lib/posts'
 
-const param = ssgParams<Env>(c => {
+const param = ssgParams<Env>(_c => {
   const params: { id: string; num: string }[] = []
   getCategories().forEach((category, _) => {
     const maxPageNumber = getMaxPageNumber(category.posts)

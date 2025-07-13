@@ -7,7 +7,7 @@
     "preview": "wrangler pages dev ./dist",
     "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
     "lint": "biome check .",
-    "lint:fix": "biome check --apply .",
+    "lint:fix": "biome check --fix .",
     "install:playwright": "npx playwright install --with-deps chromium"
   },
   "private": true,
@@ -21,7 +21,7 @@
     "vite-plugin-require": "^1.2.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.6",
     "@cloudflare/workers-types": "^4.20250617.0",
     "@hono/vite-cloudflare-pages": "^0.4.2",
     "@hono/vite-ssg": "0.1.2",

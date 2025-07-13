@@ -6,8 +6,7 @@ import honox from 'honox/vite'
 import client from 'honox/vite/client'
 
 import recmaExportFilepath from 'recma-export-filepath'
-import { defineConfig } from 'vite'
-import { normalizePath } from 'vite'
+import { defineConfig, normalizePath } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
 
@@ -64,8 +63,8 @@ export default defineConfig(({ mode }) => {
             ],
             dest: 'posts',
             rename: (
-              fileName: string,
-              fileExtension: string,
+              _fileName: string,
+              _fileExtension: string,
               fullPath: string,
             ) => {
               const destPath = normalizePath(
