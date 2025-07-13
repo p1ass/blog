@@ -8,7 +8,7 @@ import { PostSummarySection } from '../../../components/PostSummarySection'
 import type { Head } from '../../../global'
 import { getCategories, getCategoryPosts } from '../../../lib/posts'
 
-const param = ssgParams<Env>(c => {
+const param = ssgParams<Env>(_c => {
   return getCategories().map(category => {
     return { id: category.id }
   })

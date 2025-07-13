@@ -12,7 +12,7 @@ import {
   getTags,
 } from '../../../../../lib/posts'
 
-const param = ssgParams<Env>(c => {
+const param = ssgParams<Env>(_c => {
   const params: { id: string; num: string }[] = []
   getTags().forEach((tag, _) => {
     const maxPageNumber = getMaxPageNumber(tag.posts)

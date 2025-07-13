@@ -63,8 +63,8 @@ export default defineConfig(({ mode }) => {
             ],
             dest: 'posts',
             rename: (
-              fileName: string,
-              fileExtension: string,
+              _fileName: string,
+              _fileExtension: string,
               fullPath: string,
             ) => {
               const destPath = normalizePath(
