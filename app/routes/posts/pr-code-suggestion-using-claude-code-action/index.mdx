@@ -38,7 +38,7 @@ Suggestion は `gh pr review` コマンドではできず、 `gh api` コマン�
 ````yaml
 permissions:
   contents: read
-  pull-requests: write # レビューを行うために必要
+  pull-requests: write # PR レビューを行うために必要
 
 # 中略
 
@@ -49,7 +49,7 @@ permissions:
           github_token: ${{ steps.app-token.outputs.token }}
           timeout_minutes: "60"
           allowed_tools: Bash
-          disallowed_tools: | # セキュリティ上懸念があるものを除外する。実際にはもっと多くのコマンドを除外している。
+          disallowed_tools: | # セキュリティ上懸念があるものを除外する。実際にはもっと多くのコマンドを除外している
             Bash(curl:*),Bash(wget:*),
             Bash(rm:*),Bash(rmdir:*),
             Bash(sudo:*),Bash(su:*)
@@ -58,8 +58,8 @@ permissions:
 
             レビューは必ずPull Request Review として実施してください。具体的には以下の手順で行ってください：
 
-            1. `gh api` コマンドを使用して、指摘場所 (path,lineを指定) にreviewsをPOSTする。
-            2. `gh pr review` コマンドの `--comment` で数行のサマリー文章を送信する (`--approve` や `--request-changes` は使わず `--comment` を使ってください)
+            1. `gh api` コマンドを使用して、指摘場所（path, lineを指定）にreviewsをPOSTする。
+            2. `gh pr review` コマンドの `--comment` で数行のサマリー文章を送信する（`--approve` や `--request-changes` は使わず `--comment` を使ってください）
 
             単なるIssue Commentではなく、必ずPull Request Review APIを使用してレビューを実施してください。
 
@@ -75,16 +75,17 @@ permissions:
               --field comments[0][body]="```suggestion
             func improved_function() {
                 return \"better implementation\"
+            }
             ```
 ````
 
 ### ポイント
 
 - `gh api` コマンドを使うことで、 `gh pr review` コマンドではできない行を指定したコメントができるようになります。
-- Claude Code に Approve や Request Changes を打たれるとチームのレビューフローや Branch Protection に影響を与えてしまうので、最終的には Comment として Review を送信するようにしています
-- 具体的な `gh api` コマンドの使い方をプロンプトに埋め込んで、Claude Code が `gh api` コマンドを使う確率を高くなるようにしています。
+- Claude Code に Approve や Request Changes を打たれるとチームのレビューフローや Branch Protection に影響を与えてしまうので、最終的には Comment として Review を送信するようにしています。
+- 具体的な `gh api` コマンドの使い方をプロンプトに埋め込んで、Claude Code が `gh api` コマンドを使う確率を高めるようにしています。
 
 ## おわりに
 
-今のところ順調に動いています。
-行指定でコメントを出してくれると、一気に人間のレビューっぽくなるのでおすすめです。
+Claude Code Action を使った PR の自動レビュー Action を作成し、今のところ順調に動いています。
+行指定でコメントを出してくれると、一気に人間のレビューらしくなるのでおすすめです。
