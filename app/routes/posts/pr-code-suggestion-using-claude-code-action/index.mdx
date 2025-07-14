@@ -75,7 +75,7 @@ permissions:
               --header "Accept: application/vnd.github+json" \
               /repos/${OWNER}/${REPO}/pulls/${PR_NUMBER}/reviews \
               --field event="COMMENT" \
-              --field comments[0][path]="src/main.py" \
+              --field comments[0][path]="main.go" \
               --field comments[0][line]=10 \
               --field comments[0][body]="```suggestion
             func improved_function() {
