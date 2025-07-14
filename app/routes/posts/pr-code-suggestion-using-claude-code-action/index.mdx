@@ -1,0 +1,96 @@
+---
+title: "Claude Code ActionにPRのCode Suggestionをしてもらうプロンプト"
+date: 2025-07-14T19:00:00
+description: Claude Code ActionでPRの Code Suggestionをしてもらうプロンプトを作成したので紹介します。
+categories:
+  - 生成AI
+tags:
+  - Claude Code
+  - GitHub
+---
+
+こんにちは、ぷらす([@p1ass](https://twitter.com/p1ass))です。
+
+世の中は [Claude Code](https://docs.anthropic.com/ja/docs/claude-code/overview) の話題で溢れかえっていますが、例に漏れず私も Claude Code / Claude Code Action を使って色々試行錯誤しています。
+今回は Claude Code Action を使って PR の Code Suggestion をしてもらうプロンプトを作成したので紹介します。
+
+{/* <!--more--> */}
+
+## 背景
+
+Claude Code Action は GitHub Action で Claude Code を呼び出せる Action です。
+OSS で公開されており、Anthropic の公式ドキュメントにはいくつかの Example が掲載されています。
+
+<ExLinkCard url="https://docs.anthropic.com/ja/docs/claude-code/github-actions" />
+<ExLinkCard url="https://github.com/anthropics/claude-code-action/blob/main/examples/claude-auto-review.yml" />
+
+しかし、この Example のプロンプトをそのまま使うと、GitHub の Pull Request Review (Approve や Request Changes、コード行を指定した Comment や Suggestion)をしてくれず、単なる単一の Issue Comment になってしまいます。
+
+![これをやりたい](https://docs.github.com/assets/cb-81042/mw-1440/images/help/pull_requests/commit-suggestion-button.webp)
+_これをやりたい (GitHub 公式ページより)_
+
+### 公式の Example コード
+
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fanthropics%2Fclaude-code-action%2Fblob%2Fmain%2Fexamples%2Fclaude-auto-review.yml&style=atom-one-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
+## Claude Code に Suggestion を出してもらう
+
+プロンプトを改善して Suggestion を出してもらうようにします。
+Suggestion は `gh pr review` コマンドではできず、 `gh api` コマンドを使わなければなりません。
+
+私は以下のようなプロンプトを作成して利用しています。
+
+````yaml
+permissions:
+  contents: read
+  pull-requests: write # PR レビューを行うために必要
+
+# 中略
+
+- name: Automatic PR Review
+        uses: anthropics/claude-code-action@beta
+        with:
+          model: claude-sonnet-4@20250514
+          github_token: ${{ steps.app-token.outputs.token }}
+          timeout_minutes: "60"
+          allowed_tools: Bash
+          disallowed_tools: | # セキュリティ上懸念があるものを除外する。実際にはもっと多くのコマンドを除外している
+            Bash(curl:*),Bash(wget:*),
+            Bash(rm:*),Bash(rmdir:*),
+            Bash(sudo:*),Bash(su:*)
+          direct_prompt: |
+            レビューガイドラインに記載されている内容を元にPull Requestを厳しくレビューしてください。
+
+            レビューは必ずPull Request Review として実施してください。具体的には以下の手順で行ってください：
+
+            1. `gh api` コマンドを使用して、指摘場所（path, lineを指定）にreviewsをPOSTする。
+            2. `gh pr review` コマンドの `--comment` で数行のサマリー文章を送信する（`--approve` や `--request-changes` は使わず `--comment` を使ってください）
+
+            単なるIssue Commentではなく、必ずPull Request Review APIを使用してレビューを実施してください。
+
+            Pull Request Review APIのサンプルコードは以下の通りです。
+            ```
+            gh api \
+              --method POST \
+              --header "Accept: application/vnd.github+json" \
+              /repos/${OWNER}/${REPO}/pulls/${PR_NUMBER}/reviews \
+              --field event="COMMENT" \
+              --field comments[0][path]="main.go" \
+              --field comments[0][line]=10 \
+              --field comments[0][body]="```suggestion
+            func improved_function() {
+                return \"better implementation\"
+            }
+            ```
+````
+
+### ポイント
+
+- `gh api` コマンドを使うことで、 `gh pr review` コマンドではできない行を指定したコメントができるようになります。
+- Claude Code に Approve や Request Changes を打たれるとチームのレビューフローや Branch Protection に影響を与えてしまうので、最終的には Comment として Review を送信するようにしています。
+- 具体的な `gh api` コマンドの使い方をプロンプトに埋め込んで、Claude Code が `gh api` コマンドを使う確率を高めるようにしています。
+
+## おわりに
+
+Claude Code Action を使った PR の自動レビュー Action を作成し、今のところ順調に動いています。
+行指定でコメントを出してくれると、一気に人間のレビューらしくなるのでおすすめです。
