@@ -21,7 +21,7 @@ importers:
         version: 4.8.5
       honox:
         specifier: 0.1.43
-        version: 0.1.43(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.24.4(@cloudflare/workers-types@4.20250718.0))
+        version: 0.1.43(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.25.0(@cloudflare/workers-types@4.20250718.0))
       ogp-parser:
         specifier: ^0.8.1
         version: 0.8.1
@@ -93,8 +93,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(vite@7.0.5(terser@5.30.0)(yaml@2.8.0))
       wrangler:
-        specifier: ^4.24.4
-        version: 4.24.4(@cloudflare/workers-types@4.20250718.0)
+        specifier: ^4.25.0
+        version: 4.25.0(@cloudflare/workers-types@4.20250718.0)
 
 packages:
 
@@ -814,6 +814,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@jridgewell/trace-mapping@0.3.29':
+    resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
@@ -3033,8 +3036,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@4.24.4:
-    resolution: {integrity: sha512-qjDdZWt/aiK19YrQbjFjJoa9+y+arsXcUpRomwMdmbccZw/w5QgDsEeXMxoPSisUDQlW9ZX5A68ZPWY1/im54w==}
+  wrangler@4.25.0:
+    resolution: {integrity: sha512-SepXQbzWkdp0O7qAx3i0go+fw5I0VkDqLV2G3ewbffO5k8kpvuCkhalS23KO+7+o8+Oa3vfC7x+16IL3rj2n4w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -3461,14 +3464,14 @@ snapshots:
     dependencies:
       hono: 4.8.5
 
-  '@hono/vite-dev-server@0.19.1(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.24.4(@cloudflare/workers-types@4.20250718.0))':
+  '@hono/vite-dev-server@0.19.1(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.25.0(@cloudflare/workers-types@4.20250718.0))':
     dependencies:
       '@hono/node-server': 1.15.0(hono@4.8.5)
       hono: 4.8.5
       minimatch: 9.0.5
     optionalDependencies:
       miniflare: 4.20250712.0
-      wrangler: 4.24.4(@cloudflare/workers-types@4.20250718.0)
+      wrangler: 4.25.0(@cloudflare/workers-types@4.20250718.0)
 
   '@hono/vite-ssg@0.1.2(hono@4.8.5)':
     dependencies:
@@ -3582,7 +3585,7 @@ snapshots:
   '@jridgewell/source-map@0.3.6':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.29
 
   '@jridgewell/sourcemap-codec@1.4.15': {}
 
@@ -3591,6 +3594,11 @@ snapshots:
   '@jridgewell/sourcemap-codec@1.5.4': {}
 
   '@jridgewell/trace-mapping@0.3.25':
+    dependencies:
+      '@jridgewell/resolve-uri': 3.1.2
+      '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@jridgewell/trace-mapping@0.3.29':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -4968,13 +4976,13 @@ snapshots:
 
   hono@4.8.5: {}
 
-  honox@0.1.43(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.24.4(@cloudflare/workers-types@4.20250718.0)):
+  honox@0.1.43(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.25.0(@cloudflare/workers-types@4.20250718.0)):
     dependencies:
       '@babel/generator': 7.25.6
       '@babel/parser': 7.25.6
       '@babel/traverse': 7.25.6
       '@babel/types': 7.25.6
-      '@hono/vite-dev-server': 0.19.1(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.24.4(@cloudflare/workers-types@4.20250718.0))
+      '@hono/vite-dev-server': 0.19.1(hono@4.8.5)(miniflare@4.20250712.0)(wrangler@4.25.0(@cloudflare/workers-types@4.20250718.0))
       hono: 4.8.5
       jsonc-parser: 3.3.1
       precinct: 12.1.2
@@ -6253,7 +6261,7 @@ snapshots:
 
   terser-webpack-plugin@5.3.10(webpack@5.94.0):
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.29
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
@@ -6540,7 +6548,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20250712.0
       '@cloudflare/workerd-windows-64': 1.20250712.0
 
-  wrangler@4.24.4(@cloudflare/workers-types@4.20250718.0):
+  wrangler@4.25.0(@cloudflare/workers-types@4.20250718.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@cloudflare/unenv-preset': 2.3.3(unenv@2.0.0-rc.17)(workerd@1.20250712.0)
