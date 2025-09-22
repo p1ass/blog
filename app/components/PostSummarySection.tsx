@@ -1,12 +1,17 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
-
 import type { Post } from '../lib/posts'
 import { parseDate } from '../lib/time'
 import { blue, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { MarkdownRenderer } from './MarkdownRenderer'
 import { PostDetails } from './PostDetails'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const sectionCss = css`
   margin-bottom: ${verticalRhythmUnit}rem;
@@ -83,11 +88,10 @@ type Props = {
 }
 
 export async function PostSummarySection({ post }: Props) {
-  // console.log(permalink)
-  const postUrl = `../routes${post.permalink}index.mdx?raw`
-  const { default: postText } = await import(postUrl)
+  const postUrl = `../routes${post.permalink}index.mdx`
+  const aboutFilePath = path.resolve(__dirname, postUrl)
+  const postText = fs.readFileSync(aboutFilePath, 'utf-8')
 
-  // この辺ヌルポになりそう
   let summaryText = postText.split('{/* <!--more--> */}')[0] as string
   summaryText = summaryText.split('---')[2]
 
