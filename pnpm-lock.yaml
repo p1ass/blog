@@ -45,8 +45,8 @@ importers:
         specifier: ^0.4.2
         version: 0.4.2(hono@4.9.10)
       '@hono/vite-ssg':
-        specifier: 0.2.0
-        version: 0.2.0(hono@4.9.10)
+        specifier: 0.2.1
+        version: 0.2.1(hono@4.9.10)
       '@mdx-js/mdx':
         specifier: ^3.1.0
         version: 3.1.0(acorn@8.15.0)
@@ -667,8 +667,8 @@ packages:
       wrangler:
         optional: true
 
-  '@hono/vite-ssg@0.2.0':
-    resolution: {integrity: sha512-SI7m/yf/om8Mr6Ka5ryoppksvG2h9sDAy/BaGqF6hXfhEo3TPmOURTlporxndfIaIw/ztf5MKYuyL2C23hOjFg==}
+  '@hono/vite-ssg@0.2.1':
+    resolution: {integrity: sha512-w6ekkhF0cxBPJGnx9scX9VEYCVbUePkWAHXwQDAHhT7cp7wS7afc9Cd7VHiwhohbKF//+PuJUsFeo0UdAkWcgg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.8.0'
@@ -3491,7 +3491,7 @@ snapshots:
       miniflare: 4.20251004.0
       wrangler: 4.42.1(@cloudflare/workers-types@4.20251004.0)
 
-  '@hono/vite-ssg@0.2.0(hono@4.9.10)':
+  '@hono/vite-ssg@0.2.1(hono@4.9.10)':
     dependencies:
       hono: 4.9.10
 
