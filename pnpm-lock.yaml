@@ -33,7 +33,7 @@ importers:
         version: 4.0.1
       vite-plugin-require:
         specifier: ^1.2.14
-        version: 1.2.14(vite@7.2.0(terser@5.30.0)(yaml@2.8.0))
+        version: 1.2.14(vite@7.2.1(terser@5.30.0)(yaml@2.8.0))
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.4
@@ -87,11 +87,11 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
       vite:
-        specifier: ^7.2.0
-        version: 7.2.0(terser@5.30.0)(yaml@2.8.0)
+        specifier: ^7.2.1
+        version: 7.2.1(terser@5.30.0)(yaml@2.8.0)
       vite-plugin-static-copy:
         specifier: ^3.1.4
-        version: 3.1.4(vite@7.2.0(terser@5.30.0)(yaml@2.8.0))
+        version: 3.1.4(vite@7.2.1(terser@5.30.0)(yaml@2.8.0))
       wrangler:
         specifier: ^4.46.0
         version: 4.46.0(@cloudflare/workers-types@4.20251106.1)
@@ -2932,8 +2932,8 @@ packages:
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  vite@7.2.0:
-    resolution: {integrity: sha512-C/Naxf8H0pBx1PA4BdpT+c/5wdqI9ILMdwjSMILw7tVIh3JsxzZqdeTLmmdaoh5MYUEOyBnM9K3o0DzoZ/fe+w==}
+  vite@7.2.1:
+    resolution: {integrity: sha512-qTl3VF7BvOupTR85Zc561sPEgxyUSNSvTQ9fit7DEMP7yPgvvIGm5Zfa1dOM+kOwWGNviK9uFM9ra77+OjK7lQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -6422,14 +6422,14 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-plugin-require@1.2.14(vite@7.2.0(terser@5.30.0)(yaml@2.8.0)):
+  vite-plugin-require@1.2.14(vite@7.2.1(terser@5.30.0)(yaml@2.8.0)):
     dependencies:
       '@babel/generator': 7.24.6
       '@babel/parser': 7.24.6
       '@babel/traverse': 7.24.6
       '@babel/types': 7.24.6
       '@vue/compiler-sfc': 3.4.27
-      vite: 7.2.0(terser@5.30.0)(yaml@2.8.0)
+      vite: 7.2.1(terser@5.30.0)(yaml@2.8.0)
       vue-loader: 17.4.2(@vue/compiler-sfc@3.4.27)(webpack@5.94.0)
       webpack: 5.94.0
     transitivePeerDependencies:
@@ -6440,15 +6440,15 @@ snapshots:
       - vue
       - webpack-cli
 
-  vite-plugin-static-copy@3.1.4(vite@7.2.0(terser@5.30.0)(yaml@2.8.0)):
+  vite-plugin-static-copy@3.1.4(vite@7.2.1(terser@5.30.0)(yaml@2.8.0)):
     dependencies:
       chokidar: 3.6.0
       p-map: 7.0.3
       picocolors: 1.1.1
       tinyglobby: 0.2.15
-      vite: 7.2.0(terser@5.30.0)(yaml@2.8.0)
+      vite: 7.2.1(terser@5.30.0)(yaml@2.8.0)
 
-  vite@7.2.0(terser@5.30.0)(yaml@2.8.0):
+  vite@7.2.1(terser@5.30.0)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
