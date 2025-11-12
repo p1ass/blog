@@ -21,7 +21,7 @@
     "vite-plugin-require": "^1.2.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.4",
+    "@biomejs/biome": "2.3.5",
     "@cloudflare/workers-types": "^4.20251111.0",
     "@hono/vite-cloudflare-pages": "^0.4.3",
     "@hono/vite-ssg": "0.3.0",
