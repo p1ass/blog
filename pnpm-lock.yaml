@@ -90,8 +90,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(terser@5.30.0)(yaml@2.8.0)
       vite-plugin-static-copy:
-        specifier: ^3.1.4
-        version: 3.1.4(vite@7.3.1(terser@5.30.0)(yaml@2.8.0))
+        specifier: ^3.1.5
+        version: 3.1.5(vite@7.3.1(terser@5.30.0)(yaml@2.8.0))
       wrangler:
         specifier: ^4.59.2
         version: 4.59.2(@cloudflare/workers-types@4.20260120.0)
@@ -2528,8 +2528,8 @@ packages:
   ogp-parser@0.8.1:
     resolution: {integrity: sha512-sqBbX6BBX9YlwK5UL8qreV/mts2jKtmHlNJ6cMVLEA59BYuaWCToieUmWg+wxpxZoeCg+pbxWcd5r8wVtstB3g==}
 
-  p-map@7.0.3:
-    resolution: {integrity: sha512-VkndIv2fIB99swvQoA65bm+fsmt6UNdGeIB0oxBs+WhAhdh08QA04JXpI7rbB9r08/nkbysKoya9rtDERYOYMA==}
+  p-map@7.0.4:
+    resolution: {integrity: sha512-tkAQEw8ysMzmkhgw8k+1U/iPhWNhykKnSk4Rd5zLoPJCuJaGRPo6YposrZgaxHKzDHdDWWZvE/Sk7hsL2X/CpQ==}
     engines: {node: '>=18'}
 
   package-manager-detector@0.2.2:
@@ -2944,8 +2944,8 @@ packages:
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
-  vite-plugin-static-copy@3.1.4:
-    resolution: {integrity: sha512-iCmr4GSw4eSnaB+G8zc2f4dxSuDjbkjwpuBLLGvQYR9IW7rnDzftnUjOH5p4RYR+d4GsiBqXRvzuFhs5bnzVyw==}
+  vite-plugin-static-copy@3.1.5:
+    resolution: {integrity: sha512-9pbZn9Vb+uUNg/Tr/f2MXmGvfSfLeWjscS4zTA3v+sWqKN+AjJ/ipTFwaqdopJkNkxG5DfgYrZXD80ljbNDxbg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -5860,7 +5860,7 @@ snapshots:
       iconv-lite: 0.5.1
       jschardet: 2.1.1
 
-  p-map@7.0.3: {}
+  p-map@7.0.4: {}
 
   package-manager-detector@0.2.2: {}
 
@@ -6467,10 +6467,10 @@ snapshots:
       - vue
       - webpack-cli
 
-  vite-plugin-static-copy@3.1.4(vite@7.3.1(terser@5.30.0)(yaml@2.8.0)):
+  vite-plugin-static-copy@3.1.5(vite@7.3.1(terser@5.30.0)(yaml@2.8.0)):
     dependencies:
       chokidar: 3.6.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       picocolors: 1.1.1
       tinyglobby: 0.2.15
       vite: 7.3.1(terser@5.30.0)(yaml@2.8.0)
