@@ -31,7 +31,7 @@ const param = ssgParams<Env>(_c => {
 export default createRoute(param, c => {
   const categoryId = c.req.param('id')
   const numStr = c.req.param('num')
-  const num = Number.parseInt(numStr)
+  const num = Number.parseInt(numStr, 10)
   if (Number.isNaN(num)) {
     return c.notFound()
   }
