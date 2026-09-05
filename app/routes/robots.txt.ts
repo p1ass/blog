@@ -1,7 +1,7 @@
 import { createRoute } from 'honox/factory'
 
 export default createRoute(c => {
-  const robotsTxt = `Use-Agent: *
+  const robotsTxt = `User-agent: *
 Allow: /`
   return c.text(robotsTxt, 200, {})
 })

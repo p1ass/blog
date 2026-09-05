@@ -28,11 +28,11 @@ export async function MarkdownRenderer({ content, baseUrl }: Props) {
   const transformed = String(compiled).replaceAll('./', imgBaseUrl)
 
   const { default: MDXContent } = await run(transformed, {
-    // @ts-ignore
+    // @ts-expect-error
     jsx: jsx,
-    // @ts-ignore
+    // @ts-expect-error
     jsxDEV: jsx,
-    // @ts-ignore
+    // @ts-expect-error
     jsxs: jsx,
     Fragment: Fragment,
     useMDXComponents: useMDXComponents,

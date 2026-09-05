@@ -51,7 +51,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
     return <div>Not Post Page</div>
   }
 
-  const paginationPosts = getPaginationPosts(frontmatter.title)
+  const paginationPosts = getPaginationPosts(filepath)
 
   const permalink = `${import.meta.env.BASE_URL}${filepath
     .replaceAll('app/routes/', '')

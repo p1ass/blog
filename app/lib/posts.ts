@@ -89,11 +89,22 @@ export type PaginationPosts = {
   nextPost: Post | null
 }
 
-export function getPaginationPosts(currentPostTitle: string): PaginationPosts {
+// recma-export-filepath が渡す `app/routes/posts/<slug>/index.mdx` を
+// Post.id の形式 (`/posts/<slug>/index.mdx`) に揃える
+function filepathToPostId(filepath: string): string {
+  return `/${filepath.replace(/^app\/routes\//, '')}`
+}
+
+export function getPaginationPosts(currentFilepath: string): PaginationPosts {
   const allPosts = getAllPosts()
-  const currentIndex = allPosts.findIndex(
-    p => p.frontmatter.title === currentPostTitle,
-  )
+  const currentId = filepathToPostId(currentFilepath)
+  const currentIndex = allPosts.findIndex(p => p.id === currentId)
+
+  // 見つからないまま先に進むと、一覧の先頭が「前の記事」として表示されてしまう
+  if (currentIndex === -1) {
+    return { prevPost: null, nextPost: null }
+  }
+
   return {
     prevPost:
       currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null,
