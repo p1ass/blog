@@ -24,7 +24,7 @@ export function useMDXComponents(): MDXComponents {
     Note: Note,
     Twitter: Twitter,
   }
-  // @ts-ignore
+  // @ts-expect-error
   return components
 }
 
