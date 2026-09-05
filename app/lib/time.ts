@@ -1,14 +1,12 @@
-import { parse } from '@formkit/tempo'
+import { format } from '@formkit/tempo'
 
-export const parseDate = (str: string) => {
-  return parse(str, 'YYYY-MM-DDTHH:mm:ss', 'Asia/Tokyo')
-}
+const timeZone = 'Asia/Tokyo'
 
-// frontmatter の日付は JST 前提だが、オフセットを書いていない記事がある。
-// parseDate が返す Date はビルドマシンの TZ に依存してしまうため、
-// 機械可読な日時が要る箇所では Date を経由せず文字列として組み立てる。
-const hasUtcOffset = /(?:Z|[+-]\d{2}:\d{2})$/
+// frontmatter の日付はオフセット付きの ISO 8601 に統一しているため、
+// Date のコンストラクタだけで一意な瞬間に定まる。
+export const parseDate = (str: string) => new Date(str)
 
-export const toIso8601Jst = (str: string) => {
-  return hasUtcOffset.test(str) ? str : `${str}+09:00`
-}
+// tz を渡さないと、ビルドマシンの TZ で整形される。JST の深夜に投稿した記事が
+// UTC のビルドマシンでは前日として表示されてしまうので、必ず明示する。
+export const formatDate = (date: Date, pattern: string, locale = 'ja') =>
+  format({ date, format: pattern, locale, tz: timeZone })

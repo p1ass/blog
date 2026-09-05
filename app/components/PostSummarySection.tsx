@@ -1,10 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 import type { Post } from '../lib/posts'
-import { parseDate } from '../lib/time'
+import { formatDate, parseDate } from '../lib/time'
 import { blue, border, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { MarkdownRenderer } from './MarkdownRenderer'
@@ -100,7 +99,7 @@ export async function PostSummarySection({ post }: Props) {
       <a href={post.permalink} class={itemCss}>
         <div>
           <time datetime={post.frontmatter.date} class={timeCss}>
-            {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
+            {formatDate(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
           <h1 class={titleCss}>{post.frontmatter.title}</h1>
           <div class={underlineCss} />

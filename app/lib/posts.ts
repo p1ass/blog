@@ -1,243 +1,102 @@
 import type { MDXProps } from 'mdx/types'
-import type { Frontmatter } from '../routes/posts/types'
-import { parseDate } from './time'
-import { groupBy } from './util'
+import { type Frontmatter, frontmatterSchema } from '../routes/posts/types'
+import {
+  buildCategories,
+  buildTags,
+  type Category,
+  findPaginationPosts,
+  type Page,
+  type PaginationPosts,
+  type Post,
+  paginate,
+  sortByDateDesc,
+  type Tag,
+} from './post-list'
 
-const POSTS_PER_PAGE = 10
+export type { Category, Page, PaginationPosts, Post, Tag }
+export { categoryNameToId, getMaxPageNumber, tagNameToId } from './post-list'
 
 type MDXExports = {
-  frontmatter: Frontmatter
+  frontmatter: unknown
   default: (props: MDXProps) => JSX.Element
   ContentSummary?: () => JSX.Element
 }
 
-const posts = import.meta.glob<MDXExports>('../routes/posts/**/*.mdx', {
+const modules = import.meta.glob<MDXExports>('../routes/posts/**/*.mdx', {
   eager: true,
 })
 
-function sortByDateDesc():
-  | ((
-      a: [string, { frontmatter: Frontmatter }],
-      b: [string, { frontmatter: Frontmatter }],
-    ) => number)
-  | undefined {
-  return ([_aid, aPost], [_bid, bPost]) => {
-    const aDate = parseDate(aPost.frontmatter.date)
-    const bDate = parseDate(bPost.frontmatter.date)
-    return aDate.getTime() < bDate.getTime() ? 1 : -1
+function parseFrontmatter(id: string, value: unknown): Frontmatter {
+  const result = frontmatterSchema.safeParse(value)
+  if (!result.success) {
+    const detail = result.error.issues
+      .map(i => `${i.path.join('.') || '(root)'}: ${i.message}`)
+      .join('\n  ')
+    throw new Error(`frontmatter が不正です: ${id}\n  ${detail}`)
   }
+  return result.data
 }
 
-export type Post = {
-  id: string
-  frontmatter: Frontmatter
-  permalink: string
-  fullFilePath: URL
-  MDXContent: (props: MDXProps) => JSX.Element
-  ContentSummary?: () => JSX.Element
-}
+const allPosts = sortByDateDesc(
+  Object.entries(modules).map(([id, module]) => {
+    const postId = id.replace(/^\.\.\/routes/, '')
+    return {
+      id: postId,
+      fullFilePath: new URL(id, import.meta.url),
+      permalink: `${postId.replace(/\/index\.mdx$/, '')}/`,
+      frontmatter: parseFrontmatter(postId, module.frontmatter),
+      MDXContent: module.default,
+      ContentSummary: module.ContentSummary,
+    } satisfies Post
+  }),
+)
 
-type Posts = {
-  posts: Post[]
-  hasPrev: boolean
-  hasNext: boolean
-}
+const categories = buildCategories(allPosts)
+const tags = buildTags(allPosts)
 
 export function getAllPosts(): Post[] {
   return allPosts
 }
 
-const allPosts = _getAllPosts()
-
-function _getAllPosts(): Post[] {
-  return Object.entries(posts)
-    .sort(sortByDateDesc())
-    .map(([id, module]) => {
-      return {
-        id: id.replace(/^\.\.\/routes/, ''),
-        fullFilePath: new URL(id, import.meta.url),
-        permalink: `${id
-          .replace(/^\.\.\/routes/, '')
-          .replace(/\/index\.mdx$/, '')}/`,
-        frontmatter: module.frontmatter,
-        MDXContent: module.default,
-        ContentSummary: module.ContentSummary,
-      } satisfies Post
-    })
-}
-
-export function getMaxPageNumber(posts: Post[]): number {
-  return Math.ceil(posts.length / POSTS_PER_PAGE)
-}
-
-export function getPosts(page: number): Posts {
-  const start = POSTS_PER_PAGE * (page - 1)
-  const end = POSTS_PER_PAGE * page
-
-  const allPosts = getAllPosts()
-  const pagePosts = allPosts.slice(start, end)
-
-  return {
-    posts: pagePosts,
-    hasPrev: page > 1,
-    hasNext: allPosts.length > end,
-  }
-}
-
-export type PaginationPosts = {
-  prevPost: Post | null
-  nextPost: Post | null
-}
-
-// recma-export-filepath が渡す `app/routes/posts/<slug>/index.mdx` を
-// Post.id の形式 (`/posts/<slug>/index.mdx`) に揃える
-function filepathToPostId(filepath: string): string {
-  return `/${filepath.replace(/^app\/routes\//, '')}`
+export function getPosts(page: number): Page {
+  return paginate(allPosts, page)
 }
 
 export function getPaginationPosts(currentFilepath: string): PaginationPosts {
-  const allPosts = getAllPosts()
-  const currentId = filepathToPostId(currentFilepath)
-  const currentIndex = allPosts.findIndex(p => p.id === currentId)
-
-  // 見つからないまま先に進むと、一覧の先頭が「前の記事」として表示されてしまう
-  if (currentIndex === -1) {
-    return { prevPost: null, nextPost: null }
-  }
-
-  return {
-    prevPost:
-      currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null,
-    nextPost: currentIndex > 0 ? allPosts[currentIndex - 1] : null,
-  }
-}
-
-type Category = {
-  id: string
-  name: string
-  posts: Post[]
+  return findPaginationPosts(allPosts, currentFilepath)
 }
 
 export function getCategories(): Category[] {
   return categories
 }
 
-const categories = _getCategories()
-
-export function _getCategories(): Category[] {
-  const allPosts = getAllPosts()
-  const groupedByCategory = groupBy(allPosts, p => p.frontmatter.categories[0])
-
-  return Object.entries(groupedByCategory).map(([name, posts]) => {
-    return {
-      id: categoryNameToId(name),
-      name: name,
-      posts: posts,
-    }
-  })
-}
-
-type CategoryPosts = {
-  hasPrev: boolean
-  hasNext: boolean
-} & Category
+export type CategoryPage = Page & Omit<Category, 'posts'>
 
 export function getCategoryPosts(
   categoryId: string,
   page: number,
-): CategoryPosts | null {
-  const start = POSTS_PER_PAGE * (page - 1)
-  const end = POSTS_PER_PAGE * page
-
-  const category = getCategories().find(c => c.id === categoryId)
-
+): CategoryPage | null {
+  const category = categories.find(c => c.id === categoryId)
   if (!category) {
     return null
   }
-
-  const pagePosts = category.posts.slice(start, end)
-
   return {
     id: category.id,
     name: category.name,
-    posts: pagePosts,
-    hasPrev: page > 1,
-    hasNext: category.posts.length > end,
+    ...paginate(category.posts, page),
   }
-}
-
-export function categoryNameToId(name: string): string {
-  return name.toLowerCase()
-}
-
-type Tag = {
-  id: string
-  name: string
-  posts: Post[]
 }
 
 export function getTags(): Tag[] {
   return tags
 }
 
-const tags: Tag[] = _getTags()
+export type TagPage = Page & Omit<Tag, 'posts'>
 
-function _getTags(): Tag[] {
-  const allPosts = getAllPosts()
-
-  const tags = allPosts.flatMap(p => {
-    return (
-      p.frontmatter.tags?.map(tag => {
-        return {
-          id: tagNameToId(tag),
-          name: tag,
-        }
-      }) || []
-    )
-  })
-  const uniqueTags = Array.from(
-    new Map(tags.map(tag => [tag.id, tag])).values(),
-  )
-
-  return uniqueTags.map(tag => {
-    return {
-      id: tag.id,
-      name: tag.name,
-      posts: getAllPosts().filter(p => p.frontmatter.tags?.includes(tag.name)),
-    }
-  })
-}
-
-export function tagNameToId(name: string): string {
-  return name.toLowerCase()
-}
-
-type TagPosts = {
-  posts: Post[]
-  hasPrev: boolean
-  hasNext: boolean
-} & Tag
-
-export function getTagPosts(tagId: string, page: number): TagPosts | null {
-  const start = POSTS_PER_PAGE * (page - 1)
-  const end = POSTS_PER_PAGE * page
-
-  const tag = getTags().find(tag => tag.id === tagId)
-
+export function getTagPosts(tagId: string, page: number): TagPage | null {
+  const tag = tags.find(t => t.id === tagId)
   if (!tag) {
     return null
   }
-
-  const tagPosts = getAllPosts().filter(p =>
-    p.frontmatter.tags?.includes(tag.name),
-  )
-  const pagePosts = tagPosts.slice(start, end)
-
-  return {
-    id: tag.id,
-    name: tag.name,
-    posts: pagePosts,
-    hasPrev: page > 1,
-    hasNext: tagPosts.length > end,
-  }
+  return { id: tag.id, name: tag.name, ...paginate(tag.posts, page) }
 }
