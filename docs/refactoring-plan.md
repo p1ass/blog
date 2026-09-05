@@ -1,0 +1,317 @@
+# ブログ基盤の改善計画
+
+## このドキュメントについて
+
+このブログのアーキテクチャを調査して洗い出した課題と、その解決方針をまとめています。作業は 7 つのステップに分かれていて、上から順に着手します。
+
+新しいセッションを始めるときは、このドキュメントと [CONTEXT.md](../CONTEXT.md) を読んでください。CONTEXT.md には Post や Label といった用語の定義があります。「どう作るか」は [CLAUDE.md](../CLAUDE.md) にあります。
+
+進捗は「作業ステップ」の各見出しにある状態欄で管理します。ステップを終えたら状態を更新してください。
+
+調査は 2026-09-05 時点のコードに対して行いました。記事は 77 本です。
+
+## 設計方針
+
+ここに書いた内容は決定済みです。実装中に前提が崩れた場合は、このドキュメントを更新してから進めてください。
+
+### 記事の同定
+
+記事の同定キーを `Slug` (記事ディレクトリの名前) に一本化します。`id`、`permalink`、`fullFilePath` はすべて Slug から導出します。
+
+現状は 3 つの値を glob のキーから個別に文字列操作で作っていて、どれが同定キーなのかコードから読み取れません。前後記事の探索がタイトル一致になっているのも、この曖昧さから来ています。
+
+### カテゴリとタグ
+
+カテゴリとタグを `Label` として共通化します。種類は `LabelKind` (`category` または `tag`) で区別します。
+
+全件を持つ `Label` と、1 ページ分だけを取り出した `LabelPage` は別の型にします。現状は両方とも `posts` という同じ名前のフィールドを持ち、中身が全件なのか 1 ページ分なのか型から判別できません。
+
+ルートは `LabelIndexPage` と `LabelPostsPage` の 2 コンポーネントに集約し、`categories/` と `tags/` 配下の 6 ファイルはそれを呼ぶだけにします。
+
+記事からラベルへの向き (カテゴリは必ず 1 つ、タグは 0 個以上) を共通化しません。ここはカテゴリとタグで性質が違います。
+
+### frontmatter の検証
+
+zod でスキーマを定義し、記事の集約時に全件を検証します。検証に失敗したらビルドを落とします。
+
+あわせて `categories: string[]` を `category: string` に変えます。型は配列ですが、実際に使われているのは先頭の 1 要素だけで、全 77 記事が 1 つしか持っていません。
+
+日付は `+09:00` 付きの ISO 8601 に統一します。現状 75 本がオフセットなし、2 本がオフセット付きで揺れています。統一後は `parseDate` の `Asia/Tokyo` 固定という補正が不要になります。
+
+### 抜粋の生成
+
+recma プラグインを書いて、ビルド時に `ContentSummary` を MDX モジュールから export します。
+
+これにより `MarkdownRenderer.tsx` の実行時コンパイル、`fs.readFileSync` による記事の読み直し、`split('---')` での切り出し、`replaceAll('./')` による画像パスの書き換え、`node:fs` への依存がまとめて消えます。記事本体と同じ remark/rehype 構成が抜粋にも効くようになります。
+
+### テスト
+
+vitest を導入します。`import.meta.glob` で記事を集める層と、`Post[]` を受け取る純粋関数の層を分け、後者にテストを書きます。層を分けること自体が設計の改善になります。
+
+### 見出し階層
+
+1 ページにつき h1 を 1 つに揃えます。ヘッダーのサイト名はトップページでのみ h1 とし、それ以外のページでは div にします。見た目は変わりません。
+
+記事本文の `##` は h2 になります。記事タイトルを h1 にすれば階層が自然に成立し、TOC を h2 と h3 で組めます。
+
+### 色システム
+
+色を役割で呼ぶ名前 (`text` / `textMuted` / `surface` / `border` / `accent` など) に改名し、値は `var(--color-*)` を返すようにします。
+
+CSS 側は 3 段構成にします。`:root` に既定値を置き、`@media (prefers-color-scheme: dark)` 内の `:root:not([data-theme='light'])` で OS 設定に追従させ、`:root[data-theme='dark']` で明示的な選択を優先させます。
+
+### ダークモード
+
+3 状態のトグル (`system` から `light`、`dark`、`system` の順に巡回) を置きます。選択は localStorage に保存します。
+
+`app/islands/ThemeToggle.tsx` を作ります。ちらつきを防ぐため、head に同期実行のインラインスクリプトを 1 つ置いて、CSS より前に `data-theme` を確定させます。
+
+### TOC
+
+記事本文は 800px 中央寄せのまま動かさず、**右**の余白に sticky で目次を置きます。余白が足りない画面幅では、記事の冒頭に折りたたみで出します。
+
+対象は h2 と h3 です。h2 が 3 個未満の記事 (7 本) では目次を出しません。現在位置のハイライトは island と IntersectionObserver で実装します。
+
+### OGP の内製化
+
+リンクカードの OGP は自前で取得し、結果を `ogp-cache.json` としてリポジトリにコミットします。ビルド時はキャッシュにない URL だけ取得し、取得に失敗したらドメイン名だけの素のリンクにフォールバックします。キャッシュの更新は `pnpm ogp:refresh` の手動実行とし、自動更新の仕組みは作りません。
+
+OG 画像は Satori と resvg でビルド時に生成します。フォントはリポジトリに同梱し、日本語の改行制御は budoux で入れます。frontmatter で `ogImage` を指定している 9 記事はその指定を優先し、残り 68 記事は生成画像を使います。
+
+既存の外部サービスは [p1ass/og-image](https://github.com/p1ass/og-image) (vercel/og-image のフォーク) にあります。1200 × 630、下辺に 16px の `#4172B5` のボーダー、タイトルは Noto Sans JP の 600 で色は `#1E2126`、フッターにサイト名と URL とアイコン、という構成です。リンクカード側の `blog-api` は `github.com/otiai10/opengraph` を使った Go のサービスで、レスポンスの型は `app/lib/ogp.ts` にそのまま写っています。
+
+### 外部スクリプト
+
+FontAwesome の kit をやめ、インライン SVG に置き換えます。実際に使っているのは Author の GitHub と Twitter のアイコン、Note の info アイコンだけです。
+
+Twitter の `widgets.js` は head から削除し、`Twitter` コンポーネントを island にしてマウント時に動的に読み込みます。埋め込みがあるのは 77 記事中 16 記事だけです。
+
+Pocket のシェアボタンは削除します。Pocket は 2025 年 7 月にサービスを終了していて、リンクが死んでいます。置き換えは行わず、X とはてなブックマークだけ残します。
+
+## 課題一覧
+
+対応するステップの番号を右端に書いています。
+
+### 記事データモデル
+
+| ID | 内容 | 場所 |  |
+| --- | --- | --- | --- |
+| A-1 | 抜粋が本文中の `---` で切れる。`filter-data-structure` で発生中 | `app/components/PostSummarySection.tsx:95-96` | 4 |
+| A-2 | `ContentSummary` を export するプラグインが存在せず、型だけが残っている | `app/lib/posts.ts:11,37,64` | 4 |
+| A-3 | 前後記事の探索がタイトル一致。同名記事で壊れる | `app/lib/posts.ts:92-102` | 1 |
+| A-4 | slug から URL を導出する処理が 3 箇所に散在 | `app/lib/posts.ts:57-61`, `app/components/PostPagination.tsx:38,47` | 3 |
+| A-5 | `getTagPosts` が `tag.posts` を使わず filter をやり直す。カテゴリ側と非対称 | `app/lib/posts.ts:220` | 3 |
+| A-6 | ID 生成が `toLowerCase()` のみ。日本語やスペースを含む名前で URL が壊れ、衝突検出もない | `app/lib/posts.ts:158,200` | 3 |
+| A-7 | `categories` の型が配列だが、実際は単数として使っている | `app/routes/posts/types.ts:5` | 2 |
+| A-8 | frontmatter が実行時に検証されない。日付フォーマットが 2 本で揺れている | `app/lib/time.ts:4` | 2 |
+| A-9 | RSS と sitemap だけ `parseDate` を通さず生の文字列を渡している | `app/routes/index.xml.ts:37`, `app/routes/sitemap.xml.ts:23` | 2 |
+
+### MDX の二重経路
+
+| ID | 内容 | 場所 |  |
+| --- | --- | --- | --- |
+| B-1 | 抜粋側に remark/rehype が適用されず、一覧で表とハイライトと Mermaid が効かない | `app/components/MarkdownRenderer.tsx:13-22` | 4 |
+| B-2 | 画像パスをコンパイル済み JS への無差別置換で解決している | `app/components/MarkdownRenderer.tsx:28` | 4 |
+| B-3 | 一覧ページごとに実行時 MDX コンパイルが 10 本走る | `app/components/PostSummarySection.tsx` | 4 |
+| B-4 | 経路が 2 つあるため、TOC 用の見出し抽出を両方に入れる必要がある | — | 4 |
+
+### スタイリング
+
+| ID | 内容 | 場所 |  |
+| --- | --- | --- | --- |
+| C-1 | 色が静的な定数で、ビルド時にリテラルが焼き込まれる | `app/styles/color.ts` | 5 |
+| C-2 | 色名が役割ではなく見た目を指す。ダークモードで `white` が黒になる | `app/styles/color.ts` | 5 |
+| C-3 | ハードコードした色が残っている | `app/routes/_renderer.tsx:40` | 1 |
+| C-4 | highlight.js のテーマ 60 行超が直書き。ライトとダークの 2 テーマが要る | `app/routes/_renderer.tsx:61-140` | 5 |
+| C-5 | `transition.ts` があるのにベンダープレフィックスのコピペが 5 箇所 | 5 ファイル | 5 |
+| C-6 | Sass 記法の残骸で CSS として無効。border が出ていない | `app/components/PostSummarySection.tsx:31` | 1 |
+| C-7 | ハードコードした色が 6 つ | `app/components/ShareIcons.tsx` | 5 |
+
+### HTML とメタ情報
+
+| ID | 内容 | 場所 |  |
+| --- | --- | --- | --- |
+| D-1 | RSS の link に `title='TODO'` が残っている | `app/routes/_renderer.tsx:212` | 1 |
+| D-2 | `og:type` が記事ページでも `website` 固定。`article:published_time` もない | `app/routes/_renderer.tsx:177` | 1 |
+| D-3 | canonical がない | `app/routes/_renderer.tsx` | 1 |
+| D-4 | 見出し階層が破綻。一覧で h1 が並び、ヘッダーのサイト名が h2 | `app/components/Header.tsx`, `app/components/PostSummarySection.tsx:105` | 4 |
+| D-5 | `Use-Agent:` の綴りが誤り。正しくは `User-agent:` | `app/routes/robots.txt.ts:4` | 1 |
+| D-6 | `base` が本番の絶対 URL 固定で、プレビューデプロイでも本番を指す | `vite.config.ts:23-24` | 見送り |
+| D-7 | フォールバックの OG 画像が 404。参照は `ogp.png`、実体は `opg.png` | `app/routes/_renderer.tsx:165` | 1 |
+| D-8 | Pocket のシェアボタンが死んでいる | `app/components/ShareIcons.tsx:136` | 1 |
+| D-9 | シェア URL のスキームが `http://` | `app/components/ShareIcons.tsx` | 1 |
+
+### 外部依存とビルド
+
+| ID | 内容 | 場所 |  |
+| --- | --- | --- | --- |
+| E-1 | `blog-api.p1ass.com` が落ちるとビルドが落ちる。55 記事 196 箇所を毎回取得 | `app/lib/ogp.ts:50` | 6 |
+| E-2 | `ogp-parser` が依存に入っているが使われていない | `package.json:20` | 6 |
+| E-3 | OG 画像が `og-image.p1ass.com` への外部依存。URL が 2 箇所にベタ書き | `app/routes/_renderer.tsx:162`, `app/routes/index.xml.ts:32` | 6 |
+| E-4 | FontAwesome と Twitter widgets を全ページで読み込んでいる | `app/routes/_renderer.tsx:191-200` | 6 |
+| E-5 | テストが 1 つもない | — | 2 |
+| E-6 | `viteCommonjs` の 12 パッケージと debug のパッチに理由の記録がない | `vite.config.ts:29-44` | 6 |
+
+## 作業ステップ
+
+### ステップ 1: 実害のあるバグ
+
+状態: 未着手
+
+対象は A-3、C-3、C-6、D-1、D-2、D-3、D-5、D-7、D-8、D-9 です。
+
+互いに独立した小さな修正の集まりなので、まとめて 1 つの PR にします。ここでは構造に手を入れません。
+
+完了条件は次のとおりです。
+
+- `public/static/opg.png` を `ogp.png` に改名し、参照と一致させる
+- Pocket のシェアボタンを削除し、シェア URL を `https://` にする
+- `og:type` を記事ページで `article` にし、`article:published_time` を出す
+- 全ページに canonical を出す
+- 前後記事の探索を Slug 引きに変える
+- `pnpm build` が通り、`pnpm lint` が通る
+
+A-1 (抜粋が `---` で切れる) はここに含めません。ステップ 4 で構造的に解消されるため、今応急処置を入れると捨てるコードを書くことになります。実害は 1 記事だけです。
+
+### ステップ 2: テスト基盤と frontmatter の検証
+
+状態: 未着手
+
+対象は A-7、A-8、A-9、E-5 です。
+
+先にテストを入れます。ステップ 3 以降のリファクタリングを安全に進めるための土台です。
+
+完了条件は次のとおりです。
+
+- vitest が動き、`pnpm test` で実行できる
+- `app/lib/posts.ts` を、記事を集める層と純粋関数の層に分ける
+- ページネーションの境界値にテストがある
+- zod のスキーマで frontmatter を検証し、失敗時にビルドが落ちる
+- `categories: string[]` を `category: string` に変え、全 77 記事を追従させる
+- 全 77 記事の日付を `+09:00` 付きの ISO 8601 に統一する
+- `parseDate` の `Asia/Tokyo` 固定を外す
+- RSS と sitemap が `parseDate` を経由する
+
+### ステップ 3: Slug と Label のモデル整理
+
+状態: 未着手
+
+対象は A-4、A-5、A-6 です。
+
+完了条件は次のとおりです。
+
+- `Slug` を導入し、`permalink` と `fullFilePath` をそこから導出する
+- 文字列操作による URL 導出が `app/lib/posts.ts` の 1 箇所だけになる
+- `Label`、`LabelKind`、`LabelPage` を導入する
+- `LabelId` の生成が日本語とスペースを含む名前を扱え、衝突をビルド時に検出する
+- `categories/` と `tags/` 配下の 6 ファイルが、共通コンポーネントを呼ぶだけになる
+- 生成される URL がステップ 2 以前と一致する (`dist` を比較して確認する)
+
+URL が変わると既存の被リンクが切れるため、最後の項目は必ず確認してください。
+
+### ステップ 4: MDX 経路の一本化と見出し階層
+
+状態: 未着手
+
+対象は A-1、A-2、B-1、B-2、B-3、B-4、D-4 です。
+
+このステップが今回の中心です。TOC とダークモードはどちらもここを踏みます。
+
+完了条件は次のとおりです。
+
+- recma プラグインが `ContentSummary` を export する
+- `app/components/MarkdownRenderer.tsx` を削除する
+- `PostSummarySection` から `node:fs` と `node:path` への依存がなくなる
+- 一覧ページの抜粋で表とシンタックスハイライトが効く
+- `filter-data-structure` の抜粋が `---` で切れない
+- 1 ページにつき h1 が 1 つになる
+- ビルド時間を計測し、着手前と比較する
+
+終わったら `docs/adr/0001-抜粋をビルド時に-export-する.md` を書きます。
+
+### ステップ 5: 色システムのセマンティック化
+
+状態: 未着手
+
+対象は C-1、C-2、C-4、C-5、C-7 です。
+
+完了条件は次のとおりです。
+
+- `app/styles/color.ts` が役割ベースの名前になり、値が `var(--color-*)` を返す
+- CSS 変数の定義が `:root`、`prefers-color-scheme`、`data-theme` の 3 段構成になる
+- highlight.js のテーマがライトとダークの 2 つに分かれ、`_renderer.tsx` から切り出される
+- ハードコードした色がコードベースから消える
+- `transition.ts` が使われ、ベンダープレフィックスのコピペが消える
+- 見た目がライトモードで着手前と変わらない
+
+この時点ではダークモードの切り替え UI は作りません。値を差し替えられる状態にするところまでです。
+
+### ステップ 6: OGP の内製化と外部スクリプトの整理
+
+状態: 未着手
+
+対象は E-1、E-2、E-3、E-4、E-6 です。
+
+完了条件は次のとおりです。
+
+- OGP の取得を自前で行い、`blog-api.p1ass.com` への依存が消える
+- `ogp-cache.json` がリポジトリにあり、ビルド時は未取得の URL だけ取得する
+- 取得に失敗してもビルドが落ちず、素のリンクにフォールバックする
+- `pnpm ogp:refresh` でキャッシュを更新できる
+- Satori と resvg で OG 画像を生成し、`og-image.p1ass.com` への依存が消える
+- `ogImage` を指定している 9 記事はその指定が優先される
+- FontAwesome の kit を削除し、インライン SVG に置き換える
+- `Twitter` を island にし、head から `widgets.js` を削除する
+- `viteCommonjs` の列挙と debug のパッチを棚卸しし、残すものに理由を書く
+
+終わったら `docs/adr/0002-ogp-キャッシュをコミットする.md` を書きます。
+
+### ステップ 7: ダークモードと TOC
+
+状態: 未着手
+
+完了条件は次のとおりです。
+
+- `app/islands/ThemeToggle.tsx` があり、3 状態を巡回する
+- 選択が localStorage に保存され、再訪時に復元される
+- head の同期スクリプトによりリロード時のちらつきがない
+- ダークモードでコードブロックと画像とリンクカードが破綻しない
+- 記事ページの右側に sticky の目次が出る
+- 記事本文の位置が一覧ページと変わらない
+- 狭い画面では冒頭の折りたたみになる
+- h2 が 3 個未満の記事では目次が出ない
+- スクロールに応じて現在位置がハイライトされる
+
+## 見送った選択肢
+
+判断を蒸し返さないために、検討して選ばなかった案を残します。
+
+**抜粋を remark の AST 分割で作る**: 実行時コンパイルのコストと画像パスのワークアラウンドが残るため見送りました。
+
+**抜粋をやめて `description` を出す**: 最も単純ですが、一覧から画像とリンクカードが消えて見た目が変わるため見送りました。
+
+**カテゴリとタグを別の型のまま、関数だけ共有する**: ルート 6 ファイルの重複が残るため見送りました。将来カテゴリにだけ説明文や表示順を持たせたくなった場合は、この案を再検討してください。
+
+**OG 画像を Playwright の chromium で生成する**: rehype-mermaid が既に chromium を入れているため追加依存はゼロですが、77 枚のスクリーンショットでビルドが伸びるため見送りました。
+
+**OGP キャッシュを定期実行で更新する**: PR が増えるため見送りました。手動スクリプトで足ります。
+
+**OGP キャッシュに TTL を持たせる**: ビルドのたびに生成物の差分が出て、ローカルと CI でキャッシュがずれるため見送りました。
+
+**ダークモードを OS 設定への追従だけにする**: JS がゼロで済みますが、読者が OS と違う配色を選べないため見送りました。
+
+**TOC を記事冒頭の折りたたみだけにする**: レイアウト変更と island のどちらも不要ですが、長い記事での使い勝手を優先しました。
+
+**目次を左側に置く**: 横書きで本文を読む際の視線を妨げるため、右側にしました。
+
+**Twitter の読み込みを frontmatter のフラグで判定する**: 書き忘れると埋め込みが壊れ、スキーマ検証では防げないため見送りました。
+
+## 今回のスコープ外
+
+**D-6 (`base` が本番の絶対 URL 固定)**: プレビューデプロイでも本番 URL を指しますが、実害が確認できていないため触りません。プレビュー環境を本格的に使い始めたら再検討してください。
+
+**`_404.tsx` の内容**: `Not Foundだよ` とだけ表示します。直す価値はありますが、今回の課題からは独立しています。
+
+**`dist` が 144MB あること**: 画像の総量によるもので、構造の問題ではありません。
+
+**記事本文そのものの修正**: 日付フォーマットの統一と `categories` から `category` への変更以外、記事には手を入れません。
