@@ -15,3 +15,37 @@ jobs:
           version: latest
       - name: Run Biome
         run: biome ci .
+
+  textlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # 変更ファイルを算出するために base との比較が必要
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Collect changed articles
+        id: changed
+        run: |
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          # 削除されたファイルは除外する
+          files=$(git diff --name-only --diff-filter=d "origin/${{ github.base_ref }}"...HEAD -- '*.mdx' '*.md' | tr '\n' ' ')
+          echo "files=${files}" >> "$GITHUB_OUTPUT"
+          echo "変更された記事: ${files:-なし}"
+      - name: Run textlint
+        # 記事の変更がない PR ではスキップする。
+        # 既存記事の指摘で CI が赤くならないよう、対象は変更ファイルに限定している。
+        if: steps.changed.outputs.files != ''
+        run: pnpm exec textlint ${{ steps.changed.outputs.files }}
