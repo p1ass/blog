@@ -1,4 +1,3 @@
-import path from 'node:path'
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
@@ -6,7 +5,7 @@ import honox from 'honox/vite'
 import client from 'honox/vite/client'
 
 import recmaExportFilepath from 'recma-export-filepath'
-import { defineConfig, normalizePath } from 'vite'
+import { defineConfig } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
 
@@ -36,6 +35,7 @@ export default defineConfig(({ mode }) => {
           'has-flag',
           'extend',
           'style-to-object',
+          'style-to-js',
           'inline-style-parser',
           'highlight.js',
           'toml',
@@ -62,18 +62,9 @@ export default defineConfig(({ mode }) => {
               './app/routes/posts/**/*.webp',
             ],
             dest: 'posts',
-            rename: (
-              _fileName: string,
-              _fileExtension: string,
-              fullPath: string,
-            ) => {
-              const destPath = normalizePath(
-                path
-                  .relative(__dirname, fullPath)
-                  .replaceAll('app/routes/posts/', ''),
-              )
-              return destPath
-            },
+            // v4 から src のディレクトリ構造が常に維持されるため、
+            // 先頭の `app/routes/posts/` の 3 階層を落として `posts/<slug>/` に揃える
+            rename: { stripBase: 3 },
             // 普通のviteのビルドで生成したファイルを消さないようにする
             overwrite: false,
           },
