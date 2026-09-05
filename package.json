@@ -31,6 +31,7 @@
     "@mdx-js/rollup": "^3.1.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@playwright/test": "1.58.1",
+    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "@textlint/textlint-plugin-markdown": "^15.8.0",
     "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "2.0.0",

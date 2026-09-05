@@ -36,6 +36,7 @@
       },
       "ja-space-around-link": false,
       "ja-no-space-around-slash": false
-    }
+    },
+    "@textlint-ja/preset-ai-writing": true
   }
 }

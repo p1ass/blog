@@ -84,7 +84,7 @@ subagent 起動時に含めること:
 1. `tech-review` Skill を呼ぶ (技術的正確性・一次情報・再現性・リスク)
 2. `article-review` Skill を呼ぶ (誤字脱字・構成・文体逸脱)
 3. `japanese-technical-writing` Skill を参照する (冗長表現、文末の繰り返し、漢字とひらがなの使い分け)
-4. textlint を実行する
+4. textlint を実行する。`@textlint-ja/preset-ai-writing` が AI っぽい書き方を検出する
 
 ```bash
 pnpm exec textlint "app/routes/posts/<slug>/index.mdx"
