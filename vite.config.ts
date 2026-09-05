@@ -8,6 +8,7 @@ import recmaExportFilepath from 'recma-export-filepath'
 import { defineConfig } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
+import { mdxSummary } from './app/lib/mdx-summary'
 
 const entry = './app/server.ts'
 
@@ -43,6 +44,8 @@ export default defineConfig(({ mode }) => {
         ],
       }),
       honox(),
+      // mdx() より先に動かして、抜粋用の仮想モジュールを用意する
+      mdxSummary(),
       mdx({
         jsxImportSource: 'hono/jsx',
         providerImportSource: './app/lib/mdx-components',
