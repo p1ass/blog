@@ -3,7 +3,32 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: daily
+      # 毎日だと PR が溜まって lockfile がすぐ衝突するため週 1 に落とす
+      interval: weekly
+      day: monday
       time: "10:00"
       timezone: Asia/Tokyo
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
+    groups:
+      # minor / patch はまとめて 1 PR にする。major は個別 PR のまま残す
+      production-dependencies:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+      development-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 3
+    groups:
+      github-actions:
+        patterns:
+          - "*"

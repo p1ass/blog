@@ -1,15 +1,26 @@
 name: auto-merge
 
-on:
-  pull_request_target:
+on: pull_request_target
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
-      - uses: actions/checkout@v2
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      # グループ化した PR では update-type がグループ内の最大の semver になる
+      - name: Fetch dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
         with:
-          github-token: ${{ secrets.GH_PAT_DEPENDABOT_AUTO_MERGE }}
-          config: .github/depandabot-auto-merge.yml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # major だけは手動で確認する
+      - name: Enable auto-merge
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        run: gh pr merge --auto --squash "${PR_URL}"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GH_PAT_DEPENDABOT_AUTO_MERGE }}
