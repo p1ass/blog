@@ -39,7 +39,7 @@ textlint が未インストールの場合は `pnpm install` を先に実行す�
 
 ## Step 3: 並列レビューの実行
 
-3観点について、それぞれ専門のsubagentを**並列で**起動する。
+3 観点について、それぞれ専門の subagent を**並列で**起動する。
 
 | 観点 | Agent指示ファイル | 目的 |
 |---|---|---|
@@ -47,7 +47,7 @@ textlint が未インストールの場合は `pnpm install` を先に実行す�
 | 構成・論理展開 | `agents/structure.md` | 見出し構成、論の流れ、説明の順序、読者の理解 |
 | 文体逸脱 | `agents/style-drift.md` | 文体プロファイルからのずれ、AI っぽさ |
 
-subagent起動時に含めること:
+subagent 起動時に含めること:
 
 - 対象ファイルの絶対パス
 - 記事の全文
@@ -56,7 +56,7 @@ subagent起動時に含めること:
 - `references/editorial-checklist.md` のパス
 - 後述の「指摘してはいけないもの」
 
-subagent起動のプロンプト例:
+subagent 起動のプロンプト例:
 
 ```
 blog.p1ass.com の記事を「{観点名}」の観点からレビューしてください。
@@ -76,9 +76,9 @@ blog.p1ass.com の記事を「{観点名}」の観点からレビューしてく
 
 ## Step 4: 結果のマージと出力
 
-すべてのsubagentの結果と textlint の出力を収集する。
+すべての subagent の結果と textlint の出力を収集する。
 
-1. **重複排除**: 複数のsubagentが同じ箇所を指摘している場合は統合する
+1. **重複排除**: 複数の subagent が同じ箇所を指摘している場合は統合する
 2. **重要度順に並べ替え**: `must` → `should` → `nits` → `question` の順。同じ重要度では行番号順
 3. **確信度で絞る**: 根拠を書けた指摘だけを残す
 

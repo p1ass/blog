@@ -131,7 +131,7 @@ _Claude Code が行指定で出した Suggestion_
 ## コードブロック
 
 - 言語を必ず指定する (` ```go `、` ```yaml `、` ```bash `)
-- ブロック内にバッククォート3連が入る場合は4連 (` ````yaml `) で囲む
+- ブロック内にバッククォート 3 連が入る場合は 4 連 (` ````yaml `) で囲む
 - mermaid が使える (`rehype-mermaid`)
 
 ````markdown

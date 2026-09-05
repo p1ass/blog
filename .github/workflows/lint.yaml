@@ -40,9 +40,9 @@ jobs:
         id: changed
         run: |
           git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
-          # 対象は記事のみ。Skill 文書や CLAUDE.md は対象外とする
+          # 記事も Skill 文書も同じルールに従う
           # 削除されたファイルは除外する
-          files=$(git diff --name-only --diff-filter=d "origin/${{ github.base_ref }}"...HEAD -- 'app/routes/posts/**/*.mdx' | tr '\n' ' ')
+          files=$(git diff --name-only --diff-filter=d "origin/${{ github.base_ref }}"...HEAD -- '*.mdx' '*.md' | tr '\n' ' ')
           echo "files=${files}" >> "$GITHUB_OUTPUT"
           echo "変更された記事: ${files:-なし}"
       - name: Run textlint

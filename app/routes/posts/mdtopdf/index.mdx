@@ -33,14 +33,15 @@ Markdown はシンプルなシンタックスで様々な表現ができ、多�
 
 ![PDFの例3](./example-3.jpg)
 
-依存は全て Docker イメージにまとめてあるので、 **Docker さえあれば、ローカルに何もインストールすることなく、誰でも簡単に美しい実験レポートを作成できる** で、皆さん是非試してみてください。
+依存は全て Docker イメージにまとめてあるので、 **Docker さえあれば、ローカルへ何もインストールせずに、誰でも簡単に美しい実験レポートを作成できます**。
+皆さん是非試してみてください。
 
 ## 特徴
 
 まずはじめに、今回私が作成した Docker イメージの特徴を一覧で紹介します。
 
 - Markdown を PDF に変換
-- Markdown を保存するたびに PDF に変換
+- Markdown の保存ごとに PDF へ変換
 - TeX 組版を使用した美しい見た目
 - セクション番号の自動付与
 - LaTeX 形式の数式入力
@@ -51,7 +52,7 @@ Markdown はシンプルなシンタックスで様々な表現ができ、多�
 
 このように様々な特徴があります。
 
-**「Word で書くと番号付けや数式入力が面倒くさいから LaTeX で書いているけど、LaTeX の文法も冗長で面倒くさい、、、😔」**
+**「Word で書くと番号付けや数式入力が面倒くさいから LaTeX で書いているけど、LaTeX の文法も冗長で面倒くさい😔」**
 という人にはとてもおすすめできます。
 
 実際の変換前の Markdown ファイルと PDF ファイルは次のリンク先から見ることができます。
@@ -62,7 +63,7 @@ Markdown はシンプルなシンタックスで様々な表現ができ、多�
 
 ## Markdown を PDF に変換する方法
 
-Docker を使って PDF に変換を行います。
+Docker を使って PDF へ変換します。
 Docker のインストール方法は各自調べてください。
 
 今回使用する Docker イメージはこのリポジトリで管理しています。スターしてくれると泣いて喜びます 😂
@@ -87,7 +88,7 @@ $ cd path/to/directory
 
 ### STEP3 : PDF に変換する
 
-`INPUT.md`は各自自分のファイルに書き換えてください。処理が完了すると `INPUT.pdf` が生成されます。
+`INPUT.md` は各自自分のファイルに書き換えてください。処理が完了すると `INPUT.pdf` が生成されます。
 
 ```bash
 $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf INPUT.md
@@ -134,7 +135,7 @@ Ubuntu: `.bash_profile` を `.bashrc` にしてください。
 ### Markdown ファイルを tex ファイルに変換する
 
 TeX 組版を使っていることからも分かる通り、今回の PDF 生成は内部的には一度 tex ファイルにしてから行われています。
-そのため、その中間ファイルを生成することもできます。
+そのため、その中間ファイルの生成もできます。
 
 ```bash
 $ docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtotex INPUT.md
@@ -166,9 +167,9 @@ pandoc -s -N ${input%._}.md -o \${input%._}.pdf \
 -M "crossrefYaml=/config/crossref_config.yaml"
 ```
 
-`-N`オプションで自動でセクション番号を付与してくれます。
+`-N` オプションを付けると、セクション番号を自動で付与してくれます。
 
-`-F pandoc-crossref`では[pandoc-crossref](https://github.com/lierdakil/pandoc-crossref)という相互参照のためのフィルタを使っています。
+`-F pandoc-crossref` では[pandoc-crossref](https://github.com/lierdakil/pandoc-crossref)という相互参照のためのフィルタを使っています。
 次の行の `-M "crossrefYaml=..."` と合わせて、図表番号を正しく表示できるようにしています。
 
 ```yaml
@@ -183,10 +184,10 @@ lstPrefix: "コード"
 
 <ExLinkCard url="https://github.com/lierdakil/pandoc-crossref"/>
 
-`--pdf-engine=lualatex`で PDF 生成のエンジンには LuaLaTeX を使用するように指定しています。これは他のエンジンでは正しく日本語を認識してくれないためです。
-また、`-V`で LuaLaTeX 用のオプションを指定しています。
+`--pdf-engine=lualatex` で PDF 生成のエンジンには LuaLaTeX を使用するように指定しています。これは他のエンジンでは正しく日本語を認識してくれないためです。
+また、`-V` で LuaLaTeX 用のオプションを指定しています。
 
-保存するたびに PDF に変換するのは簡単で、次のスクリプトを使っています。
+保存ごとの PDF 変換は簡単で、次のスクリプトを使っています。
 
 ```bash
 #!/bin/bash
@@ -198,7 +199,7 @@ watcher $1 mdtopdf $1
 
 ２回同じファイル名を引数に指定しなくても良いようにしているだけですね。
 
-`mdtotex`は `mdtopdf` とほとんど同じなので省略します。
+`mdtotex` は `mdtopdf` とほとんど同じなので省略します。
 
 ## 終わりに
 
