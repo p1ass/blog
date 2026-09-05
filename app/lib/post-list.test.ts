@@ -1,20 +1,23 @@
 import { describe, expect, it } from 'vitest'
 import type { Frontmatter } from '../routes/posts/types'
 import {
-  buildCategories,
-  buildTags,
+  buildLabels,
+  filepathToSlug,
+  findLabelPage,
   findPaginationPosts,
   getMaxPageNumber,
+  globKeyToSlug,
+  labelNameToId,
+  labelPermalink,
   type Post,
   paginate,
+  postPermalink,
   sortByDateDesc,
 } from './post-list'
 
 function post(slug: string, frontmatter: Partial<Frontmatter> = {}): Post {
   return {
-    id: `/posts/${slug}/index.mdx`,
-    permalink: `/posts/${slug}/`,
-    fullFilePath: new URL(`file:///posts/${slug}/index.mdx`),
+    slug,
     frontmatter: {
       title: slug,
       date: '2024-01-01T00:00:00+09:00',
@@ -113,39 +116,30 @@ describe('findPaginationPosts', () => {
   const sorted = [post('newest'), post('middle'), post('oldest')]
 
   it('前の記事はより古い記事', () => {
-    const { prevPost } = findPaginationPosts(
-      sorted,
-      'app/routes/posts/middle/index.mdx',
-    )
+    const { prevPost } = findPaginationPosts(sorted, 'middle')
     expect(prevPost?.frontmatter.title).toBe('oldest')
   })
 
   it('次の記事はより新しい記事', () => {
-    const { nextPost } = findPaginationPosts(
-      sorted,
-      'app/routes/posts/middle/index.mdx',
-    )
+    const { nextPost } = findPaginationPosts(sorted, 'middle')
     expect(nextPost?.frontmatter.title).toBe('newest')
   })
 
   it('最新の記事には次の記事が無い', () => {
-    expect(
-      findPaginationPosts(sorted, 'app/routes/posts/newest/index.mdx').nextPost,
-    ).toBeNull()
+    expect(findPaginationPosts(sorted, 'newest').nextPost).toBeNull()
   })
 
   it('最古の記事には前の記事が無い', () => {
-    expect(
-      findPaginationPosts(sorted, 'app/routes/posts/oldest/index.mdx').prevPost,
-    ).toBeNull()
+    expect(findPaginationPosts(sorted, 'oldest').prevPost).toBeNull()
   })
 
   it('見つからない場合は前後どちらも出さない', () => {
     // 以前は findIndex の -1 をそのまま使い、一覧の先頭を「前の記事」として
     // 表示していた
-    expect(
-      findPaginationPosts(sorted, 'app/routes/posts/unknown/index.mdx'),
-    ).toEqual({ prevPost: null, nextPost: null })
+    expect(findPaginationPosts(sorted, 'unknown')).toEqual({
+      prevPost: null,
+      nextPost: null,
+    })
   })
 
   it('同じタイトルの記事があっても取り違えない', () => {
@@ -153,17 +147,14 @@ describe('findPaginationPosts', () => {
       post('a', { title: '同じタイトル' }),
       post('b', { title: '同じタイトル' }),
     ]
-    const { prevPost } = findPaginationPosts(
-      duplicated,
-      'app/routes/posts/a/index.mdx',
-    )
-    expect(prevPost?.id).toBe('/posts/b/index.mdx')
+    const { prevPost } = findPaginationPosts(duplicated, 'a')
+    expect(prevPost?.slug).toBe('b')
   })
 })
 
-describe('buildCategories', () => {
+describe('buildLabels', () => {
   it('同じカテゴリの記事をまとめる', () => {
-    const categories = buildCategories([
+    const categories = buildLabels('category', [
       post('a', { category: '開発' }),
       post('b', { category: 'ポエム' }),
       post('c', { category: '開発' }),
@@ -174,11 +165,13 @@ describe('buildCategories', () => {
   })
 
   it('id は小文字にする', () => {
-    expect(buildCategories([post('a', { category: 'Go' })])[0]?.id).toBe('go')
+    expect(
+      buildLabels('category', [post('a', { category: 'Go' })])[0]?.id,
+    ).toBe('go')
   })
 
   it('渡された順序を保つ', () => {
-    const categories = buildCategories([
+    const categories = buildLabels('category', [
       post('a', { category: '開発', title: '1' }),
       post('b', { category: '開発', title: '2' }),
     ])
@@ -189,13 +182,13 @@ describe('buildCategories', () => {
   })
 })
 
-describe('buildTags', () => {
+describe('buildLabels (タグ)', () => {
   it('タグを持たない記事を無視する', () => {
-    expect(buildTags([post('a')])).toEqual([])
+    expect(buildLabels('tag', [post('a')])).toEqual([])
   })
 
   it('複数の記事にまたがるタグをまとめる', () => {
-    const tags = buildTags([
+    const tags = buildLabels('tag', [
       post('a', { tags: ['Go', 'テスト'] }),
       post('b', { tags: ['Go'] }),
     ])
@@ -204,12 +197,89 @@ describe('buildTags', () => {
     expect(tags.find(t => t.name === 'Go')?.posts).toHaveLength(2)
   })
 
-  it('大文字小文字が違うだけのタグは同じ id になる', () => {
-    const tags = buildTags([
-      post('a', { tags: ['Go'] }),
-      post('b', { tags: ['go'] }),
-    ])
+  it('大文字小文字が違うだけのタグは、表記ゆれとしてビルドを落とす', () => {
+    // 以前は静かに片方へ潰れ、記事が一覧から抜け落ちていた
+    expect(() =>
+      buildLabels('tag', [
+        post('a', { tags: ['Go'] }),
+        post('b', { tags: ['go'] }),
+      ]),
+    ).toThrow(/id が衝突/)
+  })
 
-    expect(tags.map(t => t.id)).toEqual(['go'])
+  it('空白を含むタグ名をハイフンで繋ぐ', () => {
+    expect(
+      buildLabels('tag', [
+        post('a', { tags: ['Claude Code', 'Cloud Run'] }),
+      ]).map(t => t.id),
+    ).toEqual(['claude-code', 'cloud-run'])
+  })
+})
+
+describe('labelNameToId', () => {
+  it('小文字にする', () => {
+    expect(labelNameToId('Go')).toBe('go')
+  })
+
+  it('空白をハイフンにする', () => {
+    expect(labelNameToId('Claude Code')).toBe('claude-code')
+  })
+
+  it('連続した空白をまとめる', () => {
+    expect(labelNameToId('VS  Code')).toBe('vs-code')
+  })
+
+  it('日本語はそのまま残す', () => {
+    expect(labelNameToId('開発')).toBe('開発')
+  })
+
+  it('前後の空白を落とす', () => {
+    expect(labelNameToId('  Go  ')).toBe('go')
+  })
+})
+
+describe('findLabelPage', () => {
+  const labels = buildLabels(
+    'tag',
+    Array.from({ length: 25 }, (_, i) => post(`p${i}`, { tags: ['Go'] })),
+  )
+
+  it('見つからない id では null を返す', () => {
+    expect(findLabelPage(labels, 'unknown', 1)).toBeNull()
+  })
+
+  it('1 ページ分だけを取り出す', () => {
+    expect(findLabelPage(labels, 'go', 1)?.posts).toHaveLength(10)
+  })
+
+  it('ページ番号を持たせる', () => {
+    expect(findLabelPage(labels, 'go', 3)).toMatchObject({
+      pageNumber: 3,
+      hasPrev: true,
+      hasNext: false,
+    })
+  })
+})
+
+describe('Slug と URL の導出', () => {
+  it('記事の URL は Slug から作る', () => {
+    expect(postPermalink('migrate-to-hono')).toBe('/posts/migrate-to-hono/')
+  })
+
+  it('filepath から Slug を取り出す', () => {
+    expect(filepathToSlug('app/routes/posts/migrate-to-hono/index.mdx')).toBe(
+      'migrate-to-hono',
+    )
+  })
+
+  it('glob のキーから Slug を取り出す', () => {
+    expect(globKeyToSlug('../routes/posts/migrate-to-hono/index.mdx')).toBe(
+      'migrate-to-hono',
+    )
+  })
+
+  it('カテゴリとタグで URL の接頭辞が変わる', () => {
+    expect(labelPermalink('category', '開発')).toBe('/categories/開発/')
+    expect(labelPermalink('tag', 'go')).toBe('/tags/go/')
   })
 })
