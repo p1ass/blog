@@ -4,6 +4,7 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
+import { parseDate } from '../lib/time'
 import { backgroundDark, border, gray } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
@@ -37,7 +38,7 @@ const bodyCss = css`
   h3 {
     font-size: 1.3rem;
     line-height: 2.55rem;
-    border-bottom: 1px solid #dde0e4;
+    border-bottom: 1px solid ${border};
   }
 
   p {
@@ -156,6 +157,8 @@ export default jsxRenderer(
       ? `${propsTitle} - ぷらすのブログ`
       : 'ぷらすのブログ'
 
+    const canonicalUrl = `https://blog.p1ass.com${c.req.path}`
+
     const ogImage = frontmatter?.ogImage
       ? `https://blog.p1ass.com${frontmatter.ogImage}`
       : frontmatter?.title
@@ -174,13 +177,20 @@ export default jsxRenderer(
           <title>{title}</title>
 
           <meta name='description' content={description} />
-          <meta property='og:type' content='website' />
+          <link rel='canonical' href={canonicalUrl} />
+          <meta
+            property='og:type'
+            content={frontmatter ? 'article' : 'website'}
+          />
+          {frontmatter ? (
+            <meta
+              property='article:published_time'
+              content={parseDate(frontmatter.date).toISOString()}
+            />
+          ) : null}
           <meta property='og:description' content={description} />
           <meta property='og:image' content={ogImage} />
-          <meta
-            property='og:url'
-            content={`https://blog.p1ass.com${c.req.path}`}
-          />
+          <meta property='og:url' content={canonicalUrl} />
           <meta name='twitter:card' content='summary_large_image' />
           <meta name='twitter:site' content='@p1ass' />
           <meta name='twitter:creator' content='@p1ass' />
@@ -209,7 +219,7 @@ export default jsxRenderer(
             href='/index.xml'
             rel='alternate'
             type='application/rss+xml'
-            title='TODO'
+            title='ぷらすのブログ'
           />
           <Script src='/app/client.ts' async />
           <Style />

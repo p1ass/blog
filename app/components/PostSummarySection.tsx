@@ -5,7 +5,7 @@ import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 import type { Post } from '../lib/posts'
 import { parseDate } from '../lib/time'
-import { blue, gray, grayLight, white } from '../styles/color'
+import { blue, border, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { MarkdownRenderer } from './MarkdownRenderer'
 import { PostDetails } from './PostDetails'
@@ -28,7 +28,7 @@ const underlineCss = css`
 `
 
 const itemCss = css`
-  border-top: 1px solid $border;
+  border-top: 1px solid ${border};
   display: block;
   padding: ${verticalRhythmUnit}rem 0;
   text-decoration: none;

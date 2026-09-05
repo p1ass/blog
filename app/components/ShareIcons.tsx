@@ -78,15 +78,6 @@ const xIconCss = css`
   }
 `
 
-const pocketCss = css`
-    ${shareButtonCss}
-    box-shadow: inset 0 0 0 0.1rem #ee4056;
-
-    & i {
-        color: #ee4056;
-    }
-`
-
 const hatenaCss = css`
     ${shareButtonCss}
     box-shadow: inset 0 0 0 0.1rem #4ba3d9;
@@ -111,12 +102,16 @@ type Props = {
 }
 
 export function ShareButtons({ title, permalink }: Props) {
+  // タイトルに # を含む記事があるため、必ずエンコードする
+  const sharedUrl = encodeURIComponent(`https://blog.p1ass.com${permalink}`)
+  const sharedText = encodeURIComponent(`${title} - ぷらすのブログ`)
+
   return (
     <section class={shareIconsSectionCss}>
       <div class={shareIconWrapperCss}>
         <div class={xCss}>
           <a
-            href={`http://twitter.com/intent/tweet?url=https://blog.p1ass.com${permalink}&text=${title} - ぷらすのブログ`}
+            href={`https://twitter.com/intent/tweet?url=${sharedUrl}&text=${sharedText}`}
             target='_blank'
             rel='noreferrer noopener'
             title='Post'
@@ -125,20 +120,9 @@ export function ShareButtons({ title, permalink }: Props) {
             <i class={xIconCss} />
           </a>
         </div>
-        <div class={pocketCss}>
-          <a
-            href={`http://getpocket.com/edit?url=https://blog.p1ass.com${permalink}&title=${title} - ぷらすのブログ`}
-            target='_blank'
-            rel='noreferrer noopener'
-            title='pocket'
-            class={shareButtonLinkCss}
-          >
-            <i class='fab fa-get-pocket' />
-          </a>
-        </div>
         <div class={hatenaCss}>
           <a
-            href={`http://b.hatena.ne.jp/add?mode=confirm&url=https://blog.p1ass.com${permalink}&title=${title} - ぷらすのブログ`}
+            href={`https://b.hatena.ne.jp/add?mode=confirm&url=${sharedUrl}&title=${sharedText}`}
             target='_blank'
             rel='noreferrer noopener'
             title='hatena'
