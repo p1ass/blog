@@ -7,6 +7,8 @@ import {
   findPaginationPosts,
   getMaxPageNumber,
   globKeyToSlug,
+  labelHeadingPrefix,
+  labelIndexTitle,
   labelNameToId,
   labelPermalink,
   type Post,
@@ -213,6 +215,18 @@ describe('buildLabels (タグ)', () => {
         post('a', { tags: ['Claude Code', 'Cloud Run'] }),
       ]).map(t => t.id),
     ).toEqual(['claude-code', 'cloud-run'])
+  })
+})
+
+describe('ラベルの見出し', () => {
+  it('一覧ページの見出しは Categorys にならない', () => {
+    expect(labelIndexTitle.category).toBe('Categories')
+    expect(labelIndexTitle.tag).toBe('Tags')
+  })
+
+  it('個別ページの見出しは接頭辞とラベル名を並べる', () => {
+    expect(labelHeadingPrefix.category).toBe('Category')
+    expect(labelHeadingPrefix.tag).toBe('Tag')
   })
 })
 
