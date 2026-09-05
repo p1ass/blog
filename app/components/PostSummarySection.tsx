@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { css } from 'hono/css'
-import type { Post } from '../lib/posts'
+import { type Post, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 import { blue, border, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
@@ -87,7 +87,7 @@ type Props = {
 }
 
 export async function PostSummarySection({ post }: Props) {
-  const postUrl = `../routes${post.permalink}index.mdx`
+  const postUrl = `../routes/posts/${post.slug}/index.mdx`
   const aboutFilePath = path.resolve(__dirname, postUrl)
   const postText = fs.readFileSync(aboutFilePath, 'utf-8')
 
@@ -96,7 +96,7 @@ export async function PostSummarySection({ post }: Props) {
 
   return (
     <section class={sectionCss}>
-      <a href={post.permalink} class={itemCss}>
+      <a href={postPermalink(post.slug)} class={itemCss}>
         <div>
           <time datetime={post.frontmatter.date} class={timeCss}>
             {formatDate(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
@@ -109,11 +109,11 @@ export async function PostSummarySection({ post }: Props) {
       <div class='catalogue-summary'>
         <MarkdownRenderer
           content={summaryText}
-          baseUrl={post.fullFilePath.href}
+          baseUrl={new URL(postUrl, import.meta.url).href}
         />
       </div>
 
-      <a class={moreButtonCss} href={post.permalink}>
+      <a class={moreButtonCss} href={postPermalink(post.slug)}>
         続きを読む
       </a>
     </section>

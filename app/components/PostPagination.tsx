@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import type { PaginationPosts } from '../lib/posts'
+import { type PaginationPosts, postPermalink } from '../lib/posts'
 import { blue, border } from '../styles/color'
 
 const postPaginationCss = css`
@@ -37,20 +37,14 @@ export function PostPagination({ paginationPosts }: Props) {
   return (
     <div class={postPaginationCss}>
       {paginationPosts.prevPost ? (
-        <a
-          href={`${paginationPosts.prevPost.id.replace(/\/index\.mdx$/, '')}/`}
-          class={leftCss}
-        >
+        <a href={postPermalink(paginationPosts.prevPost.slug)} class={leftCss}>
           &#8592; {paginationPosts.prevPost.frontmatter.title}
         </a>
       ) : (
         <div class={emptyPrevCss} />
       )}
       {paginationPosts.nextPost ? (
-        <a
-          href={`${paginationPosts.nextPost.id.replace(/\/index\.mdx$/, '')}/`}
-          class={rightCss}
-        >
+        <a href={postPermalink(paginationPosts.nextPost.slug)} class={rightCss}>
           {paginationPosts.nextPost.frontmatter.title} &#8594;
         </a>
       ) : null}

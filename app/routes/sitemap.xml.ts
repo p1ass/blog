@@ -1,6 +1,6 @@
 import { createRoute } from 'honox/factory'
 import type { Post } from '../lib/posts'
-import { getAllPosts } from '../lib/posts'
+import { getAllPosts, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 
 const SITEMAP_DATE_FORMAT = 'YYYY-MM-DD'
@@ -19,7 +19,7 @@ function generateSitemap(posts: Post[]): string {
 
 function generateSitemapItem(post: Post): string {
   return `<url>
-      <loc>https://blog.p1ass.com${post.permalink}</loc>
+      <loc>https://blog.p1ass.com${postPermalink(post.slug)}</loc>
       <lastmod>${formatDate(parseDate(post.frontmatter.date), SITEMAP_DATE_FORMAT, 'en')}</lastmod>
     </url>`
 }

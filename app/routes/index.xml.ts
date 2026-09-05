@@ -1,6 +1,6 @@
 import { createRoute } from 'honox/factory'
 import type { Post } from '../lib/posts'
-import { getAllPosts } from '../lib/posts'
+import { getAllPosts, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 
 // RFC 822 の date-time。24 時間表記で、オフセットはコロン無しで書く。
@@ -39,9 +39,9 @@ function generateRssItem(post: Post): string {
 
   return `<item>
       <title>${post.frontmatter.title}</title>
-      <link>https://blog.p1ass.com${post.permalink}</link>
+      <link>https://blog.p1ass.com${postPermalink(post.slug)}</link>
       <pubDate>${toRfc822(post.frontmatter.date)}</pubDate>
-      <guid>https://blog.p1ass.com${post.permalink}</guid>
+      <guid>https://blog.p1ass.com${postPermalink(post.slug)}</guid>
       <enclosure url="${ogImage}" length="0" type="image/png"/>
       <description>${post.frontmatter.description}</description>
     </item>`
