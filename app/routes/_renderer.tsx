@@ -4,7 +4,6 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { toIso8601Jst } from '../lib/time'
 import { backgroundDark, border, gray } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
@@ -185,7 +184,7 @@ export default jsxRenderer(
           {frontmatter ? (
             <meta
               property='article:published_time'
-              content={toIso8601Jst(frontmatter.date)}
+              content={frontmatter.date}
             />
           ) : null}
           <meta property='og:description' content={description} />

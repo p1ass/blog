@@ -1,5 +1,5 @@
-import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
+import { formatDate } from '../lib/time'
 import { blue } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
@@ -45,7 +45,10 @@ export function Footer() {
       </span>
       <br />
       <span>
-        &copy;<time datetime={format(now)}>{format(now, 'YYYY')}</time>
+        &copy;
+        <time datetime={formatDate(now, 'YYYY-MM-DD')}>
+          {formatDate(now, 'YYYY')}
+        </time>
         &nbsp;p1ass. Powered By{' '}
         <a href='https://hono.dev/' target='_blank' rel='noopener noreferrer'>
           Hono

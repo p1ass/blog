@@ -24,14 +24,12 @@ const tagCss = css`
 export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {
   return (
     <div class={postDetailsCss}>
-      {frontmatter.categories?.map(categoryName => (
-        <a
-          href={`/categories/${categoryNameToId(categoryName)}/`}
-          class={tagCss}
-        >
-          #{categoryName}
-        </a>
-      ))}
+      <a
+        href={`/categories/${categoryNameToId(frontmatter.category)}/`}
+        class={tagCss}
+      >
+        #{frontmatter.category}
+      </a>
       {frontmatter.tags?.map((tagName, _) => (
         <a href={`/tags/${tagNameToId(tagName)}/`} class={tagCss}>
           #{tagName}

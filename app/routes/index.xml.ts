@@ -1,9 +1,15 @@
-import { format } from '@formkit/tempo'
 import { createRoute } from 'honox/factory'
 import type { Post } from '../lib/posts'
 import { getAllPosts } from '../lib/posts'
+import { formatDate, parseDate } from '../lib/time'
 
-const RSS_DATE_FORMAT = 'ddd, DD MMM YYYY hh:mm:ss Z'
+// RFC 822 の date-time。24 時間表記で、オフセットはコロン無しで書く。
+// JST 固定で出すため、オフセットはリテラルとして付ける。
+const RSS_DATE_FORMAT = 'ddd, DD MMM YYYY HH:mm:ss'
+
+function toRfc822(date: string): string {
+  return `${formatDate(parseDate(date), RSS_DATE_FORMAT, 'en')} +0900`
+}
 
 function generateRss(posts: Post[]): string {
   const title = 'ぷらすのブログ'
@@ -18,7 +24,7 @@ function generateRss(posts: Post[]): string {
     <description>Recent content on ${title}</description>
     <generator>github.com/p1ass/blog</generator>
     <language>ja</language>
-    <lastBuildDate>${format(buildDate, RSS_DATE_FORMAT, 'en')}</lastBuildDate>
+    <lastBuildDate>${formatDate(buildDate, RSS_DATE_FORMAT, 'en')} +0900</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml"/>
     ${posts.map(post => generateRssItem(post)).join('\n')}
   </channel>
@@ -34,7 +40,7 @@ function generateRssItem(post: Post): string {
   return `<item>
       <title>${post.frontmatter.title}</title>
       <link>https://blog.p1ass.com${post.permalink}</link>
-      <pubDate>${format(post.frontmatter.date, RSS_DATE_FORMAT, 'en')}</pubDate>
+      <pubDate>${toRfc822(post.frontmatter.date)}</pubDate>
       <guid>https://blog.p1ass.com${post.permalink}</guid>
       <enclosure url="${ogImage}" length="0" type="image/png"/>
       <description>${post.frontmatter.description}</description>
