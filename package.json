@@ -8,7 +8,9 @@
     "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
     "lint": "biome check .",
     "lint:fix": "biome check --fix .",
-    "install:playwright": "npx playwright install --with-deps chromium"
+    "install:playwright": "npx playwright install --with-deps chromium",
+    "lint:text": "textlint \"app/routes/posts/**/*.mdx\"",
+    "lint:text:fix": "textlint --fix \"app/routes/posts/**/*.mdx\""
   },
   "private": true,
   "dependencies": {
@@ -29,6 +31,8 @@
     "@mdx-js/rollup": "^3.1.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@playwright/test": "1.58.1",
+    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
+    "@textlint/textlint-plugin-markdown": "^15.8.0",
     "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "2.0.0",
     "recma-export-filepath": "^1.2.0",
@@ -37,6 +41,9 @@
     "rehype-mdx-import-media": "^1.2.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
+    "textlint": "^15.8.0",
+    "textlint-rule-preset-ja-spacing": "^3.0.3",
+    "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "typescript": "^5.8.3",
     "vite": "^7.3.2",
     "vite-plugin-static-copy": "^3.1.6",
