@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { categoryNameToId, tagNameToId } from '../lib/posts'
+import { labelNameToId, labelPermalink } from '../lib/posts'
 import type { Frontmatter } from '../routes/posts/types'
 import { gray, grayLight } from '../styles/color'
 
@@ -25,13 +25,13 @@ export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {
   return (
     <div class={postDetailsCss}>
       <a
-        href={`/categories/${categoryNameToId(frontmatter.category)}/`}
+        href={labelPermalink('category', labelNameToId(frontmatter.category))}
         class={tagCss}
       >
         #{frontmatter.category}
       </a>
       {frontmatter.tags?.map((tagName, _) => (
-        <a href={`/tags/${tagNameToId(tagName)}/`} class={tagCss}>
+        <a href={labelPermalink('tag', labelNameToId(tagName))} class={tagCss}>
           #{tagName}
         </a>
       ))}

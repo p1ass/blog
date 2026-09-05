@@ -13,7 +13,7 @@ blog.p1ass.com のドメインモデル。MDX で書いた記事を静的サイ�
 _Avoid_: Article, Entry, Blog
 
 **Slug**:
-記事の同定キー。記事が置かれたディレクトリの名前がそのまま Slug になる (例: `migrate-to-hono`)。URL とファイルパスは Slug から導出する。記事を識別するときは常に Slug を使い、タイトルでは同定しない。
+どの記事かを見分けるためのキー。記事が置かれたディレクトリの名前がそのまま Slug になる (例: `migrate-to-hono`)。URL とファイルパスは Slug から導出する。記事を指すときは常に Slug を使い、タイトルでは見分けない。
 _Avoid_: ID, Path, Permalink
 
 **Frontmatter**:
@@ -46,7 +46,7 @@ _Avoid_: Genre, Section, ジャンル
 _Avoid_: Keyword, Topic, キーワード
 
 **LabelId**:
-Label の同定キー。URL に現れる。同じ LabelId を持つ Label が 2 つ以上あってはならない。
+どの Label かを見分けるためのキー。URL に現れる。同じ LabelId を持つ Label が 2 つ以上あってはならない。
 _Avoid_: Slug (Slug は Post のもの)
 
 **LabelPage**:

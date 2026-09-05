@@ -1,4 +1,5 @@
 import { css } from 'hono/css'
+import { labelBasePath } from '../lib/posts'
 import { border, gray, grayLight } from '../styles/color'
 
 const headerCss = css`
@@ -72,10 +73,10 @@ export const Header = () => {
         </a>
         <ul class={navigationListCss}>
           <li>
-            <a href='/categories/'>Categories</a>
+            <a href={`${labelBasePath.category}/`}>Categories</a>
           </li>
           <li>
-            <a href='/tags/'>Tags</a>
+            <a href={`${labelBasePath.tag}/`}>Tags</a>
           </li>
           <li>
             <a href='/index.xml'>RSS</a>

@@ -4,7 +4,11 @@ import { Author } from '../../components/Author'
 import { PostDetails } from '../../components/PostDetails'
 import { PostPagination } from '../../components/PostPagination'
 import { ShareButtons } from '../../components/ShareIcons'
-import { getPaginationPosts } from '../../lib/posts'
+import {
+  filepathToSlug,
+  getPaginationPosts,
+  postPermalink,
+} from '../../lib/posts'
 import { formatDate, parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
 
@@ -52,9 +56,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
 
   const paginationPosts = getPaginationPosts(filepath)
 
-  const permalink = `${import.meta.env.BASE_URL}${filepath
-    .replaceAll('app/routes/', '')
-    .replaceAll('index.mdx', '')}`
+  const permalink = postPermalink(filepathToSlug(filepath))
 
   return (
     <Layout title={frontmatter.title} frontmatter={frontmatter}>
