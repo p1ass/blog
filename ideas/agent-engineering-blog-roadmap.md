@@ -125,7 +125,7 @@ Reliability
 Governance
 ```
 
-最終的には、
+最終的には
 
 > **Agentを賢くする → Agentを動かす → Agentを安全にする → Agentを本番運用する**
 
@@ -827,7 +827,7 @@ Final State
 
 特に重要な Benchmark として独立して扱う。
 
-τ-bench の特徴は、Agent がユーザーと対話しながら Domain-specific API を使い、最終的な Database State を Goal State に到達させられるかを見る点にある。
+τ-bench の特徴は、 Agent がユーザーと対話しながら Domain-specific API を使い、最終的な Database State を Goal State に到達させられるかを見る点にある。
 
 重要な指標:
 
@@ -1200,7 +1200,7 @@ retry
 double payment?
 ```
 
-Agent Engineering は、LLM だけでなく Distributed Systems Engineering の問題でもある。
+Agent Engineering は、 LLM だけでなく Distributed Systems Engineering の問題でもある。
 
 ---
 
@@ -1931,7 +1931,7 @@ Production
 
 # 37. 最終ポジショニング
 
-目指すのは、
+目指すのは
 
 > **「Agentの使い方を紹介するブログ」**
 

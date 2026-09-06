@@ -4,6 +4,9 @@
       "extensions": [".md", ".mdx"]
     }
   },
+  "filters": {
+    "comments": true
+  },
   "rules": {
     "preset-ja-technical-writing": {
       "no-exclamation-question-mark": {
@@ -37,6 +40,17 @@
       "ja-space-around-link": false,
       "ja-no-space-around-slash": false
     },
-    "@textlint-ja/preset-ai-writing": true
+    "@textlint-ja/preset-ai-writing": true,
+    "@textlint-ja/morpheme-match": {
+      "severity": "warning",
+      "dictionaryPathList": [
+        "./textlint/ai-japanese-verbs.cjs",
+        "./textlint/ai-japanese-nouns.cjs",
+        "./textlint/ai-japanese-phrases.cjs"
+      ]
+    },
+    "short-topic-comma": {
+      "severity": "warning"
+    }
   }
 }

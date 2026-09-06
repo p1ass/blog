@@ -62,6 +62,9 @@ importers:
       '@playwright/test':
         specifier: 1.58.1
         version: 1.58.1
+      '@textlint-ja/textlint-rule-morpheme-match':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@textlint-ja/textlint-rule-preset-ai-writing':
         specifier: ^1.7.0
         version: 1.7.0
@@ -74,6 +77,9 @@ importers:
       '@types/mdx-js__react':
         specifier: 2.0.0
         version: 2.0.0(@types/react@18.2.73)(react@18.3.1)
+      kuromojin:
+        specifier: ^3.0.1
+        version: 3.0.1
       recma-export-filepath:
         specifier: ^1.2.0
         version: 1.2.0
@@ -95,12 +101,18 @@ importers:
       textlint:
         specifier: ^15.8.0
         version: 15.8.0
+      textlint-filter-rule-comments:
+        specifier: ^1.3.0
+        version: 1.3.0
       textlint-rule-preset-ja-spacing:
         specifier: ^3.0.3
         version: 3.0.3
       textlint-rule-preset-ja-technical-writing:
         specifier: ^12.0.2
         version: 12.0.2
+      textlint-rule-short-topic-comma:
+        specifier: file:./textlint/rules/short-topic-comma
+        version: file:textlint/rules/short-topic-comma
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -1115,6 +1127,9 @@ packages:
 
   '@speed-highlight/core@1.2.24':
     resolution: {integrity: sha512-qeW2e1l78afw8VhRPfPQ1Gjj+KU5XFQ/OFV5ti6eTa9bruO7mJyZtA4vw0ofqmA3tKCkROE9xLk3VZoeRc98nw==}
+
+  '@textlint-ja/textlint-rule-morpheme-match@2.0.0':
+    resolution: {integrity: sha512-lurk6gsi6P0ayIR3zuFabJYKH7GpFK9GDVXKEusRKSCzRoK/jUD12VFsHphZAdj5qYYyMY7EODVaFkg4UDjFYA==}
 
   '@textlint-ja/textlint-rule-preset-ai-writing@1.7.0':
     resolution: {integrity: sha512-xq+y592q4qP4SK5Vs40JRi98BmpJJoIaUO8/U+puOErCyazQvoZqDswIuKsFi1IEFmZ/wNn8OkfJ/5GNhrppNw==}
@@ -3971,6 +3986,9 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
+  textlint-filter-rule-comments@1.3.0:
+    resolution: {integrity: sha512-kSk/XcZYKYe4sb44XhYAYPeMFtqKJIMtcju/jwyZxpkn8gRuRMZ4+rB0wJmGRrD0c8tx3hHDAH1JY9ccahMKcA==}
+
   textlint-rule-helper@2.5.0:
     resolution: {integrity: sha512-QIbFPtyqLy0g5BJn8mryk9iHzGYicNaFIpLFPiEnb4RXxrEGeQ2W2aARQ9yEXLIAqo+OwK4ndWBAWkbgJEPzTQ==}
 
@@ -4081,6 +4099,9 @@ packages:
 
   textlint-rule-sentence-length@5.2.1:
     resolution: {integrity: sha512-z4HylabPy+e1I5DcuzDmcT65hvyytTlsD+uM49JkCBTSJBWqzQQ3kCGk4b1cF+kANS2HifWNnpTG/jfSOeavIw==}
+
+  textlint-rule-short-topic-comma@file:textlint/rules/short-topic-comma:
+    resolution: {directory: textlint/rules/short-topic-comma, type: directory}
 
   textlint-tester@13.4.1:
     resolution: {integrity: sha512-Ubm9kUZ/NyY0Ggo1RkW2o5QSx6EJ/ogMT1kD5b5pk4cdFTWpUSs8StDMROgcz29wPhvS6sY/35qYALzqyZh8ew==}
@@ -4279,6 +4300,10 @@ packages:
   untildify@3.0.3:
     resolution: {integrity: sha512-iSk/J8efr8uPT/Z4eSUywnqyrQU7DSdMfdqK4iWEaUVVmcP5JcnpRqmVMwcwcnmI1ATFNgC5V90u09tBynNFKA==}
     engines: {node: '>=4'}
+
+  untildify@4.0.0:
+    resolution: {integrity: sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==}
+    engines: {node: '>=8'}
 
   update-browserslist-db@1.0.13:
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
@@ -5337,6 +5362,12 @@ snapshots:
   '@sindresorhus/is@7.2.0': {}
 
   '@speed-highlight/core@1.2.24': {}
+
+  '@textlint-ja/textlint-rule-morpheme-match@2.0.0':
+    dependencies:
+      kuromojin: 3.0.1
+      morpheme-match-textlint: 2.0.6
+      untildify: 4.0.0
 
   '@textlint-ja/textlint-rule-preset-ai-writing@1.7.0':
     dependencies:
@@ -9325,6 +9356,8 @@ snapshots:
 
   text-table@0.2.0: {}
 
+  textlint-filter-rule-comments@1.3.0: {}
+
   textlint-rule-helper@2.5.0:
     dependencies:
       '@textlint/ast-node-types': 15.8.0
@@ -9558,6 +9591,10 @@ snapshots:
       sentence-splitter: 5.0.1
       textlint-rule-helper: 2.5.0
       textlint-util-to-string: 3.3.4
+
+  textlint-rule-short-topic-comma@file:textlint/rules/short-topic-comma:
+    dependencies:
+      kuromojin: 3.0.1
 
   textlint-tester@13.4.1:
     dependencies:
@@ -9860,6 +9897,8 @@ snapshots:
       unist-util-visit-parents: 6.0.2
 
   untildify@3.0.3: {}
+
+  untildify@4.0.0: {}
 
   update-browserslist-db@1.0.13(browserslist@4.23.0):
     dependencies:

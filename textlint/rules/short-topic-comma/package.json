@@ -1,0 +1,10 @@
+{
+  "name": "textlint-rule-short-topic-comma",
+  "version": "1.0.0",
+  "description": "文頭のすぐ後ろに打つ読点を指摘する textlint ルール",
+  "private": true,
+  "main": "index.cjs",
+  "dependencies": {
+    "kuromojin": "^3.0.1"
+  }
+}

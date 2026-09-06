@@ -69,7 +69,7 @@ _Avoid_: More tag, 区切り
 _Avoid_: Metadata, Preview, Card data
 
 **OGP Cache**:
-取得済みの OGP をリポジトリに保存したもの。リンク先サイトの死活からビルドを切り離す目的で持つ。
+取得済みの OGP をリポジトリに保存したもの。リンク先サイトの応答にビルドが左右されないようにする目的で持つ。
 _Avoid_: Snapshot, Store
 
 **OG Image**:
