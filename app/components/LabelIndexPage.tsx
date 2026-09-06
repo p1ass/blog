@@ -6,11 +6,11 @@ import {
   labelIndexTitle,
   labelPermalink,
 } from '../lib/posts'
-import { blue } from '../styles/color'
+import { accent } from '../styles/color'
 import { Heading } from './Heading'
 
 const linkCss = css`
-  color: ${blue};
+  color: ${accent};
   text-decoration: none;
 `
 

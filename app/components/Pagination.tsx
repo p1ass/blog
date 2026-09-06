@@ -1,5 +1,6 @@
 import { css } from 'hono/css'
-import { border, gray, white } from '../styles/color'
+import { border, text, textInverted } from '../styles/color'
+import { transition } from '../styles/transition'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const paginationCss = css`
@@ -22,12 +23,10 @@ const paginationCss = css`
 const arrowBoxWidth = '60px'
 
 const arrowCss = css`
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  ${transition('0.2s')}
 
-  border: solid 1px ${gray};
-  color: ${gray};
+  border: solid 1px ${text};
+  color: ${text};
   border-radius: ${verticalRhythmUnit * 0.25}rem;
   padding: ${verticalRhythmUnit * 0.25}rem 1rem;
   margin: 0 0 0 auto;
@@ -36,8 +35,8 @@ const arrowCss = css`
   text-decoration: none;
   &:hover,
   &:focus {
-      background-color: ${gray};
-      color: ${white};
+      background-color: ${text};
+      color: ${textInverted};
   }  
 `
 

@@ -1,5 +1,7 @@
 import { css } from 'hono/css'
-import { border, gray, grayLight } from '../styles/color'
+import { githubBlack, twitterBlue } from '../styles/brand'
+import { border, text, textMuted } from '../styles/color'
+import { transition } from '../styles/transition'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const authorWrapperCss = css`
@@ -44,23 +46,21 @@ const authorDescriptionCss = css`
 `
 
 const authorSNSLinkCss = css`
-  color: ${gray};
+  color: ${text};
   margin-right: 1rem;
   text-decoration: none;
   
   &:hover {
-      color: ${grayLight};
+      color: ${textMuted};
   }
 
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  ${transition('0.2s')}
 `
 
 const authorSNSGitHubCss = css`
   ${authorSNSLinkCss}
   & i {
-    color: #211f1f;
+    color: ${githubBlack};
     padding-right: 0.2rem;
   }
 `
@@ -68,7 +68,7 @@ const authorSNSGitHubCss = css`
 const authorSNSTwitterCss = css`
   ${authorSNSLinkCss}
   & i {
-    color: #1b95e0;
+    color: ${twitterBlue};
     padding-right: 0.2rem;
   }
 `

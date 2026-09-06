@@ -10,7 +10,8 @@ import {
   postPermalink,
 } from '../../lib/posts'
 import { formatDate, parseDate } from '../../lib/time'
-import { gray, grayLight } from '../../styles/color'
+import { text, textMuted } from '../../styles/color'
+import { transition } from '../../styles/transition'
 
 const postTitleCss = css`
   font-size: 2.5rem;
@@ -26,7 +27,7 @@ const postTitleCss = css`
 `
 
 const postDateCss = css`
-  color: ${grayLight};
+  color: ${textMuted};
   letter-spacing: 1px;
   text-align: center;
   padding: 1.275rem 0 0.85rem;
@@ -36,15 +37,13 @@ const toTopLinkCss = css`
   text-align: center;
 
   & a{
-    color: ${gray};
+    color: ${text};
     text-decoration: none;
   
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    transition: all 0.2s ease-out;
+    ${transition('0.2s')}
   
     &:hover {
-      color: ${grayLight};
+      color: ${textMuted};
     }
   }
 `

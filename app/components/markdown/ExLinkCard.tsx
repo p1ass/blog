@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { fetchOgp } from '../../lib/ogp'
-import { backgroundDark, gray, grayLight, white } from '../../styles/color'
+import { surface, surfaceSubtle, text, textMuted } from '../../styles/color'
 import { transition } from '../../styles/transition'
 import { verticalRhythmUnit } from '../../styles/variables'
 
@@ -11,7 +11,7 @@ const cardWrapperCss = css`
 const cardLinkCss = css`
     text-decoration: none;
     display: flex;
-    background-color: ${white};
+    background-color: ${surface};
     font-size: 13px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: ${verticalRhythmUnit * 0.5}rem;
@@ -33,7 +33,7 @@ const thumbnailImageCss = css`
 `
 
 const entryBodyCss = css`
-    color: ${gray};
+    color: ${text};
     display: flex;
     justify-content: space-between;
     flex: 1;
@@ -41,9 +41,9 @@ const entryBodyCss = css`
     padding: ${verticalRhythmUnit * 0.5}rem;
 
     &:hover{
-        background-color: ${backgroundDark};
+        background-color: ${surfaceSubtle};
     }
-    ${transition(0.3)}
+    ${transition('0.3s')}
 
     & p {
       font-size: 17px;
@@ -65,7 +65,7 @@ const entryBodyCss = css`
 `
 
 const entryDescriptionCss = css`
-    color: ${grayLight};
+    color: ${textMuted};
     font-size: 12px;
     max-height: ${verticalRhythmUnit * 2}rem;
     overflow: hidden;
@@ -76,7 +76,7 @@ const entryDescriptionCss = css`
 `
 
 const entryHostUrlCss = css`
-    color: ${grayLight};
+    color: ${textMuted};
     font-size: 12px; 
 `
 

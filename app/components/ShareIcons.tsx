@@ -1,4 +1,7 @@
 import { css } from 'hono/css'
+import { hatenaBlue, xBlack, xBlackHover, xSurfaceHover } from '../styles/brand'
+import { icon, surfaceHover, textInverted } from '../styles/color'
+import { transition } from '../styles/transition'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const shareIconsSectionCss = css`
@@ -14,15 +17,12 @@ const shareIconWrapperCss = css`
 const shareButtonCss = css`
     float: left;
     border-radius: 100%;
-    -moz-transition: all 280ms ease;
-    -o-transition: all 280ms ease;
-    -webkit-transition: all 280ms ease;
-    transition: all 280ms ease;
+    ${transition('280ms', 'ease')}
 
     margin: 0 0 0 12px;
 
     &:hover{
-        box-shadow: inset 0 0 0 22px #eaeaea;
+        box-shadow: inset 0 0 0 22px ${surfaceHover};
     }
 `
 
@@ -30,13 +30,10 @@ const shareButtonLinkCss = css`
   display: table-cell;
   width: ${verticalRhythmUnit * 1.625}rem ;
   height: ${verticalRhythmUnit * 1.625}rem;
-  color: #42464c;
+  color: ${icon};
   text-align: center;
   vertical-align: middle;
-  -moz-transition: all 280ms ease;
-  -o-transition: all 280ms ease;
-  -webkit-transition: all 280ms ease;
-  transition: all 280ms ease;
+  ${transition('280ms', 'ease')}
   text-decoration: none;
 
   & i {
@@ -52,11 +49,11 @@ const shareButtonLinkCss = css`
 
 const xCss = css`
     ${shareButtonCss}
-    background-color: black;
+    background-color: ${xBlack};
 
     &:hover{
-        box-shadow: inset 0 0 0 22px #444444;
-        background-color: #dddddd;
+        box-shadow: inset 0 0 0 22px ${xBlackHover};
+        background-color: ${xSurfaceHover};
     }
 `
 
@@ -64,7 +61,7 @@ const xShareButtonLinkCss = css`
   ${shareButtonLinkCss}
 
   & i {
-    color: #ffffff;
+    color: ${textInverted};
   }
 `
 
@@ -80,10 +77,10 @@ const xIconCss = css`
 
 const hatenaCss = css`
     ${shareButtonCss}
-    box-shadow: inset 0 0 0 0.1rem #4ba3d9;
+    box-shadow: inset 0 0 0 0.1rem ${hatenaBlue};
 
     & i {
-        color: #4ba3d9;
+        color: ${hatenaBlue};
     }
 `
 

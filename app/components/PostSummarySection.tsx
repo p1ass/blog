@@ -1,7 +1,8 @@
 import { css } from 'hono/css'
 import { type Post, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
-import { blue, border, gray, grayLight, white } from '../styles/color'
+import { accent, border, text, textInverted, textMuted } from '../styles/color'
+import { transition } from '../styles/transition'
 import { verticalRhythmUnit } from '../styles/variables'
 import { PostDetails } from './PostDetails'
 
@@ -10,13 +11,11 @@ const sectionCss = css`
 `
 
 const underlineCss = css`
-  border-top: 0.2rem solid ${blue};
+  border-top: 0.2rem solid ${accent};
   display: block;
   width: 2rem;
 
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  ${transition('0.2s')}
 `
 
 const itemCss = css`
@@ -38,13 +37,13 @@ const itemCss = css`
 `
 
 const timeCss = css`
-  color: ${grayLight};
+  color: ${textMuted};
   letter-spacing: 1px;
 `
 
 const titleCss = css`
   display: block;
-  color: ${gray};
+  color: ${text};
   font-size: 2rem;
   margin: ${verticalRhythmUnit * 0.25}rem 0;
   line-height: 3.4rem;
@@ -56,8 +55,8 @@ const titleCss = css`
 `
 
 const moreButtonCss = css`
-  background-color: ${gray};
-  color: ${white};
+  background-color: ${text};
+  color: ${textInverted};
   width: 90px;
   border-radius: ${verticalRhythmUnit * 0.25}rem;
   padding: ${verticalRhythmUnit * 0.5}rem 1rem;
@@ -66,12 +65,10 @@ const moreButtonCss = css`
   justify-content: center;
   text-decoration: none;
   
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  ${transition('0.2s')}
 
   &:hover{
-    background-color: ${grayLight};
+    background-color: ${textMuted};
   }
 `
 
