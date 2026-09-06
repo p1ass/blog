@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { formatDate } from '../lib/time'
 import { accent } from '../styles/color'
+import { hoverUnderlineLinkCss } from '../styles/link'
 import { blockGap, space } from '../styles/spacing'
 import { fontSize } from '../styles/typography'
 
@@ -16,7 +17,7 @@ const footerCss = css`
 
   & a {
     color: ${accent};
-    text-decoration: none;
+    ${hoverUnderlineLinkCss}
   }
 `
 

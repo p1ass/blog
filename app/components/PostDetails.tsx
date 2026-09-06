@@ -14,11 +14,12 @@ const tagCss = css`
   text-decoration: none;
   padding: 0 ${space['2xs']};
 
-  &:hover {
+  ${transition(['color'])}
+
+  &:hover,
+  &:focus-visible {
     color: ${text};
   }
-  
-  ${transition('0.2s')}
 `
 
 export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {

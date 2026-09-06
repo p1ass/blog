@@ -61,5 +61,17 @@ export const fontFamily = {
   ].join(', '),
 } as const
 
+// リンクの下線。ボーダーではなく文字の装飾なので、shape.ts の borderWidth とは別に持つ。
+//
+// hover で太くするのは、色を動かせないため。accent は白地で 4.91 対 1 しかなく、1 段薄くすると本文の基準を割る。
+// 太さなら、コントラストを動かさずに指していることを示せる。
+//
+// offset を取るのは、和文の字面が下いっぱいまであり、既定の位置だと下線が文字に触れるため。
+export const underline = {
+  thickness: '1px',
+  hoverThickness: '2px',
+  offset: '0.2em',
+} as const
+
 export type FontSizeToken = keyof typeof fontSize
 export type LineHeightToken = keyof typeof lineHeight

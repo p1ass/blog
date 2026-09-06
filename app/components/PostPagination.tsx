@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { type PaginationPosts, postPermalink } from '../lib/posts'
 import { accent, border } from '../styles/color'
+import { hoverUnderlineLinkCss } from '../styles/link'
 import { borderWidth } from '../styles/shape'
 import { space } from '../styles/spacing'
 
@@ -13,18 +14,19 @@ const postPaginationCss = css`
   width: 100%;
 `
 
+// 入れ子の規則を持つ ${...} は最後に置く。その後ろに書いた宣言は入れ子の外へ出て捨てられる。
 const leftCss = css`
-  text-align: left;
   max-width: 50%;
   color: ${accent};
-  text-decoration: none;
+  text-align: left;
+  ${hoverUnderlineLinkCss}
 `
 
 const rightCss = css`
-  text-align: right;
   max-width: 50%;
   color: ${accent};
-  text-decoration: none;
+  text-align: right;
+  ${hoverUnderlineLinkCss}
 `
 
 const emptyPrevCss = css`

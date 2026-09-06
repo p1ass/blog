@@ -1,6 +1,7 @@
-import { css } from 'hono/css'
+import { css, cx } from 'hono/css'
 import { fetchOgp } from '../../lib/ogp'
 import {
+  accent,
   border,
   surface,
   surfaceSubtle,
@@ -16,6 +17,9 @@ const cardWrapperCss = css`
     margin-bottom: ${blockGap};
 `
 
+// hover はカード全体で受ける。以前は本文の領域だけが反応していたので、サムネイルの上にカーソルを置いても何も起きなかった。
+//
+// 中の要素は素のクラス名で指す。hono/css のクラスを ${...} でセレクタに差し込むと、クラス名ではなく中身の宣言が展開されることもある。展開された規則は全体が読めなくなる。
 const cardLinkCss = css`
     text-decoration: none;
     display: flex;
@@ -25,6 +29,18 @@ const cardLinkCss = css`
     border-radius: ${radius.md};
     height: ${space['4xl']};
     overflow: hidden;
+
+    ${transition(['border-color'])}
+
+    &:hover,
+    &:focus-visible {
+        border-color: ${accent};
+    }
+
+    &:hover .entry-body,
+    &:focus-visible .entry-body {
+        background-color: ${surfaceSubtle};
+    }
 `
 
 const thumbnailWrapperCss = css`
@@ -48,10 +64,7 @@ const entryBodyCss = css`
     flex-direction: column;
     padding: ${space.sm};
 
-    &:hover{
-        background-color: ${surfaceSubtle};
-    }
-    ${transition('0.3s')}
+    ${transition(['background-color'])}
 
     & p {
       font-size: ${fontSize.bodySmall};
@@ -103,7 +116,7 @@ export async function ExLinkCard({ url }: Props) {
             />
           </div>
         ) : null}
-        <div class={entryBodyCss}>
+        <div class={cx(entryBodyCss, 'entry-body')}>
           <p>{ogp.Title}</p>
           <div class={entryDescriptionCss}>{ogp.Description}</div>
           <span class={entryHostUrlCss}>{new URL(url).host}</span>

@@ -17,25 +17,7 @@ const underlineCss = css`
   display: block;
   width: ${space.xl};
 
-  ${transition('0.2s')}
-`
-
-const itemCss = css`
-  border-top: ${borderWidth.thin} solid ${border};
-  display: block;
-  padding: ${blockGap} 0;
-  text-decoration: none;
-
-  &:hover ${underlineCss} {
-    width: ${space['4xl']};
-  }
-  &:focus ${underlineCss} {
-    width: ${space['4xl']};
-  }
-
-  &:last-child {
-    border: 0;
-  }
+  ${transition(['width'], 'base')}
 `
 
 const timeCss = css`
@@ -51,6 +33,35 @@ const titleCss = css`
   font-size: ${fontSize.h2};
   margin: ${space['2xs']} 0;
   line-height: ${lineHeight.heading};
+
+  ${transition(['color'], 'base')}
+`
+
+// カード全体が 1 つのリンクなので、hover の反応もカード全体で返す。
+// アクセント線が伸びるだけだと、面積のわりに動く範囲が狭く、押せることが伝わりにくい。タイトルの色もあわせて動かす。
+const itemCss = css`
+  border-top: ${borderWidth.thin} solid ${border};
+  display: block;
+  padding: ${blockGap} 0;
+  text-decoration: none;
+
+  &:hover ${underlineCss} {
+    width: ${space['4xl']};
+  }
+  &:focus-visible ${underlineCss} {
+    width: ${space['4xl']};
+  }
+
+  &:hover ${titleCss} {
+    color: ${accent};
+  }
+  &:focus-visible ${titleCss} {
+    color: ${accent};
+  }
+
+  &:last-child {
+    border: 0;
+  }
 `
 
 const moreButtonCss = css`
@@ -63,10 +74,10 @@ const moreButtonCss = css`
   display: flex;
   justify-content: center;
   text-decoration: none;
-  
-  ${transition('0.2s')}
 
-  &:hover{
+  ${transition(['background-color'])}
+
+  &:hover {
     background-color: ${textMuted};
   }
 `
