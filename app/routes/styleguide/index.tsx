@@ -3,7 +3,9 @@ import { Author } from '../../components/Author'
 import { BlockLink } from '../../components/markdown/BlockLink'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
+import { PostSummarySection } from '../../components/PostSummarySection'
 import { ShareButtons } from '../../components/ShareIcons'
+import type { Post } from '../../lib/post-list'
 import * as brandTokens from '../../styles/brand'
 import { breakpoint, contentWidth } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
@@ -124,6 +126,23 @@ function TokenTable({ tokens, sample }: TokenTableProps) {
       </tbody>
     </table>
   )
+}
+
+// 一覧のカードの見本に使う、固定の記事。
+// 実在の記事を引くと、新しい記事を書くたびに基準画像が変わってしまう。
+const samplePost: Post = {
+  slug: 'sample-post',
+  frontmatter: {
+    title: 'カードの中の見出しが、章の罫線を持たないことを確かめる',
+    date: '2026-09-06T12:00:00+09:00',
+    description: '見本',
+    category: '開発',
+    tags: ['タグ', 'サンプル'],
+  },
+  MDXContent: () => <p>本文</p>,
+  ContentSummary: () => (
+    <p>抜粋の段落。一覧では本文のマーカーより前だけを出す。</p>
+  ),
 }
 
 type SwatchProps = {
@@ -355,6 +374,14 @@ export default function StyleGuide() {
 
         <h3>Pagination</h3>
         <Pagination pageNumber={2} hasPrev={true} hasNext={true} />
+
+        <h3>PostSummarySection</h3>
+        <p class={captionCss}>
+          一覧のカード。タイトルは h2 だが、記事本文ではないので章の罫線は
+          持たない。上端のアクセント線とタイトル直下の下線があるため、
+          罫線を足すと短い範囲に線が 3 本並ぶ。
+        </p>
+        <PostSummarySection post={samplePost} />
       </section>
 
       <section class={sectionCss}>
