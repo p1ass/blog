@@ -229,25 +229,28 @@ export default function StyleGuide() {
         <h3>いま当たっているスタイル</h3>
         <p class={captionCss}>
           このページの h1 が見出しの最上位。以下に h2 から h6 を並べる。
+          記事本文と同じ見え方にするため article で囲んである。
         </p>
 
-        <h2>h2 見出し Heading Level 2</h2>
-        <h3>h3 見出し Heading Level 3</h3>
-        <h4>h4 見出し Heading Level 4</h4>
-        <h5>h5 見出し Heading Level 5</h5>
-        <h6>h6 見出し Heading Level 6</h6>
+        <article>
+          <h2>h2 見出し Heading Level 2</h2>
+          <h3>h3 見出し Heading Level 3</h3>
+          <h4>h4 見出し Heading Level 4</h4>
+          <h5>h5 見出し Heading Level 5</h5>
+          <h6>h6 見出し Heading Level 6</h6>
 
-        <p>
-          本文の段落。和文と欧文が混ざる技術ブログなので、Ascender と Descender
-          の噛み合いを確認する。ISUCON、gRPC、OAuth 2.0
-          のような略語や数字も混ぜてある。行長と行間の確認のために、
-          この段落は折り返しが起きる程度の長さにしてある。
-        </p>
-        <p>
-          2 つ目の段落。段落どうしの間隔を見るために置いている。
-          <strong>strong による強調</strong>と<em>em による強調</em>と
-          <code>インラインコード</code>を含む。
-        </p>
+          <p>
+            本文の段落。和文と欧文が混ざる技術ブログなので、Ascender と
+            Descender の噛み合いを確認する。ISUCON、gRPC、OAuth 2.0
+            のような略語や数字も混ぜてある。行長と行間の確認のために、
+            この段落は折り返しが起きる程度の長さにしてある。
+          </p>
+          <p>
+            2 つ目の段落。段落どうしの間隔を見るために置いている。
+            <strong>strong による強調</strong>と<em>em による強調</em>と
+            <code>インラインコード</code>を含む。
+          </p>
+        </article>
       </section>
 
       <section class={sectionCss}>
