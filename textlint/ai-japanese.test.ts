@@ -2,8 +2,10 @@ import { createLinter, loadTextlintrc } from 'textlint'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 // 実際の .textlintrc.json を読んで回す。辞書ファイルのパス解決も含めて検証したい。
-const RULE_ID = '@textlint-ja/morpheme-match'
+const DICTIONARY_RULE_ID = '@textlint-ja/morpheme-match'
+const COMMA_RULE_ID = 'short-topic-comma'
 
+let lintWith: (ruleId: string, text: string) => Promise<string[]>
 let lint: (text: string) => Promise<string[]>
 
 beforeAll(async () => {
@@ -11,10 +13,11 @@ beforeAll(async () => {
     configFilePath: '.textlintrc.json',
   })
   const linter = createLinter({ descriptor })
-  lint = async text => {
+  lintWith = async (ruleId, text) => {
     const result = await linter.lintText(text, 'test.md')
-    return result.messages.filter(m => m.ruleId === RULE_ID).map(m => m.message)
+    return result.messages.filter(m => m.ruleId === ruleId).map(m => m.message)
   }
+  lint = text => lintWith(DICTIONARY_RULE_ID, text)
   // kuromoji の辞書読み込みを最初の 1 回でここに寄せる
   await lint('ウォームアップ')
 }, 60_000)
@@ -51,7 +54,6 @@ const detected: [string, string][] = [
   // 本文はですます体なので、否定形は「ない」より「ません」のほうがよく出る
   ['これは設計の問題に他なりません。', '他ならない'],
   ['これは設計の問題にほかなりません。', 'ほかならない'],
-  ['議事録は、溜めても資産になりません。', '読点'],
 ]
 
 // 検出してはいけない表現。品詞や語の並びで区別できていることを確かめる。
@@ -65,8 +67,6 @@ const notDetected: string[] = [
   'この点で意見が分かれます。', // という が前に無いので という点で に当たらない
   '結果として妥当な線に落ち着きました。',
   '自走できるエンジニアを目指します。', // 自走 は 自 + 走 に割れるが、走る とは区別する
-  'そこで、次の手を考えます。', // 接続詞は名詞ではないので読点のルールに当たらない
-  'こんにちは、p1ass です。', // 感動詞も同様
   'サーバーが落ちました。', // キャリブレーションで外した語
   'コードを載せておきます。',
   'テストケースを通しました。',
@@ -80,5 +80,35 @@ describe('AI っぽい日本語の辞書', () => {
 
   it.each(notDetected)('%s は指摘しない', async text => {
     expect(await lint(text)).toEqual([])
+  })
+})
+
+// 読点は辞書ではなく textlint/rules/short-topic-comma で見ている。
+// しきい値は文頭から読点まで 5 文字以内。
+describe('文頭のすぐ後ろの読点', () => {
+  const detected: [string, number][] = [
+    ['議事録は、溜めても資産になりません。', 4],
+    ['目的は、記事を見分けることです。', 3],
+    ['今回は、M1 Mac で試します。', 3],
+    // 2 文目でも文頭から数え直す
+    ['前提を確認します。結論は、まだ出ていません。', 3],
+  ]
+
+  const notDetected: string[] = [
+    // 長い条件節の切れ目に打つ読点は、読点が仕事をしているので対象外
+    'Client Secret を安全に保管できない Public Client の場合は、認可コードを使います。',
+    'ブラウザ上の JavaScript がリソースサーバーにリクエストを行う場合は、CORS を設定します。',
+    'そこで、次の手を考えます。', // 接続詞のあとの読点は は を含まない
+    'こんにちは、p1ass です。', // 感動詞も同様
+    '議事録は溜めても資産になりません。', // 読点がなければ当たらない
+  ]
+
+  it.each(detected)('%s を指摘する', async (text, length) => {
+    const messages = await lintWith(COMMA_RULE_ID, text)
+    expect(messages.join('\n')).toContain(`主題を ${length} 文字示しただけで`)
+  })
+
+  it.each(notDetected)('%s は指摘しない', async text => {
+    expect(await lintWith(COMMA_RULE_ID, text)).toEqual([])
   })
 })

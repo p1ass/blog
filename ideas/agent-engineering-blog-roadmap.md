@@ -373,7 +373,7 @@ Agent
 
 ### 重要な問い
 
-> **良いAgent Toolは良いREST APIと何が違うのか？**
+> **良いAgent Toolは、良いREST APIと何が違うのか？**
 
 Agent Tool では、
 
@@ -543,7 +543,7 @@ Prompt Engineering の次の重要テーマとして扱う。
 
 # 10. Agent Runtime / Harness
 
-元の「Kernel」テーマは主に「Agent Runtime / Agent Harness」として整理する。
+元の「Kernel」テーマは、主に「Agent Runtime / Agent Harness」として整理する。
 
 ## 主なテーマ
 
@@ -827,7 +827,7 @@ Final State
 
 特に重要な Benchmark として独立して扱う。
 
-τ-bench の特徴は Agent がユーザーと対話しながら Domain-specific API を使い、最終的な Database State を Goal State に到達させられるかを見る点にある。
+τ-bench の特徴は、 Agent がユーザーと対話しながら Domain-specific API を使い、最終的な Database State を Goal State に到達させられるかを見る点にある。
 
 重要な指標:
 
@@ -1200,7 +1200,7 @@ retry
 double payment?
 ```
 
-Agent Engineering は LLM だけでなく Distributed Systems Engineering の問題でもある。
+Agent Engineering は、 LLM だけでなく Distributed Systems Engineering の問題でもある。
 
 ---
 

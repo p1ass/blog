@@ -77,6 +77,9 @@ importers:
       '@types/mdx-js__react':
         specifier: 2.0.0
         version: 2.0.0(@types/react@18.2.73)(react@18.3.1)
+      kuromojin:
+        specifier: ^3.0.1
+        version: 3.0.1
       recma-export-filepath:
         specifier: ^1.2.0
         version: 1.2.0
@@ -107,6 +110,9 @@ importers:
       textlint-rule-preset-ja-technical-writing:
         specifier: ^12.0.2
         version: 12.0.2
+      textlint-rule-short-topic-comma:
+        specifier: file:./textlint/rules/short-topic-comma
+        version: file:textlint/rules/short-topic-comma
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -4093,6 +4099,9 @@ packages:
 
   textlint-rule-sentence-length@5.2.1:
     resolution: {integrity: sha512-z4HylabPy+e1I5DcuzDmcT65hvyytTlsD+uM49JkCBTSJBWqzQQ3kCGk4b1cF+kANS2HifWNnpTG/jfSOeavIw==}
+
+  textlint-rule-short-topic-comma@file:textlint/rules/short-topic-comma:
+    resolution: {directory: textlint/rules/short-topic-comma, type: directory}
 
   textlint-tester@13.4.1:
     resolution: {integrity: sha512-Ubm9kUZ/NyY0Ggo1RkW2o5QSx6EJ/ogMT1kD5b5pk4cdFTWpUSs8StDMROgcz29wPhvS6sY/35qYALzqyZh8ew==}
@@ -9582,6 +9591,10 @@ snapshots:
       sentence-splitter: 5.0.1
       textlint-rule-helper: 2.5.0
       textlint-util-to-string: 3.3.4
+
+  textlint-rule-short-topic-comma@file:textlint/rules/short-topic-comma:
+    dependencies:
+      kuromojin: 3.0.1
 
   textlint-tester@13.4.1:
     dependencies:

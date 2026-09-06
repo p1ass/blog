@@ -1,10 +1,7 @@
 {
   "plugins": {
     "@textlint/markdown": {
-      "extensions": [
-        ".md",
-        ".mdx"
-      ]
+      "extensions": [".md", ".mdx"]
     }
   },
   "filters": {
@@ -18,9 +15,7 @@
       },
       "no-doubled-joshi": {
         "strict": false,
-        "allow": [
-          "か"
-        ]
+        "allow": ["か"]
       },
       "no-mix-dearu-desumasu": {
         "preferInHeader": "",
@@ -53,6 +48,9 @@
         "./textlint/ai-japanese-nouns.cjs",
         "./textlint/ai-japanese-phrases.cjs"
       ]
+    },
+    "short-topic-comma": {
+      "severity": "warning"
     }
   }
 }
