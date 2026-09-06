@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { formatDate } from '../lib/time'
 import { accent } from '../styles/color'
+import { fontSize } from '../styles/typography'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const footerCss = css`
@@ -10,7 +11,7 @@ const footerCss = css`
   & span {
     display: inline-block;
     padding-top: ${verticalRhythmUnit * 0.5}rem;
-    font-size: 0.8rem;
+    font-size: ${fontSize.caption};
   }
 
   & a {

@@ -3,9 +3,11 @@ import { Author } from '../../components/Author'
 import { BlockLink } from '../../components/markdown/BlockLink'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
+import { PostSummarySection } from '../../components/PostSummarySection'
 import { ShareButtons } from '../../components/ShareIcons'
+import type { Post } from '../../lib/post-list'
 import * as brandTokens from '../../styles/brand'
-import { breakpoint } from '../../styles/breakpoint'
+import { breakpoint, contentWidth } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
 import { accent, border, surfaceSubtle, textMuted } from '../../styles/color'
 import { duration, easing } from '../../styles/motion'
@@ -126,6 +128,23 @@ function TokenTable({ tokens, sample }: TokenTableProps) {
   )
 }
 
+// 一覧のカードの見本に使う、固定の記事。
+// 実在の記事を引くと、新しい記事を書くたびに基準画像が変わってしまう。
+const samplePost: Post = {
+  slug: 'sample-post',
+  frontmatter: {
+    title: 'カードの中の見出しが、章の罫線を持たないことを確かめる',
+    date: '2026-09-06T12:00:00+09:00',
+    description: '見本',
+    category: '開発',
+    tags: ['タグ', 'サンプル'],
+  },
+  MDXContent: () => <p>本文</p>,
+  ContentSummary: () => (
+    <p>抜粋の段落。一覧では本文のマーカーより前だけを出す。</p>
+  ),
+}
+
 type SwatchProps = {
   name: string
   value: string
@@ -229,25 +248,28 @@ export default function StyleGuide() {
         <h3>いま当たっているスタイル</h3>
         <p class={captionCss}>
           このページの h1 が見出しの最上位。以下に h2 から h6 を並べる。
+          記事本文と同じ見え方にするため article で囲んである。
         </p>
 
-        <h2>h2 見出し Heading Level 2</h2>
-        <h3>h3 見出し Heading Level 3</h3>
-        <h4>h4 見出し Heading Level 4</h4>
-        <h5>h5 見出し Heading Level 5</h5>
-        <h6>h6 見出し Heading Level 6</h6>
+        <article>
+          <h2>h2 見出し Heading Level 2</h2>
+          <h3>h3 見出し Heading Level 3</h3>
+          <h4>h4 見出し Heading Level 4</h4>
+          <h5>h5 見出し Heading Level 5</h5>
+          <h6>h6 見出し Heading Level 6</h6>
 
-        <p>
-          本文の段落。和文と欧文が混ざる技術ブログなので、Ascender と Descender
-          の噛み合いを確認する。ISUCON、gRPC、OAuth 2.0
-          のような略語や数字も混ぜてある。行長と行間の確認のために、
-          この段落は折り返しが起きる程度の長さにしてある。
-        </p>
-        <p>
-          2 つ目の段落。段落どうしの間隔を見るために置いている。
-          <strong>strong による強調</strong>と<em>em による強調</em>と
-          <code>インラインコード</code>を含む。
-        </p>
+          <p>
+            本文の段落。和文と欧文が混ざる技術ブログなので、Ascender と
+            Descender の噛み合いを確認する。ISUCON、gRPC、OAuth 2.0
+            のような略語や数字も混ぜてある。行長と行間の確認のために、
+            この段落は折り返しが起きる程度の長さにしてある。
+          </p>
+          <p>
+            2 つ目の段落。段落どうしの間隔を見るために置いている。
+            <strong>strong による強調</strong>と<em>em による強調</em>と
+            <code>インラインコード</code>を含む。
+          </p>
+        </article>
       </section>
 
       <section class={sectionCss}>
@@ -352,6 +374,14 @@ export default function StyleGuide() {
 
         <h3>Pagination</h3>
         <Pagination pageNumber={2} hasPrev={true} hasNext={true} />
+
+        <h3>PostSummarySection</h3>
+        <p class={captionCss}>
+          一覧のカード。タイトルは h2 だが、記事本文ではないので章の罫線は
+          持たない。上端のアクセント線とタイトル直下の下線があるため、
+          罫線を足すと短い範囲に線が 3 本並ぶ。
+        </p>
+        <PostSummarySection post={samplePost} />
       </section>
 
       <section class={sectionCss}>
@@ -405,6 +435,10 @@ export default function StyleGuide() {
           は書かない。
         </p>
         <TokenTable tokens={breakpoint} />
+        <p class={captionCss}>
+          本文の幅は contentWidth ({contentWidth})。17px で 1 行が全角 44
+          文字になる。
+        </p>
       </section>
     </div>
   )

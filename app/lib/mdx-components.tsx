@@ -7,6 +7,7 @@ import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
 import { accent, border, surfaceSubtle, textMuted } from '../styles/color'
+import { fontSize } from '../styles/typography'
 import { verticalRhythmUnit } from '../styles/variables'
 
 export function useMDXComponents(): MDXComponents {
@@ -87,8 +88,7 @@ function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
 const emCss = css`
   color: ${textMuted};
   display: block;
-  font-family: sans-serif;
-  font-size: 0.9rem;
+  font-size: ${fontSize.bodySmall};
   font-style: normal;
   text-align: center;
 `

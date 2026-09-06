@@ -2,7 +2,9 @@ import { css } from 'hono/css'
 import { type Post, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 import { accent, border, text, textInverted, textMuted } from '../styles/color'
+import { space } from '../styles/spacing'
 import { transition } from '../styles/transition'
+import { fontSize, lineHeight } from '../styles/typography'
 import { verticalRhythmUnit } from '../styles/variables'
 import { PostDetails } from './PostDetails'
 
@@ -41,17 +43,14 @@ const timeCss = css`
   letter-spacing: 1px;
 `
 
+// 一覧の記事タイトル。記事ページの h1 と同じ役割なので、大きさも揃える。
+// 以前は一覧が 2rem、記事が 2.5rem で別値だった。
 const titleCss = css`
   display: block;
   color: ${text};
-  font-size: 2rem;
-  margin: ${verticalRhythmUnit * 0.25}rem 0;
-  line-height: 3.4rem;
-  
-  @media (max-width: 900px) {
-    font-size: 1.75rem;
-    line-height: ${verticalRhythmUnit * 1.75}rem;
-  }
+  font-size: ${fontSize.h2};
+  margin: ${space['2xs']} 0;
+  line-height: ${lineHeight.heading};
 `
 
 const moreButtonCss = css`

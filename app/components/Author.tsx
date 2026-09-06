@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { githubBlack, twitterBlue } from '../styles/brand'
 import { border, text, textMuted } from '../styles/color'
 import { transition } from '../styles/transition'
+import { fontSize } from '../styles/typography'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const authorWrapperCss = css`
@@ -33,16 +34,14 @@ const authorImageCss = css`
 `
 
 const authorNameCss = css`
-  font-size: 1.2rem;
+  font-size: ${fontSize.h4};
   margin-bottom: ${verticalRhythmUnit * 0.25}rem;
   font-weight: bold;
 `
 
 const authorDescriptionCss = css`
   margin: 0;
-  @media (max-width: 600px) {
-    font-size: 0.85rem;
-  }
+  font-size: ${fontSize.bodySmall};
 `
 
 const authorSNSLinkCss = css`

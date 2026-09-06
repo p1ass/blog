@@ -4,13 +4,43 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
+import { contentWidth } from '../styles/breakpoint'
 import { border, surface, surfaceSubtle, text } from '../styles/color'
 import { highlightTheme } from '../styles/highlight'
+import { radius } from '../styles/shape'
+import { blockGap, space } from '../styles/spacing'
 import { themeVariables } from '../styles/theme'
-import { verticalRhythmUnit } from '../styles/variables'
+import {
+  fontFamily,
+  fontSize,
+  fontWeight,
+  lineHeight,
+} from '../styles/typography'
 
-const codeBlockFontSize = 14
-
+// 全ページ共通のスタイル。
+//
+// 説明はこの外に書く。hono/css の :-hono-global は
+// /^:-hono-global{(.*)}$/ で判定していて、`.` は改行に一致しない。
+// テンプレートの中に複数行のコメントを入れると最小化後も改行が残り、
+// 判定に外れてグローバルとして展開されなくなる。クラスの中に入れ子の
+// まま出力され、CSS 全体が無効になる。
+//
+// 行間は body に単位なしで置き、子要素に文字サイズ比で継承させる。
+// 以前は全称セレクタで 1.7rem の行送りを固定していたため、見出しごとに
+// 個別の上書きが必要だった。
+//
+// 章の切れ目の罫線は h2 に置く。以前は h3 にだけ罫線があり、見出しの重みと
+// 装飾が逆転していた。h3 より下はサイズと余白だけで階層を作る。
+//
+// ただし罫線は記事本文 (article) の中に限る。一覧の記事タイトルも h2 だが、
+// そちらには既にカード上端のアクセント線とタイトル下の線があり、罫線を足すと
+// 短い範囲に線が 3 本並ぶ。
+//
+// h5 と h6 は本文と同じ大きさにして太さだけで区別する。これ以上小さくすると
+// 本文より小さくなり、見出しに見えなくなる。
+//
+// overflow-wrap は、リンクのテキストが URL そのものになっている箇所のために置く。
+// 区切りが無いためどこでも折り返せず、本文幅を 720px にしたことで画面からはみ出した。
 const bodyCss = css`
 :-hono-global {
   ${themeVariables}
@@ -18,75 +48,82 @@ const bodyCss = css`
   body {
     color: ${text};
     background-color: ${surface};
-    font-size: 16px;
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI",
-      "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji", "Segoe UI",
-      "Emoji,Segoe UI", Symbol, "Noto Sans Emoji";
-  
-    margin: 0 1rem;
+    font-size: ${fontSize.body};
+    font-family: ${fontFamily.body};
+
+    line-height: ${lineHeight.body};
+    overflow-wrap: break-word;
+
+    margin: 0 ${space.md};
     padding: 0;
-    
+
     /* https://alpacat.com/posts/unexpected-font-size-change */
     -webkit-text-size-adjust: 100%;
   }
 
-  * {
-    line-height: 1.7rem;
+  h1, h2, h3, h4, h5, h6 {
+    line-height: ${lineHeight.heading};
+    font-weight: ${fontWeight.bold};
   }
 
   h2 {
-    line-height: 2.55rem;
-    font-size: 1.75rem
+    font-size: ${fontSize.h2};
+  }
+
+  article h2 {
+    border-bottom: 1px solid ${border};
+    padding-bottom: ${space['2xs']};
   }
 
   h3 {
-    font-size: 1.3rem;
-    line-height: 2.55rem;
-    border-bottom: 1px solid ${border};
+    font-size: ${fontSize.h3};
+  }
+
+  h4 {
+    font-size: ${fontSize.h4};
+  }
+
+  h5, h6 {
+    font-size: ${fontSize.body};
   }
 
   p {
-    margin: 0 0 1.7rem;
-    line-height: ${verticalRhythmUnit * 1.25}rem;
-    
-    @media (max-width: 600px) {
-      line-height: 2rem;
-    }
+    margin: 0 0 ${blockGap};
   }
 
   code {
     background-color: ${surfaceSubtle};
     border: 1px solid ${border};
-    border-radius: ${verticalRhythmUnit * 0.125}rem;
-    font-family: monospace;
-    font-size: 85%;
-    padding: ${verticalRhythmUnit * 0.125}rem 0.5em;
+    border-radius: ${radius.sm};
+    font-family: ${fontFamily.mono};
+    font-size: 0.85em;
+    padding: 2px 6px;
   }
-  
+
   ${highlightTheme}
 
   code.hljs {
     display: block;
     overflow-x: auto;
-    padding: ${verticalRhythmUnit * 0.5}rem;
-  
+    padding: ${space.md};
+
     /* グローバルのcodeスタイルを上書き */
-    font-size: ${codeBlockFontSize}px;
-    font-family: monospace;
+    font-size: ${fontSize.code};
+    font-family: ${fontFamily.mono};
     border: none;
   }
-  
+
   /* emgithub用 */
   .emgithub-file .code-area td.hljs-ln-line {
-    font-size: ${codeBlockFontSize}px !important;
-    font-family: monospace !important;
+    font-size: ${fontSize.code} !important;
+    font-family: ${fontFamily.mono} !important;
   }
 }
 `
 
 const mainCss = css`
   margin: 0 auto;
-  max-width: 800px;
+  max-width: ${contentWidth};
 `
 
 export default jsxRenderer(

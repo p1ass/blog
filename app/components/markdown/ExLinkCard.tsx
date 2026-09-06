@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { fetchOgp } from '../../lib/ogp'
 import { surface, surfaceSubtle, text, textMuted } from '../../styles/color'
 import { transition } from '../../styles/transition'
+import { fontSize } from '../../styles/typography'
 import { verticalRhythmUnit } from '../../styles/variables'
 
 const cardWrapperCss = css`
@@ -12,7 +13,7 @@ const cardLinkCss = css`
     text-decoration: none;
     display: flex;
     background-color: ${surface};
-    font-size: 13px;
+    font-size: ${fontSize.caption};
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: ${verticalRhythmUnit * 0.5}rem;
     height: ${verticalRhythmUnit * 5}rem;
@@ -46,7 +47,7 @@ const entryBodyCss = css`
     ${transition('0.3s')}
 
     & p {
-      font-size: 17px;
+      font-size: ${fontSize.bodySmall};
       margin: 0 0 ${verticalRhythmUnit * 0.5}rem 0;
       line-height: ${verticalRhythmUnit * 0.75}rem;
       width:100%;
@@ -57,16 +58,12 @@ const entryBodyCss = css`
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       
-      @media (max-width: 600px) {
-          font-size: 14px;
-          margin: 0 0 ${verticalRhythmUnit * 0.5}rem 0;
-      }
     }
 `
 
 const entryDescriptionCss = css`
     color: ${textMuted};
-    font-size: 12px;
+    font-size: ${fontSize.caption};
     max-height: ${verticalRhythmUnit * 2}rem;
     overflow: hidden;
     display: -webkit-box;
@@ -77,7 +74,7 @@ const entryDescriptionCss = css`
 
 const entryHostUrlCss = css`
     color: ${textMuted};
-    font-size: 12px; 
+    font-size: ${fontSize.caption};
 `
 
 type Props = {

@@ -11,26 +11,28 @@ import {
 } from '../../lib/posts'
 import { formatDate, parseDate } from '../../lib/time'
 import { text, textMuted } from '../../styles/color'
+import { blockGap, space } from '../../styles/spacing'
 import { transition } from '../../styles/transition'
+import { fontSize } from '../../styles/typography'
 
+// 記事タイトル。ページに 1 つだけ置く見出しなので h1 の段を使う。
+//
+// 以前はモバイルで 1.75rem になり、本文の h2 と同じ値だった。
+// スマホで記事を開くとタイトルと小見出しが見分けられない状態だったので、
+// 画面幅による分岐をやめて 1 つの大きさに揃えた。
 const postTitleCss = css`
-  font-size: 2.5rem;
-  margin: 0 0 1.7rem;
+  font-size: ${fontSize.h1};
+  margin: 0 0 ${blockGap};
   text-align: center;
-  line-height: 3.4rem;
   word-break: auto-phrase;
-  
-  @media (max-width: 900px) {
-    font-size: 1.75rem;
-    line-height: 2.55rem;
-}
 `
 
 const postDateCss = css`
   color: ${textMuted};
+  font-size: ${fontSize.caption};
   letter-spacing: 1px;
   text-align: center;
-  padding: 1.275rem 0 0.85rem;
+  padding: ${space.lg} 0 ${space.sm};
 `
 
 const toTopLinkCss = css`
