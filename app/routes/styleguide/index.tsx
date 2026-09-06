@@ -180,9 +180,9 @@ export default function StyleGuide() {
       </p>
 
       <section class={sectionCss}>
-        <h2>色</h2>
+        <h2>カラー</h2>
 
-        <h3>パレット</h3>
+        <h3>プリミティブカラー</h3>
         <p class={captionCss}>
           app/styles/palette.ts。色そのものに付けた名前。役割を決めるのは
           theme.ts で、コンポーネントからは直接使わない。
@@ -198,15 +198,16 @@ export default function StyleGuide() {
           ))}
         </ul>
 
-        <h3>セマンティックトークン</h3>
+        <h3>セマンティックカラー</h3>
         <p class={captionCss}>
           app/styles/color.ts の export。値はテーマごとに差し替わる。
         </p>
         <ul class={swatchListCss}>{swatchesOf(colorTokens)}</ul>
 
-        <h3>ブランド色</h3>
+        <h3>ブランドカラー</h3>
         <p class={captionCss}>
-          app/styles/brand.ts の export。他社の色なのでテーマで変えない。
+          app/styles/brand.ts の
+          export。他社のブランドカラーなのでテーマで変えない。
         </p>
         <ul class={swatchListCss}>{swatchesOf(brandTokens)}</ul>
       </section>
@@ -214,7 +215,7 @@ export default function StyleGuide() {
       <section class={sectionCss}>
         <h2>タイポグラフィ</h2>
 
-        <h3>大きさ</h3>
+        <h3>フォントサイズ</h3>
         <p class={captionCss}>
           app/styles/typography.ts。本文 17px を基準に比 1.2 の等比。
         </p>
@@ -228,7 +229,7 @@ export default function StyleGuide() {
         <h3>行間</h3>
         <TokenTable tokens={lineHeight} />
 
-        <h3>太さ</h3>
+        <h3>フォントウェイト</h3>
         <TokenTable
           tokens={fontWeight}
           sample={value => (
@@ -236,7 +237,7 @@ export default function StyleGuide() {
           )}
         />
 
-        <h3>書体</h3>
+        <h3>フォントファミリー</h3>
         <TokenTable
           tokens={fontFamily}
           sample={value => (
@@ -244,7 +245,7 @@ export default function StyleGuide() {
           )}
         />
 
-        <h3>いま当たっているスタイル</h3>
+        <h3>適用例</h3>
         <p class={captionCss}>
           このページの h1 が見出しの最上位。以下に h2 から h6 を並べる。
           記事本文と同じ見え方にするため article で囲んである。
@@ -272,7 +273,7 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
-        <h2>本文の要素</h2>
+        <h2>本文のスタイル</h2>
 
         <h3>リスト</h3>
         <ul>
@@ -384,8 +385,8 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
-        <h2>余白</h2>
-        <p class={captionCss}>app/styles/spacing.ts。4px グリッドの幾何列。</p>
+        <h2>スペーシング</h2>
+        <p class={captionCss}>app/styles/spacing.ts。4px の倍数。</p>
         <TokenTable
           tokens={space}
           sample={value => (
@@ -401,7 +402,7 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
-        <h2>角丸と境界線</h2>
+        <h2>角丸とボーダー</h2>
         <p class={captionCss}>app/styles/shape.ts。</p>
         <TokenTable
           tokens={radius}
@@ -420,7 +421,7 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
-        <h2>動き</h2>
+        <h2>モーション</h2>
         <p class={captionCss}>
           app/styles/motion.ts。イージングは {easing} の 1 種類に統一する。
         </p>
@@ -428,7 +429,7 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
-        <h2>画面幅</h2>
+        <h2>ブレークポイント</h2>
         <p class={captionCss}>
           app/styles/breakpoint.ts。向きは min-width に統一し、生の @media
           は書かない。

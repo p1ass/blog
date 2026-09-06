@@ -27,7 +27,7 @@ export const neutral = {
 } as const
 
 // アクセント。色相 215°。
-// 500 は OG 画像の下辺のボーダーにも使っている事実上のブランド色なので動かさない。
+// 500 は OG 画像の下辺のボーダーにも使っている事実上のブランドカラーなので動かさない。
 export const accent = {
   50: '#e8f5fe', // 既存の accentSurface
   100: '#cfe2fc',
