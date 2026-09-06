@@ -2,35 +2,35 @@ import { css } from 'hono/css'
 import { type Post, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 import { accent, border, text, textInverted, textMuted } from '../styles/color'
-import { space } from '../styles/spacing'
+import { borderWidth, radius } from '../styles/shape'
+import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize, lineHeight } from '../styles/typography'
-import { verticalRhythmUnit } from '../styles/variables'
 import { PostDetails } from './PostDetails'
 
 const sectionCss = css`
-  margin-bottom: ${verticalRhythmUnit}rem;
+  margin-bottom: ${blockGap};
 `
 
 const underlineCss = css`
-  border-top: 0.2rem solid ${accent};
+  border-top: ${borderWidth.thick} solid ${accent};
   display: block;
-  width: 2rem;
+  width: ${space.xl};
 
   ${transition('0.2s')}
 `
 
 const itemCss = css`
-  border-top: 1px solid ${border};
+  border-top: ${borderWidth.thin} solid ${border};
   display: block;
-  padding: ${verticalRhythmUnit}rem 0;
+  padding: ${blockGap} 0;
   text-decoration: none;
 
   &:hover ${underlineCss} {
-    width: 5rem;
+    width: ${space['4xl']};
   }
   &:focus ${underlineCss} {
-    width: 5rem;
+    width: ${space['4xl']};
   }
 
   &:last-child {
@@ -57,8 +57,8 @@ const moreButtonCss = css`
   background-color: ${text};
   color: ${textInverted};
   width: 90px;
-  border-radius: ${verticalRhythmUnit * 0.25}rem;
-  padding: ${verticalRhythmUnit * 0.5}rem 1rem;
+  border-radius: ${radius.sm};
+  padding: ${space.sm} ${space.md};
   margin: 0 0 0 auto;
   display: flex;
   justify-content: center;

@@ -1,0 +1,10 @@
+{
+  "name": "textlint-plugin-comment-ja",
+  "version": "1.0.0",
+  "description": "ソースコードの日本語コメントを検査対象にする textlint プラグイン",
+  "private": true,
+  "main": "index.cjs",
+  "dependencies": {
+    "typescript": "^5.8.3"
+  }
+}

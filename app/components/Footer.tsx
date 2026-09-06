@@ -1,16 +1,16 @@
 import { css } from 'hono/css'
 import { formatDate } from '../lib/time'
 import { accent } from '../styles/color'
+import { blockGap, space } from '../styles/spacing'
 import { fontSize } from '../styles/typography'
-import { verticalRhythmUnit } from '../styles/variables'
 
 const footerCss = css`
-  padding: ${verticalRhythmUnit}rem 0;
+  padding: ${blockGap} 0;
   text-align: center;
 
   & span {
     display: inline-block;
-    padding-top: ${verticalRhythmUnit * 0.5}rem;
+    padding-top: ${space.sm};
     font-size: ${fontSize.caption};
   }
 

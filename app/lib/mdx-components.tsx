@@ -7,8 +7,9 @@ import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
 import { accent, border, surfaceSubtle, textMuted } from '../styles/color'
+import { borderWidth } from '../styles/shape'
+import { blockGap, space } from '../styles/spacing'
 import { fontSize } from '../styles/typography'
-import { verticalRhythmUnit } from '../styles/variables'
 
 export function useMDXComponents(): MDXComponents {
   const components = {
@@ -34,7 +35,7 @@ const imageCss = css`
   max-height: 500px;
   max-width: 100%;
   margin: 0 auto;
-  border: 1px solid ${border};
+  border: ${borderWidth.thin} solid ${border};
 `
 
 export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
@@ -51,17 +52,13 @@ export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
 }
 
 const blockQuoteCss = css`
-  border-left: 0.25rem solid ${border};
+  border-left: ${borderWidth.thick} solid ${border};
   color: ${textMuted};
-  margin: 0.8rem 0;
-  padding: 0.5rem 1rem;
+  margin: 0 0 ${blockGap};
+  padding: 0 0 0 ${space.md};
 
   p:last-child {
     margin-bottom: 0;
-  }
-
-  @media (min-width: 600px) {
-    padding: 0 5rem 0 1.25rem;
   }
 `
 
@@ -115,8 +112,8 @@ function Table(props: PropsWithChildren<Hono.TableHTMLAttributes>) {
 }
 
 const thTdCss = css`
-  border: solid 1px ${border};
-  padding: ${verticalRhythmUnit * 0.25}rem ${verticalRhythmUnit * 0.5}rem;
+  border: solid ${borderWidth.thin} ${border};
+  padding: ${space.xs} ${space.sm};
 `
 
 function Th(props: PropsWithChildren<Hono.ThHTMLAttributes>) {

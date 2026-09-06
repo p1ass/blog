@@ -20,7 +20,6 @@ import {
   fontWeight,
   lineHeight,
 } from '../../styles/typography'
-import { verticalRhythmUnit } from '../../styles/variables'
 
 export const title = 'Style Guide'
 
@@ -28,30 +27,30 @@ export const title = 'Style Guide'
 export const noindex = true
 
 const sectionCss = css`
-  margin-bottom: ${verticalRhythmUnit * 2}rem;
+  margin-bottom: ${space['2xl']};
 `
 
 const swatchListCss = css`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: ${verticalRhythmUnit * 0.5}rem;
-  margin-bottom: ${verticalRhythmUnit}rem;
+  gap: ${space.sm};
+  margin-bottom: ${blockGap};
   padding: 0;
   list-style: none;
 `
 
 const swatchCss = css`
   border: 1px solid ${border};
-  border-radius: ${verticalRhythmUnit * 0.25}rem;
+  border-radius: ${radius.sm};
   overflow: hidden;
 `
 
 const swatchChipCss = css`
-  height: ${verticalRhythmUnit * 2}rem;
+  height: ${space['2xl']};
 `
 
 const swatchLabelCss = css`
-  padding: ${verticalRhythmUnit * 0.25}rem ${verticalRhythmUnit * 0.5}rem;
+  padding: ${space.xs} ${space.sm};
   background-color: ${surfaceSubtle};
   border-top: 1px solid ${border};
   font-size: 0.85rem;
@@ -68,18 +67,18 @@ const swatchValueCss = css`
 const captionCss = css`
   color: ${textMuted};
   font-size: 0.85rem;
-  margin: 0 0 ${verticalRhythmUnit * 0.5}rem;
+  margin: 0 0 ${space.sm};
 `
 
 const tokenTableCss = css`
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: ${verticalRhythmUnit}rem;
+  margin-bottom: ${blockGap};
 
   & th,
   & td {
     border: 1px solid ${border};
-    padding: ${verticalRhythmUnit * 0.25}rem ${verticalRhythmUnit * 0.5}rem;
+    padding: ${space.xs} ${space.sm};
     text-align: left;
     font-size: 0.85rem;
     vertical-align: middle;
