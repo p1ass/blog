@@ -18,8 +18,7 @@ function contrastRatio(foreground: string, background: string): number {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
 
-// AA の基準。本文は 4.5:1、大きい文字 (24px 以上、または太字の 18.66px 以上) と
-// UI 部品は 3:1。
+// AA の基準。本文は 4.5:1、大きい文字 (24px 以上、または太字の 18.66px 以上) と UI 部品は 3:1。
 const BODY_TEXT = 4.5
 const LARGE_TEXT = 3
 

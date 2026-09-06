@@ -46,7 +46,8 @@
       "dictionaryPathList": [
         "./textlint/ai-japanese-verbs.cjs",
         "./textlint/ai-japanese-nouns.cjs",
-        "./textlint/ai-japanese-phrases.cjs"
+        "./textlint/ai-japanese-phrases.cjs",
+        "./textlint/ai-japanese-metaphors.cjs"
       ]
     },
     "short-topic-comma": {

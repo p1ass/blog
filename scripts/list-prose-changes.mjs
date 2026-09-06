@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 // 変更された Markdown のうち、本文が変わったものだけを出力する。
 //
-// textlint は記事の文章を検査する。frontmatter だけを機械的に書き換える移行
-// (日付の統一やキーの改名など) で全記事が対象になると、既存の文章の指摘で CI が
-// 赤くなってしまう。frontmatter しか変わっていないファイルはここで落とす。
+// textlint は記事の文章を検査する。frontmatter だけを機械的に書き換える移行 (日付の統一やキーの改名など) で全記事が対象になると、既存の文章の指摘で CI が落ちる。
+// frontmatter しか変わっていないファイルはここで除く。
 //
 // 使い方: node scripts/list-prose-changes.mjs <base-ref>
 

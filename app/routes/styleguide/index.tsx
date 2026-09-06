@@ -22,7 +22,7 @@ import { verticalRhythmUnit } from '../../styles/variables'
 
 export const title = 'Style Guide'
 
-// 記事ではないので検索結果に出さない。robots.txt でも弾いている。
+// 記事ではないので検索結果に出さない。robots.txt からも除外している。
 export const noindex = true
 
 const sectionCss = css`
@@ -93,13 +93,12 @@ const tokenTableCss = css`
 `
 
 type TokenTableProps = {
-  // 見本の欄に何を出すか。値だけ見せれば足りるものは省く
+  // 見本の欄に何を出すか。値だけで足りるものは省く
   sample?: (value: string) => unknown
   tokens: Record<string, string | number>
 }
 
-// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも
-// 出るので、一覧の更新漏れが起きない。
+// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも出るので、一覧の更新漏れが起きない。
 function TokenTable({ tokens, sample }: TokenTableProps) {
   return (
     <table class={tokenTableCss}>
@@ -144,8 +143,7 @@ function Swatch({ name, value }: SwatchProps) {
   )
 }
 
-// styles/*.ts の export をそのまま並べる。トークンを足したらこのページにも
-// 自動で出るので、一覧の更新漏れが起きない。
+// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新漏れが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
     .filter(([, value]) => typeof value === 'string')

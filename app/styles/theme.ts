@@ -1,9 +1,8 @@
-// どの段をどの役割に割り当てるか。app/styles/color.ts の var(--color-*) が
-// ここを参照する。値そのものは app/styles/palette.ts にある。
+// どの段をどの役割に割り当てるか。app/styles/color.ts の var(--color-*) がここを参照する。
+// 値そのものは app/styles/palette.ts にある。
 //
-// 3 段構成にしてある。:root が既定、prefers-color-scheme が OS 設定への追従、
-// data-theme が読者の明示的な選択で、後ろほど強い。ダークの値はまだ入れていない。
-// ダークモードはステップ 7 で入れる。
+// 3 段構成にしてある。:root が既定、prefers-color-scheme が OS 設定への追従、data-theme が読者の明示的な選択で、後ろほど強い。
+// ダークの値はまだ入れていない。ダークモードはステップ 7 で入れる。
 
 import { accent, neutral } from './palette'
 
@@ -40,8 +39,7 @@ export const light: Assignment = {
   icon: neutral[700],
 }
 
-// camelCase の役割名を --color-kebab-case に変換する。
-// 役割を足したときに、CSS 変数の書き忘れが起きないようにするため。
+// camelCase の役割名を --color-kebab-case に変換する。役割を足したときに、CSS 変数の書き忘れが起きないようにするため。
 function toCustomProperties(assignment: Assignment): string {
   return Object.entries(assignment)
     .map(([role, value]) => {
