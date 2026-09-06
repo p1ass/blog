@@ -14,7 +14,8 @@
     "lint:text": "textlint \"**/*.{md,mdx}\"",
     "lint:text:fix": "textlint --fix \"**/*.{md,mdx}\"",
     "vrt": "./vrt/docker-run.sh",
-    "vrt:update": "./vrt/docker-run.sh --update-snapshots"
+    "vrt:update": "./vrt/docker-run.sh --update-snapshots",
+    "ogp:refresh": "node scripts/refresh-ogp-cache.mjs"
   },
   "private": true,
   "dependencies": {

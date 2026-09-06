@@ -1,12 +1,11 @@
 // ビルド結果に取りこぼしがないか確かめる。
 //
-// @hono/vite-ssg は、ルートが例外を投げても "Internal Server Error" という
-// 本文を書き出してビルドを成功させる。しかも Content-Type が text/plain に
-// なるため、ファイル名が index.html ではなく index.txt になる。結果として
-// その記事は本番で 404 になるが、ビルドログには何も出ない。
+// @hono/vite-ssg は、ルートが例外を投げても "Internal Server Error" という本文を書き出してビルドを成功させる。
+// しかも Content-Type が text/plain になるため、ファイル名が index.html ではなく index.txt になる。
+// 結果としてその記事は本番で 404 になるが、ビルドログには何も出ない。
 //
 // 実際に java-catch-up と line-dev-day-2018 の 2 記事がこの状態で出ていた。
-// 原因は外部の OGP API の応答で、ビルドのたびに当たり外れが変わる。
+// 原因は外部の OGP API の応答で、ビルドのたびに結果が変わる。
 import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 

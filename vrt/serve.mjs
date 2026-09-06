@@ -1,5 +1,5 @@
 // dist/ をそのまま配る静的サーバー。VRT でしか使わない。
-// wrangler を使わないのは、起動が速くて外部に一切出ないため。
+// wrangler を使わないのは、起動が速く、外部に一切出ないため。
 import { createReadStream, statSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join, normalize } from 'node:path'

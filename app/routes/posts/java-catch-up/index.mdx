@@ -30,7 +30,7 @@ tags:
 <ExLinkCard url="https://news.mynavi.jp/article/imajava-1/"/>
 <ExLinkCard url="https://news.mynavi.jp/article/imajava-2/"/>
 
-### 事前知識: `JAVA_HOME`とは
+### 事前知識: `JAVA_HOME` とは
 
 <ExLinkCard url="https://lalupin4.hatenablog.jp/entry/2015/04/15/163126"/>
 
@@ -45,7 +45,7 @@ Matching Java Virtual Machines (1):
 /Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
 ```
 
-`-v`オプションで利用するバージョンを指定できる。
+`-v` オプションで利用するバージョンを指定できる。
 
 ```bash
 $ /usr/libexec/java_home  -v 11
@@ -70,7 +70,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.3+7, mixed mode)
 
 <ExLinkCard url="https://github.com/jenv/jenv"/>
 
-jenv は Java のバージョンを切り替えて、自動で `JAVA_HOME`を設定してくれるライブラリ。
+jenv は Java のバージョンを切り替えて、自動で `JAVA_HOME` を設定してくれるライブラリ。
 ディストリビューションは自分でインストールする必要がある点に注意する。
 自分の環境は jenv でセットアップしている。
 
@@ -93,7 +93,7 @@ Community 版なら無料で使える。使い方は公式の日本語ドキュ�
 
 <ExLinkCard url="https://pleiades.io/help/idea/discover-intellij-idea.html#multi-platform-IDE"/>
 
-設定せずに先程インストールした Corretto が選択できるようになっているはず。
+設定しなくても先程インストールした Corretto が選択できるようになっているはず。
 
 ## 3. Gradle プロジェクトを作成
 
@@ -117,7 +117,7 @@ Possible solution:
  - Open Gradle wrapper settings, change `distributionUrl` property to use compatible Gradle version and reload the project
 ```
 
-`./gradle/wrapper/gradle-wrapper.properties`の `distributionUrl`のバージョンを 7.2 にあげて、 `./gradle wrapper`する。
+`./gradle/wrapper/gradle-wrapper.properties` の `distributionUrl` のバージョンを 7.2 にあげて、 `./gradle wrapper` する。
 
 ```bash
 # ./gradle/wrapper/gradle-wrapper.properties
@@ -130,7 +130,7 @@ zipStorePath=wrapper/dists
 
 その後、IntelliJ で Shift 2 回押して、Reload All Gradle Projects をすれば直った。
 
-`src/main/java/helloworld/HelloWorld.java`を作成して、Hello World する。
+`src/main/java/helloworld/HelloWorld.java` を作成して、Hello World する。
 
 ```java
 package helloworld;
@@ -154,7 +154,7 @@ $ java -cp build/classes/java/main helloworld.HelloWorld
 Hello World
 ```
 
-Gradle から直接実行する場合は `build.gradle`を変更する。
+Gradle から直接実行する場合は `build.gradle` を変更する。
 
 <ExLinkCard
     url="https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files"/>
@@ -197,8 +197,8 @@ Java8 以前と以降でだいぶ異なるところがある。
 - Null を扱いやすくするクラス
 - `var` を用いた型推論
 - 変数定義時に毎回型を省略できる
-- `java.time.LocalDate`など新しい日時クラス
-- 以前は `java.util.Date`や `java.time.Calendar`が使われていたらしい
+- `java.time.LocalDate` など新しい日時クラス
+- 以前は `java.util.Date` や `java.time.Calendar` が使われていたらしい
 - ネットで日時系の処理を調べると古いやり方が引っかかたりするので注意
 
 ## 6. サードパーティライブラリを使う
@@ -269,7 +269,7 @@ $ ./gradlew run
 
 ## 7. 雑に有名所のサードパーティライブラリを知っておく
 
-必要になったときにググれるように、ある程度インデックスを貼っておく。
+必要なときにググれるよう、ある程度インデックスを貼っておく。
 
 <ExLinkCard url="https://qiita.com/disc99/items/727b51dbe737602a5c91"/>
 
@@ -279,8 +279,7 @@ $ ./gradlew run
 
 <ExLinkCard url="https://kazurof.github.io/GoogleJavaStyle-ja/"/>
 
-<ExLinkCard
-    url="https://www.amazon.co.jp/dp/4621303252?&linkCode=ll1&tag=p1ass02-22&linkId=2c2e6e7a09c64829a2fd6c06ed45e3ff&language=ja_JP&ref_=as_li_ss_tl"/>
+[Effective Java 第 3 版](https://www.amazon.co.jp/dp/4621303252?&linkCode=ll1&tag=p1ass02-22&linkId=2c2e6e7a09c64829a2fd6c06ed45e3ff&language=ja_JP&ref_=as_li_ss_tl)
 
 ## 9. Linter・Formatter
 
