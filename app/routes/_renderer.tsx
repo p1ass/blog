@@ -90,7 +90,7 @@ const mainCss = css`
 `
 
 export default jsxRenderer(
-  ({ children, title: propsTitle, frontmatter }, c) => {
+  ({ children, title: propsTitle, frontmatter, noindex }, c) => {
     const description =
       frontmatter?.description ||
       'Webエンジニアリングについて学んだことや考えたことをまとめるブログです'
@@ -122,6 +122,7 @@ export default jsxRenderer(
           <title>{title}</title>
 
           <meta name='description' content={description} />
+          {noindex ? <meta name='robots' content='noindex' /> : null}
           <link rel='canonical' href={canonicalUrl} />
           <meta
             property='og:type'

@@ -12,7 +12,9 @@
     "lint:fix": "biome check --fix .",
     "install:playwright": "npx playwright install --with-deps chromium",
     "lint:text": "textlint \"**/*.{md,mdx}\"",
-    "lint:text:fix": "textlint --fix \"**/*.{md,mdx}\""
+    "lint:text:fix": "textlint --fix \"**/*.{md,mdx}\"",
+    "vrt": "pnpm build && ./vrt/docker-run.sh",
+    "vrt:update": "pnpm build && ./vrt/docker-run.sh --update-snapshots"
   },
   "private": true,
   "dependencies": {

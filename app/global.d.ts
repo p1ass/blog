@@ -5,6 +5,9 @@ type Head = {
   filepath?: string
 
   title?: string
+
+  // 検索エンジンに載せないページで true にする
+  noindex?: boolean
 }
 
 declare module 'hono' {
