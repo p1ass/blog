@@ -31,29 +31,32 @@ export const fontWeight = {
 // 書体は読者の OS のものを使う。Web フォントを入れないのは表示速度を保つためで、見た目の伸びしろは書体そのものより行長と行間と大きさの整理のほうが大きい。
 //
 // 見た目の回帰テストのコンテナではこの並びのどれも存在しないため sans-serif に解決される。その解決先は vrt/fonts/local.conf で固定してある。
+//
+// フォント名を引用符で囲まないのは、hono/css が補間した値の " をエスケープし、\" という壊れた CSS になるため。
+// CSS のフォント名は識別子の並びとして書けるので、引用符は要らない。
 export const fontFamily = {
   // 和文を先に置く。欧文だけのフォントを先に置くと、和文がそのフォントのフォールバックに委ねられ、環境によって別の書体が混ざる。
   body: [
-    '"Hiragino Kaku Gothic ProN"',
-    '"Hiragino Sans"',
-    '"Yu Gothic UI"',
-    '"Noto Sans JP"',
+    'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans',
+    'Yu Gothic UI',
+    'Noto Sans JP',
     'Roboto',
-    '"Segoe UI"',
+    'Segoe UI',
     'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Noto Color Emoji"',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Noto Color Emoji',
   ].join(', '),
 
   // ui-monospace は OS の標準の等幅を指す。macOS では SF Mono、Windows では Cascadia Mono になる。
   mono: [
     'ui-monospace',
     'SFMono-Regular',
-    '"SF Mono"',
+    'SF Mono',
     'Menlo',
     'Consolas',
-    '"Liberation Mono"',
+    'Liberation Mono',
     'monospace',
   ].join(', '),
 } as const

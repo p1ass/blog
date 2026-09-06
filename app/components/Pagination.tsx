@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { border, text, textInverted } from '../styles/color'
 import { transition } from '../styles/transition'
+import { fontSize } from '../styles/typography'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const paginationCss = css`
@@ -12,7 +13,7 @@ const paginationCss = css`
   width:100%;
   & span {
     flex-grow:10;
-    font-size: 1.1rem;
+    font-size: ${fontSize.body};
   }
 
   & a {

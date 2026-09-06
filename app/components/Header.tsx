@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { labelBasePath } from '../lib/posts'
 import { border, text, textMuted } from '../styles/color'
 import { transition } from '../styles/transition'
+import { fontSize } from '../styles/typography'
 
 const headerCss = css`
   overflow: auto;
@@ -34,7 +35,7 @@ const titleCss = css`
 
 // h2 に付いていた既定のスタイルを、要素を変えても保つ
 const siteTitleCss = css`
-  font-size: 1.5em;
+  font-size: ${fontSize.h3};
   font-weight: bold;
   margin: 0.83em 0;
 `
