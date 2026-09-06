@@ -66,6 +66,8 @@ MDX には 2 つの流れがあり、プラグイン構成が異なる点に注�
 
 ### スタイリング
 
+見た目の決めごとは [docs/design-system.md](docs/design-system.md) にまとめてある。色、文字、余白、形、動きのトークンと、その使い分けはそこを見る。
+
 hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。色は `app/styles/color.ts`、余白は `app/styles/variables.ts` の `verticalRhythmUnit` を基準にした倍数で指定する。ハードコードした色や余白は避け、これらの定数を使う。
 
 グローバルスタイルは `app/routes/_renderer.tsx` の `:-hono-global` ブロックに集約する。ここには highlight.js のテーマも含む。

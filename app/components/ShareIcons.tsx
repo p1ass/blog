@@ -1,12 +1,14 @@
 import { css } from 'hono/css'
 import { hatenaBlue, xBlack, xBlackHover, xSurfaceHover } from '../styles/brand'
 import { icon, surfaceHover, textInverted } from '../styles/color'
+import { radius } from '../styles/shape'
+import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
-import { verticalRhythmUnit } from '../styles/variables'
+import { fontSize } from '../styles/typography'
 
 const shareIconsSectionCss = css`
     text-align: center;
-    margin: ${verticalRhythmUnit}rem 0;
+    margin: ${blockGap} 0;
 `
 
 const shareIconWrapperCss = css`
@@ -16,10 +18,10 @@ const shareIconWrapperCss = css`
 
 const shareButtonCss = css`
     float: left;
-    border-radius: 100%;
+    border-radius: ${radius.full};
     ${transition('280ms', 'ease')}
 
-    margin: 0 0 0 12px;
+    margin: 0 0 0 ${space.sm};
 
     &:hover{
         box-shadow: inset 0 0 0 22px ${surfaceHover};
@@ -28,8 +30,8 @@ const shareButtonCss = css`
 
 const shareButtonLinkCss = css`
   display: table-cell;
-  width: ${verticalRhythmUnit * 1.625}rem ;
-  height: ${verticalRhythmUnit * 1.625}rem;
+  width: ${space['2xl']};
+  height: ${space['2xl']};
   color: ${icon};
   text-align: center;
   vertical-align: middle;
@@ -37,7 +39,7 @@ const shareButtonLinkCss = css`
   text-decoration: none;
 
   & i {
-    font-size: 22px;
+    font-size: ${fontSize.h3};
     vertical-align: middle;
     padding-bottom: 1px;
   

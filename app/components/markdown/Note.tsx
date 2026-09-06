@@ -1,13 +1,15 @@
 import { css } from 'hono/css'
 import type { PropsWithChildren } from 'hono/jsx'
+import { mediaUp } from '../../styles/breakpoint'
 import { accent, accentSurface, textOnAccentSurface } from '../../styles/color'
-import { verticalRhythmUnit } from '../../styles/variables'
+import { radius } from '../../styles/shape'
+import { blockGap, space } from '../../styles/spacing'
 
 const noteCss = css`
   background-color: ${accentSurface};
-  border-radius: ${verticalRhythmUnit * 0.5}rem;
-  padding: ${verticalRhythmUnit * 0.75}rem ${verticalRhythmUnit}rem;
-  margin-bottom: ${verticalRhythmUnit}rem;
+  border-radius: ${radius.md};
+  padding: ${space.md};
+  margin-bottom: ${blockGap};
   display: flex;
   align-items: stretch;
 
@@ -20,7 +22,7 @@ const noteCss = css`
   .fa-circle-info {
     font-size: 1.5rem;
     color: ${accent};
-    padding-right: ${verticalRhythmUnit}rem;
+    padding-right: ${space.md};
   }
 
   & p {
@@ -28,11 +30,11 @@ const noteCss = css`
     color: ${textOnAccentSurface};
   }
 
-  @media (max-width: 600px) {
-    padding: ${verticalRhythmUnit * 0.5}rem;
+  ${mediaUp('sm')} {
+    padding: ${space.lg};
 
     .fa-circle-info {
-      padding-right: ${verticalRhythmUnit * 0.5}rem;
+      padding-right: ${space.lg};
     }
   }
 `

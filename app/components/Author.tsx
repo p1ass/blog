@@ -1,33 +1,35 @@
 import { css } from 'hono/css'
 import { githubBlack, twitterBlue } from '../styles/brand'
+import { mediaUp } from '../styles/breakpoint'
 import { border, text, textMuted } from '../styles/color'
+import { borderWidth, radius } from '../styles/shape'
+import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
-import { verticalRhythmUnit } from '../styles/variables'
 
 const authorWrapperCss = css`
-  border: solid 1px ${border};
-  padding: ${verticalRhythmUnit * 0.5}rem;
-  border-radius: ${verticalRhythmUnit * 0.5}rem;
+  border: solid ${borderWidth.thin} ${border};
+  padding: ${space.sm};
+  border-radius: ${radius.md};
   display: flex;
-  margin-bottom: ${verticalRhythmUnit}rem;
+  margin-bottom: ${blockGap};
 `
 
 const authorImageWrapper = css`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  margin: 0 1rem 0 0;
-  width: 100px;
-  
-  @media (max-width: 600px) {
-      width: 80px;
+  margin: 0 ${space.md} 0 0;
+  width: 80px;
+
+  ${mediaUp('sm')} {
+    width: 100px;
   }
 `
 
 const authorImageCss = css`
-  border-radius: 100%;
-  border: 1px solid ${border};
+  border-radius: ${radius.full};
+  border: ${borderWidth.thin} solid ${border};
   margin: 0;
   width: 100%;
   height: auto;
@@ -35,7 +37,7 @@ const authorImageCss = css`
 
 const authorNameCss = css`
   font-size: ${fontSize.h4};
-  margin-bottom: ${verticalRhythmUnit * 0.25}rem;
+  margin-bottom: ${space['2xs']};
   font-weight: bold;
 `
 
@@ -46,7 +48,7 @@ const authorDescriptionCss = css`
 
 const authorSNSLinkCss = css`
   color: ${text};
-  margin-right: 1rem;
+  margin-right: ${space.md};
   text-decoration: none;
   
   &:hover {
@@ -60,7 +62,7 @@ const authorSNSGitHubCss = css`
   ${authorSNSLinkCss}
   & i {
     color: ${githubBlack};
-    padding-right: 0.2rem;
+    padding-right: ${space['2xs']};
   }
 `
 
@@ -68,7 +70,7 @@ const authorSNSTwitterCss = css`
   ${authorSNSLinkCss}
   & i {
     color: ${twitterBlue};
-    padding-right: 0.2rem;
+    padding-right: ${space['2xs']};
   }
 `
 

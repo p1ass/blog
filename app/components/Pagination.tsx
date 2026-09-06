@@ -1,12 +1,13 @@
 import { css } from 'hono/css'
 import { border, text, textInverted } from '../styles/color'
+import { borderWidth, radius } from '../styles/shape'
+import { space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
-import { verticalRhythmUnit } from '../styles/variables'
 
 const paginationCss = css`
-  border-top: .5px solid ${border};
-  padding-top: 2rem;
+  border-top: ${borderWidth.thin} solid ${border};
+  padding-top: ${space.xl};
   display: inline-flex;
   text-align: center;
   justify-content: space-between;
@@ -26,10 +27,10 @@ const arrowBoxWidth = '60px'
 const arrowCss = css`
   ${transition('0.2s')}
 
-  border: solid 1px ${text};
+  border: solid ${borderWidth.thin} ${text};
   color: ${text};
-  border-radius: ${verticalRhythmUnit * 0.25}rem;
-  padding: ${verticalRhythmUnit * 0.25}rem 1rem;
+  border-radius: ${radius.sm};
+  padding: ${space.xs} ${space.md};
   margin: 0 0 0 auto;
   display: flex;
   justify-content: center;
@@ -55,7 +56,7 @@ const emptyArrowCss = css`
 `
 
 const pageNumberCss = css`
-  padding: ${verticalRhythmUnit * 0.25}rem;
+  padding: ${space.xs};
 `
 
 type Props = {

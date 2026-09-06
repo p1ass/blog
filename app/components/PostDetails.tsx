@@ -2,16 +2,17 @@ import { css } from 'hono/css'
 import { labelNameToId, labelPermalink } from '../lib/posts'
 import type { Frontmatter } from '../routes/posts/types'
 import { text, textMuted } from '../styles/color'
+import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 
 const postDetailsCss = css`
-  padding-bottom: 1.7rem;
+  padding-bottom: ${blockGap};
 `
 
 const tagCss = css`
   color: ${textMuted};
   text-decoration: none;
-  padding: 0 2px;
+  padding: 0 ${space['2xs']};
 
   &:hover {
     color: ${text};

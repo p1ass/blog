@@ -1,10 +1,12 @@
 import { css } from 'hono/css'
 import { type PaginationPosts, postPermalink } from '../lib/posts'
 import { accent, border } from '../styles/color'
+import { borderWidth } from '../styles/shape'
+import { space } from '../styles/spacing'
 
 const postPaginationCss = css`
-  border-top: 0.5px solid ${border};
-  padding-top: 2rem;
+  border-top: ${borderWidth.thin} solid ${border};
+  padding-top: ${space.xl};
   display: inline-flex;
   text-align: center;
   justify-content: space-between;

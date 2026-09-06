@@ -1,24 +1,25 @@
 import { css } from 'hono/css'
 import { labelBasePath } from '../lib/posts'
+import { mediaUp } from '../styles/breakpoint'
 import { border, text, textMuted } from '../styles/color'
+import { borderWidth } from '../styles/shape'
+import { space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
 const headerCss = css`
   overflow: auto;
-  border-bottom: 1px solid ${border};
+  border-bottom: ${borderWidth.thin} solid ${border};
 `
 
 const headerContainerCss = css`
-  margin: 0.85rem auto;
+  margin: ${space.sm} auto;
   text-align: center;
 `
 
 const titleCss = css`
-  margin: 0.425rem 0;
-
   ${transition('0.2s')}
-  margin: 0.425rem 0;
+  margin: ${space.xs} 0;
   color: ${text};
   text-decoration: none;
   
@@ -37,7 +38,7 @@ const titleCss = css`
 const siteTitleCss = css`
   font-size: ${fontSize.h3};
   font-weight: bold;
-  margin: 0.83em 0;
+  margin: ${space.sm} 0;
 `
 
 const navigationListCss = css`
@@ -48,12 +49,14 @@ const navigationListCss = css`
 
   & li {
     display: inline-block;
-    padding: 0 1.5rem;
-    margin: 0.2125rem 0 0.2125rem;
-    
-    @media (max-width: 600px) {
-    padding: 0 0 .425rem 0;
+    /* 狭い画面を既定にして、広がったときだけ横並びの余白にする */
+    padding: 0 0 ${space.xs} 0;
     width: 100px;
+
+    ${mediaUp('sm')} {
+      padding: 0 ${space.lg};
+      margin: ${space['2xs']} 0;
+      width: auto;
     }
 
     & a {
