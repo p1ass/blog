@@ -33,6 +33,13 @@ const titleCss = css`
   }
 `
 
+// h2 に付いていた既定のスタイルを、要素を変えても保つ
+const siteTitleCss = css`
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.83em 0;
+`
+
 const navigationListCss = css`
   list-style-type: none;
   margin: 0;
@@ -64,12 +71,20 @@ const navigationListCss = css`
   }
 `
 
-export const Header = () => {
+type Props = {
+  // 記事一覧のページでは、サイト名がそのページの見出しになる。
+  // 記事ページやカテゴリページには別の見出しがあるため、ここでは見出しにしない。
+  asHeading: boolean
+}
+
+export const Header = ({ asHeading }: Props) => {
+  const SiteTitle = asHeading ? 'h1' : 'div'
+
   return (
     <header class={headerCss}>
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
-          <h2>ぷらすのブログ</h2>
+          <SiteTitle class={siteTitleCss}>ぷらすのブログ</SiteTitle>
         </a>
         <ul class={navigationListCss}>
           <li>

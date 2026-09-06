@@ -32,6 +32,7 @@ export {
   getMaxPageNumber,
   labelBasePath,
   labelHeadingPrefix,
+  labelIndexTitle,
   labelNameToId,
   labelPermalink,
   postPermalink,
@@ -40,7 +41,7 @@ export {
 type MDXExports = {
   frontmatter: unknown
   default: (props: MDXProps) => JSX.Element
-  ContentSummary?: () => JSX.Element
+  ContentSummary: (props: MDXProps) => JSX.Element
 }
 
 const modules = import.meta.glob<MDXExports>('../routes/posts/**/*.mdx', {

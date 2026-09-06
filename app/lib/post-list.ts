@@ -12,7 +12,8 @@ export type Post = {
   slug: Slug
   frontmatter: Frontmatter
   MDXContent: (props: MDXProps) => JSX.Element
-  ContentSummary?: () => JSX.Element
+  // 本文のマーカーより前。mdx-summary プラグインがビルド時に用意する。
+  ContentSummary: (props: MDXProps) => JSX.Element
 }
 
 // URL とファイルパスは Slug から導出する。文字列操作をここに閉じ込め、
@@ -109,9 +110,16 @@ export const labelBasePath: Record<LabelKind, string> = {
   tag: '/tags',
 }
 
+// 個別ページの見出しの接頭辞 (例: 「Category 開発」)
 export const labelHeadingPrefix: Record<LabelKind, string> = {
   category: 'Category',
   tag: 'Tag',
+}
+
+// 一覧ページの見出し。接頭辞に s を足すと Categorys になってしまう。
+export const labelIndexTitle: Record<LabelKind, string> = {
+  category: 'Categories',
+  tag: 'Tags',
 }
 
 export function labelNameToId(name: string): LabelId {

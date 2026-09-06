@@ -158,6 +158,9 @@ export default jsxRenderer(
 
     const canonicalUrl = `https://blog.p1ass.com${c.req.path}`
 
+    // 記事一覧のページには他に見出しが無いので、サイト名を h1 にする
+    const isPostListPage = /^\/(?:page\/\d+\/)?$/.test(c.req.path)
+
     const ogImage = frontmatter?.ogImage
       ? `https://blog.p1ass.com${frontmatter.ogImage}`
       : frontmatter?.title
@@ -224,7 +227,7 @@ export default jsxRenderer(
           <Style />
         </head>
         <body class={bodyCss}>
-          <Header />
+          <Header asHeading={isPostListPage} />
           <main class={mainCss}>{children}</main>
           <Footer />
         </body>

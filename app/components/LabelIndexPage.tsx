@@ -3,7 +3,7 @@ import { Fragment } from 'hono/jsx/jsx-runtime'
 import {
   getLabels,
   type LabelKind,
-  labelHeadingPrefix,
+  labelIndexTitle,
   labelPermalink,
 } from '../lib/posts'
 import { blue } from '../styles/color'
@@ -19,11 +19,9 @@ type Props = {
 }
 
 export function LabelIndexPage({ kind }: Props) {
-  const heading = `${labelHeadingPrefix[kind]}s`
-
   return (
     <Fragment>
-      <Heading>{heading}</Heading>
+      <Heading>{labelIndexTitle[kind]}</Heading>
       <ul>
         {getLabels(kind).map(label => (
           <li>

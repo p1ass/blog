@@ -1,16 +1,9 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { css } from 'hono/css'
 import { type Post, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 import { blue, border, gray, grayLight, white } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
-import { MarkdownRenderer } from './MarkdownRenderer'
 import { PostDetails } from './PostDetails'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 const sectionCss = css`
   margin-bottom: ${verticalRhythmUnit}rem;
@@ -86,13 +79,8 @@ type Props = {
   post: Post
 }
 
-export async function PostSummarySection({ post }: Props) {
-  const postUrl = `../routes/posts/${post.slug}/index.mdx`
-  const aboutFilePath = path.resolve(__dirname, postUrl)
-  const postText = fs.readFileSync(aboutFilePath, 'utf-8')
-
-  let summaryText = postText.split('{/* <!--more--> */}')[0] as string
-  summaryText = summaryText.split('---')[2]
+export function PostSummarySection({ post }: Props) {
+  const ContentSummary = post.ContentSummary
 
   return (
     <section class={sectionCss}>
@@ -101,16 +89,13 @@ export async function PostSummarySection({ post }: Props) {
           <time datetime={post.frontmatter.date} class={timeCss}>
             {formatDate(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
-          <h1 class={titleCss}>{post.frontmatter.title}</h1>
+          <h2 class={titleCss}>{post.frontmatter.title}</h2>
           <div class={underlineCss} />
         </div>
       </a>
       <PostDetails frontmatter={post.frontmatter} />
       <div class='catalogue-summary'>
-        <MarkdownRenderer
-          content={summaryText}
-          baseUrl={new URL(postUrl, import.meta.url).href}
-        />
+        <ContentSummary />
       </div>
 
       <a class={moreButtonCss} href={postPermalink(post.slug)}>
