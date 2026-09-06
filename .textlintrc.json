@@ -2,7 +2,8 @@
   "plugins": {
     "@textlint/markdown": {
       "extensions": [".md", ".mdx"]
-    }
+    },
+    "comment-ja": true
   },
   "filters": {
     "comments": true

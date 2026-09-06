@@ -33,7 +33,7 @@ import re, sys, os, pathlib
 article, workdir = sys.argv[1], sys.argv[2]
 text = pathlib.Path(article).read_text(encoding="utf-8")
 
-# フェンスは3連以上を許容する
+# フェンスは 3 連以上を許容する
 blocks = re.findall(r"^(`{3,})go[^\n]*\n(.*?)^\1\s*$", text, re.M | re.S)
 
 n = 0

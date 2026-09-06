@@ -14,7 +14,7 @@ IMAGE="mcr.microsoft.com/playwright:v1.58.1-noble"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # node_modules はプラットフォーム依存のバイナリを含むので、ホストのものをそのまま持ち込まず、コンテナ用のボリュームに分ける。
-# CI は linux/amd64 で動く。Apple Silicon でそのまま動かすと arm64 になり、基準画像が一致しない可能性がある。
+# CI は linux/amd64 で動く。Apple Silicon でそのまま動かすと arm64 になり、基準画像と一致しないことがある。
 # エミュレーションで遅くなるが揃える。
 docker run --rm --platform linux/amd64 \
   -v "${REPO_ROOT}:/work" \

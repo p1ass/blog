@@ -99,7 +99,7 @@ type TokenTableProps = {
   tokens: Record<string, string | number>
 }
 
-// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも出るので、一覧の更新漏れが起きない。
+// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも出るので、一覧の更新の抜けが起きない。
 function TokenTable({ tokens, sample }: TokenTableProps) {
   return (
     <table class={tokenTableCss}>
@@ -161,7 +161,7 @@ function Swatch({ name, value }: SwatchProps) {
   )
 }
 
-// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新漏れが起きない。
+// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新の抜けが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
     .filter(([, value]) => typeof value === 'string')

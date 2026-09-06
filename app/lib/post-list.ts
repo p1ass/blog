@@ -110,7 +110,7 @@ export const labelBasePath: Record<LabelKind, string> = {
   tag: '/tags',
 }
 
-// 個別ページの見出しの接頭辞 (例: 「Category 開発」)
+// 個別ページの見出しの接頭辞 (例:「Category 開発」)
 export const labelHeadingPrefix: Record<LabelKind, string> = {
   category: 'Category',
   tag: 'Tag',
