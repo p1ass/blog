@@ -46,12 +46,12 @@ frontmatter の型は `app/routes/posts/types.ts` の `Frontmatter` で定義す
 
 `app/lib/posts.ts` が `import.meta.glob('../routes/posts/**/*.mdx', { eager: true })` で全記事を読み込み、日付降順のリストを module スコープで一度だけ構築する。ページネーション、カテゴリ、タグ、前後記事へのリンクはすべてこのリストから導出する。記事一覧に関わる処理を足すときはここに関数を追加する。
 
-### MDX のレンダリング経路
+### MDX のレンダリングの流れ
 
-MDX には 2 つの経路があり、プラグイン構成が異なる点に注意する。
+MDX には 2 つの流れがあり、プラグイン構成が異なる点に注意する。
 
 1. 記事本体: `vite.config.ts` の `@mdx-js/rollup` がビルド時に変換する。プラグインは `app/lib/mdx.ts` の `remarkPlugins` / `rehypePlugins` を共有する。
-2. 一覧の抜粋: `app/components/MarkdownRenderer.tsx` が `@mdx-js/mdx` の `compile` + `run` を実行時に呼ぶ。remark/rehype プラグインは適用されず、画像パスは文字列置換で解決するワークアラウンドを入れている。
+2. 一覧の抜粋: `app/components/MarkdownRenderer.tsx` が `@mdx-js/mdx` の `compile` + `run` を実行時に呼ぶ。remark/rehype プラグインは適用されず、画像パスは文字列の置き換えで解決するワークアラウンドを入れている。
 
 どちらも `app/lib/mdx-components.tsx` の `useMDXComponents()` を provider として使う。MDX から使えるカスタムコンポーネント (`ExLinkCard` / `BlockLink` / `Note` / `Twitter`) と、`img` や `pre` などの組み込みタグの差し替えはここで登録する。
 
@@ -62,7 +62,7 @@ MDX には 2 つの経路があり、プラグイン構成が異なる点に注�
 - ビルド時: `vite-plugin-static-copy` が `app/routes/posts/**/*.{png,jpg,jpeg,webp}` を `dist/posts/<slug>/` にコピーする。
 - 実行時: `mdx-components.tsx` の `Image` と `MarkdownRenderer` が `import.meta.env.PROD` で分岐し、`/app/routes/posts/...` と `/posts/...` を切り替える。
 
-画像を扱うコードを触るときは、両方の分岐を揃えて変更する。
+画像を扱うコードを触るときは両方の分岐を揃えて変更する。
 
 ### スタイリング
 
@@ -89,7 +89,12 @@ Biome でフォーマットと lint を行う。シングルクォート、セ�
 
 AI っぽい日本語は `@textlint-ja/morpheme-match` で検出する。辞書は `textlint/` に 3 つ置き、直訳調の動詞、硬い名詞、定型の言い回しに分けている。severity は `warning` で、CI は落とさない。
 
+<!-- 辞書の説明として、検出対象の語そのものを例に引く段落 -->
+<!-- textlint-disable @textlint-ja/morpheme-match -->
+
 辞書は kuromoji の Token 列で書く。品詞と `basic_form` で照合するため、「効く」を 1 件書けば「効きます」「効かない」に当たり、名詞の「有効」「効率」には当たらない。語を足すときは次の 3 点に気をつける。
+
+<!-- textlint-enable @textlint-ja/morpheme-match -->
 
 - 分かち書きを先に確かめる。「無差別」は `無[接頭詞] + 差別[名詞]` に割れるので 2 トークンで書く。
 - 既存 77 記事での出現数を数えてから入れる。自分がすでに使っている語を入れると警告だらけになる。
