@@ -4,6 +4,7 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
+import { contentWidth } from '../styles/breakpoint'
 import { border, surface, surfaceSubtle, text } from '../styles/color'
 import { highlightTheme } from '../styles/highlight'
 import { radius } from '../styles/shape'
@@ -113,11 +114,9 @@ const bodyCss = css`
 }
 `
 
-// 本文幅。17px で 1 行が全角 42 文字になる。
-// 以前は 800px で、16px だと 1 行 50 文字あり、日本語の目安 (35〜45 文字) を超えていた。
 const mainCss = css`
   margin: 0 auto;
-  max-width: 720px;
+  max-width: ${contentWidth};
 `
 
 export default jsxRenderer(

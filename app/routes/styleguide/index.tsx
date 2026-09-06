@@ -5,7 +5,7 @@ import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
 import { ShareButtons } from '../../components/ShareIcons'
 import * as brandTokens from '../../styles/brand'
-import { breakpoint } from '../../styles/breakpoint'
+import { breakpoint, contentWidth } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
 import { accent, border, surfaceSubtle, textMuted } from '../../styles/color'
 import { duration, easing } from '../../styles/motion'
@@ -405,6 +405,10 @@ export default function StyleGuide() {
           は書かない。
         </p>
         <TokenTable tokens={breakpoint} />
+        <p class={captionCss}>
+          本文の幅は contentWidth ({contentWidth})。17px で 1 行が全角 44
+          文字になる。
+        </p>
       </section>
     </div>
   )
