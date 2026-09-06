@@ -5,7 +5,9 @@
 # CI も同じイメージの中で動かしているので、ここを通す限り差分は
 # 「見た目を変えたかどうか」だけになる。
 #
-#   ./vrt/docker-run.sh              比較する
+# ビルドから撮影までをこの中で完結させる。
+#
+#   ./vrt/docker-run.sh                      比較する
 #   ./vrt/docker-run.sh --update-snapshots   基準画像を撮り直す
 set -euo pipefail
 
@@ -34,5 +36,8 @@ docker run --rm --platform linux/amd64 \
     pnpm config set store-dir /pnpm-store
     pnpm install --frozen-lockfile
     ./vrt/install-fonts.sh
+    # ビルドもこの中で行う。Mermaid の図はビルド時に Playwright で文字幅を
+    # 実測して座標を決めるため、ホストでビルドすると図の寸法が CI とずれる。
+    pnpm build
     pnpm exec playwright test $*
   "

@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build",
+    "build": "vite build --mode client && vite build && node scripts/check-build-output.mjs",
     "preview": "wrangler pages dev ./dist",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -13,8 +13,8 @@
     "install:playwright": "npx playwright install --with-deps chromium",
     "lint:text": "textlint \"**/*.{md,mdx}\"",
     "lint:text:fix": "textlint --fix \"**/*.{md,mdx}\"",
-    "vrt": "pnpm build && ./vrt/docker-run.sh",
-    "vrt:update": "pnpm build && ./vrt/docker-run.sh --update-snapshots"
+    "vrt": "./vrt/docker-run.sh",
+    "vrt:update": "./vrt/docker-run.sh --update-snapshots"
   },
   "private": true,
   "dependencies": {

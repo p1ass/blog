@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       # 素の Playwright イメージには和文フォントが無く、sans-serif が
-      # 中国語のフォントに落ちる。基準画像を撮る前に固定する。
+      # 中国語のフォントに解決される。基準画像を撮る前に固定する。
       - name: Install fonts
         run: ./vrt/install-fonts.sh
       - name: Build blog

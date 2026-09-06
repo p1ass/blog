@@ -53,7 +53,14 @@ test.beforeEach(async ({ page }) => {
 
 for (const { name, path } of pages) {
   test(name, async ({ page }) => {
-    await page.goto(path, { waitUntil: 'load' })
+    const response = await page.goto(path, { waitUntil: 'load' })
+
+    // 200 以外を撮らない。
+    //
+    // これが無かったとき、ビルドが失敗して index.html が出ていない記事の
+    // 404 ページが、そのまま基準画像として保存された。以降の比較も 404 どうしで
+    // 一致するため緑になり、CI で実ページが出て初めて発覚した。
+    expect(response?.status(), `${path} が 200 を返さない`).toBe(200)
 
     // 遅延読み込みの画像を出し切ってから撮る
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
