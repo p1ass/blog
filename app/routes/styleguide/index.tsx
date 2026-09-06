@@ -5,8 +5,19 @@ import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
 import { ShareButtons } from '../../components/ShareIcons'
 import * as brandTokens from '../../styles/brand'
+import { breakpoint } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
-import { border, surfaceSubtle, text, textMuted } from '../../styles/color'
+import { accent, border, surfaceSubtle, textMuted } from '../../styles/color'
+import { duration, easing } from '../../styles/motion'
+import { accent as accentPalette, neutral } from '../../styles/palette'
+import { borderWidth, radius } from '../../styles/shape'
+import { blockGap, space } from '../../styles/spacing'
+import {
+  fontFamily,
+  fontSize,
+  fontWeight,
+  lineHeight,
+} from '../../styles/typography'
 import { verticalRhythmUnit } from '../../styles/variables'
 
 export const title = 'Style Guide'
@@ -58,6 +69,64 @@ const captionCss = css`
   margin: 0 0 ${verticalRhythmUnit * 0.5}rem;
 `
 
+const tokenTableCss = css`
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: ${verticalRhythmUnit}rem;
+
+  & th,
+  & td {
+    border: 1px solid ${border};
+    padding: ${verticalRhythmUnit * 0.25}rem ${verticalRhythmUnit * 0.5}rem;
+    text-align: left;
+    font-size: 0.85rem;
+    vertical-align: middle;
+  }
+
+  & th {
+    background-color: ${surfaceSubtle};
+  }
+
+  & code {
+    font-size: 0.8rem;
+  }
+`
+
+type TokenTableProps = {
+  // 見本の欄に何を出すか。値だけ見せれば足りるものは省く
+  sample?: (value: string) => unknown
+  tokens: Record<string, string | number>
+}
+
+// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも
+// 出るので、一覧の更新漏れが起きない。
+function TokenTable({ tokens, sample }: TokenTableProps) {
+  return (
+    <table class={tokenTableCss}>
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>値</th>
+          {sample ? <th>見本</th> : null}
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(tokens).map(([name, value]) => (
+          <tr key={name}>
+            <td>
+              <code>{name}</code>
+            </td>
+            <td>
+              <code>{String(value)}</code>
+            </td>
+            {sample ? <td>{sample(String(value))}</td> : null}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 type SwatchProps = {
   name: string
   value: string
@@ -97,6 +166,22 @@ export default function StyleGuide() {
       <section class={sectionCss}>
         <h2>色</h2>
 
+        <h3>パレット</h3>
+        <p class={captionCss}>
+          app/styles/palette.ts。色そのものに付けた名前。役割を決めるのは
+          theme.ts で、コンポーネントからは直接使わない。
+        </p>
+        <ul class={swatchListCss}>
+          {Object.entries(neutral).map(([step, value]) => (
+            <Swatch key={step} name={`neutral-${step}`} value={value} />
+          ))}
+        </ul>
+        <ul class={swatchListCss}>
+          {Object.entries(accentPalette).map(([step, value]) => (
+            <Swatch key={step} name={`accent-${step}`} value={value} />
+          ))}
+        </ul>
+
         <h3>セマンティックトークン</h3>
         <p class={captionCss}>
           app/styles/color.ts の export。値はテーマごとに差し替わる。
@@ -112,6 +197,38 @@ export default function StyleGuide() {
 
       <section class={sectionCss}>
         <h2>タイポグラフィ</h2>
+
+        <h3>大きさ</h3>
+        <p class={captionCss}>
+          app/styles/typography.ts。本文 17px を基準に比 1.2 の等比。
+        </p>
+        <TokenTable
+          tokens={fontSize}
+          sample={value => (
+            <span style={`font-size: ${value}`}>あア亜 Ag 123</span>
+          )}
+        />
+
+        <h3>行間</h3>
+        <TokenTable tokens={lineHeight} />
+
+        <h3>太さ</h3>
+        <TokenTable
+          tokens={fontWeight}
+          sample={value => (
+            <span style={`font-weight: ${value}`}>あア亜 Ag 123</span>
+          )}
+        />
+
+        <h3>書体</h3>
+        <TokenTable
+          tokens={fontFamily}
+          sample={value => (
+            <span style={`font-family: ${value}`}>あア亜 Ag 123</span>
+          )}
+        />
+
+        <h3>いま当たっているスタイル</h3>
         <p class={captionCss}>
           このページの h1 が見出しの最上位。以下に h2 から h6 を並べる。
         </p>
@@ -240,26 +357,56 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
-        <h2>余白の基準</h2>
+        <h2>余白</h2>
+        <p class={captionCss}>app/styles/spacing.ts。4px グリッドの幾何列。</p>
+        <TokenTable
+          tokens={space}
+          sample={value => (
+            <div
+              style={`background-color: ${accent}; height: 8px; width: ${value}`}
+            />
+          )}
+        />
         <p class={captionCss}>
-          verticalRhythmUnit ({verticalRhythmUnit}rem) の倍数。
+          本文のブロック間は blockGap ({blockGap})。行送りと同じ値にして、
+          段落が一定のリズムで流れるようにする。
         </p>
-        <ul class={swatchListCss}>
-          {[0.25, 0.5, 0.75, 1, 1.5, 2].map(scale => (
-            <li key={scale} class={swatchCss}>
-              <div
-                class={swatchChipCss}
-                style={`background-color: ${text}; height: ${verticalRhythmUnit * scale}rem`}
-              />
-              <div class={swatchLabelCss}>
-                <div>&times; {scale}</div>
-                <div class={swatchValueCss}>
-                  {verticalRhythmUnit * scale}rem
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+      </section>
+
+      <section class={sectionCss}>
+        <h2>角丸と境界線</h2>
+        <p class={captionCss}>app/styles/shape.ts。</p>
+        <TokenTable
+          tokens={radius}
+          sample={value => (
+            <div
+              style={`background-color: ${surfaceSubtle}; border: 1px solid ${border}; border-radius: ${value}; width: 64px; height: 32px`}
+            />
+          )}
+        />
+        <TokenTable
+          tokens={borderWidth}
+          sample={value => (
+            <div style={`border-top: ${value} solid ${border}; width: 96px`} />
+          )}
+        />
+      </section>
+
+      <section class={sectionCss}>
+        <h2>動き</h2>
+        <p class={captionCss}>
+          app/styles/motion.ts。イージングは {easing} の 1 種類に統一する。
+        </p>
+        <TokenTable tokens={duration} />
+      </section>
+
+      <section class={sectionCss}>
+        <h2>画面幅</h2>
+        <p class={captionCss}>
+          app/styles/breakpoint.ts。向きは min-width に統一し、生の @media
+          は書かない。
+        </p>
+        <TokenTable tokens={breakpoint} />
       </section>
     </div>
   )
