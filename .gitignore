@@ -1,5 +1,12 @@
 node_modules
 dist
+
+# VRT の実行結果 (基準画像は vrt/__screenshots__ に置く)
+vrt/.results
+playwright-report
+# 基準画像は Linux のものだけを持つ
+vrt/__screenshots__/**/*-darwin.png
+vrt/__screenshots__/**/*-win32.png
 .wrangler
 .dev.vars
 .hono
