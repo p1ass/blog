@@ -32,7 +32,7 @@ describe('formatDate', () => {
   })
 
   it('24 時間表記で時刻を出す', () => {
-    // 12 時間表記の hh を使っていたため、RSS の pubDate が壊れていた
+    // 12 時間表記の hh を使っていたため、RSS の pubDate が誤った値になっていた
     expect(
       formatDate(parseDate('2018-12-03T22:45:21+09:00'), 'HH:mm:ss', 'en'),
     ).toBe('22:45:21')

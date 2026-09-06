@@ -39,7 +39,7 @@ type Image = {
 }
 
 // リポジトリに持つキャッシュ。pnpm ogp:refresh で更新する。
-// ビルドを外部サービスとリンク先サイトの死活から切り離すために持つ。
+// リンク先が生きているかどうかにビルドが左右されないように持つ。
 import ogpCache from '../../ogp-cache.json'
 
 const cache: { [url: string]: OgpApiResponse } = {}
@@ -50,7 +50,7 @@ export async function fetchOgp(url: string): Promise<OgpApiResponse> {
   }
 
   // 値が null の URL は、リンク先が消えていて取得できなかったもの。
-  // 記録しておかないと、ビルドのたびに取りに行っては失敗する。
+  // 記録しておかないと、ビルドのたびに取得を試みては失敗する。
   const entries = ogpCache as Record<string, OgpApiResponse | null>
   if (url in entries) {
     const cached = entries[url] ?? fallbackOgp(url)
@@ -58,7 +58,7 @@ export async function fetchOgp(url: string): Promise<OgpApiResponse> {
     return cached
   }
 
-  // キャッシュに無い URL はビルド時に取りに行く。リンクカードを足した直後だけこの経路を通る。
+  // キャッシュに無い URL はビルド時に取得する。リンクカードを足した直後だけこの流れを通る。
   // ここを通ったら pnpm ogp:refresh を回してコミットする。
   console.warn(`OGP がキャッシュに無いので取得します: ${url}`)
   const ogp = await fetchFromApi(url)

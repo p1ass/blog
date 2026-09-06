@@ -11,8 +11,8 @@
     "lint": "biome check .",
     "lint:fix": "biome check --fix .",
     "install:playwright": "npx playwright install --with-deps chromium",
-    "lint:text": "textlint \"**/*.{md,mdx}\"",
-    "lint:text:fix": "textlint --fix \"**/*.{md,mdx}\"",
+    "lint:text": "textlint \"**/*.{md,mdx,ts,tsx,mjs,cjs,js,jsx,yaml,yml,sh}\" \".github/**/*.{yaml,yml}\"",
+    "lint:text:fix": "textlint --fix \"**/*.{md,mdx,ts,tsx,mjs,cjs,js,jsx,yaml,yml,sh}\" \".github/**/*.{yaml,yml}\"",
     "vrt": "./vrt/docker-run.sh",
     "vrt:update": "./vrt/docker-run.sh --update-snapshots",
     "ogp:refresh": "node scripts/refresh-ogp-cache.mjs"
@@ -51,6 +51,7 @@
     "remark-mdx-frontmatter": "^5.2.0",
     "textlint": "^15.8.0",
     "textlint-filter-rule-comments": "^1.3.0",
+    "textlint-plugin-comment-ja": "file:./textlint/plugins/comment-ja",
     "textlint-rule-preset-ja-spacing": "^3.0.3",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-short-topic-comma": "file:./textlint/rules/short-topic-comma",

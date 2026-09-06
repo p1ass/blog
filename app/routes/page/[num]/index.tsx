@@ -11,7 +11,7 @@ const param = ssgParams<Env>(_c => {
   const maxPageNumber = getMaxPageNumber(posts)
   const params = []
   for (let num = 1; num <= maxPageNumber; num++) {
-    // 1ページ目はトップページなので生成する必要がない
+    // 1 ページ目はトップページなので生成する必要がない
     if (num <= 1) {
       continue
     }

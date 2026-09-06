@@ -32,7 +32,7 @@ test.beforeEach(async ({ page }) => {
   // 外部への通信を止める。CDN やウィジェットの応答でスクリーンショットが揺れると、見た目の変更を検出できなくなる。
   //
   // ただし画像だけは abort ではなく、決まったプレースホルダを返す。
-  // abort すると壊れた画像の描画が実行ごとに揺れ、リンクカードを 16 個持つ java-catch-up では 3000 ピクセル以上の差になった。
+  // abort すると読み込めなかった画像の描画が実行ごとに揺れ、リンクカードを 16 個持つ java-catch-up では 3000 ピクセル以上の差になった。
   await page.route('**/*', route => {
     const host = new URL(route.request().url()).hostname
     if (host === '127.0.0.1' || host === 'localhost') {
@@ -71,7 +71,7 @@ for (const { name, path } of pages) {
 
     // 捨てる 1 枚を先に撮る。
     //
-    // fullPage の撮影はビューポートをページの全高に広げる。すると、それまで可視域の外にあった外部画像がまとめて読み込みに行き、壊れた画像のボックスがそこで確定する。
+    // fullPage の撮影はビューポートをページの全高に広げる。すると、それまで可視域の外にあった外部画像がまとめて読み込みに行き、読み込めなかった画像のボックスがそこで確定する。
     // java-catch-up ではこれで高さが 81px 変わり、1 枚目と 2 枚目が一致しなかった。2 枚目以降は安定する。
     await page.screenshot({ fullPage: true })
     await waitForStableHeight(page)

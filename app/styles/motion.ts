@@ -10,7 +10,7 @@ export const duration = {
   base: '250ms', // 面の入れ替わりや、少し距離のある動き
 } as const
 
-// 1 つに統一する。始まりが速く終わりが緩む曲線で、UI の応答として自然に見える。
+// 1 つに統一する。始まりが速く終わりの緩む曲線で、UI の応答として自然に見える。
 export const easing = 'ease-out'
 
 export type DurationToken = keyof typeof duration

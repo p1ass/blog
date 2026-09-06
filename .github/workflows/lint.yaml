@@ -68,14 +68,12 @@ jobs:
         id: changed
         run: |
           git fetch --no-tags origin "${{ github.base_ref }}"
-          # 記事も Skill 文書も同じルールに従う。
+          # 記事と Skill 文書とソースコードの日本語コメントは同じルールに従う。
           # frontmatter だけの変更 (日付の統一など) では既存の文章を検査しない。
           files=$(node scripts/list-prose-changes.mjs "origin/${{ github.base_ref }}")
           echo "files=${files}" >> "$GITHUB_OUTPUT"
           echo "本文が変わったファイル: ${files:-なし}"
       - name: Run textlint
-        # 本文の変更がない PR ではスキップする。
-        # 既存記事の指摘で CI が落ちないよう、対象は本文が変わったファイルに
-        # 限定している。
+        # 本文の変更がない PR ではスキップする。既存記事の指摘で CI が落ちないよう、対象は本文が変わったファイルに限定している。
         if: steps.changed.outputs.files != ''
         run: pnpm exec textlint ${{ steps.changed.outputs.files }}
