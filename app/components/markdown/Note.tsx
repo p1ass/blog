@@ -1,10 +1,10 @@
 import { css } from 'hono/css'
 import type { PropsWithChildren } from 'hono/jsx'
-import { blue, blueLight, textOnBlueLight } from '../../styles/color'
+import { accent, accentSurface, textOnAccentSurface } from '../../styles/color'
 import { verticalRhythmUnit } from '../../styles/variables'
 
 const noteCss = css`
-  background-color: ${blueLight};
+  background-color: ${accentSurface};
   border-radius: ${verticalRhythmUnit * 0.5}rem;
   padding: ${verticalRhythmUnit * 0.75}rem ${verticalRhythmUnit}rem;
   margin-bottom: ${verticalRhythmUnit}rem;
@@ -19,13 +19,13 @@ const noteCss = css`
 
   .fa-circle-info {
     font-size: 1.5rem;
-    color: ${blue};
+    color: ${accent};
     padding-right: ${verticalRhythmUnit}rem;
   }
 
   & p {
     margin: 0;
-    color: ${textOnBlueLight};
+    color: ${textOnAccentSurface};
   }
 
   @media (max-width: 600px) {

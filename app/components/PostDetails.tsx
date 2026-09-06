@@ -1,24 +1,23 @@
 import { css } from 'hono/css'
 import { labelNameToId, labelPermalink } from '../lib/posts'
 import type { Frontmatter } from '../routes/posts/types'
-import { gray, grayLight } from '../styles/color'
+import { text, textMuted } from '../styles/color'
+import { transition } from '../styles/transition'
 
 const postDetailsCss = css`
   padding-bottom: 1.7rem;
 `
 
 const tagCss = css`
-  color: ${grayLight};
+  color: ${textMuted};
   text-decoration: none;
   padding: 0 2px;
 
   &:hover {
-    color: ${gray};
+    color: ${text};
   }
   
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  ${transition('0.2s')}
 `
 
 export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {

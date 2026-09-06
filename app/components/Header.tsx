@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { labelBasePath } from '../lib/posts'
-import { border, gray, grayLight } from '../styles/color'
+import { border, text, textMuted } from '../styles/color'
+import { transition } from '../styles/transition'
 
 const headerCss = css`
   overflow: auto;
@@ -15,17 +16,15 @@ const headerContainerCss = css`
 const titleCss = css`
   margin: 0.425rem 0;
 
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  ${transition('0.2s')}
   margin: 0.425rem 0;
-  color: ${gray};
+  color: ${text};
   text-decoration: none;
   
   
   &:hover,
   &:focus {
-    color: ${grayLight};
+    color: ${textMuted};
   }
 
   &:after {
@@ -57,15 +56,13 @@ const navigationListCss = css`
     }
 
     & a {
-      color: ${grayLight};
-      -webkit-transition: all 0.2s ease-out;
-      -moz-transition: all 0.2s ease-out;
-      transition: all 0.2s ease-out;
+      color: ${textMuted};
+      ${transition('0.2s')}
       text-decoration: none;
 
       &:hover,
       &:focus {
-        color: ${gray};
+        color: ${text};
       }
     }
   }

@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { type PaginationPosts, postPermalink } from '../lib/posts'
-import { blue, border } from '../styles/color'
+import { accent, border } from '../styles/color'
 
 const postPaginationCss = css`
   border-top: 0.5px solid ${border};
@@ -14,14 +14,14 @@ const postPaginationCss = css`
 const leftCss = css`
   text-align: left;
   max-width: 50%;
-  color: ${blue};
+  color: ${accent};
   text-decoration: none;
 `
 
 const rightCss = css`
   text-align: right;
   max-width: 50%;
-  color: ${blue};
+  color: ${accent};
   text-decoration: none;
 `
 

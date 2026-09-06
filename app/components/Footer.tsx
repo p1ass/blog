@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { formatDate } from '../lib/time'
-import { blue } from '../styles/color'
+import { accent } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const footerCss = css`
@@ -14,7 +14,7 @@ const footerCss = css`
   }
 
   & a {
-    color: ${blue};
+    color: ${accent};
     text-decoration: none;
   }
 `

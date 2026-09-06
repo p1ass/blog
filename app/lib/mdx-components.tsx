@@ -6,7 +6,7 @@ import { ExLinkCard } from '../components/markdown/ExLinkCard'
 import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
-import { backgroundDark, blue, border, grayLight } from '../styles/color'
+import { accent, border, surfaceSubtle, textMuted } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 
 export function useMDXComponents(): MDXComponents {
@@ -51,7 +51,7 @@ export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
 
 const blockQuoteCss = css`
   border-left: 0.25rem solid ${border};
-  color: ${grayLight};
+  color: ${textMuted};
   margin: 0.8rem 0;
   padding: 0.5rem 1rem;
 
@@ -73,7 +73,7 @@ function BlockQuote(props: PropsWithChildren<Hono.BlockquoteHTMLAttributes>) {
 }
 
 const linkCss = css`
-  color: ${blue};
+  color: ${accent};
 `
 
 function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
@@ -85,7 +85,7 @@ function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
 }
 
 const emCss = css`
-  color: ${grayLight};
+  color: ${textMuted};
   display: block;
   font-family: sans-serif;
   font-size: 0.9rem;
@@ -102,7 +102,7 @@ const tableCss = css`
   border-collapse: collapse;
   
   & tr:nth-child(odd) td {
-    background: ${backgroundDark};
+    background: ${surfaceSubtle};
   }
 `
 
