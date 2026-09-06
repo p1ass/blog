@@ -62,6 +62,9 @@ importers:
       '@playwright/test':
         specifier: 1.58.1
         version: 1.58.1
+      '@textlint-ja/textlint-rule-morpheme-match':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@textlint-ja/textlint-rule-preset-ai-writing':
         specifier: ^1.7.0
         version: 1.7.0
@@ -1115,6 +1118,9 @@ packages:
 
   '@speed-highlight/core@1.2.24':
     resolution: {integrity: sha512-qeW2e1l78afw8VhRPfPQ1Gjj+KU5XFQ/OFV5ti6eTa9bruO7mJyZtA4vw0ofqmA3tKCkROE9xLk3VZoeRc98nw==}
+
+  '@textlint-ja/textlint-rule-morpheme-match@2.0.0':
+    resolution: {integrity: sha512-lurk6gsi6P0ayIR3zuFabJYKH7GpFK9GDVXKEusRKSCzRoK/jUD12VFsHphZAdj5qYYyMY7EODVaFkg4UDjFYA==}
 
   '@textlint-ja/textlint-rule-preset-ai-writing@1.7.0':
     resolution: {integrity: sha512-xq+y592q4qP4SK5Vs40JRi98BmpJJoIaUO8/U+puOErCyazQvoZqDswIuKsFi1IEFmZ/wNn8OkfJ/5GNhrppNw==}
@@ -4280,6 +4286,10 @@ packages:
     resolution: {integrity: sha512-iSk/J8efr8uPT/Z4eSUywnqyrQU7DSdMfdqK4iWEaUVVmcP5JcnpRqmVMwcwcnmI1ATFNgC5V90u09tBynNFKA==}
     engines: {node: '>=4'}
 
+  untildify@4.0.0:
+    resolution: {integrity: sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==}
+    engines: {node: '>=8'}
+
   update-browserslist-db@1.0.13:
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
     hasBin: true
@@ -5337,6 +5347,12 @@ snapshots:
   '@sindresorhus/is@7.2.0': {}
 
   '@speed-highlight/core@1.2.24': {}
+
+  '@textlint-ja/textlint-rule-morpheme-match@2.0.0':
+    dependencies:
+      kuromojin: 3.0.1
+      morpheme-match-textlint: 2.0.6
+      untildify: 4.0.0
 
   '@textlint-ja/textlint-rule-preset-ai-writing@1.7.0':
     dependencies:
@@ -9860,6 +9876,8 @@ snapshots:
       unist-util-visit-parents: 6.0.2
 
   untildify@3.0.3: {}
+
+  untildify@4.0.0: {}
 
   update-browserslist-db@1.0.13(browserslist@4.23.0):
     dependencies:

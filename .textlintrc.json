@@ -37,6 +37,14 @@
       "ja-space-around-link": false,
       "ja-no-space-around-slash": false
     },
-    "@textlint-ja/preset-ai-writing": true
+    "@textlint-ja/preset-ai-writing": true,
+    "@textlint-ja/morpheme-match": {
+      "severity": "warning",
+      "dictionaryPathList": [
+        "./textlint/ai-japanese-verbs.cjs",
+        "./textlint/ai-japanese-nouns.cjs",
+        "./textlint/ai-japanese-phrases.cjs"
+      ]
+    }
   }
 }
