@@ -68,7 +68,8 @@ import {
 // 脚注の見出しは remark が `class="sr-only"` を付けて出力するが、その sr-only がどこにも定義されていなかった。英語の「Footnotes」が章の罫線つきで 6 記事に出ていた。
 //
 // テーマの選択は、今の選択のアイコンだけを出す。引き金には枠と地を持たせない。ヘッダーは文字のリンクだけでできていて箱を持つ要素が 1 つもないので、枠を付けるとここだけ重くなる。
-// hover で icon から text へ濃くするのは、隣のナビゲーションのリンクに合わせたもの。
+// hover では surfaceHover の丸を敷き、色も icon から text へ濃くする。色だけを変えても、指しているかどうかが分からない。本文のリンクに面を敷いているのと同じ考え方で、面はシェアボタンと同じ 48px の丸になる。
+// 開いている間も同じ見た目にする。一覧を出しているのがこのボタンだと分かる。
 //
 // 画面の幅によらず右上へ絶対配置する。並びの中に流し込むと、狭い画面でヘッダーがもう 1 行ぶん高くなる。48px の当たり判定はそのまま保つ。
 // 基準はヘッダー全体ではなくタイトルの行で、その上下の中央に置く。ヘッダー全体を基準にすると、案内の並びのぶんだけ中心が下がり、タイトルより 7px 下にずれる。
@@ -232,10 +233,12 @@ const bodyCss = css`
     background-color: transparent;
     color: ${icon};
     cursor: pointer;
-    ${transition(['color'])}
+    ${transition(['background-color', 'color'])}
   }
 
-  .theme-trigger:hover {
+  .theme-trigger:hover,
+  .theme-trigger[aria-expanded=true] {
+    background-color: ${surfaceHover};
     color: ${text};
   }
 

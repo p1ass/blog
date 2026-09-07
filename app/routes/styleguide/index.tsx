@@ -519,6 +519,21 @@ export default function StyleGuide() {
         </ul>
 
         <p class={captionCss}>
+          hover と、一覧を開いている間の引き金。撮影ではカーソルが乗らないので、
+          当たった状態をここに置く。開いている間も同じ見た目にしてあるので、
+          見本は aria-expanded を立てるだけで済み、値を書き写さずに済む。
+        </p>
+        <div class={menuSampleCss}>
+          <span class='theme-trigger' aria-expanded='true'>
+            {(['system', 'light', 'dark'] as const).map(kind => (
+              <span key={kind} class={`theme-choice theme-choice-${kind}`}>
+                <ThemeIcon kind={kind} />
+              </span>
+            ))}
+          </span>
+        </div>
+
+        <p class={captionCss}>
           開いた一覧。撮影では閉じたままなので、開いた状態をここに置く。
         </p>
         <div class={menuSampleCss}>
