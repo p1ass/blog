@@ -8,12 +8,9 @@ import { space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
-// テーマの選択を右上に絶対配置するので、位置の基準をここに持たせる。案内ではないので、案内の一覧そのものには入れない。
-//
 // overflow: auto ではなく display: flow-root にするのは、開いた一覧がヘッダーの外へ出るため。
 // どちらも中の余白がヘッダーの外へ相殺されるのを止めるが、overflow は同時にはみ出しも切り落とす。
 const headerCss = css`
-  position: relative;
   display: flow-root;
   border-bottom: ${borderWidth.thin} solid ${border};
 `
@@ -23,9 +20,19 @@ const headerContainerCss = css`
   text-align: center;
 `
 
+// タイトルの行。テーマの選択はこの行を基準に上下の中央へ置く。
+// ヘッダー全体を基準にすると、案内の並びのぶんだけ中心が下がり、タイトルより下にずれる。
+//
+// 行の余白はこの div が持ち、中の見出しは margin を持たない。
+// 見出し側に残すと、余白が親をすり抜けて相殺され、行の高さがタイトルの高さと合わなくなる。
+const titleRowCss = css`
+  position: relative;
+  margin-bottom: ${space.sm};
+`
+
 const titleCss = css`
   ${transition(['color'])}
-  margin: ${space.xs} 0;
+  margin: 0;
   color: ${text};
   text-decoration: none;
 
@@ -43,7 +50,7 @@ const titleCss = css`
 const siteTitleCss = css`
   font-size: ${fontSize.h3};
   font-weight: bold;
-  margin: ${space.sm} 0;
+  margin: 0;
 `
 
 const navigationListCss = css`
@@ -89,9 +96,12 @@ export const Header = ({ asHeading }: Props) => {
   return (
     <header class={headerCss}>
       <div class={headerContainerCss}>
-        <a href='/' class={titleCss}>
-          <SiteTitle class={siteTitleCss}>ぷらすのブログ</SiteTitle>
-        </a>
+        <div class={titleRowCss}>
+          <a href='/' class={titleCss}>
+            <SiteTitle class={siteTitleCss}>ぷらすのブログ</SiteTitle>
+          </a>
+          <ThemePicker />
+        </div>
         <ul class={navigationListCss}>
           <li>
             <a href={`${labelBasePath.category}/`}>Categories</a>
@@ -130,7 +140,6 @@ export const Header = ({ asHeading }: Props) => {
             </a>
           </li>
         </ul>
-        <ThemePicker />
       </div>
     </header>
   )
