@@ -251,7 +251,7 @@ components:
 
 blog.p1ass.com の見た目についての方針。
 
-実装の置き場所は [CLAUDE.md](CLAUDE.md)、語彙の定義は [CONTEXT.md](CONTEXT.md) にある。見た目を変える手順は `.claude/skills/design-system/` の Skill が案内する。
+実装の置き場所と、記事まわりの語彙は [CLAUDE.md](CLAUDE.md) にある。見た目を変える手順は `.claude/skills/design-system/` の Skill が案内する。
 
 ## Overview
 

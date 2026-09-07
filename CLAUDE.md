@@ -6,6 +6,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 [blog.p1ass.com](https://blog.p1ass.com) のソースコード。HonoX + MDX で書いた記事を SSG し、Cloudflare Pages へ配信する。
 
+## 用語
+
+型名、変数名、コミットメッセージ、ドキュメントで同じ語を使う。同義語を混ぜると、同じものを指しているかどうかがコードから読み取れなくなる。
+
+<!-- 使わない語そのものを表に並べるため、辞書の検査を外す -->
+<!-- textlint-disable @textlint-ja/morpheme-match -->
+
+| 使う | 指すもの | 使わない |
+| --- | --- | --- |
+| Post | 1 本の記事 | Article, Entry, Blog |
+| Slug | 記事を見分けるキー。ディレクトリ名がそのまま Slug になる | ID, Path, Permalink |
+| Permalink | 記事の恒久的な URL。Slug から導出する | URL, Link, Href |
+| Frontmatter | 記事の先頭に置く、記事そのものについての情報 | Meta, Metadata, Header |
+| Description | Frontmatter に書く、記事を 1 文で説明する装飾のないテキスト | — |
+| ContentSummary | 一覧に載せる記事の冒頭。Excerpt Marker より前 | Excerpt, Summary, 概要 |
+| Excerpt Marker | 本文中に置く `{/* <!--more--> */}` | More tag, 区切り |
+| Label | 記事に貼るしるし。Category と Tag の上位概念 | Taxonomy, Term, 分類 |
+| LabelKind | Label の種類。`category` と `tag` の 2 つ | Type, Kind |
+| LabelId | Label を見分けるキー。URL に現れる | Slug (Slug は Post のもの) |
+| LabelPage | ある Label が付いた記事の 1 ページ分 | — |
+| Category | 記事の主題を 1 つだけ表す Label。記事は必ず 1 つ持つ | Genre, Section, ジャンル |
+| Tag | 記事に登場する話題を表す Label。記事は 0 個以上持つ | Keyword, Topic, キーワード |
+| OGP | 参照した外部ページが名乗るタイトル・説明・画像 | Metadata, Preview, Card data |
+| OGP Cache | 取得済みの OGP をリポジトリに保存したもの | Snapshot, Store |
+| OG Image | 記事が SNS で共有されたときに表示される画像 | OGP 画像, Thumbnail |
+| Theme | 配色の切り替え状態。`system` / `light` / `dark` | Mode, Color scheme |
+| Color Token | 色を役割で呼ぶための名前 | Palette, Color variable |
+| TOC | 記事本文の見出しから作る目次 | Table of contents, Index, Outline |
+
+<!-- textlint-enable @textlint-ja/morpheme-match -->
+
+「ダークモード」と「目次」は機能名や UI 上の表記としては使う。状態や型の名前としては使わない。
+
+見た目にまつわる語 (カラー、スペーシング、ボーダーなど) は [DESIGN.md](DESIGN.md#terminology) にある。
+
 ## コマンド
 
 ```shell
