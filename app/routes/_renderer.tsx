@@ -5,10 +5,17 @@ import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { contentWidth } from '../styles/breakpoint'
-import { accent, border, surface, surfaceSubtle, text } from '../styles/color'
+import {
+  accent,
+  border,
+  surface,
+  surfaceSubtle,
+  text,
+  textMuted,
+} from '../styles/color'
 import { highlightTheme } from '../styles/highlight'
 import { reducedMotion } from '../styles/motion'
-import { focusRing, radius } from '../styles/shape'
+import { borderWidth, focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { themeVariables } from '../styles/theme'
 import {
@@ -49,6 +56,16 @@ import {
 //
 // prefers-reduced-motion は動きを止める設定への追従。0 にせず 0.01ms にするのは、transitionend を待つコードがあっても止まらないようにするため。
 // アニメーションを持つ要素を将来足したときに書き漏らさないよう、全称セレクタで一括して止める。
+//
+// 見出しの余白は上を広く、下を狭くする。ブラウザ既定は上下が同じ 0.83em から 2.33em で、しかも自分のフォントサイズ基準なので、小さい見出しほど周りが空くという逆転が起きていた。
+//
+// リストの字下げは 24px にする。ブラウザ既定の 40px は本文 760px に対して深く、箇条書きだけが右に寄って見えた。
+//
+// 脚注の見出しは remark が `class="sr-only"` を付けて出力するが、その sr-only がどこにも定義されていなかった。英語の「Footnotes」が章の罫線つきで 6 記事に出ていた。
+//
+// article の直下の svg は Mermaid の図。入れ子の svg を避けるのは、Instagram の埋め込みが div の中に自前の svg を持っているため。
+//
+// pre の角丸は overflow: hidden と組で置く。中の code.hljs が横スクロールするので、hidden がないと角が四角いまま残る。
 const bodyCss = css`
 :-hono-global {
   ${themeVariables}
@@ -109,8 +126,82 @@ const bodyCss = css`
     font-size: ${fontSize.body};
   }
 
+  h2, h3, h4, h5, h6 {
+    margin: ${blockGap} 0 ${space.md};
+  }
+
   p {
     margin: 0 0 ${blockGap};
+  }
+
+  ul, ol {
+    margin: 0 0 ${blockGap};
+    padding-left: ${space.lg};
+  }
+
+  li {
+    margin-bottom: ${space['2xs']};
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+
+  li > ul, li > ol {
+    margin: ${space['2xs']} 0 0;
+  }
+
+  hr {
+    border: 0;
+    border-top: ${borderWidth.thin} solid ${border};
+    margin: ${blockGap} 0;
+  }
+
+  details {
+    border: ${borderWidth.thin} solid ${border};
+    border-radius: ${radius.md};
+    margin: 0 0 ${blockGap};
+    padding: ${space.sm} ${space.md};
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: ${fontWeight.bold};
+  }
+
+  details[open] summary {
+    margin-bottom: ${space.sm};
+  }
+
+  sup {
+    line-height: 0;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .footnotes {
+    border-top: ${borderWidth.thin} solid ${border};
+    margin-top: ${blockGap};
+    padding-top: ${space.lg};
+    font-size: ${fontSize.bodySmall};
+    color: ${textMuted};
+  }
+
+  article > svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto ${blockGap};
   }
 
   code {
@@ -120,6 +211,12 @@ const bodyCss = css`
     font-family: ${fontFamily.mono};
     font-size: 0.85em;
     padding: 2px 6px;
+  }
+
+  pre {
+    margin: 0 0 ${blockGap};
+    border-radius: ${radius.md};
+    overflow: hidden;
   }
 
   ${highlightTheme}

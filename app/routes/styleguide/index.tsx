@@ -81,7 +81,7 @@ const focusRingSampleCss = css`
 const linkHoverSampleCss = css`
   color: ${accent};
   background-color: ${surfaceSubtle};
-  text-decoration: underline;
+  text-decoration-line: underline;
   text-decoration-color: ${accent};
   text-decoration-thickness: ${underline.hoverThickness};
   text-underline-offset: ${underline.offset};
@@ -374,7 +374,29 @@ export default function StyleGuide() {
         <h3>リンク</h3>
         <p>
           本文中の <a href='https://blog.p1ass.com'>リンク</a> の見え方。
+          脚注の参照は
+          <sup>
+            <a href='#footnote-sample'>1</a>
+          </sup>
+          のように出る。
         </p>
+
+        <h3>脚注</h3>
+        <p class={captionCss}>
+          remark が記事の末尾に置くまとまり。見出しは sr-only で隠す。
+          隠さないと英語の「Footnotes」が章の罫線つきで出る。
+        </p>
+        <section class='footnotes' data-footnotes='true'>
+          <h2 class='sr-only'>Footnotes</h2>
+          <ol>
+            <li id='footnote-sample'>
+              <p>
+                脚注の中身。本文より小さく、色を落とす。{' '}
+                <a href='#footnote-sample'>↩</a>
+              </p>
+            </li>
+          </ol>
+        </section>
       </section>
 
       <section class={sectionCss}>

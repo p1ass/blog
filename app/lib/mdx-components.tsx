@@ -4,7 +4,6 @@ import type { MDXComponents } from 'mdx/types'
 import { BlockLink } from '../components/markdown/BlockLink'
 import { ExLinkCard } from '../components/markdown/ExLinkCard'
 import { Note } from '../components/markdown/Note'
-import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
 import { accent, border, surfaceSubtle, textMuted } from '../styles/color'
 import { bodyLinkCss } from '../styles/link'
@@ -16,7 +15,6 @@ import { fontSize } from '../styles/typography'
 export function useMDXComponents(): MDXComponents {
   const components = {
     img: Image,
-    pre: StyledPre,
     blockquote: BlockQuote,
     a: Link,
     em: Em,
@@ -106,17 +104,25 @@ function Em(props: PropsWithChildren<Hono.HTMLAttributes>) {
 const tableCss = css`
   border-spacing: 0;
   border-collapse: collapse;
-  
+
   & tr:nth-child(odd) td {
     background: ${surfaceSubtle};
   }
 `
 
+// 表は横スクロールするラッパーで囲む。isucon11 の 15 列の表が本文幅に収まらず、ページ全体が横に伸びていた。
+const tableWrapperCss = css`
+  overflow-x: auto;
+  margin: 0 0 ${blockGap};
+`
+
 function Table(props: PropsWithChildren<Hono.TableHTMLAttributes>) {
   return (
-    <table class={tableCss} align={props.align}>
-      {props.children}
-    </table>
+    <div class={tableWrapperCss}>
+      <table class={tableCss} align={props.align}>
+        {props.children}
+      </table>
+    </div>
   )
 }
 
