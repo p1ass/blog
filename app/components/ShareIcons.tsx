@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { hatenaBlue, xBlack, xBlackHover, xSurfaceHover } from '../styles/brand'
-import { icon, surfaceHover, text, textInverted } from '../styles/color'
+import { icon, surfaceHover, textInverted } from '../styles/color'
 import { radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
@@ -74,14 +74,15 @@ const xIconCss = css`
   }
 `
 
-// 文字は text 色にする。ブランドカラーのままだと白地で 2.79 対 1 になり、UI 部品の 3 対 1 に届かない。
-// ブランドカラーはリングに残すので、はてなの色そのものは動かしていない。
+// ボタンの文字は白地で 2.79 対 1 だが、これははてなブックマークのロゴそのものなので、そのままブランドカラーで描く。
+// WCAG 1.4.3 はロゴやブランド名の一部であるテキストをコントラストの対象から外している。
+// 読みやすさのために色を動かすと、見分けるための手がかりのほうを失う。
 const hatenaCss = css`
     box-shadow: inset 0 0 0 0.1rem ${hatenaBlue};
     ${shareButtonCss}
 
     & i {
-        color: ${text};
+        color: ${hatenaBlue};
     }
 `
 
