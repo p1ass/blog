@@ -15,14 +15,19 @@ pnpm build                   # client ビルド → SSG ビルド (2 パス)
 pnpm preview                 # ビルド済み dist を wrangler pages dev で確認
 pnpm lint                    # biome check .
 pnpm lint:fix                # biome check --fix .
+pnpm lint:style              # CSS に生の値が書かれていないか
+pnpm lint:text               # textlint
+pnpm test                    # vitest
+pnpm vrt                     # 見た目の回帰テスト (Docker が要る)
+pnpm vrt:update              # 基準画像を撮り直す
 pnpm install:playwright      # rehype-mermaid が使う chromium を入れる
 ```
 
-テストは存在しない。`pnpm build` が実質の検証手段になる。
-
 Mermaid 図は rehype-mermaid がビルド時に Playwright の chromium でレンダリングする。chromium が未インストールだとビルドが失敗するため、初回は `pnpm install:playwright` を実行する。
 
-CI は Biome の lint (`biome ci .`) と、push ごとの build + Cloudflare Pages デプロイを実行する。
+CI は Biome の lint (`biome ci .`)、`pnpm lint:style`、`pnpm test`、変更されたファイルへの textlint、push ごとの build + Cloudflare Pages デプロイ、見た目の回帰テストを実行する。
+
+`scripts/` の実行ファイルは TypeScript で書き、Node の型剥がしでそのまま動かす。`node scripts/check-style-tokens.ts` のように直接呼べる。Node 22.18 以降が要る。
 
 ## アーキテクチャ
 
@@ -66,9 +71,11 @@ MDX には 2 つの流れがあり、プラグイン構成が異なる点に注�
 
 ### スタイリング
 
-見た目の決めごとは [docs/design-system.md](docs/design-system.md) にまとめてある。色、文字、余白、形、動きのトークンと、その使い分けはそこを見る。
+見た目の決めごとは [docs/design-system.md](docs/design-system.md) にまとめてある。色、文字、余白、形、動きのトークンと、その使い分けはそこを見る。書くときの手順は `.claude/skills/design-system/` の Skill にある。
 
-hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。色は `app/styles/color.ts`、余白は `app/styles/variables.ts` の `verticalRhythmUnit` を基準にした倍数で指定する。ハードコードした色や余白は避け、これらの定数を使う。
+hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値は `app/styles/` のトークンから引く。色は `color.ts` の役割名、余白は `spacing.ts` の `space`、角丸とボーダーは `shape.ts`、画面幅の分岐は `breakpoint.ts` の `mediaUp()` を通す。
+
+生の値は `scripts/check-style-tokens.ts` が落とす。16 進数の色、生の `@media`、`box-shadow`、トークンを持つプロパティへ書いた px・rem・em が対象になる。トークンで書けない値は、同じファイルの `exceptions` へ理由とともに足す。
 
 グローバルスタイルは `app/routes/_renderer.tsx` の `:-hono-global` ブロックに集約する。ここには highlight.js のテーマも含む。
 
