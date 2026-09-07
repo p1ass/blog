@@ -9,8 +9,9 @@ import { underline } from './typography'
 //
 // 文字の色は動かさない。accent は白地で 4.91 対 1 しかなく、1 段薄い accent の 400 にすると本文の 4.5 対 1 を割る。
 // ヘッダーや筆者のリンクが hover で薄くできているのは、text が 15 対 1 近くあって余裕があるため。
+// ショートハンドの text-decoration は書かない。text-decoration-color を初期値に戻すので、これを取り込む側が先に色を指定していると、その指定が消える。
 const underlineCss = css`
-  text-decoration: underline;
+  text-decoration-line: underline;
   text-decoration-thickness: ${underline.thickness};
   text-underline-offset: ${underline.offset};
 
