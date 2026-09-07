@@ -1,7 +1,13 @@
 import { css } from 'hono/css'
-import { hatenaBlue, xBlack, xBlackHover, xSurfaceHover } from '../styles/brand'
-import { icon, surfaceHover, textInverted } from '../styles/color'
-import { radius } from '../styles/shape'
+import {
+  brandWhite,
+  hatenaBlue,
+  xBlack,
+  xBlackHover,
+  xSurfaceHover,
+} from '../styles/brand'
+import { brandSurfaceBorder, icon, surfaceHover } from '../styles/color'
+import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
@@ -45,22 +51,28 @@ const shareButtonLinkCss = css`
   }
 `
 
+// 円は純黒なので、暗い地では輪郭が消える。境界を box-shadow で描くのは、円の大きさを変えずに済ませるため。
+// border だと明るいテーマでも 2px 広がる。透明な境界も場所は取るので、見た目が変わらないのは box-shadow のほうだけ。
+// hover の 22px の影は円を塗りつぶすので、境界を先に書いて上に残す。
+//
 // 入れ子の規則を持つ ${...} は最後に置く。その後ろに書いた宣言は入れ子の外へ出て捨てられる。
 const xCss = css`
     background-color: ${xBlack};
+    box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder};
     ${shareButtonCss}
 
     &:hover {
-        box-shadow: inset 0 0 0 22px ${xBlackHover};
+        box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder}, inset 0 0 0 22px ${xBlackHover};
         background-color: ${xSurfaceHover};
     }
 `
 
+// 𝕏 は黒い円の上に置くので、テーマによらず白のまま。textInverted だと暗いテーマで文字まで暗くなり、円に沈む。
 const xShareButtonLinkCss = css`
   ${shareButtonLinkCss}
 
   & i {
-    color: ${textInverted};
+    color: ${brandWhite};
   }
 `
 

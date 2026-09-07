@@ -54,8 +54,18 @@ export default defineConfig({
         colorScheme: 'light',
       },
     },
-    // ダークの値を入れるまで、colorScheme: 'dark' はライトと同じ画像になる。
-    // 同じ画像を 2 組持つとリポジトリの容量が増えるだけなので、ダークモードを入れるときに desktop-dark と mobile-dark を足す。
+    {
+      name: 'desktop-dark',
+      use: { ...devices['Desktop Chrome'], colorScheme: 'dark' },
+    },
+    {
+      name: 'mobile-dark',
+      use: {
+        ...devices['Pixel 7'],
+        deviceScaleFactor: 1,
+        colorScheme: 'dark',
+      },
+    },
   ],
 
   webServer: {

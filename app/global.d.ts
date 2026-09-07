@@ -10,6 +10,16 @@ type Head = {
   noindex?: boolean
 }
 
+declare global {
+  interface Window {
+    // head の同期スクリプトが定義する。テーマの適用と保存はここに集約してあり、島からも呼ぶ。
+    __applyTheme?: (
+      choice: 'system' | 'light' | 'dark',
+      persist: boolean,
+    ) => void
+  }
+}
+
 declare module 'hono' {
   interface Env {
     Variables: {}

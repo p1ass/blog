@@ -1,7 +1,6 @@
 import { css } from 'hono/css'
-import { githubBlack, xBlack } from '../styles/brand'
 import { mediaUp } from '../styles/breakpoint'
-import { border, text, textMuted } from '../styles/color'
+import { border, githubMark, text, textMuted, xMark } from '../styles/color'
 import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
@@ -59,9 +58,10 @@ const authorSNSLinkCss = css`
   }
 `
 
+// マークは暗い地では白で描く。GitHub と X はどちらも、暗い地に置くための白版を配っている。
 const authorSNSGitHubCss = css`
   & svg {
-    color: ${githubBlack};
+    color: ${githubMark};
     margin-right: ${space['2xs']};
   }
   ${authorSNSLinkCss}
@@ -69,7 +69,7 @@ const authorSNSGitHubCss = css`
 
 const authorSNSXCss = css`
   & svg {
-    color: ${xBlack};
+    color: ${xMark};
     margin-right: ${space['2xs']};
   }
   ${authorSNSLinkCss}

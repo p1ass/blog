@@ -6,7 +6,7 @@ import { css } from 'hono/css'
 // 図形をここに書けば、SSG の出力にそのまま入る。
 //
 // ブランドマークの d は Simple Icons (https://simple-icons.org) から取った。あちらは CC0 なので、そのまま持ってきてよい。
-// info、warning、tip の 3 つは自前で描いた。円や三角と線だけで済む図形なので、外から持ってくる理由がない。
+// info、warning、tip と、テーマの system、light、dark は自前で描いた。円や三角と線だけで済む図形なので、外から持ってくる理由がない。
 
 // 文字と並べて置くアイコン。大きさは前後の文字に合わせ、ベースラインから少し下げて字面の中心に揃える。
 const inlineIconCss = css`
@@ -51,6 +51,59 @@ const noteIconCss = css`
   stroke-linecap: round;
   stroke-linejoin: round;
 `
+
+// テーマの選択肢を表すアイコン。太さと大きさは Note のものに揃える。
+// system は画面そのものを描く。太陽と月の中間のような図形にすると、どちらでもない状態が伝わらない。
+export type ThemeChoice = 'system' | 'light' | 'dark'
+
+export function ThemeIcon({ kind }: { kind: ThemeChoice }) {
+  return (
+    <svg viewBox='0 0 24 24' class={noteIconCss} aria-hidden='true'>
+      {kind === 'system' ? (
+        <>
+          <rect x='3' y='4' width='18' height='12' rx='2' />
+          <path d='M12 16v4' />
+          <path d='M8 20h8' />
+        </>
+      ) : null}
+      {kind === 'light' ? (
+        <>
+          <circle cx='12' cy='12' r='4' />
+          <path d='M12 2v2' />
+          <path d='M12 20v2' />
+          <path d='M4.2 4.2l1.4 1.4' />
+          <path d='M18.4 18.4l1.4 1.4' />
+          <path d='M2 12h2' />
+          <path d='M20 12h2' />
+          <path d='M4.2 19.8l1.4-1.4' />
+          <path d='M18.4 5.6l1.4-1.4' />
+        </>
+      ) : null}
+      {kind === 'dark' ? (
+        <path d='M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10Z' />
+      ) : null}
+    </svg>
+  )
+}
+
+// 一覧の中で今の選択に添えるチェック。文字と並ぶので、Note のものより小さい 16px にする。
+const checkIconCss = css`
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+`
+
+export function CheckIcon() {
+  return (
+    <svg viewBox='0 0 24 24' class={checkIconCss} aria-hidden='true'>
+      <path d='M4 12.5 9.5 18 20 6.5' />
+    </svg>
+  )
+}
 
 export type NoteKind = 'info' | 'warning' | 'tip'
 

@@ -8,7 +8,10 @@ import { contentWidth } from '../styles/breakpoint'
 import {
   accent,
   border,
+  diagramSurface,
+  icon,
   surface,
+  surfaceHover,
   surfaceSubtle,
   text,
   textMuted,
@@ -17,7 +20,8 @@ import { highlightTheme } from '../styles/highlight'
 import { reducedMotion } from '../styles/motion'
 import { borderWidth, focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
-import { themeVariables } from '../styles/theme'
+import { dark, light, themeVariables } from '../styles/theme'
+import { transition } from '../styles/transition'
 import {
   fontFamily,
   fontSize,
@@ -63,7 +67,23 @@ import {
 //
 // 脚注の見出しは remark が `class="sr-only"` を付けて出力するが、その sr-only がどこにも定義されていなかった。英語の「Footnotes」が章の罫線つきで 6 記事に出ていた。
 //
+// テーマの選択は、今の選択のアイコンだけを出す。引き金には枠と地を持たせない。ヘッダーは文字のリンクだけでできていて箱を持つ要素が 1 つもないので、枠を付けるとここだけ重くなる。
+// hover では surfaceHover の丸を敷き、色も icon から text へ濃くする。色だけを変えても、指しているかどうかが分からない。本文のリンクに面を敷いているのと同じ考え方で、面はシェアボタンと同じ 48px の丸になる。
+// 開いている間も同じ見た目にする。一覧を出しているのがこのボタンだと分かる。
+//
+// 画面の幅によらず右上へ絶対配置する。並びの中に流し込むと、狭い画面でヘッダーがもう 1 行ぶん高くなる。48px の当たり判定はそのまま保つ。
+// 基準はヘッダー全体ではなくタイトルの行で、その上下の中央に置く。ヘッダー全体を基準にすると、案内の並びのぶんだけ中心が下がり、タイトルより 7px 下にずれる。
+//
+// 開く一覧はこちらのトークンで組む。面は surface、枠は border、角丸は md で、影は使わない。項目の角丸だけ sm にして、外側の枠との二重の丸みを避ける。
+// 今の選択にはチェックを添える。面の濃さで示すと hover の面より弱く見え、どちらが今の選択か読み取れない。文字の色を accent にする手もあるが、白地で 4.40 対 1 しかなく本文の基準を割る。
+// 文言は折り返さない。「端末の設定に合わせる」が 2 行になると、項目の高さが 1 つだけ変わる。
+// 一覧はヘッダーからはみ出すので、header の overflow: auto は display: flow-root に替えてある。余白の相殺を止める役目だけが要る。
+//
+// 出すアイコンは html の data-theme-choice を見て CSS が選ぶ。島の状態で選ぶと、水和するまで SSR のときのアイコンが出たままになる。
+// 部品そのものは data-theme-choice が付くまで隠す。スクリプトが動かない読者に、押しても何も起きない部品を見せないため。
+//
 // article の直下の svg は Mermaid の図。入れ子の svg を避けるのは、Instagram の埋め込みが div の中に自前の svg を持っているため。
+// 図の色はビルド時に確定するので、暗いテーマでも線と文字は暗いまま出る。地に白い面を敷いて、図だけ明るいまま見せる。コードブロックを常に暗いまま置いているのと同じ扱いにした。明るいテーマでは diagramSurface が透明なので、面は出ない。
 //
 // pre の角丸は overflow: hidden と組で置く。中の code.hljs が横スクロールするので、hidden がないと角が四角いまま残る。
 const bodyCss = css`
@@ -189,6 +209,91 @@ const bodyCss = css`
     white-space: nowrap;
   }
 
+  .theme-picker {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+
+  :root[data-theme-choice] .theme-picker {
+    display: block;
+  }
+
+  .theme-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: ${space['2xl']};
+    height: ${space['2xl']};
+    padding: 0;
+    border: 0;
+    border-radius: ${radius.full};
+    background-color: transparent;
+    color: ${icon};
+    cursor: pointer;
+    ${transition(['background-color', 'color'])}
+  }
+
+  .theme-trigger:hover,
+  .theme-trigger[aria-expanded=true] {
+    background-color: ${surfaceHover};
+    color: ${text};
+  }
+
+  .theme-choice {
+    display: none;
+  }
+
+  :root[data-theme-choice=system] .theme-choice-system,
+  :root[data-theme-choice=light] .theme-choice-light,
+  :root[data-theme-choice=dark] .theme-choice-dark {
+    display: inline-flex;
+  }
+
+  .theme-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    min-width: 240px;
+    padding: ${space['2xs']};
+    border: ${borderWidth.thin} solid ${border};
+    border-radius: ${radius.md};
+    background-color: ${surface};
+    text-align: left;
+  }
+
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: ${space.xs};
+    width: 100%;
+    padding: ${space.xs} ${space.sm};
+    border: 0;
+    border-radius: ${radius.sm};
+    background-color: transparent;
+    color: ${text};
+    font-size: ${fontSize.bodySmall};
+    font-family: inherit;
+    line-height: ${lineHeight.tight};
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    ${transition(['background-color'])}
+  }
+
+  .theme-option:hover {
+    background-color: ${surfaceHover};
+  }
+
+  .theme-check {
+    display: inline-flex;
+    margin-left: auto;
+    color: ${accent};
+  }
+
   .footnotes {
     border-top: ${borderWidth.thin} solid ${border};
     margin-top: ${blockGap};
@@ -202,6 +307,8 @@ const bodyCss = css`
     max-width: 100%;
     height: auto;
     margin: 0 auto ${blockGap};
+    background-color: ${diagramSurface};
+    border-radius: ${radius.md};
   }
 
   code {
@@ -278,6 +385,20 @@ export default jsxRenderer(
           <title>{title}</title>
 
           <meta name='description' content={description} />
+          {/* ブラウザの UI をページの地に合わせる。値は theme.ts の surface と同じもので、CSS 変数は meta では使えないので書き写す */}
+          <meta
+            name='theme-color'
+            content={light.surface}
+            media='(prefers-color-scheme: light)'
+            data-scheme='light'
+          />
+          <meta
+            name='theme-color'
+            content={dark.surface}
+            media='(prefers-color-scheme: dark)'
+            data-scheme='dark'
+          />
+          <ThemeScript />
           {noindex ? <meta name='robots' content='noindex' /> : null}
           <link rel='canonical' href={canonicalUrl} />
           <meta
@@ -300,11 +421,7 @@ export default jsxRenderer(
 
           {import.meta.env.PROD ? <GoogleAnalytics /> : null}
 
-          <script
-            async
-            src='https://platform.twitter.com/widgets.js'
-            charset='utf-8'
-          />
+          <TwitterWidgets />
 
           <link rel='icon' sizes='48x48' href='/static/favicon.ico' />
           <link
@@ -330,6 +447,87 @@ export default jsxRenderer(
     )
   },
 )
+
+// テーマの適用。
+//
+// head に同期で置く。非同期にすると、記憶した選択が当たる前に一度描かれ、リロードのたびに色が入れ替わって見える。
+// theme-color の meta より後ろに置くのは、この場でその meta を書き換えるため。head の解析はここまでしか進んでいない。
+//
+// 適用と保存をこの関数 1 つに集めて、島からも呼ぶ。2 箇所に書くと、読み込み直後と押した直後で挙動が分かれる。
+//
+// theme-color は media 属性で 2 つ置いてあり、既定では OS の設定で選ばれる。読者が明示的に選んだときは、
+// 選んだ側を all、もう片方を not all にして、OS ではなく選択のほうを見るようにする。
+//
+// localStorage は例外を投げることがある。Cookie を全部断る設定のブラウザで、読むだけでも投げる。
+// テーマは落ちても致命的ではないので、握りつぶして既定のまま進む。
+const ThemeScript = () => {
+  return html`
+    <script>
+      (function () {
+        var root = document.documentElement;
+        function apply(choice, persist) {
+          root.dataset.themeChoice = choice;
+          if (choice === 'system') {
+            root.removeAttribute('data-theme');
+          } else {
+            root.setAttribute('data-theme', choice);
+          }
+          var metas = document.querySelectorAll('meta[name=theme-color]');
+          for (var i = 0; i < metas.length; i++) {
+            var scheme = metas[i].getAttribute('data-scheme');
+            metas[i].media =
+              choice === 'system'
+                ? '(prefers-color-scheme: ' + scheme + ')'
+                : choice === scheme
+                  ? 'all'
+                  : 'not all';
+          }
+          if (persist) {
+            try {
+              if (choice === 'system') {
+                localStorage.removeItem('theme');
+              } else {
+                localStorage.setItem('theme', choice);
+              }
+            } catch (e) {}
+          }
+        }
+        window.__applyTheme = apply;
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
+      })();
+    </script>
+  `
+}
+
+// Twitter の埋め込み。
+//
+// ウィジェットは blockquote の data-theme をマウントのときに 1 度だけ読む。属性は SSG の時点では決められないので、
+// 読み込みを DOMContentLoaded まで遅らせ、属性を付けてから widgets.js を差し込む。
+// async のまま置くと、属性を付ける前にウィジェットが blockquote を拾ってしまうことがある。
+//
+// 読者がテーマを切り替えたときは、ここでは追従できない。トグルを入れるときは埋め込みを作り直す。
+const TwitterWidgets = () => {
+  return html`
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.querySelectorAll('.twitter-tweet').forEach(function (quote) {
+            quote.setAttribute('data-theme', 'dark');
+          });
+        }
+        var script = document.createElement('script');
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.charset = 'utf-8';
+        script.async = true;
+        document.head.appendChild(script);
+      });
+    </script>
+  `
+}
 
 const GoogleAnalytics = () => {
   return (

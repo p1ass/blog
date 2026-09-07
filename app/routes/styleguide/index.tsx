@@ -1,5 +1,6 @@
 import { css } from 'hono/css'
 import { Author } from '../../components/Author'
+import { CheckIcon, ThemeIcon } from '../../components/Icons'
 import { BlockLink } from '../../components/markdown/BlockLink'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
@@ -20,6 +21,7 @@ import {
 } from '../../styles/palette'
 import { borderWidth, focusRing, radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
+import { type Assignment, dark, light } from '../../styles/theme'
 import {
   fontFamily,
   fontSize,
@@ -190,6 +192,80 @@ function Swatch({ name, value }: SwatchProps) {
   )
 }
 
+// アイコンだけを並べる見本。1 つずつしか出ないものを、まとめて見えるようにする。
+const iconSampleListCss = css`
+  display: flex;
+  gap: ${space.lg};
+  margin-bottom: ${blockGap};
+  padding: 0;
+  list-style: none;
+  color: ${textMuted};
+
+  & li {
+    display: flex;
+    align-items: center;
+    gap: ${space.xs};
+    margin: 0;
+  }
+`
+
+// 見本の中の文字。実物 (app/islands/ThemePicker.tsx) と同じものを並べる。
+const themeLabels = {
+  system: '端末の設定に合わせる',
+  light: 'ライト',
+  dark: 'ダーク',
+} as const
+
+// 開いた一覧の見本。実物は絶対配置で引き金の下に出るので、ここでは position だけ打ち消して並びの中に置く。
+// クラスは実物と同じものを使う。値を書き写すと、片方だけ古くなる。
+const menuSampleCss = css`
+  display: inline-block;
+  margin-bottom: ${blockGap};
+`
+
+// 見本の欄に置く、行の高さに収まる大きさの色の四角。
+const chipCss = css`
+  width: ${space['2xl']};
+  height: ${space.md};
+  border: 1px solid ${border};
+  border-radius: ${radius.sm};
+`
+
+// 役割ごとに、両テーマの値を並べる。
+// color.ts の export と theme.ts の割り当ては同じ名前で対応しているので、色の変数から役割名を引き直さずに済む。
+function SemanticColorTable() {
+  return (
+    <table class={tokenTableCss}>
+      <thead>
+        <tr>
+          <th>役割</th>
+          <th>明るいテーマ</th>
+          <th>暗いテーマ</th>
+          <th>見本</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(colorTokens).map(([role, variable]) => (
+          <tr key={role}>
+            <td>
+              <code>{role}</code>
+            </td>
+            <td>
+              <code>{light[role as keyof Assignment]}</code>
+            </td>
+            <td>
+              <code>{dark[role as keyof Assignment]}</code>
+            </td>
+            <td>
+              <div class={chipCss} style={`background-color: ${variable}`} />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 // styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新の抜けが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
@@ -241,9 +317,11 @@ export default function StyleGuide() {
 
         <h3>セマンティックカラー</h3>
         <p class={captionCss}>
-          app/styles/color.ts の export。値はテーマごとに差し替わる。
+          app/styles/color.ts の
+          export。見本は今このページを見ているテーマの色で、 両側の値は
+          app/styles/theme.ts の割り当て。
         </p>
-        <ul class={swatchListCss}>{swatchesOf(colorTokens)}</ul>
+        <SemanticColorTable />
 
         <h3>ブランドカラー</h3>
         <p class={captionCss}>
@@ -432,6 +510,59 @@ export default function StyleGuide() {
         <Note kind='tip'>
           <p>tip。知っていると得をすることを書く。</p>
         </Note>
+
+        <h3>ThemePicker</h3>
+        <p class={captionCss}>
+          ヘッダーにある、テーマを選ぶ部品。出るのは今の選択のアイコンだけなので、
+          3 つを並べた見本をここに置く。
+        </p>
+        <ul class={iconSampleListCss}>
+          {(['system', 'light', 'dark'] as const).map(kind => (
+            <li key={kind}>
+              <ThemeIcon kind={kind} />
+              <code>{kind}</code>
+            </li>
+          ))}
+        </ul>
+
+        <p class={captionCss}>
+          hover と、一覧を開いている間の引き金。撮影ではカーソルが乗らないので、
+          当たった状態をここに置く。開いている間も同じ見た目にしてあるので、
+          見本は aria-expanded を立てるだけで済み、値を書き写さずに済む。
+        </p>
+        <div class={menuSampleCss}>
+          <button type='button' class='theme-trigger' aria-expanded='true'>
+            {(['system', 'light', 'dark'] as const).map(kind => (
+              <span key={kind} class={`theme-choice theme-choice-${kind}`}>
+                <ThemeIcon kind={kind} />
+                <span class='sr-only'>テーマ: {themeLabels[kind]}</span>
+              </span>
+            ))}
+          </button>
+        </div>
+
+        <p class={captionCss}>
+          開いた一覧。撮影では閉じたままなので、開いた状態をここに置く。
+        </p>
+        <div class={menuSampleCss}>
+          <div class='theme-menu' style='position: static'>
+            <div class='theme-option'>
+              <ThemeIcon kind='system' />
+              端末の設定に合わせる
+              <span class='theme-check'>
+                <CheckIcon />
+              </span>
+            </div>
+            <div class='theme-option'>
+              <ThemeIcon kind='light' />
+              ライト
+            </div>
+            <div class='theme-option'>
+              <ThemeIcon kind='dark' />
+              ダーク
+            </div>
+          </div>
+        </div>
 
         <h3>BlockLink</h3>
         <BlockLink href='https://blog.p1ass.com'>
