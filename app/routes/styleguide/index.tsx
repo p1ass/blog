@@ -20,6 +20,7 @@ import {
 } from '../../styles/palette'
 import { borderWidth, focusRing, radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
+import { type Assignment, dark, light } from '../../styles/theme'
 import {
   fontFamily,
   fontSize,
@@ -190,6 +191,49 @@ function Swatch({ name, value }: SwatchProps) {
   )
 }
 
+// 見本の欄に置く、行の高さに収まる大きさの色の四角。
+const chipCss = css`
+  width: ${space['2xl']};
+  height: ${space.md};
+  border: 1px solid ${border};
+  border-radius: ${radius.sm};
+`
+
+// 役割ごとに、両テーマの値を並べる。
+// color.ts の export と theme.ts の割り当ては同じ名前で対応しているので、色の変数から役割名を引き直さずに済む。
+function SemanticColorTable() {
+  return (
+    <table class={tokenTableCss}>
+      <thead>
+        <tr>
+          <th>役割</th>
+          <th>明るいテーマ</th>
+          <th>暗いテーマ</th>
+          <th>見本</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(colorTokens).map(([role, variable]) => (
+          <tr key={role}>
+            <td>
+              <code>{role}</code>
+            </td>
+            <td>
+              <code>{light[role as keyof Assignment]}</code>
+            </td>
+            <td>
+              <code>{dark[role as keyof Assignment]}</code>
+            </td>
+            <td>
+              <div class={chipCss} style={`background-color: ${variable}`} />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 // styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新の抜けが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
@@ -241,9 +285,11 @@ export default function StyleGuide() {
 
         <h3>セマンティックカラー</h3>
         <p class={captionCss}>
-          app/styles/color.ts の export。値はテーマごとに差し替わる。
+          app/styles/color.ts の
+          export。見本は今このページを見ているテーマの色で、 両側の値は
+          app/styles/theme.ts の割り当て。
         </p>
-        <ul class={swatchListCss}>{swatchesOf(colorTokens)}</ul>
+        <SemanticColorTable />
 
         <h3>ブランドカラー</h3>
         <p class={captionCss}>

@@ -8,3 +8,7 @@ export const xSurfaceHover = '#dddddd'
 export const hatenaBlue = '#4ba3d9'
 
 export const githubBlack = '#211f1f'
+
+// GitHub と X はどちらも、暗い地に置くための白いマークを配っている。
+// 暗いテーマではこちらに切り替える。どの段を使うかを決めるのは theme.ts で、黒と白の対応もそこにある。
+export const brandWhite = '#ffffff'

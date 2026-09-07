@@ -33,3 +33,13 @@ export const surfaceHover = 'var(--color-surface-hover)'
 
 // 文字ではなくアイコンに使う色
 export const icon = 'var(--color-icon)'
+
+// Mermaid の図の地。図はビルド時に明るいテーマの色で描かれるので、暗いテーマではここに白い面が入る
+export const diagramSurface = 'var(--color-diagram-surface)'
+
+// ブランドカラーで塗った面と地の境界。暗いテーマでだけ引く
+export const brandSurfaceBorder = 'var(--color-brand-surface-border)'
+
+// GitHub と X のマーク。地の明るさで黒と白が入れ替わる。値そのものは app/styles/brand.ts にある
+export const githubMark = 'var(--color-github-mark)'
+export const xMark = 'var(--color-x-mark)'

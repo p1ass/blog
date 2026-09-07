@@ -8,6 +8,7 @@ import { contentWidth } from '../styles/breakpoint'
 import {
   accent,
   border,
+  diagramSurface,
   surface,
   surfaceSubtle,
   text,
@@ -17,7 +18,7 @@ import { highlightTheme } from '../styles/highlight'
 import { reducedMotion } from '../styles/motion'
 import { borderWidth, focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
-import { themeVariables } from '../styles/theme'
+import { dark, light, themeVariables } from '../styles/theme'
 import {
   fontFamily,
   fontSize,
@@ -64,6 +65,7 @@ import {
 // 脚注の見出しは remark が `class="sr-only"` を付けて出力するが、その sr-only がどこにも定義されていなかった。英語の「Footnotes」が章の罫線つきで 6 記事に出ていた。
 //
 // article の直下の svg は Mermaid の図。入れ子の svg を避けるのは、Instagram の埋め込みが div の中に自前の svg を持っているため。
+// 図の色はビルド時に確定するので、暗いテーマでも線と文字は暗いまま出る。地に白い面を敷いて、図だけ明るいまま見せる。コードブロックを常に暗いまま置いているのと同じ扱いにした。明るいテーマでは diagramSurface が透明なので、面は出ない。
 //
 // pre の角丸は overflow: hidden と組で置く。中の code.hljs が横スクロールするので、hidden がないと角が四角いまま残る。
 const bodyCss = css`
@@ -202,6 +204,8 @@ const bodyCss = css`
     max-width: 100%;
     height: auto;
     margin: 0 auto ${blockGap};
+    background-color: ${diagramSurface};
+    border-radius: ${radius.md};
   }
 
   code {
@@ -278,6 +282,17 @@ export default jsxRenderer(
           <title>{title}</title>
 
           <meta name='description' content={description} />
+          {/* ブラウザの UI をページの地に合わせる。値は theme.ts の surface と同じもので、CSS 変数は meta では使えないので書き写す */}
+          <meta
+            name='theme-color'
+            content={light.surface}
+            media='(prefers-color-scheme: light)'
+          />
+          <meta
+            name='theme-color'
+            content={dark.surface}
+            media='(prefers-color-scheme: dark)'
+          />
           {noindex ? <meta name='robots' content='noindex' /> : null}
           <link rel='canonical' href={canonicalUrl} />
           <meta
@@ -300,11 +315,7 @@ export default jsxRenderer(
 
           {import.meta.env.PROD ? <GoogleAnalytics /> : null}
 
-          <script
-            async
-            src='https://platform.twitter.com/widgets.js'
-            charset='utf-8'
-          />
+          <TwitterWidgets />
 
           <link rel='icon' sizes='48x48' href='/static/favicon.ico' />
           <link
@@ -330,6 +341,32 @@ export default jsxRenderer(
     )
   },
 )
+
+// Twitter の埋め込み。
+//
+// ウィジェットは blockquote の data-theme をマウントのときに 1 度だけ読む。属性は SSG の時点では決められないので、
+// 読み込みを DOMContentLoaded まで遅らせ、属性を付けてから widgets.js を差し込む。
+// async のまま置くと、属性を付ける前にウィジェットが blockquote を拾ってしまうことがある。
+//
+// 読者がテーマを切り替えたときは、ここでは追従できない。トグルを入れるときは埋め込みを作り直す。
+const TwitterWidgets = () => {
+  return html`
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.querySelectorAll('.twitter-tweet').forEach(function (quote) {
+            quote.setAttribute('data-theme', 'dark');
+          });
+        }
+        var script = document.createElement('script');
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.charset = 'utf-8';
+        script.async = true;
+        document.head.appendChild(script);
+      });
+    </script>
+  `
+}
 
 const GoogleAnalytics = () => {
   return (

@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { type Assignment, light } from './theme'
+import { type Assignment, dark, light } from './theme'
 
 // WCAG 2.2 の相対輝度とコントラスト比。
 // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
 function relativeLuminance(hex: string): number {
+  // 透明な役割を渡すと NaN が返り、比較が静かに通ってしまう。ここで落とす。
+  if (!/^#[0-9a-f]{6}$/i.test(hex)) {
+    throw new Error(`16 進数の色ではない: ${hex}`)
+  }
   const value = hex.replace('#', '')
   const channels = [0, 2, 4].map(i => {
     const c = Number.parseInt(value.slice(i, i + 2), 16) / 255
@@ -124,7 +128,10 @@ const requirements: Requirement[] = [
   },
 ]
 
-const themes: [string, Assignment][] = [['light', light]]
+const themes: [string, Assignment][] = [
+  ['light', light],
+  ['dark', dark],
+]
 
 describe.each(themes)('%s テーマのコントラスト', (_name, assignment) => {
   it.each(
@@ -136,5 +143,13 @@ describe.each(themes)('%s テーマのコントラスト', (_name, assignment) =
   }) => {
     const ratio = contrastRatio(assignment[foreground], assignment[background])
     expect(ratio).toBeGreaterThanOrEqual(minimum)
+  })
+})
+
+// 両テーマで回せない要件はここに書く。brandSurfaceBorder は明るいテーマでは透明で、比を持たない。
+describe('暗いテーマだけの要件', () => {
+  it('X ボタンの境界 (brandSurfaceBorder on surface) が 3:1 以上', () => {
+    const ratio = contrastRatio(dark.brandSurfaceBorder, dark.surface)
+    expect(ratio).toBeGreaterThanOrEqual(LARGE_TEXT)
   })
 })
