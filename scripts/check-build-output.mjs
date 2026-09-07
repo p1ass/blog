@@ -51,8 +51,11 @@ const allowedElements = new Map([
   ['summary', '_renderer.tsx のグローバル'],
   ['div', 'ラッパー。リンクカード、表、Note のアイコンなど'],
   ['span', 'highlight.js の色分けと、リンクカードのホスト名'],
-  ['i', 'Font Awesome のアイコン。ステップ 7 でインライン SVG に置き換える'],
-  ['svg', '_renderer.tsx の article > svg。Mermaid の図'],
+  ['i', 'ブラウザ既定の斜体。記事の中で生の HTML として 1 箇所だけ使っている'],
+  [
+    'svg',
+    'Mermaid の図と、Note のアイコン。図のほうは _renderer.tsx の article > svg で中央に置く',
+  ],
   ['iframe', '外部の埋め込み。中身は向こうのページなのでスタイルを当てない'],
   ['script', '外部の埋め込みが読み込むスクリプト。描画しない'],
   ['style', 'Mermaid が図ごとに書き出すスタイル。描画しない'],

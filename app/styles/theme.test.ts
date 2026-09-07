@@ -85,12 +85,36 @@ const requirements: Requirement[] = [
     minimum: BODY_TEXT,
     note: '濃い地の上の文字',
   },
-  // Note のアイコンは 1.5rem なので大きい文字の基準でよい
+  {
+    foreground: 'textOnWarningSurface',
+    background: 'warningSurface',
+    minimum: BODY_TEXT,
+    note: 'Note (warning) の本文',
+  },
+  {
+    foreground: 'textOnTipSurface',
+    background: 'tipSurface',
+    minimum: BODY_TEXT,
+    note: 'Note (tip) の本文',
+  },
+  // Note のアイコンは 24px なので大きい文字の基準でよい
   {
     foreground: 'accent',
     background: 'accentSurface',
     minimum: LARGE_TEXT,
-    note: 'Note のアイコン',
+    note: 'Note (info) のアイコン',
+  },
+  {
+    foreground: 'warning',
+    background: 'warningSurface',
+    minimum: LARGE_TEXT,
+    note: 'Note (warning) のアイコン',
+  },
+  {
+    foreground: 'tip',
+    background: 'tipSurface',
+    minimum: LARGE_TEXT,
+    note: 'Note (tip) のアイコン',
   },
   {
     foreground: 'icon',

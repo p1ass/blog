@@ -8,4 +8,3 @@ export const xSurfaceHover = '#dddddd'
 export const hatenaBlue = '#4ba3d9'
 
 export const githubBlack = '#211f1f'
-export const twitterBlue = '#1b95e0'

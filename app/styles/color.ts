@@ -15,6 +15,15 @@ export const accentMuted = 'var(--color-accent-muted)'
 export const accentSurface = 'var(--color-accent-surface)'
 export const textOnAccentSurface = 'var(--color-text-on-accent-surface)'
 
+// 注意を促す囲みと、補足や助言の囲み。accent と別の色相を持つのはこの 2 つだけ
+export const warning = 'var(--color-warning)'
+export const warningSurface = 'var(--color-warning-surface)'
+export const textOnWarningSurface = 'var(--color-text-on-warning-surface)'
+
+export const tip = 'var(--color-tip)'
+export const tipSurface = 'var(--color-tip-surface)'
+export const textOnTipSurface = 'var(--color-text-on-tip-surface)'
+
 export const border = 'var(--color-border)'
 
 export const surface = 'var(--color-surface)'

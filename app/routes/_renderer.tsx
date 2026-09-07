@@ -301,11 +301,6 @@ export default jsxRenderer(
           {import.meta.env.PROD ? <GoogleAnalytics /> : null}
 
           <script
-            src='https://kit.fontawesome.com/ea66b8338f.js'
-            crossorigin='anonymous'
-            async
-          />
-          <script
             async
             src='https://platform.twitter.com/widgets.js'
             charset='utf-8'

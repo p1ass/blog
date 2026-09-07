@@ -4,7 +4,7 @@
 // 3 段構成にしてある。:root が既定、prefers-color-scheme が OS 設定への追従、data-theme が読者の明示的な選択で、後ろほど強い。
 // ダークの値はまだ入れていない。ダークモードは docs/design-system.md のステップ 8 で入れる。
 
-import { accent, neutral } from './palette'
+import { accent, neutral, tip, warning } from './palette'
 
 // 役割から段への割り当て。テーマを足すときは、この形の表をもう 1 つ書く。
 export type Assignment = {
@@ -15,6 +15,12 @@ export type Assignment = {
   accentMuted: string
   accentSurface: string
   textOnAccentSurface: string
+  warning: string
+  warningSurface: string
+  textOnWarningSurface: string
+  tip: string
+  tipSurface: string
+  textOnTipSurface: string
   border: string
   surface: string
   surfaceSubtle: string
@@ -31,6 +37,14 @@ export const light: Assignment = {
   accentMuted: accent[400],
   accentSurface: accent[50],
   textOnAccentSurface: neutral[800],
+
+  warning: warning[600],
+  warningSurface: warning[50],
+  textOnWarningSurface: neutral[800],
+
+  tip: tip[600],
+  tipSurface: tip[50],
+  textOnTipSurface: neutral[800],
 
   border: neutral[200],
 

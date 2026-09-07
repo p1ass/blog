@@ -12,7 +12,12 @@ import * as colorTokens from '../../styles/color'
 import { accent, border, surfaceSubtle, textMuted } from '../../styles/color'
 import { bodyLinkCss } from '../../styles/link'
 import { duration, easing, reducedMotion } from '../../styles/motion'
-import { accent as accentPalette, neutral } from '../../styles/palette'
+import {
+  accent as accentPalette,
+  neutral,
+  tip as tipPalette,
+  warning as warningPalette,
+} from '../../styles/palette'
 import { borderWidth, focusRing, radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
 import {
@@ -221,6 +226,18 @@ export default function StyleGuide() {
             <Swatch key={step} name={`accent-${step}`} value={value} />
           ))}
         </ul>
+        <p class={captionCss}>
+          warning と tip だけは別の色相を持つ。段は Note
+          で使うぶんだけ置いてある。
+        </p>
+        <ul class={swatchListCss}>
+          {Object.entries(warningPalette).map(([step, value]) => (
+            <Swatch key={step} name={`warning-${step}`} value={value} />
+          ))}
+          {Object.entries(tipPalette).map(([step, value]) => (
+            <Swatch key={step} name={`tip-${step}`} value={value} />
+          ))}
+        </ul>
 
         <h3>セマンティックカラー</h3>
         <p class={captionCss}>
@@ -403,8 +420,17 @@ export default function StyleGuide() {
         <h2>コンポーネント</h2>
 
         <h3>Note</h3>
+        <p class={captionCss}>
+          3 種別。既定は info。warning と tip だけ別の色相を持つ。
+        </p>
         <Note>
-          <p>補足を書くための囲み。</p>
+          <p>info。補足を書くための囲み。</p>
+        </Note>
+        <Note kind='warning'>
+          <p>warning。読み飛ばすと困ることを書く。</p>
+        </Note>
+        <Note kind='tip'>
+          <p>tip。知っていると得をすることを書く。</p>
         </Note>
 
         <h3>BlockLink</h3>
