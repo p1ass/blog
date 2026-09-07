@@ -82,7 +82,7 @@ const xIconCss = css`
     font-family: Verdana;
     font-weight: bold;
     font-style: normal;
-    font-size: 1.5rem;
+    font-size: ${fontSize.h3};
   }
 `
 
@@ -90,7 +90,7 @@ const xIconCss = css`
 // WCAG 1.4.3 はロゴやブランド名の一部であるテキストをコントラストの対象から外している。
 // 読みやすさのために色を動かすと、見分けるための手がかりのほうを失う。
 const hatenaCss = css`
-    box-shadow: inset 0 0 0 0.1rem ${hatenaBlue};
+    box-shadow: inset 0 0 0 ${borderWidth.thin} ${hatenaBlue};
     ${shareButtonCss}
 
     & i {

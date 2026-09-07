@@ -10,6 +10,7 @@
     "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
     "lint": "biome check .",
     "lint:fix": "biome check --fix .",
+    "lint:style": "node scripts/check-style-tokens.ts",
     "install:playwright": "npx playwright install --with-deps chromium",
     "lint:text": "textlint \"**/*.{md,mdx,ts,tsx,mjs,cjs,js,jsx,yaml,yml,sh}\" \".github/**/*.{yaml,yml}\"",
     "lint:text:fix": "textlint --fix \"**/*.{md,mdx,ts,tsx,mjs,cjs,js,jsx,yaml,yml,sh}\" \".github/**/*.{yaml,yml}\"",

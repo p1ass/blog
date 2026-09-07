@@ -130,7 +130,7 @@ const bodyCss = css`
   }
 
   article h2 {
-    border-bottom: 1px solid ${border};
+    border-bottom: ${borderWidth.thin} solid ${border};
     padding-bottom: ${space['2xs']};
   }
 
@@ -313,7 +313,7 @@ const bodyCss = css`
 
   code {
     background-color: ${surfaceSubtle};
-    border: 1px solid ${border};
+    border: ${borderWidth.thin} solid ${border};
     border-radius: ${radius.sm};
     font-family: ${fontFamily.mono};
     font-size: 0.85em;
