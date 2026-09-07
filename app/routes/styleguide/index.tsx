@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { Author } from '../../components/Author'
-import { ThemeIcon } from '../../components/Icons'
+import { CheckIcon, ThemeIcon } from '../../components/Icons'
 import { BlockLink } from '../../components/markdown/BlockLink'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
@@ -207,6 +207,13 @@ const iconSampleListCss = css`
     gap: ${space.xs};
     margin: 0;
   }
+`
+
+// 開いた一覧の見本。実物は絶対配置で引き金の下に出るので、ここでは position だけ打ち消して並びの中に置く。
+// クラスは実物と同じものを使う。値を書き写すと、片方だけ古くなる。
+const menuSampleCss = css`
+  display: inline-block;
+  margin-bottom: ${blockGap};
 `
 
 // 見本の欄に置く、行の高さに収まる大きさの色の四角。
@@ -510,6 +517,29 @@ export default function StyleGuide() {
             </li>
           ))}
         </ul>
+
+        <p class={captionCss}>
+          開いた一覧。撮影では閉じたままなので、開いた状態をここに置く。
+        </p>
+        <div class={menuSampleCss}>
+          <div class='theme-menu' style='position: static'>
+            <div class='theme-option'>
+              <ThemeIcon kind='system' />
+              端末の設定に合わせる
+              <span class='theme-check'>
+                <CheckIcon />
+              </span>
+            </div>
+            <div class='theme-option'>
+              <ThemeIcon kind='light' />
+              ライト
+            </div>
+            <div class='theme-option'>
+              <ThemeIcon kind='dark' />
+              ダーク
+            </div>
+          </div>
+        </div>
 
         <h3>BlockLink</h3>
         <BlockLink href='https://blog.p1ass.com'>

@@ -8,11 +8,13 @@ import { space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
-// テーマの選択は広い画面で右上に絶対配置するので、位置の基準をここに持たせる。
-// 狭い画面では並びの下に流し込むため、案内の一覧の後ろに置いてある。案内ではないので、一覧そのものには入れない。
+// テーマの選択を右上に絶対配置するので、位置の基準をここに持たせる。案内ではないので、案内の一覧そのものには入れない。
+//
+// overflow: auto ではなく display: flow-root にするのは、開いた一覧がヘッダーの外へ出るため。
+// どちらも中の余白がヘッダーの外へ相殺されるのを止めるが、overflow は同時にはみ出しも切り落とす。
 const headerCss = css`
   position: relative;
-  overflow: auto;
+  display: flow-root;
   border-bottom: ${borderWidth.thin} solid ${border};
 `
 

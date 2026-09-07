@@ -86,6 +86,25 @@ export function ThemeIcon({ kind }: { kind: ThemeChoice }) {
   )
 }
 
+// 一覧の中で今の選択に添えるチェック。文字と並ぶので、Note のものより小さい 16px にする。
+const checkIconCss = css`
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+`
+
+export function CheckIcon() {
+  return (
+    <svg viewBox='0 0 24 24' class={checkIconCss} aria-hidden='true'>
+      <path d='M4 12.5 9.5 18 20 6.5' />
+    </svg>
+  )
+}
+
 export type NoteKind = 'info' | 'warning' | 'tip'
 
 export function NoteIcon({ kind }: { kind: NoteKind }) {
