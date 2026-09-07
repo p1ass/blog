@@ -2,8 +2,7 @@
 name: design-system
 description: >-
   blog.p1ass.com の見た目を変えるSkill。
-  デザイントークンの引き方、hono/css の書き方の落とし穴、
-  見た目の回帰テストとスタイルガイドの回し方を持つ。
+  方針は DESIGN.md にあり、この Skill はその参照先と作業の順序を案内する。
   ユーザーが以下のようなリクエストをした場合に使用すること:
   「コンポーネントを追加して」「スタイルを直して」「見た目を変えて」「色を変えて」
   「余白を調整して」「レスポンシブにして」「ダークモードに対応して」「スタイルガイドに追加して」。
@@ -17,90 +16,90 @@ argument-hint: "[変えたい見た目 または コンポーネント名]"
 
 blog.p1ass.com の見た目を、デザイントークンの範囲で変える。
 
-仕様と決定の経緯は [docs/design-system.md](../../../docs/design-system.md) にある。この Skill はそこから、書くときに要る部分だけを抜き出したもの。判断に迷ったら本体を読む。
+**方針と値の根拠はすべて [DESIGN.md](../../../DESIGN.md) にある。** [design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、本文がその理由になっている。この Skill はそこへの入口で、決めごとそのものは持たない。両方に書くと片方だけが古くなる。
+
+hono/css の書き方の制約とハーネスの回し方は [CLAUDE.md](../../../CLAUDE.md) にある。
 
 ## 大原則
 
-1. **生の値を書かない**。色と寸法と分岐をトークンから引く。`pnpm lint:style` が CI で落とす
-2. **2 テーマぶんを同時に決める**。色を足すときはライトとダークの両方を書き、`app/styles/theme.test.ts` にコントラストの検証を足す
-3. **見た目を変えたら基準画像を撮り直す**。撮り直す前に実物を開く。回帰テストは変化を検出するだけで、良し悪しは判断しない
+1. **値はトークンから引く**。色と寸法と分岐を、コンポーネントの側で決めない
+2. **2 テーマぶんを同時に決める**。明るいテーマだけで成立する値は入れない
+3. **見た目を変えたら基準画像を撮り直す**。撮り直す前に実物を開く
 
-## トークンの引き方
+## 作業の流れ
 
-[`references/tokens.md`](references/tokens.md) に、どの値をどのファイルから引くかの対応表がある。書き始める前に読む。
+### 1. DESIGN.md の該当節を読む
 
-よく引くものは次のとおり。
+書き始める前に、これから触る領域の節を読む。実際の値は `app/styles/` にもあるが、なぜその値なのかは DESIGN.md にしかない。
 
-| 何を | どこから |
+| 触るもの | 読む節 |
 | --- | --- |
-| 色 | `app/styles/color.ts` の役割名。値そのものは `palette.ts`、割り当ては `theme.ts` |
-| フォントサイズ・行間・太さ | `app/styles/typography.ts` |
-| 余白 | `app/styles/spacing.ts` の `space`。本文のブロック間は `blockGap` |
-| 角丸・ボーダーの太さ・フォーカスリング | `app/styles/shape.ts` |
-| 画面幅の分岐 | `app/styles/breakpoint.ts` の `mediaUp()` |
-| モーション | `app/styles/transition()` と `motion.ts` の `reducedMotion` |
-| リンクの下線 | `app/styles/link.ts` の `bodyLinkCss` / `hoverUnderlineLinkCss` |
+| そもそもこのサイトが何を目指しているか | [Overview](../../../DESIGN.md#overview) |
+| カラー、コントラスト | [Colors](../../../DESIGN.md#colors) |
+| 文字の大きさ、行間、見出し | [Typography](../../../DESIGN.md#typography) |
+| 余白、本文幅、画面幅の分岐 | [Layout](../../../DESIGN.md#layout) |
+| 影、面の重なり | [Elevation & Depth](../../../DESIGN.md#elevation--depth) |
+| 角丸、ボーダー | [Shapes](../../../DESIGN.md#shapes) |
+| リンク、hover、フォーカス、画像、モーション | [Components](../../../DESIGN.md#components) |
+| ダークモード、テーマの選択 | [Theming](../../../DESIGN.md#theming) |
+| アイコン、ブランドマーク | [Iconography](../../../DESIGN.md#iconography) |
+| 見出しや本文の言い回し | [Terminology](../../../DESIGN.md#terminology) |
+
+迷ったら [Do's and Don'ts](../../../DESIGN.md#dos-and-donts) を読む。よく踏む判断がまとまっている。
+
+### 2. 既存の当たりを取る
+
+`/styleguide` に、トークンと本文要素とコンポーネントが 1 ページに並んでいる。似た役割の部品が既にないか、まずここを見る。
+
+### 3. 書く
+
+値は `app/styles/` のトークンから引く。front matter のトークン名と `app/styles/` の変数名は対応している。
+
+| DESIGN.md の front matter | 実装 |
+| --- | --- |
+| `colors` のプリミティブ | `app/styles/palette.ts` |
+| `colors` のセマンティック | `app/styles/color.ts` の役割名、割り当ては `theme.ts` |
+| `typography` | `app/styles/typography.ts` |
+| `spacing` | `app/styles/spacing.ts` |
+| `rounded` | `app/styles/shape.ts` |
+| `components` | 各コンポーネントの `css``` |
+
+新しいコンポーネントは `app/components/` に置く。記事の MDX から使うなら `app/lib/mdx-components.tsx` の `useMDXComponents()` に登録する。
+
+記事本文に新しい HTML 要素が出るようになるなら、先にスタイルを当ててから `scripts/check-build-output.ts` の `allowedElements` に置き場所つきで足す。順序を逆にすると、この検査が「見た目を揃える」という役目を失う。
 
 トークンに無い値が要るときは、次の順で考える。
 
 1. **段の意図を読み違えていないか**。`space.lg` を「大きめの余白」ではなく 24px として引いていないか
-2. **その値は他でも使うか**。使うならトークンを足し、`docs/design-system.md` の該当節に理由を書く
-3. **その部品ひとつの都合か**。アバターの直径のような値はトークンにしない。`scripts/check-style-tokens.ts` の `exceptions` に理由を書いて足す。理由が書けないなら、それはトークンで書ける値
+2. **その値は他でも使うか**。使うならトークンを足し、DESIGN.md の front matter と該当節の両方に足す
+3. **その部品ひとつの都合か**。アバターの直径のような値はトークンにしない。`scripts/check-style-tokens.ts` の `exceptions` へ理由を書いて足す。理由が書けないなら、それはトークンで書ける値
 
-## hono/css の落とし穴
-
-踏むと見た目が破綻するうえ、原因が読み取りにくいものを挙げる。経緯は `docs/design-system.md` の「落とし穴」にある。
-
-- **`${...}` は最後に置く**。取り込んだスタイルが `&:hover` を持つと、その後ろに書いた宣言が入れ子の外へ出て捨てられる
-- **`text-decoration` のショートハンドを書かない**。`text-decoration-color` を初期値に戻すので、先に書いた色が消える。`text-decoration-line` を使う
-- **クラスを `${...}` でセレクタの位置に差し込まない**。クラス名ではなく、中身の宣言そのものへ展開されてしまう場合もある。中の要素は素のクラス名で指し、`cx()` で足す
-- **CSS のコメントに波括弧を書かない**。最小化の波括弧の対応付けが狂う
-- **`:-hono-global` の中に複数行のコメントを書かない**。判定が 1 行の正規表現なので、改行が残るとブロックごと展開されない。説明はテンプレートの外に書く
-- **補間した値に二重引用符を入れない**。エスケープされて宣言ごと無効になる。`font-family` はフォント名を裸で並べる
-
-## 作業の流れ
-
-### 1. 既存の当たりを取る
-
-`/styleguide` に、トークンと本文要素とコンポーネントが 1 ページに並んでいる。似た役割の部品が既にないか、まずここを見る。
-
-### 2. 書く
-
-トークンを引いて書く。新しいコンポーネントは `app/components/` に置く。記事の MDX から使うなら `app/lib/mdx-components.tsx` の `useMDXComponents()` に登録する。
-
-記事本文に新しい HTML 要素が出るようになるなら、**先にスタイルを当ててから** `scripts/check-build-output.ts` の `allowedElements` に置き場所つきで足す。順序を逆にすると、この検査が「見た目を揃える」という役目を失う。
-
-### 3. スタイルガイドに載せる
+### 4. スタイルガイドに載せる
 
 トークンを足したなら、`app/routes/styleguide/index.tsx` の `TokenTable` は定義を反復するので自動で出る。コンポーネントを足したときは見本を書き足す。
 
-hover やフォーカスは撮影のとき出ない。当たった状態を固定で描いた見本を別に置く。値を二重に持つので、元を変えたら見本も直す。
+hover やフォーカスは撮影のとき出ない。当たった状態を固定で描いた見本を別に置く。
 
-### 4. 確かめる
+### 5. 確かめる
 
 ```shell
 pnpm lint:fix     # biome
 pnpm lint:style   # CSS に生の値が無いか
 pnpm test         # コントラストなど
 pnpm vrt          # 見た目の回帰テスト (Docker が要る)
+pnpm lint:text    # textlint
 ```
 
-`pnpm vrt` が落ちたら、差分画像を見て意図した変更かを判断する。意図どおりなら `pnpm vrt:update` で撮り直す。
+`pnpm vrt` が落ちたら、差分画像を見て意図した変更かを判断する。意図どおりなら `pnpm vrt:update` で撮り直す。撮り直す前の注意は CLAUDE.md のハーネスの節にある。
 
-**撮り直す前に、少なくともスタイルガイドとトップと記事の 3 枚は実物を開く。** 全ページが一斉に変わる変更では、想定どおりの差分に想定外が紛れる。
+DESIGN.md の front matter を触ったときは、形式の検査もかける。
 
-撮影中にホストで `pnpm build` を回さない。コンテナと `dist/` を共有しているため、記事が 404 のまま撮られる。
+```shell
+npx @google/design.md lint DESIGN.md
+```
 
-### 5. ドキュメントを直す
+### 6. DESIGN.md を直す
 
-決めごとを変えたなら `docs/design-system.md` の該当節を直す。トークンを足したなら表に 1 行足す。踏んだ落とし穴があれば「落とし穴」に足す。
+**決めごとを変えたなら DESIGN.md を直す。** トークンを足したなら front matter に 1 行、判断が増えたなら該当節か Do's and Don'ts に 1 項目を足す。
 
-この Skill が持つのは引き方だけで、なぜその値なのかは向こうにしか無い。片方だけ直すと、次のセッションで根拠を失った値が残る。
-
-## ダークモードを含む変更
-
-色を足すときは `app/styles/theme.ts` の `light` と `dark` の両方に書く。役割名は `color.ts` に足す。CSS 変数名は役割名から機械的に作られるので、書き忘れは起きない。
-
-`theme.test.ts` の `requirements` に、その役割の組み合わせを足す。本文は 4.5 対 1、大きい文字と UI 部品は 3 対 1。片方のテーマでしか比を持たない役割 (透明になるものなど) は、この表ではなく個別のテストに書く。
-
-ビルド時に色が決まるものはテーマで切り替えない。コードブロックは常にダーク、Mermaid の図は常にライトで、図の後ろには `diagramSurface` の面を敷く。
+DESIGN.md は方針だけを持つ文書で、作業の記録は書かない。何をいつやったかは PR とコミットに残す。
