@@ -6,7 +6,7 @@ import { css } from 'hono/css'
 // 図形をここに書けば、SSG の出力にそのまま入る。
 //
 // ブランドマークの d は Simple Icons (https://simple-icons.org) から取った。あちらは CC0 なので、そのまま持ってきてよい。
-// info、warning、tip の 3 つは自前で描いた。円や三角と線だけで済む図形なので、外から持ってくる理由がない。
+// info、warning、tip と、テーマの system、light、dark は自前で描いた。円や三角と線だけで済む図形なので、外から持ってくる理由がない。
 
 // 文字と並べて置くアイコン。大きさは前後の文字に合わせ、ベースラインから少し下げて字面の中心に揃える。
 const inlineIconCss = css`

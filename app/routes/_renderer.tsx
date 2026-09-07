@@ -4,14 +4,13 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { contentWidth } from '../styles/breakpoint'
+import { contentWidth, mediaUp } from '../styles/breakpoint'
 import {
   accent,
   border,
   diagramSurface,
   icon,
   surface,
-  surfaceHover,
   surfaceSubtle,
   text,
   textMuted,
@@ -67,10 +66,17 @@ import {
 //
 // 脚注の見出しは remark が `class="sr-only"` を付けて出力するが、その sr-only がどこにも定義されていなかった。英語の「Footnotes」が章の罫線つきで 6 記事に出ていた。
 //
-// テーマのボタンは、今の選択に当たるアイコンだけを CSS で出す。選択は html の data-theme-choice にあり、head の同期スクリプトが置く。
-// 島の状態で切り替えると、水和するまで SSR のときのアイコンが出たままになる。
-// ボタン自体も data-theme-choice が付くまで隠す。スクリプトが動かない読者に、押しても何も起きないボタンを見せないため。
-// アイコンにはそれぞれ読み上げ用の文字を添えてあり、隠れている選択肢は display: none なので読み上げの対象にならない。
+// テーマの選択は、今の選択のアイコンだけを出す。枠と地は持たせない。ヘッダーは文字のリンクだけでできていて箱を持つ要素が 1 つもないので、枠を付けるとここだけ重くなる。
+// hover で icon から text へ濃くするのは、隣のナビゲーションのリンクに合わせたもの。
+//
+// 選択肢を開くのは素の select で、透明にしてアイコンの上へ重ねてある。opacity が 0 でも当たり判定は残るので、アイコンを押すとブラウザの一覧が開く。
+// select には既定の枠と矢印が付くため、appearance を none にしておく。透明なので見えないが、幅の計算には効いてくる。
+// 透明な select にはリングも見えないので、フォーカスのリングは :has() で親の側に描く。
+//
+// 出すアイコンは html の data-theme-choice を見て CSS が選ぶ。島の状態で選ぶと、水和するまで SSR のときのアイコンが出たままになる。
+// 部品そのものは data-theme-choice が付くまで隠す。スクリプトが動かない読者に、押しても何も起きない部品を見せないため。
+//
+// 狭い画面では並びの下に置き、640px から右上へ移す。狭い画面では、右上に置くとサイト名と近づきすぎる。
 //
 // article の直下の svg は Mermaid の図。入れ子の svg を避けるのは、Instagram の埋め込みが div の中に自前の svg を持っているため。
 // 図の色はビルド時に確定するので、暗いテーマでも線と文字は暗いまま出る。地に白い面を敷いて、図だけ明るいまま見せる。コードブロックを常に暗いまま置いているのと同じ扱いにした。明るいテーマでは diagramSurface が透明なので、面は出ない。
@@ -199,36 +205,55 @@ const bodyCss = css`
     white-space: nowrap;
   }
 
-  .theme-toggle {
+  .theme-picker {
     display: none;
-    position: absolute;
-    top: ${space.sm};
-    right: 0;
+    position: relative;
     align-items: center;
     justify-content: center;
     width: ${space['2xl']};
     height: ${space['2xl']};
-    padding: 0;
-    border: ${borderWidth.thin} solid ${border};
+    margin: 0 auto ${space.xs};
     border-radius: ${radius.full};
-    background-color: ${surface};
     color: ${icon};
-    cursor: pointer;
-    ${transition(['background-color', 'color'])}
+    ${transition(['color'])}
   }
 
-  :root[data-theme-choice] .theme-toggle {
-    display: inline-flex;
+  :root[data-theme-choice] .theme-picker {
+    display: flex;
   }
 
-  .theme-toggle:hover {
-    background-color: ${surfaceHover};
+  ${mediaUp('sm')} {
+    .theme-picker {
+      position: absolute;
+      top: ${space.sm};
+      right: 0;
+      margin: 0;
+    }
+  }
+
+  .theme-picker:hover {
     color: ${text};
+  }
+
+  .theme-picker:has(.theme-select:focus-visible) {
+    outline: ${focusRing.width} solid ${accent};
+    outline-offset: ${focusRing.offset};
+  }
+
+  .theme-select {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    appearance: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
   }
 
   .theme-choice {
     display: none;
-    align-items: center;
   }
 
   :root[data-theme-choice=system] .theme-choice-system,

@@ -497,11 +497,10 @@ export default function StyleGuide() {
           <p>tip。知っていると得をすることを書く。</p>
         </Note>
 
-        <h3>ThemeToggle</h3>
+        <h3>ThemePicker</h3>
         <p class={captionCss}>
-          ヘッダーの右上にあるボタン。押すたびに system → light → dark
-          と巡回する。 出るアイコンは今の選択のものだけなので、3
-          つを並べた見本をここに置く。
+          ヘッダーにある、テーマを選ぶ部品。出るのは今の選択のアイコンだけなので、
+          3 つを並べた見本をここに置く。
         </p>
         <ul class={iconSampleListCss}>
           {(['system', 'light', 'dark'] as const).map(kind => (
