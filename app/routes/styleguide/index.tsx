@@ -10,15 +10,17 @@ import * as brandTokens from '../../styles/brand'
 import { breakpoint, contentWidth } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
 import { accent, border, surfaceSubtle, textMuted } from '../../styles/color'
-import { duration, easing } from '../../styles/motion'
+import { bodyLinkCss } from '../../styles/link'
+import { duration, easing, reducedMotion } from '../../styles/motion'
 import { accent as accentPalette, neutral } from '../../styles/palette'
-import { borderWidth, radius } from '../../styles/shape'
+import { borderWidth, focusRing, radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
 import {
   fontFamily,
   fontSize,
   fontWeight,
   lineHeight,
+  underline,
 } from '../../styles/typography'
 
 export const title = 'Style Guide'
@@ -61,6 +63,28 @@ const swatchValueCss = css`
   color: ${textMuted};
   font-size: 0.75rem;
   word-break: break-all;
+`
+
+// フォーカスリングは :focus-visible でしか出ないので、当たった状態を固定で描いた見本を置く。
+// これがないと、リングの見た目は見た目の回帰テストに写らない。
+const focusRingSampleCss = css`
+  display: inline-block;
+  padding: ${space.xs} ${space.md};
+  border-radius: ${radius.sm};
+  background-color: ${surfaceSubtle};
+  outline: ${focusRing.width} solid ${accent};
+  outline-offset: ${focusRing.offset};
+`
+
+// hover した状態を固定で描いた見本。link.ts の hover 側と同じ値を書いているので、あちらを変えたらここも直す。
+// 見た目の回帰テストは撮影時にカーソルを乗せないため、これがないと hover の見た目が基準画像に写らない。
+const linkHoverSampleCss = css`
+  color: ${accent};
+  background-color: ${surfaceSubtle};
+  text-decoration: underline;
+  text-decoration-color: ${accent};
+  text-decoration-thickness: ${underline.hoverThickness};
+  text-underline-offset: ${underline.offset};
 `
 
 // 見出しの直下に置く、その節が何を見せているかの一行。
@@ -421,9 +445,49 @@ export default function StyleGuide() {
       </section>
 
       <section class={sectionCss}>
+        <h2>状態</h2>
+
+        <h3>フォーカスリング</h3>
+        <p class={captionCss}>
+          app/styles/shape.ts の focusRing。キーボードで操作したときだけ出す。
+          規則は _renderer.tsx に 1 つだけ置き、要素ごとには書かない。
+        </p>
+        <TokenTable tokens={focusRing} />
+        <p class={captionCss}>
+          下は、リングが当たった状態を固定で描いた見本。 実際のリングは
+          :focus-visible でしか出ないので、
+          見た目の回帰テストに写るようにここへ置いている。
+        </p>
+        <span class={focusRingSampleCss}>フォーカスの当たった要素</span>
+
+        <h3>リンクの状態</h3>
+        <p class={captionCss}>
+          app/styles/link.ts。文章の中のリンクは薄い下線を常に引き、hover と
+          focus で下線を accent まで濃く、太くして、背後に薄い面を敷く。
+          前後の記事へのリンクやフッターのように単独で置くリンクは、
+          下線を透明にしておき hover で現れさせる。
+        </p>
+        <TokenTable tokens={underline} />
+        <p class={captionCss}>
+          hover も :focus-visible と同じく撮影時には当たらないので、
+          当たった状態を固定で描いた見本を並べる。
+        </p>
+        <p>
+          <a href='https://blog.p1ass.com' class={bodyLinkCss}>
+            平常時のリンク
+          </a>
+          {' / '}
+          <span class={linkHoverSampleCss}>hover したリンク</span>
+        </p>
+      </section>
+
+      <section class={sectionCss}>
         <h2>モーション</h2>
         <p class={captionCss}>
           app/styles/motion.ts。イージングは {easing} の 1 種類に統一する。
+          transition: all は書かず、動かすプロパティを名指しする。
+          動きを減らす設定の読者には reducedMotion ({reducedMotion})
+          で全停止する。
         </p>
         <TokenTable tokens={duration} />
       </section>

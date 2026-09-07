@@ -19,11 +19,11 @@ const shareIconWrapperCss = css`
 const shareButtonCss = css`
     float: left;
     border-radius: ${radius.full};
-    ${transition('280ms', 'ease')}
+    ${transition(['box-shadow', 'background-color'])}
 
     margin: 0 0 0 ${space.sm};
 
-    &:hover{
+    &:hover {
         box-shadow: inset 0 0 0 22px ${surfaceHover};
     }
 `
@@ -35,25 +35,22 @@ const shareButtonLinkCss = css`
   color: ${icon};
   text-align: center;
   vertical-align: middle;
-  ${transition('280ms', 'ease')}
+  ${transition(['color'])}
   text-decoration: none;
 
   & i {
     font-size: ${fontSize.h3};
     vertical-align: middle;
     padding-bottom: 1px;
-  
-    &:hover {
-      box-shadow: none;
-    }
   }
 `
 
+// 入れ子の規則を持つ ${...} は最後に置く。その後ろに書いた宣言は入れ子の外へ出て捨てられる。
 const xCss = css`
-    ${shareButtonCss}
     background-color: ${xBlack};
+    ${shareButtonCss}
 
-    &:hover{
+    &:hover {
         box-shadow: inset 0 0 0 22px ${xBlackHover};
         background-color: ${xSurfaceHover};
     }
@@ -78,8 +75,8 @@ const xIconCss = css`
 `
 
 const hatenaCss = css`
-    ${shareButtonCss}
     box-shadow: inset 0 0 0 0.1rem ${hatenaBlue};
+    ${shareButtonCss}
 
     & i {
         color: ${hatenaBlue};

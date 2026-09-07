@@ -38,12 +38,12 @@ const postDateCss = css`
 const toTopLinkCss = css`
   text-align: center;
 
-  & a{
+  & a {
     color: ${text};
     text-decoration: none;
-  
-    ${transition('0.2s')}
-  
+
+    ${transition(['color'])}
+
     &:hover {
       color: ${textMuted};
     }

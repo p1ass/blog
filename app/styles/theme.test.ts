@@ -48,6 +48,13 @@ const requirements: Requirement[] = [
     minimum: BODY_TEXT,
     note: '本文中のリンク',
   },
+  // 下線はリンクを色以外で見分けるための印なので、文字ではないが 3:1 を満たす段から選ぶ
+  {
+    foreground: 'accentMuted',
+    background: 'surface',
+    minimum: LARGE_TEXT,
+    note: '本文中のリンクの下線',
+  },
   {
     foreground: 'text',
     background: 'surfaceSubtle',
@@ -59,6 +66,12 @@ const requirements: Requirement[] = [
     background: 'surfaceSubtle',
     minimum: BODY_TEXT,
     note: '表の縞の上の補助文',
+  },
+  {
+    foreground: 'accent',
+    background: 'surfaceSubtle',
+    minimum: BODY_TEXT,
+    note: 'hover したリンク',
   },
   {
     foreground: 'textOnAccentSurface',

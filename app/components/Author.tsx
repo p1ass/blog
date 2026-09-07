@@ -50,12 +50,12 @@ const authorSNSLinkCss = css`
   color: ${text};
   margin-right: ${space.md};
   text-decoration: none;
-  
+
+  ${transition(['color'])}
+
   &:hover {
       color: ${textMuted};
   }
-
-  ${transition('0.2s')}
 `
 
 const authorSNSGitHubCss = css`

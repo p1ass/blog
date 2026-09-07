@@ -25,7 +25,7 @@ const paginationCss = css`
 const arrowBoxWidth = '60px'
 
 const arrowCss = css`
-  ${transition('0.2s')}
+  ${transition(['background-color', 'color'])}
 
   border: solid ${borderWidth.thin} ${text};
   color: ${text};
@@ -36,19 +36,20 @@ const arrowCss = css`
   justify-content: center;
   text-decoration: none;
   &:hover,
-  &:focus {
+  &:focus-visible {
       background-color: ${text};
       color: ${textInverted};
-  }  
+  }
 `
 
+// 入れ子の規則を持つ ${...} は最後に置く。その後ろに書いた宣言は入れ子の外へ出て捨てられる。
 const leftCss = css`
-    ${arrowCss}
     text-align: left;
+    ${arrowCss}
 `
 const rightCss = css`
-    ${arrowCss}
     text-align: right;
+    ${arrowCss}
 `
 
 const emptyArrowCss = css`

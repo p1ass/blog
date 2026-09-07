@@ -2,7 +2,7 @@
 // 値そのものは app/styles/palette.ts にある。
 //
 // 3 段構成にしてある。:root が既定、prefers-color-scheme が OS 設定への追従、data-theme が読者の明示的な選択で、後ろほど強い。
-// ダークの値はまだ入れていない。ダークモードはステップ 7 で入れる。
+// ダークの値はまだ入れていない。ダークモードは docs/design-system.md のステップ 8 で入れる。
 
 import { accent, neutral } from './palette'
 
@@ -12,6 +12,7 @@ export type Assignment = {
   textMuted: string
   textInverted: string
   accent: string
+  accentMuted: string
   accentSurface: string
   textOnAccentSurface: string
   border: string
@@ -27,6 +28,7 @@ export const light: Assignment = {
   textInverted: neutral[0],
 
   accent: accent[500],
+  accentMuted: accent[400],
   accentSurface: accent[50],
   textOnAccentSurface: neutral[800],
 

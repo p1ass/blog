@@ -9,6 +9,8 @@ export const textMuted = 'var(--color-text-muted)'
 export const textInverted = 'var(--color-text-inverted)'
 
 export const accent = 'var(--color-accent)'
+// 本文リンクの下線のように、アクセント色を弱めて引く線。hover で accent に切り替える
+export const accentMuted = 'var(--color-accent-muted)'
 // Note のような、アクセント色を薄く敷いた面
 export const accentSurface = 'var(--color-accent-surface)'
 export const textOnAccentSurface = 'var(--color-text-on-accent-surface)'

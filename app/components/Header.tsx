@@ -18,14 +18,13 @@ const headerContainerCss = css`
 `
 
 const titleCss = css`
-  ${transition('0.2s')}
+  ${transition(['color'])}
   margin: ${space.xs} 0;
   color: ${text};
   text-decoration: none;
-  
-  
+
   &:hover,
-  &:focus {
+  &:focus-visible {
     color: ${textMuted};
   }
 
@@ -61,11 +60,11 @@ const navigationListCss = css`
 
     & a {
       color: ${textMuted};
-      ${transition('0.2s')}
+      ${transition(['color'])}
       text-decoration: none;
 
       &:hover,
-      &:focus {
+      &:focus-visible {
         color: ${text};
       }
     }

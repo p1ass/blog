@@ -7,8 +7,10 @@ import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
 import { Twitter } from '../components/markdown/Twitter'
 import { accent, border, surfaceSubtle, textMuted } from '../styles/color'
+import { bodyLinkCss } from '../styles/link'
 import { borderWidth } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
+import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
 export function useMDXComponents(): MDXComponents {
@@ -36,6 +38,17 @@ const imageCss = css`
   max-width: 100%;
   margin: 0 auto;
   border: ${borderWidth.thin} solid ${border};
+
+  ${transition(['border-color'])}
+`
+
+// 画像は押すと原寸で開く。それが分かるように、hover で枠を accent にする。
+// リンク側に display を足すと配置が動くので、枠の色だけを変える。
+const imageLinkCss = css`
+  &:hover img,
+  &:focus-visible img {
+    border-color: ${accent};
+  }
 `
 
 export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
@@ -45,7 +58,7 @@ export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
     : props.src
 
   return (
-    <a href={src}>
+    <a href={src} class={imageLinkCss}>
       <img src={src} alt={props.alt} class={imageCss} />
     </a>
   )
@@ -70,13 +83,9 @@ function BlockQuote(props: PropsWithChildren<Hono.BlockquoteHTMLAttributes>) {
   )
 }
 
-const linkCss = css`
-  color: ${accent};
-`
-
 function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
   return (
-    <a href={props.href} class={linkCss}>
+    <a href={props.href} class={bodyLinkCss}>
       {props.children}
     </a>
   )

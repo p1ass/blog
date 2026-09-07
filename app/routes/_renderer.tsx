@@ -5,9 +5,10 @@ import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { contentWidth } from '../styles/breakpoint'
-import { border, surface, surfaceSubtle, text } from '../styles/color'
+import { accent, border, surface, surfaceSubtle, text } from '../styles/color'
 import { highlightTheme } from '../styles/highlight'
-import { radius } from '../styles/shape'
+import { reducedMotion } from '../styles/motion'
+import { focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { themeVariables } from '../styles/theme'
 import {
@@ -41,6 +42,13 @@ import {
 //
 // overflow-wrap は、リンクのテキストが URL そのものになっている箇所のために置く。
 // 区切りが無いためどこでも折り返せず、本文幅を 720px にしたことで画面からはみ出した。
+//
+// フォーカスリングは要素ごとではなく、ここに 1 つだけ置く。個別に書くと、書き忘れた要素だけキーボードで追えなくなる。
+// :focus ではなく :focus-visible にするのは、マウスで押した直後にもリングが残るのを避けるため。ブラウザがキーボード操作だと判断したときにだけ出る。
+// outline を使うのは、レイアウトを動かさずに描かれるため。border だと要素の大きさが変わり、周りが動く。
+//
+// prefers-reduced-motion は動きを止める設定への追従。0 にせず 0.01ms にするのは、transitionend を待つコードがあっても止まらないようにするため。
+// アニメーションを持つ要素を将来足したときに書き漏らさないよう、全称セレクタで一括して止める。
 const bodyCss = css`
 :-hono-global {
   ${themeVariables}
@@ -59,6 +67,20 @@ const bodyCss = css`
 
     /* https://alpacat.com/posts/unexpected-font-size-change */
     -webkit-text-size-adjust: 100%;
+  }
+
+  :focus-visible {
+    outline: ${focusRing.width} solid ${accent};
+    outline-offset: ${focusRing.offset};
+  }
+
+  ${reducedMotion} {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
