@@ -209,6 +209,13 @@ const iconSampleListCss = css`
   }
 `
 
+// 見本の中の文字。実物 (app/islands/ThemePicker.tsx) と同じものを並べる。
+const themeLabels = {
+  system: '端末の設定に合わせる',
+  light: 'ライト',
+  dark: 'ダーク',
+} as const
+
 // 開いた一覧の見本。実物は絶対配置で引き金の下に出るので、ここでは position だけ打ち消して並びの中に置く。
 // クラスは実物と同じものを使う。値を書き写すと、片方だけ古くなる。
 const menuSampleCss = css`
@@ -524,13 +531,14 @@ export default function StyleGuide() {
           見本は aria-expanded を立てるだけで済み、値を書き写さずに済む。
         </p>
         <div class={menuSampleCss}>
-          <span class='theme-trigger' aria-expanded='true'>
+          <button type='button' class='theme-trigger' aria-expanded='true'>
             {(['system', 'light', 'dark'] as const).map(kind => (
               <span key={kind} class={`theme-choice theme-choice-${kind}`}>
                 <ThemeIcon kind={kind} />
+                <span class='sr-only'>テーマ: {themeLabels[kind]}</span>
               </span>
             ))}
-          </span>
+          </button>
         </div>
 
         <p class={captionCss}>
