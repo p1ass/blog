@@ -52,6 +52,40 @@ const noteIconCss = css`
   stroke-linejoin: round;
 `
 
+// テーマの選択肢を表すアイコン。太さと大きさは Note のものに揃える。
+// system は画面そのものを描く。太陽と月の中間のような図形にすると、どちらでもない状態が伝わらない。
+export type ThemeChoice = 'system' | 'light' | 'dark'
+
+export function ThemeIcon({ kind }: { kind: ThemeChoice }) {
+  return (
+    <svg viewBox='0 0 24 24' class={noteIconCss} aria-hidden='true'>
+      {kind === 'system' ? (
+        <>
+          <rect x='3' y='4' width='18' height='12' rx='2' />
+          <path d='M12 16v4' />
+          <path d='M8 20h8' />
+        </>
+      ) : null}
+      {kind === 'light' ? (
+        <>
+          <circle cx='12' cy='12' r='4' />
+          <path d='M12 2v2' />
+          <path d='M12 20v2' />
+          <path d='M4.2 4.2l1.4 1.4' />
+          <path d='M18.4 18.4l1.4 1.4' />
+          <path d='M2 12h2' />
+          <path d='M20 12h2' />
+          <path d='M4.2 19.8l1.4-1.4' />
+          <path d='M18.4 5.6l1.4-1.4' />
+        </>
+      ) : null}
+      {kind === 'dark' ? (
+        <path d='M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10Z' />
+      ) : null}
+    </svg>
+  )
+}
+
 export type NoteKind = 'info' | 'warning' | 'tip'
 
 export function NoteIcon({ kind }: { kind: NoteKind }) {

@@ -1,5 +1,6 @@
 import { css } from 'hono/css'
 import { Author } from '../../components/Author'
+import { ThemeIcon } from '../../components/Icons'
 import { BlockLink } from '../../components/markdown/BlockLink'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
@@ -190,6 +191,23 @@ function Swatch({ name, value }: SwatchProps) {
     </li>
   )
 }
+
+// アイコンだけを並べる見本。1 つずつしか出ないものを、まとめて見えるようにする。
+const iconSampleListCss = css`
+  display: flex;
+  gap: ${space.lg};
+  margin-bottom: ${blockGap};
+  padding: 0;
+  list-style: none;
+  color: ${textMuted};
+
+  & li {
+    display: flex;
+    align-items: center;
+    gap: ${space.xs};
+    margin: 0;
+  }
+`
 
 // 見本の欄に置く、行の高さに収まる大きさの色の四角。
 const chipCss = css`
@@ -478,6 +496,21 @@ export default function StyleGuide() {
         <Note kind='tip'>
           <p>tip。知っていると得をすることを書く。</p>
         </Note>
+
+        <h3>ThemeToggle</h3>
+        <p class={captionCss}>
+          ヘッダーの右上にあるボタン。押すたびに system → light → dark
+          と巡回する。 出るアイコンは今の選択のものだけなので、3
+          つを並べた見本をここに置く。
+        </p>
+        <ul class={iconSampleListCss}>
+          {(['system', 'light', 'dark'] as const).map(kind => (
+            <li key={kind}>
+              <ThemeIcon kind={kind} />
+              <code>{kind}</code>
+            </li>
+          ))}
+        </ul>
 
         <h3>BlockLink</h3>
         <BlockLink href='https://blog.p1ass.com'>

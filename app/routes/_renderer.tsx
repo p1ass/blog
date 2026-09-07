@@ -9,7 +9,9 @@ import {
   accent,
   border,
   diagramSurface,
+  icon,
   surface,
+  surfaceHover,
   surfaceSubtle,
   text,
   textMuted,
@@ -19,6 +21,7 @@ import { reducedMotion } from '../styles/motion'
 import { borderWidth, focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { dark, light, themeVariables } from '../styles/theme'
+import { transition } from '../styles/transition'
 import {
   fontFamily,
   fontSize,
@@ -63,6 +66,11 @@ import {
 // リストの字下げは 24px にする。ブラウザ既定の 40px は本文 760px に対して深く、箇条書きだけが右に寄って見えた。
 //
 // 脚注の見出しは remark が `class="sr-only"` を付けて出力するが、その sr-only がどこにも定義されていなかった。英語の「Footnotes」が章の罫線つきで 6 記事に出ていた。
+//
+// テーマのボタンは、今の選択に当たるアイコンだけを CSS で出す。選択は html の data-theme-choice にあり、head の同期スクリプトが置く。
+// 島の状態で切り替えると、水和するまで SSR のときのアイコンが出たままになる。
+// ボタン自体も data-theme-choice が付くまで隠す。スクリプトが動かない読者に、押しても何も起きないボタンを見せないため。
+// アイコンにはそれぞれ読み上げ用の文字を添えてあり、隠れている選択肢は display: none なので読み上げの対象にならない。
 //
 // article の直下の svg は Mermaid の図。入れ子の svg を避けるのは、Instagram の埋め込みが div の中に自前の svg を持っているため。
 // 図の色はビルド時に確定するので、暗いテーマでも線と文字は暗いまま出る。地に白い面を敷いて、図だけ明るいまま見せる。コードブロックを常に暗いまま置いているのと同じ扱いにした。明るいテーマでは diagramSurface が透明なので、面は出ない。
@@ -191,6 +199,44 @@ const bodyCss = css`
     white-space: nowrap;
   }
 
+  .theme-toggle {
+    display: none;
+    position: absolute;
+    top: ${space.sm};
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    width: ${space['2xl']};
+    height: ${space['2xl']};
+    padding: 0;
+    border: ${borderWidth.thin} solid ${border};
+    border-radius: ${radius.full};
+    background-color: ${surface};
+    color: ${icon};
+    cursor: pointer;
+    ${transition(['background-color', 'color'])}
+  }
+
+  :root[data-theme-choice] .theme-toggle {
+    display: inline-flex;
+  }
+
+  .theme-toggle:hover {
+    background-color: ${surfaceHover};
+    color: ${text};
+  }
+
+  .theme-choice {
+    display: none;
+    align-items: center;
+  }
+
+  :root[data-theme-choice=system] .theme-choice-system,
+  :root[data-theme-choice=light] .theme-choice-light,
+  :root[data-theme-choice=dark] .theme-choice-dark {
+    display: inline-flex;
+  }
+
   .footnotes {
     border-top: ${borderWidth.thin} solid ${border};
     margin-top: ${blockGap};
@@ -287,12 +333,15 @@ export default jsxRenderer(
             name='theme-color'
             content={light.surface}
             media='(prefers-color-scheme: light)'
+            data-scheme='light'
           />
           <meta
             name='theme-color'
             content={dark.surface}
             media='(prefers-color-scheme: dark)'
+            data-scheme='dark'
           />
+          <ThemeScript />
           {noindex ? <meta name='robots' content='noindex' /> : null}
           <link rel='canonical' href={canonicalUrl} />
           <meta
@@ -341,6 +390,61 @@ export default jsxRenderer(
     )
   },
 )
+
+// テーマの適用。
+//
+// head に同期で置く。非同期にすると、記憶した選択が当たる前に一度描かれ、リロードのたびに色が入れ替わって見える。
+// theme-color の meta より後ろに置くのは、この場でその meta を書き換えるため。head の解析はここまでしか進んでいない。
+//
+// 適用と保存をこの関数 1 つに集めて、島からも呼ぶ。2 箇所に書くと、読み込み直後と押した直後で挙動が分かれる。
+//
+// theme-color は media 属性で 2 つ置いてあり、既定では OS の設定で選ばれる。読者が明示的に選んだときは、
+// 選んだ側を all、もう片方を not all にして、OS ではなく選択のほうを見るようにする。
+//
+// localStorage は例外を投げることがある。Cookie を全部断る設定のブラウザで、読むだけでも投げる。
+// テーマは落ちても致命的ではないので、握りつぶして既定のまま進む。
+const ThemeScript = () => {
+  return html`
+    <script>
+      (function () {
+        var root = document.documentElement;
+        function apply(choice, persist) {
+          root.dataset.themeChoice = choice;
+          if (choice === 'system') {
+            root.removeAttribute('data-theme');
+          } else {
+            root.setAttribute('data-theme', choice);
+          }
+          var metas = document.querySelectorAll('meta[name=theme-color]');
+          for (var i = 0; i < metas.length; i++) {
+            var scheme = metas[i].getAttribute('data-scheme');
+            metas[i].media =
+              choice === 'system'
+                ? '(prefers-color-scheme: ' + scheme + ')'
+                : choice === scheme
+                  ? 'all'
+                  : 'not all';
+          }
+          if (persist) {
+            try {
+              if (choice === 'system') {
+                localStorage.removeItem('theme');
+              } else {
+                localStorage.setItem('theme', choice);
+              }
+            } catch (e) {}
+          }
+        }
+        window.__applyTheme = apply;
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
+      })();
+    </script>
+  `
+}
 
 // Twitter の埋め込み。
 //

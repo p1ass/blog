@@ -1,4 +1,5 @@
 import { css } from 'hono/css'
+import ThemeToggle from '../islands/ThemeToggle'
 import { labelBasePath } from '../lib/posts'
 import { mediaUp } from '../styles/breakpoint'
 import { border, text, textMuted } from '../styles/color'
@@ -7,7 +8,10 @@ import { space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
+// テーマのボタンを右上に絶対配置で置くので、位置の基準をここに持たせる。
+// 並びの中に入れるとサイト名の中央が動く。ボタンは案内ではないので、ナビゲーションの一覧にも入れない。
 const headerCss = css`
+  position: relative;
   overflow: auto;
   border-bottom: ${borderWidth.thin} solid ${border};
 `
@@ -82,6 +86,7 @@ export const Header = ({ asHeading }: Props) => {
 
   return (
     <header class={headerCss}>
+      <ThemeToggle />
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
           <SiteTitle class={siteTitleCss}>ぷらすのブログ</SiteTitle>
