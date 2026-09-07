@@ -16,11 +16,15 @@ const CACHE_PATH = 'ogp-cache.json'
 const POSTS_DIR = 'app/routes/posts'
 const API = 'https://blog-api.p1ass.com/ogp'
 
-function collectUrls() {
-  const urls = new Set()
+// ogp-cache.json の中身。取得できなかった URL は null で記録する。
+// 値の形は app/lib/ogp.ts の OgpApiResponse だが、こちらは受け取ってそのまま書くだけなので中身を見ない。
+type Cache = Record<string, unknown>
+
+function collectUrls(): string[] {
+  const urls = new Set<string>()
   for (const slug of readdirSync(POSTS_DIR)) {
     const path = join(POSTS_DIR, slug, 'index.mdx')
-    let source
+    let source: string
     try {
       source = readFileSync(path, 'utf-8')
     } catch {
@@ -35,7 +39,7 @@ function collectUrls() {
   return [...urls].sort()
 }
 
-function loadCache() {
+function loadCache(): Cache {
   try {
     return JSON.parse(readFileSync(CACHE_PATH, 'utf-8'))
   } catch {
@@ -44,9 +48,9 @@ function loadCache() {
 }
 
 const refreshAll = process.argv.includes('--all')
-const cache = refreshAll ? {} : loadCache()
+const cache: Cache = refreshAll ? {} : loadCache()
 const urls = collectUrls()
-const failed = []
+const failed: string[] = []
 
 for (const [index, url] of urls.entries()) {
   if (url in cache) {
@@ -66,8 +70,9 @@ for (const [index, url] of urls.entries()) {
     cache[url] = await res.json()
     console.log('取得')
   } catch (cause) {
-    console.log(`失敗 (${cause.message})`)
-    failed.push(`${url} (${cause.message})`)
+    const reason = cause instanceof Error ? cause.message : String(cause)
+    console.log(`失敗 (${reason})`)
+    failed.push(`${url} (${reason})`)
     cache[url] = null
   }
 }

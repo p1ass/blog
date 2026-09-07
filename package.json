@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build && node scripts/check-build-output.mjs",
+    "build": "vite build --mode client && vite build && node scripts/check-build-output.ts",
     "preview": "wrangler pages dev ./dist",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -15,7 +15,7 @@
     "lint:text:fix": "textlint --fix \"**/*.{md,mdx,ts,tsx,mjs,cjs,js,jsx,yaml,yml,sh}\" \".github/**/*.{yaml,yml}\"",
     "vrt": "./vrt/docker-run.sh",
     "vrt:update": "./vrt/docker-run.sh --update-snapshots",
-    "ogp:refresh": "node scripts/refresh-ogp-cache.mjs"
+    "ogp:refresh": "node scripts/refresh-ogp-cache.ts"
   },
   "private": true,
   "dependencies": {

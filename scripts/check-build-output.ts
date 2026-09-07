@@ -63,8 +63,8 @@ const allowedElements = new Map([
 
 // svg の中は Mermaid と埋め込みが持つ領域なので、部分木ごと数えない。
 // foreignObject の中に div や span が入るため、要素名だけで外すと本文の div と見分けが付かない。
-function elementsOutsideSvg(html) {
-  const found = new Set()
+function elementsOutsideSvg(html: string): Set<string> {
+  const found = new Set<string>()
   let depth = 0
   for (const match of html.matchAll(/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)/g)) {
     const [, slash, rawName] = match
@@ -85,8 +85,8 @@ function elementsOutsideSvg(html) {
   return found
 }
 
-const missingIndex = []
-const unknownElements = []
+const missingIndex: string[] = []
+const unknownElements: string[] = []
 
 for (const slug of readdirSync(postsDir)) {
   const dir = join(postsDir, slug)
