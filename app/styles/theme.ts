@@ -2,7 +2,7 @@
 // 値そのものは app/styles/palette.ts と app/styles/brand.ts にある。
 //
 // 3 段構成にしてある。:root が既定の明るいテーマ、prefers-color-scheme が OS 設定への追従、data-theme が読者の明示的な選択で、後ろほど強い。
-// data-theme の側を :root[data-theme=...] と書くのは、詳細度で prefers-color-scheme の :root を確実に上回るため。
+// 選択の側は :root と属性セレクタを組みにして書く。詳細度で prefers-color-scheme の中の :root を確実に上回るため。
 // 属性の値を引用符でくくらないのは、hono/css が補間した文字列の二重引用符をエスケープするのを避けるため。
 //
 // 暗いテーマの側は、明るいテーマの割り当てを段の並びごと裏返して作ってある。
