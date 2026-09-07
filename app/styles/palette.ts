@@ -40,5 +40,21 @@ export const accent = {
   800: '#223959',
 } as const
 
+// 注意を促す囲みの色。色相 35 度。
+// accent と同じ色相では「いつもと違う」が伝わらないので、ここだけ別の系統を持つ。
+// 段は使うぶんだけ置く。面と、その上に置くアイコンの 2 つで足りる。
+export const warning = {
+  50: '#fff4e5', // Note の面
+  600: '#a35b00', // Note のアイコン。面の上で 4.71 対 1
+} as const
+
+// 補足や助言の囲みの色。色相 145 度。
+export const tip = {
+  50: '#e8f6ec', // Note の面
+  600: '#1f7a3d', // Note のアイコン。面の上で 4.81 対 1
+} as const
+
 export type NeutralStep = keyof typeof neutral
 export type AccentStep = keyof typeof accent
+export type WarningStep = keyof typeof warning
+export type TipStep = keyof typeof tip

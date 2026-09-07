@@ -1,11 +1,12 @@
 import { css } from 'hono/css'
-import { githubBlack, twitterBlue } from '../styles/brand'
+import { githubBlack, xBlack } from '../styles/brand'
 import { mediaUp } from '../styles/breakpoint'
 import { border, text, textMuted } from '../styles/color'
 import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
+import { GitHubIcon, XIcon } from './Icons'
 
 const authorWrapperCss = css`
   border: solid ${borderWidth.thin} ${border};
@@ -59,19 +60,19 @@ const authorSNSLinkCss = css`
 `
 
 const authorSNSGitHubCss = css`
-  ${authorSNSLinkCss}
-  & i {
+  & svg {
     color: ${githubBlack};
-    padding-right: ${space['2xs']};
+    margin-right: ${space['2xs']};
   }
+  ${authorSNSLinkCss}
 `
 
-const authorSNSTwitterCss = css`
-  ${authorSNSLinkCss}
-  & i {
-    color: ${twitterBlue};
-    padding-right: ${space['2xs']};
+const authorSNSXCss = css`
+  & svg {
+    color: ${xBlack};
+    margin-right: ${space['2xs']};
   }
+  ${authorSNSLinkCss}
 `
 
 export function Author() {
@@ -91,16 +92,16 @@ export function Author() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <i class='fab fa-github author-sns-github' />
+          <GitHubIcon />
           p1ass
         </a>
         <a
           href='https://twitter.com/p1ass'
-          class={authorSNSTwitterCss}
+          class={authorSNSXCss}
           target='_blank'
           rel='noopener noreferrer'
         >
-          <i class='fab fa-twitter author-sns-twitter' />
+          <XIcon />
           p1ass
         </a>
       </div>
