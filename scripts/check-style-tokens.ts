@@ -6,7 +6,7 @@
 //
 // 見るのは css`` と keyframes`` の中身と、JSX の style 属性だけ。
 // 日本語のコメントや本文にも px や #4172b5 は出てくるが、それは説明であって描画には反映されない。
-// ファイル全体を正規表現で検査するとこの区別が付かないため、TypeScript のパーサで CSS の位置だけを取り出す。
+// ファイル全体を正規表現で見るとこの区別が付かないため、TypeScript のパーサで CSS の位置だけを取り出す。
 import { globSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
@@ -38,7 +38,7 @@ const tokenSources = new Map([
 
 // 寸法にトークンを持つプロパティと、その引き先。
 //
-// width や height のような、部品ひとつの都合で決まる寸法は見ない。
+// width や height のような、コンポーネントひとつの都合で決まる寸法は見ない。
 // アバターの 80px やリンクカードのサムネイルの高さに共通の基準はなく、トークンにしても引く先が 1 箇所にしかない。
 // 見るのはページ全体のリズムを決めるものだけに絞る。
 const tokenizedProperties = new Map([
@@ -276,7 +276,7 @@ export type Violation = {
   code: string
 }
 
-// 1 ファイルぶんの検査。呼ぶ側がファイルを読む形にしてあるのは、テストから文字列だけを渡せるようにするため。
+// 1 ファイルぶんのチェック。呼ぶ側がファイルを読む形にしてあるのは、テストから文字列だけを渡せるようにするため。
 export function findViolations(file: string, source: string): Violation[] {
   const sourceFile = ts.createSourceFile(
     file,
@@ -377,7 +377,7 @@ function main() {
   )
 }
 
-// テストからは findViolations だけを呼ぶ。読み込んだだけで全ファイルを検査しないよう、実行のときだけ main に入る。
+// テストからは findViolations だけを呼ぶ。読み込んだだけで全ファイルを見に行かないよう、実行のときだけ main に入る。
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main()
 }

@@ -55,7 +55,7 @@ describe('検出する', () => {
 
 describe('検出しない', () => {
   it('トークンを差し込んだ値', () => {
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: 検査する側の入力なので、差し込みの形のまま渡す
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: チェックする側の入力なので、差し込みの形のまま渡す
     expect(rules('const a = css`padding: ${space.md};`')).toEqual([])
   })
 
@@ -78,7 +78,7 @@ describe('検出しない', () => {
     ).toEqual([])
   })
 
-  it('部品ひとつの都合で決まる寸法', () => {
+  it('コンポーネントひとつの都合で決まる寸法', () => {
     expect(rules('const a = css`width: 80px; height: 47px;`')).toEqual([])
   })
 

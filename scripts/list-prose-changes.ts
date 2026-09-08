@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // textlint にかける変更ファイルを出力する。Markdown は本文が変わったものだけに絞る。
 //
-// textlint は記事の文章とソースコードの日本語コメントを検査する。frontmatter だけを機械的に書き換える移行 (日付の統一やキーの改名など) で全記事が対象になると、既存の文章の指摘で CI が落ちる。
+// textlint は記事の文章とソースコードの日本語コメントを見る。frontmatter だけを機械的に書き換える移行 (日付の統一やキーの改名など) で全記事が対象になると、既存の文章の指摘で CI が落ちる。
 // frontmatter しか変わっていないファイルはここで除く。コメントを見るファイルには frontmatter が無いので、変更があればそのまま対象にする。
 //
 // 使い方: node scripts/list-prose-changes.ts <base-ref>

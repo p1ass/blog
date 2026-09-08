@@ -49,7 +49,7 @@ hono/css の書き方の制約とハーネスの回し方は [CLAUDE.md](../../.
 
 ### 2. 既存の当たりを取る
 
-`/styleguide` に、トークンと本文要素とコンポーネントが 1 ページに並んでいる。似た役割の部品がすでにないか、まずここを見る。
+`/styleguide` に、トークンと本文要素とコンポーネントが 1 ページに並んでいる。似た役割のコンポーネントがすでにないか、まずここを見る。
 
 ### 3. 書く
 
@@ -66,17 +66,17 @@ hono/css の書き方の制約とハーネスの回し方は [CLAUDE.md](../../.
 
 新しいコンポーネントは `app/components/` に置く。記事の MDX から使うなら `app/lib/mdx-components.tsx` の `useMDXComponents()` に登録する。
 
-記事本文に新しい HTML 要素が出るようになるなら、先にスタイルを当ててから `scripts/check-build-output.ts` の `allowedElements` に置き場所つきで足す。順序を守る理由は [CLAUDE.md のビルド結果の検査](../../../CLAUDE.md#ビルド結果の検査)にある。
+記事本文に新しい HTML 要素が出るようになるなら、先にスタイルを当ててから `scripts/check-build-output.ts` の `allowedElements` に置き場所つきで足す。順序を守る理由は [CLAUDE.md のビルド結果のチェック](../../../CLAUDE.md#ビルド結果のチェック)にある。
 
 トークンにない値が要るときは、次の順で考える。
 
 1. **段の意図を読み違えていないか**。`space.lg` を「大きめの余白」ではなく 24px として引いていないか
 2. **その値は他でも使うか**。使うならトークンを足し、DESIGN.md の front matter と該当節の両方に足す
-3. **その部品ひとつの都合か**。アバターの直径のような値はトークンにしない。`scripts/check-style-tokens.ts` の `exceptions` へ理由を書いて足す。理由が書けないなら、それはトークンで書ける値
+3. **そのコンポーネントひとつの都合か**。アバターの直径のような値はトークンにしない。`scripts/check-style-tokens.ts` の `exceptions` へ理由を書いて足す。理由が書けないなら、それはトークンで書ける値
 
 ### 4. スタイルガイドに載せる
 
-トークンは `app/routes/styleguide/index.tsx` の `TokenTable` が定義を反復するので自動で出る。コンポーネントを足したときは見本を書き足す。
+トークンは `app/routes/styleguide/index.tsx` の `TokenTable` が定義を反復するので自動で表示される。コンポーネントを足したときは見本を書き足す。
 
 hover やフォーカスは撮影のとき出ない。当たった状態を固定で描いた見本を別に置く。
 
@@ -92,7 +92,7 @@ pnpm lint:text    # textlint
 
 `pnpm vrt` が落ちたら、差分画像を見て意図した変更かを判断する。意図どおりなら `pnpm vrt:update` で撮り直す。撮り直す前の注意は [CLAUDE.md の見た目の回帰テスト](../../../CLAUDE.md#見た目の回帰テスト)にある。
 
-DESIGN.md の front matter を触ったときは、形式の検査もかける。
+DESIGN.md の front matter を触ったときは、形式も確かめる。
 
 ```shell
 npx @google/design.md lint DESIGN.md

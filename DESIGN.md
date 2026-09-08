@@ -249,7 +249,7 @@ components:
 
 # DESIGN.md
 
-blog.p1ass.com の見た目の方針。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、この本文がその理由にあたる。front matter は `npx @google/design.md lint DESIGN.md` で検査する。
+blog.p1ass.com の見た目の方針。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、この本文がその理由にあたる。front matter は `npx @google/design.md lint DESIGN.md` で確かめる。
 
 実装の置き場所と、記事まわりの語彙は [CLAUDE.md](CLAUDE.md) にある。見た目を変える手順は [design-system Skill](.claude/skills/design-system/SKILL.md) が案内する。
 
@@ -276,7 +276,7 @@ blog.p1ass.com の見た目の方針。[design.md](https://github.com/google-lab
 
 数字は明度の目安で、小さいほど明るい。
 
-本文リンクの下線には accent の 400 を `accent-muted` として当てる。300 のほうが「薄い」の見た目には近いが、白地で 2.35 対 1 にとどまる。下線はリンクを色以外で見分けるための印なので、UI 部品と同じ 3 対 1 を満たす 400 (3.24 対 1) を採る。
+本文リンクの下線には accent の 400 を `accent-muted` として当てる。300 のほうが「薄い」の見た目には近いが、白地で 2.35 対 1 にとどまる。下線はリンクを色以外で見分けるための印なので、UI コンポーネントと同じ 3 対 1 を満たす 400 (3.24 対 1) を採る。
 
 accent の 300 だけ彩度が高い (他の段が 47%、この段だけ 80%)。暗い地に置くと同じ彩度でも色みが弱く見え、リンクの青がくすんで感じられる。
 
@@ -284,7 +284,7 @@ accent の 300 だけ彩度が高い (他の段が 47%、この段だけ 80%)。
 
 ### コントラスト
 
-[WCAG 2.2](https://www.w3.org/TR/WCAG22/) の AA を満たす。本文 4.5 対 1 と大きい文字 3 対 1 が [1.4.3 Contrast (Minimum)](https://www.w3.org/TR/WCAG22/#contrast-minimum)、UI 部品と図形の 3 対 1 が [1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast) にあたる。役割の組み合わせは両テーマで自動検証し、下回ったら CI で落とす。
+[WCAG 2.2](https://www.w3.org/TR/WCAG22/) の AA を満たす。本文 4.5 対 1 と大きい文字 3 対 1 が [1.4.3 Contrast (Minimum)](https://www.w3.org/TR/WCAG22/#contrast-minimum)、UI コンポーネントと図形の 3 対 1 が [1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast) にあたる。役割の組み合わせは両テーマで自動検証し、下回ったら CI で落とす。
 
 暗いテーマの地 (neutral の 950) に対して、本文は 14.28 対 1、`text-muted` は 6.40 対 1、`accent` は 8.29 対 1。3 つとも AA を超える。
 
@@ -392,7 +392,7 @@ hover では下線を 1px から 2px に太くし、あわせてリンクの背�
 
 選択は `localStorage` に持ち、head の同期スクリプトが読んで属性を置く。同期で置かないと、記憶した色が当たる前に一度描かれ、リロードのたびに色が入れ替わって見える。
 
-`color-scheme` も地に合わせる。スクロールバーやフォーム部品のように、こちらで色を指定していない部分を揃えるためだ。
+`color-scheme` も地に合わせる。スクロールバーやフォームのコントロールのように、こちらで色を指定していない部分を揃えるためだ。
 
 ### 選択の見せ方
 
@@ -433,7 +433,7 @@ X のシェアボタンは黒い円のままにする。円そのものがブラ
 - Do 値をトークンから引く。色と寸法と分岐を、コンポーネントの側で決めない
 - Do 色を足すときは明るいテーマと暗いテーマの両方を同時に決める
 - Do 新しい役割を足したら、コントラストの検証にその組み合わせを足す
-- Do 部品ひとつの都合で決まる寸法 (アバターの直径など) は生の値のまま書く。段を作っても引く先が 1 箇所にしかない
+- Do コンポーネントひとつの都合で決まる寸法 (アバターの直径など) は生の値のまま書く。段を作っても引く先が 1 箇所にしかない
 - Don't 影を使う。階層はボーダーと面のカラーで作る
 - Don't hover でリンクの文字色を動かす。コントラストの余裕がない
 - Don't `transition: all` を書く。動かすプロパティを名指しする
