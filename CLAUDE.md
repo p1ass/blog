@@ -137,7 +137,9 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 リンクカードの OGP は、リポジトリの `ogp-cache.json` から引く (`app/lib/ogp.ts`)。ビルドのたびに取得すると、同じコードに対して見た目の回帰テストが落ちたり通ったりする。更新は `pnpm ogp:refresh` の手動実行。
 
-キャッシュに無い URL だけ、ビルド時に `https://blog-api.p1ass.com/ogp` へ取りに行く。リンクカードを足した直後だけこの流れを通る。取得に失敗しても例外は投げず、素のリンクにフォールバックする。投げると `@hono/vite-ssg` がページの代わりに "Internal Server Error" を書き出し、ビルドが成功したままその記事だけ本番から消える。
+取得は `app/lib/ogp-fetch.ts` が自前で行う。リンク先の HTML を取り、meta タグから `title`、`description`、`image` の 3 つだけを読む。文字コードは Content-Type ヘッダか meta の charset に従う。以前は自前の別サービスに問い合わせていたが、取るものが meta タグだけなので、サービスが生きているかどうかにビルドが左右される形をやめた。解析は `app/lib/ogp-fetch.test.ts` で見る。
+
+キャッシュに無い URL だけ、ビルド時に取得する。リンクカードを足した直後だけこの流れを通る。取得に失敗しても例外は投げず、素のリンクにフォールバックする。投げると `@hono/vite-ssg` がページの代わりに "Internal Server Error" を書き出し、ビルドが成功したままその記事だけ本番から消える。
 
 ## ハーネス
 

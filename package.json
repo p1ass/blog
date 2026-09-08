@@ -23,7 +23,6 @@
     "@formkit/tempo": "^1.1.0",
     "hono": "^4.13.7",
     "honox": "0.1.43",
-    "ogp-parser": "^0.8.1",
     "rehype-mermaid": "^3.0.0",
     "remark-gfm": "^4.0.1",
     "vite-plugin-require": "^1.2.14",
