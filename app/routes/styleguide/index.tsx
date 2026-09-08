@@ -130,7 +130,7 @@ type TokenTableProps = {
   tokens: Record<string, string | number>
 }
 
-// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも出るので、一覧の更新の抜けが起きない。
+// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも表示されるので、一覧の更新の抜けが起きない。
 function TokenTable({ tokens, sample }: TokenTableProps) {
   return (
     <table class={tokenTableCss}>
@@ -266,7 +266,7 @@ function SemanticColorTable() {
   )
 }
 
-// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新の抜けが起きない。
+// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも表示されるので、一覧の更新の抜けが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
     .filter(([, value]) => typeof value === 'string')
@@ -513,7 +513,7 @@ export default function StyleGuide() {
 
         <h3>ThemePicker</h3>
         <p class={captionCss}>
-          ヘッダーにある、テーマを選ぶ部品。出るのは今の選択のアイコンだけなので、
+          ヘッダーにある、テーマを選ぶコンポーネント。表示されるのは今の選択のアイコンだけなので、
           3 つを並べた見本をここに置く。
         </p>
         <ul class={iconSampleListCss}>
