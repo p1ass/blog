@@ -25,7 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Label | 記事に貼るしるし。Category と Tag の上位概念 | Taxonomy, Term, 分類 |
 | LabelKind | Label の種類。`category` と `tag` の 2 つ | Type, Kind |
 | LabelId | Label を見分けるキー。URL に現れる | Slug (Slug は Post のもの) |
-| LabelPage | ある Label が付いた記事の 1 ページ分 | — |
+| LabelPage | ある Label が付いた記事の 1 ページぶん | — |
 | Category | 記事の主題を 1 つだけ表す Label。記事は必ず 1 つ持つ | Genre, Section, ジャンル |
 | Tag | 記事に登場する話題を表す Label。記事は 0 個以上持つ | Keyword, Topic, キーワード |
 | OGP | 参照した外部ページが名乗るタイトル・説明・画像 | Metadata, Preview, Card data |
@@ -60,9 +60,9 @@ pnpm install:playwright      # rehype-mermaid が使う chromium を入れる
 
 Mermaid 図は rehype-mermaid がビルド時に Playwright の chromium でレンダリングする。chromium が未インストールだとビルドが失敗するため、初回は `pnpm install:playwright` を実行する。
 
-CI は Biome の lint (`biome ci .`)、`pnpm lint:style`、`pnpm test`、変更されたファイルへの textlint、push ごとの build + Cloudflare Pages デプロイ、見た目の回帰テストを実行する。
+CI では、Biome の lint (`biome ci .`)、`pnpm lint:style`、`pnpm test`、変更されたファイルへの textlint、push ごとの build + Cloudflare Pages デプロイ、見た目の回帰テストが回る。
 
-`scripts/` の実行ファイルは TypeScript で書き、Node の型剥がしでそのまま動かす。`node scripts/check-style-tokens.ts` のように直接呼べる。Node 22.18 以降が要る。
+`scripts/` の実行ファイルは TypeScript で書き、[Node の型剥がし](https://nodejs.org/api/typescript.html#type-stripping)でそのまま動かす。`node scripts/check-style-tokens.ts` のように直接呼べる。フラグ無しで有効になるのは Node 22.18 以降。
 
 ## アーキテクチャ
 
@@ -80,17 +80,17 @@ CI は Biome の lint (`biome ci .`)、`pnpm lint:style`、`pnpm test`、変更�
 
 frontmatter の型は `app/routes/posts/types.ts` の `Frontmatter` で定義する (`title` / `date` / `description` / `categories` / `tags?` / `ogImage?`)。`categories[0]` がカテゴリ一覧のグルーピングキーになる。
 
-`{/* <!--more--> */}` は一覧ページの抜粋の区切りマーカーとして機能する。`PostSummarySection` が mdx ファイルを `fs.readFileSync` で読み、このマーカーより前を `MarkdownRenderer` でその場でコンパイルして表示する。記事を書くときは必ずこのマーカーを入れる。
+`{/* <!--more--> */}` が ContentSummary の終わりを示す Excerpt Marker になる。`PostSummarySection` が mdx ファイルを `fs.readFileSync` で読み、このマーカーより前を `MarkdownRenderer` でその場でコンパイルして表示する。記事を書くときは必ずこのマーカーを入れる。
 
 ### 記事データの集約
 
-`app/lib/posts.ts` が `import.meta.glob('../routes/posts/**/*.mdx', { eager: true })` で全記事を読み込み、日付降順のリストを module スコープで一度だけ構築する。ページネーション、カテゴリ、タグ、前後記事へのリンクはすべてこのリストから導出する。記事一覧に関わる処理を足すときはここに関数を追加する。
+`app/lib/posts.ts` が `import.meta.glob('../routes/posts/**/*.mdx', { eager: true })` で全記事を読み込み、日付降順のリストを module スコープで一度だけ構築する。ページネーション、カテゴリ、タグ、前後記事へのリンクの導出元は、すべてこのリストになる。記事一覧に関わる処理を足すときは、ここに関数を追加する。
 
 ### MDX のレンダリングの流れ
 
-MDX には 2 つの流れがあり、プラグイン構成が異なる点に注意する。
+MDX には 2 つの流れがあり、プラグイン構成が異なる。
 
-1. 記事本体: `vite.config.ts` の `@mdx-js/rollup` がビルド時に変換する。プラグインは `app/lib/mdx.ts` の `remarkPlugins` / `rehypePlugins` を共有する。
+1. 記事本体: `vite.config.ts` の `@mdx-js/rollup` がビルド時に変換する。プラグインは `app/lib/mdx.ts` の `remarkPlugins` / `rehypePlugins` と共通。
 2. 一覧の抜粋: `app/components/MarkdownRenderer.tsx` が `@mdx-js/mdx` の `compile` + `run` を実行時に呼ぶ。remark/rehype プラグインは適用されず、画像パスは文字列の置き換えで解決するワークアラウンドを入れている。
 
 どちらも `app/lib/mdx-components.tsx` の `useMDXComponents()` を provider として使う。MDX から使えるカスタムコンポーネント (`ExLinkCard` / `BlockLink` / `Note` / `Twitter`) と、`img` や `pre` などの組み込みタグの差し替えはここで登録する。
@@ -110,9 +110,9 @@ MDX には 2 つの流れがあり、プラグイン構成が異なる点に注�
 
 hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値は `app/styles/` のトークンから引く。色は `color.ts` の役割名、余白は `spacing.ts` の `space`、角丸とボーダーは `shape.ts`、画面幅の分岐は `breakpoint.ts` の `mediaUp()` を通す。
 
-生の値は `scripts/check-style-tokens.ts` が落とす。16 進数の色、生の `@media`、`box-shadow`、トークンを持つプロパティへ書いた px・rem・em が対象になる。トークンで書けない値は、同じファイルの `exceptions` へ理由とともに足す。
+生の値は `scripts/check-style-tokens.ts` が落とす。対象と例外の書き方は「生の値の検査」にある。
 
-グローバルスタイルは `app/routes/_renderer.tsx` の `:-hono-global` ブロックに集約する。ここには highlight.js のテーマも含む。
+グローバルスタイルは `app/routes/_renderer.tsx` の `:-hono-global` ブロックに集約する。ここには `app/styles/highlight.ts` から取り込む highlight.js のテーマも含む。テーマは [highlight.js](https://github.com/highlightjs/highlight.js) の `atom-one-dark.css` を写したもので、配布元の帰属表示を `highlight.ts` に残してある。
 
 #### hono/css の制約
 
@@ -120,11 +120,11 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 - **`${...}` は最後に置く。** hono/css は `&:hover` をそのまま出力し、入れ子の解決はブラウザに任せる。取り込んだスタイルが `&:hover` を持つと、その後ろに書いた宣言が入れ子の外へ出て捨てられる。
 - **`text-decoration` のショートハンドを書かない。** `text-decoration-color` を初期値に戻すので、取り込む側が先に書いた色が消える。`text-decoration-line` なら順序に関わらず残る。
-- **クラスを `${...}` でセレクタの位置に差し込まない。** クラス名ではなく中身の宣言そのものへ展開される場合もある。単独のセレクタでは名前として出て、カンマで 2 つ並べた側では展開された。中の要素は素のクラス名で指し、クラスは `cx()` で足す。テンプレートリテラルで文字列としてつなぐと、SSR の最中に `document is not defined` で落ちる。
+- **クラスを `${...}` でセレクタの位置に差し込まない。** クラス名ではなく中身の宣言そのものへ展開されることがある。単独のセレクタでは名前として出て、カンマで 2 つ並べた側では展開された。中の要素は素のクラス名で指し、クラスは `cx()` で足す。テンプレートリテラルで文字列としてつなぐと、SSR の最中に `document is not defined` で落ちる。
 - **`:-hono-global` の中に複数行のコメントを書かない。** 判定が `/^:-hono-global{(.*)}$/` で `.` は改行に一致しないため、改行が残るとブロックごと展開されず CSS 全体が無効になる。説明はテンプレートの外に書く。
 - **CSS のコメントに波括弧を書かない。** 最小化はコメントを読み飛ばさないので、`{` や `}` が対応付けを狂わせる。
 - **補間した値に二重引用符を入れない。** エスケープされて宣言ごと無効になる。テンプレートに直接書いた文字列は素通しなので、値を定数へ切り出したときに初めて表面化する。
-- **プラグインが吐くクラス名を当てにしない。** 脚注の見出しは remark が `<h2 class="sr-only">` を出力するが、CSS 側に定義が無いことは出力を読むまで分からない。頼る前に生成物を検索する。
+- **プラグインが吐くクラス名を当てにしない。** 脚注の見出しは remark が `<h2 class="sr-only">` を出力するが、CSS 側に定義がないことは出力を読むまで分からない。頼る前に生成物を検索する。
 
 ### レイアウト
 
@@ -135,9 +135,9 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 ### 外部依存
 
-`app/lib/ogp.ts` が `https://blog-api.p1ass.com/ogp` を叩いて OGP 情報を取得する (`ExLinkCard` 用)。ビルド時に呼ばれるため、この API が落ちているとビルドが失敗する。同一ビルド内は module スコープの Map でキャッシュする。
+リンクカードの OGP は、リポジトリの `ogp-cache.json` から引く (`app/lib/ogp.ts`)。ビルドのたびに取得すると、同じコードに対して見た目の回帰テストが落ちたり通ったりする。更新は `pnpm ogp:refresh` の手動実行。
 
-リンクカードの OGP は、ビルドのたびに取得せずリポジトリの `ogp-cache.json` から引く。取得しに行くと、同じコードに対して見た目の回帰テストが落ちたり通ったりする。更新は `pnpm ogp:refresh` の手動実行。
+キャッシュに無い URL だけ、ビルド時に `https://blog-api.p1ass.com/ogp` へ取りに行く。リンクカードを足した直後だけこの流れを通る。取得に失敗しても例外は投げず、素のリンクにフォールバックする。投げると `@hono/vite-ssg` がページの代わりに "Internal Server Error" を書き出し、ビルドが成功したままその記事だけ本番から消える。
 
 ## ハーネス
 
@@ -153,13 +153,13 @@ DESIGN.md の決めごとを、人が覚えている必要のない形にする�
 
 ### 見た目の回帰テスト
 
-ビルドから撮影までを Playwright 公式イメージ (linux/amd64) の中で完結させ、CI も同じイメージの中で回す。9 ページを、デスクトップとモバイル × ライトとダークの 4 組で撮り、36 枚の基準画像を `vrt/__screenshots__/` にコミットする。Docker が要る。ホストが macOS だとヒラギノで描かれるため、直接 Playwright を回すと CI と一致しない。
+ビルドから撮影までを Playwright 公式イメージ (linux/amd64) で完結させ、CI も同じイメージで回す。9 ページを、デスクトップとモバイル × ライトとダークの 4 組で撮り、36 枚の基準画像を `vrt/__screenshots__/` にコミットする。Docker が要る。ホストが macOS だとヒラギノで描かれるため、直接 Playwright を回すと CI と一致しない。
 
 撮る対象はトップ、カテゴリ一覧、タグ一覧、スタイルガイド、記事 5 本。記事は要素を網羅するように選んである。`java-catch-up` が表とコードと画像とリンクカード、`isucon11` が横に長いコードブロック、`isucon13` が Mermaid 図、`oauth-2-for-browser-apps` が Note、`enum` が脚注にあたる。
 
-`threshold` と `maxDiffPixels`、それに再試行はすべて 0 にしてある。既定値の `threshold` 0.2 では色の変更を検出できない。accent を `#4172b5` から `#4172b8` に変えても、18 ページ中 16 ページが素通りした。再試行を残さないのは、撮影の揺れとデザインの変更が同じ「落ちた」で混ざるためだ。揺れが無いなら、落ちたことがそのまま変更を意味する。
+`threshold` と `maxDiffPixels`、それに再試行はすべて 0 にしてある。[`toHaveScreenshot` の既定値](https://playwright.dev/docs/api/class-pageassertions#page-assertions-to-have-screenshot-1)である `threshold` 0.2 では色の変更を検出できない。accent を `#4172b5` から `#4172b8` に変えても、当時の 18 枚 (ダークを足す前の枚数) のうち 16 枚が素通りした。再試行を残さないのは、撮影の揺れとデザインの変更が同じ「落ちた」で混ざるためだ。揺れがないなら、落ちたことがそのまま変更を意味する。
 
-揺れを消すために、撮影側にも仕掛けがある。素の Playwright イメージには和文フォントが無く `sans-serif` が中国語のフォントに解決されるため、Gen Interface JP を同梱して `vrt/fonts/local.conf` で解決先を固定してある。最初の fullPage 撮影はページ高さを変える (可視域の外にあった外部画像がまとめて読み込みに行く) ので、捨てる 1 枚を先に撮る。外部画像は abort せず、決まったプレースホルダを返す。遮断すると、読み込みに失敗した画像の描画が実行ごとに揺れる。
+揺れを消すために、撮影側にも仕掛けがある。素の Playwright イメージには和文フォントがなく `sans-serif` が中国語のフォントに解決されるため、Gen Interface JP をイメージに入れ、`vrt/fonts/local.conf` で解決先を固定してある。最初の fullPage 撮影はページ高さを変える (可視域の外にあった外部画像がまとめて読み込みに行く) ので、捨てる 1 枚を先に撮る。外部画像は abort せず、決まったプレースホルダを返す。遮断すると、読み込みに失敗した画像の描画が実行ごとに揺れる。
 
 撮影のときの注意が 3 つある。
 
@@ -171,7 +171,7 @@ DESIGN.md の決めごとを、人が覚えている必要のない形にする�
 
 `/styleguide` に、トークンと本文要素とコンポーネントを 1 ページに並べる。トークンの定義をそのまま反復して表にするので、トークンを足せばページにも出る。記事ではないので `noindex` を付け、`robots.txt` からも外す。
 
-見出しは記事本文の中とカードの中の両方の文脈を載せる。一方の文脈だけだと、文脈をまたぐ衝突に気づけない。
+見出しは記事本文とカードの両方の文脈で載せる。一方の文脈だけだと、文脈をまたぐ衝突に気づけない。
 
 フォーカスリングと hover したリンクは、当たった状態を固定で描いた見本を別に置く。撮影のときカーソルは乗らず、フォーカスも当たらないので、そのままだと基準画像に写らない。値を二重に持つため、`link.ts` の hover 側を変えたらこの見本も直す。
 
@@ -199,7 +199,7 @@ px・rem・em はトークンを持つプロパティだけ見る。対象は `p
 
 ### コントラストの検証
 
-`app/styles/theme.test.ts` が役割の組み合わせについて WCAG 2.2 の比を計算する。ライトとダークの両方で回す。テーマを足すときは `themes` に 1 行足すだけで、同じ組み合わせがそのテーマでも検証される。
+`app/styles/theme.test.ts` が役割の組み合わせごとに [WCAG 2.2](https://www.w3.org/TR/WCAG22/) の比を計算する。ライトとダークの両方で回す。テーマを足すときは `themes` に 1 行足すだけで、同じ組み合わせがそのテーマでも検証される。
 
 片方のテーマでしか比を持たない役割は、この表から外して個別のテストへ書く。`brandSurfaceBorder` はライトでは透明で、比較する相手がない。16 進数でない値を渡すと相対輝度が NaN になり比較が静かに通ってしまうので、`relativeLuminance` は形式を確かめて落とす。
 
@@ -207,7 +207,7 @@ px・rem・em はトークンを持つプロパティだけ見る。対象は `p
 
 ## コーディング規約
 
-Biome でフォーマットと lint を行う。シングルクォート、セミコロン省略、末尾カンマあり、arrow 関数の括弧省略。コミット前に `pnpm lint:fix` を実行する。
+フォーマットと lint は Biome でかける。シングルクォート、セミコロン省略、末尾カンマあり、arrow 関数の括弧省略。コミット前に `pnpm lint:fix` を実行する。
 
 記事の日本語は `.textlintrc.json` の `preset-ja-technical-writing` と `preset-ja-spacing` に準拠させる。和文と欧文の間には半角スペースを入れる。検査の対象は記事だけでなく、`docs/` や `CLAUDE.md` を含むすべての Markdown と、ソースコードの日本語コメント。`pnpm lint:text` で回す。CI は変更されたファイルだけを検査する。
 
@@ -233,7 +233,7 @@ AI っぽい日本語は `@textlint-ja/morpheme-match` で検出する。辞書�
 <!-- 辞書の説明として、検出対象の語そのものを例に引く段落 -->
 <!-- textlint-disable @textlint-ja/morpheme-match -->
 
-辞書は kuromoji の Token 列で書く。品詞と `basic_form` で照合するため、「効く」を 1 件書けば「効きます」「効かない」に当たり、名詞の「有効」「効率」には当たらない。語を足すときは次の 3 点に気をつける。
+辞書は kuromoji の Token 列で書く。品詞と `basic_form` で照合するため、「効く」を 1 件書けば「効きます」「効かない」に当たり、名詞の「有効」「効率」には当たらない。語を足すときは次の 5 点に気をつける。
 
 <!-- textlint-enable @textlint-ja/morpheme-match -->
 
@@ -243,10 +243,10 @@ AI っぽい日本語は `@textlint-ja/morpheme-match` で検出する。辞書�
 - 分かち書きは前後の語で変わる。「当たり外れ」は単体では `当たり[名詞] + 外れ[名詞]` だが、「たびに当たり外れが」では `に当たり[助詞]` に融合する。この種の語は辞書に向かない。
 - 汎用的な名詞は入れない。「絵」をスクリーンショットの意味で禁止しようとすると、「お絵かき」「絵馬」のような本来の意味での使用に当たる。
 
-読点の打ち方だけは辞書ではなく `textlint/rules/short-topic-comma/` の自作ルールで見ている。主題を 5 文字以内示しただけで読点を打つ形 (「議事録は」の直後に読点を打つような形) を指摘する。辞書はトークンの並びしか書けず「文頭から何文字目か」を条件にできないため、辞書に書くと長い条件節の読点まで当たってしまう。ローカルパッケージとして `file:` で参照しているので、`pnpm install` すれば追加のフラグなしで読み込まれる。
+読点の打ち方だけは辞書ではなく `textlint/rules/short-topic-comma/` の自作ルールで見ている。主題を 5 文字以内で示しただけで読点を打つ形 (「議事録は」の直後など) を指摘する。辞書はトークンの並びしか書けず「文頭から何文字目か」を条件にできないため、辞書に書くと長い条件節の読点まで当たってしまう。ローカルパッケージとして `file:` で参照しているので、`pnpm install` すれば追加のフラグなしで読み込まれる。
 
 `file:` の依存は pnpm が `node_modules` へコピーする。`textlint/rules/` と `textlint/plugins/` を直したら `pnpm install` を回すまで textlint 側に反映されない。直したのに挙動が変わらないときはこれを疑う。
 
 `textlint/ai-japanese.test.ts` に、語ごとの「検出したい例」と「検出してはいけない例」がある。辞書とルールのどちらを触ったときもここに足す。コメントの拾い方は `textlint/comment-ja.test.ts` で見ている。プラグインを触ったときはこちらに足す。
 
-セッション中にユーザーから文章の語や言い回しを指摘されたら、その場で書き直して終わりにせず、辞書に足すところまでやる。辞書がこの指摘を覚えておくための唯一の場所で、入れなければ次のセッションで同じ指摘が出る。手順は上の 3 点と同じ。ただし既存 77 記事での出現数を数えた結果、ユーザー自身がすでによく使っている語だと分かった場合は辞書に入れず、数字を示してそう伝える。
+セッション中にユーザーから文章の語や言い回しを指摘されたら、その場で書き直して終わりにせず、辞書に足すところまで進める。辞書がこの指摘を覚えておくための唯一の場所で、入れなければ次のセッションで同じ指摘が出る。手順は上の 5 点と同じ。ただし既存 77 記事での出現数を数えて、ユーザー自身がすでによく使っている語だと分かったら、辞書に入れず数字を示してそう伝える。
