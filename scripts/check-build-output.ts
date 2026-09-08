@@ -17,10 +17,10 @@ import { join } from 'node:path'
 const postsDir = 'dist/posts'
 
 // 記事本文に出てよい要素と、そのスタイルの置き場所。
-// 足すときは先にスタイルを当てること。当てずに足すと、この検査は「見た目を揃える」という役目を失う。
+// 足すときは先にスタイルを当てること。当てずに足すと、このチェックは「見た目を揃える」という役目を失う。
 const allowedElements = new Map([
   ['p', '_renderer.tsx のグローバル'],
-  ['h2', '_renderer.tsx のグローバル。article の中だけ章の罫線が付く'],
+  ['h2', '_renderer.tsx のグローバル。article の中だけ章のボーダーが付く'],
   ['h3', '_renderer.tsx のグローバル'],
   ['h4', '_renderer.tsx のグローバル'],
   ['h5', '_renderer.tsx のグローバル。本文と同じ大きさで太さだけ変える'],
@@ -63,8 +63,8 @@ const allowedElements = new Map([
 
 // svg の中は Mermaid と埋め込みが持つ領域なので、部分木ごと数えない。
 // foreignObject の中に div や span が入るため、要素名だけで外すと本文の div と見分けが付かない。
-function elementsOutsideSvg(html) {
-  const found = new Set()
+function elementsOutsideSvg(html: string): Set<string> {
+  const found = new Set<string>()
   let depth = 0
   for (const match of html.matchAll(/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)/g)) {
     const [, slash, rawName] = match
@@ -85,8 +85,8 @@ function elementsOutsideSvg(html) {
   return found
 }
 
-const missingIndex = []
-const unknownElements = []
+const missingIndex: string[] = []
+const unknownElements: string[] = []
 
 for (const slug of readdirSync(postsDir)) {
   const dir = join(postsDir, slug)
@@ -127,7 +127,7 @@ if (unknownElements.length > 0) {
     console.error(`  ${failure}`)
   }
   console.error(
-    'スタイルを当ててから scripts/check-build-output.mjs の allowedElements に足してください。',
+    'スタイルを当ててから scripts/check-build-output.ts の allowedElements に足してください。',
   )
 }
 

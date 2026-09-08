@@ -4,8 +4,6 @@
 // そのためタブレット幅では、要素ごとにレイアウトの変わるタイミングがずれていた。
 //
 // 2 段に絞り、条件は min-width に統一する。狭いほうを既定として書き、広くなったときだけ上書きする形になる。
-//
-// 定義しただけで、まだどこにも当てていない。レイアウトの PR で適用する。
 
 export const breakpoint = {
   sm: '640px', // 本文が 1 カラムで収まる幅。ここを境に余白と文字を広げる
@@ -17,7 +15,7 @@ export const breakpoint = {
 // 800px のときは 16px で 50 文字あり、目安を超えていた。
 export const contentWidth = '760px'
 
-// @media を直接書かず、これを通す。生の @media は lint で禁止する。
+// @media を直接書かず、これを通す。生の @media は scripts/check-style-tokens.ts が落とす。
 export function mediaUp(token: keyof typeof breakpoint): string {
   return `@media (min-width: ${breakpoint[token]})`
 }

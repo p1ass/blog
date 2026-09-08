@@ -49,7 +49,7 @@ const swatchListCss = css`
 `
 
 const swatchCss = css`
-  border: 1px solid ${border};
+  border: ${borderWidth.thin} solid ${border};
   border-radius: ${radius.sm};
   overflow: hidden;
 `
@@ -61,14 +61,14 @@ const swatchChipCss = css`
 const swatchLabelCss = css`
   padding: ${space.xs} ${space.sm};
   background-color: ${surfaceSubtle};
-  border-top: 1px solid ${border};
-  font-size: 0.85rem;
+  border-top: ${borderWidth.thin} solid ${border};
+  font-size: ${fontSize.caption};
   line-height: 1.5;
 `
 
 const swatchValueCss = css`
   color: ${textMuted};
-  font-size: 0.75rem;
+  font-size: ${fontSize.caption};
   word-break: break-all;
 `
 
@@ -97,7 +97,7 @@ const linkHoverSampleCss = css`
 // 見出しの直下に置く、その節が何を見せているかの一行。
 const captionCss = css`
   color: ${textMuted};
-  font-size: 0.85rem;
+  font-size: ${fontSize.caption};
   margin: 0 0 ${space.sm};
 `
 
@@ -108,10 +108,10 @@ const tokenTableCss = css`
 
   & th,
   & td {
-    border: 1px solid ${border};
+    border: ${borderWidth.thin} solid ${border};
     padding: ${space.xs} ${space.sm};
     text-align: left;
-    font-size: 0.85rem;
+    font-size: ${fontSize.caption};
     vertical-align: middle;
   }
 
@@ -120,7 +120,7 @@ const tokenTableCss = css`
   }
 
   & code {
-    font-size: 0.8rem;
+    font-size: inherit;
   }
 `
 
@@ -130,7 +130,7 @@ type TokenTableProps = {
   tokens: Record<string, string | number>
 }
 
-// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも出るので、一覧の更新の抜けが起きない。
+// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも表示されるので、一覧の更新の抜けが起きない。
 function TokenTable({ tokens, sample }: TokenTableProps) {
   return (
     <table class={tokenTableCss}>
@@ -227,7 +227,7 @@ const menuSampleCss = css`
 const chipCss = css`
   width: ${space['2xl']};
   height: ${space.md};
-  border: 1px solid ${border};
+  border: ${borderWidth.thin} solid ${border};
   border-radius: ${radius.sm};
 `
 
@@ -266,7 +266,7 @@ function SemanticColorTable() {
   )
 }
 
-// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも出るので、一覧の更新の抜けが起きない。
+// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも表示されるので、一覧の更新の抜けが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
     .filter(([, value]) => typeof value === 'string')
@@ -513,7 +513,7 @@ export default function StyleGuide() {
 
         <h3>ThemePicker</h3>
         <p class={captionCss}>
-          ヘッダーにある、テーマを選ぶ部品。出るのは今の選択のアイコンだけなので、
+          ヘッダーにある、テーマを選ぶコンポーネント。表示されるのは今の選択のアイコンだけなので、
           3 つを並べた見本をここに置く。
         </p>
         <ul class={iconSampleListCss}>
@@ -611,7 +611,7 @@ export default function StyleGuide() {
           tokens={radius}
           sample={value => (
             <div
-              style={`background-color: ${surfaceSubtle}; border: 1px solid ${border}; border-radius: ${value}; width: 64px; height: 32px`}
+              style={`background-color: ${surfaceSubtle}; border: ${borderWidth.thin} solid ${border}; border-radius: ${value}; width: 64px; height: 32px`}
             />
           )}
         />

@@ -80,7 +80,7 @@ import {
 // 一覧はヘッダーからはみ出すので、header の overflow: auto は display: flow-root に替えてある。余白の相殺を止める役目だけが要る。
 //
 // 出すアイコンは html の data-theme-choice を見て CSS が選ぶ。島の状態で選ぶと、水和するまで SSR のときのアイコンが出たままになる。
-// 部品そのものは data-theme-choice が付くまで隠す。スクリプトが動かない読者に、押しても何も起きない部品を見せないため。
+// コンポーネントそのものは data-theme-choice が付くまで隠す。スクリプトが動かない読者に、押しても何も起きないものを見せないため。
 //
 // article の直下の svg は Mermaid の図。入れ子の svg を避けるのは、Instagram の埋め込みが div の中に自前の svg を持っているため。
 // 図の色はビルド時に確定するので、暗いテーマでも線と文字は暗いまま出る。地に白い面を敷いて、図だけ明るいまま見せる。コードブロックを常に暗いまま置いているのと同じ扱いにした。明るいテーマでは diagramSurface が透明なので、面は出ない。
@@ -130,7 +130,7 @@ const bodyCss = css`
   }
 
   article h2 {
-    border-bottom: 1px solid ${border};
+    border-bottom: ${borderWidth.thin} solid ${border};
     padding-bottom: ${space['2xs']};
   }
 
@@ -313,7 +313,7 @@ const bodyCss = css`
 
   code {
     background-color: ${surfaceSubtle};
-    border: 1px solid ${border};
+    border: ${borderWidth.thin} solid ${border};
     border-radius: ${radius.sm};
     font-family: ${fontFamily.mono};
     font-size: 0.85em;

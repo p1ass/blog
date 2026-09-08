@@ -121,7 +121,7 @@ function toCustomProperties(assignment: Assignment): string {
     .join('\n')
 }
 
-// color-scheme は、スクロールバーやフォーム部品のようなこちらで色を指定していない部分を、地の明るさへ合わせるために置く。
+// color-scheme は、スクロールバーやフォームのコントロールのようなこちらで色を指定していない部分を、地の明るさへ合わせるために置く。
 export const themeVariables = `
   :root {
     color-scheme: light dark;

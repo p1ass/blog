@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // textlint にかける変更ファイルを出力する。Markdown は本文が変わったものだけに絞る。
 //
-// textlint は記事の文章とソースコードの日本語コメントを検査する。frontmatter だけを機械的に書き換える移行 (日付の統一やキーの改名など) で全記事が対象になると、既存の文章の指摘で CI が落ちる。
+// textlint は記事の文章とソースコードの日本語コメントを見る。frontmatter だけを機械的に書き換える移行 (日付の統一やキーの改名など) で全記事が対象になると、既存の文章の指摘で CI が落ちる。
 // frontmatter しか変わっていないファイルはここで除く。コメントを見るファイルには frontmatter が無いので、変更があればそのまま対象にする。
 //
-// 使い方: node scripts/list-prose-changes.mjs <base-ref>
+// 使い方: node scripts/list-prose-changes.ts <base-ref>
 
 import { execFileSync } from 'node:child_process'
 
@@ -14,11 +14,11 @@ if (!baseRef) {
   process.exit(1)
 }
 
-const git = (...args) =>
+const git = (...args: string[]) =>
   execFileSync('git', args, { encoding: 'utf-8', maxBuffer: 64 * 1024 * 1024 })
 
 // frontmatter を落とした本文を返す。frontmatter が無ければ全体が本文。
-function body(text) {
+function body(text: string): string {
   if (!text.startsWith('---\n')) {
     return text
   }
@@ -52,13 +52,14 @@ const changed = git(
   .split('\n')
   .filter(Boolean)
 
-const isMarkdown = file => file.endsWith('.md') || file.endsWith('.mdx')
+const isMarkdown = (file: string) =>
+  file.endsWith('.md') || file.endsWith('.mdx')
 
 const needsLint = changed.filter(file => {
   if (!isMarkdown(file)) {
     return true
   }
-  let before
+  let before: string
   try {
     before = git('show', `${baseRef}:${file}`)
   } catch {

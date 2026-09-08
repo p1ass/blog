@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'hono/jsx'
 import { CheckIcon, type ThemeChoice, ThemeIcon } from '../components/Icons'
 
-// テーマを選ぶ部品。今の選択のアイコンだけを出し、押すと 3 つの選択肢が開く。
+// テーマを選ぶコンポーネント。今の選択のアイコンだけを出し、押すと 3 つの選択肢が開く。
 //
 // 素の select はやめた。開いた一覧はブラウザの見た目のままで、こちらの色や角丸が当たらない。
 // 代わりに開閉を自分で持つ。details と summary も試せるが、記事本文の details に当てたスタイルが

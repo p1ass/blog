@@ -24,6 +24,28 @@ jobs:
       - name: Run Biome
         run: pnpm exec biome ci .
 
+  # デザイントークンを通さずに書いた色や寸法を落とす。
+  # scripts/ は Node の型剥がしでそのまま動かすので、22.18 以降が要る。
+  style-tokens:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Check style tokens
+        run: pnpm run lint:style
+
   test:
     runs-on: ubuntu-latest
     permissions:
@@ -70,7 +92,7 @@ jobs:
           git fetch --no-tags origin "${{ github.base_ref }}"
           # 記事と Skill 文書とソースコードの日本語コメントは同じルールに従う。
           # frontmatter だけの変更 (日付の統一など) では既存の文章を検査しない。
-          files=$(node scripts/list-prose-changes.mjs "origin/${{ github.base_ref }}")
+          files=$(node scripts/list-prose-changes.ts "origin/${{ github.base_ref }}")
           echo "files=${files}" >> "$GITHUB_OUTPUT"
           echo "本文が変わったファイル: ${files:-なし}"
       - name: Run textlint

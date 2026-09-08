@@ -6,7 +6,12 @@
 //
 // 元は _renderer.tsx にベタ書きされていたものを、そのまま移してある。
 
-// atom-one-dark
+// highlight.js の src/styles/atom-one-dark.css を写したもの。配布元の帰属表示をそのまま残す。
+//
+//   Atom One Dark by Daniel Gamage
+//   Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+//
+// highlight.js 本体は BSD 3-Clause (Copyright (c) 2006, Ivan Sagalaev) で、著作権表示の保持を条件にしている。
 const atomOneDark = `
   .hljs {
     color: #abb2bf;
