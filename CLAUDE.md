@@ -108,7 +108,7 @@ MDX には 2 つの流れがあり、プラグイン構成が異なる。
 
 見た目の決めごとは [DESIGN.md](DESIGN.md) にある。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、本文がその理由になっている。書くときの手順は `.claude/skills/design-system/` の Skill にある。
 
-hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値は `app/styles/` のトークンから引く。色は `color.ts` の役割名、余白は `spacing.ts` の `space`、角丸とボーダーは `shape.ts`、画面幅の分岐は `breakpoint.ts` の `mediaUp()` を通す。
+hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値は `app/styles/` のトークンを参照する。色は `color.ts` の役割名、余白は `spacing.ts` の `space`、角丸とボーダーは `shape.ts`、画面幅の分岐は `breakpoint.ts` の `mediaUp()` を使う。
 
 生の値は `scripts/check-style-tokens.ts` が落とす。対象と例外の書き方は「生の値のチェック」にある。
 
@@ -143,7 +143,7 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 ### 外部依存
 
-リンクカードの OGP は、リポジトリの `ogp-cache.json` から引く (`app/lib/ogp.ts`)。ビルドのたびに取得すると、同じコードに対して見た目の回帰テストが落ちたり通ったりする。更新は `pnpm ogp:refresh` の手動実行。
+リンクカードの OGP は、リポジトリの `ogp-cache.json` を参照する (`app/lib/ogp.ts`)。ビルドのたびに取得すると、同じコードに対して見た目の回帰テストが落ちたり通ったりする。更新は `pnpm ogp:refresh` の手動実行。
 
 取得は `app/lib/ogp-fetch.ts` が自前で行う。リンク先の HTML を取り、meta タグから `title`、`description`、`image` の 3 つだけを読む。文字コードは Content-Type ヘッダか meta の charset に従う。以前は自前の別サービスに問い合わせていたが、取るものが meta タグだけなので、サービスが生きているかどうかにビルドが左右される形をやめた。解析は `app/lib/ogp-fetch.test.ts` で見る。
 
@@ -151,13 +151,13 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 ### OG 画像
 
-記事の OG 画像は `scripts/generate-og-images.ts` がビルドの最後に作り、`dist/posts/<slug>/og.png` へ書き出す。satori で SVG を組み、resvg で PNG にする。frontmatter に `ogImage` を書いた記事はその指定を使い、描かない。
+記事の OG 画像は `scripts/generate-og-images.ts` がビルドの最後に生成し、`dist/posts/<slug>/og.png` へ書き出す。satori で SVG を組み、resvg で PNG にする。frontmatter に `ogImage` を書いた記事は、その指定を使うので生成しない。
 
 フォントは `fonts/` の Gen Interface JP を埋め込む。見た目の回帰テストのコンテナに入れるのと同じものなので、撮影した画像と同じ字面で出る。読者の環境のフォントには左右されない。
 
-改行は budoux が返す文節で決める。satori に任せると幅が尽きた場所で折れて「参加し|て」のような切れ方になる。文字の大きさは、タイトルだけを satori に描かせて高さを測り、収まる中でいちばん大きいものを選ぶ。
+改行は budoux が返す文節で決める。satori に任せると幅が尽きた場所で折り返して「参加し|て」のような切れ方になる。文字の大きさは、タイトルだけを satori に描かせて高さを測り、収まる中でいちばん大きいものを選ぶ。
 
-色は `app/styles/theme.ts` の明るいテーマから引く。OG 画像は SNS の白い枠の中に出るので、読者のテーマには従わない。
+色は `app/styles/theme.ts` の明るいテーマを参照する。OG 画像は SNS の白い枠の中に出るので、読者のテーマには従わない。
 
 ## ハーネス
 
