@@ -1,16 +1,23 @@
 #!/usr/bin/env node
-// 記事の OG 画像を生成する。ビルドの最後に回し、dist/posts/<slug>/og.png へ書き出す。
+// 記事の OG 画像を生成する。ビルドの最初に回し、public/posts/<slug>/og.png へ書き出す。
 //
 // 以前は og-image.p1ass.com という別のサービスが、共有されるたびにその場で生成していた。
 // 記事の数は増えても 1 年に 10 本ほどで、しかもタイトルは公開したあと変わらない。
 // ビルドのときに 1 度生成すれば済むものを、サービスを 1 つ立てて持ち続ける理由がない。
 //
+// 生成した画像はリポジトリにコミットする。ビルドの環境やフォントが変わって絵が動いたら、PR の差分で気づける。
+// 基準画像を 36 枚コミットしている見た目の回帰テストと同じ考え方で、生成物を目で確かめられる場所に置く。
+//
+// ビルドのたびに生成し直すのは、生成し忘れを起きなくするため。public/ は vite がそのまま dist へコピーするので、
+// vite より先に回せば、その回のビルドから新しい記事の画像が出る。
+//
 // frontmatter に ogImage がある記事は、そちらを使うので生成しない。
 //
-// 生成する中身は前のサービスと揃えてある。1200 × 630、白地、中央にタイトル、左下にサイト名と URL、右下にアイコン、下辺に accent の帯。
+// 生成する中身は前のサービスと揃えてある。1200 × 630、白地、タイトル、左下にサイト名と URL、右下にアイコン、下辺に accent の帯。
+// タイトルは左揃えで、上下の中央に置く。中央揃えにすると、行ごとに始まりの位置が変わって読み出しが探しづらい。
 // 色はテーマの明るい側を参照する。OG 画像は SNS の白い枠の中に出るので、読者のテーマには従わない。
 
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { Resvg } from '@resvg/resvg-js'
 import { loadDefaultJapaneseParser } from 'budoux'
@@ -20,7 +27,7 @@ import { frontmatterSchema } from '../app/routes/posts/types.ts'
 import { light } from '../app/styles/theme.ts'
 
 const postsDir = 'app/routes/posts'
-const outDir = 'dist/posts'
+const outDir = 'public/posts'
 const fontDir = 'fonts'
 const iconPath = 'public/static/icon.png'
 
@@ -174,7 +181,6 @@ function titleBlock(text: string, fontSize: number): Element {
       fontWeight: 700,
       lineHeight: 1.4,
       color: light.text,
-      textAlign: 'center',
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
     },
@@ -205,7 +211,6 @@ function card(
           display: 'flex',
           flex: 1,
           alignItems: 'center',
-          justifyContent: 'center',
         },
         titleBlock(heading.text, heading.fontSize),
       ),
@@ -270,6 +275,7 @@ async function main() {
     const png = new Resvg(svg, { font: { loadSystemFonts: false } })
       .render()
       .asPng()
+    mkdirSync(join(outDir, post.slug), { recursive: true })
     writeFileSync(join(outDir, post.slug, 'og.png'), png)
     generated++
   }

@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build && node scripts/generate-og-images.ts && node scripts/check-build-output.ts",
+    "build": "node scripts/generate-og-images.ts && vite build --mode client && vite build && node scripts/check-build-output.ts",
     "preview": "wrangler pages dev ./dist",
     "test": "vitest run",
     "test:watch": "vitest",
