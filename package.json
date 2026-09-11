@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build && node scripts/check-build-output.ts",
+    "build": "vite build --mode client && vite build && node scripts/generate-og-images.ts && node scripts/check-build-output.ts",
     "preview": "wrangler pages dev ./dist",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -37,11 +37,13 @@
     "@mdx-js/rollup": "^3.1.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@playwright/test": "1.58.1",
+    "@resvg/resvg-js": "^2.6.2",
     "@textlint-ja/textlint-rule-morpheme-match": "^2.0.0",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "@textlint/textlint-plugin-markdown": "^15.8.0",
     "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "2.0.0",
+    "budoux": "^0.9.1",
     "image-size": "^2.0.2",
     "kuromojin": "^3.0.1",
     "recma-export-filepath": "^1.2.0",
@@ -50,6 +52,7 @@
     "rehype-mdx-import-media": "^1.2.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
+    "satori": "^0.33.4",
     "textlint": "^15.8.0",
     "textlint-filter-rule-comments": "^1.3.0",
     "textlint-plugin-comment-ja": "file:./textlint/plugins/comment-ja",
@@ -60,7 +63,8 @@
     "vite": "^7.3.6",
     "vite-plugin-static-copy": "^4.1.1",
     "vitest": "^5.0.0",
-    "wrangler": "^4.61.0"
+    "wrangler": "^4.61.0",
+    "yaml": "^2.9.0"
   },
   "pnpm": {
     "patchedDependencies": {

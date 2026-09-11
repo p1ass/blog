@@ -367,12 +367,12 @@ export default jsxRenderer(
     // 記事一覧のページには他に見出しが無いので、サイト名を h1 にする
     const isPostListPage = /^\/(?:page\/\d+\/)?$/.test(c.req.path)
 
+    // 記事の OG 画像は、ビルドのときに scripts/generate-og-images.ts が記事と同じ場所へ書き出す。
+    // frontmatter で ogImage を指定している記事はそちらを優先する。frontmatter を持たないページは共通の 1 枚を出す。
     const ogImage = frontmatter?.ogImage
       ? `https://blog.p1ass.com${frontmatter.ogImage}`
-      : frontmatter?.title
-        ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
-            frontmatter?.title,
-          )}.png`
+      : frontmatter
+        ? `${canonicalUrl}og.png`
         : 'https://blog.p1ass.com/static/ogp.png'
     return (
       <html lang='ja'>

@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
-# コンテナに VRT 用のフォントを入れる。docker-run.sh と CI の両方から呼ぶ。
+# コンテナに撮影用のフォントを入れる。docker-run.sh と CI の両方から呼ぶ。
+# フォントの実体はリポジトリの fonts/ にある。OG 画像もそこから読む。
 set -euo pipefail
 
-FONT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/fonts"
+VRT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FONT_DIR="$(cd "${VRT_DIR}/../fonts" && pwd)"
 
 install -d /usr/share/fonts/truetype/gen-interface-jp
 cp "${FONT_DIR}"/*.ttf /usr/share/fonts/truetype/gen-interface-jp/
 
 install -d /etc/fonts/conf.d
-cp "${FONT_DIR}/local.conf" /etc/fonts/local.conf
+cp "${VRT_DIR}/local.conf" /etc/fonts/local.conf
 
 fc-cache -f > /dev/null
 
