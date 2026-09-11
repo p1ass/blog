@@ -200,7 +200,7 @@ components:
     padding: "{spacing.sm}"
     height: 112px
   link-card-hover:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "{colors.surface-subtle}"
   button-more:
     backgroundColor: "{colors.text}"
     textColor: "{colors.text-inverted}"
