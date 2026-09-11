@@ -106,7 +106,7 @@ MDX には 2 つの流れがあり、プラグイン構成が異なる。
 
 ### スタイリング
 
-見た目の決めごとは [DESIGN.md](DESIGN.md) にある。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、本文がその理由になっている。書くときの手順は `.claude/skills/design-system/` の Skill にある。
+見た目の方針は [DESIGN.md](DESIGN.md) にある。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、本文がコンポーネントを横断する方針になっている。コンポーネントごとの見た目はスタイルガイドにある。書くときの手順は `.claude/skills/design-system/` の Skill にある。
 
 hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値は `app/styles/` のトークンを参照する。色は `color.ts` の役割名、余白は `spacing.ts` の `space`、角丸とボーダーは `shape.ts`、画面幅の分岐は `breakpoint.ts` の `mediaUp()` を使う。
 
