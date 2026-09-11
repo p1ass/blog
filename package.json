@@ -25,7 +25,6 @@
     "honox": "0.1.43",
     "rehype-mermaid": "^3.0.0",
     "remark-gfm": "^4.0.1",
-    "vite-plugin-require": "^1.2.14",
     "zod": "^4.5.4"
   },
   "devDependencies": {
@@ -35,7 +34,6 @@
     "@hono/vite-ssg": "0.3.3",
     "@mdx-js/mdx": "^3.1.1",
     "@mdx-js/rollup": "^3.1.1",
-    "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@playwright/test": "1.58.1",
     "@resvg/resvg-js": "^2.6.2",
     "@textlint-ja/textlint-rule-morpheme-match": "^2.0.0",
@@ -65,10 +63,5 @@
     "vitest": "^5.0.0",
     "wrangler": "^4.61.0",
     "yaml": "^2.9.0"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "debug@4.4.0": "patches/debug@4.4.0.patch"
-    }
   }
 }
