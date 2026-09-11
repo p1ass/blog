@@ -421,8 +421,6 @@ export default jsxRenderer(
 
           {import.meta.env.PROD ? <GoogleAnalytics /> : null}
 
-          <TwitterWidgets />
-
           <link rel='icon' sizes='48x48' href='/static/favicon.ico' />
           <link
             rel='apple-touch-icon'
@@ -499,32 +497,6 @@ const ThemeScript = () => {
         } catch (e) {}
         apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
       })();
-    </script>
-  `
-}
-
-// Twitter の埋め込み。
-//
-// ウィジェットは blockquote の data-theme をマウントのときに 1 度だけ読む。属性は SSG の時点では決められないので、
-// 読み込みを DOMContentLoaded まで遅らせ、属性を付けてから widgets.js を差し込む。
-// async のまま置くと、属性を付ける前にウィジェットが blockquote を拾ってしまうことがある。
-//
-// 読者がテーマを切り替えたときは、ここでは追従できない。トグルを入れるときは埋め込みを作り直す。
-const TwitterWidgets = () => {
-  return html`
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.querySelectorAll('.twitter-tweet').forEach(function (quote) {
-            quote.setAttribute('data-theme', 'dark');
-          });
-        }
-        var script = document.createElement('script');
-        script.src = 'https://platform.twitter.com/widgets.js';
-        script.charset = 'utf-8';
-        script.async = true;
-        document.head.appendChild(script);
-      });
     </script>
   `
 }

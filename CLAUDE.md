@@ -133,6 +133,14 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 `c.render()` の第 2 引数に渡す `Head` 型は `app/global.d.ts` で `ContextRenderer` を拡張して定義する。
 
+### 島
+
+`app/islands/` に置いたコンポーネントはブラウザで水和する。今あるのは `ThemePicker` だけ。
+
+**同じページに 2 つめの島を置いても水和しない。** SSR のとき、先に描かれた島より後ろの島は `honox-island` に包まれないまま出る。hono/jsx の文脈が最初の島の後ろへ漏れているためで、こちらでは直せない。ヘッダーの `ThemePicker` は必ず先に描かれるので、記事本文やフッターへ置いた島は動かない。
+
+ブラウザでだけ動かしたい処理は、島にせず `app/client.ts` から呼ぶ。ツイートの埋め込み (`app/lib/twitter-embed.ts`) がその形で、SSR は素の blockquote を出し、client.ts が widgets.js を読んで差し替える。
+
 ### 外部依存
 
 リンクカードの OGP は、リポジトリの `ogp-cache.json` から引く (`app/lib/ogp.ts`)。ビルドのたびに取得すると、同じコードに対して見た目の回帰テストが落ちたり通ったりする。更新は `pnpm ogp:refresh` の手動実行。

@@ -17,6 +17,12 @@ declare global {
       choice: 'system' | 'light' | 'dark',
       persist: boolean,
     ) => void
+
+    // platform.twitter.com/widgets.js が定義する。埋め込みのある記事でだけ、twitter-embed.ts が読み込む。
+    twttr?: {
+      ready: (callback: () => void) => void
+      widgets: { load: (element?: HTMLElement) => void }
+    }
   }
 }
 
