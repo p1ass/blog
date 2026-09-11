@@ -367,12 +367,12 @@ export default jsxRenderer(
     // 記事一覧のページには他に見出しが無いので、サイト名を h1 にする
     const isPostListPage = /^\/(?:page\/\d+\/)?$/.test(c.req.path)
 
+    // 記事の OG 画像は、ビルドのときに scripts/generate-og-images.ts が記事と同じ場所へ書き出す。
+    // frontmatter で ogImage を指定している記事はそちらを優先する。frontmatter を持たないページは共通の 1 枚を出す。
     const ogImage = frontmatter?.ogImage
       ? `https://blog.p1ass.com${frontmatter.ogImage}`
-      : frontmatter?.title
-        ? `https://og-image.p1ass.com/apiv2/${encodeURIComponent(
-            frontmatter?.title,
-          )}.png`
+      : frontmatter
+        ? `${canonicalUrl}og.png`
         : 'https://blog.p1ass.com/static/ogp.png'
     return (
       <html lang='ja'>
@@ -420,8 +420,6 @@ export default jsxRenderer(
           <meta property='og:title' content={title} />
 
           {import.meta.env.PROD ? <GoogleAnalytics /> : null}
-
-          <TwitterWidgets />
 
           <link rel='icon' sizes='48x48' href='/static/favicon.ico' />
           <link
@@ -499,32 +497,6 @@ const ThemeScript = () => {
         } catch (e) {}
         apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
       })();
-    </script>
-  `
-}
-
-// Twitter の埋め込み。
-//
-// ウィジェットは blockquote の data-theme をマウントのときに 1 度だけ読む。属性は SSG の時点では決められないので、
-// 読み込みを DOMContentLoaded まで遅らせ、属性を付けてから widgets.js を差し込む。
-// async のまま置くと、属性を付ける前にウィジェットが blockquote を拾ってしまうことがある。
-//
-// 読者がテーマを切り替えたときは、ここでは追従できない。トグルを入れるときは埋め込みを作り直す。
-const TwitterWidgets = () => {
-  return html`
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.querySelectorAll('.twitter-tweet').forEach(function (quote) {
-            quote.setAttribute('data-theme', 'dark');
-          });
-        }
-        var script = document.createElement('script');
-        script.src = 'https://platform.twitter.com/widgets.js';
-        script.charset = 'utf-8';
-        script.async = true;
-        document.head.appendChild(script);
-      });
     </script>
   `
 }

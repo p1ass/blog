@@ -32,10 +32,10 @@ function generateRss(posts: Post[]): string {
 }
 
 function generateRssItem(post: Post): string {
-  const encodedTitle = encodeURIComponent(post.frontmatter.title)
+  // OG 画像は scripts/generate-og-images.ts が記事と同じ場所へ書き出す。_renderer.tsx の og:image と同じものを指す。
   const ogImage = post.frontmatter.ogImage
     ? `https://blog.p1ass.com${post.frontmatter.ogImage}`
-    : `https://og-image.p1ass.com/apiv2/${encodedTitle}.png`
+    : `https://blog.p1ass.com${postPermalink(post.slug)}og.png`
 
   return `<item>
       <title>${post.frontmatter.title}</title>

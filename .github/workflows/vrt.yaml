@@ -18,8 +18,8 @@ jobs:
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
-          # ロックファイルを作った版に合わせる。9 系だと
-          # patchedDependencies のハッシュ形式が変わってしまう。
+          # ロックファイルを作った版に合わせる。別の版で入れると、
+          # 触っていない pnpm-lock.yaml まで書き換わる。
           version: 10.8.0
           run_install: false
       - name: Install dependencies

@@ -27,7 +27,7 @@ docker run --rm --platform linux/amd64 \
   "${IMAGE}" \
   bash -c "
     set -euo pipefail
-    # ロックファイルを作った版に合わせる。9 系だと patchedDependencies のハッシュ形式が変わり、実行のたびに pnpm-lock.yaml が書き換わる。
+    # ロックファイルを作った版に合わせる。別の版で入れると、触っていない pnpm-lock.yaml まで書き換わる。
     corepack enable
     corepack prepare pnpm@10.8.0 --activate
     pnpm config set store-dir /pnpm-store

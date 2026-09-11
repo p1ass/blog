@@ -9,8 +9,8 @@
 // たとえば text は neutral の 900 と 200、surface は 0 と 950 で、地と文字の関係が入れ替わるだけになる。
 // ただし段の刻みは暗い側のほうが粗いので、面どうしの差は明るいテーマより広く出る。
 
-import { brandWhite, githubBlack, xBlack } from './brand'
-import { accent, neutral, tip, warning } from './palette'
+import { brandWhite, githubBlack, xBlack } from './brand.ts'
+import { accent, neutral, tip, warning } from './palette.ts'
 
 // 役割から段への割り当て。テーマを足すときは、この形の表をもう 1 つ書く。
 export type Assignment = {

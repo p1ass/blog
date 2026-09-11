@@ -1,114 +1,50 @@
-type OgpApiResponse = {
-  Policy: Policy
-  Title: string
-  Type: string
-  URL: Url
-  SiteName: string
-  Image: Image[]
-  Description: string
-  Determiner: string
-  Locale: string
-  Favicon: string
-}
-
-type Policy = {
-  TrustedTags: string[]
-}
-
-type Url = {
-  Source: string
-  Scheme: string
-  Opaque: string
-  User: null
-  Host: string
-  Path: string
-  RawPath: string
-  ForceQuery: boolean
-  RawQuery: string
-  Fragment: string
-  Value: string
-}
-
-type Image = {
-  URL: string
-  SURL: string
-  Type: string
-  Width: number
-  Height: number
-  Alt: string
-}
-
-// リポジトリに持つキャッシュ。pnpm ogp:refresh で更新する。
-// リンク先が生きているかどうかにビルドが左右されないように持つ。
+// リンクカードに出す OGP。
+//
+// リポジトリに持つ ogp-cache.json を参照する。更新は pnpm ogp:refresh の手動実行で、リンク先が生きているかどうかにビルドが左右されないようにしてある。
+//
+// 取りに行くのはキャッシュに無い URL だけで、リンクカードを足した直後だけこの流れを通る。
+// ここで例外を投げてはいけない。@hono/vite-ssg はルートの例外を握りつぶし、ページの代わりに "Internal Server Error" を中身とする index.txt を書き出す。
+// ビルドは成功したまま、その記事だけが本番から消える。実際に java-catch-up と line-dev-day-2018 がこの状態で出ていた。
 import ogpCache from '../../ogp-cache.json'
+import { fetchOgp, type Ogp } from './ogp-fetch'
 
-const cache: { [url: string]: OgpApiResponse } = {}
+export type { Ogp }
 
-export async function fetchOgp(url: string): Promise<OgpApiResponse> {
-  if (cache[url]) {
-    return cache[url]
+// 値が null の URL は、リンク先が消えていて取得できなかったもの。記録しておかないと、ビルドのたびに取得を試みては失敗する。
+const cache = ogpCache as Record<string, Ogp | null>
+
+// 同じ URL を複数の記事から参照していることがある。ビルドの中で取得は 1 回に留める。
+const fetched = new Map<string, Ogp>()
+
+export async function getOgp(url: string): Promise<Ogp> {
+  if (url in cache) {
+    return cache[url] ?? fallbackOgp(url)
   }
 
-  // 値が null の URL は、リンク先が消えていて取得できなかったもの。
-  // 記録しておかないと、ビルドのたびに取得を試みては失敗する。
-  const entries = ogpCache as Record<string, OgpApiResponse | null>
-  if (url in entries) {
-    const cached = entries[url] ?? fallbackOgp(url)
-    cache[url] = cached
-    return cached
+  const memo = fetched.get(url)
+  if (memo !== undefined) {
+    return memo
   }
 
-  // キャッシュに無い URL はビルド時に取得する。リンクカードを足した直後だけこの流れを通る。
-  // ここを通ったら pnpm ogp:refresh を回してコミットする。
-  console.warn(`OGP がキャッシュに無いので取得します: ${url}`)
-  const ogp = await fetchFromApi(url)
-  cache[url] = ogp
+  console.warn(
+    `OGP がキャッシュに無いので取得します: ${url} (pnpm ogp:refresh を回してコミットしてください)`,
+  )
+  const ogp = await tryFetch(url)
+  fetched.set(url, ogp)
   return ogp
 }
 
-async function fetchFromApi(url: string): Promise<OgpApiResponse> {
+async function tryFetch(url: string): Promise<Ogp> {
   try {
-    const res = await fetch(`https://blog-api.p1ass.com/ogp?url=${url}`)
-    if (res.status !== 200) {
-      console.warn(`OGP を取得できませんでした (${res.status}): ${url}`)
-      return fallbackOgp(url)
-    }
-    return await res.json<OgpApiResponse>()
+    return await fetchOgp(url)
   } catch (cause) {
-    console.warn(`OGP の取得に失敗しました: ${url}`, cause)
+    const reason = cause instanceof Error ? cause.message : String(cause)
+    console.warn(`OGP を取得できませんでした: ${url} (${reason})`)
     return fallbackOgp(url)
   }
 }
 
-// リンク先が消えていたり API が落ちていたりしても、記事そのものは出す。
-//
-// 以前はここで例外を投げていた。すると @hono/vite-ssg がページの代わりに
-// "Internal Server Error" を index.txt として書き出し、ビルドは成功したまま
-// その記事だけが本番から消えた。実際に line-dev-day-2018 が、2018 年の
-// 会議のサイトが無くなったことでこの状態になっていた。
-function fallbackOgp(url: string): OgpApiResponse {
-  return {
-    Policy: { TrustedTags: [] },
-    Title: url,
-    Type: '',
-    URL: {
-      Source: url,
-      Scheme: '',
-      Opaque: '',
-      User: null,
-      Host: new URL(url).host,
-      Path: '',
-      RawPath: '',
-      ForceQuery: false,
-      RawQuery: '',
-      Fragment: '',
-      Value: url,
-    },
-    SiteName: '',
-    Image: [],
-    Description: '',
-    Determiner: '',
-    Locale: '',
-    Favicon: '',
-  }
+// リンク先が消えていても記事そのものは出す。タイトルの代わりに URL を出し、画像は付けない。
+function fallbackOgp(url: string): Ogp {
+  return { title: url, description: '', image: null }
 }

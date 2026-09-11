@@ -1,6 +1,5 @@
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
-import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
 
@@ -27,22 +26,6 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
     },
     plugins: [
-      viteCommonjs({
-        include: [
-          'acorn-jsx',
-          'debug',
-          'ms',
-          'supports-color',
-          'has-flag',
-          'extend',
-          'style-to-object',
-          'style-to-js',
-          'inline-style-parser',
-          'highlight.js',
-          'toml',
-          'yaml',
-        ],
-      }),
       honox(),
       // mdx() より先に動かして、抜粋用の仮想モジュールを用意する
       mdxSummary(),

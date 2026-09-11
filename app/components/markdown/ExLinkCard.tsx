@@ -1,5 +1,5 @@
 import { css, cx } from 'hono/css'
-import { fetchOgp } from '../../lib/ogp'
+import { getOgp } from '../../lib/ogp'
 import {
   accent,
   border,
@@ -102,23 +102,19 @@ type Props = {
 }
 
 export async function ExLinkCard({ url }: Props) {
-  const ogp = await fetchOgp(url)
+  const ogp = await getOgp(url)
 
   return (
     <div class={cardWrapperCss}>
       <a href={url} class={cardLinkCss}>
-        {ogp.Image && ogp.Image.length >= 1 ? (
+        {ogp.image ? (
           <div class={thumbnailWrapperCss}>
-            <img
-              src={ogp.Image[0].URL}
-              class={thumbnailImageCss}
-              alt={ogp.Title}
-            />
+            <img src={ogp.image} class={thumbnailImageCss} alt={ogp.title} />
           </div>
         ) : null}
         <div class={cx(entryBodyCss, 'entry-body')}>
-          <p>{ogp.Title}</p>
-          <div class={entryDescriptionCss}>{ogp.Description}</div>
+          <p>{ogp.title}</p>
+          <div class={entryDescriptionCss}>{ogp.description}</div>
           <span class={entryHostUrlCss}>{new URL(url).host}</span>
         </div>
       </a>

@@ -11,14 +11,13 @@
 
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { fetchOgp, type Ogp } from '../app/lib/ogp-fetch.ts'
 
 const CACHE_PATH = 'ogp-cache.json'
 const POSTS_DIR = 'app/routes/posts'
-const API = 'https://blog-api.p1ass.com/ogp'
 
 // ogp-cache.json の中身。取得できなかった URL は null で記録する。
-// 値の形は app/lib/ogp.ts の OgpApiResponse だが、こちらは受け取ってそのまま書くだけなので中身を見ない。
-type Cache = Record<string, unknown>
+type Cache = Record<string, Ogp | null>
 
 function collectUrls(): string[] {
   const urls = new Set<string>()
@@ -58,21 +57,13 @@ for (const [index, url] of urls.entries()) {
   }
   process.stdout.write(`[${index + 1}/${urls.length}] ${url} ... `)
   try {
-    const res = await fetch(`${API}?url=${url}`)
-    if (res.status !== 200) {
-      console.log(`失敗 (${res.status})`)
-      failed.push(`${url} (${res.status})`)
-      // 取得できなかったことも記録する。そうしないとビルドのたびに取得を試みる。
-      // リンク先が復活したときは --all で取り直す。
-      cache[url] = null
-      continue
-    }
-    cache[url] = await res.json()
+    cache[url] = await fetchOgp(url)
     console.log('取得')
   } catch (cause) {
     const reason = cause instanceof Error ? cause.message : String(cause)
     console.log(`失敗 (${reason})`)
     failed.push(`${url} (${reason})`)
+    // 取得できなかったことも記録する。そうしないとビルドのたびに取得を試みる。リンク先が復活したときは --all で取り直す。
     cache[url] = null
   }
 }

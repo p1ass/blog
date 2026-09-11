@@ -8,10 +8,14 @@
 // 実際に java-catch-up と line-dev-day-2018 の 2 記事がこの状態で出ていた。
 // 原因は外部の OGP API の応答で、ビルドのたびに結果が変わる。
 //
-// 2 つめは記事本文に知らない要素が出ていないか。
+// 2 つめは og:image の実体があるか。
+// 参照先が `/static/ogp.png`、実体が `public/static/opg.png` という綴りの食い違いで、
+// フォールバックの画像が長いあいだ 404 を返していた。SNS に流れるまで誰も気づかない。
+//
+// 3 つめは記事本文に知らない要素が出ていないか。
 // 記事は MDX なので、生の HTML を書けば何でも入る。スタイルを当てていない要素がブラウザ既定のまま出ると、そこだけ本文のリズムから外れる。
 // 一覧に無い要素が出たらここで落とし、スタイルを当ててから一覧に足す。
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 const postsDir = 'dist/posts'
@@ -86,7 +90,10 @@ function elementsOutsideSvg(html: string): Set<string> {
 }
 
 const missingIndex: string[] = []
+const missingOgImage: string[] = []
 const unknownElements: string[] = []
+
+const siteUrl = 'https://blog.p1ass.com'
 
 for (const slug of readdirSync(postsDir)) {
   const dir = join(postsDir, slug)
@@ -100,6 +107,14 @@ for (const slug of readdirSync(postsDir)) {
   }
 
   const html = readFileSync(join(dir, 'index.html'), 'utf8')
+
+  const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)
+  if (!ogImage) {
+    missingOgImage.push(`${slug}: og:image が無い`)
+  } else if (!existsSync(join('dist', ogImage[1].replace(siteUrl, '')))) {
+    missingOgImage.push(`${slug}: ${ogImage[1]} の実体が無い`)
+  }
+
   const article = html.match(/<article[^>]*>([\s\S]*?)<\/article>/)
   if (!article) {
     unknownElements.push(`${slug}: article 要素が無い`)
@@ -121,6 +136,16 @@ if (missingIndex.length > 0) {
   }
 }
 
+if (missingOgImage.length > 0) {
+  console.error('og:image が指すファイルがありません:')
+  for (const failure of missingOgImage) {
+    console.error(`  ${failure}`)
+  }
+  console.error(
+    'frontmatter の ogImage を書いた記事はその画像を、それ以外は scripts/generate-og-images.ts の生成物を確かめてください。',
+  )
+}
+
 if (unknownElements.length > 0) {
   console.error('一覧に無い要素が記事本文に出ています:')
   for (const failure of unknownElements) {
@@ -131,10 +156,14 @@ if (unknownElements.length > 0) {
   )
 }
 
-if (missingIndex.length > 0 || unknownElements.length > 0) {
+if (
+  missingIndex.length > 0 ||
+  missingOgImage.length > 0 ||
+  unknownElements.length > 0
+) {
   process.exit(1)
 }
 
 console.log(
-  `記事 ${readdirSync(postsDir).length} 件すべてに index.html があり、本文の要素は ${allowedElements.size} 種類の一覧に収まっています`,
+  `記事 ${readdirSync(postsDir).length} 件すべてに index.html と OG 画像があり、本文の要素は ${allowedElements.size} 種類の一覧に収まっています`,
 )
