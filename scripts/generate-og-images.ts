@@ -146,9 +146,14 @@ const forbiddenAtLineStart =
 // 行末に置けない文字。開き括弧。
 const forbiddenAtLineEnd = /[（［｛「『【〈《〔]$/
 
+// 空白を挟まずに続く欧文と記号。kuromoji は "Next.js" を Next と . と js に割るので、つなぎ直す。
+const asciiWord = /[0-9A-Za-z./_#@&%+:~-]/
+
 // タイトルを語の並びにする。
 //
 // 空白は直前の語にくっつける。単独の単位にすると、行頭に空白の来る組み方が生まれる。
+//
+// 空白で区切られていない欧文はひとつながりのままにする。"Next.js" や "Browser-Based" が割れると読めなくなる。
 async function splitIntoUnits(title: string): Promise<Unit[]> {
   // 文節の先頭にあたる位置。ここで折るときだけ penalty を 0 にする。
   const phraseHeads = new Set<number>()
@@ -163,7 +168,11 @@ async function splitIntoUnits(title: string): Promise<Unit[]> {
   for (const token of await tokenize(title)) {
     const text = token.surface_form
     const previous = units[units.length - 1]
-    if (/^\s+$/.test(text) && previous !== undefined) {
+    const continuesAscii =
+      previous !== undefined &&
+      asciiWord.test(previous.text.slice(-1)) &&
+      asciiWord.test(text.slice(0, 1))
+    if (previous !== undefined && (/^\s+$/.test(text) || continuesAscii)) {
       previous.text += text
       previous.width += textWidth(text)
     } else {
