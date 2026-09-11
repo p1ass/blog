@@ -21,6 +21,7 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { Resvg } from '@resvg/resvg-js'
 import { loadDefaultJapaneseParser } from 'budoux'
+import { tokenize } from 'kuromojin'
 import satori from 'satori'
 import { parse as parseYaml } from 'yaml'
 import { frontmatterSchema } from '../app/routes/posts/types.ts'
@@ -39,8 +40,15 @@ const contentWidth = width - padding * 2
 // タイトルの大きさ。長いタイトルほど落とす。
 const titleSizes = [64, 56, 48, 40]
 
-// タイトルに使ってよい高さ。これを超えると、下に置くサイト名の行と詰まって見える。
-const maxTitleHeight = 300
+const titleLineHeight = 1.4
+
+// 行を組むときに使う幅の割合。概算が外れて satori に折り返されたら、順に下げて組み直す。
+const widthRatios = [0.98, 0.94, 0.9, 0.86, 0.82]
+
+// タイトルに使ってよい高さ。
+// 上下の余白が 80、下辺の帯が 16、サイト名と URL の 2 行が 105 で、残りは 350 ほどある。
+// そこから少しだけ引いて、サイト名の行と詰まって見えないようにする。
+const maxTitleHeight = 340
 
 const siteName = 'ぷらすのブログ'
 const siteUrl = 'https://blog.p1ass.com'
@@ -108,48 +116,200 @@ function textWidth(text: string): number {
   return width
 }
 
-// 文節を順に詰めて、入らなくなったら次の行へ送る。
-// 幅は概算なので、少し狭く見て詰め込みすぎを避ける。行が長すぎたときは satori が折る。
-function composeLines(title: string, fontSize: number): string[] {
-  const limit = (contentWidth * 0.95) / fontSize
-  const lines: string[] = []
-  let current = ''
+// 折り返してよい単位に切る。
+//
+// 単位は語にする。budoux が返すのは文節なので、「ソフトウェアエンジニア職で」のような塊がそのまま残り、
+// これだけで行を組むと 1 行が長くなりすぎて前後の行が極端に短くなる。
+// kuromoji で語に割れば、「ソフトウェア」「エンジニア」「職」「で」の切れ目でも折り返せる。
+//
+// 切れ目には良し悪しがある。文節の切れ目がいちばん自然で、語の切れ目がその次になる。
+// その差を penalty に持たせて、行の決め方で重みを付ける。
+type Unit = {
+  text: string
+  width: number
+  penalty: number
+}
+
+// 文節の切れ目。budoux が返した区切りなので、ここで折るのが最も自然になる。
+const phraseBreak = 0
+
+// 語の切れ目。文節の中で折ることになる。2em ぶんの余りを埋められるなら許す。
+const wordBreak = 4
+
+// 語の途中。「エンジ|ニアリング」のような切れ方になるので、1 行に収まらない語だけに許す。
+const insideWordBreak = 25
+
+// 行頭に置けない文字。句読点と閉じ括弧、長音符、小書きの仮名。
+const forbiddenAtLineStart =
+  /^[、。，．・：；！？）］｝」』】〉》〕ゝ々ーぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮ]/
+
+// 行末に置けない文字。開き括弧。
+const forbiddenAtLineEnd = /[（［｛「『【〈《〔]$/
+
+// タイトルを語の並びにする。
+//
+// 空白は直前の語にくっつける。単独の単位にすると、行頭に空白の来る組み方が生まれる。
+async function splitIntoUnits(title: string): Promise<Unit[]> {
+  // 文節の先頭にあたる位置。ここで折るときだけ penalty を 0 にする。
+  const phraseHeads = new Set<number>()
+  let head = 0
   for (const phrase of parser.parse(title)) {
-    if (current !== '' && textWidth(current + phrase) > limit) {
-      lines.push(current)
-      current = phrase
-      continue
-    }
-    current += phrase
+    phraseHeads.add(head)
+    head += phrase.length
   }
-  if (current !== '') {
-    lines.push(current)
+
+  const units: Unit[] = []
+  let position = 0
+  for (const token of await tokenize(title)) {
+    const text = token.surface_form
+    const previous = units[units.length - 1]
+    if (/^\s+$/.test(text) && previous !== undefined) {
+      previous.text += text
+      previous.width += textWidth(text)
+    } else {
+      units.push({
+        text,
+        width: textWidth(text),
+        penalty: phraseHeads.has(position) ? phraseBreak : wordBreak,
+      })
+    }
+    position += text.length
+  }
+  return units
+}
+
+// 1 行に収まらない語を 1 文字ずつに割る。
+//
+// 「ソフトウェアエンジニアリングインターン」のように、辞書に無い長いカタカナ語は 1 語のまま出てくる。
+// 割らないと、その語だけの行と、前後の極端に短い行ができる。
+function splitOverflowing(units: Unit[], limit: number): Unit[] {
+  return units.flatMap(unit => {
+    if (
+      unit.width <= limit ||
+      /^[^\u3000-\u30ff\u3400-\u9fff\uff00-\uffef]+$/.test(unit.text)
+    ) {
+      return unit
+    }
+    return [...unit.text].map((char, index) => ({
+      text: char,
+      width: charWidth(char),
+      penalty: index === 0 ? unit.penalty : insideWordBreak,
+    }))
+  })
+}
+
+// 行を組む。どこで折るかを、費用がいちばん小さくなる組み合わせで決める。
+//
+// 費用は 2 つある。1 つは行の余りの 2 乗で、足し合わせると行の長さが揃う。
+// もう 1 つが切れ目の penalty で、文節の切れ目を語の切れ目より優先させる。
+//
+// 貪欲に詰めるだけだと、最後の行に「試した」の 3 文字だけが残るような形になる。
+//
+// ratio は幅をどれだけ使うか。概算が外れて satori に折り返されたときは、呼び出す側がこれを下げて組み直す。
+function composeLines(
+  allUnits: Unit[],
+  fontSize: number,
+  ratio: number,
+): string[] {
+  const limit = (contentWidth * ratio) / fontSize
+  const units = splitOverflowing(allUnits, limit)
+  const count = units.length
+
+  // best は、その位置から先を組んだときの最小の費用。next は、そのときの次の行の始まり。
+  const best = new Array<number>(count + 1).fill(Number.POSITIVE_INFINITY)
+  const next = new Array<number>(count + 1).fill(count)
+  best[count] = 0
+
+  for (let start = count - 1; start >= 0; start--) {
+    let width = 0
+    for (let end = start; end < count; end++) {
+      width += units[end].width
+      // 1 単位だけで幅を超える行は許す。それ以上は切れないので、satori の折り返しに任せる。
+      if (width > limit && end > start) {
+        break
+      }
+      if (end + 1 < count && !canBreakBetween(units[end], units[end + 1])) {
+        continue
+      }
+      const slack = Math.max(limit - width, 0)
+      const penalty = end + 1 < count ? units[end + 1].penalty : 0
+      const cost = slack * slack + penalty + best[end + 1]
+      if (cost < best[start]) {
+        best[start] = cost
+        next[start] = end + 1
+      }
+    }
+  }
+
+  const lines: string[] = []
+  for (let start = 0; start < count; start = next[start]) {
+    lines.push(
+      units
+        .slice(start, next[start])
+        .map(unit => unit.text)
+        .join('')
+        .trim(),
+    )
   }
   return lines
 }
 
-// タイトルの高さ。これを超えない中でいちばん大きい大きさを選ぶ。
-// 高さは satori に測らせる。文字幅の概算で決めると、欧文の多いタイトルで 1 行増え、サイト名の行に重なる。
+// 禁則処理。句点や閉じ括弧を行頭に置かず、開き括弧を行末に残さない。
+function canBreakBetween(before: Unit, after: Unit): boolean {
+  return (
+    !forbiddenAtLineStart.test(after.text) &&
+    !forbiddenAtLineEnd.test(before.text)
+  )
+}
+
+// タイトルの組み方を決める。行はこちらで組み立て、決めた改行を satori へ渡す。
+//
+// 大きさは satori に測らせて選ぶ。文字幅の概算で決めると、欧文の多いタイトルで 1 行増え、サイト名の行に重なる。
+//
+// 測った高さは、組んだ行数の確かめにも使う。
+// 概算が外れて 1 行が長すぎると satori がそこをさらに折り返し、「エンジニア職で」の「で」だけが次の行に残る。
+// 行数が合わないあいだは、幅の見積もりを下げて組み直す。
 async function layoutTitle(
   title: string,
   fonts: Font[],
 ): Promise<{ text: string; fontSize: number }> {
-  const last = titleSizes[titleSizes.length - 1]
+  const units = await splitIntoUnits(title)
+  // 行数が合った組み方のうち、いちばん小さいもの。どの大きさでも高さへ収まらなかったときに使う。
+  let narrowest: { text: string; fontSize: number } | null = null
+
   for (const fontSize of titleSizes) {
-    const text = composeLines(title, fontSize).join('\n')
-    if (fontSize === last) {
-      return { text, fontSize }
-    }
-    const measured = await satori(titleBlock(text, fontSize) as SatoriNode, {
-      width: contentWidth,
-      fonts,
-    })
-    const height = Number(measured.match(/height="(\d+)"/)?.[1] ?? 0)
-    if (height <= maxTitleHeight) {
-      return { text, fontSize }
+    for (const ratio of widthRatios) {
+      const lines = composeLines(units, fontSize, ratio)
+      const text = lines.join('\n')
+      const height = await measureTitleHeight(text, fontSize, fonts)
+      if (Math.round(height / (fontSize * titleLineHeight)) > lines.length) {
+        continue
+      }
+      narrowest = { text, fontSize }
+      if (height <= maxTitleHeight) {
+        return narrowest
+      }
+      // 行数は合っているが高さが足りない。幅を狭めても行が増えるだけなので、次の大きさへ移る。
+      break
     }
   }
-  throw new Error('titleSizes が空')
+
+  return (
+    narrowest ?? { text: title, fontSize: titleSizes[titleSizes.length - 1] }
+  )
+}
+
+// タイトルだけを描かせて高さを測る。satori は width だけ渡すと、高さを中身から決める。
+async function measureTitleHeight(
+  text: string,
+  fontSize: number,
+  fonts: Font[],
+): Promise<number> {
+  const svg = await satori(titleBlock(text, fontSize) as SatoriNode, {
+    width: contentWidth,
+    fonts,
+  })
+  return Number(svg.match(/height="(\d+)"/)?.[1] ?? 0)
 }
 
 // satori に渡す要素。JSX は使わず素のオブジェクトで組む。
@@ -179,7 +339,7 @@ function titleBlock(text: string, fontSize: number): Element {
       width: `${contentWidth}px`,
       fontSize: `${fontSize}px`,
       fontWeight: 700,
-      lineHeight: 1.4,
+      lineHeight: titleLineHeight,
       color: light.text,
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
@@ -265,6 +425,12 @@ async function main() {
       continue
     }
     const heading = await layoutTitle(post.title, fonts)
+    console.error(
+      `${heading.fontSize}px ${post.slug}: ${heading.text
+        .split('\n')
+        .map(l => `[${l}]`)
+        .join(' ')}`,
+    )
     const svg = await satori(card(heading, icon) as SatoriNode, {
       width,
       height,
