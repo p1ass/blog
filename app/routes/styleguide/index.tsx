@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { Author } from '../../components/Author'
 import { CheckIcon, ThemeIcon } from '../../components/Icons'
 import { BlockLink } from '../../components/markdown/BlockLink'
+import { ExLinkCard } from '../../components/markdown/ExLinkCard'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
 import { PostSummarySection } from '../../components/PostSummarySection'
@@ -568,6 +569,16 @@ export default function StyleGuide() {
         <BlockLink href='https://blog.p1ass.com'>
           単独の行として置くリンク
         </BlockLink>
+
+        <h3>ExLinkCard</h3>
+        <p class={captionCss}>
+          リンク先の OGP を出すカード。短いタイトル、2
+          行に折り返すタイトル、画像なしの 3
+          つ。狭い画面ではサムネイルを小さくし、説明を出さない。
+        </p>
+        <ExLinkCard url='https://github.com/p1ass/mikku/releases' />
+        <ExLinkCard url='https://qiita.com/p1ass/items/462209fe73ece1238d85' />
+        <ExLinkCard url='https://pandoc.org/' />
 
         <h3>Author</h3>
         <Author />
