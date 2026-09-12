@@ -195,9 +195,9 @@ function Swatch({ name, value }: SwatchProps) {
   )
 }
 
-// 目次の見本。実際の幅は画面の余白から決まるので、1280px の画面での値を置く。
+// 目次の見本。実際の幅は画面の広さから決まるので、上限まで伸びたときの値を置く。
 const tocSampleCss = css`
-  width: 220px;
+  width: 320px;
   margin-bottom: ${blockGap};
 `
 
