@@ -14,7 +14,7 @@ jobs:
       # グループ化した PR では update-type がグループ内の最大の semver になる
       - name: Fetch dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       # major だけは手動で確認する
