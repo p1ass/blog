@@ -4,7 +4,8 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { contentWidth } from '../styles/breakpoint'
+import { hasToc } from '../lib/toc'
+import { contentWidth, mediaUp } from '../styles/breakpoint'
 import {
   accent,
   border,
@@ -21,6 +22,7 @@ import { reducedMotion } from '../styles/motion'
 import { borderWidth, focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { dark, light, themeVariables } from '../styles/theme'
+import { tocOffset } from '../styles/toc-layout'
 import { transition } from '../styles/transition'
 import {
   fontFamily,
@@ -64,6 +66,9 @@ import {
 // 見出しの余白は上を広く、下を狭くする。ブラウザ既定は上下が同じ 0.83em から 2.33em で、しかも自分のフォントサイズ基準なので、小さい見出しほど周りが空くという逆転が起きていた。
 //
 // リストの字下げは 24px にする。ブラウザ既定の 40px は本文 760px に対して深く、箇条書きだけが右に寄って見えた。
+//
+// 目次を出すページでは、ヘッダーの中身とフッターを本文と同じだけ左へ寄せる。目次のぶんページの中身が右へ広がるので、寄せないと中央に置いた文字の軸がページごとに変わる。
+// 動かすのはヘッダーの中身だけで、ヘッダーそのものは動かさない。下の罫線は画面の幅いっぱいに引いたまま残す。寄せる量の理由は app/styles/toc-layout.ts にある。
 //
 // 目次から飛べる見出しには scroll-margin を持たせる。無いと見出しが画面の上端にぴったり付き、前の節との切れ目が見えない。
 //
@@ -215,6 +220,14 @@ const bodyCss = css`
     white-space: nowrap;
   }
 
+  ${mediaUp('lg')} {
+    [data-toc-page] header > div,
+    [data-toc-page] footer {
+      margin-left: calc(-1 * ${tocOffset});
+      margin-right: ${tocOffset};
+    }
+  }
+
   .theme-picker {
     display: none;
     position: absolute;
@@ -359,7 +372,7 @@ const mainCss = css`
 `
 
 export default jsxRenderer(
-  ({ children, title: propsTitle, frontmatter, noindex }, c) => {
+  ({ children, title: propsTitle, frontmatter, noindex, toc }, c) => {
     const description =
       frontmatter?.description ||
       'Webエンジニアリングについて学んだことや考えたことをまとめるブログです'
@@ -442,7 +455,10 @@ export default jsxRenderer(
           <Script src='/app/client.ts' async />
           <Style />
         </head>
-        <body class={bodyCss}>
+        <body
+          class={bodyCss}
+          data-toc-page={toc && hasToc(toc) ? 'true' : undefined}
+        >
           <Header asHeading={isPostListPage} />
           <main class={mainCss}>{children}</main>
           <Footer />

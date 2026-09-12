@@ -12,9 +12,10 @@ import {
 } from '../../lib/posts'
 import { formatDate, parseDate } from '../../lib/time'
 import { hasToc } from '../../lib/toc'
-import { contentWidth, mediaUp } from '../../styles/breakpoint'
+import { mediaUp } from '../../styles/breakpoint'
 import { text, textMuted } from '../../styles/color'
 import { blockGap, space } from '../../styles/spacing'
+import { tocOffset, tocWidth } from '../../styles/toc-layout'
 import { transition } from '../../styles/transition'
 import { fontSize } from '../../styles/typography'
 
@@ -40,18 +41,22 @@ const postDateCss = css`
 
 // 本文と目次の置き場所。
 //
-// 本文の幅と位置は動かさない。記事と一覧で本文の左端がずれると、一覧から記事へ進んだときに
-// 行がわずかに動いて見える。目次は本文の右の余白へ絶対配置で置き、本文の組みに関わらせない。
-//
-// 幅は余白から決める。100vw は縦スクロールバーのぶんを含むので、その半分を上回る余白 (body の
-// 左右と同じ 16px) を引いて、バーがある環境でも右へはみ出さないようにする。
-// 1080px の画面では 120px、1280px では 220px になる。
+// 本文の幅は動かさない。目次は本文の右の余白へ絶対配置で置き、本文の組みに関わらせない。
+// 幅と、ページを左へ寄せる量は app/styles/toc-layout.ts にある。
 //
 // 目次を本文の左に置くこともできるが、横書きの本文へ視線を運ぶ途中に別の文字列が入る。右に置く。
 //
 // 目次は本文より前に書く。絶対配置なので見た目の位置は変わらず、キーボードと読み上げでは
 // 記事を読み終える前に目次へ行き着く。目次は本文の前に見るものなので、並びもそれに合わせる。
-const tocWidth = `min(280px, calc((100vw - ${contentWidth}) / 2 - ${space.lg} - ${space.md}))`
+
+// 記事の中身を、ヘッダーやフッターと同じだけ左へ寄せる。
+// 寄せる先の理由は toc-layout.ts に、ヘッダーとフッター側の規則は routes/_renderer.tsx にある。
+const postColumnCss = css`
+  ${mediaUp('lg')} {
+    margin-left: calc(-1 * ${tocOffset});
+    margin-right: ${tocOffset};
+  }
+`
 
 // 出すのは目次の 2 つのうち片方だけ。広い画面では右の aside、狭い画面では冒頭の details にする。
 const postBodyCss = css`
@@ -106,31 +111,34 @@ export default jsxRenderer(
     const permalink = postPermalink(filepathToSlug(filepath))
 
     return (
-      <Layout title={frontmatter.title} frontmatter={frontmatter}>
-        <div class={postDateCss}>
-          <time datetime={frontmatter.date}>
-            {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
-          </time>
-        </div>
-        <h1 class={postTitleCss}>{frontmatter.title}</h1>
-        <ShareButtons title={frontmatter.title} permalink={permalink} />
-        <PostDetails frontmatter={frontmatter} />
-        <div class={postBodyCss}>
-          {showToc ? (
-            <>
-              <TocDetails toc={toc} />
-              <aside>
-                <TocNav toc={toc} />
-              </aside>
-            </>
-          ) : null}
-          <article>{children}</article>
-        </div>
-        <ShareButtons title={frontmatter.title} permalink={permalink} />
-        <Author />
-        <PostPagination paginationPosts={paginationPosts} />
-        <div class={toTopLinkCss}>
-          <a href='/'>Topへ戻る</a>
+      <Layout title={frontmatter.title} frontmatter={frontmatter} toc={toc}>
+        {/* 目次を出さない記事はずらさない。右に何も無いので、中央のままで釣り合う */}
+        <div class={showToc ? postColumnCss : undefined}>
+          <div class={postDateCss}>
+            <time datetime={frontmatter.date}>
+              {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
+            </time>
+          </div>
+          <h1 class={postTitleCss}>{frontmatter.title}</h1>
+          <ShareButtons title={frontmatter.title} permalink={permalink} />
+          <PostDetails frontmatter={frontmatter} />
+          <div class={postBodyCss}>
+            {showToc ? (
+              <>
+                <TocDetails toc={toc} />
+                <aside>
+                  <TocNav toc={toc} />
+                </aside>
+              </>
+            ) : null}
+            <article>{children}</article>
+          </div>
+          <ShareButtons title={frontmatter.title} permalink={permalink} />
+          <Author />
+          <PostPagination paginationPosts={paginationPosts} />
+          <div class={toTopLinkCss}>
+            <a href='/'>Topへ戻る</a>
+          </div>
         </div>
       </Layout>
     )

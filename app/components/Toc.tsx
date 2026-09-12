@@ -18,15 +18,27 @@ import { fontSize, fontWeight, lineHeight } from '../styles/typography'
 //
 // 目次の並びは data-toc から辿る。クラス名は hono/css が内容から作るので、
 // ブラウザ側のコードから指しても、スタイルを直した拍子に外れる。
+//
+// transition は取り込んだ hoverUnderlineLinkCss の後ろで書き直す。あちらも transition-property を
+// 持っていて、先に書いた border-color と color を落とすため、今いる節の切り替えが一瞬で起きていた。
+// 宣言をそのまま後ろに並べると入れ子の外へ出て捨てられるので、& の入れ子として書く。
 const tocLinkCss = css`
   display: block;
   padding: ${space['2xs']} ${space.xs};
   border-left: ${borderWidth.thick} solid transparent;
   color: ${textMuted};
 
-  ${transition(['border-color', 'color'])}
-
   ${hoverUnderlineLinkCss}
+
+  & {
+    ${transition([
+      'background-color',
+      'border-color',
+      'color',
+      'text-decoration-color',
+      'text-decoration-thickness',
+    ])}
+  }
 
   &[aria-current='true'] {
     border-left-color: ${accent};
