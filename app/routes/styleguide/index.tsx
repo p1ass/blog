@@ -2,11 +2,14 @@ import { css } from 'hono/css'
 import { Author } from '../../components/Author'
 import { CheckIcon, ThemeIcon } from '../../components/Icons'
 import { BlockLink } from '../../components/markdown/BlockLink'
+import { ExLinkCard } from '../../components/markdown/ExLinkCard'
 import { Note } from '../../components/markdown/Note'
 import { Pagination } from '../../components/Pagination'
 import { PostSummarySection } from '../../components/PostSummarySection'
 import { ShareButtons } from '../../components/ShareIcons'
+import { TocDetails, TocNav } from '../../components/Toc'
 import type { Post } from '../../lib/post-list'
+import type { TocItem } from '../../lib/toc'
 import * as brandTokens from '../../styles/brand'
 import { breakpoint, contentWidth } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
@@ -191,6 +194,19 @@ function Swatch({ name, value }: SwatchProps) {
     </li>
   )
 }
+
+// 目次の見本。実際の幅は画面の広さから決まるので、上限まで伸びたときの値を置く。
+const tocSampleCss = css`
+  width: 280px;
+  margin-bottom: ${blockGap};
+`
+
+const sampleToc: TocItem[] = [
+  { id: '背景', text: '背景', depth: 2 },
+  { id: '実装', text: '実装', depth: 2 },
+  { id: '折り返す見出し', text: '2 行に折り返す長さの見出し', depth: 3 },
+  { id: 'まとめ', text: 'まとめ', depth: 2 },
+]
 
 // アイコンだけを並べる見本。1 つずつしか出ないものを、まとめて見えるようにする。
 const iconSampleListCss = css`
@@ -564,10 +580,33 @@ export default function StyleGuide() {
           </div>
         </div>
 
+        <h3>TOC</h3>
+        <p class={captionCss}>
+          記事の目次。広い画面では本文の右に sticky で添え、狭い画面では冒頭の
+          折りたたみとして出す。ここでは置き場所を外して中身だけを並べる。
+          今いる節は、撮影ではスクロールしないので固定で当ててある。
+        </p>
+        <div class={tocSampleCss}>
+          <TocNav toc={sampleToc} currentId='実装' />
+        </div>
+
+        <p class={captionCss}>狭い画面で出す折りたたみ。開いた状態を置く。</p>
+        <TocDetails toc={sampleToc} open={true} />
+
         <h3>BlockLink</h3>
         <BlockLink href='https://blog.p1ass.com'>
           単独の行として置くリンク
         </BlockLink>
+
+        <h3>ExLinkCard</h3>
+        <p class={captionCss}>
+          リンク先の OGP を出すカード。短いタイトル、2
+          行に折り返すタイトル、画像なしの 3
+          つ。狭い画面ではサムネイルを小さくし、説明を出さない。
+        </p>
+        <ExLinkCard url='https://github.com/p1ass/mikku/releases' />
+        <ExLinkCard url='https://qiita.com/p1ass/items/462209fe73ece1238d85' />
+        <ExLinkCard url='https://pandoc.org/' />
 
         <h3>Author</h3>
         <Author />

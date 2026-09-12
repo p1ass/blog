@@ -78,9 +78,9 @@ CI では、Biome の lint (`biome ci .`)、`pnpm lint:style`、`pnpm test`、�
 
 記事は `app/routes/posts/<slug>/index.mdx` に置く。画像は同じディレクトリに co-location する。
 
-frontmatter の型は `app/routes/posts/types.ts` の `Frontmatter` で定義する (`title` / `date` / `description` / `categories` / `tags?` / `ogImage?`)。`categories[0]` がカテゴリ一覧のグルーピングキーになる。
+frontmatter の型は `app/routes/posts/types.ts` の `frontmatterSchema` で定義する (`title` / `date` / `description` / `category` / `tags?` / `ogImage?`)。zod のスキーマなので、記事の集約時に全件を検証し、外れた記事があればビルドを落とす。`category` がカテゴリ一覧のグルーピングキーになる。
 
-`{/* <!--more--> */}` が ContentSummary の終わりを示す Excerpt Marker になる。`PostSummarySection` が mdx ファイルを `fs.readFileSync` で読み、このマーカーより前を `MarkdownRenderer` でその場でコンパイルして表示する。記事を書くときは必ずこのマーカーを入れる。
+`{/* <!--more--> */}` が ContentSummary の終わりを示す Excerpt Marker になる。このマーカーより前を切り出す仕組みは「MDX のレンダリングの流れ」にある。記事を書くときは必ずこのマーカーを入れる。
 
 ### 記事データの集約
 
@@ -88,12 +88,19 @@ frontmatter の型は `app/routes/posts/types.ts` の `Frontmatter` で定義す
 
 ### MDX のレンダリングの流れ
 
-MDX には 2 つの流れがあり、プラグイン構成が異なる。
+記事本体も一覧の抜粋も、`vite.config.ts` の `@mdx-js/rollup` がビルド時に変換する。プラグインは `app/lib/mdx.ts` の `remarkPlugins` / `rehypePlugins` で、抜粋にも同じ構成が当たる。
 
-1. 記事本体: `vite.config.ts` の `@mdx-js/rollup` がビルド時に変換する。プラグインは `app/lib/mdx.ts` の `remarkPlugins` / `rehypePlugins` と共通。
-2. 一覧の抜粋: `app/components/MarkdownRenderer.tsx` が `@mdx-js/mdx` の `compile` + `run` を実行時に呼ぶ。remark/rehype プラグインは適用されず、画像パスは文字列の置き換えで解決するワークアラウンドを入れている。
+抜粋は `app/lib/mdx-summary.ts` が作る。`<slug>/index.summary.mdx` という仮想モジュールを Excerpt Marker より前だけの中身で用意し、記事本体にそれを `ContentSummary` として再 export する 1 行を足す。@mdx-js/rollup から見れば普通の mdx なので、画像パスも記事本体と同じ規則で解決される。
 
-どちらも `app/lib/mdx-components.tsx` の `useMDXComponents()` を provider として使う。MDX から使えるカスタムコンポーネント (`ExLinkCard` / `BlockLink` / `Note` / `Twitter`) と、`img` や `pre` などの組み込みタグの差し替えはここで登録する。
+`app/lib/mdx-components.tsx` の `useMDXComponents()` を provider として使う。MDX から使えるカスタムコンポーネント (`ExLinkCard` / `BlockLink` / `Note` / `Twitter`) と、`img` や `pre` などの組み込みタグの差し替えはここで登録する。
+
+### TOC
+
+`app/lib/rehype-toc.ts` が記事の hast から h2 と h3 を拾い、id を振って、その並びを MDX モジュールの `toc` として export する。HonoX はルートのモジュールの export をそのままレンダラーの props へ渡すので、`app/routes/posts/_renderer.tsx` は受け取って `app/components/Toc.tsx` に渡すだけになる。
+
+抜粋 (`.summary.mdx`) では id を振らない。1 ページに 10 件並ぶので、同じ見出しを持つ記事が同じページに載ると id が重複する。
+
+出すかどうかは h2 の数で決める (`app/lib/toc.ts` の `hasToc`)。frontmatter のフラグは持たない。今いる節のハイライトは `app/lib/toc-highlight.ts` が受け持つ。
 
 ### 画像パスの扱い
 
@@ -106,7 +113,7 @@ MDX には 2 つの流れがあり、プラグイン構成が異なる。
 
 ### スタイリング
 
-見た目の決めごとは [DESIGN.md](DESIGN.md) にある。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、本文がその理由になっている。書くときの手順は `.claude/skills/design-system/` の Skill にある。
+見た目の方針は [DESIGN.md](DESIGN.md) にある。[design.md](https://github.com/google-labs-code/design.md) 形式で、front matter がトークン、本文がコンポーネントを横断する方針になっている。コンポーネントごとの見た目はスタイルガイドにある。書くときの手順は `.claude/skills/design-system/` の Skill にある。
 
 hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値は `app/styles/` のトークンを参照する。色は `color.ts` の役割名、余白は `spacing.ts` の `space`、角丸とボーダーは `shape.ts`、画面幅の分岐は `breakpoint.ts` の `mediaUp()` を使う。
 
@@ -122,6 +129,7 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 - **`text-decoration` のショートハンドを書かない。** `text-decoration-color` を初期値に戻すので、取り込む側が先に書いた色が消える。`text-decoration-line` なら順序に関わらず残る。
 - **クラスを `${...}` でセレクタの位置に差し込まない。** クラス名ではなく中身の宣言そのものへ展開されることがある。単独のセレクタでは名前として出て、カンマで 2 つ並べた側では展開された。中の要素は素のクラス名で指し、クラスは `cx()` で足す。テンプレートリテラルで文字列としてつなぐと、SSR の最中に `document is not defined` で落ちる。
 - **`:-hono-global` の中に複数行のコメントを書かない。** 判定が `/^:-hono-global{(.*)}$/` で `.` は改行に一致しないため、改行が残るとブロックごと展開されず CSS 全体が無効になる。説明はテンプレートの外に書く。
+- **`:-hono-global` を持つクラスを `cx()` に通さない。** 判定が外れ、グローバルの規則がそのクラスの入れ子として出る。`body` や `:root` を指す規則は当たらなくなり、色と文字サイズが消える。それでも本文の中の要素を指す規則は当たり続けるので、ページは一見それらしく描かれる。`<body>` に印を付けたいときは属性を使う。
 - **CSS のコメントに波括弧を書かない。** 最小化はコメントを読み飛ばさないので、`{` や `}` が対応付けを狂わせる。
 - **補間した値に二重引用符を入れない。** エスケープされて宣言ごと無効になる。テンプレートに直接書いた文字列は素通しなので、値を定数へ切り出したときに初めて表面化する。
 - **プラグインが吐くクラス名を当てにしない。** 脚注の見出しは remark が `<h2 class="sr-only">` を出力するが、CSS 側に定義がないことは出力を読むまで分からない。頼る前に生成物を検索する。
@@ -139,7 +147,7 @@ hono/css の `css` テンプレートリテラルで CSS-in-JS を書く。値�
 
 **同じページに 2 つめの島を置いても水和しない。** SSR のとき、先に描かれた島より後ろの島は `honox-island` に包まれないまま出る。hono/jsx の文脈が最初の島の後ろへ漏れているためで、こちらでは直せない。ヘッダーの `ThemePicker` は必ず先に描かれるので、記事本文やフッターへ置いた島は動かない。
 
-ブラウザでだけ動かしたい処理は、島にせず `app/client.ts` から呼ぶ。ツイートの埋め込み (`app/lib/twitter-embed.ts`) がその形で、SSR は素の blockquote を出し、client.ts が widgets.js を読んで差し替える。
+ブラウザでだけ動かしたい処理は、島にせず `app/client.ts` から呼ぶ。ツイートの埋め込み (`app/lib/twitter-embed.ts`) がその形で、SSR は素の blockquote を出し、client.ts が widgets.js を読んで差し替える。目次のハイライト (`app/lib/toc-highlight.ts`) も同じ形にしてある。
 
 ### 外部依存
 

@@ -16,7 +16,7 @@ argument-hint: "[変えたい見た目 または コンポーネント名]"
 
 blog.p1ass.com の見た目を、デザイントークンの範囲で変える。
 
-**方針と値の根拠はすべて [DESIGN.md](../../../DESIGN.md) にある。** この Skill はそこへの入口で、決めごとそのものは持たない。両方に書くと片方だけが古くなる。
+**方針は [DESIGN.md](../../../DESIGN.md) に、コンポーネントごとの見た目はスタイルガイド (`/styleguide`) にある。** この Skill はそこへの入口で、決めごとそのものは持たない。両方に書くと片方だけが古くなる。
 
 hono/css の書き方の制約とハーネスの回し方は [CLAUDE.md](../../../CLAUDE.md) にある。
 
@@ -40,7 +40,7 @@ hono/css の書き方の制約とハーネスの回し方は [CLAUDE.md](../../.
 | 余白、本文幅、画面幅の分岐 | [Layout](../../../DESIGN.md#layout) |
 | 影、面の重なり | [Elevation & Depth](../../../DESIGN.md#elevation--depth) |
 | 角丸、ボーダー | [Shapes](../../../DESIGN.md#shapes) |
-| リンク、hover、フォーカス、画像、モーション | [Components](../../../DESIGN.md#components) |
+| リンク、hover、フォーカス、画像、モーションの方針 | [Components](../../../DESIGN.md#components) |
 | ダークモード、テーマの選択 | [Theming](../../../DESIGN.md#theming) |
 | アイコン、ブランドマーク | [Iconography](../../../DESIGN.md#iconography) |
 | 見出しや本文の言い回し | [Terminology](../../../DESIGN.md#terminology) |
@@ -102,4 +102,4 @@ npx @google/design.md lint DESIGN.md
 
 **決めごとを変えたなら DESIGN.md を直す。** トークンを足したなら front matter に 1 行、判断が増えたなら該当節か Do's and Don'ts に 1 項目を足す。
 
-DESIGN.md は方針だけを持つ文書で、作業の記録は書かない。何をいつ変えたかは PR とコミットに残す。
+DESIGN.md の本文は、複数のコンポーネントにまたがる方針だけを持つ。1 つのコンポーネントの寸法や配置は、手順 4 で足したスタイルガイドの見本が示す。何をいつ変えたかは PR とコミットに残す。

@@ -10,7 +10,7 @@ import type { Plugin } from 'vite'
 // 記事本体の側には、この仮想モジュールを ContentSummary として再 export する
 // 1 行を足す。
 
-const summarySuffix = '.summary.mdx'
+export const summarySuffix = '.summary.mdx'
 const excerptMarker = '{/* <!--more--> */}'
 const postsDir = `${path.sep}app${path.sep}routes${path.sep}posts${path.sep}`
 
