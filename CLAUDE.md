@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 型名、変数名、コミットメッセージ、ドキュメントで同じ語を使う。同義語を混ぜると、同じものを指しているかどうかがコードから読み取れなくなる。
 
 <!-- 使わない語そのものを表に並べるため、辞書の検査を外す -->
-<!-- textlint-disable @textlint-ja/morpheme-match -->
+<!-- textlint-disable ai-words-ja/no-ai-words -->
 
 | 使う | 指すもの | 使わない |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Color Token | 色を役割で呼ぶための名前 | Palette, Color variable |
 | TOC | 記事本文の見出しから作る目次 | Table of contents, Index, Outline |
 
-<!-- textlint-enable @textlint-ja/morpheme-match -->
+<!-- textlint-enable ai-words-ja/no-ai-words -->
 
 「ダークモード」と「目次」は機能名や UI 上の表記としては使う。状態や型の名前としては使わない。
 
@@ -251,7 +251,7 @@ px・rem・em はトークンを持つプロパティだけ見る。対象は `p
 
 コードコメントは `textlint/plugins/comment-ja/` の自作プラグインで拾う。設定とルールは記事と共通で、書き方の基準を分けない。対象は `.ts` `.tsx` `.mjs` `.cjs` `.js` `.jsx` (TypeScript のパーサでコメントを抜く) と、`.yaml` `.yml` `.sh` (行頭の `#` の行だけを見る)。日本語を含まない段落、`biome-ignore` や `@ts-` で始まる行は対象から外す。`// textlint-disable` は Markdown と同じように適用される。
 
-`textlint/` 配下は `.textlintignore` で除いてある。辞書は検出したい語そのものをコメントに書いた台帳なので、textlint にかけると警告だらけになる。
+`textlint/` 配下は `.textlintignore` で除いてある。テストは検出したい書き方そのものを例として書いたファイルなので、textlint にかけると警告だらけになる。
 
 コメントの段落は、空のコメント行とコメント以外の行で切れる。連続する行は 1 つの段落としてつなげて見るので、文が行をまたいでいても助詞の重複を拾える。コードの後ろに付く行末コメントだけは、行ごとに独立した段落として扱う。
 
@@ -266,25 +266,17 @@ px・rem・em はトークンを持つプロパティだけ見る。対象は `p
 // {platform} を入れて、macOS で撮った画像が Linux の基準画像を上書きしないようにする。リポジトリにコミットするのは -linux のものだけ。
 ```
 
-AI っぽい日本語は `@textlint-ja/morpheme-match` で検出する。辞書は `textlint/` に 4 つ置き、直訳調の動詞、硬い名詞、定型の言い回し、文体に合わない比喩と口語に分けている。severity は `warning` で、CI は落とさない。
+AI っぽい日本語は [textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) で検出する。筆者が別リポジトリで持っている npm パッケージで、辞書とテストはそちらにある。`no-ai-words` が辞書に載せた語を、`no-short-topic-comma` が主題を 5 文字以内で示しただけで打つ読点 (「議事録は、」の直後など) を指摘する。どちらも severity は `warning` で、CI は落とさない。
 
 <!-- 辞書の説明として、検出対象の語そのものを例に引く段落 -->
-<!-- textlint-disable @textlint-ja/morpheme-match -->
+<!-- textlint-disable ai-words-ja/no-ai-words -->
 
-辞書は kuromoji の Token 列で書く。品詞と `basic_form` で照合するため、「効く」を 1 件書けば「効きます」「効かない」に当たり、名詞の「有効」「効率」には当たらない。語を足すときは次の 5 点に気をつける。
+辞書は kuromoji の Token 列で書いてある。品詞と `basic_form` で照合するため、「効く」を 1 件書けば「効きます」「効かない」に当たり、名詞の「有効」「効率」には当たらない。
 
-<!-- textlint-enable @textlint-ja/morpheme-match -->
+<!-- textlint-enable ai-words-ja/no-ai-words -->
 
-- 分かち書きを先に確かめる。「無差別」は `無[接頭詞] + 差別[名詞]` に割れるので 2 トークンで書く。
-- 既存 77 記事での出現数を数えてから入れる。自分がすでに使っている語を入れると警告だらけになる。
-- マッチャは途中で外れたときに現在のトークンを先頭から試し直さない。複数トークンに割れる語をパターンの先頭に置くと当たらないことがある。
-- 分かち書きは前後の語で変わる。「当たり外れ」は単体では `当たり[名詞] + 外れ[名詞]` だが、「たびに当たり外れが」では `に当たり[助詞]` に融合する。この種の語は辞書に向かない。
-- 汎用的な名詞は入れない。「絵」をスクリーンショットの意味で禁止しようとすると、「お絵かき」「絵馬」のような本来の意味での使用に当たる。
+指摘されたくない語は、`.textlintrc.json` の `no-ai-words` に `allows` を書いて外す。記事の題材によって外したい語が変わるので、パッケージ側の辞書からは落とさない。
 
-読点の打ち方だけは辞書ではなく `textlint/rules/short-topic-comma/` の自作ルールで見ている。主題を 5 文字以内で示しただけで読点を打つ形 (「議事録は」の直後など) を指摘する。辞書はトークンの並びしか書けず「文頭から何文字目か」を条件にできないため、辞書に書くと長い条件節の読点まで当たってしまう。ローカルパッケージとして `file:` で参照しているので、`pnpm install` すれば追加のフラグなしで読み込まれる。
+`textlint/plugins/` は `file:` で参照している。pnpm が `node_modules` へコピーするため、直したら `pnpm install` を回すまで textlint 側に反映されない。直したのに挙動が変わらないときはこれを疑う。コメントの拾い方は `textlint/comment-ja.test.ts` で見ている。プラグインを触ったときはここに足す。
 
-`file:` の依存は pnpm が `node_modules` へコピーする。`textlint/rules/` と `textlint/plugins/` を直したら `pnpm install` を回すまで textlint 側に反映されない。直したのに挙動が変わらないときはこれを疑う。
-
-`textlint/ai-japanese.test.ts` に、語ごとの「検出したい例」と「検出してはいけない例」がある。辞書とルールのどちらを触ったときもここに足す。コメントの拾い方は `textlint/comment-ja.test.ts` で見ている。プラグインを触ったときはこちらに足す。
-
-セッション中にユーザーから文章の語や言い回しを指摘されたら、その場で書き直して終わりにせず、辞書に足すところまで進める。辞書がこの指摘を覚えておくための唯一の場所で、入れなければ次のセッションで同じ指摘が出る。手順は上の 5 点と同じ。ただし既存 77 記事での出現数を数えて、ユーザー自身がすでによく使っている語だと分かったら、辞書に入れず数字を示してそう伝える。
+セッション中にユーザーから文章の語や言い回しを指摘されたら、その場で書き直して終わりにせず、辞書に足すところまで進める。辞書がこの指摘を覚えておくための唯一の場所で、入れなければ次のセッションで同じ指摘が出る。足す先はこのリポジトリではなくパッケージのリポジトリで、手順と注意点はそちらの README にある。ただし既存 77 記事での出現数を数えて、ユーザー自身がすでによく使っている語だと分かったら、辞書に入れず数字を示してそう伝える。

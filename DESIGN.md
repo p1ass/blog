@@ -425,7 +425,7 @@ hover と focus では下線を太くし、背後に面を敷く。細い線の�
 見出しと本文の語は、デザインの現場で使うものに揃える。漢字に置き換えず、そのまま書く。
 
 <!-- 使わない語そのものを表に並べるため、辞書の検査を外す -->
-<!-- textlint-disable @textlint-ja/morpheme-match -->
+<!-- textlint-disable ai-words-ja/no-ai-words -->
 
 | 使う | 使わない |
 | --- | --- |
@@ -442,6 +442,6 @@ hover と focus では下線を太くし、背後に面を敷く。細い線の�
 | イージング | 曲線 |
 | ブレークポイント | 画面幅の分岐点 |
 
-<!-- textlint-enable @textlint-ja/morpheme-match -->
+<!-- textlint-enable ai-words-ja/no-ai-words -->
 
 本文では「余白」「行間」「角丸」のような日本語も使う。これらはデザイナーも日常的に使うためだ。置き換えるのは、上の表で対応がある語だけ。
