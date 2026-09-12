@@ -9,6 +9,8 @@
 // テーマは blockquote の data-theme で渡す。ウィジェットはこの属性を作られるときに 1 度だけ読むため、
 // 読者がテーマを切り替えたときは、こちらで作り直す。読者が選んだテーマと OS の設定の両方を見る。
 
+import { onReady } from './on-ready'
+
 type Theme = 'light' | 'dark'
 
 const scriptSrc = 'https://platform.twitter.com/widgets.js'
@@ -93,13 +95,4 @@ export function setupTwitterEmbeds(): void {
     })
     window.matchMedia(darkQuery).addEventListener('change', render)
   })
-}
-
-// client.ts は async で読み込まれるので、body の解析より先に動くことがある。
-function onReady(callback: () => void): void {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', callback, { once: true })
-    return
-  }
-  callback()
 }

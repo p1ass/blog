@@ -246,6 +246,12 @@ components:
   theme-menu-option-selected:
     backgroundColor: "{colors.surface-subtle}"
     textColor: "{colors.text}"
+  toc-item:
+    textColor: "{colors.text-muted}"
+    typography: "{typography.body-sm}"
+    padding: "{spacing.2xs}"
+  toc-item-current:
+    textColor: "{colors.text}"
 ---
 
 # DESIGN.md
@@ -315,6 +321,8 @@ accent の 300 だけ彩度が高い (他の段が 47%、この段だけ 80%)。
 本文のブロック間は `block-gap` (32px) で統一する。行送りと同じ値にすることで、本文が一定のリズムで流れる。
 
 ブレークポイントは 640px と 1080px の 2 段。1080px は本文の右に目次を置ける幅にあたる。分岐は `min-width` に統一し、狭いほうを既定として書く。
+
+本文の右に何かを置くページでは、中身の入る列をその幅まで広げ、列ごと中央に置く。本文を中央に置いたままだと、右に置いたぶん左の余白だけが広くなり、ページが右へ寄って見える。中央に寄せた文字は、ヘッダーからフッターまで画面の中央に揃える。本文の列は広げた列の左端に寄る。
 
 ## Elevation & Depth
 
