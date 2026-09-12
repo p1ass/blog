@@ -1,8 +1,12 @@
+import type { TocItem } from './lib/toc'
 import type { Frontmatter } from './routes/posts/types'
 
 type Head = {
   frontmatter?: Frontmatter
   filepath?: string
+
+  // 記事の見出しから作る目次。rehype-toc.ts が MDX モジュールから export する
+  toc?: TocItem[]
 
   title?: string
 

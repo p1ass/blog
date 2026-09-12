@@ -246,6 +246,12 @@ components:
   theme-menu-option-selected:
     backgroundColor: "{colors.surface-subtle}"
     textColor: "{colors.text}"
+  toc-item:
+    textColor: "{colors.text-muted}"
+    typography: "{typography.body-sm}"
+    padding: "{spacing.2xs}"
+  toc-item-current:
+    textColor: "{colors.text}"
 ---
 
 # DESIGN.md

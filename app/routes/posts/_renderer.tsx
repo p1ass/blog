@@ -4,12 +4,15 @@ import { Author } from '../../components/Author'
 import { PostDetails } from '../../components/PostDetails'
 import { PostPagination } from '../../components/PostPagination'
 import { ShareButtons } from '../../components/ShareIcons'
+import { TocDetails, TocNav } from '../../components/Toc'
 import {
   filepathToSlug,
   getPaginationPosts,
   postPermalink,
 } from '../../lib/posts'
 import { formatDate, parseDate } from '../../lib/time'
+import { hasToc } from '../../lib/toc'
+import { contentWidth, mediaUp } from '../../styles/breakpoint'
 import { text, textMuted } from '../../styles/color'
 import { blockGap, space } from '../../styles/spacing'
 import { transition } from '../../styles/transition'
@@ -35,6 +38,45 @@ const postDateCss = css`
   padding: ${space.lg} 0 ${space.sm};
 `
 
+// 本文と目次の置き場所。
+//
+// 本文の幅と位置は動かさない。記事と一覧で本文の左端がずれると、一覧から記事へ進んだときに
+// 行がわずかに動いて見える。目次は本文の右の余白へ絶対配置で置き、本文の組みに関わらせない。
+//
+// 幅は余白から決める。100vw は縦スクロールバーのぶんを含むので、その半分を上回る余白 (body の
+// 左右と同じ 16px) を引いて、バーがある環境でも右へはみ出さないようにする。
+// 1080px の画面では 120px、1280px では 220px になる。
+//
+// 目次を本文の左に置くこともできるが、横書きの本文へ視線を運ぶ途中に別の文字列が入る。右に置く。
+//
+// 目次は本文より前に書く。絶対配置なので見た目の位置は変わらず、キーボードと読み上げでは
+// 記事を読み終える前に目次へ行き着く。目次は本文の前に見るものなので、並びもそれに合わせる。
+const tocWidth = `min(280px, calc((100vw - ${contentWidth}) / 2 - ${space.lg} - ${space.md}))`
+
+// 出すのは目次の 2 つのうち片方だけ。広い画面では右の aside、狭い画面では冒頭の details にする。
+const postBodyCss = css`
+  position: relative;
+
+  & > aside {
+    display: none;
+  }
+
+  ${mediaUp('lg')} {
+    & > details {
+      display: none;
+    }
+
+    & > aside {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(100% + ${space.lg});
+      width: ${tocWidth};
+    }
+  }
+`
+
 const toTopLinkCss = css`
   text-align: center;
 
@@ -50,32 +92,47 @@ const toTopLinkCss = css`
   }
 `
 
-export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
-  if (!(frontmatter && filepath)) {
-    return <div>Not Post Page</div>
-  }
+export default jsxRenderer(
+  ({ children, Layout, frontmatter, filepath, toc }) => {
+    if (!(frontmatter && filepath)) {
+      return <div>Not Post Page</div>
+    }
 
-  const paginationPosts = getPaginationPosts(filepath)
+    // 見出しの少ない記事では目次を出さない
+    const showToc = toc !== undefined && hasToc(toc)
 
-  const permalink = postPermalink(filepathToSlug(filepath))
+    const paginationPosts = getPaginationPosts(filepath)
 
-  return (
-    <Layout title={frontmatter.title} frontmatter={frontmatter}>
-      <div class={postDateCss}>
-        <time datetime={frontmatter.date}>
-          {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
-        </time>
-      </div>
-      <h1 class={postTitleCss}>{frontmatter.title}</h1>
-      <ShareButtons title={frontmatter.title} permalink={permalink} />
-      <PostDetails frontmatter={frontmatter} />
-      <article>{children}</article>
-      <ShareButtons title={frontmatter.title} permalink={permalink} />
-      <Author />
-      <PostPagination paginationPosts={paginationPosts} />
-      <div class={toTopLinkCss}>
-        <a href='/'>Topへ戻る</a>
-      </div>
-    </Layout>
-  )
-})
+    const permalink = postPermalink(filepathToSlug(filepath))
+
+    return (
+      <Layout title={frontmatter.title} frontmatter={frontmatter}>
+        <div class={postDateCss}>
+          <time datetime={frontmatter.date}>
+            {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
+          </time>
+        </div>
+        <h1 class={postTitleCss}>{frontmatter.title}</h1>
+        <ShareButtons title={frontmatter.title} permalink={permalink} />
+        <PostDetails frontmatter={frontmatter} />
+        <div class={postBodyCss}>
+          {showToc ? (
+            <>
+              <TocDetails toc={toc} />
+              <aside>
+                <TocNav toc={toc} />
+              </aside>
+            </>
+          ) : null}
+          <article>{children}</article>
+        </div>
+        <ShareButtons title={frontmatter.title} permalink={permalink} />
+        <Author />
+        <PostPagination paginationPosts={paginationPosts} />
+        <div class={toTopLinkCss}>
+          <a href='/'>Topへ戻る</a>
+        </div>
+      </Layout>
+    )
+  },
+)
