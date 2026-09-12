@@ -12,7 +12,7 @@ import {
 } from '../../lib/posts'
 import { formatDate, parseDate } from '../../lib/time'
 import { hasToc } from '../../lib/toc'
-import { mediaUp } from '../../styles/breakpoint'
+import { contentWidth, mediaUp } from '../../styles/breakpoint'
 import { text, textMuted } from '../../styles/color'
 import { blockGap, space } from '../../styles/spacing'
 import { tocOffset, tocWidth } from '../../styles/toc-layout'
@@ -24,9 +24,13 @@ import { fontSize } from '../../styles/typography'
 // 以前はモバイルで 1.75rem になり、本文の h2 と同じ値だった。
 // スマホで記事を開くとタイトルと小見出しが見分けられない状態だったので、
 // 画面幅による分岐をやめて 1 つの大きさに揃えた。
+//
+// 幅は本文と同じところで止める。目次を出すページでは列が本文より広くなるため、止めないと
+// タイトルだけが 1 行に伸び、折り返しの釣り合いが崩れる。
 const postTitleCss = css`
   font-size: ${fontSize.h1};
-  margin: 0 0 ${blockGap};
+  max-width: ${contentWidth};
+  margin: 0 auto ${blockGap};
   text-align: center;
   word-break: auto-phrase;
 `
@@ -39,25 +43,31 @@ const postDateCss = css`
   padding: ${space.lg} 0 ${space.sm};
 `
 
-// 本文と目次の置き場所。
+// 記事ページの中身の置き場所。
 //
-// 本文の幅は動かさない。目次は本文の右の余白へ絶対配置で置き、本文の組みに関わらせない。
-// 幅と、ページを左へ寄せる量は app/styles/toc-layout.ts にある。
+// 目次を出すページでは、中身の入る幅が本文だけより広くなる。本文と目次を合わせた幅をこの列に持たせ、
+// 列ごとページの中央に置く。中央に寄せた文字 (日付、タイトル、シェアボタン) はこの列の中央に来るので、
+// ヘッダーのサイト名やフッターと同じ、画面の中央の軸に乗る。
+//
+// 幅を広げるのは負の margin で、左右に同じだけ取る。main の 760px を左右へはみ出させたうえで、
+// 中央は動かさない。
+const postColumnCss = css`
+  ${mediaUp('lg')} {
+    margin-left: calc(-1 * ${tocOffset});
+    margin-right: calc(-1 * ${tocOffset});
+  }
+`
+
+// 本文の列。広い画面では列の左に寄せ、右の空きに目次を絶対配置で置く。
+//
+// 本文の幅は 760px のまま動かさない。列が広がっても、1 行の長さは読みやすさで決めた値に保つ。
+// タグや筆者、前後の記事は列の幅いっぱいに置くので、左端は本文と揃う。
 //
 // 目次を本文の左に置くこともできるが、横書きの本文へ視線を運ぶ途中に別の文字列が入る。右に置く。
 //
 // 目次は本文より前に書く。絶対配置なので見た目の位置は変わらず、キーボードと読み上げでは
 // 記事を読み終える前に目次へ行き着く。目次は本文の前に見るものなので、並びもそれに合わせる。
-
-// 記事の中身を、ヘッダーやフッターと同じだけ左へ寄せる。
-// 寄せる先の理由は toc-layout.ts に、ヘッダーとフッター側の規則は routes/_renderer.tsx にある。
-const postColumnCss = css`
-  ${mediaUp('lg')} {
-    margin-left: calc(-1 * ${tocOffset});
-    margin-right: ${tocOffset};
-  }
-`
-
+//
 // 出すのは目次の 2 つのうち片方だけ。広い画面では右の aside、狭い画面では冒頭の details にする。
 const postBodyCss = css`
   position: relative;
@@ -67,6 +77,8 @@ const postBodyCss = css`
   }
 
   ${mediaUp('lg')} {
+    max-width: ${contentWidth};
+
     & > details {
       display: none;
     }
@@ -112,7 +124,7 @@ export default jsxRenderer(
 
     return (
       <Layout title={frontmatter.title} frontmatter={frontmatter} toc={toc}>
-        {/* 目次を出さない記事はずらさない。右に何も無いので、中央のままで釣り合う */}
+        {/* 目次を出さない記事は列を広げない。右に何も無いので、本文の幅のままで釣り合う */}
         <div class={showToc ? postColumnCss : undefined}>
           <div class={postDateCss}>
             <time datetime={frontmatter.date}>
