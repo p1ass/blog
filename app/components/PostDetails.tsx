@@ -2,8 +2,9 @@ import { css } from 'hono/css'
 import { labelNameToId, labelPermalink } from '../lib/posts'
 import type { Frontmatter } from '../routes/posts/types'
 import { text, textMuted } from '../styles/color'
+import { canHover } from '../styles/motion'
 import { blockGap, space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition } from '../styles/transition'
 
 const postDetailsCss = css`
   padding-bottom: ${blockGap};
@@ -14,9 +15,13 @@ const tagCss = css`
   text-decoration: none;
   padding: 0 ${space['2xs']};
 
-  ${transition(['color'])}
+  ${hoverTransition(['color'])}
 
-  &:hover,
+  ${canHover} {
+    &:hover {
+      color: ${text};
+    }
+  }
   &:focus-visible {
     color: ${text};
   }

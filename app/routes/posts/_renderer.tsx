@@ -14,9 +14,10 @@ import { formatDate, parseDate } from '../../lib/time'
 import { hasToc } from '../../lib/toc'
 import { contentWidth, mediaUp } from '../../styles/breakpoint'
 import { text, textMuted } from '../../styles/color'
+import { canHover } from '../../styles/motion'
 import { blockGap, space } from '../../styles/spacing'
 import { tocOffset, tocWidth } from '../../styles/toc-layout'
-import { transition } from '../../styles/transition'
+import { hoverTransition } from '../../styles/transition'
 import { fontSize } from '../../styles/typography'
 
 // 目次を出すページでは列が本文より広がるので、タイトルが 1 行に伸びないよう幅を本文で止める。
@@ -77,10 +78,12 @@ const toTopLinkCss = css`
     color: ${text};
     text-decoration: none;
 
-    ${transition(['color'])}
+    ${hoverTransition(['color'])}
 
-    &:hover {
-      color: ${textMuted};
+    ${canHover} {
+      &:hover {
+        color: ${textMuted};
+      }
     }
   }
 `

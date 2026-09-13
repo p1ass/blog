@@ -17,7 +17,10 @@ const tokenSources = new Map([
     'app/styles/breakpoint.ts',
     'ブレークポイントと本文幅の定義。mediaUp もここ',
   ],
-  ['app/styles/motion.ts', 'モーションの定義。reducedMotion もここ'],
+  [
+    'app/styles/motion.ts',
+    'モーションの定義。reducedMotion と canHover もここ',
+  ],
   [
     'app/styles/theme.ts',
     '役割への割り当て。prefers-color-scheme の分岐もここ',
@@ -73,8 +76,7 @@ const exceptions: Exception[] = [
     file: 'app/components/ShareIcons.tsx',
     rule: 'box-shadow',
     value: 'box-shadow',
-    reason:
-      '影ではなく、円の内側に描く輪郭と hover の塗り。border だと円の大きさが変わる',
+    reason: '影ではなく、円の内側に描く輪郭。border だと円の大きさが変わる',
   },
   {
     file: 'app/components/ShareIcons.tsx',
@@ -201,7 +203,7 @@ function rawValues(css: string): RawValue[] {
     found.push({
       ...media,
       rule: '@media',
-      hint: 'breakpoint.ts の mediaUp か motion.ts の reducedMotion を通してください',
+      hint: 'breakpoint.ts の mediaUp か motion.ts の reducedMotion、canHover を通してください',
     })
   }
 

@@ -1,9 +1,10 @@
 import { css } from 'hono/css'
 import { mediaUp } from '../styles/breakpoint'
 import { border, githubMark, text, textMuted, xMark } from '../styles/color'
+import { canHover } from '../styles/motion'
 import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 import { GitHubIcon, XIcon } from './Icons'
 
@@ -51,10 +52,12 @@ const authorSNSLinkCss = css`
   margin-right: ${space.md};
   text-decoration: none;
 
-  ${transition(['color'])}
+  ${hoverTransition(['color'])}
 
-  &:hover {
+  ${canHover} {
+    &:hover {
       color: ${textMuted};
+    }
   }
 `
 

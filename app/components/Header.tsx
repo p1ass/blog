@@ -3,9 +3,10 @@ import ThemePicker from '../islands/ThemePicker'
 import { labelBasePath } from '../lib/posts'
 import { mediaUp } from '../styles/breakpoint'
 import { border, text, textMuted } from '../styles/color'
+import { canHover } from '../styles/motion'
 import { borderWidth } from '../styles/shape'
 import { space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
 // overflow: auto だとテーマの一覧がヘッダーの外で切れるので、display: flow-root で余白の相殺だけを止める。
@@ -26,12 +27,16 @@ const titleRowCss = css`
 `
 
 const titleCss = css`
-  ${transition(['color'])}
+  ${hoverTransition(['color'])}
   margin: 0;
   color: ${text};
   text-decoration: none;
 
-  &:hover,
+  ${canHover} {
+    &:hover {
+      color: ${textMuted};
+    }
+  }
   &:focus-visible {
     color: ${textMuted};
   }
@@ -66,10 +71,14 @@ const navigationListCss = css`
 
     & a {
       color: ${textMuted};
-      ${transition(['color'])}
+      ${hoverTransition(['color'])}
       text-decoration: none;
 
-      &:hover,
+      ${canHover} {
+        &:hover {
+          color: ${text};
+        }
+      }
       &:focus-visible {
         color: ${text};
       }

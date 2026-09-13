@@ -1,8 +1,9 @@
 import { css } from 'hono/css'
 import { border, text, textInverted } from '../styles/color'
+import { canHover } from '../styles/motion'
 import { borderWidth, radius } from '../styles/shape'
 import { space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
 const paginationCss = css`
@@ -25,7 +26,7 @@ const paginationCss = css`
 const arrowBoxWidth = '60px'
 
 const arrowCss = css`
-  ${transition(['background-color', 'color'])}
+  ${hoverTransition(['background-color', 'color'], { pressable: true })}
 
   border: solid ${borderWidth.thin} ${text};
   color: ${text};
@@ -35,7 +36,12 @@ const arrowCss = css`
   display: flex;
   justify-content: center;
   text-decoration: none;
-  &:hover,
+  ${canHover} {
+    &:hover {
+      background-color: ${text};
+      color: ${textInverted};
+    }
+  }
   &:focus-visible {
       background-color: ${text};
       color: ${textInverted};

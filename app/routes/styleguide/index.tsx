@@ -15,7 +15,14 @@ import { breakpoint, contentWidth } from '../../styles/breakpoint'
 import * as colorTokens from '../../styles/color'
 import { accent, border, surfaceSubtle, textMuted } from '../../styles/color'
 import { bodyLinkCss } from '../../styles/link'
-import { duration, easing, reducedMotion } from '../../styles/motion'
+import {
+  canHover,
+  duration,
+  easing,
+  enterScale,
+  pressScale,
+  reducedMotion,
+} from '../../styles/motion'
 import {
   accent as accentPalette,
   neutral,
@@ -693,12 +700,16 @@ export default function StyleGuide() {
       <section class={sectionCss}>
         <h2>モーション</h2>
         <p class={captionCss}>
-          app/styles/motion.ts。イージングは {easing} の 1 種類に統一する。
-          transition: all は書かず、動かすプロパティを名指しする。
-          動きを減らす設定の読者には reducedMotion ({reducedMotion})
-          で全停止する。
+          app/styles/motion.ts。transition と hoverTransition
+          で書き、transition: all は書かない。色の補間は standard、transform と
+          scale と width の動きは spring (減衰比 1 のばねの近似)
+          を使い、押したときだけ out で縮める。hover の見た目は canHover (
+          {canHover}) の中に書く。動きを減らす設定の読者には reducedMotion (
+          {reducedMotion}) で位置と大きさの補間だけを外す。
         </p>
         <TokenTable tokens={duration} />
+        <TokenTable tokens={easing} />
+        <TokenTable tokens={{ pressScale, enterScale }} />
       </section>
 
       <section class={sectionCss}>

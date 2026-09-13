@@ -7,6 +7,7 @@ import { Note } from '../components/markdown/Note'
 import { Twitter } from '../components/markdown/Twitter'
 import { accent, border, surfaceSubtle, textMuted } from '../styles/color'
 import { bodyLinkCss } from '../styles/link'
+import { canHover, duration } from '../styles/motion'
 import { borderWidth } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { transition } from '../styles/transition'
@@ -38,13 +39,19 @@ const imageCss = css`
   margin: 0 auto;
   border: ${borderWidth.thin} solid ${border};
 
-  ${transition(['border-color'])}
+  ${transition(['border-color'], 'exit')}
 `
 
 const imageLinkCss = css`
-  &:hover img,
+  ${canHover} {
+    &:hover img {
+      border-color: ${accent};
+      transition-duration: ${duration.fast};
+    }
+  }
   &:focus-visible img {
     border-color: ${accent};
+    transition-duration: ${duration.fast};
   }
 `
 

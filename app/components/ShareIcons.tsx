@@ -1,15 +1,10 @@
 import { css } from 'hono/css'
-import {
-  brandWhite,
-  hatenaBlue,
-  xBlack,
-  xBlackHover,
-  xSurfaceHover,
-} from '../styles/brand'
+import { brandWhite, hatenaBlue, xBlack, xBlackHover } from '../styles/brand'
 import { brandSurfaceBorder, icon, surfaceHover } from '../styles/color'
+import { canHover } from '../styles/motion'
 import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition, transition } from '../styles/transition'
 import { fontSize } from '../styles/typography'
 
 const shareIconsSectionCss = css`
@@ -25,12 +20,14 @@ const shareIconWrapperCss = css`
 const shareButtonCss = css`
     float: left;
     border-radius: ${radius.full};
-    ${transition(['box-shadow', 'background-color'])}
+    ${hoverTransition(['background-color'], { pressable: true })}
 
     margin: 0 0 0 ${space.sm};
 
-    &:hover {
-        box-shadow: inset 0 0 0 22px ${surfaceHover};
+    ${canHover} {
+        &:hover {
+            background-color: ${surfaceHover};
+        }
     }
 `
 
@@ -57,9 +54,10 @@ const xCss = css`
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder};
     ${shareButtonCss}
 
-    &:hover {
-        box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder}, inset 0 0 0 22px ${xBlackHover};
-        background-color: ${xSurfaceHover};
+    ${canHover} {
+        &:hover {
+            background-color: ${xBlackHover};
+        }
     }
 `
 
