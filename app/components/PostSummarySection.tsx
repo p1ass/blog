@@ -31,6 +31,7 @@ const timeCss = css`
 
 const titleCss = css`
   display: block;
+  width: fit-content;
   color: ${text};
   font-size: ${fontSize.h2};
   margin: ${space['2xs']} 0;
@@ -93,24 +94,36 @@ type Props = {
 
 export function PostSummarySection({ post }: Props) {
   const ContentSummary = post.ContentSummary
+  const permalink = postPermalink(post.slug)
 
   return (
     <section class={sectionCss}>
-      <a href={postPermalink(post.slug)} class={itemCss}>
+      <a href={permalink} class={itemCss}>
         <div>
-          <time datetime={post.frontmatter.date} class={timeCss}>
+          <time
+            datetime={post.frontmatter.date}
+            class={timeCss}
+            data-post={permalink}
+            data-post-part='date'
+          >
             {formatDate(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
-          <h2 class={titleCss}>{post.frontmatter.title}</h2>
+          <h2 class={titleCss} data-post={permalink} data-post-part='title'>
+            {post.frontmatter.title}
+          </h2>
           <div class={underlineCss} />
         </div>
       </a>
-      <PostDetails frontmatter={post.frontmatter} />
-      <div class='catalogue-summary'>
+      <PostDetails frontmatter={post.frontmatter} permalink={permalink} />
+      <div
+        class='catalogue-summary'
+        data-post={permalink}
+        data-post-part='excerpt'
+      >
         <ContentSummary />
       </div>
 
-      <a class={moreButtonCss} href={postPermalink(post.slug)}>
+      <a class={moreButtonCss} href={permalink}>
         続きを読む
       </a>
     </section>

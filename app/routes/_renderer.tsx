@@ -37,11 +37,12 @@ import {
 
 // :-hono-global は複数行のコメントがあると展開されないので、説明はテンプレートの外に書く。
 // reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
-// ページの遷移は View Transitions でクロスフェードする。要素に名前は付けない。前後のページで同じ位置にあるヘッダーは、重ねても画素が変わらず止まって見える。
+// ページの遷移は View Transitions でクロスフェードする。前後のページで同じ位置にあるヘッダーは、重ねても画素が変わらず止まって見えるので名前を付けない。
+// 一覧と記事のあいだでは、記事のタイトル、日付、タグ、抜粋をつなぎ、位置と大きさの動きとしてばねで動かす。周りのクロスフェードも同じばねでそろえ、要素が動き終わる前に本文だけが出きってしまわないようにする。
 // :active-view-transition-type() を読めないブラウザでは、その規則だけが捨てられて既定のクロスフェードになる。
 // .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
 // .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
-// article > svg は Mermaid の図で、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
+// article > svg は Mermaid の図で (抜粋に入ると抜粋の囲みの直下になる)、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
 // pre の overflow: hidden は、中の code.hljs が横スクロールしても角丸を保つため。
 const bodyCss = css`
 :-hono-global {
@@ -273,6 +274,17 @@ const bodyCss = css`
     animation-timing-function: ${easing.standard};
   }
 
+  ::view-transition-group(*.post) {
+    animation-duration: ${duration.spring};
+    animation-timing-function: ${easing.spring};
+  }
+
+  :root:active-view-transition-type(post)::view-transition-old(*),
+  :root:active-view-transition-type(post)::view-transition-new(*) {
+    animation-duration: ${duration.spring};
+    animation-timing-function: ${easing.spring};
+  }
+
   :root:active-view-transition-type(theme)::view-transition-old(root),
   :root:active-view-transition-type(theme)::view-transition-new(root) {
     animation-duration: ${duration.base};
@@ -377,7 +389,8 @@ const bodyCss = css`
     color: ${textMuted};
   }
 
-  article > svg {
+  article > svg,
+  [data-post-part=excerpt] > svg {
     display: block;
     max-width: 100%;
     height: auto;
@@ -598,6 +611,8 @@ const ThemeScript = () => {
 
 // pagereveal はページを描く前に登録しないと間に合わないので、head に同期で置く。
 // 向きは押したリンクの data-direction から決める。戻ったときは逆向きにしたいので、行きと帰りの組を sessionStorage に残す。
+// 記事の要素の名前は、開く記事と戻る記事のぶんだけ、画面に入っているときに遷移の直前で付ける。一覧の全件に付けると、画面外の記事から戻ったときに要素が画面の外から飛んでくる。
+// 前後の記事どうしはつながず、矢印の向きへのずれで見せる。
 const ViewTransitionScript = () => {
   return html`
     <script>
@@ -606,9 +621,65 @@ const ViewTransitionScript = () => {
           return;
         }
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var postKey = 'view-transition:post';
         function key(from, to) {
           return 'view-transition:' + from + '>' + to;
         }
+        function namePost(path) {
+          var parts = document.querySelectorAll('[data-post="' + path + '"]');
+          var named = 0;
+          for (var i = 0; i < parts.length; i++) {
+            var rect = parts[i].getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+              parts[i].style.viewTransitionName = 'post-' + parts[i].dataset.postPart;
+              parts[i].style.viewTransitionClass = 'post';
+              named++;
+            }
+          }
+          return named;
+        }
+        function clearPosts() {
+          var parts = document.querySelectorAll('[data-post]');
+          for (var i = 0; i < parts.length; i++) {
+            parts[i].style.viewTransitionName = '';
+            parts[i].style.viewTransitionClass = '';
+          }
+        }
+        window.addEventListener('pageswap', function (event) {
+          clearPosts();
+          try {
+            sessionStorage.removeItem(postKey);
+          } catch (e) {}
+          if (!event.viewTransition || !event.activation || reduce.matches) {
+            return;
+          }
+          var to = new URL(event.activation.entry.url).pathname;
+          var shared = to;
+          if (!namePost(to)) {
+            if (to.indexOf('/posts/') === 0 || !namePost(location.pathname)) {
+              return;
+            }
+            shared = location.pathname;
+          }
+          try {
+            sessionStorage.setItem(postKey, shared);
+          } catch (e) {}
+        });
+        window.addEventListener('pagereveal', function (event) {
+          clearPosts();
+          var shared = null;
+          try {
+            shared = sessionStorage.getItem(postKey);
+            sessionStorage.removeItem(postKey);
+          } catch (e) {}
+          if (!event.viewTransition || !shared) {
+            return;
+          }
+          if (namePost(shared) && event.viewTransition.types) {
+            event.viewTransition.types.add('post');
+          }
+          event.viewTransition.finished.then(clearPosts, clearPosts);
+        });
         document.addEventListener('click', function (event) {
           var link = event.target.closest && event.target.closest('a[data-direction]');
           if (!link) {
