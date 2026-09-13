@@ -28,7 +28,7 @@ function isFootnotes(node: Element): boolean {
 }
 
 // 見出しの文字。インラインコードやリンクを含む見出しがあるので、中の文字を集める。
-// 脚注の参照 (sup) だけは外す。目次に「1」だけが混ざる。
+// 脚注の参照 (sup) だけは外す。残すと目次に「1」だけが入る。
 function headingText(node: Element): string {
   let text = ''
   visit(node, (child): typeof SKIP | undefined => {

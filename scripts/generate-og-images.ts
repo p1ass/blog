@@ -446,7 +446,7 @@ async function main() {
       fonts,
     })
     // 文字は satori がすでにパスへ変換しているので、フォントは要らない。
-    // 既定では OS のフォントを全部読みに行き、1 枚あたり 0.3 秒ほど余計にかかる。
+    // 指定しないと OS のフォントを全部読みに行き、1 枚あたり 0.3 秒ほど余計にかかる。
     const png = new Resvg(svg, { font: { loadSystemFonts: false } })
       .render()
       .asPng()

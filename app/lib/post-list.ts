@@ -151,7 +151,7 @@ export function buildLabels(kind: LabelKind, posts: Post[]): Label[] {
       ? posts.map(p => p.frontmatter.category)
       : posts.flatMap(p => p.frontmatter.tags ?? [])
 
-  // 表記ゆれを潰さずに残し、衝突として検出できるようにする
+  // 表記ゆれをまとめずに残し、衝突として検出できるようにする
   const uniqueNames = Array.from(new Set(names))
 
   const labels = uniqueNames.map(name => ({

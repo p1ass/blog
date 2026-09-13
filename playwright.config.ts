@@ -16,7 +16,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   // 揺れの原因だった 0.5px の境界線と、寸法指定のない画像を両方直したので 0 にした。
-  // 再試行があると、撮影の揺れとデザインの変更が同じ「落ちた」で混ざる。揺れが無いなら、落ちたことがそのまま変更を意味する。
+  // 再試行があると、撮影の揺れとデザインの変更が同じ「落ちた」になり区別できない。揺れが無いなら、落ちたことがそのまま変更を意味する。
   retries: 0,
   reporter: process.env.CI ? 'github' : 'list',
 

@@ -109,8 +109,8 @@ importers:
         specifier: file:./textlint/plugins/comment-ja
         version: file:textlint/plugins/comment-ja
       textlint-rule-preset-ai-words-ja:
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.1.1
+        version: 1.1.1
       textlint-rule-preset-ja-spacing:
         specifier: ^3.0.3
         version: 3.0.3
@@ -3890,8 +3890,8 @@ packages:
   textlint-rule-no-zero-width-spaces@1.0.1:
     resolution: {integrity: sha512-AkxpzBILGB4YsXddzHx2xqpXmqMv5Yd+PQm4anUV+ADSJuwLP1Jd6yHf/LOtu9j3ps8K3XM9vQrXRK73z0bU3A==}
 
-  textlint-rule-preset-ai-words-ja@1.1.0:
-    resolution: {integrity: sha512-Eh2KsM6xanPCdjyMpLM7aQKGh34Rs+RT8LN0qEKAUBaOp+YygLlivGYKSNMb2EI3O0vCVgh+afjh8wu5jCaErQ==}
+  textlint-rule-preset-ai-words-ja@1.1.1:
+    resolution: {integrity: sha512-yojUX9hKeIguQW+w4+N75fiqDzpu6q3/BZ6Jv95nRvc3An8DmO+EIm+iwFmeMOy6gpVpJFwCrfrt2dQ4vW+2+g==}
 
   textlint-rule-preset-ja-spacing@3.0.3:
     resolution: {integrity: sha512-cIdZcM7in3A7cal2VUbOzUsr+rf2n89jAS4mT9rqjN6GsBl0oD0/iPkT71C0r+dwjZwWE3PeBgmwh2q9GqtChA==}
@@ -9094,7 +9094,7 @@ snapshots:
 
   textlint-rule-no-zero-width-spaces@1.0.1: {}
 
-  textlint-rule-preset-ai-words-ja@1.1.0:
+  textlint-rule-preset-ai-words-ja@1.1.1:
     dependencies:
       kuromojin: 3.0.1
       morpheme-match-textlint: 2.0.6

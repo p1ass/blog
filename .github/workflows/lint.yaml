@@ -91,7 +91,7 @@ jobs:
         run: |
           git fetch --no-tags origin "${{ github.base_ref }}"
           # 記事と Skill 文書とソースコードの日本語コメントは同じルールに従う。
-          # frontmatter だけの変更 (日付の統一など) では既存の文章を検査しない。
+          # frontmatter だけの変更 (日付の統一など) では既存の文章をチェックしない。
           files=$(node scripts/list-prose-changes.ts "origin/${{ github.base_ref }}")
           echo "files=${files}" >> "$GITHUB_OUTPUT"
           echo "本文が変わったファイル: ${files:-なし}"
