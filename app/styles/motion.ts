@@ -19,6 +19,7 @@ export const duration = {
   press: '100ms',
   exit: '100ms',
   fast: '150ms',
+  navigation: '200ms',
   base: '250ms',
   spring: `${springDurationMs}ms`,
 } as const

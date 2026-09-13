@@ -40,14 +40,22 @@ export function PostPagination({ paginationPosts }: Props) {
   return (
     <div class={postPaginationCss}>
       {paginationPosts.prevPost ? (
-        <a href={postPermalink(paginationPosts.prevPost.slug)} class={leftCss}>
+        <a
+          href={postPermalink(paginationPosts.prevPost.slug)}
+          class={leftCss}
+          data-direction='previous'
+        >
           &#8592; {paginationPosts.prevPost.frontmatter.title}
         </a>
       ) : (
         <div class={emptyPrevCss} />
       )}
       {paginationPosts.nextPost ? (
-        <a href={postPermalink(paginationPosts.nextPost.slug)} class={rightCss}>
+        <a
+          href={postPermalink(paginationPosts.nextPost.slug)}
+          class={rightCss}
+          data-direction='next'
+        >
           {paginationPosts.nextPost.frontmatter.title} &#8594;
         </a>
       ) : null}

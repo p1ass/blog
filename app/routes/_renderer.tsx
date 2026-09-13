@@ -37,6 +37,8 @@ import {
 
 // :-hono-global は複数行のコメントがあると展開されないので、説明はテンプレートの外に書く。
 // reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
+// ページの遷移は View Transitions でクロスフェードする。要素に名前は付けない。前後のページで同じ位置にあるヘッダーは、重ねても画素が変わらず止まって見える。
+// :active-view-transition-type() を読めないブラウザでは、その規則だけが捨てられて既定のクロスフェードになる。
 // .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
 // .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
 // article > svg は Mermaid の図で、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
@@ -260,10 +262,80 @@ const bodyCss = css`
     }
   }
 
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: ${duration.base};
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: ${duration.navigation};
     animation-timing-function: ${easing.standard};
+  }
+
+  :root:active-view-transition-type(theme)::view-transition-old(root),
+  :root:active-view-transition-type(theme)::view-transition-new(root) {
+    animation-duration: ${duration.base};
+  }
+
+  :root:active-view-transition-type(next)::view-transition-old(root) {
+    animation-name: vt-fade-out, vt-shift-out-next;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  :root:active-view-transition-type(next)::view-transition-new(root) {
+    animation-name: vt-fade-in, vt-shift-in-next;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  :root:active-view-transition-type(previous)::view-transition-old(root) {
+    animation-name: vt-fade-out, vt-shift-out-previous;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  :root:active-view-transition-type(previous)::view-transition-new(root) {
+    animation-name: vt-fade-in, vt-shift-in-previous;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  @keyframes vt-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes vt-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes vt-shift-out-next {
+    to {
+      transform: translateX(calc(-1 * ${space.md}));
+    }
+  }
+
+  @keyframes vt-shift-in-next {
+    from {
+      transform: translateX(${space.md});
+    }
+  }
+
+  @keyframes vt-shift-out-previous {
+    to {
+      transform: translateX(${space.md});
+    }
+  }
+
+  @keyframes vt-shift-in-previous {
+    from {
+      transform: translateX(calc(-1 * ${space.md}));
+    }
   }
 
   .theme-option {
@@ -399,6 +471,8 @@ export default jsxRenderer(
             data-scheme='dark'
           />
           <ThemeScript />
+          <ViewTransitionScript />
+          <link rel='expect' href='#main' blocking='render' />
           {noindex ? <meta name='robots' content='noindex' /> : null}
           <link rel='canonical' href={canonicalUrl} />
           <meta
@@ -434,11 +508,14 @@ export default jsxRenderer(
             title='ぷらすのブログ'
           />
           <Script src='/app/client.ts' async />
+          <SpeculationRules />
           <Style />
         </head>
         <body class={bodyCss}>
           <Header asHeading={isPostListPage} />
-          <main class={mainCss}>{children}</main>
+          <main id='main' class={mainCss}>
+            {children}
+          </main>
           <Footer />
         </body>
       </html>
@@ -448,6 +525,8 @@ export default jsxRenderer(
 
 // 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
 // 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。
+// 先読みしたページは、表示されるまでにほかのページでテーマを選び直されていることがあるので、表示されたときに当て直す。
+// 型の指定を受け付けないブラウザに startViewTransition へオブジェクトを渡すと例外になるので、types を持つかを見てから渡す。
 // localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
   return html`
@@ -456,9 +535,14 @@ const ThemeScript = () => {
         var root = document.documentElement;
         function apply(choice, persist) {
           if (persist && document.startViewTransition) {
-            document.startViewTransition(function () {
+            var run = function () {
               update(choice, persist);
-            });
+            };
+            if (window.ViewTransition && 'types' in ViewTransition.prototype) {
+              document.startViewTransition({ update: run, types: ['theme'] });
+            } else {
+              document.startViewTransition(run);
+            }
             return;
           }
           update(choice, persist);
@@ -503,16 +587,87 @@ const ThemeScript = () => {
           }
         }
         window.__applyTheme = apply;
-        var stored = null;
-        try {
-          stored = localStorage.getItem('theme');
-        } catch (e) {}
-        apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
+        function applyStored() {
+          var stored = null;
+          try {
+            stored = localStorage.getItem('theme');
+          } catch (e) {}
+          apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
+        }
+        applyStored();
+        if (document.prerendering) {
+          document.addEventListener('prerenderingchange', applyStored, { once: true });
+        }
       })();
     </script>
   `
 }
 
+// pagereveal はページを描く前に登録しないと間に合わないので、head に同期で置く。
+// 向きは押したリンクの data-direction から決める。戻ったときは逆向きにしたいので、行きと帰りの組を sessionStorage に残す。
+const ViewTransitionScript = () => {
+  return html`
+    <script>
+      (function () {
+        if (!('onpagereveal' in window)) {
+          return;
+        }
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        function key(from, to) {
+          return 'view-transition:' + from + '>' + to;
+        }
+        document.addEventListener('click', function (event) {
+          var link = event.target.closest && event.target.closest('a[data-direction]');
+          if (!link) {
+            return;
+          }
+          var to = new URL(link.href).pathname;
+          var direction = link.dataset.direction;
+          try {
+            sessionStorage.setItem(key(location.pathname, to), direction);
+            sessionStorage.setItem(key(to, location.pathname), direction === 'next' ? 'previous' : 'next');
+          } catch (e) {}
+        });
+        window.addEventListener('pagereveal', function (event) {
+          var activation = window.navigation && window.navigation.activation;
+          if (!event.viewTransition || !event.viewTransition.types || !activation || !activation.from || reduce.matches) {
+            return;
+          }
+          var direction = null;
+          try {
+            direction = sessionStorage.getItem(key(new URL(activation.from.url).pathname, location.pathname));
+          } catch (e) {}
+          if (direction) {
+            event.viewTransition.types.add(direction);
+          }
+        });
+      })();
+    </script>
+  `
+}
+
+// 押す直前の hover で先読みし、遷移のアニメーションが読み込みで詰まらないようにする。フィードは HTML でないので外す。
+const SpeculationRules = () => {
+  return html`
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "href_matches": "/*.xml" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
+  `
+}
+
+// 先読みしたページを閲覧として数えないよう、表示されてから計測を始める。
 const GoogleAnalytics = () => {
   return (
     <>
@@ -524,9 +679,15 @@ const GoogleAnalytics = () => {
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-L66BDEDS3J');
+          function startAnalytics() {
+            gtag('js', new Date());
+            gtag('config', 'G-L66BDEDS3J');
+          }
+          if (document.prerendering) {
+            document.addEventListener('prerenderingchange', startAnalytics, { once: true });
+          } else {
+            startAnalytics();
+          }
         </script>
       `}
     </>
