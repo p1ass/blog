@@ -1,6 +1,6 @@
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
-import honox from 'honox/vite'
+import honox, { devServerDefaultOptions } from 'honox/vite'
 import client from 'honox/vite/client'
 
 import recmaExportFilepath from 'recma-export-filepath'
@@ -25,8 +25,27 @@ export default defineConfig(({ mode }) => {
     build: {
       emptyOutDir: false,
     },
+    server: {
+      watch: {
+        // honox はファイルが増減するたびに開発サーバーを再起動するので、VRT とビルドの出力を監視から外す。
+        ignored: [
+          '**/dist/**',
+          '**/vrt/__screenshots__/**',
+          '**/vrt/.results/**',
+          '**/playwright-report/**',
+        ],
+      },
+    },
     plugins: [
-      honox(),
+      honox({
+        devServer: {
+          // 記事の画像は開発時に /app/routes/posts/ から配信されるが、既定の exclude に入っておらず Hono のルーティングに渡って 404 になる。
+          exclude: [
+            ...devServerDefaultOptions.exclude,
+            /^\/app\/routes\/posts\/.+\.(png|jpe?g|webp)$/i,
+          ],
+        },
+      }),
       // mdx() より先に動かして、抜粋用の仮想モジュールを用意する
       mdxSummary(),
       mdx({
