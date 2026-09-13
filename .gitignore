@@ -15,3 +15,5 @@ vrt/__screenshots__/**/*-win32.png
 package-lock.json
 yarn.lock
 bun.lockb
+
+/ideas/
