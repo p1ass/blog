@@ -30,7 +30,7 @@ hono/css の `css` で書き、値は `app/styles/` のトークンを参照す�
 
 ### hono/css の制約
 
-踏むと見た目が崩れるうえ、原因が読み取りにくい。
+エラーに遭遇すると見た目が崩れるうえ、原因が読み取りにくい。
 
 - **`text-decoration` のショートハンドを書かない。** 取り込んだスタイルの `text-decoration-color` が初期値に戻る。`text-decoration-line` を使う。
 - **カンマで並べたセレクタに、クラスを `${...}` で差し込まない。** `{` の直前以外に置いたクラスは、クラス名ではなく中身の宣言に展開される。中の要素は素のクラス名で指し、クラスは `cx()` で足す。
@@ -83,4 +83,3 @@ textlint は記事だけでなく、すべての Markdown とソースコード�
 ### AI っぽい語の辞書
 
 [textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) で検出する。記事ごとに外したい語は `.textlintrc.json` の `no-ai-words` に `allows` を書く。
-
