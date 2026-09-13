@@ -525,7 +525,6 @@ export default jsxRenderer(
 
 // 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
 // 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。
-// 先読みしたページは、表示されるまでにほかのページでテーマを選び直されていることがあるので、表示されたときに当て直す。
 // 型の指定を受け付けないブラウザに startViewTransition へオブジェクトを渡すと例外になるので、types を持つかを見てから渡す。
 // localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
@@ -587,17 +586,11 @@ const ThemeScript = () => {
           }
         }
         window.__applyTheme = apply;
-        function applyStored() {
-          var stored = null;
-          try {
-            stored = localStorage.getItem('theme');
-          } catch (e) {}
-          apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
-        }
-        applyStored();
-        if (document.prerendering) {
-          document.addEventListener('prerenderingchange', applyStored, { once: true });
-        }
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
       })();
     </script>
   `
@@ -646,12 +639,13 @@ const ViewTransitionScript = () => {
   `
 }
 
-// 押す直前の hover で先読みし、遷移のアニメーションが読み込みで詰まらないようにする。フィードは HTML でないので外す。
+// 押す直前の hover で HTML を取得しておき、遷移のアニメーションが読み込みで詰まらないようにする。フィードは HTML でないので外す。
+// prerender だと Chromium は今開いているページ自身も裏で描画してしまうので、HTML の取得だけにとどめる。
 const SpeculationRules = () => {
   return html`
     <script type="speculationrules">
       {
-        "prerender": [
+        "prefetch": [
           {
             "where": {
               "and": [
@@ -667,7 +661,6 @@ const SpeculationRules = () => {
   `
 }
 
-// 先読みしたページを閲覧として数えないよう、表示されてから計測を始める。
 const GoogleAnalytics = () => {
   return (
     <>
@@ -679,15 +672,9 @@ const GoogleAnalytics = () => {
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
-          function startAnalytics() {
-            gtag('js', new Date());
-            gtag('config', 'G-L66BDEDS3J');
-          }
-          if (document.prerendering) {
-            document.addEventListener('prerenderingchange', startAnalytics, { once: true });
-          } else {
-            startAnalytics();
-          }
+          gtag('js', new Date());
+
+          gtag('config', 'G-L66BDEDS3J');
         </script>
       `}
     </>

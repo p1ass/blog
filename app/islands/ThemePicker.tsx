@@ -4,7 +4,6 @@ import { CheckIcon, type ThemeChoice, ThemeIcon } from '../components/Icons'
 // select は開いた一覧にこちらのスタイルが当たらず、details は記事本文のスタイルとぶつかるので、div と button で開閉を持つ。
 // 引き金のアイコンは _renderer.tsx の CSS が data-theme-choice から選ぶ。状態で選ぶと、hydration までは SSR 時のアイコンが残る。
 // 適用と保存は head のスクリプトの __applyTheme に任せ、処理を 1 箇所にする。
-// 今の選択は描画のたびに data-theme-choice から読む。状態に持つと、先読みした後にほかのページで選び直したテーマが反映されない。
 const choices: ThemeChoice[] = ['system', 'light', 'dark']
 
 const labels: Record<ThemeChoice, string> = {
@@ -26,7 +25,7 @@ const triggerId = 'theme-picker-trigger'
 
 export default function ThemePicker() {
   const [open, setOpen] = useState(false)
-  const current = readChoice()
+  const [current, setCurrent] = useState<ThemeChoice>(readChoice)
 
   useEffect(() => {
     if (!open) {
@@ -57,6 +56,7 @@ export default function ThemePicker() {
 
   const select = (choice: ThemeChoice) => {
     window.__applyTheme?.(choice, true)
+    setCurrent(choice)
     setOpen(false)
     document.getElementById(triggerId)?.focus()
   }
