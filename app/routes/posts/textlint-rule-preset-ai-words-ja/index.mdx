@@ -1,0 +1,436 @@
+---
+title: AIが書いた日本語に頻出する単語を見つけるtextlintプリセットを作った
+date: 2026-09-13T18:00:00+09:00
+description: AIが書いた日本語に出てきやすい単語と言い回しを、形態素解析で見つけるtextlintのプリセットを作ったので紹介します。
+category: 生成AI
+tags:
+  - OSS
+  - textlint
+---
+
+こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
+
+AI が書いた日本語に出てきやすい単語と言い回しを見つける textlint のプリセット、[textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) を作りました。
+この記事では、実際に検出できる単語の例を見せたうえで、作った背景や使い方、形態素解析を使った検出の仕組みを紹介します。
+
+<ExLinkCard url="https://github.com/p1ass/textlint-rule-preset-ai-words-ja" />
+
+{/* <!--more--> */}
+
+## AI に書かせた文章で試す
+
+まず手始めに、作成したプリセットを使って、AI が書いた技術記事から AI っぽい単語を検出してみます。テーマは Claude Code と Codex の比較で、冒頭は次のような文章です。
+
+```markdown
+# Claude CodeとCodex、結局どちらを使うべきなのか
+
+Claude CodeとCodexは、どちらもCoding Agentの入口として非常に強力な道具である。
+ただし、この二つを単純に「どちらのモデルが賢いか」という観点だけで比較すると、本質を取り違える。
+重要なのは、**どこまでAIに任せるのか**である。
+
+Claude Codeは、既存のコードベースに深く踏み込んでいく使い方に強みがある。
+リポジトリを読み、関連するファイルを探し、依存関係を照合し、実装の背景を確認する。そして変更を加え、テストを実測し、失敗した場合には原因を切り分ける。
+```
+
+<details>
+<summary>文章の全文</summary>
+
+```markdown
+# Claude CodeとCodex、結局どちらを使うべきなのか
+
+Claude CodeとCodexは、どちらもCoding Agentの入口として非常に強力な道具である。
+ただし、この二つを単純に「どちらのモデルが賢いか」という観点だけで比較すると、本質を取り違える。
+重要なのは、**どこまでAIに任せるのか**である。
+
+Claude Codeは、既存のコードベースに深く踏み込んでいく使い方に強みがある。
+リポジトリを読み、関連するファイルを探し、依存関係を照合し、実装の背景を確認する。そして変更を加え、テストを実測し、失敗した場合には原因を切り分ける。
+この一連のループを、かなり自然に回すことができる。
+ここがClaude Codeの核心である。
+
+一方、Codexはタスクそのものを委譲する使い方にハマりやすい。
+「このIssueを実装する」
+「テストを通す」
+「このバグを直す」
+このようなゴールを与えると、その間の作業をある程度まとめて任せることができる。
+
+つまり、Claude Codeが「人間とAgentが同じ場所で作業する」構図を作るのに対して、Codexは「タスクをAgent側に倒す」方向性が強い。
+もちろん、これは完全な線引きではない。
+Claude Codeでもタスクを丸ごと任せることはできるし、Codexでも対話しながら細かく実装を進めることができる。
+しかし、この違いを意識すると、それぞれの使いどころが見えやすくなる。
+
+## Claude Codeで効いてくるもの
+
+Claude Codeを使っていると、コンテキストの設計が地味に効いてくる。
+最初は、CLAUDE.mdにルールを全部書いておけばよいと思う。
+
+しかし、実際にはそう単純ではない。
+情報を詰め込みすぎると、必要な情報と不要な情報が混ざる。
+すると、Agentが重要な制約を見落とす。
+これは小さな違いに見えるが、長いタスクではかなりの事故につながる。
+そのため、何を常時与えるのか、何を必要な瞬間に取得させるのかを切り分ける必要がある。
+
+ここで重要になるのがContext Engineeringである。
+Contextは単なる入力ではない。
+Agentが判断するための土台である。
+そして、この土台の品質がAgentの行動を決める。
+この構図は、Claude Codeを使い込むほど見えてくる。
+
+## Codexでは委譲の粒度が重要になる
+
+一方でCodexの場合、別の問題が出てくる。
+それは、どの粒度でタスクを渡すかである。
+小さすぎるタスクを渡すと、人間が細かい作業を指示することになり、Agentを使う意味が薄くなる。
+逆に大きすぎるタスクを渡すと、途中で想定外の問題が発生した瞬間に、全体が破綻する可能性がある。
+
+したがって、重要なのは「全部任せるか、全部自分でやるか」ではない。
+**適切な責務の境界を引くことである。**
+この線引きができると、Codexはかなり強い。
+
+例えば「APIを追加する」というタスクをそのまま渡すのではなく、
+
+- 既存APIの設計を照合する
+- 関連するテストを確認する
+- 実装する
+- テストを実測する
+- 失敗した場合は原因を切り分ける
+
+という完了条件まで与える。
+こうすることで、Agentがどこまで踏み込めばよいのかが明確になる。
+
+## 最初から正解を出す必要はない
+
+Coding Agentを評価するときに、最初の回答だけを見るのは少し素朴な評価である。
+現実の開発では、最初から正解が出ることはほとんどない。
+
+テストが落ちる。
+型が合わない。
+依存しているAPIが想定と違う。
+ドキュメントと実装が食い違う。
+このような問題は普通に起きる。
+
+重要なのは、失敗しないことでない。
+失敗したときに、何が起きたのかを観測し、仮説を更新し、もう一度試せることである。
+つまり、Agentにおける重要な能力は生成能力だけではない。
+**失敗から復帰する能力である。**
+
+ここを見落とすと、ベンチマーク上では強いAgentが、実際の開発ではあまりハマらないということが起きる。
+逆に、多少の失敗をしても、自分で原因を切り分けて修正できるAgentは実用上かなり強い。
+
+## Claude CodeとCodexは別物なのか
+
+では、Claude CodeとCodexは別物なのか。
+答えは、半分Yesであり、半分Noである。
+両者は異なるインターフェースとワークフローを持っている。
+しかし、最終的に向かっている方向はかなり近い。
+
+人間がコードを書く。
+AIがコードを補完する。
+というモデルから、
+人間が目的を定義する。
+Agentが実装を進める。
+人間が結果を検証する。
+というモデルへの移行である。
+
+これは単なるコーディングツールの進化ではない。
+ソフトウェア開発における責務の置き場所が変わっているのである。
+
+そして、この変化において重要なのは、Agentそのものの性能だけではない。
+どこまで任せるのか。
+どこで人間が確認するのか。
+どの失敗を許容するのか。
+どの状態になったら停止させるのか。
+こうした境界を設計することが、これからのエンジニアリングにおける新しい土台になる。
+
+## 最終的にどちらを選ぶべきなのか
+
+結局のところ、Claude CodeとCodexのどちらを選ぶべきかという問いには、単純な正解はない。
+既存のコードベースを探索しながら、インタラクティブにAgentと作業したいのであればClaude Codeが入口になりやすい。
+一方で、ある程度まとまったタスクを切り出して、Agent側に実行を委譲したいのであればCodexが候補になる。
+
+ただし、これは製品の優劣を意味しない。
+重要なのは、自分のワークフローのどこにAgentを置くかである。
+Claude Codeを使うのか、Codexを使うのか。
+あるいは両方を使うのか。
+この判断自体よりも、**AIに何を任せ、人間が何をレビューするのかを明確にすること**のほうが重要である。
+これがAgentic Engineeringにおける要点である。
+
+そして、ここまで踏み込んで考えると、Claude CodeとCodexの比較は単なるツール比較ではなくなる。
+それは、ソフトウェアエンジニアリングの実行モデルそのものをどう変えていくのか、という問題である。
+```
+
+(この文章は [example ディレクトリ](https://github.com/p1ass/textlint-rule-preset-ai-words-ja/tree/main/example) に置いています。)
+
+</details>
+
+主観ですが、いかにも AI らしい文章ですね。それでは、この文章に textlint のプリセットを適用します。
+
+```shell
+$ npm install --save-dev textlint textlint-rule-preset-ai-words-ja
+$ npx textlint --preset ai-words-ja ai-generated-text.md
+```
+
+すると以下のような指摘が表示されます。
+
+```shell
+ai-generated-text.md
+    3:37  error  "入口" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    3:48  error  "道具" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    5:6   error  主題を 5 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+    7:26  error  "踏み込む" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。      ai-words-ja/no-ai-words
+    8:27  error  "照合" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    8:55  error  "実測" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    8:70  error  "切り分ける" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。    ai-words-ja/no-ai-words
+```
+
+<details>
+<summary>指摘の全文</summary>
+
+```shell
+ai-generated-text.md
+    3:37  error  "入口" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    3:48  error  "道具" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    5:6   error  主題を 5 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+    7:26  error  "踏み込む" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。      ai-words-ja/no-ai-words
+    8:27  error  "照合" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    8:55  error  "実測" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+    8:70  error  "切り分ける" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。    ai-words-ja/no-ai-words
+   10:16  error  "核心" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   18:37  error  "構図" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   19:12  error  "線引き" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。        ai-words-ja/no-ai-words
+   23:16  error  "効く" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   25:33  error  "効く" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   26:4   error  主題を 3 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+   29:25  error  "混ざる" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。        ai-words-ja/no-ai-words
+   30:17  error  "見落とす" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。      ai-words-ja/no-ai-words
+   31:26  error  "事故" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   32:32  error  "切り分ける" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。    ai-words-ja/no-ai-words
+   36:14  error  "土台" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   37:7   error  "土台" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   38:3   error  "構図" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   38:6   error  主題を 5 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+   43:4   error  主題を 3 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+   45:29  error  "〜した瞬間" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。    ai-words-ja/no-ai-words
+   45:37  error  "破綻" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   49:3   error  "線引き" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。        ai-words-ja/no-ai-words
+   53:12  error  "照合" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   56:7   error  "実測" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+   57:13  error  "切り分ける" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。    ai-words-ja/no-ai-words
+   60:19  error  "踏み込む" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。      ai-words-ja/no-ai-words
+   73:6   error  主題を 5 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+   78:4   error  "見落とす" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。      ai-words-ja/no-ai-words
+   79:20  error  "切り分ける" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。    ai-words-ja/no-ai-words
+   84:4   error  主題を 3 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+  104:36  error  "土台" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+  109:55  error  "入口" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。          ai-words-ja/no-ai-words
+  113:6   error  主題を 5 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+  119:9   error  "踏み込む" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。      ai-words-ja/no-ai-words
+  120:4   error  主題を 3 文字示しただけで読点を打っています。読点を外すか、文を組み替えられないか検討してください。  ai-words-ja/no-short-topic-comma
+
+✖ 38 problems (38 errors, 0 warnings, 0 infos)
+```
+
+</details>
+
+{/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
+文章全体では、38 件の指摘が検出されました。「依存関係を照合する」「テストを実測する」のように、「むむ？」と思う表現を拾えていると思います。
+
+{/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
+
+## textlintのルールを作成した背景
+
+最近は文章を書くときに AI を使う機会が増えましたが、出てくる日本語の表現が読みにくかったり、不自然と感じる機会が多くありました。
+
+{/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
+
+特に気になるのが、英語を直訳したような表現です。
+先ほどの例のように「設計が効いてくる」「テストを実測する」「原因を切り分ける」「深く踏み込む」といった単語が、人が書いた技術文書ではあまり見かけない頻度で出てきます。
+
+{/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
+
+これを LLM そのものに直させる方法もあります。
+しかし、「この単語を使わないで」とプロンプトに書いても、指示が守られるかどうかは確率に左右されます。
+直したはずの文章に別の単語が入ってくることもあり、あまり精度よく活用できていませんでした。
+
+そこで、「決定論的に検知できるツールを作ればよいのでは？」と考え、すでにエコシステムが発展している textlint をベースに、AI が多用する単語の辞書を持ったプリセットを作ることにしました。
+
+なお、AI らしい文章を検出するプリセットには [@textlint-ja/textlint-rule-preset-ai-writing](https://github.com/textlint-ja/textlint-rule-preset-ai-writing) が既にあります。
+こちらは太字とコロンを組み合わせた箇条書きや、コロンでコードブロックを導入する書き方のように、主に文章の構造を対象にしています。
+今回作ったプリセットは単語そのものを見るので、両方を併用できる形にしました。
+
+## 使い方
+
+まず textlint とプリセットをインストールします。
+
+```shell
+npm install --save-dev textlint textlint-rule-preset-ai-words-ja
+```
+
+その後、 `.textlintrc.json` にプリセットを追加します。
+
+```json
+{
+  "rules": {
+    "preset-ai-words-ja": true
+  }
+}
+```
+
+あとは `npx textlint` に対象のファイルを渡すと、リンターが実行されます。
+
+```shell
+npx textlint "docs/**/*.md"
+```
+
+### Claude Code の hooks でチェックする
+
+Claude Code のようなコーディングエージェントに文章を書かせる場合は、ファイルを編集するたびに textlint を実行させると便利です。
+指摘をエージェントに返せば、人が指示しなくてもエージェントが自分で書き直してくれます。
+
+Claude Code では、hooks の `PostToolUse` を使います。
+次の設定を `.claude/settings.json` に書くと、Markdown ファイルを書き込んだり編集したりした後に textlint が実行されます。
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *.md) out=$(npx textlint \"$f\" 2>&1) || { echo \"$out\" >&2; exit 2; };; esac"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+<ExLinkCard url="https://code.claude.com/docs/en/hooks" />
+
+### 一部の単語を検出から除外したい場合
+
+文脈によっては使いたい単語もあります。
+
+{/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
+
+例えば、検査や部品はソフトウェアエンジニアリングに関する文章では見かけない表現ですが、製造業や機械では当たり前の表現でしょう。
+
+{/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
+
+このような単語を許可したい場合は `allows` に単語を書くことで、リンターの指摘の対象から外すことができます。正規表現を使った記述も可能です。
+
+```json
+{
+  "rules": {
+    "preset-ai-words-ja": {
+      "no-ai-words": {
+        "allows": ["経路", "/検査|部品/"]
+      }
+    }
+  }
+}
+```
+
+### 特定の箇所だけ指摘を無効にしたい場合
+
+設定で単語ごと除外するほどではなく、一部の文章だけ指摘を止めたいこともあります。
+その場合は [textlint-filter-rule-comments](https://github.com/textlint/textlint-filter-rule-comments) を使うと、コメントで囲んだ範囲だけルールを無効にできます。
+
+```shell
+npm install --save-dev textlint-filter-rule-comments
+```
+
+`.textlintrc.json` の `filters` に追加します。
+
+```json
+{
+  "filters": {
+    "comments": true
+  },
+  "rules": {
+    "preset-ai-words-ja": true
+  }
+}
+```
+
+Markdown では、無効にしたい範囲を `textlint-disable` と `textlint-enable` のコメントで囲みます。ルール名を書くとそのルールだけが無効化されます。
+
+```markdown
+<!-- textlint-disable ai-words-ja/no-ai-words -->
+
+この段落では「効く」を使っても指摘されません。
+
+<!-- textlint-enable ai-words-ja/no-ai-words -->
+```
+
+<ExLinkCard url="https://textlint.org/docs/ignore" />
+
+## 検出の仕組み
+
+プリセットは、文章を形態素解析して得たトークン列を、辞書に並べたトークンの条件と比べて検出しています。
+形態素解析には [kuromojin](https://github.com/azu/kuromojin) を、トークン列の比較には [morpheme-match](https://github.com/azu/morpheme-match) の textlint 向けパッケージ [morpheme-match-textlint](https://github.com/azu/morpheme-match/tree/master/packages/morpheme-match-textlint) を使っています。
+
+{/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
+
+### 活用形をまとめて拾う
+
+文字列の一致で「効く」を grep すると、「効きます」「効かない」を拾えません。活用形を全部並べる方法もありますが、辞書に載せる単語が増えるほど管理が大変になります。
+
+形態素解析すると、トークンごとに品詞と基本形を解析できます。例えば kuromojin で「この設定は効きます。」を解析すると、次のトークン列になります。
+
+| 元の文章   | この   | 設定     | は     | **効き** | ます   | 。   |
+| ---------- | ------ | -------- | ------ | -------- | ------ | ---- |
+| 品詞       | 連体詞 | 名詞     | 助詞   | 動詞     | 助動詞 | 記号 |
+| 品詞細分類 | \*     | サ変接続 | 係助詞 | 自立     | \*     | 句点 |
+| 基本形     | この   | 設定     | は     | **効く** | ます   | 。   |
+
+「効き」の基本形は「効く」です。「キャッシュが効かない。」の「効か」も、基本形は「効く」です。
+そのため、辞書には基本形を 1 つ書くだけで色々な表現を拾えるようになりました。
+
+```ts
+const verb = (basicForm: string): ExpectedTokenWithCapture => ({
+  pos: "動詞",
+  pos_detail_1: "自立",
+  basic_form: basicForm,
+});
+
+export const dictionary: DictionaryEntry[] = [
+  {
+    message:
+      '"効く" はAIが書いた文章で多用される表現です。別の表現に言い換えられないか検討してください。',
+    tokens: [verb("効く")],
+  },
+  // ...
+];
+```
+
+## 辞書の作り方
+
+{/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
+
+辞書の最初のバージョンは、私が普段 AI の出力を読んでいて気になった単語を集めて作りました。
+9 月のはじめにルールを作成し、次のツイートのように「効く」「走る」「見張る」「焼き込む」などを検出させていました。
+
+<Twitter url="https://twitter.com/p1ass/status/2096938931023728852" />
+
+その後も「部品」「検査」のように気になった単語を足していたところ、9 月 11 日に逆瀬川さん ([@gyakuse](https://x.com/gyakuse)) が次の記事を公開しました。
+
+<ExLinkCard url="https://nyosegawa.com/posts/qiita-writing-before-after-ai/" />
+
+逆瀬川さんの記事では、ChatGPT が公開される前の 2019〜2022 年と 2026 年で記事を比べ、形態素解析した単語を含む記事の割合を出されていました。
+非常に興味深い内容で、生成 AI 特有の日本語文章のクセを分析した記事は見かけたことがなかったため目から鱗な内容でした。
+
+私が作成したプリセットは私の独断と偏見による辞書だったため、逆瀬川さんの記事も参考にして、一部の単語を辞書へ追加させていただきました。
+例えば、「実測」「照合」「入口」「土台」などは、このとき追加した単語です。
+
+{/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
+
+## おわりに
+
+AI が書いた日本語に出てきやすい単語を見つける textlint のプリセットを紹介しました。
+
+textlint で指摘しておけば同じ文章なら同じ結果が返るので、文章のクオリティーを一定に保つうえで役立つと思います。辞書に足したい単語があれば、Issue や Pull Request で教えてください。
+
+<ExLinkCard url="https://github.com/p1ass/textlint-rule-preset-ai-words-ja" />
