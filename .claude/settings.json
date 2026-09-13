@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in \"$CLAUDE_PROJECT_DIR\"/*.md|\"$CLAUDE_PROJECT_DIR\"/*.mdx) cd \"$CLAUDE_PROJECT_DIR\" && out=$(pnpm exec textlint \"$f\" 2>&1) || { echo \"$out\" >&2; exit 2; };; esac",
+            "timeout": 60,
+            "statusMessage": "textlint"
+          }
+        ]
+      }
+    ]
+  }
+}

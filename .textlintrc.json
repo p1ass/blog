@@ -44,10 +44,10 @@
     "@textlint-ja/preset-ai-writing": true,
     "preset-ai-words-ja": {
       "no-ai-words": {
-        "severity": "warning"
+        "severity": "error"
       },
       "no-short-topic-comma": {
-        "severity": "warning"
+        "severity": "error"
       }
     }
   }

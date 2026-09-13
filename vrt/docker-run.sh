@@ -33,7 +33,7 @@ docker run --rm --platform linux/amd64 \
     pnpm config set store-dir /pnpm-store
     pnpm install --frozen-lockfile
     ./vrt/install-fonts.sh
-    # ビルドもこの中で行う。Mermaid の図はビルド時に Playwright で文字幅を実測して座標を決めるため、ホストでビルドすると図の寸法が CI とずれる。
+    # ビルドもこの中で行う。Mermaid の図はビルド時に Playwright で文字幅を測って座標を決めるため、ホストでビルドすると図の寸法が CI とずれる。
     pnpm build
     pnpm exec playwright test $*
   "

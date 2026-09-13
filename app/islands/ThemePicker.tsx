@@ -5,7 +5,7 @@ import { CheckIcon, type ThemeChoice, ThemeIcon } from '../components/Icons'
 //
 // 素の select はやめた。開いた一覧はブラウザの見た目のままで、こちらの色や角丸が当たらない。
 // 代わりに開閉を自分で持つ。details と summary も試せるが、記事本文の details に当てたスタイルが
-// そのまま効いてしまい、打ち消す宣言が並ぶ。div と button なら要素の名前でぶつからない。
+// そのまま当たってしまい、打ち消す宣言が並ぶ。div と button なら要素の名前でぶつからない。
 //
 // 開いている間だけ、外を押したときと Esc を見る。閉じるときはボタンへフォーカスを戻す。
 //
