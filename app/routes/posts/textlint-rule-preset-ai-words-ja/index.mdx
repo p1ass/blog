@@ -11,7 +11,7 @@ tags:
 こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
 
 AI が書いた日本語に出てきやすい単語と言い回しを見つける textlint のプリセット、[textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) を作りました。
-この記事では、実際に検出できる単語の例を見せたうえで、作った背景や使い方、形態素解析を使った検出の仕組みを紹介します。
+この記事では、実際に検出できる単語の例を見せたうえで、作った背景や使い方、形態素解析を使った検出の仕組み、辞書を作った経緯を紹介します。
 
 <ExLinkCard url="https://github.com/p1ass/textlint-rule-preset-ai-words-ja" />
 
@@ -19,7 +19,7 @@ AI が書いた日本語に出てきやすい単語と言い回しを見つけ�
 
 ## AI に書かせた文章で試す
 
-まず手始めに、作成したプリセットを使って、AI が書いた技術記事から AI っぽい単語を検出してみます。テーマは Claude Code と Codex の比較で、冒頭は次のような文章です。
+手始めに、作成したプリセットを使って、AI が書いた技術記事から AI っぽい単語を検出してみます。テーマは Claude Code と Codex の比較で、冒頭は次のような文章です。
 
 ```markdown
 # Claude CodeとCodex、結局どちらを使うべきなのか
@@ -236,14 +236,14 @@ ai-generated-text.md
 
 {/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
 
-## textlintのルールを作成した背景
+## textlint のプリセットを作った背景
 
-最近は文章を書くときに AI を使う機会が増えましたが、出てくる日本語の表現が読みにくかったり、不自然と感じる機会が多くありました。
+最近は文章を書くときに AI を使う機会が増えましたが、出てくる日本語が読みにくかったり、不自然に感じたりすることが多くありました。
 
 {/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
 
 特に気になるのが、英語を直訳したような表現です。
-先ほどの例のように「設計が効いてくる」「テストを実測する」「原因を切り分ける」「深く踏み込む」といった単語が、人が書いた技術文書ではあまり見かけない頻度で出てきます。
+先ほどの例にあった「設計が効いてくる」のような表現が、人が書いた技術文書ではあまり見かけない頻度で出てきます。
 
 {/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
 
@@ -251,11 +251,11 @@ ai-generated-text.md
 しかし、「この単語を使わないで」とプロンプトに書いても、指示が守られるかどうかは確率に左右されます。
 直したはずの文章に別の単語が入ってくることもあり、あまり精度よく活用できていませんでした。
 
-そこで、「決定論的に検知できるツールを作ればよいのでは？」と考え、すでにエコシステムが発展している textlint をベースに、AI が多用する単語の辞書を持ったプリセットを作ることにしました。
+そこで、「決定論的に検知できるツールを作ればよいのでは？」と考え、既にエコシステムが発展している textlint をベースに、AI が多用する単語の辞書を持ったプリセットを作ることにしました。
 
 なお、AI らしい文章を検出するプリセットには [@textlint-ja/textlint-rule-preset-ai-writing](https://github.com/textlint-ja/textlint-rule-preset-ai-writing) が既にあります。
 こちらは太字とコロンを組み合わせた箇条書きや、コロンでコードブロックを導入する書き方のように、主に文章の構造を対象にしています。
-今回作ったプリセットは単語そのものを見るので、両方を併用できる形にしました。
+今回作ったプリセットは主に単語や言い回しを見るので、両方を併用できる形にしました。
 
 ## 使い方
 
@@ -265,7 +265,7 @@ ai-generated-text.md
 npm install --save-dev textlint textlint-rule-preset-ai-words-ja
 ```
 
-その後、 `.textlintrc.json` にプリセットを追加します。
+その後、`.textlintrc.json` にプリセットを追加します。
 
 ```json
 {
@@ -286,7 +286,7 @@ npx textlint "docs/**/*.md"
 Claude Code のようなコーディングエージェントに文章を書かせる場合は、ファイルを編集するたびに textlint を実行させると便利です。
 指摘をエージェントに返せば、人が指示しなくてもエージェントが自分で書き直してくれます。
 
-Claude Code では、hooks の `PostToolUse` を使います。
+Claude Code では、hooks の `PostToolUse` を使うのが手軽です。
 次の設定を `.claude/settings.json` に書くと、Markdown ファイルを書き込んだり編集したりした後に textlint が実行されます。
 
 ```json
@@ -315,7 +315,7 @@ Claude Code では、hooks の `PostToolUse` を使います。
 
 {/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
 
-例えば、検査や部品はソフトウェアエンジニアリングに関する文章では見かけない表現ですが、製造業や機械では当たり前の表現でしょう。
+例えば「検査」や「部品」は、ソフトウェアエンジニアリングの文章ではあまり見かけませんが、製造業や機械設計の文章では当たり前の表現でしょう。
 
 {/* <!-- textlint-enable ai-words-ja/no-ai-words --> */}
 
@@ -369,7 +369,7 @@ Markdown では、無効にしたい範囲を `textlint-disable` と `textlint-e
 
 ## 検出の仕組み
 
-プリセットは、文章を形態素解析して得たトークン列を、辞書に並べたトークンの条件と比べて検出しています。
+プリセットには、辞書に載せた単語や言い回しを見つける `no-ai-words` と、短い主題の後に打った読点を見つける `no-short-topic-comma` の 2 つのルールが入っています。どちらも文章を形態素解析して得たトークン列を使います。
 形態素解析には [kuromojin](https://github.com/azu/kuromojin) を、トークン列の比較には [morpheme-match](https://github.com/azu/morpheme-match) の textlint 向けパッケージ [morpheme-match-textlint](https://github.com/azu/morpheme-match/tree/master/packages/morpheme-match-textlint) を使っています。
 
 {/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
@@ -406,6 +406,28 @@ export const dictionary: DictionaryEntry[] = [
 ];
 ```
 
+### 短い主題の後の読点を拾う
+
+AI が書いた文章では単語のほかに、「重要なのは、」「それは、」のように短い主題を示してすぐ読点を打つ書き方も気になっていました。
+先ほどの例でも、5 行目の「重要なのは、」が指摘されています。
+
+`no-short-topic-comma` は係助詞の「は」の直後に読点があり、文の始まりからその「は」までが 5 文字以内のときに指摘します。
+品詞を見て判定しているので、「しかし、」のような接続詞の後の読点は指摘しません。
+
+指摘する長さは `maxLength` で変えられます。
+
+```json
+{
+  "rules": {
+    "preset-ai-words-ja": {
+      "no-short-topic-comma": {
+        "maxLength": 3
+      }
+    }
+  }
+}
+```
+
 ## 辞書の作り方
 
 {/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
@@ -420,7 +442,7 @@ export const dictionary: DictionaryEntry[] = [
 <ExLinkCard url="https://nyosegawa.com/posts/qiita-writing-before-after-ai/" />
 
 逆瀬川さんの記事では、ChatGPT が公開される前の 2019〜2022 年と 2026 年で記事を比べ、形態素解析した単語を含む記事の割合を出されていました。
-非常に興味深い内容で、生成 AI 特有の日本語文章のクセを分析した記事は見かけたことがなかったため目から鱗な内容でした。
+生成 AI 特有の日本語のクセを数字で分析した記事は初めて見たので、目から鱗でした。
 
 私が作成したプリセットは私の独断と偏見による辞書だったため、逆瀬川さんの記事も参考にして、一部の単語を辞書へ追加させていただきました。
 例えば、「実測」「照合」「入口」「土台」などは、このとき追加した単語です。
