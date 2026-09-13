@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
-# 記事中の独立した Go コードブロックを go vet / go build にかける。
-#
-# 使い方:
-#   bash .claude/skills/tech-review/scripts/verify_go_samples.sh app/routes/posts/<slug>/index.mdx
-#
-# 検証対象は ```go で始まるコードブロックのうち、package 宣言を持つ完結したもののみ。
-# 断片は前後の文脈に依存するため対象外とし、静的レビューに回す。
-#
-# 依存パッケージの取得は行わない。標準ライブラリのみで完結するコードだけが対象。
-# 単体でのビルド失敗は、記事の誤りを直ちに意味しない (意図的な省略の可能性がある)。
+# 使い方: bash .claude/skills/tech-review/scripts/verify_go_samples.sh app/routes/posts/<slug>/index.mdx
+# 断片は前後の文脈に依存するので、package 宣言を持つ標準ライブラリだけのブロックに限って検証する。
 
 set -uo pipefail
 
@@ -26,25 +18,22 @@ fi
 WORKDIR="$(mktemp -d)"
 trap 'rm -rf "$WORKDIR"' EXIT
 
-# ```go ブロックを抽出して個別ファイルに分割する
 python3 - "$ARTICLE" "$WORKDIR" <<'PYEOF'
 import re, sys, os, pathlib
 
 article, workdir = sys.argv[1], sys.argv[2]
 text = pathlib.Path(article).read_text(encoding="utf-8")
 
-# フェンスは 3 連以上を許容する
 blocks = re.findall(r"^(`{3,})go[^\n]*\n(.*?)^\1\s*$", text, re.M | re.S)
 
 n = 0
 for _fence, body in blocks:
     if not re.search(r"^\s*package\s+\w+", body, re.M):
-        continue  # package 宣言のない断片は対象外
+        continue
     n += 1
     d = os.path.join(workdir, f"sample{n}")
     os.makedirs(d, exist_ok=True)
     pathlib.Path(d, "main.go").write_text(body, encoding="utf-8")
-
 
 PYEOF
 

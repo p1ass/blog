@@ -1,22 +1,9 @@
 import { useEffect, useState } from 'hono/jsx'
 import { CheckIcon, type ThemeChoice, ThemeIcon } from '../components/Icons'
 
-// テーマを選ぶコンポーネント。今の選択のアイコンだけを出し、押すと 3 つの選択肢が開く。
-//
-// 素の select はやめた。開いた一覧はブラウザの見た目のままで、こちらの色や角丸が当たらない。
-// 代わりに開閉を自分で持つ。details と summary も試せるが、記事本文の details に当てたスタイルが
-// そのまま当たってしまい、打ち消す宣言が並ぶ。div と button なら要素の名前でぶつからない。
-//
-// 開いている間だけ、外を押したときと Esc を見る。閉じるときはボタンへフォーカスを戻す。
-//
-// 引き金のアイコンは html の data-theme-choice を見た CSS が選ぶ。規則は _renderer.tsx にある。
-// 島の状態で選ぶと、水和するまで SSR のときのアイコンが出たままになる。
-// 一覧の側は開くまで出ないので、そちらの印は状態から付けてよい。
-//
-// 印はチェックにする。面の濃さで示すと、hover の面より弱く見えて、どちらが今の選択か読み取れない。
-//
-// 選んだときの処理は head の同期スクリプトが持つ __applyTheme に任せる。
-// 適用と保存を 2 箇所に書くと、片方だけ直したときに読み込み直後と選んだ直後で挙動が分かれる。
+// select は開いた一覧にこちらのスタイルが当たらず、details は記事本文のスタイルとぶつかるので、div と button で開閉を持つ。
+// 引き金のアイコンは _renderer.tsx の CSS が data-theme-choice から選ぶ。状態で選ぶと、hydration までは SSR 時のアイコンが残る。
+// 適用と保存は head のスクリプトの __applyTheme に任せ、処理を 1 箇所にする。
 const choices: ThemeChoice[] = ['system', 'light', 'dark']
 
 const labels: Record<ThemeChoice, string> = {

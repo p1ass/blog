@@ -1,20 +1,8 @@
-// CSS に生の値が書かれていないか確かめる。
-//
-// トークンを定義しても、コンポーネントの側が生の値を書けば意味がない。
-// 既存のコードを真似て新しいコンポーネントを書くとき、真似た先が生の値なら、そこから同じ値が増えていく。
-// 読んで気づく形では止まらないので、機械で落とす。
-//
-// 見るのは css`` と keyframes`` の中身と、JSX の style 属性だけ。
-// 日本語のコメントや本文にも px や #4172b5 は出てくるが、それは説明であって描画には反映されない。
-// ファイル全体を正規表現で見るとこの区別が付かないため、TypeScript のパーサで CSS の位置だけを取り出す。
+// ファイル全体を正規表現で見るとコメントの px や #hex まで拾うので、TypeScript のパーサで CSS の位置だけを取り出す。
 import { globSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 
-// トークンそのものを定義するファイル。ここでしか生の値を書けない。
-//
-// 「どこに書いてよいか」を 1 箇所に集めるのが目的なので、app/styles/ をまとめて外すのではなく
-// ファイルごとに理由を書く。理由を書けないファイルは、生の値を持つべきではない。
 const tokenSources = new Map([
   ['app/styles/palette.ts', 'カラーの値そのもの'],
   ['app/styles/brand.ts', '他社のブランドカラー。こちらでは決められない'],
@@ -36,11 +24,7 @@ const tokenSources = new Map([
   ],
 ])
 
-// 寸法にトークンを持つプロパティと、その引き先。
-//
-// width や height のような、コンポーネントひとつの都合で決まる寸法は見ない。
-// アバターの 80px やリンクカードのサムネイルの高さに共通の基準はなく、トークンにしても引く先が 1 箇所にしかない。
-// 見るのはページ全体のリズムを決めるものだけに絞る。
+// width や height のようなコンポーネント固有の寸法は共通の基準がないので見ない。
 const tokenizedProperties = new Map([
   ['font-size', 'typography.ts の fontSize'],
   ['padding', 'spacing.ts の space'],
@@ -76,13 +60,7 @@ const tokenizedProperties = new Map([
   ['text-underline-offset', 'typography.ts の underline'],
 ])
 
-// トークンで書けない箇所。理由を必ず書く。
-//
-// 印を CSS のコメントとして埋め込む形は採らなかった。hono/css の最小化はコメントを残すので、
-// 理由の文がそのまま全ページの CSS に乗る。ここに置けば出力は変わらず、一覧としても読める。
-//
-// ファイルと種別と値で一致を見る。行番号で持つと、無関係な行を足しただけでずれる。
-// 使われなかった項目があれば落とす。直したのに残った項目は、次に同じ値を書いたときの抜け道になる。
+// CSS のコメントに理由を書くと最小化後も全ページの CSS に残るので、例外はここに集める。
 type Exception = {
   file: string
   rule: string
@@ -137,7 +115,7 @@ const lengthPattern = /(?<![\w.#-])\d+(?:\.\d+)?(?:px|rem|em)\b/g
 const hexPattern = /#[0-9a-fA-F]{3,8}\b/g
 const mediaPattern = /@media\b/g
 
-// プロパティと値の組。@media (min-width: ...) のような括弧の中を拾わないよう、直前の 1 文字を見る。
+// @media (min-width: ...) の括弧の中を拾わないよう、直前の 1 文字を見る。
 const declarationPattern = /(^|[^\w(-])([a-z][a-z-]*)\s*:\s*([^;{}]*)/g
 
 const cssTags = new Set(['css', 'keyframes'])
@@ -151,7 +129,6 @@ type RawValue = {
   hint: string
 }
 
-// css`` と keyframes`` の中身と、JSX の style 属性の位置を集める。
 function cssRanges(sourceFile: ts.SourceFile): Range[] {
   const ranges: Range[] = []
 
@@ -183,8 +160,7 @@ function cssRanges(sourceFile: ts.SourceFile): Range[] {
   return ranges
 }
 
-// ${...} で差し込む式を CSS として読まない。
-// transition(['box-shadow']) のように、プロパティ名を文字列で渡すだけの呼び出しが引っかかる。
+// transition(['box-shadow']) のようにプロパティ名を文字列で渡す呼び出しを拾わないよう、${...} の中は読まない。
 function substitutionRanges(sourceFile: ts.SourceFile): Range[] {
   const ranges: Range[] = []
 
@@ -210,7 +186,6 @@ function findAll(text: string, pattern: RegExp) {
   }))
 }
 
-// CSS の中から、トークンで書くべき値を拾う。位置は渡した文字列の先頭からの相対値。
 function rawValues(css: string): RawValue[] {
   const found: RawValue[] = []
 
@@ -248,7 +223,6 @@ function rawValues(css: string): RawValue[] {
     if (!source) {
       continue
     }
-    // 値はプロパティ名の後ろに続く残り全部なので、宣言の末尾から数えて位置が出る。
     const valueOffset = declaration.index + whole.length - value.length
     for (const length of findAll(value, lengthPattern)) {
       found.push({
@@ -276,7 +250,6 @@ export type Violation = {
   code: string
 }
 
-// 1 ファイルぶんのチェック。呼ぶ側がファイルを読む形にしてあるのは、テストから文字列だけを渡せるようにするため。
 export function findViolations(file: string, source: string): Violation[] {
   const sourceFile = ts.createSourceFile(
     file,
@@ -377,7 +350,7 @@ function main() {
   )
 }
 
-// テストからは findViolations だけを呼ぶ。読み込んだだけで全ファイルを見に行かないよう、実行のときだけ main に入る。
+// テストから import されたときに全ファイルを読みに行かないよう、直接実行されたときだけ main に入る。
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main()
 }

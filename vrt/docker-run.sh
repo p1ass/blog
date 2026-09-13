@@ -1,21 +1,11 @@
 #!/usr/bin/env bash
-# 基準画像を CI と同じ環境で撮るためのラッパー。
-#
-# ホストが macOS だと Hiragino で描かれるため、Linux の CI と一致しない。
-# CI も同じイメージの中で動かしているので、ここを通す限り差分は「見た目を変えたかどうか」だけになる。
-#
-# ビルドから撮影までをこの中で完結させる。
-#
-#   ./vrt/docker-run.sh                      比較する
-#   ./vrt/docker-run.sh --update-snapshots   基準画像を撮り直す
+# ホストが macOS だとヒラギノで描画されて CI と一致しないので、CI と同じイメージの中でビルドから撮影までを行う。
 set -euo pipefail
 
 IMAGE="mcr.microsoft.com/playwright:v1.58.1-noble"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# node_modules はプラットフォーム依存のバイナリを含むので、ホストのものをそのまま持ち込まず、コンテナ用のボリュームに分ける。
-# CI は linux/amd64 で動く。Apple Silicon でそのまま動かすと arm64 になり、基準画像と一致しないことがある。
-# エミュレーションで遅くなるが揃える。
+# node_modules はプラットフォーム依存のバイナリを含むので、コンテナ用のボリュームに分ける。arm64 だと基準画像と一致しないことがあるので、CI と同じ amd64 で動かす。
 docker run --rm --platform linux/amd64 \
   -v "${REPO_ROOT}:/work" \
   -v blog-vrt-node-modules:/work/node_modules \
@@ -27,13 +17,13 @@ docker run --rm --platform linux/amd64 \
   "${IMAGE}" \
   bash -c "
     set -euo pipefail
-    # ロックファイルを作った版に合わせる。別の版で入れると、触っていない pnpm-lock.yaml まで書き換わる。
+    # 別の版の pnpm で入れると pnpm-lock.yaml が書き換わる。
     corepack enable
     corepack prepare pnpm@10.8.0 --activate
     pnpm config set store-dir /pnpm-store
     pnpm install --frozen-lockfile
     ./vrt/install-fonts.sh
-    # ビルドもこの中で行う。Mermaid の図はビルド時に Playwright で文字幅を測って座標を決めるため、ホストでビルドすると図の寸法が CI とずれる。
+    # Mermaid の図はビルド時に文字幅を測って座標を決めるので、ビルドもこの中で行う。
     pnpm build
     pnpm exec playwright test $*
   "

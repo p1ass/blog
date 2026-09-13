@@ -51,11 +51,7 @@ const shareButtonLinkCss = css`
   }
 `
 
-// 円は純黒なので、暗い地では輪郭が消える。境界を box-shadow で描くのは、円の大きさを変えずに済ませるため。
-// border だと明るいテーマでも 2px 広がる。透明な境界も場所は取るので、見た目が変わらないのは box-shadow のほうだけ。
-// hover の 22px の影は円を塗りつぶすので、境界を先に書いて上に残す。
-//
-// 入れ子の規則を持つ ${...} は最後に置く。その後ろに書いた宣言は入れ子の外へ出て捨てられる。
+// 円は純黒で暗い地では輪郭が消える。border だと円が 2px 広がるので、境界は box-shadow で描く。
 const xCss = css`
     background-color: ${xBlack};
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder};
@@ -67,7 +63,7 @@ const xCss = css`
     }
 `
 
-// 𝕏 は黒い円の上に置くので、テーマによらず白のまま。textInverted だと暗いテーマで文字まで暗くなり、円に沈む。
+// 𝕏 は黒い円の上に置くので、テーマによらず白で描画する。
 const xShareButtonLinkCss = css`
   ${shareButtonLinkCss}
 
@@ -86,9 +82,7 @@ const xIconCss = css`
   }
 `
 
-// ボタンの文字は白地で 2.79 対 1 だが、これははてなブックマークのロゴそのものなので、そのままブランドカラーで描く。
-// WCAG 1.4.3 はロゴやブランド名の一部であるテキストをコントラストの対象から外している。
-// 読みやすさのために色を動かすと、見分けるための手がかりのほうを失う。
+// はてなブックマークのロゴそのものなので、コントラストが足りなくてもブランドカラーで描く (WCAG 1.4.3 の対象外)。
 const hatenaCss = css`
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${hatenaBlue};
     ${shareButtonCss}
@@ -113,7 +107,7 @@ type Props = {
 }
 
 export function ShareButtons({ title, permalink }: Props) {
-  // タイトルに # を含む記事があるため、必ずエンコードする
+  // タイトルに # を含む記事がある
   const sharedUrl = encodeURIComponent(`https://blog.p1ass.com${permalink}`)
   const sharedText = encodeURIComponent(`${title} - ぷらすのブログ`)
 

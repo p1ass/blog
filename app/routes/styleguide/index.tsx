@@ -35,7 +35,6 @@ import {
 
 export const title = 'Style Guide'
 
-// 記事ではないので検索結果に出さない。robots.txt からも除外している。
 export const noindex = true
 
 const sectionCss = css`
@@ -75,8 +74,7 @@ const swatchValueCss = css`
   word-break: break-all;
 `
 
-// フォーカスリングは :focus-visible でしか出ないので、当たった状態を固定で描いた見本を置く。
-// これがないと、リングの見た目はリグレッションテストに写らない。
+// :focus-visible は撮影時に出ないので、リングが当たった状態を固定で描いた見本を置く。
 const focusRingSampleCss = css`
   display: inline-block;
   padding: ${space.xs} ${space.md};
@@ -86,8 +84,7 @@ const focusRingSampleCss = css`
   outline-offset: ${focusRing.offset};
 `
 
-// hover した状態を固定で描いた見本。link.ts の hover 側と同じ値を書いているので、あちらを変えたらここも直す。
-// リグレッションテストは撮影時にカーソルを乗せないため、これがないと hover の見た目が基準画像に写らない。
+// 撮影時にカーソルは乗らないので、hover した状態を固定で描く。link.ts の hover 側を変えたらここも直す。
 const linkHoverSampleCss = css`
   color: ${accent};
   background-color: ${surfaceSubtle};
@@ -97,7 +94,6 @@ const linkHoverSampleCss = css`
   text-underline-offset: ${underline.offset};
 `
 
-// 見出しの直下に置く、その節が何を見せているかの一行。
 const captionCss = css`
   color: ${textMuted};
   font-size: ${fontSize.caption};
@@ -133,7 +129,6 @@ type TokenTableProps = {
   tokens: Record<string, string | number>
 }
 
-// トークンの定義をそのまま反復して表にする。定義を足せばこのページにも表示されるので、一覧の更新の抜けが起きない。
 function TokenTable({ tokens, sample }: TokenTableProps) {
   return (
     <table class={tokenTableCss}>
@@ -161,8 +156,7 @@ function TokenTable({ tokens, sample }: TokenTableProps) {
   )
 }
 
-// 一覧のカードの見本に使う、固定の記事。
-// 実在の記事を引くと、新しい記事を書くたびに基準画像が変わってしまう。
+// 実在の記事を引くと、記事を書くたびに基準画像が変わる。
 const samplePost: Post = {
   slug: 'sample-post',
   frontmatter: {
@@ -195,7 +189,6 @@ function Swatch({ name, value }: SwatchProps) {
   )
 }
 
-// 目次の見本。実際の幅は画面の広さから決まるので、上限まで伸びたときの値を置く。
 const tocSampleCss = css`
   width: 280px;
   margin-bottom: ${blockGap};
@@ -208,7 +201,6 @@ const sampleToc: TocItem[] = [
   { id: 'まとめ', text: 'まとめ', depth: 2 },
 ]
 
-// アイコンだけを並べる見本。1 つずつしか出ないものを、まとめて見えるようにする。
 const iconSampleListCss = css`
   display: flex;
   gap: ${space.lg};
@@ -225,21 +217,19 @@ const iconSampleListCss = css`
   }
 `
 
-// 見本の中の文字。実物 (app/islands/ThemePicker.tsx) と同じものを並べる。
+// app/islands/ThemePicker.tsx と同じ文言を並べる。
 const themeLabels = {
   system: '端末の設定に合わせる',
   light: 'ライト',
   dark: 'ダーク',
 } as const
 
-// 開いた一覧の見本。実物は絶対配置で引き金の下に出るので、ここでは position だけ打ち消して並びの中に置く。
-// クラスは実物と同じものを使う。値を書き写すと、片方だけ古くなる。
+// 実物は絶対配置なので、position だけ打ち消して並びの中に置く。
 const menuSampleCss = css`
   display: inline-block;
   margin-bottom: ${blockGap};
 `
 
-// 見本の欄に置く、行の高さに収まる大きさの色の四角。
 const chipCss = css`
   width: ${space['2xl']};
   height: ${space.md};
@@ -247,8 +237,6 @@ const chipCss = css`
   border-radius: ${radius.sm};
 `
 
-// 役割ごとに、両テーマの値を並べる。
-// color.ts の export と theme.ts の割り当ては同じ名前で対応しているので、色の変数から役割名を引き直さずに済む。
 function SemanticColorTable() {
   return (
     <table class={tokenTableCss}>
@@ -282,7 +270,6 @@ function SemanticColorTable() {
   )
 }
 
-// styles/*.ts の export をそのまま並べる。トークンを足せばこのページにも表示されるので、一覧の更新の抜けが起きない。
 function swatchesOf(module: Record<string, unknown>) {
   return Object.entries(module)
     .filter(([, value]) => typeof value === 'string')

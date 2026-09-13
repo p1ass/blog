@@ -42,7 +42,6 @@ const arrowCss = css`
   }
 `
 
-// 入れ子の規則を持つ ${...} は最後に置く。その後ろに書いた宣言は入れ子の外へ出て捨てられる。
 const leftCss = css`
     text-align: left;
     ${arrowCss}

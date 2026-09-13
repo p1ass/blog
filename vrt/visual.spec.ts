@@ -1,7 +1,6 @@
 import { expect, type Page, test } from '@playwright/test'
 
-// 撮る対象。実在のページに加えてスタイルガイドを撮る。
-// 記事は、見た目の要素を網羅するように選んである。
+// 見た目の要素を網羅するように記事を選んである。
 const pages = [
   { name: 'top', path: '/' },
   { name: 'categories', path: '/categories/' },
@@ -22,17 +21,13 @@ const pages = [
   { name: 'post-enum', path: '/posts/enum/' },
 ]
 
-// 1x1 の灰色 PNG。外部画像の差し替え先として使う。
 const placeholderPng = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8U88ABAwCAmYCz6cAAAAASUVORK5CYII=',
   'base64',
 )
 
 test.beforeEach(async ({ page }) => {
-  // 外部への通信を止める。CDN やウィジェットの応答でスクリーンショットが揺れると、見た目の変更を検出できなくなる。
-  //
-  // ただし画像だけは abort ではなく、決まったプレースホルダを返す。
-  // abort すると読み込めなかった画像の描画が実行ごとに揺れ、リンクカードを 16 個持つ java-catch-up では 3000 ピクセル以上の差になった。
+  // 外部の応答で撮影が揺れないよう通信を止める。画像を abort すると描画が実行ごとに揺れるので、決まったプレースホルダを返す。
   await page.route('**/*', route => {
     const host = new URL(route.request().url()).hostname
     if (host === '127.0.0.1' || host === 'localhost') {
@@ -53,13 +48,9 @@ for (const { name, path } of pages) {
   test(name, async ({ page }) => {
     const response = await page.goto(path, { waitUntil: 'load' })
 
-    // 200 以外を撮らない。
-    //
-    // これがなかったとき、ビルドが失敗して index.html が出ていない記事の 404 ページが、そのまま基準画像として保存された。
-    // 以降の比較も 404 どうしで一致するため通ってしまい、CI で実ページが出て初めて発覚した。
+    // ビルドに失敗した記事の 404 ページを基準画像として保存しないよう、200 以外を撮らない。
     expect(response?.status(), `${path} が 200 を返さない`).toBe(200)
 
-    // 遅延読み込みの画像を出し切ってから撮る
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.evaluate(() => window.scrollTo(0, 0))
     await page.waitForFunction(() =>
@@ -69,10 +60,7 @@ for (const { name, path } of pages) {
 
     await waitForStableHeight(page)
 
-    // 捨てる 1 枚を先に撮る。
-    //
-    // fullPage の撮影はビューポートをページの全高に広げる。すると、それまで可視域の外にあった外部画像がまとめて読み込みに行き、読み込めなかった画像のボックスがそこで確定する。
-    // java-catch-up ではこれで高さが 81px 変わり、1 枚目と 2 枚目が一致しなかった。2 枚目以降は安定する。
+    // fullPage の撮影で可視域の外の外部画像が読み込まれてページの高さが変わるので、捨てる 1 枚を先に撮る。
     await page.screenshot({ fullPage: true })
     await waitForStableHeight(page)
 

@@ -25,8 +25,6 @@ const timeCss = css`
   letter-spacing: 1px;
 `
 
-// 一覧の記事タイトル。記事ページの h1 と同じ役割なので、大きさも揃える。
-// 以前は一覧が 2rem、記事が 2.5rem で別値だった。
 const titleCss = css`
   display: block;
   color: ${text};
@@ -37,8 +35,6 @@ const titleCss = css`
   ${transition(['color'], 'base')}
 `
 
-// カード全体が 1 つのリンクなので、hover の反応もカード全体で返す。
-// アクセント線が伸びるだけだと、面積のわりに動く範囲が狭く、押せることが伝わりにくい。タイトルの色もあわせて動かす。
 const itemCss = css`
   border-top: ${borderWidth.thin} solid ${border};
   display: block;

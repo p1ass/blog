@@ -30,11 +30,7 @@ export function useMDXComponents(): MDXComponents {
   return components
 }
 
-// height: auto は width と height の属性と組で置く。
-// 属性はプレゼンテーション上のヒントとして CSS の width と height に反映されるので、これが無いと max-width で横だけ縮んで画像が縦に潰れる。
-//
-// max-height はもう書かない。縦に長い画像を抑える計算は rehype-image-size.ts が済ませていて、属性の値が既に上限に収まっている。
-// ここに残すと、属性で決まった横幅はそのままに高さだけが詰まり、やはり潰れる。
+// max-height を書くと、width と height の属性で決まった横幅のまま高さだけ詰まり、画像が潰れる。上限は rehype-image-size.ts が計算済み。
 const imageCss = css`
   display: block;
   max-width: 100%;
@@ -45,8 +41,6 @@ const imageCss = css`
   ${transition(['border-color'])}
 `
 
-// 画像は押すと原寸で開く。それが分かるように、hover で枠を accent にする。
-// リンク側に display を足すと配置が動くので、枠の色だけを変える。
 const imageLinkCss = css`
   &:hover img,
   &:focus-visible img {
@@ -121,7 +115,6 @@ const tableCss = css`
   }
 `
 
-// 表は横スクロールするラッパーで囲む。列の多い表は本文幅を超え、ページ全体を横に伸ばす。
 const tableWrapperCss = css`
   overflow-x: auto;
   margin: 0 0 ${blockGap};

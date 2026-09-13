@@ -1,13 +1,5 @@
 #!/usr/bin/env node
-// 記事が参照している外部リンクの OGP を取得し、ogp-cache.json に書き出す。
-//
-// リンク先が生きているかどうかにビルドが左右されないように持つ。以前はビルドのたびに 188 件の URL を取得していた。
-// そのためリンク先が 1 つ消えるだけで記事が出力されなくなり、応答の揺れでビルド結果そのものが変わっていた。
-//
-// 実行は手動。リンクカードを足したときや、カードの内容を更新したいときに回す。
-//
-//   pnpm ogp:refresh            キャッシュに無い URL だけ取る
-//   pnpm ogp:refresh --all      全 URL を取り直す
+// 使い方: pnpm ogp:refresh でキャッシュに無い URL だけ、--all で全 URL を取り直す。
 
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -16,7 +8,6 @@ import { fetchOgp, type Ogp } from '../app/lib/ogp-fetch.ts'
 const CACHE_PATH = 'ogp-cache.json'
 const POSTS_DIR = 'app/routes/posts'
 
-// ogp-cache.json の中身。取得できなかった URL は null で記録する。
 type Cache = Record<string, Ogp | null>
 
 function collectUrls(): string[] {
@@ -29,7 +20,7 @@ function collectUrls(): string[] {
     } catch {
       continue
     }
-    // コメントアウトされたカードは対象外。{/* <ExLinkCard .../> */} の形で残っている記事がある。
+    // {/* <ExLinkCard .../> */} とコメントアウトされたカードは対象外。
     const body = source.replaceAll(/\{\/\*[\s\S]*?\*\/\}/g, '')
     for (const match of body.matchAll(/<ExLinkCard[^>]*url="([^"]+)"/g)) {
       urls.add(match[1])
@@ -63,12 +54,11 @@ for (const [index, url] of urls.entries()) {
     const reason = cause instanceof Error ? cause.message : String(cause)
     console.log(`失敗 (${reason})`)
     failed.push(`${url} (${reason})`)
-    // 取得できなかったことも記録する。そうしないとビルドのたびに取得を試みる。リンク先が復活したときは --all で取り直す。
+    // 記録しないとビルドのたびに取得を試みる。
     cache[url] = null
   }
 }
 
-// 記事から消えた URL はキャッシュからも取り除く
 const alive = Object.fromEntries(
   urls.filter(url => url in cache).map(url => [url, cache[url]]),
 )

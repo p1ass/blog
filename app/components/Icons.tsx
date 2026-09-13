@@ -1,14 +1,7 @@
 import { css } from 'hono/css'
 
-// サイトで使うアイコン。
-//
-// 以前は Font Awesome の外部 kit を全ページで読んでいた。実際に使っていたのは GitHub、X、info の 3 つだけで、そのために毎回スクリプトを 1 本取りに行っていた。
-// 図形をここに書けば、SSG の出力にそのまま入る。
-//
-// ブランドマークの d は Simple Icons (https://simple-icons.org) から取った。あちらは CC0 なので、そのまま持ってきてよい。
-// info、warning、tip と、テーマの system、light、dark は自前で描いた。円や三角と線だけで済む図形なので、外から持ってくる理由がない。
+// ブランドマークの d は Simple Icons (https://simple-icons.org, CC0) から取った。
 
-// 文字と並べて置くアイコン。大きさは前後の文字に合わせ、ベースラインから少し下げて字面の中心に揃える。
 const inlineIconCss = css`
   width: 1em;
   height: 1em;
@@ -22,8 +15,7 @@ const githubPath =
 const xPath =
   'M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z'
 
-// aria-hidden にするのは、どのアイコンもすぐ隣に同じ意味の文字があるため。
-// 読み上げると「GitHub GitHub」のように 2 回聞こえる。
+// どのアイコンも隣に同じ意味の文字があり、読み上げが 2 回続くので隠す。
 export function GitHubIcon() {
   return (
     <svg viewBox='0 0 24 24' class={inlineIconCss} aria-hidden='true'>
@@ -40,8 +32,6 @@ export function XIcon() {
   )
 }
 
-// Note の左に置くアイコン。線で描き、太さは 2 に揃える。
-// 塗りではなく線にするのは、3 つを並べたときに重さがそろうため。
 const noteIconCss = css`
   width: 24px;
   height: 24px;
@@ -52,8 +42,6 @@ const noteIconCss = css`
   stroke-linejoin: round;
 `
 
-// テーマの選択肢を表すアイコン。太さと大きさは Note のものに揃える。
-// system は画面そのものを描く。太陽と月の中間のような図形にすると、どちらでもない状態が伝わらない。
 export type ThemeChoice = 'system' | 'light' | 'dark'
 
 export function ThemeIcon({ kind }: { kind: ThemeChoice }) {
@@ -86,7 +74,6 @@ export function ThemeIcon({ kind }: { kind: ThemeChoice }) {
   )
 }
 
-// 一覧の中で今の選択に添えるチェック。文字と並ぶので、Note のものより小さい 16px にする。
 const checkIconCss = css`
   width: 16px;
   height: 16px;

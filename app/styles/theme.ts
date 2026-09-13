@@ -1,18 +1,9 @@
-// どの段をどの役割に割り当てるか。app/styles/color.ts の var(--color-*) がここを参照する。
-// 値そのものは app/styles/palette.ts と app/styles/brand.ts にある。
-//
-// 3 段構成にしてある。:root が既定の明るいテーマ、prefers-color-scheme が OS 設定への追従、data-theme が読者の明示的な選択で、後ろほど強い。
-// 選択の側は :root と属性セレクタを組みにして書く。詳細度で prefers-color-scheme の中の :root を確実に上回るため。
-// 属性の値を引用符でくくらないのは、hono/css が補間した文字列の二重引用符をエスケープするのを避けるため。
-//
-// 暗いテーマの側は、明るいテーマの割り当てを段の並びごと裏返して作ってある。
-// たとえば text は neutral の 900 と 200、surface は 0 と 950 で、地と文字の関係が入れ替わるだけになる。
-// ただし段の刻みは暗い側のほうが粗いので、面どうしの差は明るいテーマより広く出る。
+// 読者の選択は、prefers-color-scheme の中の :root を詳細度で上回るよう :root と属性セレクタの組で書く。
+// hono/css が補間した文字列の二重引用符をエスケープするので、属性の値を引用符でくくらない。
 
 import { brandWhite, githubBlack, xBlack } from './brand.ts'
 import { accent, neutral, tip, warning } from './palette.ts'
 
-// 役割から段への割り当て。テーマを足すときは、この形の表をもう 1 つ書く。
 export type Assignment = {
   text: string
   textMuted: string
@@ -64,11 +55,8 @@ export const light: Assignment = {
 
   icon: neutral[700],
 
-  // 図はビルド時に明るいテーマの色で描かれるので、暗いテーマでは白い面を敷いて図だけ明るいまま見せる。
-  // 明るいテーマでは面を敷く必要がないので透明にする。
   diagramSurface: 'transparent',
 
-  // ブランドカラーで塗った面が地に沈むときだけ引く境界。X ボタンの円は純黒なので、暗い地では輪郭が消える。
   brandSurfaceBorder: 'transparent',
 
   githubMark: githubBlack,
@@ -81,8 +69,7 @@ export const dark: Assignment = {
   textInverted: neutral[950],
 
   accent: accent[300],
-  // 明るいテーマは accent より 1 段薄い色を下線に使う。これに合わせて、暗いテーマでは 2 段濃い色を使う。
-  // 段の刻みが粗いので、1 段違い (accent の 400) だと本文リンクとの差が付かない。
+  // 暗いテーマは段の刻みが粗く、1 段違いでは本文リンクと差が付かないので 2 段濃くする。
   accentMuted: accent[500],
   accentSurface: accent[900],
   textOnAccentSurface: neutral[300],
@@ -105,13 +92,13 @@ export const dark: Assignment = {
 
   diagramSurface: neutral[0],
 
+  // X ボタンの円は純黒で、暗い地では輪郭が消える。
   brandSurfaceBorder: neutral[500],
 
   githubMark: brandWhite,
   xMark: brandWhite,
 }
 
-// camelCase の役割名を --color-kebab-case に変換する。役割を足したときに、CSS 変数の書き忘れが起きないようにするため。
 function toCustomProperties(assignment: Assignment): string {
   return Object.entries(assignment)
     .map(([role, value]) => {
@@ -121,7 +108,6 @@ function toCustomProperties(assignment: Assignment): string {
     .join('\n')
 }
 
-// color-scheme は、スクロールバーやフォームのコントロールのようなこちらで色を指定していない部分を、地の明るさへ合わせるために置く。
 export const themeVariables = `
   :root {
     color-scheme: light dark;

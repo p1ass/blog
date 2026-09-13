@@ -3,8 +3,7 @@ import type { Post } from '../lib/posts'
 import { getAllPosts, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 
-// RFC 822 の date-time。24 時間表記で、オフセットはコロン無しで書く。
-// JST 固定で出すため、オフセットはリテラルとして付ける。
+// RFC 822 の date-time。JST 固定なので、オフセットはリテラルで付ける。
 const RSS_DATE_FORMAT = 'ddd, DD MMM YYYY HH:mm:ss'
 
 function toRfc822(date: string): string {
@@ -32,7 +31,6 @@ function generateRss(posts: Post[]): string {
 }
 
 function generateRssItem(post: Post): string {
-  // OG 画像は scripts/generate-og-images.ts が記事と同じ場所へ書き出す。_renderer.tsx の og:image と同じものを指す。
   const ogImage = post.frontmatter.ogImage
     ? `https://blog.p1ass.com${post.frontmatter.ogImage}`
     : `https://blog.p1ass.com${postPermalink(post.slug)}og.png`

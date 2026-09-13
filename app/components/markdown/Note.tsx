@@ -16,10 +16,7 @@ import { radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
 import { NoteIcon, type NoteKind } from '../Icons'
 
-// 3 種別。既定は info。
-//
-// warning と tip だけは accent と別の色相を持つ。同じ色相の濃淡で分けると、
-// 記事を流し読みしたときに「いつもと違う」が伝わらない。
+// accent と同じ色相の濃淡では流し読みで違いが伝わらないので、warning と tip は別の色相にする。
 const kindColors = {
   info: {
     surface: accentSurface,
@@ -38,7 +35,6 @@ const kindColors = {
   },
 } as const
 
-// 種別ごとに違うのは 3 色だけなので、共通の形を 1 つ書いて色を差し込む。
 function noteCss(kind: NoteKind) {
   const colors = kindColors[kind]
   return css`
