@@ -42,17 +42,13 @@
       "ja-no-space-around-slash": false
     },
     "@textlint-ja/preset-ai-writing": true,
-    "@textlint-ja/morpheme-match": {
-      "severity": "warning",
-      "dictionaryPathList": [
-        "./textlint/ai-japanese-verbs.cjs",
-        "./textlint/ai-japanese-nouns.cjs",
-        "./textlint/ai-japanese-phrases.cjs",
-        "./textlint/ai-japanese-metaphors.cjs"
-      ]
-    },
-    "short-topic-comma": {
-      "severity": "warning"
+    "preset-ai-words-ja": {
+      "no-ai-words": {
+        "severity": "warning"
+      },
+      "no-short-topic-comma": {
+        "severity": "warning"
+      }
     }
   }
 }
