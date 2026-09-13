@@ -25,6 +25,17 @@ export default defineConfig(({ mode }) => {
     build: {
       emptyOutDir: false,
     },
+    server: {
+      watch: {
+        // honox はファイルが増減するたびに開発サーバーを再起動するので、VRT とビルドの出力を監視から外す。
+        ignored: [
+          '**/dist/**',
+          '**/vrt/__screenshots__/**',
+          '**/vrt/.results/**',
+          '**/playwright-report/**',
+        ],
+      },
+    },
     plugins: [
       honox(),
       // mdx() より先に動かして、抜粋用の仮想モジュールを用意する
