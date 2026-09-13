@@ -86,11 +86,11 @@ hover やフォーカスは撮影のとき出ない。当たった状態を固�
 pnpm lint:fix     # biome
 pnpm lint:style   # CSS に生の値が無いか
 pnpm test         # コントラストなど
-pnpm vrt          # 見た目の回帰テスト (Docker が要る)
+pnpm vrt          # リグレッションテスト (Docker が要る)
 pnpm lint:text    # textlint
 ```
 
-`pnpm vrt` が落ちたら、差分画像を見て意図した変更かを判断する。意図どおりなら `pnpm vrt:update` で撮り直す。撮り直す前の注意は [CLAUDE.md の見た目の回帰テスト](../../../CLAUDE.md#見た目の回帰テスト)にある。
+`pnpm vrt` が落ちたら、差分画像を見て意図した変更かを判断する。意図どおりなら `pnpm vrt:update` で撮り直す。撮り直す前の注意は [CLAUDE.md のリグレッションテスト](../../../CLAUDE.md#リグレッションテスト)にある。
 
 DESIGN.md の front matter を触ったときは、形式も確かめる。
 

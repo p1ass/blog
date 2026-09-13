@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-// 見た目の回帰テスト。ビルド済みの dist/ を静的に配って撮る。
+// リグレッションテスト。ビルド済みの dist/ を静的に配って撮る。
 //
 // 基準画像は Playwright 公式イメージ (Linux) で撮る。OS フォントをそのまま使う方針なので、macOS で撮ると Hiragino になり CI と一致しない。
 // ローカルからは pnpm vrt / pnpm vrt:update を使うこと。

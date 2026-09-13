@@ -76,7 +76,7 @@ const swatchValueCss = css`
 `
 
 // フォーカスリングは :focus-visible でしか出ないので、当たった状態を固定で描いた見本を置く。
-// これがないと、リングの見た目は見た目の回帰テストに写らない。
+// これがないと、リングの見た目はリグレッションテストに写らない。
 const focusRingSampleCss = css`
   display: inline-block;
   padding: ${space.xs} ${space.md};
@@ -87,7 +87,7 @@ const focusRingSampleCss = css`
 `
 
 // hover した状態を固定で描いた見本。link.ts の hover 側と同じ値を書いているので、あちらを変えたらここも直す。
-// 見た目の回帰テストは撮影時にカーソルを乗せないため、これがないと hover の見た目が基準画像に写らない。
+// リグレッションテストは撮影時にカーソルを乗せないため、これがないと hover の見た目が基準画像に写らない。
 const linkHoverSampleCss = css`
   color: ${accent};
   background-color: ${surfaceSubtle};
@@ -297,7 +297,7 @@ export default function StyleGuide() {
       <h1>Style Guide</h1>
       <p class={captionCss}>
         トークンと本文要素とコンポーネントを 1 ページに並べたもの。
-        見た目の回帰テストはこのページを撮る。
+        リグレッションテストはこのページを撮る。
       </p>
 
       <section class={sectionCss}>
@@ -674,7 +674,7 @@ export default function StyleGuide() {
         <p class={captionCss}>
           下は、リングが当たった状態を固定で描いた見本。 実際のリングは
           :focus-visible でしか出ないので、
-          見た目の回帰テストに写るようにここへ置いている。
+          リグレッションテストに写るようにここへ置いている。
         </p>
         <span class={focusRingSampleCss}>フォーカスの当たった要素</span>
 
