@@ -106,11 +106,7 @@ export default jsxRenderer(
       <Layout title={frontmatter.title} frontmatter={frontmatter} toc={toc}>
         <div class={showToc ? postColumnCss : undefined}>
           <div class={postDateCss}>
-            <time
-              datetime={frontmatter.date}
-              data-post={permalink}
-              data-post-part='date'
-            >
+            <time datetime={frontmatter.date}>
               {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
             </time>
           </div>

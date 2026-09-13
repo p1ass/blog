@@ -100,12 +100,7 @@ export function PostSummarySection({ post }: Props) {
     <section class={sectionCss}>
       <a href={permalink} class={itemCss}>
         <div>
-          <time
-            datetime={post.frontmatter.date}
-            class={timeCss}
-            data-post={permalink}
-            data-post-part='date'
-          >
+          <time datetime={post.frontmatter.date} class={timeCss}>
             {formatDate(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
           <h2 class={titleCss} data-post={permalink} data-post-part='title'>
