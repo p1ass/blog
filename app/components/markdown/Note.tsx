@@ -54,6 +54,15 @@ function noteCss(kind: NoteKind) {
       padding-right: ${space.md};
     }
 
+    .note-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .note-body > * + * {
+      margin-top: ${space.sm};
+    }
+
     & p {
       margin: 0;
       color: ${colors.text};
@@ -85,7 +94,7 @@ export function Note({ kind = 'info', children }: Props) {
       <div class='icon-wrapper'>
         <NoteIcon kind={kind} />
       </div>
-      {children}
+      <div class='note-body'>{children}</div>
     </aside>
   )
 }

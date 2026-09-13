@@ -513,6 +513,10 @@ export default function StyleGuide() {
         <Note kind='tip'>
           <p>tip。知っていると得をすることを書く。</p>
         </Note>
+        <Note>
+          <p>段落を複数入れたときは、縦に積む。</p>
+          <p>2 つ目の段落。</p>
+        </Note>
 
         <h3>ThemePicker</h3>
         <p class={captionCss}>
