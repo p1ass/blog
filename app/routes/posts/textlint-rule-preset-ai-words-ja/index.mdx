@@ -11,7 +11,7 @@ tags:
 こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
 
 AI が書いた日本語に出てきやすい単語と言い回しを見つける textlint のプリセット、[textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) を作りました。
-この記事では、実際に検出できる単語の例を見せたうえで、作った背景や使い方、形態素解析を使った検出の仕組み、辞書を作った経緯を紹介します。
+この記事では、実際に検出できる単語の例や、作成した背景、使い方、形態素解析を使った検出の仕組み、辞書の仕組みを紹介します。
 
 <ExLinkCard url="https://github.com/p1ass/textlint-rule-preset-ai-words-ja" />
 
@@ -19,7 +19,7 @@ AI が書いた日本語に出てきやすい単語と言い回しを見つけ�
 
 ## AI に書かせた文章で試す
 
-手始めに、作成したプリセットを使って、AI が書いた技術記事から AI っぽい単語を検出してみます。テーマは Claude Code と Codex の比較で、冒頭は次のような文章です。
+手始めに、作成したプリセットを使って、AI が書いた技術記事から AI っぽい単語を検出してみます。テーマは Claude Code と Codex の比較で、次のような文章です。
 
 ```markdown
 # Claude CodeとCodex、結局どちらを使うべきなのか
@@ -30,6 +30,8 @@ Claude CodeとCodexは、どちらもCoding Agentの入口として非常に強�
 
 Claude Codeは、既存のコードベースに深く踏み込んでいく使い方に強みがある。
 リポジトリを読み、関連するファイルを探し、依存関係を照合し、実装の背景を確認する。そして変更を加え、テストを実測し、失敗した場合には原因を切り分ける。
+
+<!-- 続きは省略 -->
 ```
 
 <details>
@@ -229,7 +231,7 @@ ai-generated-text.md
 
 ## textlint のプリセットを作った背景
 
-最近は文章を書くときに AI を使う機会が増えましたが、出てくる日本語が読みにくかったり、不自然に感じたりすることが多くありました。
+最近は文章を書くときに AI を使う機会が増えましたが、出力される日本語が読みにくかったり、不自然に感じたりすることが多くありました。
 
 {/* <!-- textlint-disable ai-words-ja/no-ai-words --> */}
 
@@ -244,9 +246,9 @@ ai-generated-text.md
 
 そこで、「決定論的に検知できるツールを作ればよいのでは？」と考え、既にエコシステムが発展している textlint をベースに、AI が多用する単語の辞書を持ったプリセットを作ることにしました。
 
-なお、AI らしい文章を検出するプリセットには [@textlint-ja/textlint-rule-preset-ai-writing](https://github.com/textlint-ja/textlint-rule-preset-ai-writing) が既にあります。
+なお、AI らしい文章を検出するプリセットとしては [@textlint-ja/textlint-rule-preset-ai-writing](https://github.com/textlint-ja/textlint-rule-preset-ai-writing) が既に存在していました。
 こちらは太字とコロンを組み合わせた箇条書きや、コロンでコードブロックを導入する書き方のように、主に文章の構造を対象にしています。
-今回作ったプリセットは単語そのものを見るので、両方を併用できる形にしました。
+今回作ったプリセットは単語そのものを見るので、両方を併用できる形にしています。
 
 ## 使い方
 
