@@ -2,9 +2,10 @@ import { css } from 'hono/css'
 import { type Post, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 import { accent, border, text, textInverted, textMuted } from '../styles/color'
+import { canHover, duration } from '../styles/motion'
 import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition, transition } from '../styles/transition'
 import { fontSize, lineHeight } from '../styles/typography'
 import { PostDetails } from './PostDetails'
 
@@ -12,12 +13,15 @@ const sectionCss = css`
   margin-bottom: ${blockGap};
 `
 
+// width を動かすとフレームごとにレイアウトを計算し直すので、幅は伸びきった長さで固定して transform で縮めておく。
 const underlineCss = css`
   border-top: ${borderWidth.thick} solid ${accent};
   display: block;
-  width: ${space.xl};
+  width: ${space['4xl']};
+  transform: scaleX(calc(1 / 3));
+  transform-origin: left;
 
-  ${transition(['width'], 'base')}
+  ${transition(['transform'])}
 `
 
 const timeCss = css`
@@ -32,7 +36,7 @@ const titleCss = css`
   margin: ${space['2xs']} 0;
   line-height: ${lineHeight.heading};
 
-  ${transition(['color'], 'base')}
+  ${transition(['color'], 'exit')}
 `
 
 const itemCss = css`
@@ -41,18 +45,21 @@ const itemCss = css`
   padding: ${blockGap} 0;
   text-decoration: none;
 
-  &:hover ${underlineCss} {
-    width: ${space['4xl']};
+  ${canHover} {
+    &:hover ${underlineCss} {
+      transform: scaleX(1);
+    }
+    &:hover ${titleCss} {
+      color: ${accent};
+      transition-duration: ${duration.fast};
+    }
   }
   &:focus-visible ${underlineCss} {
-    width: ${space['4xl']};
-  }
-
-  &:hover ${titleCss} {
-    color: ${accent};
+    transform: scaleX(1);
   }
   &:focus-visible ${titleCss} {
     color: ${accent};
+    transition-duration: ${duration.fast};
   }
 
   &:last-child {
@@ -71,10 +78,12 @@ const moreButtonCss = css`
   justify-content: center;
   text-decoration: none;
 
-  ${transition(['background-color'])}
+  ${hoverTransition(['background-color'], { pressable: true })}
 
-  &:hover {
-    background-color: ${textMuted};
+  ${canHover} {
+    &:hover {
+      background-color: ${textMuted};
+    }
   }
 `
 

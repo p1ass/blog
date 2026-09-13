@@ -2,7 +2,6 @@
 
 export const xBlack = '#000000'
 export const xBlackHover = '#444444'
-export const xSurfaceHover = '#dddddd'
 
 export const hatenaBlue = '#4ba3d9'
 

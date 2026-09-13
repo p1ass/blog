@@ -17,11 +17,17 @@ import {
   textMuted,
 } from '../styles/color'
 import { highlightTheme } from '../styles/highlight'
-import { reducedMotion } from '../styles/motion'
+import {
+  canHover,
+  duration,
+  easing,
+  enterScale,
+  reducedMotion,
+} from '../styles/motion'
 import { borderWidth, focusRing, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { dark, light, themeVariables } from '../styles/theme'
-import { transition } from '../styles/transition'
+import { hoverTransition } from '../styles/transition'
 import {
   fontFamily,
   fontSize,
@@ -30,7 +36,8 @@ import {
 } from '../styles/typography'
 
 // :-hono-global は複数行のコメントがあると展開されないので、説明はテンプレートの外に書く。
-// reduced motion で 0 ではなく 0.01ms にするのは、transitionend を待つ処理を止めないため。
+// reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
+// .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
 // .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
 // article > svg は Mermaid の図で、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
 // pre の overflow: hidden は、中の code.hljs が横スクロールしても角丸を保つため。
@@ -63,7 +70,6 @@ const bodyCss = css`
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
   }
@@ -185,10 +191,16 @@ const bodyCss = css`
     background-color: transparent;
     color: ${icon};
     cursor: pointer;
-    ${transition(['background-color', 'color'])}
+    ${hoverTransition(['background-color', 'color'], { pressable: true })}
   }
 
-  .theme-trigger:hover,
+  ${canHover} {
+    .theme-trigger:hover {
+      background-color: ${surfaceHover};
+      color: ${text};
+    }
+  }
+
   .theme-trigger[aria-expanded=true] {
     background-color: ${surfaceHover};
     color: ${text};
@@ -215,6 +227,43 @@ const bodyCss = css`
     border-radius: ${radius.md};
     background-color: ${surface};
     text-align: left;
+    transform-origin: top right;
+    transition-property: opacity, scale, display;
+    transition-duration: ${duration.fast}, ${duration.spring}, ${duration.spring};
+    transition-timing-function: ${easing.standard}, ${easing.spring}, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+      scale: ${enterScale};
+    }
+  }
+
+  .theme-menu[hidden] {
+    opacity: 0;
+    scale: ${enterScale};
+    transition-duration: ${duration.exit}, ${duration.exit}, ${duration.exit};
+    transition-timing-function: ${easing.standard}, ${easing.out}, linear;
+  }
+
+  ${reducedMotion} {
+    .theme-menu,
+    .theme-menu[hidden] {
+      scale: none;
+      transition-property: opacity, display;
+    }
+
+    .theme-menu {
+      @starting-style {
+        scale: none;
+      }
+    }
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: ${duration.base};
+    animation-timing-function: ${easing.standard};
   }
 
   .theme-option {
@@ -233,11 +282,13 @@ const bodyCss = css`
     text-align: left;
     white-space: nowrap;
     cursor: pointer;
-    ${transition(['background-color'])}
+    ${hoverTransition(['background-color'], { pressable: true })}
   }
 
-  .theme-option:hover {
-    background-color: ${surfaceHover};
+  ${canHover} {
+    .theme-option:hover {
+      background-color: ${surfaceHover};
+    }
   }
 
   .theme-check {
@@ -396,6 +447,7 @@ export default jsxRenderer(
 )
 
 // 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
+// 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。
 // localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
   return html`
@@ -403,6 +455,21 @@ const ThemeScript = () => {
       (function () {
         var root = document.documentElement;
         function apply(choice, persist) {
+          if (persist && document.startViewTransition) {
+            document.startViewTransition(function () {
+              update(choice, persist);
+            });
+            return;
+          }
+          update(choice, persist);
+        }
+        function update(choice, persist) {
+          var freeze = null;
+          if (persist) {
+            freeze = document.createElement('style');
+            freeze.textContent = '*, *::before, *::after { transition: none !important; }';
+            document.head.appendChild(freeze);
+          }
           root.dataset.themeChoice = choice;
           if (choice === 'system') {
             root.removeAttribute('data-theme');
@@ -427,6 +494,12 @@ const ThemeScript = () => {
                 localStorage.setItem('theme', choice);
               }
             } catch (e) {}
+          }
+          if (freeze) {
+            window.getComputedStyle(document.body).color;
+            setTimeout(function () {
+              freeze.remove();
+            }, 1);
           }
         }
         window.__applyTheme = apply;

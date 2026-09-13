@@ -9,9 +9,10 @@ import {
   text,
   textMuted,
 } from '../../styles/color'
+import { canHover } from '../../styles/motion'
 import { borderWidth, radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
-import { transition } from '../../styles/transition'
+import { hoverTransition } from '../../styles/transition'
 import { fontSize, lineHeight } from '../../styles/typography'
 
 const thumbnailAspectRatio = '1200 / 630'
@@ -35,9 +36,14 @@ const cardLinkCss = css`
     border-radius: ${radius.md};
     overflow: hidden;
 
-    ${transition(['border-color', 'background-color'])}
+    ${hoverTransition(['border-color', 'background-color'])}
 
-    &:hover,
+    ${canHover} {
+        &:hover {
+            border-color: ${accent};
+            background-color: ${surfaceSubtle};
+        }
+    }
     &:focus-visible {
         border-color: ${accent};
         background-color: ${surfaceSubtle};

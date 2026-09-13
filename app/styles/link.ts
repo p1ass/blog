@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { accent, accentMuted, surfaceSubtle } from './color'
-import { transition } from './transition'
+import { canHover } from './motion'
+import { hoverTransition } from './transition'
 import { underline } from './typography'
 
 // border-bottom は折り返した行に線が乗らないので、text-decoration で引く。
@@ -10,13 +11,18 @@ const underlineCss = css`
   text-decoration-thickness: ${underline.thickness};
   text-underline-offset: ${underline.offset};
 
-  ${transition([
+  ${hoverTransition([
     'background-color',
     'text-decoration-color',
     'text-decoration-thickness',
   ])}
 
-  &:hover,
+  ${canHover} {
+    &:hover {
+      background-color: ${surfaceSubtle};
+      text-decoration-thickness: ${underline.hoverThickness};
+    }
+  }
   &:focus-visible {
     background-color: ${surfaceSubtle};
     text-decoration-thickness: ${underline.hoverThickness};
@@ -29,7 +35,11 @@ export const bodyLinkCss = css`
   text-decoration-color: ${accentMuted};
   ${underlineCss}
 
-  &:hover,
+  ${canHover} {
+    &:hover {
+      text-decoration-color: ${accent};
+    }
+  }
   &:focus-visible {
     text-decoration-color: ${accent};
   }
@@ -40,7 +50,11 @@ export const hoverUnderlineLinkCss = css`
   text-decoration-color: transparent;
   ${underlineCss}
 
-  &:hover,
+  ${canHover} {
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
   &:focus-visible {
     text-decoration-color: currentColor;
   }

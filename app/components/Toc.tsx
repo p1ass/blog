@@ -4,7 +4,7 @@ import { accent, text, textMuted } from '../styles/color'
 import { hoverUnderlineLinkCss } from '../styles/link'
 import { borderWidth } from '../styles/shape'
 import { space } from '../styles/spacing'
-import { transition } from '../styles/transition'
+import { hoverTransition } from '../styles/transition'
 import { fontSize, fontWeight, lineHeight } from '../styles/typography'
 
 // data-toc から辿るのは、hono/css のクラス名が中身から作られ、スタイルを直すと変わるため。
@@ -18,7 +18,7 @@ const tocLinkCss = css`
   ${hoverUnderlineLinkCss}
 
   & {
-    ${transition([
+    ${hoverTransition([
       'background-color',
       'border-color',
       'color',
