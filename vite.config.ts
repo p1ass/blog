@@ -37,7 +37,6 @@ export default defineConfig(({ mode }) => {
         recmaPlugins: [recmaExportFilepath],
       }),
       ssg({ entry }),
-      // 記事内で co-location して配置している画像たちを `dist/posts` にコピーする
       viteStaticCopy({
         targets: [
           {
@@ -48,8 +47,7 @@ export default defineConfig(({ mode }) => {
               './app/routes/posts/**/*.webp',
             ],
             dest: 'posts',
-            // v4 から src のディレクトリ構造が常に維持されるため、
-            // 先頭の `app/routes/posts/` の 3 階層を落として `posts/<slug>/` に揃える
+            // v4 から src のディレクトリ構造が維持されるので、先頭の app/routes/posts/ の 3 階層を落とす
             rename: { stripBase: 3 },
             // 普通の vite のビルドで生成したファイルを消さないようにする
             overwrite: false,

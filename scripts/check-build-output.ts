@@ -1,27 +1,10 @@
-// ビルド結果に取りこぼしがないか確かめる。
-//
-// 1 つめは記事が全部出ているか。
-// @hono/vite-ssg は、ルートが例外を投げても "Internal Server Error" という本文を書き出してビルドを成功させる。
-// しかも Content-Type が text/plain になるため、ファイル名が index.html ではなく index.txt になる。
-// 結果としてその記事は本番で 404 になるが、ビルドログには何も出ない。
-//
-// 実際に java-catch-up と line-dev-day-2018 の 2 記事がこの状態で出ていた。
-// 原因は外部の OGP API の応答で、ビルドのたびに結果が変わる。
-//
-// 2 つめは og:image の実体があるか。
-// 参照先が `/static/ogp.png`、実体が `public/static/opg.png` という綴りの食い違いで、
-// フォールバックの画像が長いあいだ 404 を返していた。SNS に流れるまで誰も気づかない。
-//
-// 3 つめは記事本文に知らない要素が出ていないか。
-// 記事は MDX なので、生の HTML を書けば何でも入る。スタイルを当てていない要素がブラウザ既定のまま出ると、そこだけ本文のリズムから外れる。
-// 一覧に無い要素が出たらここで落とし、スタイルを当ててから一覧に足す。
+// @hono/vite-ssg はルートが例外を投げても index.txt を書き出してビルドを成功させるので、記事ごとに index.html があるか確かめる。
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 const postsDir = 'dist/posts'
 
-// 記事本文に出てよい要素と、そのスタイルの置き場所。
-// 足すときは先にスタイルを当てること。当てずに足すと、このチェックは「見た目を揃える」という役目を失う。
+// 要素を足すときは、先にスタイルを当ててから足す。
 const allowedElements = new Map([
   ['p', '_renderer.tsx のグローバル'],
   ['h2', '_renderer.tsx のグローバル。article の中だけ章のボーダーが付く'],
@@ -65,8 +48,7 @@ const allowedElements = new Map([
   ['style', 'Mermaid が図ごとに書き出すスタイル。描画しない'],
 ])
 
-// svg の中は Mermaid と埋め込みが持つ領域なので、部分木ごと数えない。
-// foreignObject の中に div や span が入るため、要素名だけで外すと本文の div と見分けが付かない。
+// svg の中は Mermaid と埋め込みの領域で、foreignObject に div や span も入るので、部分木ごと数えない。
 function elementsOutsideSvg(html: string): Set<string> {
   const found = new Set<string>()
   let depth = 0

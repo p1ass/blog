@@ -1,33 +1,23 @@
-// リンク先のページから OGP を取る。
-//
-// 以前は blog-api.p1ass.com という別のサービスに問い合わせていた。取りに行くのは HTML の meta タグだけなので、
-// サービスが生きているかどうかにビルドが左右される形をやめて、こちらで取って解析する。
-//
-// 取得と解析を分けてあるのは、解析だけをテストに掛けるため。ネットワークをまたぐ側は、失敗したら null を返す薄い皮にしてある。
-
 export type Ogp = {
   title: string
   description: string
   image: string | null
 }
 
-// 名乗る名前と連絡先を入れる。素の fetch は User-Agent を送らず、名無しの要求として弾くサイトがある。
+// User-Agent を送らない要求を弾くサイトがある。
 const userAgent =
   'Mozilla/5.0 (compatible; p1ass-blog-ogp/1.0; +https://blog.p1ass.com/)'
 
-// 応答が返らないリンク先でビルドが止まらないようにする。
 const timeoutMs = 15_000
 
-// meta タグを 1 つずつ取り出す。属性値の中の > で切らないよう、引用符で囲まれた範囲を別に数える。
+// 属性値の中の > で切らないよう、引用符で囲まれた範囲を別に数える。
 const metaTagPattern = /<meta\b((?:[^>"']|"[^"]*"|'[^']*')*)>/gi
 
-// 属性の名前と値。値は二重引用符、一重引用符、引用符なしの 3 つの形がある。
 const attributePattern =
   /([a-zA-Z_:][\w:.-]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/g
 
 const titleTagPattern = /<title\b[^>]*>([\s\S]*?)<\/title>/i
 
-// HTML の実体参照のうち、meta の中身に現れるもの。数値参照は decodeEntities で別に扱う。
 const namedEntities: Record<string, string> = {
   amp: '&',
   lt: '<',
@@ -79,7 +69,6 @@ export async function fetchOgp(url: string): Promise<Ogp | null> {
 export function parseOgp(html: string, url: string): Ogp {
   const meta = collectMeta(html)
 
-  // og:title を持たないページのほうが少数だが、個人のサイトには残っている。title タグまで下りる。
   const title =
     meta.get('og:title') ??
     meta.get('twitter:title') ??
@@ -106,8 +95,7 @@ export function parseOgp(html: string, url: string): Ogp {
   }
 }
 
-// meta タグを、property か name をキーとする表にまとめる。
-// 同じキーが複数あるときは先に出たものを採る。og:image を複数持つページで、1 枚目が代表の画像になる。
+// og:image を複数持つページでは 1 枚目が代表の画像なので、先に出たものを採る。
 function collectMeta(html: string): Map<string, string> {
   const meta = new Map<string, string>()
   for (const tag of html.matchAll(metaTagPattern)) {
@@ -146,7 +134,6 @@ function extractTitle(html: string): string | null {
   return title === '' ? null : title
 }
 
-// 相対パスの画像を絶対 URL にする。解決できない値はカードから外す。
 function resolveUrl(value: string, base: string): string | null {
   try {
     const resolved = new URL(value, base)
@@ -158,8 +145,6 @@ function resolveUrl(value: string, base: string): string | null {
   }
 }
 
-// 実体参照を戻し、改行と連続する空白を 1 つにまとめる。
-// 改行は description に入っていることがあり、そのままだと JSON に \n が並ぶ。
 function normalize(value: string): string {
   return decodeEntities(value).replace(/\s+/g, ' ').trim()
 }
@@ -176,10 +161,7 @@ function decodeEntities(value: string): string {
   })
 }
 
-// 応答のバイト列を文字列にする。
-//
-// 古い個人サイトには Shift_JIS や EUC-JP のページが残っていて、UTF-8 として読むとタイトルが文字化けする。
-// 文字コードは Content-Type ヘッダ、無ければ HTML の中の meta から読む。
+// 古い個人サイトは Shift_JIS や EUC-JP のことがあるので、Content-Type か meta の charset に従う。
 export function decodeHtml(body: ArrayBuffer, contentType: string): string {
   const bytes = new Uint8Array(body)
   const charset = charsetFromContentType(contentType) ?? charsetFromMeta(bytes)
@@ -187,7 +169,7 @@ export function decodeHtml(body: ArrayBuffer, contentType: string): string {
     try {
       return new TextDecoder(charset).decode(bytes)
     } catch {
-      // 知らない名前を名乗るページがある。UTF-8 として読み直す。
+      // 知らない文字コード名を名乗るページは UTF-8 として読む。
     }
   }
   return new TextDecoder().decode(bytes)
@@ -198,8 +180,7 @@ function charsetFromContentType(contentType: string): string | null {
   return match === null ? null : match[1]
 }
 
-// meta の charset は head の先頭に置く決まりなので、頭の 2KB だけ見る。
-// バイト列をそのまま探すために latin1 として読む。1 バイトが 1 文字に対応し、どの文字コードでも ASCII の部分は保たれる。
+// どの文字コードでも ASCII の部分を保ったままバイト列を探せるよう、latin1 として読む。
 function charsetFromMeta(bytes: Uint8Array): string | null {
   const head = new TextDecoder('latin1').decode(bytes.slice(0, 2048))
   const charset = head.match(/<meta\b[^>]*\bcharset\s*=\s*["']?([\w-]+)/i)

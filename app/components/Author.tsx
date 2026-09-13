@@ -58,7 +58,6 @@ const authorSNSLinkCss = css`
   }
 `
 
-// マークは暗い地では白で描く。GitHub と X はどちらも、暗い地に置くための白版を配っている。
 const authorSNSGitHubCss = css`
   & svg {
     color: ${githubMark};

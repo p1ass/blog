@@ -5,31 +5,25 @@ import { groupBy } from './util'
 
 export const POSTS_PER_PAGE = 10
 
-// どの記事かを見分けるためのキー。記事が置かれたディレクトリの名前がそのまま Slug になる。
 export type Slug = string
 
 export type Post = {
   slug: Slug
   frontmatter: Frontmatter
   MDXContent: (props: MDXProps) => JSX.Element
-  // 本文のマーカーより前。mdx-summary プラグインがビルド時に用意する。
   ContentSummary: (props: MDXProps) => JSX.Element
 }
 
-// URL とファイルパスは Slug から導出する。文字列操作をここに閉じ込め、
-// 呼び出し側が自前で組み立てないようにする。
 export function postPermalink(slug: Slug): string {
   return `/posts/${slug}/`
 }
 
-// recma-export-filepath が渡す `app/routes/posts/<slug>/index.mdx` から Slug を取る
 export function filepathToSlug(filepath: string): Slug {
   return filepath
     .replace(/^app\/routes\/posts\//, '')
     .replace(/\/index\.mdx$/, '')
 }
 
-// import.meta.glob が返す `../routes/posts/<slug>/index.mdx` から Slug を取る
 export function globKeyToSlug(key: string): Slug {
   return key.replace(/^\.\.\/routes\/posts\//, '').replace(/\/index\.mdx$/, '')
 }
@@ -74,7 +68,7 @@ export function findPaginationPosts(
 ): PaginationPosts {
   const currentIndex = posts.findIndex(p => p.slug === currentSlug)
 
-  // 見つからないまま先に進むと、一覧の先頭が「前の記事」として表示されてしまう
+  // 見つからないまま進むと、一覧の先頭が「前の記事」として出る
   if (currentIndex === -1) {
     return { prevPost: null, nextPost: null }
   }
@@ -85,7 +79,6 @@ export function findPaginationPosts(
   }
 }
 
-// 記事に貼るしるし。Category と Tag はこれの種類違い。
 export type LabelKind = 'category' | 'tag'
 
 export type LabelId = string
@@ -97,7 +90,6 @@ export type Label = {
   posts: Post[]
 }
 
-// 1 ページ分だけを取り出した Label。全件を持つ Label とは別物として扱う。
 export type LabelPage = Page & {
   kind: LabelKind
   id: LabelId
@@ -110,20 +102,19 @@ export const labelBasePath: Record<LabelKind, string> = {
   tag: '/tags',
 }
 
-// 個別ページの見出しの接頭辞 (例:「Category 開発」)
 export const labelHeadingPrefix: Record<LabelKind, string> = {
   category: 'Category',
   tag: 'Tag',
 }
 
-// 一覧ページの見出し。接頭辞に s を足すと Categorys になってしまう。
+// 接頭辞に s を足すと Categorys になる。
 export const labelIndexTitle: Record<LabelKind, string> = {
   category: 'Categories',
   tag: 'Tags',
 }
 
 export function labelNameToId(name: string): LabelId {
-  // 日本語のラベルはそのまま URL に載せる。空白だけはパスに置けないので繋ぐ。
+  // 空白はパスに置けないので繋ぐ。
   return name.trim().toLowerCase().replace(/\s+/g, '-')
 }
 
@@ -151,7 +142,7 @@ export function buildLabels(kind: LabelKind, posts: Post[]): Label[] {
       ? posts.map(p => p.frontmatter.category)
       : posts.flatMap(p => p.frontmatter.tags ?? [])
 
-  // 表記ゆれをまとめずに残し、衝突として検出できるようにする
+  // 表記ゆれをまとめずに残し、衝突として検出する
   const uniqueNames = Array.from(new Set(names))
 
   const labels = uniqueNames.map(name => ({

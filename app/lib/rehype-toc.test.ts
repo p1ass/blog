@@ -10,8 +10,6 @@ const options = {
   rehypePlugins: [rehypeToc],
 }
 
-// 記事と同じ変換を通し、MDX モジュールが export する toc を取り出す。
-// evaluate は任意の export を持つモジュールを返すので、型は使う側で決める。
 async function tocOf(source: string, path = '/posts/slug/index.mdx') {
   const mod = await evaluate({ path, value: source }, {
     ...runtime,

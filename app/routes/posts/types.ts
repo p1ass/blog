@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
-// 日付は必ずオフセット付きで書く。オフセットが無い日付はビルドマシンの TZ に
-// よって指す瞬間が変わるため、受け付けない。
+// オフセットの無い日付はビルドマシンの TZ によって指す瞬間が変わるので受け付けない。
 const isoDateWithOffset = z
   .string()
   .regex(
@@ -14,10 +13,9 @@ export const frontmatterSchema = z.object({
   title: z.string().min(1),
   date: isoDateWithOffset,
   description: z.string().min(1),
-  // 記事の主題を 1 つだけ表す。カテゴリ一覧のグルーピングキーになる。
   category: z.string().min(1),
   tags: z.array(z.string().min(1)).optional(),
-  // ルートからのパス (ex. /posts/web-speed-hackathon-2024/ogp.jpg)
+  // 例: /posts/web-speed-hackathon-2024/ogp.jpg
   ogImage: z.string().startsWith('/').optional(),
 })
 

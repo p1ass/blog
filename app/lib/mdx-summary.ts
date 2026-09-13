@@ -2,13 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-// 一覧ページの抜粋を、記事本体とまったく同じ流れでビルド時に用意する。
-//
-// <slug>/index.mdx の隣に <slug>/index.summary.mdx という仮想モジュールを作り、
-// 中身をマーカーより前だけにする。@mdx-js/rollup から見れば普通の .mdx なので、
-// remark と rehype のプラグインがそのまま適用され、画像パスも同じ規則で解決される。
-// 記事本体の側には、この仮想モジュールを ContentSummary として再 export する
-// 1 行を足す。
+// 抜粋にも記事本体と同じ remark と rehype のプラグインと画像パスの解決を当てるため、マーカーより前だけを持つ仮想モジュール <slug>/index.summary.mdx を作る。
 
 export const summarySuffix = '.summary.mdx'
 const excerptMarker = '{/* <!--more--> */}'
@@ -53,8 +47,7 @@ export function mdxSummary(): Plugin {
         )
       }
 
-      // frontmatter は残したまま切る。抜粋側でも remark-mdx-frontmatter が
-      // 素直に動き、記事本体との差が無くなる。
+      // frontmatter を残すと、抜粋でも remark-mdx-frontmatter がそのまま動く。
       return source.slice(0, markerIndex)
     },
 

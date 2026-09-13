@@ -1,5 +1,4 @@
-// dist/ をそのまま配る静的サーバー。VRT でしか使わない。
-// wrangler を使わないのは、起動が速く、外部に一切出ないため。
+// wrangler より起動が速く、外部に出ない静的サーバー。
 import { createReadStream, statSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join, normalize } from 'node:path'
@@ -21,7 +20,6 @@ const contentTypes = {
   '.ico': 'image/x-icon',
 }
 
-// `/posts/foo/` のようなディレクトリは index.html に読み替える
 function resolvePath(pathname) {
   const relative = normalize(decodeURIComponent(pathname)).replace(/^\/+/, '')
   const candidates =

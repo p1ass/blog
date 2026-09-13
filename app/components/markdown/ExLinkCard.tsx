@@ -14,27 +14,18 @@ import { blockGap, space } from '../../styles/spacing'
 import { transition } from '../../styles/transition'
 import { fontSize, lineHeight } from '../../styles/typography'
 
-// OGP の画像の事実上の標準である 1200×630 (1.91:1)。キャッシュにある画像の 9 割がこの比に近い。
 const thumbnailAspectRatio = '1200 / 630'
 
-// 広い画面でのカードの高さ。タイトル 2 行、説明 1 行、ホスト名を積むと約 78px で、上下の padding を足すと約 102px になる。
-// 以前は 96px に固定していたので、タイトルが 2 行に折り返すとホスト名が切れていた。10px ほど余裕を持たせた。
+// タイトル 2 行、説明 1 行、ホスト名が収まる高さ。
 const cardHeight = '112px'
 
-// 狭い画面でのサムネイルの幅。高さは 59px で、タイトル 2 行とホスト名を積んだ高さ (約 62px) とほぼ同じになる。
+// 高さがタイトル 2 行とホスト名を積んだ高さとほぼ同じになる幅。
 const thumbnailWidthNarrow = '112px'
 
 const cardWrapperCss = css`
     margin-bottom: ${blockGap};
 `
 
-// hover はカード全体で受ける。以前は本文の領域だけが反応していたので、サムネイルの上にカーソルを置いても何も起きなかった。
-// 面もカード全体に敷く。狭い画面ではサムネイルの周りに余白があり、本文の領域だけに敷くとそこが抜ける。
-//
-// どちらの幅でもサムネイルは右に置く。
-// 狭い画面では小さく内側に置き、高さは中身に任せる。上に全幅で置くと、1 枚で画面の 4 割を占めた。
-// 本文の領域はカードの高さまで伸ばし、タイトルの上端とホスト名の下端をサムネイルの上下にそろえる。タイトルが 1 行でも 2 行でも、カードの高さがほぼ変わらない。
-// 広い画面ではカードの高さいっぱいに置き、高さを固定する。リンクカードが続いたときに高さがそろう。
 const cardLinkCss = css`
     text-decoration: none;
     display: flex;
@@ -57,7 +48,6 @@ const cardLinkCss = css`
     }
 `
 
-// 狭い画面では、右と上下に本文の padding と同じ余白を取る。左は本文の padding がそのまま間隔になる。
 // 伸ばすと比が崩れるので、カードの高さには合わせない。
 const thumbnailCss = css`
     display: block;
@@ -99,7 +89,7 @@ const entryBodyCss = css`
     }
 `
 
-// 狭い画面では出さない。1 行に 12 文字ほどしか入らず、書き出しの数語で切れて中身が読み取れない。
+// 狭い画面では 1 行に 12 文字ほどしか入らず中身が読み取れないので出さない。
 const entryDescriptionCss = css`
     display: none;
     color: ${textMuted};
@@ -136,7 +126,7 @@ export async function ExLinkCard({ url }: Props) {
           <div class={entryDescriptionCss}>{ogp.description}</div>
           <span class={entryHostUrlCss}>{new URL(url).host}</span>
         </div>
-        {/* リンクの名前はタイトルの文字で足りる。alt にもタイトルを入れると、読み上げで 2 回続く。 */}
+        {/* alt にもタイトルを入れると、読み上げでリンクの名前と 2 回続く。 */}
         {ogp.image ? <img src={ogp.image} class={thumbnailCss} alt='' /> : null}
       </a>
     </div>
