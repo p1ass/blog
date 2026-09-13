@@ -154,6 +154,11 @@
     "description": "",
     "image": "https://docs.cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=ja"
   },
+  "https://code.claude.com/docs/en/hooks": {
+    "title": "Hooks reference - Claude Code Docs",
+    "description": "Reference for Claude Code hook events, configuration schema, JSON input/output formats, exit codes, async hooks, HTTP hooks, prompt hooks, and MCP tool hooks.",
+    "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DReference%26title%3DHooks%2Breference%26description%3DReference%2Bfor%2BClaude%2BCode%2Bhook%2Bevents%252C%2Bconfiguration%2Bschema%252C%2BJSON%2Binput%252Foutput%2Bformats%252C%2Bexit%2Bcodes%252C%2Basync%2Bhooks%252C%2BHTTP%2Bhooks%252C%2Bprompt%2Bhooks%252C%2Band%2BMCP%2Btool%2Bhooks.%26theme%3D03628e99c753a03aec319053&w=1200&q=100"
+  },
   "https://cyberagent.connpass.com/event/300386/": {
     "title": "ERROR: The request could not be satisfied",
     "description": "",
@@ -514,6 +519,11 @@
     "description": "🏠 My portfolio. Contribute to p1ass/portfolio development by creating an account on GitHub.",
     "image": "https://repository-images.githubusercontent.com/170103713/0d296300-8841-11eb-9bcd-ca52b7dbba99"
   },
+  "https://github.com/p1ass/textlint-rule-preset-ai-words-ja": {
+    "title": "GitHub - p1ass/textlint-rule-preset-ai-words-ja: AI が書いた日本語に出てきやすい単語と言い回しを見つける textlint のプリセット",
+    "description": "AI が書いた日本語に出てきやすい単語と言い回しを見つける textlint のプリセット. Contribute to p1ass/textlint-rule-preset-ai-words-ja development by creating an account on GitHub.",
+    "image": "https://opengraph.githubassets.com/19b5b3e06440e9d7bd8a18884452547c83aa274da57209b6eb0dc072daaa21af/p1ass/textlint-rule-preset-ai-words-ja"
+  },
   "https://github.com/p1ass/twitter-oauth-2-demo": {
     "title": "GitHub - p1ass/twitter-oauth-2-demo: Twitter API v2で追加されたOAuth2.0 Authorization Code Flowを使った認可のデモ用アプリケーション",
     "description": "Twitter API v2で追加されたOAuth2.0 Authorization Code Flowを使った認可のデモ用アプリケーション - p1ass/twitter-oauth-2-demo",
@@ -794,6 +804,11 @@
     "description": "Learn to add and access environment variables in your Next.js application.",
     "image": "https://nextjs.org/api/docs-og?title=Guides:%20Environment%20Variables&sig=0500f1c68f2eae09"
   },
+  "https://nyosegawa.com/posts/qiita-writing-before-after-ai/": {
+    "title": "生成AI以前と以後でエンジニアの文章はどう変わったのか: Qiitaの7万記事を数えてみた話",
+    "description": "2019年から2026年までの各年8月にQiitaへ投稿された約7万件の記事を集めて、文の長さ、読点、太字や箇条書き、語彙が生成AI以前と以後でどう変わったのかを調べました",
+    "image": "https://nyosegawa.com/og/qiita-writing-before-after-ai.jpg"
+  },
   "https://ogen.dev/": {
     "title": "ogen",
     "description": "OpenAPI v3 code generator for Go",
@@ -933,6 +948,11 @@
     "title": "OpenAPI3を使ってみよう！Go言語でクライアントとスタブの自動生成まで！ - ZOZO TECH BLOG",
     "description": "はじめに こんにちは！ 2019年2月にZOZOテクノロジーズへサーバーサイドエンジニアとして入社した籏野（@gold_kou）と申します。 Qiitaでも少し記事書いてます。 いきなりですが、皆さんはAPI仕様書をどのように管理されていらっしゃいますか？ Confluence、Wiki、Markdown、Spreadsheet、Excelなど色々手段やツールはあると思います。私が担当しているプロジェクトではOpenAPIを導入しています。 この記事ではOpenAPIの基本と実際に導入して得られたノウハウをご紹介いたします。 OpneAPIの恩恵はただの管理の仕方にとどまらないので、ぜひこの記…",
     "image": "https://cdn.image.st-hatena.com/image/scale/953945131ec2642a10616bea632f74a086ad7447/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fv%2Fvasilyjp%2F20190326%2F20190326161049.png"
+  },
+  "https://textlint.org/docs/ignore": {
+    "title": "Ignoring Text | textlint",
+    "description": "Use .textlintignore to ignore certain files and folders completely.",
+    "image": "https://textlint.org/img/og-image.png"
   },
   "https://typescript-jp.gitbook.io/deep-dive/type-system/discriminated-unions#chekkuexhaustive-checks": {
     "title": "判別可能なUnion型 | TypeScript Deep Dive 日本語版",
