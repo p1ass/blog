@@ -7,7 +7,7 @@ import { canHover } from '../styles/motion'
 import { borderWidth } from '../styles/shape'
 import { space } from '../styles/spacing'
 import { hoverTransition } from '../styles/transition'
-import { fontSize } from '../styles/typography'
+import { fontSize, lineHeight } from '../styles/typography'
 
 // overflow: auto だとテーマの一覧がヘッダーの外で切れるので、display: flow-root で余白の相殺だけを止める。
 const headerCss = css`
@@ -46,9 +46,11 @@ const titleCss = css`
   }
 `
 
+// 記事一覧では h1、それ以外では div になる。行間を指定しないと div だけ本文の行間を継承してヘッダーが高くなり、ページを移るときにヘッダーが伸び縮みする。
 const siteTitleCss = css`
   font-size: ${fontSize.h3};
   font-weight: bold;
+  line-height: ${lineHeight.heading};
   margin: 0;
 `
 

@@ -37,9 +37,12 @@ import {
 
 // :-hono-global は複数行のコメントがあると展開されないので、説明はテンプレートの外に書く。
 // reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
+// ページの遷移は View Transitions でクロスフェードする。前後のページで同じ位置にあるヘッダーは、重ねても画素が変わらず止まって見えるので名前を付けない。
+// 一覧と記事のあいだでは、記事のタイトル、タグ、抜粋をつなぎ、位置と大きさの動きとしてばねで動かす。周りのクロスフェードも同じばねでそろえ、要素が動き終わる前に本文だけが出きってしまわないようにする。
+// :active-view-transition-type() を読めないブラウザでは、その規則だけが捨てられて既定のクロスフェードになる。
 // .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
 // .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
-// article > svg は Mermaid の図で、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
+// article > svg は Mermaid の図で (抜粋に入ると抜粋の囲みの直下になる)、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
 // pre の overflow: hidden は、中の code.hljs が横スクロールしても角丸を保つため。
 const bodyCss = css`
 :-hono-global {
@@ -260,10 +263,91 @@ const bodyCss = css`
     }
   }
 
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: ${duration.base};
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: ${duration.navigation};
     animation-timing-function: ${easing.standard};
+  }
+
+  ::view-transition-group(*.post) {
+    animation-duration: ${duration.spring};
+    animation-timing-function: ${easing.spring};
+  }
+
+  :root:active-view-transition-type(post)::view-transition-old(*),
+  :root:active-view-transition-type(post)::view-transition-new(*) {
+    animation-duration: ${duration.spring};
+    animation-timing-function: ${easing.spring};
+  }
+
+  :root:active-view-transition-type(theme)::view-transition-old(root),
+  :root:active-view-transition-type(theme)::view-transition-new(root) {
+    animation-duration: ${duration.base};
+  }
+
+  :root:active-view-transition-type(next)::view-transition-old(root) {
+    animation-name: vt-fade-out, vt-shift-out-next;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  :root:active-view-transition-type(next)::view-transition-new(root) {
+    animation-name: vt-fade-in, vt-shift-in-next;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  :root:active-view-transition-type(previous)::view-transition-old(root) {
+    animation-name: vt-fade-out, vt-shift-out-previous;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  :root:active-view-transition-type(previous)::view-transition-new(root) {
+    animation-name: vt-fade-in, vt-shift-in-previous;
+    animation-duration: ${duration.navigation}, ${duration.spring};
+    animation-timing-function: ${easing.standard}, ${easing.spring};
+  }
+
+  @keyframes vt-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes vt-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes vt-shift-out-next {
+    to {
+      transform: translateX(calc(-1 * ${space.md}));
+    }
+  }
+
+  @keyframes vt-shift-in-next {
+    from {
+      transform: translateX(${space.md});
+    }
+  }
+
+  @keyframes vt-shift-out-previous {
+    to {
+      transform: translateX(${space.md});
+    }
+  }
+
+  @keyframes vt-shift-in-previous {
+    from {
+      transform: translateX(calc(-1 * ${space.md}));
+    }
   }
 
   .theme-option {
@@ -305,7 +389,8 @@ const bodyCss = css`
     color: ${textMuted};
   }
 
-  article > svg {
+  article > svg,
+  [data-post-part=excerpt] > svg {
     display: block;
     max-width: 100%;
     height: auto;
@@ -399,6 +484,8 @@ export default jsxRenderer(
             data-scheme='dark'
           />
           <ThemeScript />
+          <ViewTransitionScript />
+          <link rel='expect' href='#main' blocking='render' />
           {noindex ? <meta name='robots' content='noindex' /> : null}
           <link rel='canonical' href={canonicalUrl} />
           <meta
@@ -434,11 +521,14 @@ export default jsxRenderer(
             title='ぷらすのブログ'
           />
           <Script src='/app/client.ts' async />
+          <SpeculationRules />
           <Style />
         </head>
         <body class={bodyCss}>
           <Header asHeading={isPostListPage} />
-          <main class={mainCss}>{children}</main>
+          <main id='main' class={mainCss}>
+            {children}
+          </main>
           <Footer />
         </body>
       </html>
@@ -448,6 +538,7 @@ export default jsxRenderer(
 
 // 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
 // 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。
+// 型の指定を受け付けないブラウザに startViewTransition へオブジェクトを渡すと例外になるので、types を持つかを見てから渡す。
 // localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
   return html`
@@ -456,9 +547,14 @@ const ThemeScript = () => {
         var root = document.documentElement;
         function apply(choice, persist) {
           if (persist && document.startViewTransition) {
-            document.startViewTransition(function () {
+            var run = function () {
               update(choice, persist);
-            });
+            };
+            if (window.ViewTransition && 'types' in ViewTransition.prototype) {
+              document.startViewTransition({ update: run, types: ['theme'] });
+            } else {
+              document.startViewTransition(run);
+            }
             return;
           }
           update(choice, persist);
@@ -509,6 +605,129 @@ const ThemeScript = () => {
         } catch (e) {}
         apply(stored === 'light' || stored === 'dark' ? stored : 'system', false);
       })();
+    </script>
+  `
+}
+
+// pagereveal はページを描く前に登録しないと間に合わないので、head に同期で置く。
+// 向きは押したリンクの data-direction から決める。戻ったときは逆向きにしたいので、行きと帰りの組を sessionStorage に残す。
+// 記事の要素の名前は、開く記事と戻る記事のぶんだけ、画面に入っているときに遷移の直前で付ける。一覧の全件に付けると、画面外の記事から戻ったときに要素が画面の外から飛んでくる。
+// 前後の記事どうしはつながず、矢印の向きへのずれで見せる。
+const ViewTransitionScript = () => {
+  return html`
+    <script>
+      (function () {
+        if (!('onpagereveal' in window)) {
+          return;
+        }
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var postKey = 'view-transition:post';
+        function key(from, to) {
+          return 'view-transition:' + from + '>' + to;
+        }
+        function namePost(path) {
+          var parts = document.querySelectorAll('[data-post="' + path + '"]');
+          var named = 0;
+          for (var i = 0; i < parts.length; i++) {
+            var rect = parts[i].getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+              parts[i].style.viewTransitionName = 'post-' + parts[i].dataset.postPart;
+              parts[i].style.viewTransitionClass = 'post';
+              named++;
+            }
+          }
+          return named;
+        }
+        function clearPosts() {
+          var parts = document.querySelectorAll('[data-post]');
+          for (var i = 0; i < parts.length; i++) {
+            parts[i].style.viewTransitionName = '';
+            parts[i].style.viewTransitionClass = '';
+          }
+        }
+        window.addEventListener('pageswap', function (event) {
+          clearPosts();
+          try {
+            sessionStorage.removeItem(postKey);
+          } catch (e) {}
+          if (!event.viewTransition || !event.activation || reduce.matches) {
+            return;
+          }
+          var to = new URL(event.activation.entry.url).pathname;
+          var shared = to;
+          if (!namePost(to)) {
+            if (to.indexOf('/posts/') === 0 || !namePost(location.pathname)) {
+              return;
+            }
+            shared = location.pathname;
+          }
+          try {
+            sessionStorage.setItem(postKey, shared);
+          } catch (e) {}
+        });
+        window.addEventListener('pagereveal', function (event) {
+          clearPosts();
+          var shared = null;
+          try {
+            shared = sessionStorage.getItem(postKey);
+            sessionStorage.removeItem(postKey);
+          } catch (e) {}
+          if (!event.viewTransition || !shared) {
+            return;
+          }
+          if (namePost(shared) && event.viewTransition.types) {
+            event.viewTransition.types.add('post');
+          }
+          event.viewTransition.finished.then(clearPosts, clearPosts);
+        });
+        document.addEventListener('click', function (event) {
+          var link = event.target.closest && event.target.closest('a[data-direction]');
+          if (!link) {
+            return;
+          }
+          var to = new URL(link.href).pathname;
+          var direction = link.dataset.direction;
+          try {
+            sessionStorage.setItem(key(location.pathname, to), direction);
+            sessionStorage.setItem(key(to, location.pathname), direction === 'next' ? 'previous' : 'next');
+          } catch (e) {}
+        });
+        window.addEventListener('pagereveal', function (event) {
+          var activation = window.navigation && window.navigation.activation;
+          if (!event.viewTransition || !event.viewTransition.types || !activation || !activation.from || reduce.matches) {
+            return;
+          }
+          var direction = null;
+          try {
+            direction = sessionStorage.getItem(key(new URL(activation.from.url).pathname, location.pathname));
+          } catch (e) {}
+          if (direction) {
+            event.viewTransition.types.add(direction);
+          }
+        });
+      })();
+    </script>
+  `
+}
+
+// 押す直前の hover で HTML を取得しておき、遷移のアニメーションが読み込みで詰まらないようにする。フィードは HTML でないので外す。
+// prerender だと Chromium は今開いているページ自身も裏で描画してしまうので、HTML の取得だけにとどめる。
+const SpeculationRules = () => {
+  return html`
+    <script type="speculationrules">
+      {
+        "prefetch": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "href_matches": "/*.xml" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
     </script>
   `
 }

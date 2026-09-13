@@ -8,11 +8,13 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import type { PluggableList } from 'unified'
 import { rehypeImageSize } from './rehype-image-size'
 import { rehypeToc } from './rehype-toc'
+import { remarkExcerpt } from './remark-excerpt'
 
 export const remarkPlugins: PluggableList = [
   remarkFrontmatter,
   remarkMdxFrontmatter,
   remarkGfm,
+  remarkExcerpt,
 ]
 
 export const rehypePlugins: PluggableList = [

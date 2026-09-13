@@ -21,8 +21,10 @@ import { hoverTransition } from '../../styles/transition'
 import { fontSize } from '../../styles/typography'
 
 // 目次を出すページでは列が本文より広がるので、タイトルが 1 行に伸びないよう幅を本文で止める。
+// 一覧から View Transitions でつなぐとき、箱が文字の幅に揃っていないと文字が拡大されずに横へ滑るので、fit-content にする。
 const postTitleCss = css`
   font-size: ${fontSize.h1};
+  width: fit-content;
   max-width: ${contentWidth};
   margin: 0 auto ${blockGap};
   text-align: center;
@@ -108,9 +110,11 @@ export default jsxRenderer(
               {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
             </time>
           </div>
-          <h1 class={postTitleCss}>{frontmatter.title}</h1>
+          <h1 class={postTitleCss} data-post={permalink} data-post-part='title'>
+            {frontmatter.title}
+          </h1>
           <ShareButtons title={frontmatter.title} permalink={permalink} />
-          <PostDetails frontmatter={frontmatter} />
+          <PostDetails frontmatter={frontmatter} permalink={permalink} />
           <div class={postBodyCss}>
             {showToc ? (
               <>

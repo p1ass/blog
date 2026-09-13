@@ -7,6 +7,7 @@ import { blockGap, space } from '../styles/spacing'
 import { hoverTransition } from '../styles/transition'
 
 const postDetailsCss = css`
+  width: fit-content;
   padding-bottom: ${blockGap};
 `
 
@@ -27,9 +28,14 @@ const tagCss = css`
   }
 `
 
-export function PostDetails({ frontmatter }: { frontmatter: Frontmatter }) {
+type Props = {
+  frontmatter: Frontmatter
+  permalink: string
+}
+
+export function PostDetails({ frontmatter, permalink }: Props) {
   return (
-    <div class={postDetailsCss}>
+    <div class={postDetailsCss} data-post={permalink} data-post-part='tags'>
       <a
         href={labelPermalink('category', labelNameToId(frontmatter.category))}
         class={tagCss}
