@@ -100,11 +100,11 @@ const hatenaIconCss = css`
   }
 `
 
-// 中身は preferred-source.ts が Google のスクリプトで描く。スクリプトが動かないときに空の枠の分だけ共有ボタンが中央からずれないよう、空なら消す。
+// 中身は preferred-source.ts が Google のスクリプトで描く。スクリプトが動かないときに幅 0 の枠と gap の分だけ共有ボタンが中央からずれないよう、Google のスクリプトが初期化するまで消す。
 const preferredSourceCss = css`
     display: flex;
 
-    &:empty {
+    &:not(:has([data-initialized])) {
         display: none;
     }
 `
