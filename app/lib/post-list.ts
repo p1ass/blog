@@ -108,6 +108,11 @@ export const labelHeadingPrefix: Record<LabelKind, string> = {
 }
 
 // 接頭辞に s を足すと Categorys になる。
+export const labelKindName: Record<LabelKind, string> = {
+  category: 'カテゴリ',
+  tag: 'タグ',
+}
+
 export const labelIndexTitle: Record<LabelKind, string> = {
   category: 'Categories',
   tag: 'Tags',

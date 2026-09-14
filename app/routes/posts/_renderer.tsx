@@ -126,11 +126,7 @@ export default jsxRenderer(
             ) : null}
             <article>{children}</article>
           </div>
-          <ShareButtons
-            title={frontmatter.title}
-            permalink={permalink}
-            withPreferredSource
-          />
+          <ShareButtons title={frontmatter.title} permalink={permalink} />
           <Author />
           <PostPagination paginationPosts={paginationPosts} />
           <div class={toTopLinkCss}>
