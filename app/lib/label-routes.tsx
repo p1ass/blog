@@ -8,6 +8,7 @@ import {
   getLabels,
   getMaxPageNumber,
   type LabelKind,
+  labelKindName,
 } from './posts'
 
 export function labelParams(kind: LabelKind) {
@@ -40,7 +41,14 @@ function renderLabelPage(kind: LabelKind, pageNumber: number | null) {
       return c.notFound()
     }
 
-    const head: Head = { title: labelPageTitle(labelPage) }
+    const title = labelPageTitle(labelPage)
+    const head: Head = {
+      title: num > 1 ? `${title} (${num} ページ目)` : title,
+      description:
+        num > 1
+          ? `「${labelPage.name}」の${labelKindName[kind]}が付いた記事の一覧の ${num} ページ目です`
+          : `「${labelPage.name}」の${labelKindName[kind]}が付いた記事の一覧です`,
+    }
     return c.render(<LabelPostsPage labelPage={labelPage} />, head)
   }
 }

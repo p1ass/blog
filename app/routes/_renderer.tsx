@@ -440,9 +440,19 @@ const mainCss = css`
 `
 
 export default jsxRenderer(
-  ({ children, title: propsTitle, frontmatter, noindex }, c) => {
+  (
+    {
+      children,
+      title: propsTitle,
+      description: propsDescription,
+      frontmatter,
+      noindex,
+    },
+    c,
+  ) => {
     const description =
       frontmatter?.description ||
+      propsDescription ||
       'Webエンジニアリングについて学んだことや考えたことをまとめるブログです'
 
     const title = propsTitle
@@ -511,10 +521,41 @@ export default jsxRenderer(
           <meta name='twitter:site' content='@p1ass' />
           <meta name='twitter:creator' content='@p1ass' />
           <meta property='og:title' content={title} />
+          <meta property='og:site_name' content={siteName} />
+          {frontmatter ? (
+            <JsonLd
+              data={{
+                '@context': 'https://schema.org',
+                '@type': 'BlogPosting',
+                headline: frontmatter.title,
+                description,
+                image: [ogImage],
+                datePublished: frontmatter.date,
+                author: [author],
+                mainEntityOfPage: canonicalUrl,
+              }}
+            />
+          ) : null}
+          {c.req.path === '/' ? (
+            <JsonLd
+              data={{
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                name: siteName,
+                url: `${siteUrl}/`,
+              }}
+            />
+          ) : null}
 
           {import.meta.env.PROD ? <GoogleAnalytics /> : null}
 
-          <link rel='icon' sizes='48x48' href='/static/favicon.ico' />
+          <link rel='icon' sizes='16x16 24x24' href='/static/favicon.ico' />
+          <link
+            rel='icon'
+            type='image/png'
+            sizes='96x96'
+            href='/static/favicon-96x96.png'
+          />
           <link
             rel='apple-touch-icon'
             sizes='180x180'
@@ -541,6 +582,29 @@ export default jsxRenderer(
     )
   },
 )
+
+const siteUrl = 'https://blog.p1ass.com'
+
+const siteName = 'ぷらすのブログ'
+
+const author = {
+  '@type': 'Person',
+  name: 'ぷらす',
+  url: 'https://p1ass.com',
+  sameAs: ['https://github.com/p1ass', 'https://twitter.com/p1ass'],
+}
+
+// 記事のタイトルに </script> が入っても script 要素を閉じないよう、< をエスケープする。
+const JsonLd = ({ data }: { data: object }) => {
+  return (
+    <script
+      type='application/ld+json'
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, '\\u003c'),
+      }}
+    />
+  )
+}
 
 // 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
 // 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。

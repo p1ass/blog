@@ -38,5 +38,9 @@ export default createRoute(param, c => {
       </div>
       <Pagination pageNumber={num} hasPrev={hasPrev} hasNext={hasNext} />
     </Fragment>,
+    {
+      title: `記事一覧 (${num} ページ目)`,
+      description: `ぷらすのブログの記事一覧の ${num} ページ目です`,
+    },
   )
 })

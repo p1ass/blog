@@ -33,6 +33,7 @@ export {
   labelBasePath,
   labelHeadingPrefix,
   labelIndexTitle,
+  labelKindName,
   labelNameToId,
   labelPermalink,
   postPermalink,

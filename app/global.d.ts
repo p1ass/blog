@@ -9,6 +9,8 @@ type Head = {
 
   title?: string
 
+  description?: string
+
   noindex?: boolean
 }
 
