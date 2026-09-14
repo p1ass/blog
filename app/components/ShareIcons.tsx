@@ -112,9 +112,10 @@ const preferredSourceCss = css`
 type Props = {
   title: string
   permalink: string
+  withPreferredSource?: boolean
 }
 
-export function ShareButtons({ title, permalink }: Props) {
+export function ShareButtons({ title, permalink, withPreferredSource }: Props) {
   // タイトルに # を含む記事がある
   const sharedUrl = encodeURIComponent(`https://blog.p1ass.com${permalink}`)
   const sharedText = encodeURIComponent(`${title} - ぷらすのブログ`)
@@ -144,7 +145,9 @@ export function ShareButtons({ title, permalink }: Props) {
             <i class={hatenaIconCss} />
           </a>
         </div>
-        <div class={preferredSourceCss} data-preferred-source />
+        {withPreferredSource ? (
+          <div class={preferredSourceCss} data-preferred-source />
+        ) : null}
       </div>
     </section>
   )
