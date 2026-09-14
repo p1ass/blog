@@ -111,6 +111,14 @@ for (const slug of readdirSync(postsDir)) {
   }
 }
 
+// 404.html が無いと Cloudflare Pages は存在しない URL にトップページを 200 で返し、Google にソフト 404 と扱われる。
+const missingNotFound = !existsSync('dist/404.html')
+if (missingNotFound) {
+  console.error(
+    'dist/404.html がありません。app/routes/404.tsx を確かめてください。',
+  )
+}
+
 if (missingIndex.length > 0) {
   console.error('ビルド結果に欠けている記事があります:')
   for (const failure of missingIndex) {
@@ -139,6 +147,7 @@ if (unknownElements.length > 0) {
 }
 
 if (
+  missingNotFound ||
   missingIndex.length > 0 ||
   missingOgImage.length > 0 ||
   unknownElements.length > 0

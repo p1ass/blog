@@ -610,7 +610,11 @@ export default function StyleGuide() {
         <Author />
 
         <h3>ShareButtons</h3>
-        <ShareButtons title='サンプル記事' permalink='/posts/sample/' />
+        <ShareButtons
+          title='サンプル記事'
+          permalink='/posts/sample/'
+          withPreferredSource
+        />
 
         <h3>Pagination</h3>
         <Pagination pageNumber={2} hasPrev={true} hasNext={true} />

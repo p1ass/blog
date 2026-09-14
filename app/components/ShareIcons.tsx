@@ -12,17 +12,18 @@ const shareIconsSectionCss = css`
     margin: ${blockGap} 0;
 `
 
+// Google のボタンは幅があり、狭い画面では共有ボタンの下の段に回る。
 const shareIconWrapperCss = css`
-    display: inline-block;
-    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: ${space.sm};
 `
 
 const shareButtonCss = css`
-    float: left;
     border-radius: ${radius.full};
     ${hoverTransition(['background-color'], { pressable: true })}
-
-    margin: 0 0 0 ${space.sm};
 
     ${canHover} {
         &:hover {
@@ -99,12 +100,22 @@ const hatenaIconCss = css`
   }
 `
 
+// 中身は preferred-source.ts が Google のスクリプトで描く。スクリプトが動かないときに幅 0 の枠と gap の分だけ共有ボタンが中央からずれないよう、Google のスクリプトが初期化するまで消す。
+const preferredSourceCss = css`
+    display: flex;
+
+    &:not(:has([data-initialized])) {
+        display: none;
+    }
+`
+
 type Props = {
   title: string
   permalink: string
+  withPreferredSource?: boolean
 }
 
-export function ShareButtons({ title, permalink }: Props) {
+export function ShareButtons({ title, permalink, withPreferredSource }: Props) {
   // タイトルに # を含む記事がある
   const sharedUrl = encodeURIComponent(`https://blog.p1ass.com${permalink}`)
   const sharedText = encodeURIComponent(`${title} - ぷらすのブログ`)
@@ -134,6 +145,9 @@ export function ShareButtons({ title, permalink }: Props) {
             <i class={hatenaIconCss} />
           </a>
         </div>
+        {withPreferredSource ? (
+          <div class={preferredSourceCss} data-preferred-source />
+        ) : null}
       </div>
     </section>
   )
