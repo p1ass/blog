@@ -12,17 +12,18 @@ const shareIconsSectionCss = css`
     margin: ${blockGap} 0;
 `
 
+// Google のボタンは幅があり、狭い画面では共有ボタンの下の段に回る。
 const shareIconWrapperCss = css`
-    display: inline-block;
-    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: ${space.sm};
 `
 
 const shareButtonCss = css`
-    float: left;
     border-radius: ${radius.full};
     ${hoverTransition(['background-color'], { pressable: true })}
-
-    margin: 0 0 0 ${space.sm};
 
     ${canHover} {
         &:hover {
@@ -99,6 +100,15 @@ const hatenaIconCss = css`
   }
 `
 
+// 中身は preferred-source.ts が Google のスクリプトで描く。スクリプトが動かないときに空の枠の分だけ共有ボタンが中央からずれないよう、空なら消す。
+const preferredSourceCss = css`
+    display: flex;
+
+    &:empty {
+        display: none;
+    }
+`
+
 type Props = {
   title: string
   permalink: string
@@ -134,6 +144,7 @@ export function ShareButtons({ title, permalink }: Props) {
             <i class={hatenaIconCss} />
           </a>
         </div>
+        <div class={preferredSourceCss} data-preferred-source />
       </div>
     </section>
   )

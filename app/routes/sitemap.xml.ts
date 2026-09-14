@@ -5,13 +5,16 @@ import { formatDate, parseDate } from '../lib/time'
 
 const SITEMAP_DATE_FORMAT = 'YYYY-MM-DD'
 
+// Google は lastmod が実際の更新と食い違うサイトでは lastmod を使わなくなるので、トップはビルドした日ではなく最新の記事の日付にする。
 function generateSitemap(posts: Post[]): string {
-  const now = new Date()
+  const latest = posts[0]
+    ? `
+        <lastmod>${formatDate(parseDate(posts[0].frontmatter.date), SITEMAP_DATE_FORMAT, 'en')}</lastmod>`
+    : ''
   return `<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-        <loc>https://blog.p1ass.com</loc>
-        <lastmod>${formatDate(now, SITEMAP_DATE_FORMAT, 'en')}</lastmod>
+        <loc>https://blog.p1ass.com/</loc>${latest}
     </url>
     ${posts.map(post => generateSitemapItem(post)).join('\n')}
 </urlset>`

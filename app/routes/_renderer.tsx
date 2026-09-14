@@ -486,8 +486,14 @@ export default jsxRenderer(
           <ThemeScript />
           <ViewTransitionScript />
           <link rel='expect' href='#main' blocking='render' />
-          {noindex ? <meta name='robots' content='noindex' /> : null}
-          <link rel='canonical' href={canonicalUrl} />
+          {noindex ? (
+            <meta name='robots' content='noindex' />
+          ) : (
+            <>
+              <meta name='robots' content='max-image-preview:large' />
+              <link rel='canonical' href={canonicalUrl} />
+            </>
+          )}
           <meta
             property='og:type'
             content={frontmatter ? 'article' : 'website'}

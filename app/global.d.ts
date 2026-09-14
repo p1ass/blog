@@ -25,6 +25,11 @@ declare global {
       ready: (callback: () => void) => void
       widgets: { load: (element?: HTMLElement) => void }
     }
+
+    // preferred-source.ts が読み込む publisher.js が、読み込み前に積んだ関数を呼び、push を差し替える。
+    PREFERRED_SOURCE?: {
+      push: (callback: (api: { init: () => void }) => void) => void
+    }
   }
 }
 
