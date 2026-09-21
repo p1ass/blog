@@ -9,3 +9,18 @@ draft: true
 ---
 
 {/* <!--more--> */}
+
+## メモ: プロンプトキャッシュ
+
+1 本目では触れず、この記事で扱う。
+
+- Anthropic の Messages API はステートレスで、会話全体を毎回送る (Working with the Messages API に「The Messages API is stateless, which means that you always send the full conversational history to the API.」とある)。2026-09-22 に確認
+- 会話の状態はクライアントが持つので、送る内容はクライアントが決められる。ただし、途中の会話を書き換えると、プロンプトキャッシュはそこから後ろが外れる。さらに Claude Fable 5.1 以降の preserved thinking では、途中の会話を編集・削除すると、その後ろの thinking ブロックが無効化される (2026-08-31 以降に作成したアカウントでは 400)。古い Tool の結果を消すなら、サーバー側の Tool 結果のクリア (context editing) を使う。「自由に編集できる」とは書かない
+- OpenAI の Responses API は会話をサーバーに保存し、`previous_response_id` で続けられる。Conversation state のガイドには「Even when using `previous_response_id`, all previous input tokens for responses in the chain are billed as input tokens in the API.」と書かれている。過去の会話も入力トークンとして課金される。2026-09-22 に確認
+- Response オブジェクトは何も指定しなければ 30 日保存され、`store: false` で保存しないようにできる。長く続く会話には、TTL のない Conversations API がある
+- プロンプトキャッシュは、リクエストの先頭 (`tools`、`system`、`messages` の順) が一致する部分をキャッシュから読む。途中が 1 バイトでも変わると、そこから後ろはキャッシュされない
+- トップレベルに `cache_control: {type: "ephemeral"}` を付けると、最後のキャッシュ可能なブロックに区切りが置かれ、会話が伸びるたびに区切りも後ろへ動く。Agent Loop と相性がよい
+- TTL は指定しなければ 5 分、`ttl: "1h"` で 1 時間。読むたびに期限が延びる
+- 読み込みは入力の約 0.1 倍、書き込みは 5 分の TTL で 1.25 倍、1 時間で 2 倍
+- キャッシュできる先頭部分の最小サイズはモデルによって 512〜4096 トークンで、これより短いと、エラーは出ないままキャッシュされない
+- Go では `MessageNewParams` に `CacheControl: anthropic.NewCacheControlEphemeralParam()` を足す。キャッシュから読めたかどうかは `resp.Usage.CacheReadInputTokens` で確かめる
