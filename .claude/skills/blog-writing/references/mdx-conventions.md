@@ -33,14 +33,14 @@ tags:
 ---
 ```
 
-| フィールド | 必須 | 内容 |
-|---|---|---|
-| `title` | 必須 | 記事タイトル。コロンを含む場合はダブルクォートで囲む |
-| `date` | 必須 | `YYYY-MM-DDTHH:MM:SS` 形式。並び順に使われる |
-| `description` | 必須 | 1文。一覧ページと OGP の説明文に使われる |
-| `categories` | 必須 | 配列。既存語彙から選ぶ ([`taxonomy.md`](taxonomy.md)) |
-| `tags` | 任意 | 配列。既存語彙から選ぶ |
-| `ogImage` | 任意 | ルートからのパス (例: `/posts/web-speed-hackathon-2024/ogp.jpg`) |
+| フィールド    | 必須 | 内容                                                             |
+| ------------- | ---- | ---------------------------------------------------------------- |
+| `title`       | 必須 | 記事タイトル。コロンを含む場合はダブルクォートで囲む             |
+| `date`        | 必須 | `YYYY-MM-DDTHH:MM:SS` 形式。並び順に使われる                     |
+| `description` | 必須 | 1文。一覧ページと OGP の説明文に使われる                         |
+| `categories`  | 必須 | 配列。既存語彙から選ぶ ([`taxonomy.md`](taxonomy.md))            |
+| `tags`        | 任意 | 配列。既存語彙から選ぶ                                           |
+| `ogImage`     | 任意 | ルートからのパス (例: `/posts/web-speed-hackathon-2024/ogp.jpg`) |
 
 ## more マーカー
 
@@ -69,7 +69,7 @@ tags:
 ツイート埋め込み。60 回使われている。
 
 ```jsx
-<Twitter url="https://twitter.com/p1ass/status/1158995483240439808"/>
+<Twitter url="https://twitter.com/p1ass/status/1158995483240439808" />
 ```
 
 URL は `twitter.com` 形式のまま渡す (コンポーネントがこの形式を期待している)。本文中のプロフィールリンクとは扱いが異なる点に注意。
@@ -114,17 +114,18 @@ _4 位 187,577 　釜中の鯖_
 ```markdown
 ![Claude Code が出した Suggestion](./suggestion.png)
 _Claude Code が行指定で出した Suggestion_
+
 <!-- TODO: 画像 suggestion.png を配置 -->
 ```
 
 ## リンクの書き分け
 
-| 用途 | 書き方 |
-|---|---|
-| 本文中の X (Twitter) アカウント | `[@p1ass](https://x.com/p1ass)` — **新規記事は x.com** |
-| ツイート埋め込み | `<Twitter url="https://twitter.com/..."/>` — twitter.com のまま |
-| 参照した記事・ドキュメント | `<ExLinkCard url="..." />` |
-| 文中の軽いリンク | `[Hono](https://hono.dev/)` |
+| 用途                            | 書き方                                                          |
+| ------------------------------- | --------------------------------------------------------------- |
+| 本文中の X (Twitter) アカウント | `[@p1ass](https://x.com/p1ass)` — **新規記事は x.com**          |
+| ツイート埋め込み                | `<Twitter url="https://twitter.com/..."/>` — twitter.com のまま |
+| 参照した記事・ドキュメント      | `<ExLinkCard url="..." />`                                      |
+| 文中の軽いリンク                | `[Hono](https://hono.dev/)`                                     |
 
 既存 163 箇所は `twitter.com` のまま残す。過去記事の遡及修正は対象外とする。
 
