@@ -1,5 +1,3 @@
-// テーマで差し替えないので、CSS 変数にしない。
-
 export const xBlack = '#000000'
 export const xBlackHover = '#444444'
 

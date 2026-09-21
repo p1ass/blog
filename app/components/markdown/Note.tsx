@@ -16,7 +16,6 @@ import { radius } from '../../styles/shape'
 import { blockGap, space } from '../../styles/spacing'
 import { NoteIcon, type NoteKind } from '../Icons'
 
-// accent と同じ色相の濃淡では流し読みで違いが伝わらないので、warning と tip は別の色相にする。
 const kindColors = {
   info: {
     surface: accentSurface,

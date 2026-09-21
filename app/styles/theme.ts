@@ -1,6 +1,3 @@
-// 読者の選択は、prefers-color-scheme の中の :root を詳細度で上回るよう :root と属性セレクタの組で書く。
-// hono/css が補間した文字列の二重引用符をエスケープするので、属性の値を引用符でくくらない。
-
 import { brandWhite, githubBlack, xBlack } from './brand.ts'
 import { accent, neutral, tip, warning } from './palette.ts'
 
@@ -66,7 +63,6 @@ export const dark: Assignment = {
   textInverted: neutral[950],
 
   accent: accent[300],
-  // 暗いテーマは段の刻みが粗く、1 段違いでは本文リンクと差が付かないので 2 段濃くする。
   accentMuted: accent[500],
   accentSurface: accent[900],
   textOnAccentSurface: neutral[300],
@@ -87,7 +83,6 @@ export const dark: Assignment = {
 
   icon: neutral[300],
 
-  // X ボタンの円は純黒で、暗い地では輪郭が消える。
   brandSurfaceBorder: neutral[500],
 
   githubMark: brandWhite,

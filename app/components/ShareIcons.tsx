@@ -12,7 +12,6 @@ const shareIconsSectionCss = css`
     margin: ${blockGap} 0;
 `
 
-// Google のボタンは幅があり、狭い画面では共有ボタンの下の段に回る。
 const shareIconWrapperCss = css`
     display: flex;
     flex-wrap: wrap;
@@ -49,7 +48,6 @@ const shareButtonLinkCss = css`
   }
 `
 
-// 円は純黒で暗い地では輪郭が消える。border だと円が 2px 広がるので、境界は box-shadow で描く。
 const xCss = css`
     background-color: ${xBlack};
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder};
@@ -62,7 +60,6 @@ const xCss = css`
     }
 `
 
-// 𝕏 は黒い円の上に置くので、テーマによらず白で描画する。
 const xShareButtonLinkCss = css`
   ${shareButtonLinkCss}
 
@@ -81,7 +78,6 @@ const xIconCss = css`
   }
 `
 
-// はてなブックマークのロゴそのものなので、コントラストが足りなくてもブランドカラーで描く (WCAG 1.4.3 の対象外)。
 const hatenaCss = css`
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${hatenaBlue};
     ${shareButtonCss}
@@ -100,7 +96,6 @@ const hatenaIconCss = css`
   }
 `
 
-// 中身は preferred-source.ts が Google のスクリプトで描く。スクリプトが動かないときに幅 0 の枠と gap の分だけ共有ボタンが中央からずれないよう、Google のスクリプトが初期化するまで消す。
 const preferredSourceCss = css`
     display: flex;
 
@@ -116,7 +111,6 @@ type Props = {
 }
 
 export function ShareButtons({ title, permalink, withPreferredSource }: Props) {
-  // タイトルに # を含む記事がある
   const sharedUrl = encodeURIComponent(`https://blog.p1ass.com${permalink}`)
   const sharedText = encodeURIComponent(`${title} - ぷらすのブログ`)
 

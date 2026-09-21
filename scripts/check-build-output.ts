@@ -1,10 +1,8 @@
-// @hono/vite-ssg はルートが例外を投げても index.txt を書き出してビルドを成功させるので、記事ごとに index.html があるか確かめる。
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 const postsDir = 'dist/posts'
 
-// 要素を足すときは、先にスタイルを当ててから足す。
 const allowedElements = new Map([
   ['p', '_renderer.tsx のグローバル'],
   ['h2', '_renderer.tsx のグローバル。article の中だけ章のボーダーが付く'],
@@ -48,7 +46,6 @@ const allowedElements = new Map([
   ['style', 'Mermaid が図ごとに書き出すスタイル。描画しない'],
 ])
 
-// svg の中は Mermaid と埋め込みの領域で、foreignObject に div や span も入るので、部分木ごと数えない。
 function elementsOutsideSvg(html: string): Set<string> {
   const found = new Set<string>()
   let depth = 0
@@ -111,7 +108,6 @@ for (const slug of readdirSync(postsDir)) {
   }
 }
 
-// 404.html が無いと Cloudflare Pages は存在しない URL にトップページを 200 で返し、Google にソフト 404 と扱われる。
 const missingNotFound = !existsSync('dist/404.html')
 if (missingNotFound) {
   console.error(

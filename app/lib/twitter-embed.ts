@@ -1,6 +1,3 @@
-// island にすると ThemePicker より後ろに描画されて動かないので、client.ts から呼ぶ。
-// ウィジェットは data-theme を作られるときに 1 度だけ読むので、テーマが変わったら作り直す。
-
 import { onReady } from './on-ready'
 
 type Theme = 'light' | 'dark'
@@ -47,7 +44,6 @@ function buildQuote(url: string, theme: Theme): HTMLQuoteElement {
 
 export function setupTwitterEmbeds(): void {
   onReady(() => {
-    // ウィジェットは blockquote を iframe に置き換えるので、包む div を単位に作り直す。
     const embeds: { container: HTMLElement; url: string }[] = []
     for (const quote of document.querySelectorAll('blockquote.twitter-tweet')) {
       const container = quote.parentElement

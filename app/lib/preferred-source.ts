@@ -1,6 +1,3 @@
-// island にすると ThemePicker より後ろに描画されて動かないので、client.ts から呼ぶ。
-// ボタンは作られるときに data-theme を 1 度だけ読み、同じ要素を作り直せない (shadow root を付ける) ので、テーマが変わったら要素ごと差し替える。
-
 import { onReady } from './on-ready'
 
 type Theme = 'light' | 'dark'

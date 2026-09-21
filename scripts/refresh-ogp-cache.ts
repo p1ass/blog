@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// 使い方: pnpm ogp:refresh でキャッシュに無い URL だけ、--all で全 URL を取り直す。
-
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fetchOgp, type Ogp } from '../app/lib/ogp-fetch.ts'
@@ -20,7 +18,6 @@ function collectUrls(): string[] {
     } catch {
       continue
     }
-    // {/* <ExLinkCard .../> */} とコメントアウトされたカードは対象外。
     const body = source.replaceAll(/\{\/\*[\s\S]*?\*\/\}/g, '')
     for (const match of body.matchAll(/<ExLinkCard[^>]*url="([^"]+)"/g)) {
       urls.add(match[1])
@@ -54,7 +51,6 @@ for (const [index, url] of urls.entries()) {
     const reason = cause instanceof Error ? cause.message : String(cause)
     console.log(`失敗 (${reason})`)
     failed.push(`${url} (${reason})`)
-    // 記録しないとビルドのたびに取得を試みる。
     cache[url] = null
   }
 }

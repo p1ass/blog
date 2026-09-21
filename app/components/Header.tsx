@@ -9,7 +9,6 @@ import { space } from '../styles/spacing'
 import { hoverTransition } from '../styles/transition'
 import { fontSize, lineHeight } from '../styles/typography'
 
-// overflow: auto だとテーマの一覧がヘッダーの外で切れるので、display: flow-root で余白の相殺だけを止める。
 const headerCss = css`
   display: flow-root;
   border-bottom: ${borderWidth.thin} solid ${border};
@@ -20,7 +19,6 @@ const headerContainerCss = css`
   text-align: center;
 `
 
-// 見出しに margin を残すと余白が親をすり抜け、テーマの選択を上下の中央に置く基準の高さがずれる。
 const titleRowCss = css`
   position: relative;
   margin-bottom: ${space.sm};
@@ -46,7 +44,6 @@ const titleCss = css`
   }
 `
 
-// 記事一覧では h1、それ以外では div になる。行間を指定しないと div だけ本文の行間を継承してヘッダーが高くなり、ページを移るときにヘッダーが伸び縮みする。
 const siteTitleCss = css`
   font-size: ${fontSize.h3};
   font-weight: bold;
@@ -89,7 +86,6 @@ const navigationListCss = css`
 `
 
 type Props = {
-  // 記事一覧のページでだけ、サイト名をそのページの見出しにする。
   asHeading: boolean
 }
 

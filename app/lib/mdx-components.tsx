@@ -31,7 +31,6 @@ export function useMDXComponents(): MDXComponents {
   return components
 }
 
-// max-height を書くと、width と height の属性で決まった横幅のまま高さだけ詰まり、画像が潰れる。上限は rehype-image-size.ts が計算済み。
 const imageCss = css`
   display: block;
   max-width: 100%;
@@ -56,7 +55,6 @@ const imageLinkCss = css`
 `
 
 export function Image(props: PropsWithChildren<Hono.ImgHTMLAttributes>) {
-  // 本番ビルドでは viteStaticCopy が画像をコピーするので、その配置に合わせたパスを返す
   const src = import.meta.env.PROD
     ? props.src?.replaceAll('/app/routes', '')
     : props.src

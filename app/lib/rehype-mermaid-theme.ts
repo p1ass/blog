@@ -3,7 +3,6 @@ import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 import { type Assignment, light } from '../styles/theme'
 
-// Mermaid はテーマ変数から色を計算して SVG に書き込むので、CSS 変数を直接渡せない。明るいテーマの色で描かせてから、その値を役割の CSS 変数に置き換えてテーマに追従させる。
 const roles = {
   background: 'surface',
   textColor: 'text',
@@ -51,8 +50,8 @@ const replacements = new Map<string, string>(
     customProperty(role),
   ]),
 )
-// 辺のラベルの下地は、Mermaid が背景色を半透明にした値で書く。
-replacements.set('rgba(255, 255, 255, 0.5)', customProperty('surface'))
+const edgeLabelTranslucentBackground = 'rgba(255, 255, 255, 0.5)'
+replacements.set(edgeLabelTranslucentBackground, customProperty('surface'))
 
 if (
   new Set(Object.values(roles).map(role => light[role])).size !==
@@ -75,7 +74,6 @@ function themed(value: string): string {
   )
 }
 
-// rehype-mermaid の出力は aria-roledescription に図の種類を持つ。
 function isMermaid(node: Element): boolean {
   return (
     node.tagName === 'svg' && node.properties.ariaRoleDescription !== undefined

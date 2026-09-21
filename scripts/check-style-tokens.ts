@@ -1,4 +1,3 @@
-// ファイル全体を正規表現で見るとコメントの px や #hex まで拾うので、TypeScript のパーサで CSS の位置だけを取り出す。
 import { globSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
@@ -27,7 +26,6 @@ const tokenSources = new Map([
   ],
 ])
 
-// width や height のようなコンポーネント固有の寸法は共通の基準がないので見ない。
 const tokenizedProperties = new Map([
   ['font-size', 'typography.ts の fontSize'],
   ['padding', 'spacing.ts の space'],
@@ -63,7 +61,6 @@ const tokenizedProperties = new Map([
   ['text-underline-offset', 'typography.ts の underline'],
 ])
 
-// CSS のコメントに理由を書くと最小化後も全ページの CSS に残るので、例外はここに集める。
 type Exception = {
   file: string
   rule: string
@@ -117,7 +114,6 @@ const lengthPattern = /(?<![\w.#-])\d+(?:\.\d+)?(?:px|rem|em)\b/g
 const hexPattern = /#[0-9a-fA-F]{3,8}\b/g
 const mediaPattern = /@media\b/g
 
-// @media (min-width: ...) の括弧の中を拾わないよう、直前の 1 文字を見る。
 const declarationPattern = /(^|[^\w(-])([a-z][a-z-]*)\s*:\s*([^;{}]*)/g
 
 const cssTags = new Set(['css', 'keyframes'])
@@ -162,7 +158,6 @@ function cssRanges(sourceFile: ts.SourceFile): Range[] {
   return ranges
 }
 
-// transition(['box-shadow']) のようにプロパティ名を文字列で渡す呼び出しを拾わないよう、${...} の中は読まない。
 function substitutionRanges(sourceFile: ts.SourceFile): Range[] {
   const ranges: Range[] = []
 
@@ -352,7 +347,6 @@ function main() {
   )
 }
 
-// テストから import されたときに全ファイルを読みに行かないよう、直接実行されたときだけ main に入る。
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main()
 }

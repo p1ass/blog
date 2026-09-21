@@ -7,7 +7,6 @@ export default defineConfig({
       'scripts/**/*.test.ts',
       'textlint/**/*.test.ts',
     ],
-    // 日付の整形が TZ に依存していないことを検証したいので、JST 以外で回す
     env: { TZ: 'UTC' },
   },
 })

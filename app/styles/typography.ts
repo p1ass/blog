@@ -20,9 +20,7 @@ export const fontWeight = {
   bold: 700,
 } as const
 
-// hono/css は補間した値の " を \" にエスケープするので、フォント名を引用符で囲まない。
 export const fontFamily = {
-  // 欧文だけのフォントを先に置くと、和文が環境ごとに別のフォントへフォールバックする。
   body: [
     'Hiragino Kaku Gothic ProN',
     'Hiragino Sans',
@@ -47,8 +45,6 @@ export const fontFamily = {
   ].join(', '),
 } as const
 
-// accent は 1 段薄くすると本文のコントラスト基準を割るので、hover は色ではなく下線の太さで示す。
-// 和文の字面は下いっぱいまであり、既定の位置だと下線が文字に触れるので offset を取る。
 export const underline = {
   thickness: '1px',
   hoverThickness: '2px',

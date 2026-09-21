@@ -1,10 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { type Assignment, dark, light } from './theme'
 
-// WCAG 2.2 の相対輝度とコントラスト比。
-// https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
 function relativeLuminance(hex: string): number {
-  // 透明な役割を渡すと NaN が返り、比較が静かに通ってしまう。ここで落とす。
   if (!/^#[0-9a-f]{6}$/i.test(hex)) {
     throw new Error(`16 進数の色ではない: ${hex}`)
   }
@@ -22,9 +19,8 @@ function contrastRatio(foreground: string, background: string): number {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
 
-// AA の基準。本文は 4.5:1、大きい文字 (24px 以上、または太字の 18.66px 以上) と UI コンポーネントは 3:1。
 const BODY_TEXT = 4.5
-const LARGE_TEXT = 3
+const LARGE_TEXT_OR_UI = 3
 
 type Requirement = {
   foreground: keyof Assignment
@@ -52,11 +48,10 @@ const requirements: Requirement[] = [
     minimum: BODY_TEXT,
     note: '本文中のリンク',
   },
-  // 下線はリンクを色以外で見分けるための印なので、文字ではないが 3:1 を満たす段から選ぶ
   {
     foreground: 'accentMuted',
     background: 'surface',
-    minimum: LARGE_TEXT,
+    minimum: LARGE_TEXT_OR_UI,
     note: '本文中のリンクの下線',
   },
   {
@@ -101,29 +96,28 @@ const requirements: Requirement[] = [
     minimum: BODY_TEXT,
     note: 'Note (tip) の本文',
   },
-  // Note のアイコンは 24px なので大きい文字の基準でよい
   {
     foreground: 'accent',
     background: 'accentSurface',
-    minimum: LARGE_TEXT,
+    minimum: LARGE_TEXT_OR_UI,
     note: 'Note (info) のアイコン',
   },
   {
     foreground: 'warning',
     background: 'warningSurface',
-    minimum: LARGE_TEXT,
+    minimum: LARGE_TEXT_OR_UI,
     note: 'Note (warning) のアイコン',
   },
   {
     foreground: 'tip',
     background: 'tipSurface',
-    minimum: LARGE_TEXT,
+    minimum: LARGE_TEXT_OR_UI,
     note: 'Note (tip) のアイコン',
   },
   {
     foreground: 'icon',
     background: 'surface',
-    minimum: LARGE_TEXT,
+    minimum: LARGE_TEXT_OR_UI,
     note: 'シェアボタンのアイコン',
   },
 ]
@@ -146,10 +140,9 @@ describe.each(themes)('%s テーマのコントラスト', (_name, assignment) =
   })
 })
 
-// 両テーマで回せない要件はここに書く。brandSurfaceBorder は明るいテーマでは透明で、比を持たない。
 describe('暗いテーマだけの要件', () => {
   it('X ボタンの境界 (brandSurfaceBorder on surface) が 3:1 以上', () => {
     const ratio = contrastRatio(dark.brandSurfaceBorder, dark.surface)
-    expect(ratio).toBeGreaterThanOrEqual(LARGE_TEXT)
+    expect(ratio).toBeGreaterThanOrEqual(LARGE_TEXT_OR_UI)
   })
 })

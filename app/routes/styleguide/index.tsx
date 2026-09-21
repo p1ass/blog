@@ -81,7 +81,6 @@ const swatchValueCss = css`
   word-break: break-all;
 `
 
-// :focus-visible は撮影時に出ないので、リングが当たった状態を固定で描いた見本を置く。
 const focusRingSampleCss = css`
   display: inline-block;
   padding: ${space.xs} ${space.md};
@@ -91,7 +90,6 @@ const focusRingSampleCss = css`
   outline-offset: ${focusRing.offset};
 `
 
-// 撮影時にカーソルは乗らないので、hover した状態を固定で描く。link.ts の hover 側を変えたらここも直す。
 const linkHoverSampleCss = css`
   color: ${accent};
   background-color: ${surfaceSubtle};
@@ -131,7 +129,6 @@ const tokenTableCss = css`
 `
 
 type TokenTableProps = {
-  // 見本の欄に何を出すか。値だけで足りるものは省く
   sample?: (value: string) => unknown
   tokens: Record<string, string | number>
 }
@@ -163,7 +160,6 @@ function TokenTable({ tokens, sample }: TokenTableProps) {
   )
 }
 
-// 実在の記事を引くと、記事を書くたびに基準画像が変わる。
 const samplePost: Post = {
   slug: 'sample-post',
   frontmatter: {
@@ -224,14 +220,12 @@ const iconSampleListCss = css`
   }
 `
 
-// app/islands/ThemePicker.tsx と同じ文言を並べる。
 const themeLabels = {
   system: '端末の設定に合わせる',
   light: 'ライト',
   dark: 'ダーク',
 } as const
 
-// 実物は絶対配置なので、position だけ打ち消して並びの中に置く。
 const menuSampleCss = css`
   display: inline-block;
   margin-bottom: ${blockGap};

@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-// frontmatter だけを機械的に書き換える移行で全記事の既存の指摘が CI を落とさないよう、本文が変わった Markdown だけを出力する。
-// 使い方: node scripts/list-prose-changes.ts <base-ref>
-
 import { execFileSync } from 'node:child_process'
 
 const baseRef = process.argv[2]

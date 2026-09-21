@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# 使い方: bash .claude/skills/tech-review/scripts/verify_go_samples.sh app/routes/posts/<slug>/index.mdx
-# 断片は前後の文脈に依存するので、package 宣言を持つ標準ライブラリだけのブロックに限って検証する。
-
 set -uo pipefail
 
 ARTICLE="${1:-}"

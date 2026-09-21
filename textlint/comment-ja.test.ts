@@ -1,12 +1,10 @@
 import { createLinter, loadTextlintrc } from 'textlint'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-// 実際の .textlintrc.json を読んで回す。プラグインの解決とルールの組み合わせまで検証したい。
 const SPACING = 'ja-spacing/ja-space-between-half-and-full-width'
 const JOSHI = 'ja-technical-writing/no-doubled-joshi'
 const EXCLAMATION = 'ja-technical-writing/no-exclamation-question-mark'
 
-// 半角と全角の間にスペースが無いので SPACING が出る。位置の検証にも使う。
 const SPACING_SENTENCE = '本番ビルドではviteが動く'
 
 type Finding = { ruleId: string; line: number; column: number }
@@ -31,7 +29,6 @@ beforeAll(async () => {
     const result = await linter.fixText(code, filePath)
     return result.output
   }
-  // kuromoji の辞書読み込みを最初の 1 回でここに寄せる
   await lint('// ウォームアップ\n', 'warmup.ts')
 }, 60_000)
 
@@ -98,7 +95,6 @@ describe('コメントの拾い方', () => {
 })
 
 describe('段落の切り方', () => {
-  // 「時に」と「取りに」が行をまたぐ。行ごとに切ると助詞の重複を見逃す。
   const acrossLines = [
     '// キャッシュに無い URL はビルド時に',
     '// 取りに行く。',
@@ -153,7 +149,6 @@ describe('原文との対応', () => {
   it('指摘の位置が原文の行と桁に一致する', async () => {
     const inMarkdown = await lint(SPACING_SENTENCE, 'test.md')
     const inComment = await lint(`// ${SPACING_SENTENCE}\n`, 'test.ts')
-    // 「// 」の 3 文字ぶんだけ桁がずれる。
     expect(inComment).toEqual(
       inMarkdown.map(finding => ({
         ...finding,

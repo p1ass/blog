@@ -20,7 +20,6 @@ export function labelPageParams(kind: LabelKind) {
     getLabels(kind).flatMap(label => {
       const maxPageNumber = getMaxPageNumber(label.posts)
       const params: { id: string; num: string }[] = []
-      // 1 ページ目は /categories/<id>/ が引き受けるので生成しない
       for (let num = 2; num <= maxPageNumber; num++) {
         params.push({ id: label.id, num: num.toString() })
       }

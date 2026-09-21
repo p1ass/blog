@@ -5,9 +5,6 @@ import { imageSize } from 'image-size'
 import type { Plugin } from 'unified'
 import type { VFile } from 'vfile'
 
-// width と height の属性は CSS の寸法のヒントになり、CSS の max-height で高さだけ詰めると画像が縦に潰れるので、描画される寸法をここで計算して入れる。
-// rehype-mdx-import-media が src を import に書き換えると元のファイルを辿れないので、それより前に置く。
-
 const maxWidth = 760
 const maxHeight = 500
 
@@ -29,7 +26,6 @@ function fitted(width: number, height: number): [number, number] {
   return [Math.round(width * scale), Math.round(height * scale)]
 }
 
-// 記事には `./foo.png` と `foo.png` の両方の書き方がある。
 function isRelativeSource(src: unknown): src is string {
   return (
     typeof src === 'string' &&
@@ -50,7 +46,6 @@ export const rehypeImageSize: Plugin<[], Root> = () => (tree, file: VFile) => {
     if (node.tagName === 'img' && node.properties) {
       const { src } = node.properties
       if (isRelativeSource(src)) {
-        // ファイル名に日本語を使っている記事があり、src はパーセントエンコードされた状態で来る
         const imagePath = resolve(baseDir, decodeURIComponent(src))
         const { width, height } = imageSize(readFileSync(imagePath))
         if (width && height) {

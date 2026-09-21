@@ -3,7 +3,6 @@ import type { Post } from '../lib/posts'
 import { getAllPosts, postPermalink } from '../lib/posts'
 import { formatDate, parseDate } from '../lib/time'
 
-// RFC 822 の date-time。JST 固定なので、オフセットはリテラルで付ける。
 const RSS_DATE_FORMAT = 'ddd, DD MMM YYYY HH:mm:ss'
 
 function toRfc822(date: string): string {

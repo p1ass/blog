@@ -1,5 +1,3 @@
-// 直接は使わず、color.ts の役割名を通す。数字は小さいほど明るい。
-
 export const neutral = {
   0: '#ffffff',
   50: '#f9f9fa',
@@ -15,8 +13,6 @@ export const neutral = {
   950: '#0f1114',
 } as const
 
-// 500 は OG 画像の帯にも使うブランドカラーなので変えない。
-// 300 は暗い地で青がくすんで見えるので、この段だけ彩度を 80% に上げてある。
 export const accent = {
   50: '#e8f5fe',
   100: '#cfe2fc',
@@ -30,7 +26,6 @@ export const accent = {
   900: '#16263b',
 } as const
 
-// accent と同じ色相では注意が伝わらないので、別の色相にする。
 export const warning = {
   50: '#fff4e5',
   300: '#f0a742',

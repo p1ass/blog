@@ -1,5 +1,3 @@
-// コードブロックは地の文と別の塊として扱うので、テーマによらず atom-one-dark で暗いまま置く。
-
 // highlight.js の src/styles/atom-one-dark.css を写したもの。配布元の帰属表示をそのまま残す。
 //
 //   Atom One Dark by Daniel Gamage

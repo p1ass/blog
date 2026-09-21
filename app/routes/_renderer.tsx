@@ -34,15 +34,6 @@ import {
   lineHeight,
 } from '../styles/typography'
 
-// :-hono-global は複数行のコメントがあると展開されないので、説明はテンプレートの外に書く。
-// reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
-// ページの遷移は View Transitions でクロスフェードする。前後のページで同じ位置にあるヘッダーは、重ねても画素が変わらず止まって見えるので名前を付けない。
-// 一覧と記事のあいだでは、記事のタイトル、タグ、抜粋をつなぎ、位置と大きさの動きとしてばねで動かす。周りのクロスフェードも同じばねでそろえ、要素が動き終わる前に本文だけが出きってしまわないようにする。
-// :active-view-transition-type() を読めないブラウザでは、その規則だけが捨てられて既定のクロスフェードになる。
-// .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
-// .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
-// article > svg は Mermaid の図で、抜粋に入ると抜粋の囲みの直下になる。
-// pre の overflow: hidden は、中の code.hljs が横スクロールしても角丸を保つため。
 const bodyCss = css`
 :-hono-global {
   ${themeVariables}
@@ -59,7 +50,6 @@ const bodyCss = css`
     margin: 0 ${space.md};
     padding: 0;
 
-    /* https://alpacat.com/posts/unexpected-font-size-change */
     -webkit-text-size-adjust: 100%;
   }
 
@@ -424,7 +414,6 @@ const bodyCss = css`
     border: none;
   }
 
-  /* emgithub用 */
   .emgithub-file .code-area td.hljs-ln-line {
     font-size: ${fontSize.code} !important;
     font-family: ${fontFamily.mono} !important;
@@ -459,7 +448,6 @@ export default jsxRenderer(
 
     const canonicalUrl = `https://blog.p1ass.com${c.req.path}`
 
-    // 記事一覧のページには他に見出しが無いので、サイト名を h1 にする
     const isPostListPage = /^\/(?:page\/\d+\/)?$/.test(c.req.path)
 
     const ogImage = frontmatter?.ogImage
@@ -478,7 +466,6 @@ export default jsxRenderer(
           <title>{title}</title>
 
           <meta name='description' content={description} />
-          {/* CSS 変数は meta で使えないので、theme.ts の値を書き写す */}
           <meta
             name='theme-color'
             content={light.surface}
@@ -592,22 +579,19 @@ const author = {
   sameAs: ['https://github.com/p1ass', 'https://twitter.com/p1ass'],
 }
 
-// 記事のタイトルに </script> が入っても script 要素を閉じないよう、< をエスケープする。
+const escapeScriptEnd = (json: string) => json.replace(/</g, '\\u003c')
+
 const JsonLd = ({ data }: { data: object }) => {
   return (
     <script
       type='application/ld+json'
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, '\\u003c'),
+        __html: escapeScriptEnd(JSON.stringify(data)),
       }}
     />
   )
 }
 
-// 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
-// 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。
-// 型の指定を受け付けないブラウザに startViewTransition へオブジェクトを渡すと例外になるので、types を持つかを見てから渡す。
-// localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
   return html`
     <script>
@@ -618,7 +602,8 @@ const ThemeScript = () => {
             var run = function () {
               update(choice, persist);
             };
-            if (window.ViewTransition && 'types' in ViewTransition.prototype) {
+            var supportsTypes = window.ViewTransition && 'types' in ViewTransition.prototype;
+            if (supportsTypes) {
               document.startViewTransition({ update: run, types: ['theme'] });
             } else {
               document.startViewTransition(run);
@@ -628,11 +613,11 @@ const ThemeScript = () => {
           update(choice, persist);
         }
         function update(choice, persist) {
-          var freeze = null;
+          var transitionFreeze = null;
           if (persist) {
-            freeze = document.createElement('style');
-            freeze.textContent = '*, *::before, *::after { transition: none !important; }';
-            document.head.appendChild(freeze);
+            transitionFreeze = document.createElement('style');
+            transitionFreeze.textContent = '*, *::before, *::after { transition: none !important; }';
+            document.head.appendChild(transitionFreeze);
           }
           root.dataset.themeChoice = choice;
           if (choice === 'system') {
@@ -659,10 +644,10 @@ const ThemeScript = () => {
               }
             } catch (e) {}
           }
-          if (freeze) {
+          if (transitionFreeze) {
             window.getComputedStyle(document.body).color;
             setTimeout(function () {
-              freeze.remove();
+              transitionFreeze.remove();
             }, 1);
           }
         }
@@ -677,10 +662,6 @@ const ThemeScript = () => {
   `
 }
 
-// pagereveal はページを描く前に登録しないと間に合わないので、head に同期で置く。
-// 向きは押したリンクの data-direction から決める。戻ったときは逆向きにしたいので、行きと帰りの組を sessionStorage に残す。
-// 記事の要素の名前は、開く記事と戻る記事のぶんだけ、画面に入っているときに遷移の直前で付ける。一覧の全件に付けると、画面外の記事から戻ったときに要素が画面の外から飛んでくる。
-// 前後の記事どうしはつながず、矢印の向きへのずれで見せる。
 const ViewTransitionScript = () => {
   return html`
     <script>
@@ -693,7 +674,7 @@ const ViewTransitionScript = () => {
         function key(from, to) {
           return 'view-transition:' + from + '>' + to;
         }
-        function namePost(path) {
+        function nameVisiblePostParts(path) {
           var parts = document.querySelectorAll('[data-post="' + path + '"]');
           var named = 0;
           for (var i = 0; i < parts.length; i++) {
@@ -723,8 +704,8 @@ const ViewTransitionScript = () => {
           }
           var to = new URL(event.activation.entry.url).pathname;
           var shared = to;
-          if (!namePost(to)) {
-            if (to.indexOf('/posts/') === 0 || !namePost(location.pathname)) {
+          if (!nameVisiblePostParts(to)) {
+            if (to.indexOf('/posts/') === 0 || !nameVisiblePostParts(location.pathname)) {
               return;
             }
             shared = location.pathname;
@@ -743,7 +724,7 @@ const ViewTransitionScript = () => {
           if (!event.viewTransition || !shared) {
             return;
           }
-          if (namePost(shared) && event.viewTransition.types) {
+          if (nameVisiblePostParts(shared) && event.viewTransition.types) {
             event.viewTransition.types.add('post');
           }
           event.viewTransition.finished.then(clearPosts, clearPosts);
@@ -778,8 +759,6 @@ const ViewTransitionScript = () => {
   `
 }
 
-// 押す直前の hover で HTML を取得しておき、遷移のアニメーションが読み込みで詰まらないようにする。フィードは HTML でないので外す。
-// prerender だと Chromium は今開いているページ自身も裏で描画してしまうので、HTML の取得だけにとどめる。
 const SpeculationRules = () => {
   return html`
     <script type="speculationrules">

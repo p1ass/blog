@@ -1,10 +1,6 @@
-// island にすると ThemePicker より後ろに描画されて動かないので、client.ts から呼ぶ。
-// 切り替えの線を画面の高さの割合にすると、リグレッションテストが画面をページの高さまで広げたときに位置が変わる。
-// IntersectionObserver は、目次のリンクで一息に飛ぶと線を跨いだ通知を出さないので、スクロールごとに位置を測る。
-
 import { onReady } from './on-ready'
 
-const activationOffset = 64
+const activationLinePx = 64
 
 export function setupTocHighlight(): void {
   onReady(() => {
@@ -32,7 +28,7 @@ export function setupTocHighlight(): void {
     const update = () => {
       let active: string | null = null
       for (const heading of headings) {
-        if (heading.getBoundingClientRect().top > activationOffset) {
+        if (heading.getBoundingClientRect().top > activationLinePx) {
           break
         }
         active = heading.id
@@ -72,7 +68,6 @@ export function setupTocHighlight(): void {
   })
 }
 
-// scrollIntoView は先祖のスクロールも動かしてページごと飛ぶので、目次の中だけ自分で寄せる。
 function revealInToc(link: HTMLAnchorElement): void {
   const toc = link.closest<HTMLElement>('[data-toc]')
   if (!toc || toc.scrollHeight <= toc.clientHeight) {

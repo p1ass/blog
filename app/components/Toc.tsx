@@ -7,8 +7,6 @@ import { space } from '../styles/spacing'
 import { hoverTransition } from '../styles/transition'
 import { fontSize, fontWeight, lineHeight } from '../styles/typography'
 
-// data-toc から辿るのは、hono/css のクラス名が中身から作られ、スタイルを直すと変わるため。
-// hoverUnderlineLinkCss も transition を持つので、後ろで上書きする。
 const tocLinkCss = css`
   display: block;
   padding: ${space['2xs']} ${space.xs};
@@ -42,7 +40,6 @@ const tocListCss = css`
     margin: 0;
   }
 
-  /* ブラウザ既定が ul ul に円を当てるので、継承では消えない */
   & li > ul {
     list-style: none;
     margin: 0;
@@ -76,7 +73,6 @@ const labelId = 'toc-label'
 
 type Props = {
   toc: TocItem[]
-  // ブラウザでは toc-highlight.ts が動かすので、スタイルガイドの見本でだけ渡す
   currentId?: string
 }
 
@@ -130,7 +126,6 @@ export function TocNav({ toc, currentId }: Props) {
   )
 }
 
-// open はスタイルガイドの見本で開いた姿を撮るためにだけ渡す。
 export function TocDetails({
   toc,
   currentId,

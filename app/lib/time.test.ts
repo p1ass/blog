@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { formatDate, parseDate } from './time'
 
-// vitest.config.ts で TZ=UTC にしてあり、JST 以外のマシンでの挙動を見ている
 describe('parseDate', () => {
   it('オフセット付きの文字列を、その瞬間として読む', () => {
     expect(parseDate('2024-04-30T12:00:00+09:00').toISOString()).toBe(
@@ -18,7 +17,6 @@ describe('parseDate', () => {
 
 describe('formatDate', () => {
   it('JST の深夜を、その日の日付として表示する', () => {
-    // tz を指定しないと UTC マシンでは前日の 2021/11/30 になる
     expect(
       formatDate(parseDate('2021-12-01T00:00:00+09:00'), 'YYYY/MM/DD'),
     ).toBe('2021/12/01')
