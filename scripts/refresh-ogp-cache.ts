@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { fetchOgp, type Ogp } from '../app/lib/ogp-fetch.ts'
+import { fetchArchivedOgp, fetchOgp, type Ogp } from '../app/lib/ogp-fetch.ts'
 
 const CACHE_PATH = 'ogp-cache.json'
 const POSTS_DIR = 'app/routes/posts'
@@ -38,6 +38,11 @@ const refreshAll = process.argv.includes('--all')
 const cache: Cache = refreshAll ? {} : loadCache()
 const urls = collectUrls()
 const failed: string[] = []
+const archived: string[] = []
+
+function errorMessage(cause: unknown): string {
+  return cause instanceof Error ? cause.message : String(cause)
+}
 
 for (const [index, url] of urls.entries()) {
   if (url in cache) {
@@ -48,10 +53,17 @@ for (const [index, url] of urls.entries()) {
     cache[url] = await fetchOgp(url)
     console.log('取得')
   } catch (cause) {
-    const reason = cause instanceof Error ? cause.message : String(cause)
-    console.log(`失敗 (${reason})`)
-    failed.push(`${url} (${reason})`)
-    cache[url] = null
+    const reason = errorMessage(cause)
+    try {
+      cache[url] = await fetchArchivedOgp(url)
+      console.log(`Internet Archive から取得 (${reason})`)
+      archived.push(url)
+    } catch (archiveCause) {
+      const archiveReason = errorMessage(archiveCause)
+      console.log(`失敗 (${reason} / ${archiveReason})`)
+      failed.push(`${url} (${reason} / ${archiveReason})`)
+      cache[url] = null
+    }
   }
 }
 
@@ -64,6 +76,14 @@ writeFileSync(CACHE_PATH, `${JSON.stringify(alive, null, 2)}\n`)
 console.log()
 const fetched = Object.values(alive).filter(Boolean).length
 console.log(`URL ${urls.length} 件のうち ${fetched} 件の OGP を取得しました。`)
+if (archived.length > 0) {
+  console.log(
+    `${archived.length} 件は Internet Archive に保存されたページから取得しました。保存時点の内容なので、必要に応じて確認してください。`,
+  )
+  for (const url of archived) {
+    console.log(`  ${url}`)
+  }
+}
 if (failed.length > 0) {
   console.log(
     `取得できなかった ${failed.length} 件は取得不可として記録しました。素のリンクとして描画されます。`,
