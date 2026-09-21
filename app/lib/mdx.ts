@@ -7,6 +7,10 @@ import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import type { PluggableList } from 'unified'
 import { rehypeImageSize } from './rehype-image-size'
+import {
+  mermaidThemeVariables,
+  rehypeMermaidTheme,
+} from './rehype-mermaid-theme'
 import { rehypeToc } from './rehype-toc'
 import { remarkExcerpt } from './remark-excerpt'
 
@@ -25,5 +29,9 @@ export const rehypePlugins: PluggableList = [
   // 画像の寸法は、src が import 文へ書き換えられる前に読む
   rehypeImageSize,
   rehypeMdxImportMedia,
-  rehypeMermaid,
+  [
+    rehypeMermaid,
+    { mermaidConfig: { theme: 'base', themeVariables: mermaidThemeVariables } },
+  ],
+  rehypeMermaidTheme,
 ]

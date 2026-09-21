@@ -59,7 +59,6 @@ colors:
   surface-subtle: "{colors.neutral-50}"
   surface-hover: "{colors.neutral-100}"
   icon: "{colors.neutral-700}"
-  diagram-surface: transparent
   brand-surface-border: transparent
   github-mark: "#211f1f"
   x-mark: "#000000"
@@ -82,7 +81,6 @@ colors:
   dark-surface-subtle: "{colors.neutral-900}"
   dark-surface-hover: "{colors.neutral-800}"
   dark-icon: "{colors.neutral-300}"
-  dark-diagram-surface: "{colors.neutral-0}"
   dark-brand-surface-border: "{colors.neutral-500}"
   dark-github-mark: "#ffffff"
   dark-x-mark: "#ffffff"
@@ -416,6 +414,8 @@ hover の見た目は、カーソルを持つ端末 (`hover: hover` かつ `poin
 ### テーマで切り替えないもの
 
 ビルド時に色が決まるものは切り替えない。暗い地で読めなくなるものは、後ろにだけ明るい面を敷き、明るいテーマのまま見せる。
+
+Mermaid の図はビルド時に描くが、本文に SVG として埋め込むので、色を役割の CSS 変数に置き換えてテーマに追従させる。ノードは accent-surface の面に accent の枠、線は text-muted で描き、本文と同じ色の系統に揃える。
 
 地の文と別の役割を持つ塊は、どちらのテーマでも同じデザインで置く。
 

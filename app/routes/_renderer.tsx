@@ -8,7 +8,6 @@ import { contentWidth } from '../styles/breakpoint'
 import {
   accent,
   border,
-  diagramSurface,
   icon,
   surface,
   surfaceHover,
@@ -42,7 +41,7 @@ import {
 // :active-view-transition-type() を読めないブラウザでは、その規則だけが捨てられて既定のクロスフェードになる。
 // .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
 // .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
-// article > svg は Mermaid の図で (抜粋に入ると抜粋の囲みの直下になる)、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
+// article > svg は Mermaid の図で、抜粋に入ると抜粋の囲みの直下になる。
 // pre の overflow: hidden は、中の code.hljs が横スクロールしても角丸を保つため。
 const bodyCss = css`
 :-hono-global {
@@ -395,7 +394,6 @@ const bodyCss = css`
     max-width: 100%;
     height: auto;
     margin: 0 auto ${blockGap};
-    background-color: ${diagramSurface};
     border-radius: ${radius.md};
   }
 
