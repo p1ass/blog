@@ -1,4 +1,3 @@
-// @hono/vite-ssg はルートが例外を投げても index.txt を書き出してビルドを成功させるので、記事ごとに index.html があるか確かめる。
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -47,7 +46,6 @@ const allowedElements = new Map([
   ['style', 'Mermaid が図ごとに書き出すスタイル。描画しない'],
 ])
 
-// svg の中は Mermaid と埋め込みの領域で、foreignObject に div や span も入るので、部分木ごと数えない。
 function elementsOutsideSvg(html: string): Set<string> {
   const found = new Set<string>()
   let depth = 0

@@ -35,9 +35,6 @@ import {
   lineHeight,
 } from '../styles/typography'
 
-// reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
-// スクリプトが動かないと押しても反応しないので、.theme-picker は data-theme-choice が付くまで隠す。
-// Mermaid の図は色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
 const bodyCss = css`
 :-hono-global {
   ${themeVariables}
@@ -471,7 +468,6 @@ export default jsxRenderer(
           <title>{title}</title>
 
           <meta name='description' content={description} />
-          {/* CSS 変数は meta で使えないので、theme.ts の値を書き写す */}
           <meta
             name='theme-color'
             content={light.surface}
@@ -585,22 +581,19 @@ const author = {
   sameAs: ['https://github.com/p1ass', 'https://twitter.com/p1ass'],
 }
 
-// 記事のタイトルに </script> が入っても script 要素を閉じないよう、< をエスケープする。
+const escapeScriptEnd = (json: string) => json.replace(/</g, '\\u003c')
+
 const JsonLd = ({ data }: { data: object }) => {
   return (
     <script
       type='application/ld+json'
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, '\\u003c'),
+        __html: escapeScriptEnd(JSON.stringify(data)),
       }}
     />
   )
 }
 
-// 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
-// 要素ごとの transition を止めないと、その要素だけ地より遅れて色が変わる。
-// 型の指定を受け付けないブラウザに startViewTransition へオブジェクトを渡すと例外になるので、types を持つかを見てから渡す。
-// localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
   return html`
     <script>
@@ -611,7 +604,8 @@ const ThemeScript = () => {
             var run = function () {
               update(choice, persist);
             };
-            if (window.ViewTransition && 'types' in ViewTransition.prototype) {
+            var supportsTypes = window.ViewTransition && 'types' in ViewTransition.prototype;
+            if (supportsTypes) {
               document.startViewTransition({ update: run, types: ['theme'] });
             } else {
               document.startViewTransition(run);
@@ -621,11 +615,11 @@ const ThemeScript = () => {
           update(choice, persist);
         }
         function update(choice, persist) {
-          var freeze = null;
+          var transitionFreeze = null;
           if (persist) {
-            freeze = document.createElement('style');
-            freeze.textContent = '*, *::before, *::after { transition: none !important; }';
-            document.head.appendChild(freeze);
+            transitionFreeze = document.createElement('style');
+            transitionFreeze.textContent = '*, *::before, *::after { transition: none !important; }';
+            document.head.appendChild(transitionFreeze);
           }
           root.dataset.themeChoice = choice;
           if (choice === 'system') {
@@ -652,10 +646,10 @@ const ThemeScript = () => {
               }
             } catch (e) {}
           }
-          if (freeze) {
+          if (transitionFreeze) {
             window.getComputedStyle(document.body).color;
             setTimeout(function () {
-              freeze.remove();
+              transitionFreeze.remove();
             }, 1);
           }
         }
@@ -670,9 +664,6 @@ const ThemeScript = () => {
   `
 }
 
-// pagereveal はページを描く前に登録しないと間に合わないので、head に同期で置く。
-// 戻ったときに逆向きで動かすため、行きと帰りの組を sessionStorage に残す。
-// 一覧の全件に名前を付けると、画面外の記事から戻ったときに要素が画面の外から飛んでくる。
 const ViewTransitionScript = () => {
   return html`
     <script>
@@ -685,7 +676,7 @@ const ViewTransitionScript = () => {
         function key(from, to) {
           return 'view-transition:' + from + '>' + to;
         }
-        function namePost(path) {
+        function nameVisiblePostParts(path) {
           var parts = document.querySelectorAll('[data-post="' + path + '"]');
           var named = 0;
           for (var i = 0; i < parts.length; i++) {
@@ -715,8 +706,8 @@ const ViewTransitionScript = () => {
           }
           var to = new URL(event.activation.entry.url).pathname;
           var shared = to;
-          if (!namePost(to)) {
-            if (to.indexOf('/posts/') === 0 || !namePost(location.pathname)) {
+          if (!nameVisiblePostParts(to)) {
+            if (to.indexOf('/posts/') === 0 || !nameVisiblePostParts(location.pathname)) {
               return;
             }
             shared = location.pathname;
@@ -735,7 +726,7 @@ const ViewTransitionScript = () => {
           if (!event.viewTransition || !shared) {
             return;
           }
-          if (namePost(shared) && event.viewTransition.types) {
+          if (nameVisiblePostParts(shared) && event.viewTransition.types) {
             event.viewTransition.types.add('post');
           }
           event.viewTransition.finished.then(clearPosts, clearPosts);
@@ -770,8 +761,6 @@ const ViewTransitionScript = () => {
   `
 }
 
-// 遷移のアニメーションが読み込みで詰まらないよう、hover で HTML を取得しておく。
-// prerender だと Chromium は今開いているページ自身も裏で描画してしまうので、HTML の取得だけにとどめる。
 const SpeculationRules = () => {
   return html`
     <script type="speculationrules">

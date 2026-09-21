@@ -47,7 +47,6 @@ describe('sortByDateDesc', () => {
   })
 
   it('文字列ではなく実際の瞬間で並べる', () => {
-    // 文字列として比較すると逆の順序になる組み合わせ。
     const sorted = sortByDateDesc([
       post('jst', { date: '2024-01-02T00:00:00+09:00' }),
       post('utc', { date: '2024-01-01T16:00:00+00:00' }),

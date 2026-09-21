@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-// オフセットの無い日付はビルドマシンの TZ によって指す瞬間が変わるので受け付けない。
 const isoDateWithOffset = z
   .string()
   .regex(

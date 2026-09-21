@@ -1,5 +1,3 @@
-// ウィジェットは data-theme を作られるときに 1 度だけ読むので、テーマが変わったら作り直す。
-
 import { onReady } from './on-ready'
 
 type Theme = 'light' | 'dark'

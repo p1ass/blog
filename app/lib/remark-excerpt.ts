@@ -4,8 +4,6 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { Plugin } from 'unified'
 import { postPermalink } from './post-list'
 
-// 一覧の抜粋から記事の本文へ View Transitions でつなぐため、本文のうち抜粋と同じ範囲を要素で囲み、一覧の抜粋と同じ印を付ける。
-
 function isMarker(node: RootContent): boolean {
   return node.type === 'mdxFlowExpression' && node.value.includes('<!--more-->')
 }

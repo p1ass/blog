@@ -9,8 +9,7 @@ import {
 
 const movingProperties = new Set(['transform', 'scale', 'width'])
 
-// 動きを減らす設定で後ろの動くプロパティだけを外しても、長さと曲線の並びがずれないよう、動くものを後ろに並べる。
-function ordered(properties: string[]) {
+function movingPropertiesLast(properties: string[]) {
   return [
     ...properties.filter(property => !movingProperties.has(property)),
     ...properties.filter(property => movingProperties.has(property)),
@@ -34,12 +33,11 @@ function timing(properties: string[], token: DurationToken, pressing = false) {
   `
 }
 
-// 位置と大きさはばねで動かし、長さは token によらない。動きを減らす設定ではそれを外し、色の補間は状態の変化を伝えるので残す。
 export function transition(
   properties: string[],
   token: DurationToken = 'fast',
 ) {
-  const all = ordered(properties)
+  const all = movingPropertiesLast(properties)
   const still = all.filter(property => !movingProperties.has(property))
 
   return css`
@@ -57,13 +55,13 @@ type HoverTransitionOptions = {
   pressable?: boolean
 }
 
-// 読者が選んでいる途中の変化より、離れたときの戻りを速くする。
-// 押したときは即座に縮め、離したときはばねで戻す。
 export function hoverTransition(
   properties: string[],
   { token = 'fast', pressable = false }: HoverTransitionOptions = {},
 ) {
-  const all = ordered(pressable ? [...properties, 'scale'] : properties)
+  const all = movingPropertiesLast(
+    pressable ? [...properties, 'scale'] : properties,
+  )
 
   return css`
     ${transition(all, 'exit')}

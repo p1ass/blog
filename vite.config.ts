@@ -27,7 +27,6 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       watch: {
-        // honox はファイルが増減するたびに開発サーバーを再起動するので、VRT とビルドの出力を監視から外す。
         ignored: [
           '**/dist/**',
           '**/vrt/__screenshots__/**',
@@ -39,14 +38,12 @@ export default defineConfig(({ mode }) => {
     plugins: [
       honox({
         devServer: {
-          // 記事の画像は開発時に /app/routes/posts/ から配信されるが、既定の exclude に入っておらず Hono のルーティングに渡って 404 になる。
           exclude: [
             ...devServerDefaultOptions.exclude,
             /^\/app\/routes\/posts\/.+\.(png|jpe?g|webp)$/i,
           ],
         },
       }),
-      // mdx() より先に動かして、抜粋用の仮想モジュールを用意する
       mdxSummary(),
       mdx({
         jsxImportSource: 'hono/jsx',
@@ -66,7 +63,6 @@ export default defineConfig(({ mode }) => {
               './app/routes/posts/**/*.webp',
             ],
             dest: 'posts',
-            // v4 から src のディレクトリ構造が維持されるので、先頭の app/routes/posts/ の 3 階層を落とす
             rename: { stripBase: 3 },
             overwrite: false,
           },

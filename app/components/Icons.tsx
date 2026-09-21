@@ -25,7 +25,6 @@ export function GitHubIcon() {
 
 export function XIcon() {
   return (
-    // X のマークは枠いっぱいに描かれ、GitHub の円より大きく見えるので、周りに余白を足して揃える。
     <svg viewBox='-1.5 -1.5 27 27' class={inlineIconCss} aria-hidden='true'>
       <path d={xPath} />
     </svg>

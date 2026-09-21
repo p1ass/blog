@@ -4,13 +4,11 @@ export type Ogp = {
   image: string | null
 }
 
-// User-Agent を送らない要求を弾くサイトがある。
 const userAgent =
   'Mozilla/5.0 (compatible; p1ass-blog-ogp/1.0; +https://blog.p1ass.com/)'
 
 const timeoutMs = 15_000
 
-// 属性値の中の > で切らないよう、引用符で囲まれた範囲を別に数える。
 const metaTagPattern = /<meta\b((?:[^>"']|"[^"]*"|'[^']*')*)>/gi
 
 const attributePattern =
@@ -175,7 +173,6 @@ function charsetFromContentType(contentType: string): string | null {
   return match === null ? null : match[1]
 }
 
-// どの文字コードでも ASCII の部分を保ったままバイト列を探せるよう、latin1 として読む。
 function charsetFromMeta(bytes: Uint8Array): string | null {
   const head = new TextDecoder('latin1').decode(bytes.slice(0, 2048))
   const charset = head.match(/<meta\b[^>]*\bcharset\s*=\s*["']?([\w-]+)/i)

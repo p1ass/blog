@@ -1,5 +1,3 @@
-// ボタンは作られるときにだけ data-theme を読み、同じ要素では作り直せないので、テーマが変わったら要素ごと差し替える。
-
 import { onReady } from './on-ready'
 
 type Theme = 'light' | 'dark'

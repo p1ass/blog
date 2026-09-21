@@ -5,8 +5,6 @@ import { imageSize } from 'image-size'
 import type { Plugin } from 'unified'
 import type { VFile } from 'vfile'
 
-// CSS の max-height で高さだけ詰めると画像が縦に潰れるので、描画される寸法を属性に入れる。
-
 const maxWidth = 760
 const maxHeight = 500
 

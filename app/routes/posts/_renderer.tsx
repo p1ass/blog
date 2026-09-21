@@ -20,8 +20,6 @@ import { tocOffset, tocWidth } from '../../styles/toc-layout'
 import { hoverTransition } from '../../styles/transition'
 import { fontSize } from '../../styles/typography'
 
-// 目次を出すページでは列が本文より広がるので、タイトルが 1 行に伸びないよう幅を本文で止める。
-// 箱が文字の幅に揃っていないと、View Transitions で文字が拡大されずに横へ滑る。
 const postTitleCss = css`
   font-size: ${fontSize.h1};
   width: fit-content;
@@ -46,7 +44,6 @@ const postColumnCss = css`
   }
 `
 
-// 目次はキーボードと読み上げで本文より先に辿れるよう、絶対配置にして本文より前に書く。
 const postBodyCss = css`
   position: relative;
 

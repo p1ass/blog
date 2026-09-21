@@ -5,7 +5,6 @@ const port = 4173
 export default defineConfig({
   testDir: './vrt',
   outputDir: './vrt/.results',
-  // {platform} を入れて、macOS で撮った画像が Linux の基準画像を上書きしないようにする。
   snapshotPathTemplate:
     '{testDir}/__screenshots__/{projectName}/{arg}-{platform}{ext}',
 
@@ -22,7 +21,6 @@ export default defineConfig({
     toHaveScreenshot: {
       animations: 'disabled',
       caret: 'hide',
-      // 既定の 0.2 では accent を #4172b5 から #4172b8 に変えても大半のページで検出できなかった。
       threshold: 0,
 
       maxDiffPixels: 0,
@@ -38,7 +36,6 @@ export default defineConfig({
       name: 'mobile-light',
       use: {
         ...devices['Pixel 7'],
-        // 確かめたいのは CSS ピクセル上のレイアウトなので、プリセットの 2.625 倍で撮らない。
         deviceScaleFactor: 1,
         colorScheme: 'light',
       },

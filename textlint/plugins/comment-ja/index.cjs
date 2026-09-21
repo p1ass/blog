@@ -1,6 +1,3 @@
-// textlint --fix は preProcess が返したテキストをファイルへ書き戻すので、テキストは原文のまま返し AST だけを作る。
-// no-doubled-joshi のように文単位で見るルールが行またぎの文を落とさないよう、連続する行は 1 つの Str にまとめる。
-
 const path = require('node:path')
 const ts = require('typescript')
 
@@ -43,7 +40,6 @@ const createPositions = text => {
   }
 }
 
-// 閉じ括弧の直前のようにノードの開始位置に現れないコメントも拾うため、トークンまで降りる。
 const collectScriptComments = (text, scriptKind) => {
   const source = ts.createSourceFile(
     'source',
@@ -202,7 +198,6 @@ const parse = (text, extension) => {
       positionAt,
     )) {
       const content = text.slice(entry.start, entry.end)
-      // textlint-filter-rule-comments は Comment ノードの value を見る。
       if (textlintDirective.test(content)) {
         children.push(
           node('Comment', entry.start, entry.end, { value: content }),
@@ -218,7 +213,6 @@ const parse = (text, extension) => {
 
   for (const paragraph of groupParagraphs(proseEntries)) {
     const lines = paragraph.entries
-    // 英語のコメントを日本語のルールにかけると、感嘆符や語の重複が指摘として出る。
     if (!lines.some(line => japanese.test(text.slice(line.start, line.end)))) {
       continue
     }

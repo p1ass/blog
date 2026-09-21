@@ -2,8 +2,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-// 抜粋にも本文と同じプラグインと画像パスの解決を当てるため、マーカーより前だけの仮想モジュールを作る。
-
 export const summarySuffix = '.summary.mdx'
 const excerptMarker = '{/* <!--more--> */}'
 const postsDir = `${path.sep}app${path.sep}routes${path.sep}posts${path.sep}`

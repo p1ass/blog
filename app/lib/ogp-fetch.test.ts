@@ -92,12 +92,12 @@ describe('parseOgp', () => {
 })
 
 describe('decodeHtml', () => {
-  // Shift_JIS の「日本語」
-  const shiftJisBytes = new Uint8Array([0x93, 0xfa, 0x96, 0x7b, 0x8c, 0xea])
+  const nihongoInShiftJis = new Uint8Array([0x93, 0xfa, 0x96, 0x7b, 0x8c, 0xea])
     .buffer
+  const nihongoInEucJp = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec]
 
   it('Content-Type ヘッダの文字コードで読む', () => {
-    expect(decodeHtml(shiftJisBytes, 'text/html; charset=Shift_JIS')).toBe(
+    expect(decodeHtml(nihongoInShiftJis, 'text/html; charset=Shift_JIS')).toBe(
       '日本語',
     )
   })
@@ -106,16 +106,7 @@ describe('decodeHtml', () => {
     const html = new TextEncoder().encode(
       '<html><head><meta http-equiv="Content-Type" content="text/html; charset=euc-jp">',
     )
-    const body = new Uint8Array([
-      ...html,
-      // EUC-JP の「日本語」
-      0xc6,
-      0xfc,
-      0xcb,
-      0xdc,
-      0xb8,
-      0xec,
-    ]).buffer
+    const body = new Uint8Array([...html, ...nihongoInEucJp]).buffer
     expect(decodeHtml(body, 'text/html')).toContain('日本語')
   })
 

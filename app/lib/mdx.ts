@@ -18,11 +18,9 @@ export const remarkPlugins: PluggableList = [
 ]
 
 export const rehypePlugins: PluggableList = [
-  // 見出しの id は、本文が書き換わる前に振る
   rehypeToc,
   rehypeHighlight,
   rehypeMdxCodeProps,
-  // 画像の寸法は、src が import 文へ書き換えられる前に読む
   rehypeImageSize,
   rehypeMdxImportMedia,
   rehypeMermaid,

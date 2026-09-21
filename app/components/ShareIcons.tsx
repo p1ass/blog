@@ -48,7 +48,6 @@ const shareButtonLinkCss = css`
   }
 `
 
-// 円は純黒で暗い地では輪郭が消える。border だと円が 2px 広がるので、境界は box-shadow で描く。
 const xCss = css`
     background-color: ${xBlack};
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${brandSurfaceBorder};
@@ -79,7 +78,6 @@ const xIconCss = css`
   }
 `
 
-// ロゴなのでコントラストの基準から外れてもブランドカラーで描く (WCAG 1.4.3 の対象外)。
 const hatenaCss = css`
     box-shadow: inset 0 0 0 ${borderWidth.thin} ${hatenaBlue};
     ${shareButtonCss}
@@ -98,7 +96,6 @@ const hatenaIconCss = css`
   }
 `
 
-// スクリプトが動かないと空の枠と gap の分だけ共有ボタンが中央からずれるので、初期化するまで消す。
 const preferredSourceCss = css`
     display: flex;
 

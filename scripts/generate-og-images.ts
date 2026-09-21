@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// OG 画像は SNS の白い枠の中に出るので、読者のテーマではなく明るいテーマの色で描画する。
-
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { Resvg } from '@resvg/resvg-js'
@@ -64,7 +62,6 @@ function collectPosts(): Post[] {
   return posts
 }
 
-// satori に折り返しを任せると「参加し|て」のように切れるので、改行はこちらで決める。
 const parser = loadDefaultJapaneseParser()
 
 function charWidth(char: string): number {
@@ -108,7 +105,6 @@ const forbiddenAtLineStart =
 
 const forbiddenAtLineEnd = /[（［｛「『【〈《〔]$/
 
-// kuromoji は Next.js を Next と . と js に割るので、つなぎ直す。
 const asciiWord = /[0-9A-Za-z./_#@&%+:~-]/
 
 async function splitIntoUnits(title: string): Promise<Unit[]> {
@@ -159,7 +155,6 @@ function splitOverflowing(units: Unit[], limit: number): Unit[] {
   })
 }
 
-// 貪欲に詰めると最後の行に数文字だけ残るので、行の余りの 2 乗と切れ目の penalty の合計が最小になる組み方を選ぶ。
 function composeLines(
   allUnits: Unit[],
   fontSize: number,
@@ -213,7 +208,6 @@ function canBreakBetween(before: Unit, after: Unit): boolean {
   )
 }
 
-// 文字幅は概算なので、satori に描画させた高さで行数を確かめ、合わなければ幅を狭めて組み直す。
 async function layoutTitle(
   title: string,
   fonts: Font[],
@@ -375,7 +369,6 @@ async function main() {
       height,
       fonts,
     })
-    // 文字は satori がパスにしているので、OS のフォントを読み込ませない。
     const png = new Resvg(svg, { font: { loadSystemFonts: false } })
       .render()
       .asPng()

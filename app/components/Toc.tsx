@@ -7,8 +7,6 @@ import { space } from '../styles/spacing'
 import { hoverTransition } from '../styles/transition'
 import { fontSize, fontWeight, lineHeight } from '../styles/typography'
 
-// data-toc から辿るのは、hono/css のクラス名が中身から作られ、スタイルを直すと変わるため。
-// hoverUnderlineLinkCss も transition を持つので、後ろで上書きする。
 const tocLinkCss = css`
   display: block;
   padding: ${space['2xs']} ${space.xs};
@@ -128,7 +126,6 @@ export function TocNav({ toc, currentId }: Props) {
   )
 }
 
-// open はスタイルガイドの見本で開いた姿を撮るためにだけ渡す。
 export function TocDetails({
   toc,
   currentId,

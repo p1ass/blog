@@ -17,10 +17,8 @@ import { fontSize, lineHeight } from '../../styles/typography'
 
 const thumbnailAspectRatio = '1200 / 630'
 
-// タイトル 2 行、説明 1 行、ホスト名が収まる高さ。
 const cardHeight = '112px'
 
-// 高さがタイトル 2 行とホスト名を積んだ高さとほぼ同じになる幅。
 const thumbnailWidthNarrow = '112px'
 
 const cardWrapperCss = css`
@@ -108,7 +106,6 @@ const entryDescriptionCss = css`
     }
 `
 
-// 行間を本文から継がせると 24px 近くになり、固定したカードの高さに収まらなくなる。
 const entryHostUrlCss = css`
     color: ${textMuted};
     font-size: ${fontSize.caption};
@@ -130,7 +127,6 @@ export async function ExLinkCard({ url }: Props) {
           <div class={entryDescriptionCss}>{ogp.description}</div>
           <span class={entryHostUrlCss}>{new URL(url).host}</span>
         </div>
-        {/* alt にもタイトルを入れると、読み上げでリンクの名前と 2 回続く。 */}
         {ogp.image ? <img src={ogp.image} class={thumbnailCss} alt='' /> : null}
       </a>
     </div>

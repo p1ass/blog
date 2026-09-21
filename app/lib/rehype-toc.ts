@@ -6,11 +6,8 @@ import { SKIP, visit } from 'unist-util-visit'
 import { summarySuffix } from './mdx-summary'
 import type { TocItem } from './toc'
 
-// 一覧の抜粋 (.summary.mdx) は 1 ページに 10 件並び、同じ見出しの id が重複するので何もしない。
-
 const headingDepth: Record<string, 2 | 3> = { h2: 2, h3: 3 }
 
-// remark-gfm が置く脚注の h2 は読み上げ専用なので目次に入れない。
 function isFootnotes(node: Element): boolean {
   return node.tagName === 'section' && 'dataFootnotes' in node.properties
 }
