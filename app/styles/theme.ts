@@ -20,7 +20,6 @@ export type Assignment = {
   surfaceSubtle: string
   surfaceHover: string
   icon: string
-  diagramSurface: string
   brandSurfaceBorder: string
   githubMark: string
   xMark: string
@@ -51,8 +50,6 @@ export const light: Assignment = {
   surfaceHover: neutral[100],
 
   icon: neutral[700],
-
-  diagramSurface: 'transparent',
 
   brandSurfaceBorder: 'transparent',
 
@@ -85,8 +82,6 @@ export const dark: Assignment = {
   surfaceHover: neutral[800],
 
   icon: neutral[300],
-
-  diagramSurface: neutral[0],
 
   brandSurfaceBorder: neutral[500],
 

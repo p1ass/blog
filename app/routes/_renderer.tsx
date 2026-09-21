@@ -8,7 +8,6 @@ import { contentWidth } from '../styles/breakpoint'
 import {
   accent,
   border,
-  diagramSurface,
   icon,
   surface,
   surfaceHover,
@@ -385,7 +384,6 @@ const bodyCss = css`
     max-width: 100%;
     height: auto;
     margin: 0 auto ${blockGap};
-    background-color: ${diagramSurface};
     border-radius: ${radius.md};
   }
 
