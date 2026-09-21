@@ -91,6 +91,7 @@ func runTool(name string, input []byte) (string, error) {
 	}
 }
 
+// Go の SDK には応答を次の入力に変換する関数がないため、JSON を経由して変換する。
 func outputAsInput(output []responses.ResponseOutputItemUnion) (responses.ResponseInputParam, error) {
 	input := make(responses.ResponseInputParam, 0, len(output))
 	for _, item := range output {
