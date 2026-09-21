@@ -32,37 +32,37 @@ hono/css の記述制約やテストハーネスの実行方法は [CLAUDE.md](.
 
 コードを書き始める前に、これから変更する領域の節を読む。具体的な値は `app/styles/` にも定義されているが、なぜその値になっているのかの背景・理由は DESIGN.md にのみ記載されている。
 
-| 変更対象 | 読む節 |
-| --- | --- |
-| このサイトが何を目指しているか | [Overview](../../../DESIGN.md#overview) |
-| カラー、コントラスト | [Colors](../../../DESIGN.md#colors) |
-| 文字の大きさ、行間、見出し | [Typography](../../../DESIGN.md#typography) |
-| 余白、本文幅、画面幅の分岐 | [Layout](../../../DESIGN.md#layout) |
-| 影、面の重なり | [Elevation & Depth](../../../DESIGN.md#elevation--depth) |
-| 角丸、ボーダー | [Shapes](../../../DESIGN.md#shapes) |
-| リンク、hover、フォーカス、画像、モーションの方針 | [Components](../../../DESIGN.md#components) |
-| ダークモード、テーマの選択 | [Theming](../../../DESIGN.md#theming) |
-| アイコン、ブランドマーク | [Iconography](../../../DESIGN.md#iconography) |
-| 見出しや本文の言い回し | [Terminology](../../../DESIGN.md#terminology) |
+| 変更対象                                          | 読む節                                                   |
+| ------------------------------------------------- | -------------------------------------------------------- |
+| このサイトが何を目指しているか                    | [Overview](../../../DESIGN.md#overview)                  |
+| カラー、コントラスト                              | [Colors](../../../DESIGN.md#colors)                      |
+| 文字の大きさ、行間、見出し                        | [Typography](../../../DESIGN.md#typography)              |
+| 余白、本文幅、画面幅の分岐                        | [Layout](../../../DESIGN.md#layout)                      |
+| 影、面の重なり                                    | [Elevation & Depth](../../../DESIGN.md#elevation--depth) |
+| 角丸、ボーダー                                    | [Shapes](../../../DESIGN.md#shapes)                      |
+| リンク、hover、フォーカス、画像、モーションの方針 | [Components](../../../DESIGN.md#components)              |
+| ダークモード、テーマの選択                        | [Theming](../../../DESIGN.md#theming)                    |
+| アイコン、ブランドマーク                          | [Iconography](../../../DESIGN.md#iconography)            |
+| 見出しや本文の言い回し                            | [Terminology](../../../DESIGN.md#terminology)            |
 
 判断に迷ったら [Do's and Don'ts](../../../DESIGN.md#dos-and-donts) を参照する。頻出の判断基準がまとまっている。
 
 ### 2. 既存実装のアタリをつける
 
-`/styleguide` には、デザイントークン、本文要素、コンポーネントが一覧化されている。類似した役割のコンポーネントが既に存在しないか、まずここを確認する。
+`/styleguide` にはデザイントークン、本文要素、コンポーネントが一覧化されている。類似した役割のコンポーネントが既に存在しないか、まずここを確認する。
 
 ### 3. 実装する
 
 スタイル値は `app/styles/` のトークンを参照する。DESIGN.md の front matter にあるトークン名と、`app/styles/` の変数名は対応している。
 
-| DESIGN.md の front matter | 実装 |
-| --- | --- |
-| `colors` のプリミティブ | `app/styles/palette.ts` |
+| DESIGN.md の front matter | 実装                                                  |
+| ------------------------- | ----------------------------------------------------- |
+| `colors` のプリミティブ   | `app/styles/palette.ts`                               |
 | `colors` のセマンティック | `app/styles/color.ts` の役割名、割り当ては `theme.ts` |
-| `typography` | `app/styles/typography.ts` |
-| `spacing` | `app/styles/spacing.ts` |
-| `rounded` | `app/styles/shape.ts` |
-| `components` | 各コンポーネントの `css``` |
+| `typography`              | `app/styles/typography.ts`                            |
+| `spacing`                 | `app/styles/spacing.ts`                               |
+| `rounded`                 | `app/styles/shape.ts`                                 |
+| `components`              | 各コンポーネントの `css```                            |
 
 新規コンポーネントは `app/components/` 配下に作成する。記事の MDX 内で使用する場合は、`app/lib/mdx-components.tsx` の `useMDXComponents()` に登録する。
 
