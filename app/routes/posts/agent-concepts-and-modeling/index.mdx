@@ -239,7 +239,13 @@ Claude Agent SDK には `Agent` クラスがありません。Model、Instructio
 
 ```python
 import anyio
-from claude_agent_sdk import ClaudeAgentOptions, ClaudeSDKClient, create_sdk_mcp_server, tool
+from claude_agent_sdk import (
+    ClaudeAgentOptions,
+    ClaudeSDKClient,
+    ResultMessage,
+    create_sdk_mcp_server,
+    tool,
+)
 
 
 @tool("get_weather", "指定した都市の現在の天気を返す", {"city": str})
@@ -262,13 +268,15 @@ async def main():
     async with ClaudeSDKClient(options=options) as client:
         await client.query("東京と大阪の天気を教えてください")
         async for message in client.receive_response():
-            print(message)
+            if isinstance(message, ResultMessage) and message.subtype == "success":
+                print(message.result)
 
 
 anyio.run(main)
 ```
 
 `model`、`system_prompt`、Tool の 3 つが、ガイドの Model、Instructions、Tool にあたります。`allowed_tools` は Tool を実行するたびに許可を求めないための設定です。
+ループの途中経過はメッセージとして順に届き、ループが終わると最後に `ResultMessage` が届きます。成功した場合は、その `result` が最終出力です。
 
 ### ループは Claude Code の CLI で回る
 
@@ -331,6 +339,7 @@ Agent のモデルの要素ごとに、2 つの SDK を並べると次のよう�
 | Instructions | `Agent.instructions` | `ClaudeAgentOptions.system_prompt`、`AgentDefinition.prompt` |
 | Tool | `@function_tool` で定義した関数 | 組み込みの Tool と、`@tool` で定義した MCP の Tool |
 | ループを回す場所 | Python の `Runner` | Claude Code の CLI |
+| 最終出力 | `RunResult.final_output` | `ResultMessage.result` |
 | 最大ターン数 | `max_turns` | `max_turns` (Tool を使うターンを数える) |
 | Manager | `as_tool()` | `Agent` Tool で呼ぶサブ Agent |
 | Handoff | `handoffs` (`transfer_to_*` という Tool) | なし |
@@ -372,7 +381,7 @@ params := anthropic.MessageNewParams{
 	Tools:     tools,
 }
 
-for turn := 1; turn <= maxTurns; turn++ {
+for turn := range maxTurns {
 	resp, err := client.Messages.New(ctx, params)
 	if err != nil {
 		log.Fatal(err)
@@ -385,7 +394,7 @@ for turn := 1; turn <= maxTurns; turn++ {
 		if !ok {
 			continue
 		}
-		log.Printf("turn %d: %s %s", turn, call.Name, call.Input)
+		log.Printf("turn %d: %s %s", turn+1, call.Name, call.Input)
 		out, err := runTool(call.Name, call.Input)
 		isError := err != nil
 		if isError {
@@ -439,7 +448,7 @@ func runTool(name string, input []byte) (string, error) {
 | 終了条件 | 最終出力なら `return`、`maxTurns` を超えたら終了 |
 
 Model の応答と Tool の実行結果を `params.Messages` に蓄積し、次のリクエストで会話全体を送り直します。
-Tool の実行結果は、`tool_result` ブロックとして user のメッセージに入れて返します。
+「東京と大阪の天気」のように、Model は 1 回の応答で複数の Tool 呼び出しを返すことがあります。そのため、応答に含まれる Tool 呼び出しをすべて実行し、結果を `tool_result` ブロックとして 1 つの user のメッセージにまとめて返します。
 
 ### OpenAI Responses API 版
 
@@ -462,7 +471,7 @@ params := responses.ResponseNewParams{
 	Tools:        tools,
 }
 
-for turn := 1; turn <= maxTurns; turn++ {
+for turn := range maxTurns {
 	resp, err := client.Responses.New(ctx, params)
 	if err != nil {
 		log.Fatal(err)
@@ -475,7 +484,7 @@ for turn := 1; turn <= maxTurns; turn++ {
 			continue
 		}
 		call := item.AsFunctionCall()
-		log.Printf("turn %d: %s %s", turn, call.Name, call.Arguments)
+		log.Printf("turn %d: %s %s", turn+1, call.Name, call.Arguments)
 		out, err := runTool(call.Name, []byte(call.Arguments))
 		if err != nil {
 			out = err.Error()
@@ -509,7 +518,8 @@ Responses API は会話をサーバー側に保存するため、次のリクエ
 | Tool のエラーの伝え方 | `tool_result` の `is_error` | 専用のフィールドはなく、エラー文を結果として返す |
 
 どちらの API でも、Tool の定義を含めて main 関数はおよそ 50 行に収まります。
-SDK の価値の多くは、Handoff、Guardrails、トレースといった、この最小のループが持たない機能にあります。
+SDK の価値の多くは、この最小のループが持たない機能にあります。
+OpenAI Agents SDK なら Handoff、Guardrails、トレース、Claude Agent SDK ならコストの上限 (`max_budget_usd`)、コンテキストの自動圧縮、セッションの再開などです。
 
 {/* TODO: API キーを設定して実行し、実行ログを載せる */}
 
@@ -519,6 +529,6 @@ OpenAI Agents SDK と Claude Agent SDK は、どちらも OpenAI のガイドが
 違いは OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code という完成した Agent を設定して動かす点です。
 
 2 社の捉え方が似ている理由は、各社の API の Tool 呼び出しが同じ形をしているためだと私は考えています。Model が Tool 呼び出しを返し、コードがそれを実行して結果を返すという往復は、OpenAI、Anthropic、Google の API で共通です。Agent のループはこの往復を繰り返すだけなので、その上に組み立てる SDK の形も似てきます。
-実際、ループそのものは Go で数十行のコードで実装できます。SDK を選ぶときは、Handoff や Guardrails、トレースなど、ループに含まれない機能を比べることになります。
+実際、ループそのものは Go で数十行のコードで実装できます。SDK を選ぶときは、Guardrails やコストの上限、コンテキストの圧縮など、ループに含まれない機能を比べることになります。
 
 2 社は [Claude Managed Agents](https://www.anthropic.com/engineering/managed-agents) や Agents API で、実行環境や状態といったループの外側まで含めて Agent をモデル化し始めています。この話と、ループのどこまでをコードで固定し、どこから LLM に任せるかは、今後の記事で扱う予定です。

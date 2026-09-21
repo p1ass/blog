@@ -36,7 +36,7 @@ func main() {
 		Tools:        tools,
 	}
 
-	for turn := 1; turn <= maxTurns; turn++ {
+	for turn := range maxTurns {
 		resp, err := client.Responses.New(ctx, params)
 		if err != nil {
 			log.Fatal(err)
@@ -49,7 +49,7 @@ func main() {
 				continue
 			}
 			call := item.AsFunctionCall()
-			log.Printf("turn %d: %s %s", turn, call.Name, call.Arguments)
+			log.Printf("turn %d: %s %s", turn+1, call.Name, call.Arguments)
 			out, err := runTool(call.Name, []byte(call.Arguments))
 			if err != nil {
 				out = err.Error()
