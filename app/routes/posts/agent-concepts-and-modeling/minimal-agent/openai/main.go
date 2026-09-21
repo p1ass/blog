@@ -32,8 +32,11 @@ func main() {
 	params := responses.ResponseNewParams{
 		Model:        openai.ChatModelGPT5_6Luna,
 		Instructions: openai.String(instructions),
-		Input:        responses.ResponseNewParamsInputUnion{OfString: openai.String(prompt)},
-		Tools:        tools,
+		Input: responses.ResponseNewParamsInputUnion{OfInputItemList: responses.ResponseInputParam{
+			responses.ResponseInputItemParamOfMessage(prompt, responses.EasyInputMessageRoleUser),
+		}},
+		Tools: tools,
+		Store: openai.Bool(false),
 	}
 
 	for turn := range maxTurns {
@@ -41,7 +44,11 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		params.PreviousResponseID = openai.String(resp.ID)
+		output, err := outputAsInput(resp.Output)
+		if err != nil {
+			log.Fatal(err)
+		}
+		params.Input.OfInputItemList = append(params.Input.OfInputItemList, output...)
 
 		var results responses.ResponseInputParam
 		for _, item := range resp.Output {
@@ -64,7 +71,7 @@ func main() {
 			return
 		}
 
-		params.Input = responses.ResponseNewParamsInputUnion{OfInputItemList: results}
+		params.Input.OfInputItemList = append(params.Input.OfInputItemList, results...)
 	}
 	log.Fatalf("max turns (%d) exceeded", maxTurns)
 }
@@ -82,4 +89,16 @@ func runTool(name string, input []byte) (string, error) {
 	default:
 		return "", fmt.Errorf("unknown tool: %s", name)
 	}
+}
+
+func outputAsInput(output []responses.ResponseOutputItemUnion) (responses.ResponseInputParam, error) {
+	input := make(responses.ResponseInputParam, 0, len(output))
+	for _, item := range output {
+		var converted responses.ResponseInputItemUnion
+		if err := json.Unmarshal([]byte(item.RawJSON()), &converted); err != nil {
+			return nil, err
+		}
+		input = append(input, converted.ToParam())
+	}
+	return input, nil
 }

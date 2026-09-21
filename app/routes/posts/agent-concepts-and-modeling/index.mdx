@@ -73,8 +73,7 @@ Model が Tool Call を含まない応答を返したら、ループは終わり
 | Tool | External functions or APIs the agent can use to take action |
 | Instructions | Explicit guidelines and guardrails defining how the agent behaves |
 
-Tool の種類としては、情報を取得する Data と外部に作用する Action のほかに、別の Agent を Tool として呼び出す Orchestration も挙げられています。
-Agent 自身が別の Agent の Tool になるという考え方は、後半の SDK で委譲の仕組みとして現れます。
+Tool の種類としては、情報を取得する Data と外部に作用する Action が挙げられています。
 
 ### 終了条件まで回る Agent Loop
 
@@ -91,20 +90,6 @@ Anthropic も Building effective agents で、Agent を次の 1 文で説明し�
 
 どちらも、最初のセクションで見た Tool Call の往復を、LLM が自分で判断しながら繰り返すループを Agent の中心に置いています。
 
-### Manager と Handoff による委譲
-
-ガイドはマルチ Agent の構成として 2 つのパターンを挙げています。
-
-| パターン | 内容 |
-| --- | --- |
-| Manager | 中心の Manager が、専門の Agent を Tool として呼び出す |
-| Decentralized | 対等な Agent 同士が、専門に応じて処理を Handoff で引き渡す |
-
-Handoff は「引き継ぎ」を意味する語で、ここでは会話と実行の担当を、別の Agent に丸ごと引き渡すことを指します。
-引き渡した側の Agent は処理に戻らず、それ以降は受け取った側の Agent がユーザーとやり取りします。
-
-> In the manager pattern, edges represent tool calls whereas in the decentralized pattern, edges represent handoffs that transfer execution between agents.
-
 ### Agent のモデルのまとめ
 
 ここまでの内容をまとめると、Agent は次のように組み立てられます。
@@ -112,7 +97,6 @@ Handoff は「引き継ぎ」を意味する語で、ここでは会話と実行
 - Model に Instructions と使える Tool の一覧を渡す
 - Model が Tool Call を返したら、コードがそれを実行し、その結果を会話に含めてもう一度 Model を呼ぶ
 - Model が最終出力を返したら終わる。無限に回らないよう最大ターン数を設ける
-- 別の Agent への委譲は、Agent を Tool として呼ぶ (Manager) か、会話ごと引き渡す (Handoff)
 
 ```mermaid
 sequenceDiagram
@@ -141,7 +125,7 @@ OpenAI Agents SDK の公式ドキュメントでは、Agent を次のように�
 
 > An agent is a large language model (LLM) configured with instructions, tools, and optional runtime behavior such as handoffs, guardrails, and structured outputs.
 
-ガイドの 3 要素が、そのまま `Agent` クラスのフィールドになっています。`Agent` は `model`、`instructions`、`tools` に加えて、Handoff する先の Agent (`handoffs`)、入力と出力のチェック (`input_guardrails`、`output_guardrails`)、最終出力の型 (`output_type`) を持ちます。
+ガイドの 3 要素が、そのまま `Agent` クラスのフィールドになっています。`Agent` は `model`、`instructions`、`tools` に加えて、入力と出力のチェック (`input_guardrails`、`output_guardrails`)、最終出力の型 (`output_type`) を持ちます。
 `Agent` は設定を持つだけのオブジェクトで、ループを回すのは `Runner` です。Go の実装と同じ `get_weather` を持つ Agent は次のようになります。
 
 ```python
@@ -165,15 +149,13 @@ print(result.final_output)
 ```
 
 `@function_tool` は関数のシグネチャと docstring から Tool の定義 (名前、説明、引数の JSON Schema) を作ります。
-`Runner.run_sync` は 1 ターンごとに Model を呼び出し、その出力に応じて次の 3 つに分岐します。
+`Runner.run_sync` は 1 ターンごとに Model を呼び出し、その出力に応じて分岐します。
 
 ```mermaid
 flowchart TD
   start([Runner.run]) --> invoke[現在の Agent の Model を呼ぶ]
   invoke --> kind{出力の種類}
   kind -->|最終出力| done([結果を返す])
-  kind -->|Handoff| swap[現在の Agent を差し替える]
-  swap --> invoke
   kind -->|Tool Call| exec[Tool を実行し、結果を足す]
   exec --> invoke
 ```
@@ -181,18 +163,7 @@ flowchart TD
 _Runner のループ。ターン数が max_turns を超えると MaxTurnsExceeded を送出する_
 
 ドキュメントでは、Tool Call がなく、指定した型のテキストを出力した時点を最終出力としています。
-Agent のモデルのループに、Handoff の分岐が 1 つ加わった形です。
-
-### 委譲も Tool Call として表す
-
-ガイドの 2 つのパターンは、どちらも Tool Call として実装されています。
-
-Handoff は、Model からは普通の Tool に見えます。
-
-> Handoffs are represented as tools to the LLM. So if there's a handoff to an agent named `Refund Agent`, the tool would be named `transfer_to_refund_agent`.
-
-Model が `transfer_to_refund_agent` を呼び出すと、`Runner` は現在の Agent を Refund Agent に差し替えてループを続けます。
-Manager にあたるのは、Agent を Tool として呼び出す `Agent.as_tool()` です。呼び出された Agent は結果を Tool の結果として返し、会話は呼び出した側の Agent が続けます。
+Agent のモデルのループと同じ形です。
 
 ## Claude Agent SDK の Agent
 
@@ -280,47 +251,22 @@ _Claude Agent SDK の構成。点線は CLI が Python 側を呼び出す箇所_
 Python 側で動くのは、独自の Tool と hooks、Tool の実行を許可するかを決めるコールバックだけです。
 OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code という完成した Agent を `ClaudeAgentOptions` で設定して動かします。
 
-### サブ Agent による委譲
-
-委譲にはサブ Agent (subagent) を使います。`ClaudeAgentOptions` の `agents` に `AgentDefinition` を渡すと、Model は `Agent` という Tool を通してサブ Agent を呼び出します。
-
-```python
-from claude_agent_sdk import AgentDefinition
-
-options = ClaudeAgentOptions(
-    agents={
-        "weather": AgentDefinition(
-            description="天気に関する質問に答える",
-            prompt="あなたは天気を答えるアシスタントです。天気は必ず get_weather で調べてください。",
-            tools=["mcp__weather__get_weather"],
-            model="haiku",
-        ),
-    },
-    mcp_servers={"weather": weather},
-)
-```
-
-`AgentDefinition` は Claude Agent SDK で 1 つの Agent を表す唯一の型です。そのフィールドは `prompt` (Instructions)、`tools`、`model` と、呼び出す側の Model に見せる `description` で、ここにもガイドの 3 要素がそのまま現れています。
-呼び出した側が会話を続けるので、`as_tool()` と同じく Manager のパターンです。Handoff にあたる、会話ごと引き渡す仕組みはありません。
-
 ## 2 つの SDK の対応
 
 Agent のモデルの要素ごとに、2 つの SDK を並べると次のようになります。
 
 | Agent のモデル | OpenAI Agents SDK | Claude Agent SDK |
 | --- | --- | --- |
-| Model | `Agent.model` | `ClaudeAgentOptions.model`、`AgentDefinition.model` |
-| Instructions | `Agent.instructions` | `ClaudeAgentOptions.system_prompt`、`AgentDefinition.prompt` |
+| Model | `Agent.model` | `ClaudeAgentOptions.model` |
+| Instructions | `Agent.instructions` | `ClaudeAgentOptions.system_prompt` |
 | Tool | `@function_tool` で定義した関数 | 組み込みの Tool と、`@tool` で定義した MCP の Tool |
 | ループを回す場所 | Python の `Runner` | Claude Code の CLI |
 | 最終出力 | `RunResult.final_output` | `ResultMessage.result` |
 | 最大ターン数 | `max_turns` | `max_turns` (Tool を使うターンを数える) |
-| Manager | `as_tool()` | `Agent` Tool で呼ぶサブ Agent |
-| Handoff | `handoffs` (`transfer_to_*` という Tool) | なし |
 | 実行前後のチェックと制御 | Guardrails | hooks、権限モード |
 
-要素の名前は違っていても、ほとんどの要素が 1 対 1 に対応します。
-違いは Agent をオブジェクトとして組み立てるか、完成した Agent を設定するかという点と、それに伴って Handoff の有無が分かれる点です。どちらの SDK も、別の Agent への委譲を Tool Call として表しています。
+要素の名前は違っていても、並べると 1 対 1 に対応します。
+違いは Agent をオブジェクトとして組み立てるか、完成した Agent を設定するかという点です。
 
 ## Go による最小の Agent の実装
 
@@ -441,8 +387,11 @@ tools := []responses.ToolUnionParam{{OfFunction: &responses.FunctionToolParam{
 params := responses.ResponseNewParams{
 	Model:        openai.ChatModelGPT5_6Luna,
 	Instructions: openai.String(instructions),
-	Input:        responses.ResponseNewParamsInputUnion{OfString: openai.String(prompt)},
-	Tools:        tools,
+	Input: responses.ResponseNewParamsInputUnion{OfInputItemList: responses.ResponseInputParam{
+		responses.ResponseInputItemParamOfMessage(prompt, responses.EasyInputMessageRoleUser),
+	}},
+	Tools: tools,
+	Store: openai.Bool(false),
 }
 
 for turn := range maxTurns {
@@ -450,7 +399,11 @@ for turn := range maxTurns {
 	if err != nil {
 		log.Fatal(err)
 	}
-	params.PreviousResponseID = openai.String(resp.ID)
+	output, err := outputAsInput(resp.Output)
+	if err != nil {
+		log.Fatal(err)
+	}
+	params.Input.OfInputItemList = append(params.Input.OfInputItemList, output...)
 
 	var results responses.ResponseInputParam
 	for _, item := range resp.Output {
@@ -473,38 +426,55 @@ for turn := range maxTurns {
 		return
 	}
 
-	params.Input = responses.ResponseNewParamsInputUnion{OfInputItemList: results}
+	params.Input.OfInputItemList = append(params.Input.OfInputItemList, results...)
 }
 log.Fatalf("max turns (%d) exceeded", maxTurns)
 ```
 
-ループの基本的な形は Anthropic 版と同じです。
-Responses API は会話をサーバー側に保存するため、次のリクエストでは `previous_response_id` で前の応答を指定し、Tool の実行結果だけを送ります。
+ループの基本的な形は Anthropic 版と同じで、Model の出力と Tool の実行結果を `Input` に積み、次のリクエストで会話全体を送り直します。
+Go の SDK には、Anthropic 版の `resp.ToParam()` のように応答をそのまま次の入力にする関数がありません。そのため、公式ガイドの例にならい、`outputAsInput` で出力のアイテムを入力の型に変換してから積みます。
+
+```go
+func outputAsInput(output []responses.ResponseOutputItemUnion) (responses.ResponseInputParam, error) {
+	input := make(responses.ResponseInputParam, 0, len(output))
+	for _, item := range output {
+		var converted responses.ResponseInputItemUnion
+		if err := json.Unmarshal([]byte(item.RawJSON()), &converted); err != nil {
+			return nil, err
+		}
+		input = append(input, converted.ToParam())
+	}
+	return input, nil
+}
+```
 
 ### 2 つの API の違い
 
-2 つの実装の違いは、次の 3 点です。
+2 つの実装の違いは、会話を何の単位で表すかから生まれています。
+Anthropic は会話を `user` と `assistant` のメッセージの列で表し、Tool Call とその結果はメッセージの中のブロックとして入れます。一方、Responses API は会話を役割に属さないアイテムの列で表し、Tool Call とその結果もそれぞれ独立したアイテムです。
 
 | 観点 | Anthropic Messages API | OpenAI Responses API |
 | --- | --- | --- |
-| 会話の持ち方 | クライアントが全体を持ち、毎回送る | サーバーが保存し、`previous_response_id` で続ける |
-| Tool Call と結果の対応 | `tool_use` の `id` と `tool_result` の `tool_use_id` | `function_call` の `call_id` と `function_call_output` の `call_id` |
-| Tool のエラーの伝え方 | `tool_result` の `is_error` | 専用のフィールドはなく、エラー文を結果として返す |
+| Tool の結果の置き場所 | user のメッセージの中の `tool_result` ブロック | 独立した `function_call_output` アイテム |
+| Tool Call と結果の対応 | `tool_use` ブロックの `id` を、`tool_result` の `tool_use_id` で参照する | アイテム自身の `id` とは別に、`call_id` で対応を取る |
+| Tool のエラーの伝え方 | `tool_result` の `is_error` で、失敗したことを構造として伝える | 専用のフィールドはなく、エラーの文面を結果として返す |
 
-どちらの API でも、Tool の定義を含めて main 関数はおよそ 50 行に収まります。
+Anthropic 版で Tool の実行結果を user のメッセージに入れて返すのは、この表し方の違いによるものです。
+
+どちらの API でも、Tool の定義を含めて main 関数は 60 行ほどに収まります。
 SDK の価値の多くは、この最小のループが持たない機能にあります。
-OpenAI Agents SDK なら Handoff、Guardrails、トレース、Claude Agent SDK ならコストの上限 (`max_budget_usd`)、コンテキストの自動圧縮、セッションの再開などです。
+OpenAI Agents SDK なら Guardrails、トレース、Claude Agent SDK ならコストの上限 (`max_budget_usd`)、コンテキストの自動圧縮、セッションの再開などです。
 
 {/* TODO: API キーを設定して実行し、実行ログを載せる */}
 
 ## おわりに
 
-OpenAI Agents SDK と Claude Agent SDK は、どちらも OpenAI のガイドが示した Agent のモデルで読み解けます。Model、Instructions、Tool を持ち、最終出力を返すまでループを回し、別の Agent への委譲も Tool Call として表します。
+OpenAI Agents SDK と Claude Agent SDK は、どちらも OpenAI のガイドが示した Agent のモデルで読み解けます。Model、Instructions、Tool を持ち、最終出力を返すまでループを回します。
 違いは OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code という完成した Agent を設定して動かす点です。
-委譲の仕組みも同じではなく、Handoff は OpenAI Agents SDK にしかありません。Manager と Handoff をどう使い分けるかは、マルチ Agent を扱う回で詳しく取り上げます。
+なお、どちらの SDK も、別の Agent への委譲まで Tool Call として表しています。この話はマルチ Agent を扱う回で詳しく取り上げます。
 
 2 社の捉え方が似ている理由は、各社の API の Tool Call が同じ形をしているためだと私は考えています。Model が Tool Call を返し、コードがそれを実行して結果を返すという往復は、OpenAI、Anthropic、Google の API で共通です。Agent のループはこの往復を繰り返すだけなので、その上に組み立てる SDK の形も似てきます。
 実際、ループそのものは Go で数十行のコードで実装できます。SDK を選ぶときは、Guardrails やコストの上限、コンテキストの圧縮など、ループに含まれない機能を比べることになります。
 
-次の記事からは、「2 つの SDK の対応」の表に並べた要素を 1 つずつ取り上げます。
+次の記事からは、この記事で整理した Agent の要素とその周辺を 1 つずつ取り上げます。
 次回は Tool の設計を扱い、その後はコンテキストの管理、ハーネス、マルチ Agent、制御とガードレール、観測と評価の順に進める予定です。
