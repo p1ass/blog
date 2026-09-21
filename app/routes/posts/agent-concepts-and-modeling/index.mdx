@@ -15,7 +15,7 @@ tags:
 これから Agent の開発について連載記事を書いていくにあたり、まずは基礎知識を 3 本の記事で整理します。この記事はその 1 本目です。
 
 OpenAI と Anthropic はそれぞれ別々に Agent SDK を開発していますが、2 つの SDK の中にある Agent の捉え方はほぼ同じです。
-どちらも「Model、Instructions、Tool を持ち、Tool 呼び出しがなくなるまでループを回す」という形で Agent を組み立てています。
+どちらも「Model、Instructions、Tool を持ち、最終出力を返すまでループを回す」という形で Agent を組み立てています。
 この形を最もまとまった形で説明しているのが、OpenAI が公開しているガイドです。
 
 この記事では、まず Agent を理解する前提となる Tool 呼び出しの仕組みを確認し、OpenAI のガイドから Agent のモデルを整理します。
@@ -50,7 +50,8 @@ sequenceDiagram
 
 _Tool 呼び出しの 1 往復。Model は呼び出しを指定するだけで、実行はアプリケーションが担う_
 
-この往復を 1 回で終わらせず、Model が Tool 呼び出しを返さなくなるまで繰り返すと、Agent のループになります。
+この往復を 1 回で終わらせず、Model が Tool 呼び出しを含まない応答を返すまで繰り返すと、Agent のループになります。
+この記事では、ループを終わらせる Tool 呼び出しを含まない応答を最終出力と呼びます。
 
 ## OpenAI のガイドが示す Agent のモデル
 
@@ -111,7 +112,7 @@ Handoff は「引き継ぎ」を意味する語で、ここでは会話と実行
 
 - Model に Instructions と使える Tool の一覧を渡す
 - Model が Tool 呼び出しを返したら、コードがそれを実行し、その結果を会話に含めてもう一度 Model を呼ぶ
-- Model が Tool 呼び出しのない応答を返したら終わる。無限に回らないよう最大ターン数を設ける
+- Model が最終出力を返したら終わる。無限に回らないよう最大ターン数を設ける
 - 別の Agent への委譲は、Agent を Tool として呼ぶ (Manager) か、会話ごと引き渡す (Handoff)
 
 ```mermaid
@@ -120,20 +121,20 @@ sequenceDiagram
   participant M as Model
   participant T as Tool
   C->>M: Instructions、Tool の一覧、会話
-  loop Tool 呼び出しがなくなるまで (上限は最大ターン数)
+  loop 最終出力を返すまで (上限は最大ターン数)
     M-->>C: Tool 呼び出し
     C->>T: 実行
     T-->>C: 結果
     C->>M: 結果を足した会話
   end
-  M-->>C: Tool 呼び出しのない応答
+  M-->>C: 最終出力
 ```
 
 _Agent のループ_
 
 以降ではこのまとめを「Agent のモデル」と呼び、2 つの SDK をこれに当てはめて読んでいきます。
 
-## OpenAI Agents SDK での表現
+## OpenAI Agents SDK の Agent
 
 OpenAI Agents SDK は、実験的に公開されていた Swarm の後継にあたる SDK です。公式ドキュメントでは Agent を次のように説明しています。
 
@@ -180,7 +181,7 @@ flowchart TD
 
 _Runner のループ。ターン数が max_turns を超えると MaxTurnsExceeded を送出する_
 
-`max_turns` の既定値は 10 です。ドキュメントでは、Tool 呼び出しがなく、指定した型のテキストを出力した時点を最終出力としています。
+ドキュメントでは、Tool 呼び出しがなく、指定した型のテキストを出力した時点を最終出力としています。
 Agent のモデルのループに、Handoff の分岐が 1 つ加わった形です。
 
 ### 委譲も Tool 呼び出しとして表す
@@ -219,7 +220,7 @@ flowchart LR
 
 _Manager。呼び出した側が会話の主導権を持ち続ける_
 
-## Claude Agent SDK での表現
+## Claude Agent SDK の Agent
 
 Claude Agent SDK は、Claude Code SDK から改名された SDK です。公式ドキュメントでは Agent を次のように説明しています。
 
@@ -330,7 +331,7 @@ Agent のモデルの要素ごとに、2 つの SDK を並べると次のよう�
 | Instructions | `Agent.instructions` | `ClaudeAgentOptions.system_prompt`、`AgentDefinition.prompt` |
 | Tool | `@function_tool` で定義した関数 | 組み込みの Tool と、`@tool` で定義した MCP の Tool |
 | ループを回す場所 | Python の `Runner` | Claude Code の CLI |
-| 最大ターン数 | `max_turns` (既定値 10) | `max_turns` (Tool を使うターンを数える) |
+| 最大ターン数 | `max_turns` | `max_turns` (Tool を使うターンを数える) |
 | Manager | `as_tool()` | `Agent` Tool で呼ぶサブ Agent |
 | Handoff | `handoffs` (`transfer_to_*` という Tool) | なし |
 | 実行前後のチェックと制御 | Guardrails | hooks、権限モード |
@@ -347,7 +348,7 @@ Go には両社の Agent SDK が用意されていないため、Anthropic と O
 - github.com/anthropics/anthropic-sdk-go v1.74.0
 - github.com/openai/openai-go/v3 v3.64.0
 
-題材として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。「東京と大阪の天気を教えてください」と頼み、Tool 呼び出しがなくなるまでループを回します。
+題材として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまでループを回します。
 コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-concepts-and-modeling/minimal-agent) にあります。
 
 ### Anthropic Messages API 版
@@ -435,7 +436,7 @@ func runTool(name string, input []byte) (string, error) {
 | Tool | `Tools` と `runTool` |
 | 会話 | `params.Messages` |
 | ループ | `for` 文 |
-| 終了条件 | Tool 呼び出しがなければ `return`、`maxTurns` を超えたら終了 |
+| 終了条件 | 最終出力なら `return`、`maxTurns` を超えたら終了 |
 
 Model の応答と Tool の実行結果を `params.Messages` に蓄積し、次のリクエストで会話全体を送り直します。
 Tool の実行結果は、`tool_result` ブロックとして user のメッセージに入れて返します。
@@ -514,7 +515,7 @@ SDK の価値の多くは、Handoff、Guardrails、トレースといった、�
 
 ## おわりに
 
-OpenAI Agents SDK と Claude Agent SDK は、どちらも OpenAI のガイドが示した Agent のモデルで読み解けます。Model、Instructions、Tool を持ち、Tool 呼び出しがなくなるまでループを回し、別の Agent への委譲も Tool 呼び出しとして表します。
+OpenAI Agents SDK と Claude Agent SDK は、どちらも OpenAI のガイドが示した Agent のモデルで読み解けます。Model、Instructions、Tool を持ち、最終出力を返すまでループを回し、別の Agent への委譲も Tool 呼び出しとして表します。
 違いは OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code という完成した Agent を設定して動かす点です。
 
 2 社の捉え方が似ている理由は、各社の API の Tool 呼び出しが同じ形をしているためだと私は考えています。Model が Tool 呼び出しを返し、コードがそれを実行して結果を返すという往復は、OpenAI、Anthropic、Google の API で共通です。Agent のループはこの往復を繰り返すだけなので、その上に組み立てる SDK の形も似てきます。
