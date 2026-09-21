@@ -128,16 +128,16 @@ const themes: [string, Assignment][] = [
 ]
 
 describe.each(themes)('%s テーマのコントラスト', (_name, assignment) => {
-  it.each(
-    requirements,
-  )('$note ($foreground on $background) が $minimum:1 以上', ({
-    foreground,
-    background,
-    minimum,
-  }) => {
-    const ratio = contrastRatio(assignment[foreground], assignment[background])
-    expect(ratio).toBeGreaterThanOrEqual(minimum)
-  })
+  it.each(requirements)(
+    '$note ($foreground on $background) が $minimum:1 以上',
+    ({ foreground, background, minimum }) => {
+      const ratio = contrastRatio(
+        assignment[foreground],
+        assignment[background],
+      )
+      expect(ratio).toBeGreaterThanOrEqual(minimum)
+    },
+  )
 })
 
 describe('暗いテーマだけの要件', () => {
