@@ -23,8 +23,6 @@ export const surfaceHover = 'var(--color-surface-hover)'
 
 export const icon = 'var(--color-icon)'
 
-export const diagramSurface = 'var(--color-diagram-surface)'
-
 export const brandSurfaceBorder = 'var(--color-brand-surface-border)'
 
 export const githubMark = 'var(--color-github-mark)'
