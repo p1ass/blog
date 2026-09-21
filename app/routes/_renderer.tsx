@@ -15,7 +15,7 @@ import {
   text,
   textMuted,
 } from '../styles/color'
-import { highlightTheme } from '../styles/highlight'
+import { highlightBackground, highlightTheme } from '../styles/highlight'
 import {
   canHover,
   duration,
@@ -400,6 +400,11 @@ const bodyCss = css`
     margin: 0 0 ${blockGap};
     border-radius: ${radius.md};
     overflow: hidden;
+  }
+
+  /* スクロール領域の code.hljs だけに背景を塗ると、描画のたびに下端の 1px が欠けたり欠けなかったりする */
+  pre:has(> code.hljs) {
+    background-color: ${highlightBackground};
   }
 
   ${highlightTheme}
