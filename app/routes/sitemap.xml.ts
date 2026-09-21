@@ -5,7 +5,7 @@ import { formatDate, parseDate } from '../lib/time'
 
 const SITEMAP_DATE_FORMAT = 'YYYY-MM-DD'
 
-// Google は lastmod が実際の更新と食い違うサイトでは lastmod を使わなくなるので、トップはビルドした日ではなく最新の記事の日付にする。
+// Google は lastmod が実際の更新と食い違うサイトでは lastmod を使わなくなる。
 function generateSitemap(posts: Post[]): string {
   const latest = posts[0]
     ? `

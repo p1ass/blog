@@ -20,7 +20,6 @@ export const fontWeight = {
   bold: 700,
 } as const
 
-// hono/css は補間した値の " を \" にエスケープするので、フォント名を引用符で囲まない。
 export const fontFamily = {
   // 欧文だけのフォントを先に置くと、和文が環境ごとに別のフォントへフォールバックする。
   body: [

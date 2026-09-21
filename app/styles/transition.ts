@@ -34,7 +34,6 @@ function timing(properties: string[], token: DurationToken, pressing = false) {
   `
 }
 
-// transition: all は色を変えるつもりの hover で padding や width まで動かすので、プロパティを名指しする。
 // 位置と大きさはばねで動かし、長さは token によらない。動きを減らす設定ではそれを外し、色の補間は状態の変化を伝えるので残す。
 export function transition(
   properties: string[],

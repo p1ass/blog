@@ -54,7 +54,6 @@ const cardLinkCss = css`
     }
 `
 
-// 伸ばすと比が崩れるので、カードの高さには合わせない。
 const thumbnailCss = css`
     display: block;
     flex: none;
@@ -95,7 +94,6 @@ const entryBodyCss = css`
     }
 `
 
-// 狭い画面では 1 行に 12 文字ほどしか入らず中身が読み取れないので出さない。
 const entryDescriptionCss = css`
     display: none;
     color: ${textMuted};

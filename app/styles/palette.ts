@@ -30,7 +30,6 @@ export const accent = {
   900: '#16263b',
 } as const
 
-// accent と同じ色相では注意が伝わらないので、別の色相にする。
 export const warning = {
   50: '#fff4e5',
   300: '#f0a742',

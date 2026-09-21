@@ -1,7 +1,6 @@
 import { createLinter, loadTextlintrc } from 'textlint'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-// 実際の .textlintrc.json を読んで回す。プラグインの解決とルールの組み合わせまで検証したい。
 const SPACING = 'ja-spacing/ja-space-between-half-and-full-width'
 const JOSHI = 'ja-technical-writing/no-doubled-joshi'
 const EXCLAMATION = 'ja-technical-writing/no-exclamation-question-mark'
@@ -31,7 +30,6 @@ beforeAll(async () => {
     const result = await linter.fixText(code, filePath)
     return result.output
   }
-  // kuromoji の辞書読み込みを最初の 1 回でここに寄せる
   await lint('// ウォームアップ\n', 'warmup.ts')
 }, 60_000)
 

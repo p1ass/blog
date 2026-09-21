@@ -47,8 +47,7 @@ describe('sortByDateDesc', () => {
   })
 
   it('文字列ではなく実際の瞬間で並べる', () => {
-    // JST の 01/02 00:00 は UTC では 01/01 15:00 なので、UTC の 01/01 16:00 より
-    // 前になる。文字列として比較すると逆の順序になる組み合わせ。
+    // 文字列として比較すると逆の順序になる組み合わせ。
     const sorted = sortByDateDesc([
       post('jst', { date: '2024-01-02T00:00:00+09:00' }),
       post('utc', { date: '2024-01-01T16:00:00+00:00' }),
@@ -114,7 +113,6 @@ describe('getMaxPageNumber', () => {
 })
 
 describe('findPaginationPosts', () => {
-  // 日付降順に並んでいる前提。前の記事 = より古い記事。
   const sorted = [post('newest'), post('middle'), post('oldest')]
 
   it('前の記事はより古い記事', () => {
@@ -136,8 +134,6 @@ describe('findPaginationPosts', () => {
   })
 
   it('見つからない場合は前後どちらも出さない', () => {
-    // 以前は findIndex の -1 をそのまま使い、一覧の先頭を「前の記事」として
-    // 表示していた
     expect(findPaginationPosts(sorted, 'unknown')).toEqual({
       prevPost: null,
       nextPost: null,
@@ -200,7 +196,6 @@ describe('buildLabels (タグ)', () => {
   })
 
   it('大文字小文字が違うだけのタグは、表記ゆれとしてビルドを落とす', () => {
-    // 以前は静かに片方へ潰れ、記事が一覧から抜け落ちていた
     expect(() =>
       buildLabels('tag', [
         post('a', { tags: ['Go'] }),

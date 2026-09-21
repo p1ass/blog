@@ -42,7 +42,6 @@ const tocListCss = css`
     margin: 0;
   }
 
-  /* ブラウザ既定が ul ul に円を当てるので、継承では消えない */
   & li > ul {
     list-style: none;
     margin: 0;
@@ -76,7 +75,6 @@ const labelId = 'toc-label'
 
 type Props = {
   toc: TocItem[]
-  // ブラウザでは toc-highlight.ts が動かすので、スタイルガイドの見本でだけ渡す
   currentId?: string
 }
 

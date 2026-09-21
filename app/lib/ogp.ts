@@ -1,4 +1,3 @@
-// @hono/vite-ssg はルートの例外でページの代わりに index.txt を書き出し、記事が本番から消えるので、取得の失敗では例外を投げない。
 import ogpCache from '../../ogp-cache.json'
 import { fetchOgp, type Ogp } from './ogp-fetch'
 

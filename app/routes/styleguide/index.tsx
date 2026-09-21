@@ -131,7 +131,6 @@ const tokenTableCss = css`
 `
 
 type TokenTableProps = {
-  // 見本の欄に何を出すか。値だけで足りるものは省く
   sample?: (value: string) => unknown
   tokens: Record<string, string | number>
 }
@@ -231,7 +230,6 @@ const themeLabels = {
   dark: 'ダーク',
 } as const
 
-// 実物は絶対配置なので、position だけ打ち消して並びの中に置く。
 const menuSampleCss = css`
   display: inline-block;
   margin-bottom: ${blockGap};

@@ -46,7 +46,7 @@ const titleCss = css`
   }
 `
 
-// 記事一覧では h1、それ以外では div になる。行間を指定しないと div だけ本文の行間を継承してヘッダーが高くなり、ページを移るときにヘッダーが伸び縮みする。
+// 行間を指定しないと div のときだけ本文の行間を継承し、ページを移るとヘッダーの高さが変わる。
 const siteTitleCss = css`
   font-size: ${fontSize.h3};
   font-weight: bold;
@@ -89,7 +89,6 @@ const navigationListCss = css`
 `
 
 type Props = {
-  // 記事一覧のページでだけ、サイト名をそのページの見出しにする。
   asHeading: boolean
 }
 

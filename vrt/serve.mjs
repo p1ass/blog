@@ -1,4 +1,3 @@
-// wrangler より起動が速く、外部に出ない静的サーバー。
 import { createReadStream, statSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join, normalize } from 'node:path'
@@ -35,9 +34,7 @@ function resolvePath(pathname) {
       if (statSync(candidate).isFile()) {
         return candidate
       }
-    } catch {
-      // 次の候補へ
-    }
+    } catch {}
   }
   return null
 }

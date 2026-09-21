@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-// 抜粋にも記事本体と同じ remark と rehype のプラグインと画像パスの解決を当てるため、マーカーより前だけを持つ仮想モジュール <slug>/index.summary.mdx を作る。
+// 抜粋にも本文と同じプラグインと画像パスの解決を当てるため、マーカーより前だけの仮想モジュールを作る。
 
 export const summarySuffix = '.summary.mdx'
 const excerptMarker = '{/* <!--more--> */}'
@@ -47,7 +47,6 @@ export function mdxSummary(): Plugin {
         )
       }
 
-      // frontmatter を残すと、抜粋でも remark-mdx-frontmatter がそのまま動く。
       return source.slice(0, markerIndex)
     },
 

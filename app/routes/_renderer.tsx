@@ -35,15 +35,9 @@ import {
   lineHeight,
 } from '../styles/typography'
 
-// :-hono-global は複数行のコメントがあると展開されないので、説明はテンプレートの外に書く。
 // reduced motion の transition は transition() が位置と大きさの補間だけを外すので、ここでは animation だけを止める。
-// ページの遷移は View Transitions でクロスフェードする。前後のページで同じ位置にあるヘッダーは、重ねても画素が変わらず止まって見えるので名前を付けない。
-// 一覧と記事のあいだでは、記事のタイトル、タグ、抜粋をつなぎ、位置と大きさの動きとしてばねで動かす。周りのクロスフェードも同じばねでそろえ、要素が動き終わる前に本文だけが出きってしまわないようにする。
-// :active-view-transition-type() を読めないブラウザでは、その規則だけが捨てられて既定のクロスフェードになる。
-// .theme-menu は開いたときの動きを逆にたどって閉じる。閉じるときは読者の操作に応える側なので、開くときより速くする。
-// .theme-picker は、スクリプトが動かない読者に押しても反応しないボタンを見せないよう、data-theme-choice が付くまで隠す。
-// article > svg は Mermaid の図で (抜粋に入ると抜粋の囲みの直下になる)、色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
-// pre の overflow: hidden は、中の code.hljs が横スクロールしても角丸を保つため。
+// スクリプトが動かないと押しても反応しないので、.theme-picker は data-theme-choice が付くまで隠す。
+// Mermaid の図は色がビルド時に決まり暗いテーマでも暗い線のまま出るので、明るい面を敷く。
 const bodyCss = css`
 :-hono-global {
   ${themeVariables}
@@ -60,7 +54,6 @@ const bodyCss = css`
     margin: 0 ${space.md};
     padding: 0;
 
-    /* https://alpacat.com/posts/unexpected-font-size-change */
     -webkit-text-size-adjust: 100%;
   }
 
@@ -426,7 +419,6 @@ const bodyCss = css`
     border: none;
   }
 
-  /* emgithub用 */
   .emgithub-file .code-area td.hljs-ln-line {
     font-size: ${fontSize.code} !important;
     font-family: ${fontFamily.mono} !important;
@@ -461,7 +453,6 @@ export default jsxRenderer(
 
     const canonicalUrl = `https://blog.p1ass.com${c.req.path}`
 
-    // 記事一覧のページには他に見出しが無いので、サイト名を h1 にする
     const isPostListPage = /^\/(?:page\/\d+\/)?$/.test(c.req.path)
 
     const ogImage = frontmatter?.ogImage
@@ -607,7 +598,7 @@ const JsonLd = ({ data }: { data: object }) => {
 }
 
 // 非同期にすると保存したテーマが当たる前に一度描画され色がちらつくので、head に同期で置く。書き換える theme-color の meta より後ろに置く。
-// 読者がテーマを選んだら、ページ全体をクロスフェードで切り替える。要素ごとの transition は止める。止めないと、transition を持つ要素だけ地より遅れて色が変わる。
+// 要素ごとの transition を止めないと、その要素だけ地より遅れて色が変わる。
 // 型の指定を受け付けないブラウザに startViewTransition へオブジェクトを渡すと例外になるので、types を持つかを見てから渡す。
 // localStorage は Cookie を拒否する設定だと読むだけで例外を投げるので、握りつぶして既定のテーマで進める。
 const ThemeScript = () => {
@@ -680,9 +671,8 @@ const ThemeScript = () => {
 }
 
 // pagereveal はページを描く前に登録しないと間に合わないので、head に同期で置く。
-// 向きは押したリンクの data-direction から決める。戻ったときは逆向きにしたいので、行きと帰りの組を sessionStorage に残す。
-// 記事の要素の名前は、開く記事と戻る記事のぶんだけ、画面に入っているときに遷移の直前で付ける。一覧の全件に付けると、画面外の記事から戻ったときに要素が画面の外から飛んでくる。
-// 前後の記事どうしはつながず、矢印の向きへのずれで見せる。
+// 戻ったときに逆向きで動かすため、行きと帰りの組を sessionStorage に残す。
+// 一覧の全件に名前を付けると、画面外の記事から戻ったときに要素が画面の外から飛んでくる。
 const ViewTransitionScript = () => {
   return html`
     <script>
@@ -780,7 +770,7 @@ const ViewTransitionScript = () => {
   `
 }
 
-// 押す直前の hover で HTML を取得しておき、遷移のアニメーションが読み込みで詰まらないようにする。フィードは HTML でないので外す。
+// 遷移のアニメーションが読み込みで詰まらないよう、hover で HTML を取得しておく。
 // prerender だと Chromium は今開いているページ自身も裏で描画してしまうので、HTML の取得だけにとどめる。
 const SpeculationRules = () => {
   return html`

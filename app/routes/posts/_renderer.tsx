@@ -21,7 +21,7 @@ import { hoverTransition } from '../../styles/transition'
 import { fontSize } from '../../styles/typography'
 
 // 目次を出すページでは列が本文より広がるので、タイトルが 1 行に伸びないよう幅を本文で止める。
-// 一覧から View Transitions でつなぐとき、箱が文字の幅に揃っていないと文字が拡大されずに横へ滑るので、fit-content にする。
+// 箱が文字の幅に揃っていないと、View Transitions で文字が拡大されずに横へ滑る。
 const postTitleCss = css`
   font-size: ${fontSize.h1};
   width: fit-content;
@@ -39,7 +39,6 @@ const postDateCss = css`
   padding: ${space.lg} 0 ${space.sm};
 `
 
-// 目次を出すページでは、日付やタイトルの中央がヘッダーやフッターと同じ軸に乗るよう、列を左右へ同じだけ広げる。
 const postColumnCss = css`
   ${mediaUp('lg')} {
     margin-left: calc(-1 * ${tocOffset});

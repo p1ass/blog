@@ -15,7 +15,6 @@ function isFootnotes(node: Element): boolean {
   return node.tagName === 'section' && 'dataFootnotes' in node.properties
 }
 
-// 脚注の参照 (sup) を残すと、目次に番号だけが入る。
 function headingText(node: Element): string {
   let text = ''
   visit(node, (child): typeof SKIP | undefined => {

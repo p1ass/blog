@@ -27,7 +27,6 @@ const titleLineHeight = 1.4
 
 const widthRatios = [0.98, 0.94, 0.9, 0.86, 0.82]
 
-// サイト名の行と詰まって見えないよう、空きの 350 から少し引く。
 const maxTitleHeight = 340
 
 const siteName = 'ぷらすのブログ'
@@ -376,7 +375,7 @@ async function main() {
       height,
       fonts,
     })
-    // 文字は satori がパスにしているので、OS のフォントを読み込ませない。読み込むと 1 枚あたり 0.3 秒ほど遅くなる。
+    // 文字は satori がパスにしているので、OS のフォントを読み込ませない。
     const png = new Resvg(svg, { font: { loadSystemFonts: false } })
       .render()
       .asPng()

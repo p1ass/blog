@@ -17,7 +17,6 @@ jobs:
         uses: dependabot/fetch-metadata@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      # major だけは手動で確認する
       - name: Enable auto-merge
         if: steps.metadata.outputs.update-type != 'version-update:semver-major'
         run: gh pr merge --auto --squash "${PR_URL}"

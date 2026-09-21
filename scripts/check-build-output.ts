@@ -4,7 +4,6 @@ import { join } from 'node:path'
 
 const postsDir = 'dist/posts'
 
-// 要素を足すときは、先にスタイルを当ててから足す。
 const allowedElements = new Map([
   ['p', '_renderer.tsx のグローバル'],
   ['h2', '_renderer.tsx のグローバル。article の中だけ章のボーダーが付く'],
@@ -111,7 +110,6 @@ for (const slug of readdirSync(postsDir)) {
   }
 }
 
-// 404.html が無いと Cloudflare Pages は存在しない URL にトップページを 200 で返し、Google にソフト 404 と扱われる。
 const missingNotFound = !existsSync('dist/404.html')
 if (missingNotFound) {
   console.error(

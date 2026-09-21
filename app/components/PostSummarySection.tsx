@@ -13,7 +13,6 @@ const sectionCss = css`
   margin-bottom: ${blockGap};
 `
 
-// width を動かすとフレームごとにレイアウトを計算し直すので、幅は伸びきった長さで固定して transform で縮めておく。
 const underlineCss = css`
   border-top: ${borderWidth.thick} solid ${accent};
   display: block;

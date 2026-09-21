@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { type Assignment, dark, light } from './theme'
 
-// WCAG 2.2 の相対輝度とコントラスト比。
 // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
 function relativeLuminance(hex: string): number {
   // 透明な役割を渡すと NaN が返り、比較が静かに通ってしまう。ここで落とす。

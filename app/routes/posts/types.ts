@@ -15,7 +15,6 @@ export const frontmatterSchema = z.object({
   description: z.string().min(1),
   category: z.string().min(1),
   tags: z.array(z.string().min(1)).optional(),
-  // 例: /posts/web-speed-hackathon-2024/ogp.jpg
   ogImage: z.string().startsWith('/').optional(),
 })
 

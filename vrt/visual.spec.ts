@@ -1,6 +1,5 @@
 import { expect, type Page, test } from '@playwright/test'
 
-// 見た目の要素を網羅するように記事を選んである。
 const pages = [
   { name: 'top', path: '/' },
   { name: 'categories', path: '/categories/' },
@@ -66,7 +65,6 @@ for (const { name, path } of pages) {
 
     await expect(page).toHaveScreenshot(`${name}.png`, {
       fullPage: true,
-      // エミュレーション下では 1 枚が重いので、既定の 5 秒では足りない
       timeout: 30_000,
     })
   })

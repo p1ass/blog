@@ -68,7 +68,6 @@ export default defineConfig(({ mode }) => {
             dest: 'posts',
             // v4 から src のディレクトリ構造が維持されるので、先頭の app/routes/posts/ の 3 階層を落とす
             rename: { stripBase: 3 },
-            // 普通の vite のビルドで生成したファイルを消さないようにする
             overwrite: false,
           },
         ],

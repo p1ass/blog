@@ -11,7 +11,6 @@ export default defineConfig({
 
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  // 再試行があると、撮影の揺れとデザインの変更を区別できない。
   retries: 0,
   reporter: process.env.CI ? 'github' : 'list',
 

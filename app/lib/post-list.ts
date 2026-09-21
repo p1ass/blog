@@ -68,7 +68,6 @@ export function findPaginationPosts(
 ): PaginationPosts {
   const currentIndex = posts.findIndex(p => p.slug === currentSlug)
 
-  // 見つからないまま進むと、一覧の先頭が「前の記事」として出る
   if (currentIndex === -1) {
     return { prevPost: null, nextPost: null }
   }
@@ -119,7 +118,6 @@ export const labelIndexTitle: Record<LabelKind, string> = {
 }
 
 export function labelNameToId(name: string): LabelId {
-  // 空白はパスに置けないので繋ぐ。
   return name.trim().toLowerCase().replace(/\s+/g, '-')
 }
 
@@ -147,7 +145,6 @@ export function buildLabels(kind: LabelKind, posts: Post[]): Label[] {
       ? posts.map(p => p.frontmatter.category)
       : posts.flatMap(p => p.frontmatter.tags ?? [])
 
-  // 表記ゆれをまとめずに残し、衝突として検出する
   const uniqueNames = Array.from(new Set(names))
 
   const labels = uniqueNames.map(name => ({

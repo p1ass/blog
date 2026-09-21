@@ -62,7 +62,6 @@ export async function fetchOgp(url: string): Promise<Ogp | null> {
   }
 
   const body = await res.arrayBuffer()
-  // 相対パスの画像は、リダイレクト後の URL を基準に解決する。
   return parseOgp(decodeHtml(body, contentType), res.url || url)
 }
 
@@ -95,7 +94,6 @@ export function parseOgp(html: string, url: string): Ogp {
   }
 }
 
-// og:image を複数持つページでは 1 枚目が代表の画像なので、先に出たものを採る。
 function collectMeta(html: string): Map<string, string> {
   const meta = new Map<string, string>()
   for (const tag of html.matchAll(metaTagPattern)) {
@@ -161,16 +159,13 @@ function decodeEntities(value: string): string {
   })
 }
 
-// 古い個人サイトは Shift_JIS や EUC-JP のことがあるので、Content-Type か meta の charset に従う。
 export function decodeHtml(body: ArrayBuffer, contentType: string): string {
   const bytes = new Uint8Array(body)
   const charset = charsetFromContentType(contentType) ?? charsetFromMeta(bytes)
   if (charset !== null) {
     try {
       return new TextDecoder(charset).decode(bytes)
-    } catch {
-      // 知らない文字コード名を名乗るページは UTF-8 として読む。
-    }
+    } catch {}
   }
   return new TextDecoder().decode(bytes)
 }

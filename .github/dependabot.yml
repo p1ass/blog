@@ -10,7 +10,6 @@ updates:
       timezone: Asia/Tokyo
     open-pull-requests-limit: 5
     groups:
-      # minor / patch はまとめて 1 PR にする。major は個別 PR のまま残す
       production-dependencies:
         dependency-type: production
         update-types:

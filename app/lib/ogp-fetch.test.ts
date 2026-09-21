@@ -52,7 +52,6 @@ describe('parseOgp', () => {
   })
 
   it('http でも https でもない画像は捨てる', () => {
-    // data: の画像を og:image に書いているページがある。カードに出すと HTML が肥大する
     const html = '<meta property="og:image" content="data:image/png;base64,AA">'
     expect(parseOgp(html, base).image).toBeNull()
   })
@@ -70,7 +69,6 @@ describe('parseOgp', () => {
   })
 
   it('属性値の中の > で meta タグを切らない', () => {
-    // GitHub の PR の説明のように、本文に不等号が入っていることがある
     const html = `<meta property="og:description" content="a -> b">
       <meta property="og:title" content="不等号のあとの題">`
     const ogp = parseOgp(html, base)
@@ -94,7 +92,7 @@ describe('parseOgp', () => {
 })
 
 describe('decodeHtml', () => {
-  // Shift_JIS の「日本語」。TextDecoder に渡す名前が反映されているかを見る
+  // Shift_JIS の「日本語」
   const shiftJisBytes = new Uint8Array([0x93, 0xfa, 0x96, 0x7b, 0x8c, 0xea])
     .buffer
 
