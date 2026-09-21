@@ -53,6 +53,9 @@ function collectPosts(): Post[] {
       throw new Error(`frontmatter がありません: ${path}`)
     }
     const frontmatter = frontmatterSchema.parse(parseYaml(matched[1]))
+    if (frontmatter.draft) {
+      continue
+    }
     posts.push({
       slug,
       title: frontmatter.title,

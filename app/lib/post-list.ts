@@ -28,6 +28,10 @@ export function globKeyToSlug(key: string): Slug {
   return key.replace(/^\.\.\/routes\/posts\//, '').replace(/\/index\.mdx$/, '')
 }
 
+export function withoutDrafts(posts: Post[]): Post[] {
+  return posts.filter(post => !post.frontmatter.draft)
+}
+
 export function sortByDateDesc(posts: Post[]): Post[] {
   return [...posts].sort(
     (a, b) =>
