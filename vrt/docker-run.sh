@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE="mcr.microsoft.com/playwright:v1.58.1-noble"
+IMAGE="mcr.microsoft.com/playwright:v1.63.0-noble"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 docker run --rm --platform linux/amd64 \
