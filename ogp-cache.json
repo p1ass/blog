@@ -154,6 +154,11 @@
     "description": "",
     "image": "https://docs.cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=ja"
   },
+  "https://code.claude.com/docs/en/agent-sdk/overview": {
+    "title": "Agent SDK overview - Claude Code Docs",
+    "description": "Build production AI agents with Claude Code as a library",
+    "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DAgent%2BSDK%26title%3DAgent%2BSDK%2Boverview%26description%3DBuild%2Bproduction%2BAI%2Bagents%2Bwith%2BClaude%2BCode%2Bas%2Ba%2Blibrary%26theme%3D03628e99c753a03aec319053&w=1200&q=100"
+  },
   "https://code.claude.com/docs/en/hooks": {
     "title": "Hooks reference - Claude Code Docs",
     "description": "Reference for Claude Code hook events, configuration schema, JSON input/output formats, exit codes, async hooks, HTTP hooks, prompt hooks, and MCP tool hooks.",
@@ -819,6 +824,16 @@
     "description": "Description",
     "image": null
   },
+  "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/": {
+    "title": "A practical guide to building agents",
+    "description": "A comprehensive guide to designing, orchestrating, and deploying AI agents—covering use cases, model selection, tool design, guardrails, and multi-agent patterns.",
+    "image": "https://images.ctfassets.net/kftzwdyauwt9/mJqlc42BkQevW6eMLubPU/1006cd702b66fb23319c1bbd9d45662f/practicalGuide.png?w=1600&h=900&fit=fill"
+  },
+  "https://openai.github.io/openai-agents-python/": {
+    "title": "OpenAI Agents SDK",
+    "description": "",
+    "image": null
+  },
   "https://orm.drizzle.team/": {
     "title": "Drizzle ORM - next gen TypeScript ORM.",
     "description": "Drizzle ORM is a lightweight and performant TypeScript ORM with developer experience in mind.",
@@ -958,6 +973,11 @@
     "title": "判別可能なUnion型 | TypeScript Deep Dive 日本語版",
     "description": "",
     "image": "https://typescript-jp.gitbook.io/deep-dive/~gitbook/ogimage/-LTmp-8X76z87tbuPyD9"
+  },
+  "https://www.anthropic.com/engineering/building-effective-agents": {
+    "title": "Building Effective AI Agents",
+    "description": "Discover how Anthropic approaches the development of reliable AI agents. Learn about our research on agent capabilities, safety considerations, and technical framework for building trustworthy AI.",
+    "image": "https://cdn.sanity.io/images/4zrzovbb/website/76b5733c669f0dfb9c7aa7fc512a495867cf12e6-2400x1260.png"
   },
   "https://www.authlete.com/ja/developers/pkce/": {
     "title": "Proof Key for Code Exchange (RFC 7636) - Authlete Documentation",
