@@ -1,105 +1,105 @@
 ---
 name: design-system
 description: >-
-  blog.p1ass.com の見た目を変えるSkill。
-  方針は DESIGN.md にあり、この Skill はその参照先と作業の順序を案内する。
+  blog.p1ass.com の見た目（UI・スタイル）を変更するためのスキル。
+  基本方針は DESIGN.md に記載されており、このスキルはその参照先と作業手順を案内する。
   ユーザーが以下のようなリクエストをした場合に使用すること:
   「コンポーネントを追加して」「スタイルを直して」「見た目を変えて」「色を変えて」
   「余白を調整して」「レスポンシブにして」「ダークモードに対応して」「スタイルガイドに追加して」。
-  app/styles/ 配下、css`` を含むファイル、app/routes/_renderer.tsx を触るときは、
-  明示的にスキル名を言及しなくても積極的にトリガーすること。
-  記事の執筆は blog-writing、記事の校正は article-review を使うこと。
+  app/styles/ 配下や css`` を含むファイル、app/routes/_renderer.tsx を編集する際は、
+  スキル名が明示されていない場合でも積極的に呼び出すこと。
+  記事の執筆には blog-writing、記事の校正には article-review を使用すること。
 argument-hint: "[変えたい見た目 または コンポーネント名]"
 ---
 
 # Design System
 
-blog.p1ass.com の見た目を、デザイントークンの範囲で変える。
+blog.p1ass.com の見た目を、デザイントークンの範囲内で変更する。
 
-**方針は [DESIGN.md](../../../DESIGN.md) に、コンポーネントごとの見た目はスタイルガイド (`/styleguide`) にある。** この Skill はそこへの案内役で、決めごとそのものは持たない。両方に書くと片方だけが古くなる。
+**全体の方針は [DESIGN.md](../../../DESIGN.md) に、各コンポーネントの見た目はスタイルガイド (`/styleguide`) に定義されている。** このスキルはそこへの案内役であり、設計ルールそのものは保持しない（両方に記載すると情報の同期が崩れるため）。
 
-hono/css の書き方の制約とハーネスの回し方は [CLAUDE.md](../../../CLAUDE.md) にある。
+hono/css の記述制約やテストハーネスの実行方法は [CLAUDE.md](../../../CLAUDE.md) に記載されている。
 
 ## 大原則
 
-1. **値はトークンを参照する**。色と寸法と分岐を、コンポーネントの側で決めない
-2. **2 テーマぶんを同時に決める**。明るいテーマだけで成立する値は入れない
-3. **見た目を変えたら基準画像を撮り直す**。撮り直す前に実物を開く
+1. **値はトークンを参照する**。色、寸法、レスポンシブのブレークポイントなどをコンポーネント側で直接定義しない。
+2. **2 つのテーマ（ライト／ダーク）を同時に定義する**。ライトテーマだけでしか成立しない値を設定しない。
+3. **見た目を変更したら基準画像を再撮影（更新）する**。再撮影する前に実際の画面を開いて確認する。
 
 ## 作業の流れ
 
 ### 1. DESIGN.md の該当節を読む
 
-書き始める前に、これから触る領域の節を読む。実際の値は `app/styles/` にもあるが、なぜその値なのかは DESIGN.md にしかない。
+コードを書き始める前に、これから変更する領域の節を読む。具体的な値は `app/styles/` にも定義されているが、なぜその値になっているのかの背景・理由は DESIGN.md にのみ記載されている。
 
-| 触るもの | 読む節 |
-| --- | --- |
-| このサイトが何を目指しているか | [Overview](../../../DESIGN.md#overview) |
-| カラー、コントラスト | [Colors](../../../DESIGN.md#colors) |
-| 文字の大きさ、行間、見出し | [Typography](../../../DESIGN.md#typography) |
-| 余白、本文幅、画面幅の分岐 | [Layout](../../../DESIGN.md#layout) |
-| 影、面の重なり | [Elevation & Depth](../../../DESIGN.md#elevation--depth) |
-| 角丸、ボーダー | [Shapes](../../../DESIGN.md#shapes) |
-| リンク、hover、フォーカス、画像、モーションの方針 | [Components](../../../DESIGN.md#components) |
-| ダークモード、テーマの選択 | [Theming](../../../DESIGN.md#theming) |
-| アイコン、ブランドマーク | [Iconography](../../../DESIGN.md#iconography) |
-| 見出しや本文の言い回し | [Terminology](../../../DESIGN.md#terminology) |
+| 変更対象                                          | 読む節                                                   |
+| ------------------------------------------------- | -------------------------------------------------------- |
+| このサイトが何を目指しているか                    | [Overview](../../../DESIGN.md#overview)                  |
+| カラー、コントラスト                              | [Colors](../../../DESIGN.md#colors)                      |
+| 文字の大きさ、行間、見出し                        | [Typography](../../../DESIGN.md#typography)              |
+| 余白、本文幅、画面幅の分岐                        | [Layout](../../../DESIGN.md#layout)                      |
+| 影、面の重なり                                    | [Elevation & Depth](../../../DESIGN.md#elevation--depth) |
+| 角丸、ボーダー                                    | [Shapes](../../../DESIGN.md#shapes)                      |
+| リンク、hover、フォーカス、画像、モーションの方針 | [Components](../../../DESIGN.md#components)              |
+| ダークモード、テーマの選択                        | [Theming](../../../DESIGN.md#theming)                    |
+| アイコン、ブランドマーク                          | [Iconography](../../../DESIGN.md#iconography)            |
+| 見出しや本文の言い回し                            | [Terminology](../../../DESIGN.md#terminology)            |
 
-迷ったら [Do's and Don'ts](../../../DESIGN.md#dos-and-donts) を読む。よく踏む判断がまとまっている。
+判断に迷ったら [Do's and Don'ts](../../../DESIGN.md#dos-and-donts) を参照する。頻出の判断基準がまとまっている。
 
-### 2. 既存の当たりを取る
+### 2. 既存実装のアタリをつける
 
-`/styleguide` に、トークンと本文要素とコンポーネントが 1 ページに並んでいる。似た役割のコンポーネントがすでにないか、まずここを見る。
+`/styleguide` にはデザイントークン、本文要素、コンポーネントが一覧化されている。類似した役割のコンポーネントが既に存在しないか、まずここを確認する。
 
-### 3. 書く
+### 3. 実装する
 
-値は `app/styles/` のトークンを参照する。front matter のトークン名と `app/styles/` の変数名は対応している。
+スタイル値は `app/styles/` のトークンを参照する。DESIGN.md の front matter にあるトークン名と、`app/styles/` の変数名は対応している。
 
-| DESIGN.md の front matter | 実装 |
-| --- | --- |
-| `colors` のプリミティブ | `app/styles/palette.ts` |
+| DESIGN.md の front matter | 実装                                                  |
+| ------------------------- | ----------------------------------------------------- |
+| `colors` のプリミティブ   | `app/styles/palette.ts`                               |
 | `colors` のセマンティック | `app/styles/color.ts` の役割名、割り当ては `theme.ts` |
-| `typography` | `app/styles/typography.ts` |
-| `spacing` | `app/styles/spacing.ts` |
-| `rounded` | `app/styles/shape.ts` |
-| `components` | 各コンポーネントの `css``` |
+| `typography`              | `app/styles/typography.ts`                            |
+| `spacing`                 | `app/styles/spacing.ts`                               |
+| `rounded`                 | `app/styles/shape.ts`                                 |
+| `components`              | 各コンポーネントの `css```                            |
 
-新しいコンポーネントは `app/components/` に置く。記事の MDX から使うなら `app/lib/mdx-components.tsx` の `useMDXComponents()` に登録する。
+新規コンポーネントは `app/components/` 配下に作成する。記事の MDX 内で使用する場合は、`app/lib/mdx-components.tsx` の `useMDXComponents()` に登録する。
 
-記事本文に新しい HTML 要素が出るようになるなら、先にスタイルを当ててから `scripts/check-build-output.ts` の `allowedElements` に置き場所つきで足す。順序を守る理由は [CLAUDE.md のビルド結果のチェック](../../../CLAUDE.md#ビルド結果のチェック)にある。
+記事本文で新しい HTML 要素を使用可能にする場合は、先にスタイルを適用してから `scripts/check-build-output.ts` の `allowedElements` に配置場所とともに追記する。この順序を守る理由については、[CLAUDE.md のビルド結果のチェック](../../../CLAUDE.md#ビルド結果のチェック)を参照のこと。
 
-トークンにない値が要るときは、次の順で考える。
+トークンに定義されていない値が必要になった場合は、次の順序で検討する。
 
-1. **段の意図を読み違えていないか**。`space.lg` を「大きめの余白」ではなく 24px として引いていないか
-2. **その値は他でも使うか**。使うならトークンを足し、DESIGN.md の front matter と該当節の両方に足す
-3. **そのコンポーネントひとつの都合か**。アバターの直径のような値はトークンにしない。`scripts/check-style-tokens.ts` の `exceptions` へ理由を書いて足す。理由が書けないなら、それはトークンで書ける値
+1. **トークンのスケール意図を誤認していないか**。例えば `space.lg` を「コンテキストに応じた大きめの余白」ではなく、単に 24px という絶対値として選んでいないかを確認する。
+2. **その値は他の箇所でも再利用されるか**。再利用されるならトークンとして新設し、DESIGN.md の front matter と該当節の双方に追加する。
+3. **そのコンポーネント固有の値か**。アバターの直径のような単一コンポーネント固有の値はトークン化しない。`scripts/check-style-tokens.ts` の `exceptions` に理由を明記して追加する（正当な理由を説明できない場合は、既存のトークンで表現すべき値である）。
 
-### 4. スタイルガイドに載せる
+### 4. スタイルガイドに反映する
 
-トークンは `app/routes/styleguide/index.tsx` の `TokenTable` が定義を反復するので自動で表示される。コンポーネントを足したときは見本を書き足す。
+トークンは `app/routes/styleguide/index.tsx` の `TokenTable` が定義を走査して自動的に表示する。コンポーネントを追加した場合は、対応するサンプル表示（見本）を追記する。
 
-hover やフォーカスは撮影のとき出ない。当たった状態を固定で描いた見本を別に置く。
+hover やフォーカス時のスタイルは VRT 撮影時にキャプチャされないため、それらの状態を固定で描画した見本を別途用意する。
 
-### 5. 確かめる
+### 5. 検証する
 
 ```shell
 pnpm lint:fix     # biome
 pnpm lint:style   # CSS に生の値が無いか
 pnpm test         # コントラストなど
-pnpm vrt          # リグレッションテスト (Docker が要る)
+pnpm vrt          # ビジュアルリグレッションテスト (Docker が必要)
 pnpm lint:text    # textlint
 ```
 
-`pnpm vrt` が落ちたら、差分画像を見て意図した変更かを判断する。意図どおりなら `pnpm vrt:update` で撮り直す。撮り直す前の注意は [CLAUDE.md のリグレッションテスト](../../../CLAUDE.md#リグレッションテスト)にある。
+`pnpm vrt` が失敗した場合は、差分画像を確認して意図した変更であるかを判断する。意図通りであれば `pnpm vrt:update` で基準画像を再撮影する。再撮影時の注意点については、[CLAUDE.md のリグレッションテスト](../../../CLAUDE.md#リグレッションテスト)を参照のこと。
 
-DESIGN.md の front matter を触ったときは、形式も確かめる。
+DESIGN.md の front matter を変更した場合は、フォーマットの検証も行う。
 
 ```shell
 npx @google/design.md lint DESIGN.md
 ```
 
-### 6. DESIGN.md を直す
+### 6. DESIGN.md を更新する
 
-**決めごとを変えたなら DESIGN.md を直す。** トークンを足したなら front matter に 1 行、判断が増えたなら該当節か Do's and Don'ts に 1 項目を足す。
+**設計ルールや規約を変更した場合は、必ず DESIGN.md を更新する。** トークンを追加したなら front matter に 1 行、設計判断が追加されたなら該当節または Do's and Don'ts に 1 項目を追記する。
 
-DESIGN.md の本文は、複数のコンポーネントにまたがる方針だけを持つ。1 つのコンポーネントの寸法や配置は、手順 4 で足したスタイルガイドの見本が示す。何をいつ変えたかは PR とコミットに残す。
+DESIGN.md の本文には、複数のコンポーネントに横断する共通方針のみを記載する。個々のコンポーネントの寸法や配置は、手順 4 で追加したスタイルガイドの見本で表現する。いつ、どのような理由で変更したかは、PR とコミットログに記録する。

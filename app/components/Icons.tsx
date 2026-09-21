@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 
-// ブランドマークの d は Simple Icons (https://simple-icons.org, CC0) から取った。
+// ブランドマークの d は Simple Icons (https://simple-icons.org, CC0) から取得した。
 
 const inlineIconCss = css`
   width: 1em;
