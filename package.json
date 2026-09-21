@@ -22,7 +22,7 @@
   "dependencies": {
     "@formkit/tempo": "^1.1.0",
     "hono": "^4.13.7",
-    "honox": "0.1.43",
+    "honox": "0.1.61",
     "rehype-mermaid": "^3.0.0",
     "remark-gfm": "^4.0.1",
     "zod": "^4.5.4"
