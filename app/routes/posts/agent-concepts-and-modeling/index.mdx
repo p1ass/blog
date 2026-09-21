@@ -14,7 +14,7 @@ tags:
 
 これから Agent の開発について連載記事を書いていくにあたり、まずは基礎知識を 3 本の記事で整理します。この記事はその 1 本目です。
 
-OpenAI と Anthropic はそれぞれ別々に Agent SDK を開発していますが、2 つの SDK の中にある Agent の捉え方はほぼ同じです。どちらも、OpenAI がガイドで示した「モデル、指示、Tool を持ち、Tool 呼び出しがなくなるまでループを回す」という形で Agent を組み立てています。
+OpenAI と Anthropic はそれぞれ別々に Agent SDK を開発していますが、2 つの SDK の中にある Agent の捉え方はほぼ同じです。どちらも「モデル、指示、Tool を持ち、Tool 呼び出しがなくなるまでループを回す」という形で Agent を組み立てています。この形を最もまとまった形で説明しているのが、OpenAI が 2025 年 4 月に公開したガイドです。
 この記事では、まず Agent を理解する前提となる Tool 呼び出しの仕組みを確認し、OpenAI のガイドから Agent のモデルを整理します。そのうえで、OpenAI Agents SDK と Claude Agent SDK がそのモデルをどう表現しているのかを比較し、最後に Go で API を直接呼び出す最小限の Agent を実装します。
 2 社の SDK の概念を同じモデルに対応付けられること、そして SDK がどの処理を代わりに担っているのかを見分けられることが、この記事のゴールです。
 
@@ -49,7 +49,7 @@ _Tool 呼び出しの 1 往復。モデルは呼び出しを指定するだけ�
 
 ## OpenAI のガイドが示す Agent のモデル
 
-OpenAI は 2025 年 4 月に公開したガイドで、Agent を次のように説明しています。
+ガイドはこの形を新しく提案したものではなく、それまでの API や SDK で使われてきた形をまとめたものです。ガイドでは Agent を次のように説明しています。
 
 <ExLinkCard url="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" />
 
