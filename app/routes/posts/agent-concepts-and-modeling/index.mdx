@@ -71,10 +71,10 @@ OpenAI は 2025 年 4 月に公開したガイドで、Agent を次のように�
 Tool の種類としては、情報を取得する Data と外部に作用する Action のほかに、別の Agent を Tool として呼び出す Orchestration も挙げられています。
 Agent 自身が別の Agent の Tool になるという考え方は、後半の SDK で委譲の仕組みとして現れます。
 
-### 終了条件まで回る Run
+### 終了条件まで回るループ
 
-ガイドでは Agent の 1 回の実行を Run と呼び、終了条件を満たすまで回すループとして説明しています。
-終了条件は、特定の Tool 呼び出し、特定の構造化出力、エラー、最大ターン数への到達の 4 つです。
+ガイドは Agent の実行を、終了条件を満たすまで回すループとして説明しています。
+終了条件は特定の Tool 呼び出し、特定の構造化出力、エラー、最大ターン数への到達の 4 つです。
 
 > This concept of a while loop is central to the functioning of an agent.
 
@@ -187,7 +187,7 @@ Handoff は、モデルからは普通の Tool に見えます。
 > Handoffs are represented as tools to the LLM. So if there's a handoff to an agent named `Refund Agent`, the tool would be named `transfer_to_refund_agent`.
 
 モデルが `transfer_to_refund_agent` を呼び出すと、`Runner` は現在の Agent を Refund Agent に差し替えてループを続けます。
-ガイドでは、問い合わせを振り分ける Triage Agent の例を使っています。
+ガイドでは問い合わせを振り分ける Triage Agent を例にしています。
 
 ```mermaid
 flowchart LR
