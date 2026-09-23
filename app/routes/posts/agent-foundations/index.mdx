@@ -134,7 +134,7 @@ OpenAI のドキュメントの 3 要素は、そのまま `Agent` クラスの�
 `Agent` は `model`、`instructions`、`tools` を保持しています。
 
 例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。
-openai-agents 0.22.3 で確認しており、実行には環境変数 `OPENAI_API_KEY` が必要です。
+openai-agents 0.22.3 で確認しており、実行には環境変数 `OPENAI_API_KEY` が必要です。コードの全体は [GitHub](https://github.com/p1ass/blog/blob/main/app/routes/posts/agent-foundations/sdk-agent/openai_agent.py) にあります。
 
 ```python
 from agents import Agent, Runner, function_tool
@@ -196,7 +196,7 @@ Claude Agent SDK には `Agent` クラスがありません。Model、Instructio
 独特な設計ですね。
 
 OpenAI Agents SDK の例と同様の Agent を実装すると、次のようになります。
-claude-agent-sdk 0.2.158 で確認しており、実行には環境変数 `ANTHROPIC_API_KEY` が必要です。
+claude-agent-sdk 0.2.158 で確認しており、実行には環境変数 `ANTHROPIC_API_KEY` が必要です。コードの全体は [GitHub](https://github.com/p1ass/blog/blob/main/app/routes/posts/agent-foundations/sdk-agent/claude_agent.py) にあります。
 
 ```python
 import anyio
