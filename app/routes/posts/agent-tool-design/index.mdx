@@ -17,10 +17,10 @@ Agent の開発について学んだことを整理する連載の 2 本目で�
 
 <ExLinkCard url="https://blog.p1ass.com/posts/agent-foundations/" />
 
-この記事では、そのうち Tool を取り上げ、Tool をどう設計すればよいかを扱います。
-題材には Anthropic の「Writing effective tools for agents」が例に挙げている会議予約の Tool を使います。
+この記事では、その中から Tool を取り上げ、どのように設計すればよいかを扱います。
+題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
 既存の API をそのまま Tool にした会議予約 Agent を実装し、Tool の定義と結果、Tool の粒度の順に改善しながら、それぞれの段階で Agent の動きがどう変わるかを実行結果で確かめます。
-あわせて、MCP で Tool を提供する場合にも同じ指針が当てはまることを見ます。
+あわせて、MCP で Tool を提供する場合にも同じ指針が当てはまることを確認します。
 
 {/* <!--more--> */}
 
@@ -45,7 +45,7 @@ Tool は、同じ依頼でも毎回同じ行動をとるとは限らない Agent
 
 1. Tool の粒度を決める。Agent に任せたい作業から逆算して、どの Tool を用意するかを決める
 2. 定義と結果を整える。名前、説明、引数、戻り値、エラーを、Model が読んで正しく判断できる形にする
-3. 評価して改善する。実際のタスクで Agent を動かし、Tool の呼び出し回数やエラー、消費したトークンを確かめて直す
+3. 評価して改善する。実際のタスクで Agent を動かし、Tool の呼び出し回数やエラー、消費したトークンを確かめて改善する
 
 新しく Tool を作る場合は、この順に進めます。
 ただ、実際には既存の API をそのまま Tool として公開するところから始めることも多いと思います。
@@ -59,7 +59,7 @@ Anthropic の「Writing effective tools for agents」は、`list_users`、`list_
 「来週月曜の午後に、田中太郎さんと佐藤さんとの 30 分の打ち合わせを入れてください」と依頼し、カレンダーに予定を登録させます。
 
 カレンダーは Go のコードの中に疑似データとして用意しました。社員は 20 人で、そのうち「田中」は 2 人います。
-来週月曜 (2026-09-28) の 2 人の予定は次のとおりです。12 時から 18 時の間で 2 人とも空いている 30 分の枠は、16:00〜16:30 の 1 つです。
+来週月曜 (2026-09-28) の 2 人の予定は次のとおりです。12 時から 18 時の間で 2 人とも空いている 30 分の枠は、16:00〜16:30 の 1 つだけです。
 
 | 時間        | 田中 太郎    | 佐藤 健    |
 | ----------- | ------------ | ---------- |
@@ -101,7 +101,6 @@ func (r *Runner) Run(ctx context.Context, a *Agent, input string) (*Result, erro
 `Runner.Run` の Agent Loop は、1 本目で Anthropic Messages API を使って実装したものと同じです。
 ループの中で、ターン数、Tool Call とエラーの回数、入力トークンを集計して `Result` に含めます。
 
-
 Instructions には今日の日付とタイムゾーンを書きました。
 
 ```go
@@ -112,7 +111,7 @@ const (
 ```
 
 同じ依頼を繰り返し実行して計測するため、登録前の確認は省きました。
-実際に運用する Agent では、人違いの相手を招待しないよう、登録の前に参加者のフルネームと日時を依頼者に確認してもらいます。
+実際に運用する Agent では、誤った相手を招待してしまわないよう、登録の前に参加者のフルネームと日時を依頼者へ確認するようにします。
 
 環境は次のとおりです。コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-tool-design/calendar-agent) にあります。
 
@@ -204,7 +203,7 @@ run 1: turns=6 calls=8 errors=4 input_tokens=19867 ok=true
 ```
 
 Model は `list_users` で 2 人を見つけたあと、`user` に名前を渡して `404 Not Found` を受け取っています。次にメールアドレスを試して再び 404 になり、3 回目で UUID を渡してようやく予定を取得できました。
-`user` という引数名からは、名前、メールアドレス、ID のどれを渡せばよいかが分かりません。`404 Not Found` も何が間違っていたのかを伝えないため、Model は推測で引数を変えて試すしかありません。
+`user` という引数名からは、名前、メールアドレス、ID のどれを渡せばよいかが分かりません。`404 Not Found` も何が間違っていたのかを伝えてくれないため、Model は推測で引数を変えて試行錯誤するしかありません。
 
 さらに、予定の時刻は UTC で返るため、Model は自分で JST に変換してから空いている枠を探しています。
 
@@ -219,8 +218,8 @@ v1 の結果は次のとおりです。
 | エラーが起きた回数   | 10 回中 7 回                       |
 | 入力トークンの平均   | 17,115 (最小 11,340、最大 21,387) |
 
-Claude Sonnet 5 は、v1 の Tool でも最終的には 10 回とも正しい枠に予定を登録できました。
-正解にたどり着くまでの遠回りに差が出ます。1 本目で見たとおり、Agent Loop は毎ターン会話全体を送り直すため、ターンが増えるほど入力トークンが積み上がります。遠回りの分だけ応答は遅くなり、料金も増えます。
+Claude Sonnet 5 は、v1 の Tool でも最終的には 10 回すべてで正しい枠に予定を登録できました。
+しかし、正解にたどり着くまでの遠回りには差が出ます。1 本目で見たとおり、Agent Loop は毎ターン会話全体を送り直すため、ターンが増えるほど入力トークンが積み上がります。遠回りをした分だけ応答は遅くなり、利用料金も増えます。
 
 そこで以降のセクションでは、正答率ではなく、ターン数、エラー、入力トークンの変化を見ていきます。
 
@@ -232,7 +231,7 @@ v1 のログを Model の動きに沿って見ると、Model がつまずいた�
 - Tool を呼ぶときに、引数に何を渡せばよいかが分からない
 - 結果を読むときに、何が起きたのかが分からない
 
-次のバージョン (v2) では、Tool の数と役割は v1 のまま、この 3 つの場面で Model が読む名前、説明、引数、戻り値、エラーを直します。
+次のバージョン (v2) では、Tool の数と役割は v1 のまま、この 3 つの場面で Model が参照する名前、説明、引数、戻り値、エラーを改善します。
 
 | Tool           | v1             | v2                      |
 | -------------- | -------------- | ----------------------- |
@@ -247,7 +246,7 @@ Anthropic の「Writing effective tools for agents」は、サービスやリソ
 
 > namespacing tools by service (e.g., `asana_search`, `jira_search`) and by resource (e.g., `asana_projects_search`, `asana_users_search`), can help agents select the right tools at the right time.
 
-今回のように Tool が 3 つであれば、名前空間がなくても Model は正しい Tool を選べます。
+今回のように Tool が 3 つだけであれば、名前空間がなくても Model は正しい Tool を選べます。
 名前空間は複数の MCP サーバーをつないで、`list_events` のような似た名前の Tool が並んだときに役立ちます。
 
 Tool の説明には、何を返すかに加えて、いつ使うか、他の Tool とどう関係するかを書きます。
@@ -286,7 +285,7 @@ v1 の「ユーザーの一覧を返す」と比べると、何を返すか、�
 ```
 
 Tool の使い方は、Instructions ではなく Tool の説明に書きます。
-Anthropic の「The new rules of context engineering for Claude 5 generation models」は、以前のモデルでは Instructions と Tool の説明の両方に同じ指示を書くことがあったが、最新のモデルでは説明に書くだけでよいと述べています。
+Anthropic の「The new rules of context engineering for Claude 5 generation models」は、以前のモデルでは Instructions と Tool の説明の両方に同じ指示を書くこともありましたが、最新のモデルでは説明に書くだけで十分であると述べています。
 
 > We found we could delete these repeat examples and put instructions on how to use tools in the tool descriptions rather than the system prompt.
 
@@ -299,7 +298,7 @@ Anthropic の記事は、引数名について次のように書いています�
 
 > instead of a parameter named `user`, try a parameter named `user_id`.
 
-v2 では引数名を `user_id` にし、説明に「`calendar_list_users` で調べた usr\_ で始まる ID」と書きました。
+v2 では引数名を `user_id` にし、説明に「`calendar_list_users` で調べた `usr_` で始まる ID」と書きました。
 名前やメールアドレスを渡す余地がなくなり、どの Tool の結果を使えばよいかも分かります。
 
 引数の形も、依頼の単位に合わせて変えました。
@@ -349,22 +348,21 @@ v2 では、あわせて strict mode を有効にしました。
 Claude の API で Tool の定義へ `strict: true` を付けると、Model の出力はスキーマに合うトークンだけに制約されます。そのため、Tool の入力は必ずスキーマどおりになります。スキーマには `additionalProperties: false` が必要です。
 `agent.Tool` では、`Strict` が `true` のときに両方を設定します。
 
-
 <ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" />
 
-OpenAI のガイドの推奨は、strict mode を常に有効にすることです。Responses API では `strict` を省略すると、スキーマを strict mode に合う形へ変換しようとし、変換できない場合は strict でない呼び出しになります。
+OpenAI のガイドでも、strict mode を常に有効にすることが推奨されています。Responses API では `strict` を省略すると、スキーマを strict mode に合う形へ変換しようとし、変換できない場合は strict でない呼び出しになります。
 
 ただし、strict mode が保証するのは形だけです。
 v1 の `user` に名前を渡す呼び出しは、文字列というスキーマには合っているので、strict mode を有効にしても防げません。何を渡すべきかは、引数名と説明で伝える必要があります。
 
 ### 戻り値
 
-戻り値は Model が次の判断に使う情報へ絞ります。
+戻り値は Model が次の判断に使う情報だけに絞り込みます。
 Anthropic の記事は、UUID のような技術的な識別子より、名前のように次の行動に直接役立つ情報を返すよう勧めています。
 
 > eschew low-level technical identifiers (for example: `uuid`, `256px_image_url`, `mime_type`).
 
-一方、Claude のドキュメントには、内部の参照より、slug や UUID のような意味があって変わらない識別子を返すよう書かれています。
+一方、Claude のドキュメントには、内部参照ではなく、slug や UUID のような意味があって変わらない識別子を返すよう書かれています。
 
 > Return semantic, stable identifiers (for example, slugs or UUIDs) rather than opaque internal references
 
@@ -381,7 +379,7 @@ usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232: 佐藤 健 (開発部)
 ...
 ```
 
-v1 の予定は参加者の ID と UTC の時刻を含む JSON でしたが、v2 では JST の時刻と件名の文にしました。
+v1 の予定一覧は参加者の ID と UTC の時刻を含む JSON でしたが、v2 では JST の時刻と件名を含む自然言語のテキストにしました。
 v1 と v2 の結果を並べると、次のとおりです。
 
 ```text
@@ -401,7 +399,7 @@ Anthropic の記事は、`response_format` という enum の引数で、簡潔�
 
 ### エラーの返し方
 
-v1 の `404 Not Found` は何が間違っていたのかを伝えません。
+v1 が返していた `404 Not Found` は何が間違っていたのかを Model に伝えられません。
 Anthropic の記事は、エラーでは分かりにくいエラーコードやトレースバックではなく、具体的で行動につながる改善点を伝えるよう勧めています。
 
 > you can prompt-engineer your error responses to clearly communicate specific and actionable improvements, rather than opaque error codes or tracebacks.
@@ -421,7 +419,7 @@ func unknownUserError(id string) error {
 次の予定と重なるため登録しませんでした: 16:30-18:00「定例」。空いている時間帯を指定し直してください
 ```
 
-エラーは例外として Agent Loop を止めず、Tool の結果として Model に返します。
+エラーが発生しても例外として Agent Loop を止めず、Tool の実行結果として Model に返します。
 Anthropic Messages API では、`tool_result` に `is_error: true` を付けて返します。
 今回の Agent Loop では、Tool の関数が `error` を返したら、そのメッセージを `is_error: true` の結果にしています。
 
@@ -475,9 +473,9 @@ v2 では 10 回ともエラーが起きず、入力トークンは v1 の約半
 
 ## Tool の粒度
 
-v2 で Tool はそれぞれ読みやすくなりましたが、手順の組み立てと空き時間の計算は Model に残っています。
+v2 では個々の Tool の入出力が整理されましたが、複数の Tool を組み合わせる手順の組み立てや、空き時間の計算といった負荷は依然として Model に残っています。
 
-Anthropic の記事は、既存の API をそのまま包んだだけの Tool をよくある失敗として挙げ、次のようにまとめることを勧めています。
+Anthropic の記事は、既存の API をそのままラップしただけの Tool をよくある失敗例として挙げ、次のようにまとめることを勧めています。
 
 > Instead of implementing a `list_users`, `list_events`, and `create_event` tools, consider implementing a `schedule_event` tool which finds availability and schedules an event.
 
@@ -538,7 +536,7 @@ v2 から変えたのは次の 3 点です。
 
 - 参加者を `user_id` ではなく名前で受け取り、Tool の中でユーザーを探す。`calendar_list_users` はなくなる
 - 予定の一覧ではなく、全員が空いている枠を返す。空き時間の計算はコードが行う
-- 説明に、2 つの Tool をどの順で使うかを書く
+- Tool の説明に、2 つの Tool をどの順で使うかを書く
 
 名前で受け取ると、同じ姓の人が複数いる場合に誰を指すのかがあいまいになります。
 その場合は候補の一覧をエラーとして返し、Model にフルネームで指定し直してもらいます。たとえば `participants` に「田中」とだけ渡すと、次のエラーになります。
@@ -552,12 +550,12 @@ Anthropic の例のように、空き時間の検索と登録を 1 つの Tool �
 
 ### Tool をまとめる範囲
 
-Tool をまとめるのにも限度があります。
-Anthropic の「Seeing like an agent」は、Claude Code の AskUserQuestion を作るまでの試行錯誤を紹介しています。
+ただし、Tool をまとめすぎることにも問題があります。
+Anthropic の「Seeing like an agent」は、Claude Code の `AskUserQuestion` を作るまでの試行錯誤を紹介しています。
 
 <ExLinkCard url="https://claude.com/blog/seeing-like-an-agent" />
 
-Claude Code のチームは最初に、計画を提出する ExitPlanTool へ質問の配列を渡す引数を足しました。
+Claude Code の開発チームは最初、計画を提出する `ExitPlanTool` に質問の配列を渡す引数を追加しました。
 しかし、計画と、その計画についての質問を同時に求めることになり、Claude が混乱したと書かれています。
 
 > it confused Claude because we were simultaneously asking for a plan and a set of questions about the plan.
@@ -576,7 +574,7 @@ Tool の境界を決めるときの目安として、Anthropic の「Effective c
 <ExLinkCard url="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" />
 
 Shopify の Sidekick の事例でも、Tool の数が増えるにつれて境界があいまいになったと報告されています。
-Tool が 0〜20 個のうちは境界がはっきりしていたが、20〜50 個になると境界があいまいになり、Tool の組み合わせが予期しない結果を生むようになったそうです。
+Tool が 0〜20 個のうちは境界が明確だったものの、20〜50 個になると境界があいまいになり、Tool の組み合わせが予期しない結果を生むようになったそうです。
 
 <ExLinkCard url="https://shopify.engineering/building-production-ready-agentic-systems" />
 
@@ -604,7 +602,7 @@ Model は 1 ターン目で空いている枠を探し、2 ターン目で登録
 
 10 回実行すると、10 回とも正しく登録でき、ターン数は毎回 3、Tool Call は毎回 2 回で、エラーは起きませんでした。
 入力トークンの平均は 4,925 で、v2 の約半分、v1 の 3 割弱です。
-Tool の定義と結果の改善でエラーによる遠回りがなくなり、粒度の見直しで Model の組み立てる手順そのものが短くなっています。
+Tool の定義と結果の改善によってエラーによる遠回りをなくし、粒度の見直しによって Model が組み立てる手順そのものを短縮しています。
 
 ## Tool の評価
 
@@ -618,9 +616,9 @@ Tool の定義と結果の改善でエラーによる遠回りがなくなり、
 
 v1 から v2 では、引数を推測して試すためのエラーと、それを取り返すためのターンが減りました。
 v2 から v3 では、ユーザーの検索や空き時間の計算のように、Model が組み立てていた手順そのものが減りました。
-どのバージョンも 10 回とも正しく登録できたので、Tool の改善の効果は、正解できるかどうかではなく、正解までの遠回りの量に表れています。
+どのバージョンも 10 回すべてで正しく登録できたため、Tool の改善の効果は、正解できるかどうかではなく、正解までの遠回りの量に表れています。
 
-v1 でも、最初から UUID を渡してエラーなく終わる回があります。1 回の実行だけで比べると、こうしたばらつきに気付けません。
+なお、v1 でも最初から UUID を渡してエラーなく完了する回がありました。1 回の実行結果を比較しただけでは、こうした振る舞いのばらつきに気付けません。
 
 <Note>
   今回の評価タスクは 1 つですが、実際の Agent では想定する依頼を多数用意して評価します。
@@ -712,7 +710,7 @@ Go SDK では、ハンドラーが `error` を返すと、SDK がそれを `isEr
 
 MCP の Tool には、`readOnlyHint` や `destructiveHint` のような annotations も付けられます。
 v3 で検索と登録を分けたように読み取りと書き込みの Tool を分けておけば、読み取りの Tool に `readOnlyHint` を付け、クライアント側で承認の要否を分けるといった使い方ができます。
-ただし annotations はあくまでヒントです。MCP の仕様は、信頼できるサーバーから受け取ったもの以外は信頼しないよう、クライアントに求めています。
+ただし annotations はあくまでヒントに過ぎません。MCP の仕様は、信頼できるサーバーから受け取ったもの以外は信頼しないよう、クライアントに求めています。
 
 ## おわりに
 
@@ -722,9 +720,9 @@ v3 で検索と登録を分けたように読み取りと書き込みの Tool �
 Model が Tool について知る手がかりは、Tool の定義と実行結果です。
 そのため、Tool の設計は、Model がそれをどう読むかを基準に考えます。
 
-1. Tool の粒度を決める。API のエンドポイントではなく、Agent に任せたい作業の単位で Tool を切る
-2. 定義と結果を整える。名前、説明、引数、戻り値、エラーを、Model が迷わず次の行動を決められる形にする
-3. 評価して改善する。同じ依頼で繰り返し実行し、ターン数やエラー、トークンの変化を確かめる
+1. Tool の粒度を決める。API のエンドポイントではなく、Agent に任せたい作業の単位で Tool を分割する
+2. 定義と結果を整える。名前、説明、引数、戻り値、エラーを、Model が迷わず次の行動を判断できる形にする
+3. 評価して改善する。同じ依頼を繰り返し実行し、ターン数やエラー、消費トークンの変化を計測して改善する
 
 MCP で Tool をサーバーとして提供する場合も、Model が読むのは同じ定義と結果なので、これらの指針はそのまま使えます。
 
