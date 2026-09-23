@@ -58,7 +58,7 @@ func (r *Runner) Run(ctx context.Context, a *Agent, input string) (*Result, erro
 	for turn := range r.MaxTurns {
 		resp, err := r.Client.Messages.New(ctx, params)
 		if err != nil {
-			return nil, err
+			return &Result{Usage: usage}, err
 		}
 		usage.Turns = turn + 1
 		usage.InputTokens += resp.Usage.InputTokens
@@ -70,7 +70,7 @@ func (r *Runner) Run(ctx context.Context, a *Agent, input string) (*Result, erro
 		}
 		params.Messages = append(params.Messages, anthropic.NewUserMessage(results...))
 	}
-	return nil, fmt.Errorf("max turns (%d) exceeded", r.MaxTurns)
+	return &Result{Usage: usage}, fmt.Errorf("max turns (%d) exceeded", r.MaxTurns)
 }
 
 func (a *Agent) runTools(ctx context.Context, turn int, content []anthropic.ContentBlockUnion, usage *Usage) []anthropic.ContentBlockParamUnion {

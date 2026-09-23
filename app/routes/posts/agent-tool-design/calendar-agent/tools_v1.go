@@ -8,16 +8,28 @@ import (
 	"time"
 
 	"github.com/p1ass/blog/app/routes/posts/agent-tool-design/calendar-agent/agent"
+	"github.com/p1ass/blog/app/routes/posts/agent-tool-design/calendar-agent/calendar"
 )
 
-func v1Tools(c *calendar) []agent.Tool {
+func v1Tools(c *calendar.Calendar) []agent.Tool {
 	return []agent.Tool{
 		{
 			Name:        "list_users",
 			Description: "ユーザーの一覧を返す",
 			Properties:  map[string]any{},
 			Run: func(context.Context, json.RawMessage) (string, error) {
-				b, err := json.Marshal(c.users)
+				type item struct {
+					ID         string `json:"id"`
+					Name       string `json:"name"`
+					Email      string `json:"email"`
+					Department string `json:"department"`
+					CreatedAt  string `json:"created_at"`
+				}
+				var items []item
+				for _, u := range c.Users {
+					items = append(items, item{u.ID, u.Name, u.Email, u.Department, u.CreatedAt.UTC().Format(time.RFC3339)})
+				}
+				b, err := json.Marshal(items)
 				return string(b), err
 			},
 		},
@@ -39,7 +51,7 @@ func v1Tools(c *calendar) []agent.Tool {
 				if err := json.Unmarshal(input, &args); err != nil {
 					return "", err
 				}
-				if _, ok := c.userByID(args.User); !ok {
+				if _, ok := c.UserByID(args.User); !ok {
 					return "", errors.New("404 Not Found")
 				}
 				from, err1 := time.Parse(time.RFC3339, args.TimeMin)
@@ -55,7 +67,7 @@ func v1Tools(c *calendar) []agent.Tool {
 					End       string   `json:"end"`
 				}
 				var items []item
-				for _, e := range c.eventsOf(args.User, from, to) {
+				for _, e := range c.EventsOf(args.User, from, to) {
 					items = append(items, item{e.ID, e.Title, e.Attendees, e.Start.UTC().Format(time.RFC3339), e.End.UTC().Format(time.RFC3339)})
 				}
 				b, err := json.Marshal(items)
@@ -83,7 +95,7 @@ func v1Tools(c *calendar) []agent.Tool {
 					return "", err
 				}
 				for _, id := range args.Attendees {
-					if _, ok := c.userByID(id); !ok {
+					if _, ok := c.UserByID(id); !ok {
 						return "", errors.New("404 Not Found")
 					}
 				}
@@ -92,10 +104,10 @@ func v1Tools(c *calendar) []agent.Tool {
 				if err1 != nil || err2 != nil {
 					return "", errors.New("400 Bad Request")
 				}
-				if len(c.conflicts(args.Attendees, start, end)) > 0 {
+				if len(c.Conflicts(args.Attendees, start, end)) > 0 {
 					return "", errors.New("409 Conflict")
 				}
-				e := c.add(args.Title, args.Attendees, start, end)
+				e := c.Add(args.Title, args.Attendees, start, end)
 				return fmt.Sprintf(`{"id":%q,"status":"confirmed"}`, e.ID), nil
 			},
 		},

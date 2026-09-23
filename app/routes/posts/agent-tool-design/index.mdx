@@ -137,7 +137,7 @@ const (
 Tool の定義は次のとおりです。`Run` の実装は省略しています。
 
 ```go
-func v1Tools(c *calendar) []agent.Tool {
+func v1Tools(c *calendar.Calendar) []agent.Tool {
 	return []agent.Tool{
 		{
 			Name:        "list_users",
@@ -312,7 +312,7 @@ v2 では引数名を `user_id` にし、説明に「`calendar_list_users` で�
 v2 の `calendar_create_event` の定義は次のとおりです。
 
 ```go
-userIDs := map[string]any{
+attendeeUserIDsSchema := map[string]any{
 	"type":        "array",
 	"items":       map[string]string{"type": "string"},
 	"description": "参加者の user_id。calendar_list_users で調べた usr_ で始まる ID",
@@ -325,7 +325,7 @@ userIDs := map[string]any{
 	Description: "参加者全員のカレンダーに予定を登録する。誰かの予定と重なる場合は登録せず、重なっている予定を返す。",
 	Properties: map[string]any{
 		"title":             map[string]string{"type": "string", "description": "予定の件名"},
-		"attendee_user_ids": userIDs,
+		"attendee_user_ids": attendeeUserIDsSchema,
 		"start":             map[string]string{"type": "string", "description": "開始日時 (JST)。YYYY-MM-DDTHH:MM 形式"},
 		"duration_minutes":  map[string]any{"type": "integer", "description": "予定の長さ (分)"},
 	},
@@ -426,8 +426,10 @@ Anthropic Messages API では、`tool_result` に `is_error: true` を付けて�
 ```go
 out, err := a.call(ctx, call)
 if err != nil {
+	// ...
 	out = err.Error()
 }
+// ...
 results = append(results, anthropic.NewToolResultBlock(call.ID, out, err != nil))
 ```
 
@@ -491,7 +493,7 @@ Model のコンテキストは限られていますが、コードで扱える�
 v3 では、Tool を `calendar_find_free_slots` と `calendar_schedule_event` の 2 つに作り直しました。
 
 ```go
-participants := map[string]any{
+participantsSchema := map[string]any{
 	"type":        "array",
 	"items":       map[string]string{"type": "string"},
 	"description": "参加者の名前。「田中 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない",
@@ -505,7 +507,7 @@ participants := map[string]any{
 		"会議を登録する前に、候補の時間帯を決めるために使う。時刻はすべて日本時間 (JST)。" +
 		"名前が複数の人に該当する場合は候補の一覧をエラーとして返すので、フルネームで指定し直す。",
 	Properties: map[string]any{
-		"participants":     participants,
+		"participants":     participantsSchema,
 		"date":             map[string]string{"type": "string", "description": "探す日付。YYYY-MM-DD 形式"},
 		"duration_minutes": map[string]any{"type": "integer", "description": "会議の長さ (分)"},
 		"earliest":         map[string]string{"type": "string", "description": "探し始める時刻。HH:MM 形式。午後なら 12:00"},
@@ -522,7 +524,7 @@ participants := map[string]any{
 		"誰かの予定と重なる場合は登録せず、重なっている予定を返す。",
 	Properties: map[string]any{
 		"title":            map[string]string{"type": "string", "description": "会議の件名"},
-		"participants":     participants,
+		"participants":     participantsSchema,
 		"start":            map[string]string{"type": "string", "description": "開始日時 (JST)。YYYY-MM-DDTHH:MM 形式"},
 		"duration_minutes": map[string]any{"type": "integer", "description": "会議の長さ (分)"},
 	},
@@ -664,7 +666,8 @@ func main() {
 	mcp.AddTool(server, &mcp.Tool{
 		Name: "calendar_find_free_slots",
 		Description: "指定した参加者全員の予定が空いている時間帯を、指定した日付の範囲で探す。" +
-			"会議を登録する前に、候補の時間帯を決めるために使う。時刻はすべて日本時間 (JST)。",
+			"会議を登録する前に、候補の時間帯を決めるために使う。時刻はすべて日本時間 (JST)。" +
+			"名前が複数の人に該当する場合は候補の一覧をエラーとして返すので、フルネームで指定し直す。",
 	}, findFreeSlots)
 	if err := server.Run(context.Background(), &mcp.StdioTransport{}); err != nil {
 		log.Fatal(err)

@@ -1,22 +1,23 @@
-package main
+package calendar
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 	"time"
 )
 
-var jst = time.FixedZone("JST", 9*60*60)
+var JST = time.FixedZone("JST", 9*60*60)
 
-type user struct {
-	ID         string `json:"id"`
-	Name       string `json:"name"`
-	Email      string `json:"email"`
-	Department string `json:"department"`
-	CreatedAt  string `json:"created_at"`
+type User struct {
+	ID         string
+	Name       string
+	Email      string
+	Department string
+	CreatedAt  time.Time
 }
 
-type event struct {
+type Event struct {
 	ID        string
 	Title     string
 	Attendees []string
@@ -24,12 +25,12 @@ type event struct {
 	End       time.Time
 }
 
-type calendar struct {
-	users  []user
-	events []event
+type Calendar struct {
+	Users  []User
+	Events []Event
 }
 
-func newCalendar() *calendar {
+func New() *Calendar {
 	names := []struct{ name, dept string }{
 		{"田中 太郎", "開発部"}, {"田中 花子", "営業部"}, {"佐藤 健", "開発部"},
 		{"鈴木 一郎", "人事部"}, {"高橋 美咲", "開発部"}, {"伊藤 大輔", "営業部"},
@@ -39,20 +40,20 @@ func newCalendar() *calendar {
 		{"松本 蓮", "開発部"}, {"井上 陽菜", "営業部"}, {"木村 悠斗", "開発部"},
 		{"林 結衣", "人事部"}, {"清水 颯", "開発部"},
 	}
-	c := &calendar{}
+	c := &Calendar{}
 	for i, n := range names {
-		c.users = append(c.users, user{
+		c.Users = append(c.Users, User{
 			ID:         fmt.Sprintf("usr_%08x-4f1c-4b7a-9e3d-%012x", 0x3a91c000+i*7919, 0x5d2e0000+i*104729),
 			Name:       n.name,
 			Email:      fmt.Sprintf("user%02d@example.com", i+1),
 			Department: n.dept,
-			CreatedAt:  time.Date(2024, time.Month(i%12+1), i%28+1, 0, 0, 0, 0, time.UTC).Format(time.RFC3339),
+			CreatedAt:  time.Date(2024, time.Month(i%12+1), i%28+1, 0, 0, 0, 0, time.UTC),
 		})
 	}
 
-	at := func(h, m int) time.Time { return time.Date(2026, 9, 28, h, m, 0, 0, jst) }
-	tanaka, sato := c.users[0].ID, c.users[2].ID
-	c.events = []event{
+	at := func(h, m int) time.Time { return time.Date(2026, 9, 28, h, m, 0, 0, JST) }
+	tanaka, sato := c.Users[0].ID, c.Users[2].ID
+	c.Events = []Event{
 		{ID: "evt_01", Title: "設計レビュー", Attendees: []string{tanaka}, Start: at(13, 0), End: at(14, 0)},
 		{ID: "evt_02", Title: "1on1", Attendees: []string{tanaka}, Start: at(15, 0), End: at(16, 0)},
 		{ID: "evt_03", Title: "ランチ MTG", Attendees: []string{sato}, Start: at(12, 0), End: at(13, 0)},
@@ -62,58 +63,54 @@ func newCalendar() *calendar {
 	return c
 }
 
-func (c *calendar) userByID(id string) (user, bool) {
-	for _, u := range c.users {
+func (c *Calendar) UserByID(id string) (User, bool) {
+	for _, u := range c.Users {
 		if u.ID == id {
 			return u, true
 		}
 	}
-	return user{}, false
+	return User{}, false
 }
 
-func (c *calendar) findUser(query string) (user, []user) {
-	q := strings.ReplaceAll(query, " ", "")
-	var hits []user
-	for _, u := range c.users {
-		if strings.Contains(strings.ReplaceAll(u.Name, " ", ""), q) {
+func (c *Calendar) FindUsers(query string) []User {
+	q := removeSpaces(query)
+	var hits []User
+	for _, u := range c.Users {
+		if strings.Contains(removeSpaces(u.Name), q) {
 			hits = append(hits, u)
 		}
 	}
-	if len(hits) == 1 {
-		return hits[0], nil
-	}
-	return user{}, hits
+	return hits
 }
 
-func (c *calendar) eventsOf(userID string, from, to time.Time) []event {
-	var out []event
-	for _, e := range c.events {
-		if e.End.After(from) && e.Start.Before(to) && contains(e.Attendees, userID) {
+func removeSpaces(s string) string {
+	return strings.Join(strings.Fields(s), "")
+}
+
+func (c *Calendar) EventsOf(userID string, from, to time.Time) []Event {
+	var out []Event
+	for _, e := range c.Events {
+		if e.End.After(from) && e.Start.Before(to) && slices.Contains(e.Attendees, userID) {
 			out = append(out, e)
 		}
 	}
 	return out
 }
 
-func (c *calendar) conflicts(userIDs []string, start, end time.Time) []event {
-	var out []event
+func (c *Calendar) Conflicts(userIDs []string, start, end time.Time) []Event {
+	var out []Event
 	for _, id := range userIDs {
-		out = append(out, c.eventsOf(id, start, end)...)
+		for _, e := range c.EventsOf(id, start, end) {
+			if !slices.ContainsFunc(out, func(o Event) bool { return o.ID == e.ID }) {
+				out = append(out, e)
+			}
+		}
 	}
 	return out
 }
 
-func (c *calendar) add(title string, userIDs []string, start, end time.Time) event {
-	e := event{ID: fmt.Sprintf("evt_%02d", len(c.events)+1), Title: title, Attendees: userIDs, Start: start, End: end}
-	c.events = append(c.events, e)
+func (c *Calendar) Add(title string, userIDs []string, start, end time.Time) Event {
+	e := Event{ID: fmt.Sprintf("evt_%02d", len(c.Events)+1), Title: title, Attendees: userIDs, Start: start, End: end}
+	c.Events = append(c.Events, e)
 	return e
-}
-
-func contains(s []string, v string) bool {
-	for _, x := range s {
-		if x == v {
-			return true
-		}
-	}
-	return false
 }

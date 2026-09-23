@@ -8,10 +8,11 @@ import (
 	"time"
 
 	"github.com/p1ass/blog/app/routes/posts/agent-tool-design/calendar-agent/agent"
+	"github.com/p1ass/blog/app/routes/posts/agent-tool-design/calendar-agent/calendar"
 )
 
-func v2Tools(c *calendar) []agent.Tool {
-	userIDs := map[string]any{
+func v2Tools(c *calendar.Calendar) []agent.Tool {
+	attendeeUserIDsSchema := map[string]any{
 		"type":        "array",
 		"items":       map[string]string{"type": "string"},
 		"description": "参加者の user_id。calendar_list_users で調べた usr_ で始まる ID",
@@ -24,7 +25,7 @@ func v2Tools(c *calendar) []agent.Tool {
 			Strict:      true,
 			Run: func(context.Context, json.RawMessage) (string, error) {
 				var lines []string
-				for _, u := range c.users {
+				for _, u := range c.Users {
 					lines = append(lines, fmt.Sprintf("%s: %s (%s)", u.ID, u.Name, u.Department))
 				}
 				return strings.Join(lines, "\n"), nil
@@ -47,23 +48,19 @@ func v2Tools(c *calendar) []agent.Tool {
 				if err := json.Unmarshal(input, &args); err != nil {
 					return "", err
 				}
-				u, ok := c.userByID(args.UserID)
+				u, ok := c.UserByID(args.UserID)
 				if !ok {
 					return "", unknownUserError(args.UserID)
 				}
-				day, err := time.ParseInLocation("2006-01-02", args.Date, jst)
+				day, err := time.ParseInLocation(localDateLayout, args.Date, calendar.JST)
 				if err != nil {
 					return "", fmt.Errorf("date は YYYY-MM-DD 形式で指定してください (受け取った値: %q)", args.Date)
 				}
-				events := c.eventsOf(u.ID, day, day.AddDate(0, 0, 1))
+				events := c.EventsOf(u.ID, day, day.AddDate(0, 0, 1))
 				if len(events) == 0 {
 					return fmt.Sprintf("%s の %s の予定はありません", u.Name, formatDate(day)), nil
 				}
-				var lines []string
-				for _, e := range events {
-					lines = append(lines, fmt.Sprintf("%s-%s「%s」", e.Start.Format("15:04"), e.End.Format("15:04"), e.Title))
-				}
-				return fmt.Sprintf("%s の %s の予定: %s", u.Name, formatDate(day), strings.Join(lines, "、")), nil
+				return fmt.Sprintf("%s の %s の予定: %s", u.Name, formatDate(day), formatEvents(events)), nil
 			},
 		},
 		{
@@ -71,7 +68,7 @@ func v2Tools(c *calendar) []agent.Tool {
 			Description: "参加者全員のカレンダーに予定を登録する。誰かの予定と重なる場合は登録せず、重なっている予定を返す。",
 			Properties: map[string]any{
 				"title":             map[string]string{"type": "string", "description": "予定の件名"},
-				"attendee_user_ids": userIDs,
+				"attendee_user_ids": attendeeUserIDsSchema,
 				"start":             map[string]string{"type": "string", "description": "開始日時 (JST)。YYYY-MM-DDTHH:MM 形式"},
 				"duration_minutes":  map[string]any{"type": "integer", "description": "予定の長さ (分)"},
 			},
@@ -87,24 +84,24 @@ func v2Tools(c *calendar) []agent.Tool {
 				if err := json.Unmarshal(input, &args); err != nil {
 					return "", err
 				}
-				var users []user
+				var users []calendar.User
 				for _, id := range args.AttendeeUserIDs {
-					u, ok := c.userByID(id)
+					u, ok := c.UserByID(id)
 					if !ok {
 						return "", unknownUserError(id)
 					}
 					users = append(users, u)
 				}
-				start, err := time.ParseInLocation(localTimeLayout, args.Start, jst)
+				start, err := time.ParseInLocation(localTimeLayout, args.Start, calendar.JST)
 				if err != nil {
 					return "", fmt.Errorf("start は YYYY-MM-DDTHH:MM 形式で指定してください (受け取った値: %q)", args.Start)
 				}
 				end := start.Add(time.Duration(args.DurationMinutes) * time.Minute)
-				if cs := c.conflicts(ids(users), start, end); len(cs) > 0 {
+				if cs := c.Conflicts(ids(users), start, end); len(cs) > 0 {
 					return "", conflictError(cs)
 				}
-				c.add(args.Title, ids(users), start, end)
-				return fmt.Sprintf("「%s」を %s %s-%s に登録しました。参加者: %s", args.Title, formatDate(start), start.Format("15:04"), end.Format("15:04"), strings.Join(names(users), "、")), nil
+				c.Add(args.Title, ids(users), start, end)
+				return fmt.Sprintf("「%s」を %s %s に登録しました。参加者: %s", args.Title, formatDate(start), formatSpan(start, end), strings.Join(names(users), "、")), nil
 			},
 		},
 	}
