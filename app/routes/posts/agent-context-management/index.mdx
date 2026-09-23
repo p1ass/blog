@@ -25,3 +25,14 @@ draft: true
 - 読み込みは入力の約 0.1 倍、書き込みは 5 分の TTL で 1.25 倍、1 時間で 2 倍
 - キャッシュできる先頭部分の最小サイズはモデルによって 512〜4096 トークンで、これより短いと、エラーは出ないままキャッシュされない
 - Go では `MessageNewParams` に `CacheControl: anthropic.NewCacheControlEphemeralParam()` を足す。キャッシュから読めたかどうかは `resp.Usage.CacheReadInputTokens` で確かめる
+
+## メモ: Tool が増えたときの扱い
+
+2 本目 (Tool の設計) では扱わず、この記事で扱う。いずれも未検証で、執筆前に一次情報で確認する。
+
+- Tool の定義そのものがコンテキストを圧迫する。MCP サーバーを複数つなぐと、ユーザーの入力を読む前に大量のトークンを消費する
+- Anthropic の Tool Search: Tool に `defer_loading: true` を付け、Model が検索してから必要な Tool の定義だけを読み込む。[Introducing advanced tool use](https://www.anthropic.com/engineering/advanced-tool-use) (2025-11-24) に Programmatic Tool Calling、Tool Use Examples と合わせて書かれている。2026 年 2 月から GA という二次情報がある
+- OpenAI の Tool search: `tool_search` を Tool に加え、関数に `defer_loading: true` を付ける。namespace か MCP サーバー単位での利用を推奨している ([Tool search](https://developers.openai.com/api/docs/guides/tools-tool-search))
+- Claude Code は MCP の Tool の定義がコンテキストの 10% を超えると遅延読み込みに切り替わるという二次情報がある
+- Code Execution: Tool を直接呼ばず、Model が書いたコードから呼ばせて、必要な結果だけをコンテキストに戻す ([Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)、Cloudflare の Code Mode)
+- Tool の結果によるコンテキストの圧迫 (大きな結果の要約、古い結果のクリア) もあわせて扱う。[Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) が参考になる
