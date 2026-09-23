@@ -19,7 +19,7 @@ func v3Tools(c *calendar.Calendar) []agent.Tool {
 	participantsSchema := map[string]any{
 		"type":        "array",
 		"items":       map[string]string{"type": "string"},
-		"description": "参加者の名前。「田中 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない",
+		"description": "参加者の名前。「花芽 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない",
 	}
 	return []agent.Tool{
 		{
