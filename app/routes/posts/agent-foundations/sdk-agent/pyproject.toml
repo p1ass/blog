@@ -1,0 +1,8 @@
+[project]
+name = "sdk-agent"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "claude-agent-sdk==0.2.158",
+    "openai-agents==0.22.3",
+]

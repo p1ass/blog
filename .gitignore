@@ -17,3 +17,6 @@ yarn.lock
 bun.lockb
 
 /ideas/
+
+.env
+.venv
