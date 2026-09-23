@@ -153,12 +153,12 @@
   "https://claude.com/blog/seeing-like-an-agent": {
     "title": "Seeing like an agent: how we design tools in Claude Code / claude.dev",
     "description": "Learn how the Claude Code team designs, tests, and evolves tools by thinking from the model's point of view.",
-    "image": "https://claude.dev/blog/seeing-like-an-agent/og.png"
+    "image": "/ogp/b3e33337924f9314.png"
   },
   "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models": {
     "title": "The new rules of context engineering for Claude 5 generation models / claude.dev",
     "description": "We removed over 80% of Claude Code's system prompt for more advanced models. How to apply the lessons we learned to your own context engineering in Claude Code and with your own agents.",
-    "image": "https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/og.png"
+    "image": "/ogp/f3392a5f2a3840b4.png"
   },
   "https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja": {
     "title": "サービス間認証 | Cloud Run | Google Cloud Documentation",
@@ -903,17 +903,17 @@
   "https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools": {
     "title": "Define tools",
     "description": "Specify tool schemas, write effective descriptions, and control when Claude calls your tools.",
-    "image": "https://platform.claude.com/web-api/og/docs/en/agents-and-tools/tool-use/define-tools?design-rev=2"
+    "image": "/ogp/8b61fb3175fdf897.png"
   },
   "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls": {
     "title": "Handle tool calls",
     "description": "Parse tool_use blocks, format tool_result responses, and handle errors with is_error.",
-    "image": "https://platform.claude.com/web-api/og/docs/en/agents-and-tools/tool-use/handle-tool-calls?design-rev=2"
+    "image": "/ogp/7a72961103a9963b.png"
   },
   "https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use": {
     "title": "Strict tool use",
     "description": "Enforce JSON Schema compliance on Claude's tool inputs with grammar-constrained sampling.",
-    "image": "https://platform.claude.com/web-api/og/docs/en/agents-and-tools/tool-use/strict-tool-use?design-rev=2"
+    "image": "/ogp/e64256dd914aeed1.png"
   },
   "https://play.golang.org/p/3j5V3yHWx4G": {
     "title": "Go Playground - The Go Programming Language",

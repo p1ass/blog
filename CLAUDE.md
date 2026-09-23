@@ -34,7 +34,7 @@
 - 初回は `pnpm install:playwright` を実行する。ビルド時に Chromium で Mermaid を描画するため、インストールされていないとビルドが失敗する。
 - `scripts/` 配下のスクリプトは TypeScript で作成し、`node scripts/<name>.ts` で直接実行する。
 - ルーティング処理内で失敗しうるもの（OGP の取得など）は、例外をスローせずフォールバックさせる。`@hono/vite-ssg` は例外が発生するとページの代わりに "Internal Server Error" を出力してビルドを正常終了扱いにしてしまうため、該当記事のみが本番環境で 404 になってしまう。
-- リンクカードの OGP 情報は `ogp-cache.json` を参照する。キャッシュの更新時は `pnpm ogp:refresh` を手動で実行する。
+- リンクカードの OGP 情報は `ogp-cache.json` を参照する。キャッシュの更新時は `pnpm ogp:refresh` を手動で実行する。`Cross-Origin-Resource-Policy` で他サイトからの読み込みを拒否している画像は `public/ogp/` に保存されるので、あわせてコミットする。
 
 ## スタイリング
 
