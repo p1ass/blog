@@ -1,4 +1,4 @@
-module github.com/p1ass/blog/app/routes/posts/agent-concepts-and-modeling/minimal-agent
+module github.com/p1ass/blog/app/routes/posts/agent-foundations/minimal-agent
 
 go 1.27.0
 

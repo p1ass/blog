@@ -1,7 +1,7 @@
 ---
-title: マルチ Agent
+title: Multi-Agent
 date: 2099-12-31T00:00:00+09:00
-description: Agent 開発の連載の 5 本目。マルチ Agentを扱う。
+description: Agent 開発の連載の 5 本目。Multi-Agent を扱う。
 category: 生成AI
 tags:
   - Agent
@@ -48,7 +48,7 @@ Agent 自身が別の Agent の Tool になるという考え方は、後半の 
 
 ### Manager と Handoff による委譲
 
-ガイドはマルチ Agent の構成として 2 つのパターンを挙げています。
+ガイドは Multi-Agent の構成として 2 つのパターンを挙げています。
 
 | パターン | 内容 |
 | --- | --- |
@@ -108,4 +108,4 @@ options = ClaudeAgentOptions(
 
 Model、Instructions、Tool を持ち、最終出力を返すまでループを回し、別の Agent への委譲も Tool Call として表します。
 
-委譲の仕組みも同じではなく、Handoff は OpenAI Agents SDK にしかありません。Manager と Handoff をどう使い分けるかは、マルチ Agent を扱う回で詳しく取り上げます。
+委譲の仕組みも同じではなく、Handoff は OpenAI Agents SDK にしかありません。Manager と Handoff をどう使い分けるかは、Multi-Agent を扱う回で詳しく取り上げます。
