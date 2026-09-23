@@ -20,3 +20,4 @@ bun.lockb
 
 .env
 .venv
+app/routes/posts/agent-tool-design/calendar-agent/calendar-agent
