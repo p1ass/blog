@@ -13,14 +13,24 @@ tags:
 こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
 
 Agent の開発について学んだことを整理する連載の 2 本目です。
-1 本目では、Agent を Model、Instructions、Tool と、最終出力を返すまで回る Agent Loop に分けて整理しました。
+1 本目では、Agent を Model、Instructions、Tool の 3 つの要素に整理し、Agent Loop が処理を実行することを学びました。
 
 <ExLinkCard url="https://blog.p1ass.com/posts/agent-foundations/" />
 
-この記事では、その中から Tool を取り上げ、どのように設計すればよいかを扱います。
+この記事では、その中から Tool をピックアップし、Agent 向けに適した設計について考えていきます。
 題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
 既存の API をそのまま Tool にした会議予約 Agent を実装し、Tool の定義と結果、Tool の粒度の順に改善しながら、それぞれの段階で Agent の動きがどう変わるかを実行結果で確かめます。
 あわせて、MCP で Tool を提供する場合にも同じ指針が当てはまることを確認します。
+
+<ExLinkCard url="https://www.anthropic.com/engineering/writing-tools-for-agents" />
+
+1. Agent の基本構成
+2. Tool の設計 (この記事)
+3. コンテキスト管理
+4. ハーネス
+5. Multi-Agent
+6. Workflow と Guardrails
+7. Observability と Eval
 
 {/* <!--more--> */}
 
@@ -35,8 +45,6 @@ Model はリクエストに含まれる Tool の定義 (名前、説明、引数
 Anthropic の「Writing effective tools for agents」は、この関係を次のように表現しています。
 
 > Tools are a new kind of software which reflects a contract between deterministic systems and non-deterministic agents.
-
-<ExLinkCard url="https://www.anthropic.com/engineering/writing-tools-for-agents" />
 
 従来の API は、同じ入力に同じ出力を返すシステム同士の契約でした。
 Tool は、同じ依頼でも毎回同じ行動をとるとは限らない Agent との契約です。そのため、Tool は呼び出し側の Model が定義と結果をどう読むかを前提に設計します。
@@ -125,11 +133,11 @@ const (
 
 最初のバージョン (以降は v1 と呼びます) は、カレンダーの API のエンドポイントを 1 対 1 で Tool にしたものです。
 
-| Tool           | 説明                 | 引数                              | 戻り値                                                   |
-| -------------- | -------------------- | --------------------------------- | -------------------------------------------------------- |
-| `list_users`   | ユーザーの一覧を返す | なし                              | 全員の ID、名前、メールアドレス、部署、作成日時の JSON   |
-| `list_events`  | ユーザーの予定を返す | `user`、`time_min`、`time_max`    | 予定の ID、件名、参加者の ID、UTC の開始・終了時刻の JSON |
-| `create_event` | 予定を作成する       | `title`、`attendees`、`start`、`end` | 作成した予定の ID と状態の JSON                          |
+| Tool           | 説明                 | 引数                                 | 戻り値                                                    |
+| -------------- | -------------------- | ------------------------------------ | --------------------------------------------------------- |
+| `list_users`   | ユーザーの一覧を返す | なし                                 | 全員の ID、名前、メールアドレス、部署、作成日時の JSON    |
+| `list_events`  | ユーザーの予定を返す | `user`、`time_min`、`time_max`       | 予定の ID、件名、参加者の ID、UTC の開始・終了時刻の JSON |
+| `create_event` | 予定を作成する       | `title`、`attendees`、`start`、`end` | 作成した予定の ID と状態の JSON                           |
 
 エラーは HTTP のステータスをそのまま文字列にして返します。
 存在しないユーザーを指定すると `404 Not Found`、日時の形式が違えば `400 Bad Request`、予定が重なれば `409 Conflict` です。
@@ -207,12 +215,12 @@ Model は `list_users` で 2 人を見つけたあと、`user` に名前を渡�
 同じ依頼でも Model の行動は毎回変わるので、各バージョンを `-n 10` で 10 回ずつ実行し、`run N: ...` の行を集計しました。
 v1 の結果は次のとおりです。
 
-| 項目                 | v1                                 |
-| -------------------- | ---------------------------------- |
-| 正しく登録できた回数 | 10 回中 9 回                    |
-| ターン数の平均       | 5.0                             |
-| Tool Call の平均     | 5.8 回                          |
-| エラーが起きた回数   | 10 回中 5 回                    |
+| 項目                 | v1                             |
+| -------------------- | ------------------------------ |
+| 正しく登録できた回数 | 10 回中 9 回                   |
+| ターン数の平均       | 5.0                            |
+| Tool Call の平均     | 5.8 回                         |
+| エラーが起きた回数   | 10 回中 5 回                   |
 | 入力トークンの平均   | 15,699 (最小 793、最大 24,007) |
 
 Claude Sonnet 5 は、v1 の Tool でも 10 回中 9 回は正しい枠に予定を登録できました。
@@ -301,10 +309,10 @@ v2 では引数名を `user_id` にし、説明に「`calendar_list_users` で�
 
 引数の形も、依頼の単位に合わせて変えました。
 
-| Tool           | v1 の引数                           | v2 の引数                                            |
-| -------------- | ----------------------------------- | ---------------------------------------------------- |
-| 予定の一覧     | `user`、`time_min`、`time_max` (RFC 3339) | `user_id`、`date` (YYYY-MM-DD)                       |
-| 予定の登録     | `title`、`attendees`、`start`、`end` (RFC 3339) | `title`、`attendee_user_ids`、`start` (JST の YYYY-MM-DDTHH:MM)、`duration_minutes` |
+| Tool       | v1 の引数                                       | v2 の引数                                                                           |
+| ---------- | ----------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 予定の一覧 | `user`、`time_min`、`time_max` (RFC 3339)       | `user_id`、`date` (YYYY-MM-DD)                                                      |
+| 予定の登録 | `title`、`attendees`、`start`、`end` (RFC 3339) | `title`、`attendee_user_ids`、`start` (JST の YYYY-MM-DDTHH:MM)、`duration_minutes` |
 
 依頼は「月曜の午後に 30 分」なので、日付と長さで受け取れば、Model がタイムゾーン付きの時刻や終了時刻を組み立てる必要はありません。
 v2 の `calendar_create_event` の定義は次のとおりです。
@@ -457,13 +465,13 @@ run 1: turns=4 calls=4 errors=0 input_tokens=9208 ok=true
 Model は最初から `user_id` に UUID を渡し、1 回で予定を取得できています。
 10 回実行した結果を v1 と並べると、次のとおりです。
 
-| 項目                 | v1            | v2            |
-| -------------------- | ------------- | ------------- |
-| 正しく登録できた回数 | 10 回中 9 回  | 10 回中 10 回 |
-| ターン数の平均       | 5.0           | 4.0           |
-| Tool Call の平均     | 5.8 回        | 4.0 回        |
-| エラーが起きた回数   | 10 回中 5 回  | 10 回中 0 回  |
-| 入力トークンの平均   | 15,699        | 9,016         |
+| 項目                 | v1           | v2            |
+| -------------------- | ------------ | ------------- |
+| 正しく登録できた回数 | 10 回中 9 回 | 10 回中 10 回 |
+| ターン数の平均       | 5.0          | 4.0           |
+| Tool Call の平均     | 5.8 回       | 4.0 回        |
+| エラーが起きた回数   | 10 回中 5 回 | 10 回中 0 回  |
+| 入力トークンの平均   | 15,699       | 9,016         |
 
 v2 では 10 回ともエラーが起きず、入力トークンは v1 の 6 割弱になりました。
 エラーが一度も起きなかったため、今回の実験では改善したエラーメッセージが使われる場面はありませんでした。
@@ -582,6 +590,14 @@ OpenAI の「A practical guide to building agents」も、問題は Tool の数�
 
 > The issue isn't solely the number of tools, but their similarity or overlap.
 
+Tool が増えたときに、すべての定義を毎回コンテキストに載せなくて済む仕組みもあります。
+OpenAI の Tool search では、`tool_search` を Tool に加え、関数や MCP サーバーに `defer_loading: true` を付けます。Model は、最初に Tool の名前と説明だけを読み、必要になった Tool の引数のスキーマを後から読み込みます。
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/tools-tool-search" />
+
+OpenAI は、namespace か MCP サーバーの単位で遅延読み込みを使い、1 つの namespace の関数を 10 個未満に抑えることを勧めています。v2 で付けたような名前空間は、Model が読み込む Tool を探す手がかりにもなります。
+ただし、遅延読み込みで減るのはコンテキストに載る定義の量で、似た Tool どうしの境界があいまいになる問題は残ります。遅延読み込みの詳細は、次回のコンテキスト管理で扱います。
+
 v3 の 2 つの Tool は、読み取りと書き込みで目的が分かれているので、どちらを使うべきか迷う場面はありません。
 
 ### 実行結果
@@ -611,11 +627,11 @@ Tool の定義と結果の改善によってエラーによる遠回りをなく
 
 ここまでの改善を、各バージョンで変えたものと結果の対応で並べると、次のとおりです。
 
-| バージョン | Tool                                                          | 変えたもの                         | ターン数の平均 | エラーが起きた回数 | 入力トークンの平均 |
-| ---------- | ------------------------------------------------------------- | ---------------------------------- | -------------- | ------------------ | ------------------ |
-| v1         | `list_users`、`list_events`、`create_event`                   | なし (API をそのまま Tool にした)  | 5.0            | 10 回中 5 回       | 15,699             |
-| v2         | `calendar_list_users`、`calendar_list_events`、`calendar_create_event` | 名前、説明、引数、戻り値、エラー   | 4.0            | 10 回中 0 回       | 9,016              |
-| v3         | `calendar_find_free_slots`、`calendar_schedule_event`         | Tool の粒度                        | 3.1            | 10 回中 1 回       | 5,043              |
+| バージョン | Tool                                                                   | 変えたもの                        | ターン数の平均 | エラーが起きた回数 | 入力トークンの平均 |
+| ---------- | ---------------------------------------------------------------------- | --------------------------------- | -------------- | ------------------ | ------------------ |
+| v1         | `list_users`、`list_events`、`create_event`                            | なし (API をそのまま Tool にした) | 5.0            | 10 回中 5 回       | 15,699             |
+| v2         | `calendar_list_users`、`calendar_list_events`、`calendar_create_event` | 名前、説明、引数、戻り値、エラー  | 4.0            | 10 回中 0 回       | 9,016              |
+| v3         | `calendar_find_free_slots`、`calendar_schedule_event`                  | Tool の粒度                       | 3.1            | 10 回中 1 回       | 5,043              |
 
 v1 から v2 では、引数を推測して試すためのエラーと、それを取り返すためのターンが減りました。
 v2 から v3 では、ユーザーの検索や空き時間の計算のように、Model が組み立てていた手順そのものが減りました。
@@ -624,9 +640,12 @@ v2 から v3 では、ユーザーの検索や空き時間の計算のように�
 なお、v1 でも最初から UUID を渡してエラーなく完了する回がありました。1 回の実行結果を比較しただけでは、こうした振る舞いのばらつきに気付けません。
 
 <Note>
-  今回の評価タスクは 1 つですが、実際の Agent では想定する依頼を多数用意して評価します。
-  Anthropic の cookbook の「[Tool evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation)」は、評価タスクを実行して正答率や Tool Call の回数を集計し、Model 自身に Tool の名前、引数、説明へのフィードバックを書かせる例です。
-  Agent の評価は、連載の 7 本目で詳しく扱います。
+  今回の評価タスクは 1 つですが、実際の Agent
+  では想定する依頼を多数用意して評価します。 Anthropic の cookbook の「[Tool
+  evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation)」は、評価タスクを実行して正答率や
+  Tool Call の回数を集計し、Model 自身に Tool
+  の名前、引数、説明へのフィードバックを書かせる例です。 Agent の評価は、連載の
+  7 本目で詳しく扱います。
 </Note>
 
 ## MCP による Tool の提供
@@ -636,11 +655,11 @@ MCP (Model Context Protocol) を使うと、Tool を Agent から切り離し、
 
 MCP のサーバーが提供するものは、仕様で次の 3 つに分けられています。
 
-| 要素      | 使うかどうかを決める主体 | 例                             |
-| --------- | -------------------- | ------------------------------ |
-| Tools     | Model                | API の呼び出し、ファイルの書き込み |
-| Resources | アプリケーション     | ファイルの内容、Git の履歴     |
-| Prompts   | ユーザー             | スラッシュコマンド             |
+| 要素      | 使うかどうかを決める主体 | 例                                 |
+| --------- | ------------------------ | ---------------------------------- |
+| Tools     | Model                    | API の呼び出し、ファイルの書き込み |
+| Resources | アプリケーション         | ファイルの内容、Git の履歴         |
+| Prompts   | ユーザー                 | スラッシュコマンド                 |
 
 <ExLinkCard url="https://modelcontextprotocol.io/specification/2026-07-28/server" />
 
@@ -692,11 +711,26 @@ func main() {
         "description": "参加者の名前。..."
       },
       "date": { "type": "string", "description": "探す日付。YYYY-MM-DD 形式" },
-      "duration_minutes": { "type": "integer", "description": "会議の長さ (分)" },
-      "earliest": { "type": "string", "description": "探し始める時刻。HH:MM 形式。午後なら 12:00" },
-      "latest": { "type": "string", "description": "会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00" }
+      "duration_minutes": {
+        "type": "integer",
+        "description": "会議の長さ (分)"
+      },
+      "earliest": {
+        "type": "string",
+        "description": "探し始める時刻。HH:MM 形式。午後なら 12:00"
+      },
+      "latest": {
+        "type": "string",
+        "description": "会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00"
+      }
     },
-    "required": ["participants", "date", "duration_minutes", "earliest", "latest"],
+    "required": [
+      "participants",
+      "date",
+      "duration_minutes",
+      "earliest",
+      "latest"
+    ],
     "additionalProperties": false
   }
 }
