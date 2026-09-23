@@ -30,7 +30,7 @@ func main() {
 		},
 	}}}
 	params := responses.ResponseNewParams{
-		Model:        openai.ChatModelGPT5_6Luna,
+		Model:        openai.ChatModelGPT6Sol,
 		Instructions: openai.String(instructions),
 		Input: responses.ResponseNewParamsInputUnion{OfInputItemList: responses.ResponseInputParam{
 			responses.ResponseInputItemParamOfMessage(prompt, responses.EasyInputMessageRoleUser),

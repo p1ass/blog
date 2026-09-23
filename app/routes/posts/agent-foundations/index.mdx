@@ -289,8 +289,8 @@ Agent の基本構成の要素ごとに、2 つの SDK を並べると次のよ�
 最後に、2 つの SDK が提供している Agent Loop を自分で再実装してみます。環境は次のとおりです。
 
 - Go 1.27.1
-- [github.com/openai/openai-go/v3](https://pkg.go.dev/github.com/openai/openai-go/v3) v3.64.0
-- [github.com/anthropics/anthropic-sdk-go](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go) v1.74.0
+- [github.com/openai/openai-go/v3](https://pkg.go.dev/github.com/openai/openai-go/v3) v3.65.0
+- [github.com/anthropics/anthropic-sdk-go](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go) v1.75.0
 
 題材はこれまでと同じく `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまでループを回します。
 コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-foundations/minimal-agent) にあります。
@@ -310,7 +310,7 @@ tools := []responses.ToolUnionParam{{OfFunction: &responses.FunctionToolParam{
 	},
 }}}
 params := responses.ResponseNewParams{
-	Model:        openai.ChatModelGPT5_6Luna,
+	Model:        openai.ChatModelGPT6Sol,
 	Instructions: openai.String(instructions),
 	Input: responses.ResponseNewParamsInputUnion{OfInputItemList: responses.ResponseInputParam{
 		responses.ResponseInputItemParamOfMessage(prompt, responses.EasyInputMessageRoleUser),
@@ -451,6 +451,31 @@ log.Fatalf("max turns (%d) exceeded", maxTurns)
 ループの基本的な構造は OpenAI 版と同じで、Model の応答と Tool の実行結果を `params.Messages` に蓄積し、次のリクエストで会話履歴全体を送り直します。
 Tool の実行結果は、`tool_result` ブロックとして 1 つの user メッセージにまとめて返します。
 
+### 実行結果
+
+それぞれの版を実行すると、次のようなログが出力されます。
+
+```text
+$ go run ./openai
+2026/09/23 13:50:41 turn 1: get_weather {"city":"東京"}
+2026/09/23 13:50:41 turn 1: get_weather {"city":"大阪"}
+現在、東京も大阪も晴れで、気温はどちらも24℃です。
+```
+
+```text
+$ go run ./anthropic
+2026/09/23 13:50:45 turn 1: get_weather {"city":"東京"}
+2026/09/23 13:50:45 turn 1: get_weather {"city":"大阪"}
+お調べしました。
+
+**東京**:晴れ、気温24度
+**大阪**:晴れ、気温24度
+
+どちらも晴れで、気温は24度と同じ気候になっています。過ごしやすい一日になりそうですね!
+```
+
+どちらの版も、1 ターン目で東京と大阪の 2 つの Tool Call を 1 回の応答で返しています。2 つの結果をまとめて返すと、2 ターン目で Tool Call を含まない最終出力が返り、ループが終わります。最終出力の文面はモデルによって異なりますが、ループの動きは同じです。
+
 ### Agent の基本構成との対応
 
 2 つの実装を Agent の基本構成の要素ごとに並べると、次のようになります。
@@ -468,13 +493,10 @@ API に違いはあっても、Agent Loop の実装はほとんど同じです�
 違いは Tool の実行結果を独立したアイテムとして送るか user メッセージに入れるか、失敗を文面で伝えるか `is_error` で伝えるかといった、API ごとの細かな作法にとどまります。
 どちらの API でも、Tool の定義を含めて `main` 関数は 60 行ほどに収まります。
 
-{/* TODO: API キーを設定して実行し、実行ログを載せる */}
-
 ## おわりに
 
 この記事では、OpenAI のドキュメントをもとに、Agent を Model、Instructions、Tool と、最終出力を返すまで回る Agent Loop として整理しました。
-
-OpenAI Agents SDK と Claude Agent SDK はどちらもこの構造を基本としています。違いは Agent をオブジェクトとして組み立てて `Runner` で動かすか、Claude Code という完成した Agent を設定して動かすかという点程度です。
+OpenAI Agents SDK と Claude Agent SDK はどちらもこの構造を基本としていることを確認しました。
 
 今後の記事では、ここで整理した要素やその周辺のテーマを 1 つずつ取り上げます。
 次回は Tool の設計を扱い、その後はコンテキスト管理、ハーネス、Multi-Agent、Workflow と Guardrails、Observability と Eval の順に進める予定です。
