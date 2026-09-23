@@ -17,14 +17,14 @@ tags:
 
 ---
 
-OpenAI と Anthropic はそれぞれ別々に Agent SDK を開発していますが、2 つの SDK の中にある Agent の捉え方はほぼ同じです。
+OpenAI と Anthropic はそれぞれ Agent SDK を開発していますが、2 つの SDK の中にある Agent の捉え方はほぼ同じです。
 どちらも「Model、Instructions、Tool を持ち、最終出力を返すまでループを回す」という形で Agent を組み立てています。
-この形を最もまとまった形で説明しているのが、OpenAI が公開しているガイドです。
+OpenAI が公開しているガイドには、この形が最もよくまとまっています。
 
 この記事では、まず Agent を理解する前提となる Tool Call の仕組みを確認し、OpenAI のガイドから Agent の構成を整理します。
 そのうえで、OpenAI Agents SDK と Claude Agent SDK がその構成をどう表現しているのかを比較し、最後に Go で API を直接呼び出す最小限の Agent を実装します。
 
-2 社の SDK の概念を同じ構成に対応付けられること、そして SDK がどの処理を代わりに担っているのかを見分けられることが、この記事のゴールです。
+この記事のゴールは、2 社の SDK の概念を同じ構成に対応付け、SDK がどの処理を代わりに担っているのかを見分けられるようになることです。
 
 {/* <!--more--> */}
 
@@ -56,7 +56,7 @@ Model が Tool Call を含まない応答を返したら、ループは終わり
 
 ## Agent の構成
 
-ガイドはこの形を新しく提案したものではなく、それまでの API や SDK で使われてきた形をまとめたものです。ガイドでは Agent を次のように説明しています。
+OpenAI のガイドは、Model、Instructions、Tool を持ってループを回すという形を、それまでの API や SDK での使われ方からまとめたものです。ガイドでは Agent を次のように説明しています。
 
 <ExLinkCard url="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" />
 
@@ -80,7 +80,7 @@ Tool の種類としては、情報を取得する Data と外部に作用する
 ### Agent Loop と終了条件
 
 ガイドは Agent の実行を、終了条件を満たすまで回す Agent Loop として説明しています。
-終了条件は特定の Tool Call、特定の構造化出力、エラー、最大ターン数への到達の 4 つです。
+終了条件は特定の Tool Call、特定の構造化出力、エラー、最大ターン数への到達の 4 つです。この記事では、最終出力と最大ターン数の 2 つに絞って扱います。
 
 > This concept of a while loop is central to the functioning of an agent.
 
@@ -130,7 +130,8 @@ OpenAI Agents SDK の公式ドキュメントでは、Agent を次のように�
 ### 3 要素を持つ Agent クラス
 
 ガイドの 3 要素が、そのまま `Agent` クラスのフィールドになっています。`Agent` は `model`、`instructions`、`tools` に加えて、入力と出力のチェック (`input_guardrails`、`output_guardrails`)、最終出力の型 (`output_type`) を持ちます。
-`Agent` は設定を持つだけのオブジェクトで、ループを回すのは `Runner` です。Go の実装と同じ `get_weather` を持つ Agent は次のようになります。
+`Agent` は設定を持つだけのオブジェクトで、ループを回すのは `Runner` です。
+例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。後半の Go の実装でも同じ題材を使います。
 
 ```python
 from agents import Agent, Runner, function_tool
@@ -160,7 +161,7 @@ print(result.final_output)
 
 ```mermaid
 flowchart TD
-  start([Runner.run]) --> invoke[現在の Agent の Model を呼ぶ]
+  start([Runner.run_sync]) --> invoke[現在の Agent の Model を呼ぶ]
   invoke --> kind{出力の種類}
   kind -->|最終出力| done([結果を返す])
   kind -->|Tool Call| exec[Tool を実行し、結果を足す]
@@ -187,7 +188,7 @@ Claude Agent SDK の公式ドキュメントでは、Agent を次のように説
 ### 3 要素を持つ ClaudeAgentOptions
 
 Claude Agent SDK には `Agent` クラスがありません。Model、Instructions、Tool は `ClaudeAgentOptions` にまとめ、`ClaudeSDKClient` に渡します。
-独自の Tool は、プロセス内で動く MCP サーバーとして渡します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool に見えます。OpenAI Agents SDK の例と同じ Agent は次のようになります。
+独自の Tool は、プロセス内で動く MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool に見えます。OpenAI Agents SDK の例と同じ Agent は次のようになります。
 
 ```python
 import anyio
@@ -232,7 +233,7 @@ anyio.run(main)
 
 ### Claude Code の CLI で実行する Agent Loop
 
-OpenAI Agents SDK と大きく違うのは、ループを回す場所です。
+OpenAI Agents SDK との大きな違いは、ループを回す場所にあります。
 Claude Agent SDK は、パッケージに同梱された Claude Code の CLI をサブプロセスとして起動し、標準入出力を介して JSON 形式のメッセージをやり取りします。ループと組み込みの Tool は CLI 側で動作します。
 
 ```mermaid
@@ -255,7 +256,7 @@ flowchart LR
 
 _Claude Agent SDK の構成。点線は CLI が Python 側を呼び出す箇所_
 
-Python 側で動くのは、独自の Tool と hooks、Tool の実行を許可するかを決めるコールバックだけです。
+独自の Tool と hooks、Tool の実行を許可するかを決めるコールバックだけが Python 側で動きます。
 OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code という完成した Agent を `ClaudeAgentOptions` で設定して動かします。
 
 ## 2 つの SDK の対応
@@ -270,10 +271,11 @@ Agent の構成の要素ごとに、2 つの SDK を並べると次のように�
 | ループを回す場所         | Python の `Runner`              | Claude Code の CLI                                 |
 | 最終出力                 | `RunResult.final_output`        | `ResultMessage.result`                             |
 | 最大ターン数             | `max_turns`                     | `max_turns` (Tool を使うターンを数える)            |
-| 実行前後のチェックと制御 | Guardrails                      | hooks、権限モード                                  |
 
-要素の名前は違っていても、並べると 1 対 1 に対応します。
+要素の名前は違っても、主要な要素は対応が取れます。
 違いは Agent をオブジェクトとして組み立てるか、完成した Agent を設定するかという点です。
+
+Agent の構成には含めていませんが、どちらの SDK にも Agent の実行前後に処理を差し込む仕組みがあります。OpenAI Agents SDK では Guardrails、Claude Agent SDK では hooks と権限モードがその役割を担います。
 
 ## Go による最小の Agent の実装
 
@@ -284,7 +286,7 @@ Go には両社の Agent SDK が用意されていないため、Anthropic と O
 - github.com/anthropics/anthropic-sdk-go v1.74.0
 - github.com/openai/openai-go/v3 v3.64.0
 
-題材として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまでループを回します。
+題材はこれまでと同じ `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまでループを回します。
 コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-concepts-and-modeling/minimal-agent) にあります。
 
 ### Anthropic Messages API 版
@@ -460,7 +462,7 @@ API が違っても、Agent Loop の実装はほとんど同じです。
 
 どちらの API でも、Tool の定義を含めて main 関数は 60 行ほどに収まります。
 SDK の価値の多くは、この最小のループが持たない機能にあります。
-OpenAI Agents SDK なら Guardrails、トレース、Claude Agent SDK ならコストの上限 (`max_budget_usd`)、コンテキストの自動圧縮、セッションの再開などです。
+OpenAI Agents SDK なら Guardrails やトレース、Claude Agent SDK ならコストの上限 (`max_budget_usd`)、コンテキストの自動圧縮、セッションの再開などです。
 
 {/* TODO: API キーを設定して実行し、実行ログを載せる */}
 
@@ -469,8 +471,7 @@ OpenAI Agents SDK なら Guardrails、トレース、Claude Agent SDK ならコ�
 この記事では、OpenAI のガイドをもとに、Agent を Model、Instructions、Tool と、最終出力を返すまで回る Agent Loop に整理しました。
 OpenAI Agents SDK と Claude Agent SDK はどちらもこの形をしています。違いは Agent をオブジェクトとして組み立てて `Runner` で動かすか、Claude Code という完成した Agent を設定して動かすかという点です。
 
-2 社の Agent の形が似ている理由は、Tool Call の往復が各社の API で同じ形をしているためだと私は考えています。
-Go の実装で見たとおり、この往復を繰り返す Agent Loop は 60 行ほどで実装できます。SDK ごとの差は、Guardrails やコストの上限、コンテキストの圧縮といった、ループの外側で担う機能に表れます。
+Go の実装で見たとおり、Tool Call の往復を繰り返す Agent Loop は 60 行ほどで実装できます。SDK ごとの差は、Guardrails やコストの上限、コンテキストの圧縮といった、ループの外側で担う機能に表れます。
 
 次の記事からは、ここで整理した要素とその周辺を 1 つずつ取り上げます。
 次回は Tool の設計を扱い、その後はコンテキストの管理、ハーネス、マルチ Agent、制御とガードレール、観測と評価の順に進める予定です。どちらの SDK も別の Agent への委譲まで Tool Call として表している点は、マルチ Agent の回で詳しく扱います。
