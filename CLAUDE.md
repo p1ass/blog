@@ -25,6 +25,8 @@
 
 記事一覧の取得や加工処理は `app/lib/posts.ts` で実装している。また、MDX 内で使うコンポーネントや組み込みタグの差し替えを行いたい場合は `app/lib/mdx-components.tsx` に登録する。
 
+記事のサンプルコードを実行するための API キー（`OPENAI_API_KEY`、`ANTHROPIC_API_KEY` など）は `.gitignore` に登録済みの `.env` に書かれている。
+
 画像のパスは開発時 (`/app/routes/posts/...`) とビルド後 (`/posts/...`) で `import.meta.env.PROD` により分岐する。画像を扱うコードを変更する際は、両方の分岐で整合性を保つ。
 
 ## ビルド

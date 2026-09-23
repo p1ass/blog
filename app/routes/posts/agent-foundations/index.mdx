@@ -126,7 +126,7 @@ OpenAI Agents SDK の公式ドキュメントでは、Agent を次のように�
 
 > An agent is a large language model (LLM) configured with instructions, tools, and optional runtime behavior such as handoffs, guardrails, and structured outputs.
 
-<ExLinkCard url="https://openai.github.io/openai-agents-python/" />
+<ExLinkCard url="https://openai.github.io/openai-agents-python/agents/" />
 
 ### 3 要素を持つ Agent クラス
 
@@ -134,6 +134,7 @@ OpenAI のドキュメントの 3 要素は、そのまま `Agent` クラスの�
 `Agent` は `model`、`instructions`、`tools` を保持しています。
 
 例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。
+openai-agents 0.22.3 で確認しており、実行には環境変数 `OPENAI_API_KEY` が必要です。
 
 ```python
 from agents import Agent, Runner, function_tool
@@ -148,6 +149,7 @@ def get_weather(city: str) -> str:
 
 agent = Agent(
     name="Weather agent",
+    model="gpt-6-sol",
     instructions="あなたは天気を答えるアシスタントです。天気は必ず get_weather で調べてください。",
     tools=[get_weather],
 )
@@ -180,11 +182,11 @@ _OpenAI Agents SDK の構成。ループと Tool はどちらも Python のプ�
 
 次に、Claude Agent SDK を使った実装も見ていきます。
 
-<ExLinkCard url="https://code.claude.com/docs/en/agent-sdk/overview" />
-
 ループについての説明は先程の OpenAI の Agent の基本構成と同じです。
 
 > Claude continues calling tools and processing results until it produces a response with no tool calls.
+
+<ExLinkCard url="https://code.claude.com/docs/en/agent-sdk/agent-loop" />
 
 ### 3 要素を持つ ClaudeAgentOptions
 
@@ -194,6 +196,7 @@ Claude Agent SDK には `Agent` クラスがありません。Model、Instructio
 独特な設計ですね。
 
 OpenAI Agents SDK の例と同様の Agent を実装すると、次のようになります。
+claude-agent-sdk 0.2.158 で確認しており、実行には環境変数 `ANTHROPIC_API_KEY` が必要です。
 
 ```python
 import anyio
@@ -217,6 +220,7 @@ options = ClaudeAgentOptions(
     model="sonnet",
     system_prompt="あなたは天気を答えるアシスタントです。天気は必ず get_weather で調べてください。",
     mcp_servers={"weather": weather},
+    # 承認なしで実行する Tool の指定で、Bash や Read などの組み込み Tool も使える状態のまま
     allowed_tools=["mcp__weather__get_weather"],
     max_turns=10,
 )
@@ -226,8 +230,11 @@ async def main():
     async with ClaudeSDKClient(options=options) as client:
         await client.query("東京と大阪の天気を教えてください")
         async for message in client.receive_response():
-            if isinstance(message, ResultMessage) and message.subtype == "success":
-                print(message.result)
+            if isinstance(message, ResultMessage):
+                if message.subtype == "success":
+                    print(message.result)
+                else:
+                    print(f"failed: {message.subtype}")
 
 
 anyio.run(main)
@@ -453,7 +460,7 @@ Tool の実行結果は、`tool_result` ブロックとして 1 つの user メ�
 
 ### 実行結果
 
-それぞれの版を実行すると、次のようなログが出力されます。
+環境変数 `OPENAI_API_KEY` と `ANTHROPIC_API_KEY` を設定し、それぞれの版を実行すると、次のようなログが出力されます。
 
 ```text
 $ go run ./openai
