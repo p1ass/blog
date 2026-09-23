@@ -15,7 +15,7 @@ import (
 
 const (
 	instructions = "あなたは社内の予定調整アシスタントです。今日は 2026-09-23 (水) で、時刻は日本時間 (JST) で扱います。依頼者本人の予定は考慮しなくてかまいません。登録する前に依頼者へ確認する必要はありません。"
-	prompt       = "来週月曜の午後に、花芽太郎さんと一ノ瀬さんとの 30 分の打ち合わせを入れてください"
+	prompt       = "来週月曜の午後に、伊波太郎さんと一ノ瀬さんとの 30 分の打ち合わせを入れてください"
 )
 
 var toolsByVersion = map[string]func(*calendar.Calendar) []agent.Tool{
@@ -62,7 +62,7 @@ func scheduledCorrectly(c *calendar.Calendar, seeded int) bool {
 	}
 	e := added[0]
 	return e.Start.Equal(want) && e.End.Equal(want.Add(30*time.Minute)) &&
-		len(e.Attendees) == 2 && hasUser(c, e.Attendees, "花芽 太郎") && hasUser(c, e.Attendees, "一ノ瀬 健")
+		len(e.Attendees) == 2 && hasUser(c, e.Attendees, "伊波 太郎") && hasUser(c, e.Attendees, "一ノ瀬 奈々")
 }
 
 func hasUser(c *calendar.Calendar, userIDs []string, name string) bool {
