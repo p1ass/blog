@@ -17,24 +17,24 @@ tags:
 
 ---
 
-OpenAI と Anthropic はそれぞれ Agent SDK を開発していますが、2 つの SDK の中にある Agent の捉え方はほぼ同じです。
-どちらも「Model、Instructions、Tool を持ち、最終出力を返すまでループを回す」という形で Agent を組み立てています。
-OpenAI が公開しているガイドには、この形が最もよくまとまっています。
+OpenAI と Anthropic はそれぞれ Agent SDK を開発していますが、2 つの SDK における Agent の捉え方はほぼ同じです。
+どちらも「Model、Instructions、Tool を備え、最終出力を返すまでループを回す」という形で Agent を組み立てています。
+OpenAI が公開しているガイドには、この構造が分かりやすくまとまっています。
 
 この記事では、まず Agent を理解する前提となる Tool Call の仕組みを確認し、OpenAI のガイドから Agent の構成を整理します。
 そのうえで、OpenAI Agents SDK と Claude Agent SDK がその構成をどう表現しているのかを比較し、最後に Go で API を直接呼び出す最小限の Agent を実装します。
 
-この記事のゴールは、2 社の SDK の概念を同じ構成に対応付け、SDK がどの処理を代わりに担っているのかを見分けられるようになることです。
+この記事のゴールは、2 社の SDK の概念を共通の構成に対応付け、SDK がどの処理を代わりに担っているのかを見分けられるようになることです。
 
 {/* <!--more--> */}
 
 ## Tool Call の仕組み
 
-LLM は単体では最新の情報を調べたり、外部のシステムを操作したりできません。
-Tool Call は、LLM が外部の関数や API の呼び出しを要求できるようにする仕組みで、主要な LLM の API が提供しています。この記事では、呼び出される関数や API を Tool と呼び、アプリケーション側で実行する Tool を扱います。
+LLM は単体では最新情報の取得や、外部システムの操作ができません。
+Tool Call は、LLM が外部の関数や API の呼び出しを要求できるようにする仕組みで、主要な LLM API で提供されています。この記事では、呼び出される関数や API を Tool と呼び、アプリケーション側で実行する Tool を扱います。
 
 Model 自身は Tool を実行しません。
-Model はどの Tool をどんな引数で呼び出すかを、構造化データとして返すだけです。アプリケーション側のコードがその Tool を実行し、結果をもう一度 Model に渡すことで、Model はその結果を踏まえて応答を生成します。
+Model はどの Tool をどんな引数で呼び出すかを構造化データとして返すだけです。アプリケーション側のコードがその Tool を実行し、結果をもう一度 Model に渡すことで、Model はその結果を踏まえて応答を生成します。
 
 ```mermaid
 sequenceDiagram
@@ -52,18 +52,18 @@ sequenceDiagram
 _Tool Call の 1 往復。Model は呼び出しを指定するだけで、実行はアプリケーションが担う_
 
 この往復を 1 回で終わらせず、繰り返す構造を Agent Loop と呼びます。
-Model が Tool Call を含まない応答を返したら、ループは終わります。この記事では、この応答を最終出力と呼びます。
+Model が Tool Call を含まない応答を返したら、ループは終了します。この記事では、この応答を最終出力と呼びます。
 
 ## Agent の構成
 
-OpenAI のガイドは、Model、Instructions、Tool を持ってループを回すという形を、それまでの API や SDK での使われ方からまとめたものです。ガイドでは Agent を次のように説明しています。
+OpenAI のガイドは、Model、Instructions、Tool を備えてループを回す構造を、それまでの API や SDK の使われ方から整理したものです。ガイドでは Agent を次のように説明しています。
 
 <ExLinkCard url="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" />
 
 > Agents are systems that independently accomplish tasks on your behalf.
 
-ガイドはあわせて、処理の進め方を LLM が制御しないアプリケーションは Agent ではないとしています。例として、単純なチャットボット、単発の LLM 呼び出し、感情分類器が挙げられています。
-次に何をするかを LLM が決めるかどうかが、Agent とそれ以外を分ける基準です。
+あわせて同ガイドでは、処理の進め方を LLM が制御しないアプリケーションは Agent ではないとしています。例として、単純なチャットボットや単発の LLM 呼び出し、感情分類器が挙げられています。
+次に何をするかを LLM 自身が決めるかどうかが、Agent とそれ以外のシステムを分ける基準です。
 
 ### Model、Instructions、Tool の 3 要素
 
@@ -75,22 +75,22 @@ OpenAI のガイドは、Model、Instructions、Tool を持ってループを回
 | Tool         | External functions or APIs the agent can use to take action       |
 | Instructions | Explicit guidelines and guardrails defining how the agent behaves |
 
-Tool の種類としては、情報を取得する Data と外部に作用する Action が挙げられています。
+Tool の種類としては、情報を取得する Data と、外部に作用する Action が挙げられています。
 
 ### Agent Loop と終了条件
 
-ガイドは Agent の実行を、終了条件を満たすまで回す Agent Loop として説明しています。
-終了条件は特定の Tool Call、特定の構造化出力、エラー、最大ターン数への到達の 4 つです。この記事では、最終出力と最大ターン数の 2 つに絞って扱います。
+ガイドは Agent の実行を終了条件を満たすまで回す Agent Loop として説明しています。
+終了条件には特定の Tool Call、特定の構造化出力、エラー、最大ターン数への到達の 4 つが挙げられています。この記事では、このうち最終出力と最大ターン数の 2 つに絞って扱います。
 
 > This concept of a while loop is central to the functioning of an agent.
 
-Anthropic も Building effective agents で、Agent を次の 1 文で説明しています。
+Anthropic も「Building effective agents」の中で、Agent を次の 1 文で説明しています。
 
 <ExLinkCard url="https://www.anthropic.com/engineering/building-effective-agents" />
 
 > They are typically just LLMs using tools based on environmental feedback in a loop.
 
-どちらも、最初のセクションで見た Tool Call の往復を、LLM が自分で判断しながら繰り返すループを Agent の中心に置いています。
+どちらの定義も、最初のセクションで見た Tool Call の往復を、LLM が自分で判断しながら繰り返すループ構造を Agent の中心に据えています。
 
 ### まとめ
 
@@ -98,7 +98,7 @@ Anthropic も Building effective agents で、Agent を次の 1 文で説明し�
 
 - Model に Instructions と使える Tool の一覧を渡す
 - Model が Tool Call を返したら、コードがそれを実行し、その結果を会話に含めてもう一度 Model を呼ぶ
-- Model が最終出力を返したら終わる。無限に回らないよう最大ターン数を設ける
+- Model が最終出力を返したら終了する。無限に回らないよう最大ターン数を設ける
 
 ```mermaid
 sequenceDiagram
@@ -117,7 +117,7 @@ sequenceDiagram
 
 _Agent Loop_
 
-以降ではこのまとめを「Agent の構成」と呼び、2 つの SDK をこれに当てはめて読んでいきます。
+以降ではこのまとめを「Agent の構成」と呼び、2 つの SDK をこれに当てはめて見ていきます。
 
 ## OpenAI Agents SDK の Agent
 
@@ -129,8 +129,8 @@ OpenAI Agents SDK の公式ドキュメントでは、Agent を次のように�
 
 ### 3 要素を持つ Agent クラス
 
-ガイドの 3 要素が、そのまま `Agent` クラスのフィールドになっています。`Agent` は `model`、`instructions`、`tools` に加えて、入力と出力のチェック (`input_guardrails`、`output_guardrails`)、最終出力の型 (`output_type`) を持ちます。
-`Agent` は設定を持つだけのオブジェクトで、ループを回すのは `Runner` です。
+ガイドの 3 要素が、そのまま `Agent` クラスのフィールドに対応しています。`Agent` は `model`、`instructions`、`tools` に加えて、入力と出力のチェック (`input_guardrails`、`output_guardrails`) や最終出力の型 (`output_type`) を保持します。
+`Agent` 自体は設定を保持するだけのオブジェクトであり、実際にループを回す処理は `Runner` が担います。
 例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。後半の Go の実装でも同じ題材を使います。
 
 ```python
@@ -153,7 +153,7 @@ result = Runner.run_sync(agent, "東京と大阪の天気を教えてくださ�
 print(result.final_output)
 ```
 
-`@function_tool` は関数のシグネチャと docstring から Tool の定義 (名前、説明、引数の JSON Schema) を作ります。
+`@function_tool` は関数のシグネチャと docstring から Tool の定義 (名前、説明、引数の JSON Schema) を生成します。
 
 ### Python の Runner で実行する Agent Loop
 
@@ -170,7 +170,7 @@ flowchart TD
 
 _Runner のループ。ターン数が max_turns を超えると MaxTurnsExceeded を送出する_
 
-ドキュメントでは、Tool Call がなく、指定した型のテキストを出力した時点を最終出力としています。
+ドキュメントでは、Tool Call が含まれず、指定した型のテキストを出力した時点を最終出力としています。
 Agent の構成で見たループと同じ形です。
 
 ## Claude Agent SDK の Agent
@@ -188,7 +188,7 @@ Claude Agent SDK の公式ドキュメントでは、Agent を次のように説
 ### 3 要素を持つ ClaudeAgentOptions
 
 Claude Agent SDK には `Agent` クラスがありません。Model、Instructions、Tool は `ClaudeAgentOptions` にまとめ、`ClaudeSDKClient` に渡します。
-独自の Tool は、プロセス内で動く MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool に見えます。OpenAI Agents SDK の例と同じ Agent は次のようになります。
+独自の Tool は、プロセス内で動く MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool として認識されます。OpenAI Agents SDK の例と同様の Agent は次のようになります。
 
 ```python
 import anyio
@@ -228,8 +228,8 @@ async def main():
 anyio.run(main)
 ```
 
-`model`、`system_prompt`、Tool の 3 つが、ガイドの Model、Instructions、Tool にあたります。`allowed_tools` は Tool を実行するたびに許可を求めないための設定です。
-ループの途中経過はメッセージとして順に届き、ループが終わると最後に `ResultMessage` が届きます。成功した場合は、その `result` が最終出力です。
+`model`、`system_prompt`、Tool の 3 つが、ガイドの Model、Instructions、Tool に対応します。`allowed_tools` は Tool を実行するたびに確認を求めないための設定です。
+ループの途中経過はメッセージとして順次届き、ループが終了すると最後に `ResultMessage` が届きます。処理が成功した場合は、その `result` が最終出力です。
 
 ### Claude Code の CLI で実行する Agent Loop
 
@@ -256,7 +256,7 @@ flowchart LR
 
 _Claude Agent SDK の構成。点線は CLI が Python 側を呼び出す箇所_
 
-独自の Tool と hooks、Tool の実行を許可するかを決めるコールバックだけが Python 側で動きます。
+独自の Tool や hooks、Tool の実行を許可するかを判定するコールバックのみが Python 側で動作します。
 OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code という完成した Agent を `ClaudeAgentOptions` で設定して動かします。
 
 ## 2 つの SDK の対応
@@ -273,20 +273,20 @@ Agent の構成の要素ごとに、2 つの SDK を並べると次のように�
 | 最大ターン数             | `max_turns`                     | `max_turns` (Tool を使うターンを数える)            |
 
 要素の名前は違っても、主要な要素は対応が取れます。
-違いは Agent をオブジェクトとして組み立てるか、完成した Agent を設定するかという点です。
+両者の大きな違いは、Agent をオブジェクトとして組み立てるか、完成した Agent を設定して動かすかという点にあります。
 
 Agent の構成には含めていませんが、どちらの SDK にも Agent の実行前後に処理を差し込む仕組みがあります。OpenAI Agents SDK では Guardrails、Claude Agent SDK では hooks と権限モードがその役割を担います。
 
 ## Go による最小の Agent の実装
 
 2 つの SDK が隠しているループを Go で実装し、Agent の構成がそのままコードになることを確かめます。
-Go には両社の Agent SDK が用意されていないため、Anthropic と OpenAI のクライアント SDK で API を直接呼び出します。環境は次のとおりです。
+現時点では両社とも Go 向けの Agent SDK を提供していないため、Anthropic と OpenAI のクライアント SDK で API を直接呼び出します。環境は次のとおりです。
 
 - Go 1.27.1
 - github.com/anthropics/anthropic-sdk-go v1.74.0
 - github.com/openai/openai-go/v3 v3.64.0
 
-題材はこれまでと同じ `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまでループを回します。
+題材はこれまでと同じく `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまでループを回します。
 コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-concepts-and-modeling/minimal-agent) にあります。
 
 ### Anthropic Messages API 版
@@ -346,7 +346,7 @@ for turn := range maxTurns {
 log.Fatalf("max turns (%d) exceeded", maxTurns)
 ```
 
-Tool の実行は、Tool の名前で分岐する関数にまとめました。
+Tool の実行は、Tool 名で分岐する関数にまとめました。
 
 ```go
 func runTool(name string, input []byte) (string, error) {
@@ -365,12 +365,12 @@ func runTool(name string, input []byte) (string, error) {
 }
 ```
 
-Model の応答と Tool の実行結果を `params.Messages` に蓄積し、次のリクエストで会話全体を送り直します。
-「東京と大阪の天気」のように、Model は 1 回の応答で複数の Tool Call を返すことがあります。そのため、応答に含まれる Tool Call をすべて実行し、結果を `tool_result` ブロックとして 1 つの user のメッセージにまとめて返します。
+Model の応答と Tool の実行結果を `params.Messages` に蓄積し、次のリクエストで会話履歴全体を送り直します。
+「東京と大阪の天気」のように、Model は 1 回の応答で複数の Tool Call を返すことがあります。そのため、応答に含まれる Tool Call をすべて実行し、その結果を `tool_result` ブロックとして 1 つの user メッセージにまとめて返します。
 
 ### OpenAI Responses API 版
 
-OpenAI 版では、Instructions を `Instructions` に、Tool の定義を `Tools` に渡します。`runTool` は Anthropic 版と同じです。
+OpenAI 版では、Instructions を `Instructions` に、Tool の定義を `Tools` に渡します。`runTool` の実装は Anthropic 版と共通です。
 
 ```go
 tools := []responses.ToolUnionParam{{OfFunction: &responses.FunctionToolParam{
@@ -442,7 +442,7 @@ func outputAsInput(output []responses.ResponseOutputItemUnion) (responses.Respon
 }
 ```
 
-ループの基本的な形は Anthropic 版と同じで、Model の出力と Tool の実行結果を `Input` に積み、次のリクエストで会話全体を送り直します。
+ループの基本的な構造は Anthropic 版と同じで、Model の出力と Tool の実行結果を `Input` に追加し、次のリクエストで会話履歴全体を送り直します。
 
 ### Agent の構成との対応
 
@@ -457,21 +457,21 @@ func outputAsInput(output []responses.ResponseOutputItemUnion) (responses.Respon
 | Agent Loop   | `for` 文                                         | `for` 文                                         |
 | 終了条件     | 最終出力なら `return`、`maxTurns` を超えたら終了 | 最終出力なら `return`、`maxTurns` を超えたら終了 |
 
-API が違っても、Agent Loop の実装はほとんど同じです。
-違いは Tool の実行結果を user のメッセージに入れるか独立したアイテムとして送るか、失敗を `is_error` で伝えるか文面で伝えるかといった、API ごとの細かな作法にとどまります。
+API に違いはあっても、Agent Loop の実装はほとんど同じです。
+違いは Tool の実行結果を user メッセージに入れるか独立したアイテムとして送るか、失敗を `is_error` で伝えるか文面で伝えるかといった、API ごとの細かな作法にとどまります。
 
-どちらの API でも、Tool の定義を含めて main 関数は 60 行ほどに収まります。
+どちらの API でも、Tool の定義を含めて `main` 関数は 60 行ほどに収まります。
 SDK の価値の多くは、この最小のループが持たない機能にあります。
-OpenAI Agents SDK なら Guardrails やトレース、Claude Agent SDK ならコストの上限 (`max_budget_usd`)、コンテキストの自動圧縮、セッションの再開などです。
+たとえば OpenAI Agents SDK なら Guardrails やトレース、Claude Agent SDK ならコスト上限 (`max_budget_usd`) やコンテキストの自動圧縮、セッションの再開などです。
 
 {/* TODO: API キーを設定して実行し、実行ログを載せる */}
 
 ## おわりに
 
-この記事では、OpenAI のガイドをもとに、Agent を Model、Instructions、Tool と、最終出力を返すまで回る Agent Loop に整理しました。
-OpenAI Agents SDK と Claude Agent SDK はどちらもこの形をしています。違いは Agent をオブジェクトとして組み立てて `Runner` で動かすか、Claude Code という完成した Agent を設定して動かすかという点です。
+この記事では、OpenAI のガイドをもとに、Agent を Model、Instructions、Tool と、最終出力を返すまで回る Agent Loop として整理しました。
+OpenAI Agents SDK と Claude Agent SDK はどちらもこの構造を基本としています。違いは Agent をオブジェクトとして組み立てて `Runner` で動かすか、Claude Code という完成した Agent を設定して動かすかという点です。
 
-Go の実装で見たとおり、Tool Call の往復を繰り返す Agent Loop は 60 行ほどで実装できます。SDK ごとの差は、Guardrails やコストの上限、コンテキストの圧縮といった、ループの外側で担う機能に表れます。
+Go の実装で見たとおり、Tool Call の往復を繰り返す Agent Loop は 60 行ほどで実装できます。SDK ごとの差は、Guardrails やコスト上限、コンテキストの圧縮といった、ループの外側で担う機能に表れます。
 
-次の記事からは、ここで整理した要素とその周辺を 1 つずつ取り上げます。
-次回は Tool の設計を扱い、その後はコンテキストの管理、ハーネス、マルチ Agent、制御とガードレール、観測と評価の順に進める予定です。どちらの SDK も別の Agent への委譲まで Tool Call として表している点は、マルチ Agent の回で詳しく扱います。
+今後の記事では、ここで整理した要素とその周辺を 1 つずつ取り上げます。
+次回は Tool の設計を扱い、その後はコンテキスト管理、ハーネス、マルチ Agent、制御とガードレール、観測と評価の順に進める予定です。どちらの SDK も別の Agent への委譲まで Tool Call として表している点は、マルチ Agent の回で詳しく扱います。
