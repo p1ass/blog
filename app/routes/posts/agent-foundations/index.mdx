@@ -496,8 +496,7 @@ $ go run ./anthropic
 | Agent Loop       | `for` 文                                         | `for` 文                                         |
 | 終了条件         | 最終出力なら `return`、`maxTurns` を超えたら終了 | 最終出力なら `return`、`maxTurns` を超えたら終了 |
 
-API に違いはあっても、Agent Loop の実装はほとんど同じです。
-違いは Tool の実行結果を独立したアイテムとして送るか user メッセージに入れるか、失敗を文面で伝えるか `is_error` で伝えるかといった、API ごとの細かな作法にとどまります。
+API に違いはあっても、Agent Loop の実装はほとんど同じです。違いは API ごとの細かな作法程度です。
 どちらの API でも、Tool の定義を含めて `main` 関数は 60 行ほどに収まります。
 
 ## おわりに
