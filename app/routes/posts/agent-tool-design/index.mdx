@@ -143,46 +143,8 @@ const (
 エラーは HTTP のステータスをそのまま文字列にして返します。
 存在しないユーザーを指定すると `404 Not Found`、日時の形式が違えば `400 Bad Request`、予定が重なれば `409 Conflict` です。
 
-Tool の定義は次のとおりです。`Run` の実装は省略しています。
-
-```go
-func v1Tools(c *calendar.Calendar) []agent.Tool {
-	return []agent.Tool{
-		{
-			Name:        "list_users",
-			Description: "ユーザーの一覧を返す",
-			Properties:  map[string]any{},
-			Run:         ...,
-		},
-		{
-			Name:        "list_events",
-			Description: "ユーザーの予定を返す",
-			Properties: map[string]any{
-				"user":     map[string]string{"type": "string"},
-				"time_min": map[string]string{"type": "string"},
-				"time_max": map[string]string{"type": "string"},
-			},
-			Required: []string{"user", "time_min", "time_max"},
-			Run:      ...,
-		},
-		{
-			Name:        "create_event",
-			Description: "予定を作成する",
-			Properties: map[string]any{
-				"title":     map[string]string{"type": "string"},
-				"attendees": map[string]any{"type": "array", "items": map[string]string{"type": "string"}},
-				"start":     map[string]string{"type": "string"},
-				"end":       map[string]string{"type": "string"},
-			},
-			Required: []string{"title", "attendees", "start", "end"},
-			Run:      ...,
-		},
-	}
-}
-```
-
 API のドキュメントや既存のクライアントコードがあれば、人間の開発者はこの API を迷わず使えます。
-一方、Model が受け取る定義は、名前と 1 行の説明、型しか書かれていない JSON Schema だけです。
+一方、Model が受け取るのは、表の名前と 1 行の説明に、引数の型だけを書いた JSON Schema を加えたものだけです。
 
 ### 実行結果
 
@@ -261,12 +223,6 @@ Tool の説明には、何を返すかに加えて、いつ使うか、他の To
 同じ記事はチームの新しいメンバーへ説明するつもりで書くよう勧めています。
 
 > When writing tool descriptions and specs, think of how you would describe your tool to a new hire on your team.
-
-OpenAI の Function calling のガイドにも、同じ趣旨の「intern test」があります。
-
-> Pass the intern test. Can an intern/human correctly use the function given nothing but what you gave the model?
-
-<ExLinkCard url="https://developers.openai.com/api/docs/guides/function-calling" />
 
 v2 の `calendar_list_users` と `calendar_list_events` の定義は次のとおりです。
 v1 の「ユーザーの一覧を返す」と比べると、何を返すか、どの Tool と組み合わせて何のために使うかが説明から分かります。
@@ -348,17 +304,11 @@ attendeeUserIDsSchema := map[string]any{
 
 > Instead of using examples, think more about the design of your tools, scripts and files- what parameters does Claude have and how can they be more expressive?
 
-OpenAI のガイドには、enum やオブジェクトの構造で無効な状態を表せないようにする指針があります。
-
-> Use enums and object structure to prevent invalid states. For example, `toggle_light(on: bool, off: bool)` allows for invalid calls.
-
 v2 では、あわせて strict mode を有効にしました。
 Claude の API で Tool の定義へ `strict: true` を付けると、Model の出力はスキーマに合うトークンだけに制約されます。そのため、Tool の入力は必ずスキーマどおりになります。スキーマには `additionalProperties: false` が必要です。
 `agent.Tool` では、`Strict` が `true` のときに両方を設定します。
 
 <ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" />
-
-OpenAI のガイドでも、strict mode を常に有効にすることが推奨されています。Responses API では `strict` を省略すると、スキーマを strict mode に合う形へ変換しようとし、変換できない場合は strict でない呼び出しになります。
 
 ただし、strict mode が保証するのは形だけです。
 v1 の `user` に名前を渡す呼び出しは、文字列というスキーマには合っているので、strict mode を有効にしても防げません。何を渡すべきかは、引数名と説明で伝える必要があります。
@@ -367,17 +317,7 @@ v1 の `user` に名前を渡す呼び出しは、文字列というスキーマ
 
 戻り値は Model が次の判断に使う情報だけに絞り込みます。
 Anthropic の記事は、UUID のような技術的な識別子より、名前のように次の行動に直接役立つ情報を返すよう勧めています。
-
-> eschew low-level technical identifiers (for example: `uuid`, `256px_image_url`, `mime_type`).
-
-一方、Claude のドキュメントには、内部参照ではなく、slug や UUID のような意味があって変わらない識別子を返すよう書かれています。
-
-> Return semantic, stable identifiers (for example, slugs or UUIDs) rather than opaque internal references
-
-<ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" />
-
-Anthropic の記事も、`search_user(name='jane') → send_message(id=12345)` のように、後続の Tool Call では ID が必要になる場合があることは認めています。
-次の Tool に渡す ID は返しつつ、Model が判断に使う名前もあわせて返せば、2 つの指針は両立します。
+ただし、後続の Tool Call に ID が必要な場合もあるので、次の Tool に渡す ID は残しつつ、Model が判断に使う名前もあわせて返します。
 v2 の `calendar_list_users` はメールアドレスや作成日時を省き、`user_id` と名前と部署を 1 行ずつ返します。
 
 ```text
@@ -401,9 +341,6 @@ v2 では、登録した件名、日時、参加者の名前を返します。Mo
 ```text
 「打ち合わせ」を 2026-09-28 (月) 16:00-16:30 に登録しました。参加者: 伊波 太郎、一ノ瀬 奈々
 ```
-
-今回は結果が小さいので扱いませんが、結果が大きくなる Tool では、ページネーションや絞り込み、切り詰めも必要になります。
-Anthropic の記事は、`response_format` という enum の引数で、簡潔な結果と詳細な結果を Model に選ばせる方法を紹介しています。
 
 ### エラーの返し方
 
@@ -442,9 +379,6 @@ results = append(results, anthropic.NewToolResultBlock(call.ID, out, err != nil)
 ```
 
 <ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls" />
-
-OpenAI の Responses API には専用のフラグはなく、エラーも `function_call_output` の文字列として返します。
-OpenAI Agents SDK も、Tool の関数が例外を投げた場合は、特に設定しなければエラーが起きたことを Model に伝えて処理を続けます。
 
 ### 実行結果
 
@@ -487,9 +421,11 @@ Anthropic の記事は、既存の API をそのままラップしただけの T
 
 > Instead of implementing a `list_users`, `list_events`, and `create_event` tools, consider implementing a `schedule_event` tool which finds availability and schedules an event.
 
-OpenAI のガイドにも、いつも続けて呼ぶ関数は 1 つにまとめるよう書かれています。
+OpenAI の Function calling のガイドにも、いつも続けて呼ぶ関数は 1 つにまとめるよう書かれています。
 
 > Combine functions that are always called in sequence.
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/function-calling" />
 
 Model のコンテキストは限られていますが、コードで扱えるメモリは十分にあります。
 ユーザーの検索や空き時間の計算のように、手順が決まっている処理はコードに任せ、Model には依頼の解釈と判断を任せます。
@@ -602,15 +538,6 @@ Tool の境界を決めるときの目安として、Anthropic の「Effective c
 > If a human engineer can't definitively say which tool should be used in a given situation, an AI agent can't be expected to do better.
 
 <ExLinkCard url="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" />
-
-Shopify の Sidekick の事例でも、Tool の数が増えるにつれて境界があいまいになったと報告されています。
-Tool が 0〜20 個のうちは境界が明確だったものの、20〜50 個になると境界があいまいになり、Tool の組み合わせが予期しない結果を生むようになったそうです。
-
-<ExLinkCard url="https://shopify.engineering/building-production-ready-agentic-systems" />
-
-OpenAI の「A practical guide to building agents」も、問題は Tool の数だけではなく、Tool どうしが似ていたり重なっていたりすることだと指摘しています。
-
-> The issue isn't solely the number of tools, but their similarity or overlap.
 
 Tool が増えたときに、すべての定義を毎回コンテキストに載せなくて済む仕組みもあります。
 OpenAI の Tool search では、`tool_search` を Tool に加え、関数や MCP サーバーに `defer_loading: true` を付けます。Model は、最初に Tool の名前と説明だけを読み、必要になった Tool の引数のスキーマを後から読み込みます。
@@ -756,10 +683,7 @@ v3 で検索と登録を分けたように読み取りと書き込みの Tool �
 
 Model が Tool について知る手がかりは、Tool の定義と実行結果です。
 そのため、Tool の設計は、Model がそれをどう読むかを基準に考えます。
-
-1. Tool の粒度を決める。API のエンドポイントではなく、Agent に任せたい作業の単位で Tool を分割する
-2. 定義と結果を整える。名前、説明、引数、戻り値、エラーを、Model が迷わず次の行動を判断できる形にする
-3. 評価して改善する。同じ依頼を繰り返し実行し、ターン数やエラー、消費トークンの変化を計測して改善する
+Agent に任せたい作業の単位で Tool の粒度を決め、Model が迷わず次の行動を決められるように定義と結果を整えます。そして、同じ依頼を繰り返し実行し、ターン数やエラー、トークンの変化を確かめます。
 
 MCP で Tool をサーバーとして提供する場合も、Model が読むのは同じ定義と結果なので、これらの指針はそのまま使えます。
 

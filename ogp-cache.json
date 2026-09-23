@@ -225,6 +225,11 @@
     "description": "Learn how function calling enables large language models to connect to external data and systems.",
     "image": "https://developers.openai.com/og/api/docs/guides/function-calling.png"
   },
+  "https://developers.openai.com/api/docs/guides/tools-tool-search": {
+    "title": "Tool search | OpenAI API",
+    "description": "Use tool search to defer large tool surfaces, group related tools with namespaces, and load only the relevant functions at runtime.",
+    "image": "https://developers.openai.com/og/api/docs/guides/tools-tool-search.png"
+  },
   "https://docs.anthropic.com/ja/docs/claude-code/github-actions": {
     "title": "Claude Code GitHub Actions - Claude Code Docs",
     "description": "Claude Code を開発ワークフローに統合する Claude Code GitHub Actions について学びます",
@@ -900,11 +905,6 @@
     "description": "",
     "image": null
   },
-  "https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools": {
-    "title": "Define tools",
-    "description": "Specify tool schemas, write effective descriptions, and control when Claude calls your tools.",
-    "image": "/ogp/8b61fb3175fdf897.png"
-  },
   "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls": {
     "title": "Handle tool calls",
     "description": "Parse tool_use blocks, format tool_result responses, and handle errors with is_error.",
@@ -979,11 +979,6 @@
     "title": "2019年 PFN夏季インターンシップのコーディング課題公開｜株式会社Preferred Networks",
     "description": "Preferred Networks 2019 夏季インターンシップの選考で用いたコーディング課題を github 上で",
     "image": "https://www.preferred.jp/images/ogp.png"
-  },
-  "https://shopify.engineering/building-production-ready-agentic-systems": {
-    "title": "Building production-ready agentic systems: Lessons from Shopify Sidekick (2025) - Shopify",
-    "description": "Learn how we evolved our AI assistant architecture and built robust evaluation frameworks for real-world deployment",
-    "image": "https://cdn.shopify.com/s/files/1/0779/4361/articles/image_1_02f5ef22-dd8c-4717-91cb-070b71b0c679.png?v=1759988609"
   },
   "https://stackoverflow.com/questions/9506181/github-api-create-branch/9513594": {
     "title": "Just a moment...",
