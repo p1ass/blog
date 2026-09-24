@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Author } from '../../components/Author'
+import { DraftBadge } from '../../components/DraftBadge'
 import { PostDetails } from '../../components/PostDetails'
 import { PostPagination } from '../../components/PostPagination'
 import { ShareButtons } from '../../components/ShareIcons'
@@ -105,6 +106,7 @@ export default jsxRenderer(
             <time datetime={frontmatter.date}>
               {formatDate(parseDate(frontmatter.date), 'YYYY/MM/DD')}
             </time>
+            {frontmatter.draft ? <DraftBadge /> : null}
           </div>
           <h1 class={postTitleCss} data-post={permalink} data-post-part='title'>
             {frontmatter.title}

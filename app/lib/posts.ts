@@ -76,7 +76,9 @@ const draftSlugs = new Set(
   posts.filter(post => post.frontmatter.draft).map(post => post.slug),
 )
 
-const allPosts = sortByDateDesc(withoutDrafts(posts))
+const allPosts = sortByDateDesc(
+  import.meta.env.DEV ? posts : withoutDrafts(posts),
+)
 
 const labelsByKind: Record<LabelKind, Label[]> = {
   category: buildLabels('category', allPosts),
