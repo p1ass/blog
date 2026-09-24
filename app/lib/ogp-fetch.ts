@@ -41,6 +41,48 @@ const namedEntities: Record<string, string> = {
 }
 
 export async function fetchOgp(url: string): Promise<Ogp | null> {
+  const { html, finalUrl } = await fetchHtml(url)
+  return parseOgp(html, finalUrl)
+}
+
+export async function fetchArchivedOgp(url: string): Promise<Ogp> {
+  const res = await fetch(
+    `https://archive.org/wayback/available?url=${encodeURIComponent(url)}`,
+    { signal: AbortSignal.timeout(timeoutMs) },
+  )
+  if (!res.ok) {
+    throw new Error(`Wayback Machine の API が HTTP ${res.status} を返しました`)
+  }
+  const snapshot = snapshotUrl(await res.json(), url)
+  const { html } = await fetchHtml(snapshot)
+  return parseOgp(html, url)
+}
+
+type WaybackAvailability = {
+  archived_snapshots?: {
+    closest?: { available?: boolean; status?: string; timestamp?: string }
+  }
+}
+
+// id_ を付けると、リンクを書き換えていない保存時点の HTML がそのまま返る。
+export function snapshotUrl(
+  availability: WaybackAvailability,
+  url: string,
+): string {
+  const closest = availability.archived_snapshots?.closest
+  if (
+    closest?.available !== true ||
+    closest.status !== '200' ||
+    closest.timestamp === undefined
+  ) {
+    throw new Error('Internet Archive に保存されたページがありません')
+  }
+  return `https://web.archive.org/web/${closest.timestamp}id_/${url}`
+}
+
+async function fetchHtml(
+  url: string,
+): Promise<{ html: string; finalUrl: string }> {
   const res = await fetch(url, {
     headers: {
       'user-agent': userAgent,
@@ -60,7 +102,7 @@ export async function fetchOgp(url: string): Promise<Ogp | null> {
   }
 
   const body = await res.arrayBuffer()
-  return parseOgp(decodeHtml(body, contentType), res.url || url)
+  return { html: decodeHtml(body, contentType), finalUrl: res.url || url }
 }
 
 export function parseOgp(html: string, url: string): Ogp {

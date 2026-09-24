@@ -620,6 +620,17 @@ export default function StyleGuide() {
           罫線を足すと短い範囲に線が 3 本並ぶ。
         </p>
         <PostSummarySection post={samplePost} />
+
+        <h3>DraftBadge</h3>
+        <p class={captionCss}>
+          下書きの記事の日付の隣に出す目印。下書きは開発サーバーでしか表示されないため、本番には出ない。
+        </p>
+        <PostSummarySection
+          post={{
+            ...samplePost,
+            frontmatter: { ...samplePost.frontmatter, draft: true },
+          }}
+        />
       </section>
 
       <section class={sectionCss}>

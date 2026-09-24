@@ -21,7 +21,11 @@
 
 本文には一覧ページに表示する抜粋（冒頭）の末尾を示す `{/* <!--more--> */}` マーカーを必ず挿入する。
 
+公開前の記事は Frontmatter に `draft: true` を付ける。開発サーバーでは通常の記事と同様に一覧にも表示されるが、ビルドでは記事一覧や RSS から除かれ、ページも出力されない。ただし記事ディレクトリの画像は `dist/` にコピーされるため、ドラフトには画像を置かない。
+
 記事一覧の取得や加工処理は `app/lib/posts.ts` で実装している。また、MDX 内で使うコンポーネントや組み込みタグの差し替えを行いたい場合は `app/lib/mdx-components.tsx` に登録する。
+
+記事のサンプルコードを実行するための API キー（`OPENAI_API_KEY`、`ANTHROPIC_API_KEY` など）は `.gitignore` に登録済みの `.env` に書かれている。
 
 画像のパスは開発時 (`/app/routes/posts/...`) とビルド後 (`/posts/...`) で `import.meta.env.PROD` により分岐する。画像を扱うコードを変更する際は、両方の分岐で整合性を保つ。
 
@@ -30,7 +34,7 @@
 - 初回は `pnpm install:playwright` を実行する。ビルド時に Chromium で Mermaid を描画するため、インストールされていないとビルドが失敗する。
 - `scripts/` 配下のスクリプトは TypeScript で作成し、`node scripts/<name>.ts` で直接実行する。
 - ルーティング処理内で失敗しうるもの（OGP の取得など）は、例外をスローせずフォールバックさせる。`@hono/vite-ssg` は例外が発生するとページの代わりに "Internal Server Error" を出力してビルドを正常終了扱いにしてしまうため、該当記事のみが本番環境で 404 になってしまう。
-- リンクカードの OGP 情報は `ogp-cache.json` を参照する。キャッシュの更新時は `pnpm ogp:refresh` を手動で実行する。
+- リンクカードの OGP 情報は `ogp-cache.json` を参照する。キャッシュの更新時は `pnpm ogp:refresh` を手動で実行する。`Cross-Origin-Resource-Policy` で他サイトからの読み込みを拒否している画像は `public/ogp/` に保存されるので、あわせてコミットする。
 
 ## スタイリング
 

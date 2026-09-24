@@ -14,7 +14,9 @@ import {
   type PaginationPosts,
   type Post,
   paginate,
+  type Slug,
   sortByDateDesc,
+  withoutDrafts,
 } from './post-list'
 
 export type {
@@ -60,21 +62,31 @@ function parseFrontmatter(slug: string, value: unknown): Frontmatter {
   return result.data
 }
 
+const posts = Object.entries(modules).map(([key, module]) => {
+  const slug = globKeyToSlug(key)
+  return {
+    slug,
+    frontmatter: parseFrontmatter(slug, module.frontmatter),
+    MDXContent: module.default,
+    ContentSummary: module.ContentSummary,
+  } satisfies Post
+})
+
+const draftSlugs = new Set(
+  posts.filter(post => post.frontmatter.draft).map(post => post.slug),
+)
+
 const allPosts = sortByDateDesc(
-  Object.entries(modules).map(([key, module]) => {
-    const slug = globKeyToSlug(key)
-    return {
-      slug,
-      frontmatter: parseFrontmatter(slug, module.frontmatter),
-      MDXContent: module.default,
-      ContentSummary: module.ContentSummary,
-    } satisfies Post
-  }),
+  import.meta.env.DEV ? posts : withoutDrafts(posts),
 )
 
 const labelsByKind: Record<LabelKind, Label[]> = {
   category: buildLabels('category', allPosts),
   tag: buildLabels('tag', allPosts),
+}
+
+export function isDraft(slug: Slug): boolean {
+  return draftSlugs.has(slug)
 }
 
 export function getAllPosts(): Post[] {

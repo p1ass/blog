@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decodeHtml, parseOgp } from './ogp-fetch'
+import { decodeHtml, parseOgp, snapshotUrl } from './ogp-fetch'
 
 const base = 'https://example.com/posts/1'
 
@@ -113,5 +113,41 @@ describe('decodeHtml', () => {
   it('知らない文字コードを名乗るページは UTF-8 として読む', () => {
     const body = new TextEncoder().encode('日本語').buffer
     expect(decodeHtml(body, 'text/html; charset=unknown-8bit')).toBe('日本語')
+  })
+})
+
+describe('snapshotUrl', () => {
+  const url = 'https://example.com/guide/'
+
+  it('最も近い保存ページの、書き換えていない HTML の URL を返す', () => {
+    const availability = {
+      archived_snapshots: {
+        closest: {
+          available: true,
+          status: '200',
+          timestamp: '20260920032034',
+        },
+      },
+    }
+    expect(snapshotUrl(availability, url)).toBe(
+      'https://web.archive.org/web/20260920032034id_/https://example.com/guide/',
+    )
+  })
+
+  it('保存されていなければ例外を投げる', () => {
+    expect(() => snapshotUrl({ archived_snapshots: {} }, url)).toThrow()
+  })
+
+  it('保存時にエラーだったページは使わない', () => {
+    const availability = {
+      archived_snapshots: {
+        closest: {
+          available: true,
+          status: '404',
+          timestamp: '20260920032034',
+        },
+      },
+    }
+    expect(() => snapshotUrl(availability, url)).toThrow()
   })
 })

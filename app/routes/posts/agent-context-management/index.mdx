@@ -1,0 +1,40 @@
+---
+title: Agent のコンテキスト管理
+date: 2099-12-31T00:00:00+09:00
+description: Agent 開発の連載の 3 本目。コンテキスト管理を扱う。
+category: 生成AI
+tags:
+  - Agent
+  - Agent Engineering の基礎
+draft: true
+---
+
+{/* <!--more--> */}
+
+## メモ: プロンプトキャッシュ
+
+1 本目では触れず、この記事で扱う。
+
+- Anthropic の Messages API はステートレスで、会話全体を毎回送る (Working with the Messages API に「The Messages API is stateless, which means that you always send the full conversational history to the API.」とある)。2026-09-22 に確認
+- 会話の状態はクライアントが持つので、送る内容はクライアントが決められる。ただし、途中の会話を書き換えると、プロンプトキャッシュはそこから後ろが外れる。さらに Claude Fable 5.1 以降の preserved thinking では、途中の会話を編集・削除すると、その後ろの thinking ブロックが無効化される (2026-08-31 以降に作成したアカウントでは 400)。古い Tool の結果を消すなら、サーバー側の Tool 結果のクリア (context editing) を使う。「自由に編集できる」とは書かない
+- OpenAI の Responses API は会話をサーバーに保存し、`previous_response_id` で続けられる。Conversation state のガイドには「Even when using `previous_response_id`, all previous input tokens for responses in the chain are billed as input tokens in the API.」と書かれている。過去の会話も入力トークンとして課金される。2026-09-22 に確認
+- Response オブジェクトは何も指定しなければ 30 日保存され、`store: false` で保存しないようにできる。長く続く会話には、TTL のない Conversations API がある
+- プロンプトキャッシュは、リクエストの先頭 (`tools`、`system`、`messages` の順) が一致する部分をキャッシュから読む。途中が 1 バイトでも変わると、そこから後ろはキャッシュされない
+- トップレベルに `cache_control: {type: "ephemeral"}` を付けると、最後のキャッシュ可能なブロックに区切りが置かれ、会話が伸びるたびに区切りも後ろへ動く。Agent Loop と相性がよい
+- TTL は指定しなければ 5 分、`ttl: "1h"` で 1 時間。読むたびに期限が延びる
+- 読み込みは入力の約 0.1 倍、書き込みは 5 分の TTL で 1.25 倍、1 時間で 2 倍
+- キャッシュできる先頭部分の最小サイズはモデルによって 512〜4096 トークンで、これより短いと、エラーは出ないままキャッシュされない
+- Go では `MessageNewParams` に `CacheControl: anthropic.NewCacheControlEphemeralParam()` を足す。キャッシュから読めたかどうかは `resp.Usage.CacheReadInputTokens` で確かめる
+
+## メモ: Tool が増えたときの扱い
+
+2 本目 (Tool の設計) では扱わず、この記事で扱う。いずれも未検証で、執筆前に一次情報で確認する。
+
+- Tool の定義そのものがコンテキストを圧迫する。MCP サーバーを複数つなぐと、ユーザーの入力を読む前に大量のトークンを消費する
+- Anthropic の Tool Search: Tool に `defer_loading: true` を付け、Model が検索してから必要な Tool の定義だけを読み込む。[Introducing advanced tool use](https://www.anthropic.com/engineering/advanced-tool-use) (2025-11-24) に Programmatic Tool Calling、Tool Use Examples と合わせて書かれている。2026 年 2 月から GA という二次情報がある
+- OpenAI の Tool search: `tool_search` を Tool に加え、関数に `defer_loading: true` を付ける。namespace か MCP サーバー単位での利用を推奨している ([Tool search](https://developers.openai.com/api/docs/guides/tools-tool-search))
+  - 2026-09-23 に確認: 最初は名前と説明だけを読み、引数のスキーマは必要な Tool の分だけ後から読み込む。namespace の関数は 10 個未満を推奨。読み込んだ Tool はコンテキストの末尾に足すので、プロンプトキャッシュが保たれる。Responses API の `gpt-5.4` 以降が対応
+  - 2 本目の「Tool をまとめる範囲」で、Tool search を 1 段落だけ紹介し、詳細はこの記事で扱うと予告した。2 本目では仕組みと namespace の推奨まで触れている。この記事では重複を避け、2 本目で触れていない点を中心に書く (キャッシュとの関係、Anthropic との比較、計測したトークンの削減量など)
+- Claude Code は MCP の Tool の定義がコンテキストの 10% を超えると遅延読み込みに切り替わるという二次情報がある
+- Code Execution: Tool を直接呼ばず、Model が書いたコードから呼ばせて、必要な結果だけをコンテキストに戻す ([Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)、Cloudflare の Code Mode)
+- Tool の結果によるコンテキストの圧迫 (大きな結果の要約、古い結果のクリア) もあわせて扱う。[Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) が参考になる

@@ -49,6 +49,7 @@
     "description": "7 月 13 日更新: AI Assistant は JetBrains IDE 各製品の v.2023.2 以降のバージョンにはバンドルされていません。利用のためには専用のプラグインのインストールが必要です。現在、AI Assistantへのアクセスはキャンセル待ちリストによって制限されていますのでご留意ください。また、データの取り扱いや正式版リリース等に関する情報はFAQページをご覧ください。",
     "image": "https://blog.jetbrains.com/wp-content/uploads/2023/06/Social-Share-Blog-image-1280x720-2x-2.png"
   },
+  "https://blog.p1ass.com/posts/agent-foundations/": null,
   "https://blog.p1ass.com/posts/hatena-to-hugo-one-year/": {
     "title": "はてなブログからHugoに移行にして1年が経った - ぷらすのブログ",
     "description": "ブログをはてなブログから移行して一年経ったので、アクセス数などを見つつ感想を書いていこうと思います。",
@@ -149,10 +150,25 @@
     "description": "Caddy is a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go",
     "image": "https://caddyserver.com/resources/images/open-graph-square.png?v=1a6bbd7"
   },
+  "https://claude.com/blog/seeing-like-an-agent": {
+    "title": "Seeing like an agent: how we design tools in Claude Code / claude.dev",
+    "description": "Learn how the Claude Code team designs, tests, and evolves tools by thinking from the model's point of view.",
+    "image": "/ogp/b3e33337924f9314.png"
+  },
+  "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models": {
+    "title": "The new rules of context engineering for Claude 5 generation models / claude.dev",
+    "description": "We removed over 80% of Claude Code's system prompt for more advanced models. How to apply the lessons we learned to your own context engineering in Claude Code and with your own agents.",
+    "image": "/ogp/f3392a5f2a3840b4.png"
+  },
   "https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja": {
     "title": "サービス間認証 | Cloud Run | Google Cloud Documentation",
     "description": "",
     "image": "https://docs.cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=ja"
+  },
+  "https://code.claude.com/docs/en/agent-sdk/agent-loop": {
+    "title": "How the agent loop works - Claude Code Docs",
+    "description": "Understand the message lifecycle, tool execution, context window, and architecture that power your SDK agents.",
+    "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DCore%2Bconcepts%26title%3DHow%2Bthe%2Bagent%2Bloop%2Bworks%26description%3DUnderstand%2Bthe%2Bmessage%2Blifecycle%252C%2Btool%2Bexecution%252C%2Bcontext%2Bwindow%252C%2Band%2Barchitecture%2Bthat%2Bpower%2Byour%2BSDK%2Bagents.%26theme%3D03628e99c753a03aec319053&w=1200&q=100"
   },
   "https://code.claude.com/docs/en/hooks": {
     "title": "Hooks reference - Claude Code Docs",
@@ -203,6 +219,16 @@
     "title": "WHOIS redaction · Cloudflare Registrar docs",
     "description": "Protect personal data with WHOIS redaction.",
     "image": "https://developers.cloudflare.com/og-docs.png"
+  },
+  "https://developers.openai.com/api/docs/guides/function-calling": {
+    "title": "Function calling | OpenAI API",
+    "description": "Learn how function calling enables large language models to connect to external data and systems.",
+    "image": "https://developers.openai.com/og/api/docs/guides/function-calling.png"
+  },
+  "https://developers.openai.com/api/docs/guides/tools-tool-search": {
+    "title": "Tool search | OpenAI API",
+    "description": "Use tool search to defer large tool surfaces, group related tools with namespaces, and load only the relevant functions at runtime.",
+    "image": "https://developers.openai.com/og/api/docs/guides/tools-tool-search.png"
   },
   "https://docs.anthropic.com/ja/docs/claude-code/github-actions": {
     "title": "Claude Code GitHub Actions - Claude Code Docs",
@@ -789,6 +815,16 @@
     "description": "ツイートを使って生活習慣の乱れを可視化するWebアプリです。カレンダーUIで直感的に起床・就寝時間の変化を見ることが出来ます。",
     "image": "https://midare.p1ass.com/ogp.jpg"
   },
+  "https://modelcontextprotocol.io/specification/2026-07-28/schema#calltoolresult": {
+    "title": "Schema Reference - Model Context Protocol",
+    "description": "",
+    "image": "https://raw.githubusercontent.com/modelcontextprotocol/docs/2eb6171ddbfeefde349dc3b8d5e2b87414c26250/images/og-image.png"
+  },
+  "https://modelcontextprotocol.io/specification/2026-07-28/server": {
+    "title": "Overview - Model Context Protocol",
+    "description": "",
+    "image": "https://raw.githubusercontent.com/modelcontextprotocol/docs/2eb6171ddbfeefde349dc3b8d5e2b87414c26250/images/og-image.png"
+  },
   "https://news.mynavi.jp/article/imajava-1/": {
     "title": "イマドキのJava徹底入門(1) Java技術の最新動向を知ろう",
     "description": "現在のJavaは、6カ月ごとに新たなバージョンをリリースするというポリシーが採用されている。このような早いリリースサイクルに対応していくには、最新の情報をキャッチアップしていく必要がある。そこで本連載では、Java 9以降で追加された機能や今後追加予定の機能を紹介していく。",
@@ -817,6 +853,16 @@
   "https://ogen.dev/docs/types/optional": {
     "title": "Optional type | ogen",
     "description": "Description",
+    "image": null
+  },
+  "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/": {
+    "title": "A practical guide to building agents",
+    "description": "A comprehensive guide to designing, orchestrating, and deploying AI agents—covering use cases, model selection, tool design, guardrails, and multi-agent patterns.",
+    "image": "https://images.ctfassets.net/kftzwdyauwt9/mJqlc42BkQevW6eMLubPU/1006cd702b66fb23319c1bbd9d45662f/practicalGuide.png?w=1600&h=900&fit=fill"
+  },
+  "https://openai.github.io/openai-agents-python/agents/": {
+    "title": "Agents - OpenAI Agents SDK",
+    "description": "",
     "image": null
   },
   "https://orm.drizzle.team/": {
@@ -858,6 +904,16 @@
     "title": "big package - math/big - Go Packages",
     "description": "",
     "image": null
+  },
+  "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls": {
+    "title": "Handle tool calls",
+    "description": "Parse tool_use blocks, format tool_result responses, and handle errors with is_error.",
+    "image": "/ogp/7a72961103a9963b.png"
+  },
+  "https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use": {
+    "title": "Strict tool use",
+    "description": "Enforce JSON Schema compliance on Claude's tool inputs with grammar-constrained sampling.",
+    "image": "/ogp/e64256dd914aeed1.png"
   },
   "https://play.golang.org/p/3j5V3yHWx4G": {
     "title": "Go Playground - The Go Programming Language",
@@ -958,6 +1014,21 @@
     "title": "判別可能なUnion型 | TypeScript Deep Dive 日本語版",
     "description": "",
     "image": "https://typescript-jp.gitbook.io/deep-dive/~gitbook/ogimage/-LTmp-8X76z87tbuPyD9"
+  },
+  "https://www.anthropic.com/engineering/building-effective-agents": {
+    "title": "Building Effective AI Agents",
+    "description": "Discover how Anthropic approaches the development of reliable AI agents. Learn about our research on agent capabilities, safety considerations, and technical framework for building trustworthy AI.",
+    "image": "https://cdn.sanity.io/images/4zrzovbb/website/76b5733c669f0dfb9c7aa7fc512a495867cf12e6-2400x1260.png"
+  },
+  "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents": {
+    "title": "Effective context engineering for AI agents",
+    "description": "Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/ea2bf01aa874d7ab776453e97dfeed5d2bf5a116-2400x1260.png"
+  },
+  "https://www.anthropic.com/engineering/writing-tools-for-agents": {
+    "title": "Writing effective tools for AI agents—using AI agents",
+    "description": "Writing effective tools for AI agents—using AI agents",
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/91df4759f1037fb6073de772278cb71e6e4ee37d-2400x1260.png"
   },
   "https://www.authlete.com/ja/developers/pkce/": {
     "title": "Proof Key for Code Exchange (RFC 7636) - Authlete Documentation",

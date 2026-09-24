@@ -9,7 +9,7 @@ argument-hint: "[記事スラッグ または ファイルパス]"
 
 # Agy Polish
 
-`agy` (Antigravity CLI) を使用して日本語文章を推敲する。モデルは表現力に優れた `gemini-3.8-flash-high` に固定する。
+`agy` (Antigravity CLI) を使用して日本語文章を推敲する。モデルは表現力の高い `gemini-3.8-flash-high` で固定する。
 
 ## Step 1: 対象ファイルの特定
 
@@ -29,10 +29,10 @@ cp -f "<絶対パス>" "<スクラッチパッド>/before-<ファイル名>"
 
 ## Step 3: agy による推敲の実行
 
-リポジトリルートで以下のコマンドを実行する。推敲処理には数分かかる場合があるため、Bash のタイムアウトは 600000 ms（10分）に設定する。
+リポジトリルートで以下のコマンドを実行する。推敲処理には数分かかる場合があるため、Bash のタイムアウトは 600000 ms（10 分）に設定する。
 
 ```bash
-agy -p "<リポジトリのルート>/CLAUDE.md を読み、そのルールに従って <絶対パス> のファイルを日本語として自然に推敲してください。その後上書き保存し、pnpm exec textlint <絶対パス> の指摘がなくなるまで修正してください" \
+agy -p "<リポジトリのルート>/CLAUDE.md を読み、そのルールに従って <絶対パス> のファイルを日本語として自然に推敲してください。その後上書き保存し、pnpm exec textlint <絶対パス> の指摘がなくなるまで修正してください。ファイルの読み書きは組み込みのファイル操作ツールで行い、シェルコマンドは pnpm exec textlint 以外を実行しないでください。" \
   --model gemini-3.8-flash-high \
   --mode accept-edits \
   --add-dir "<リポジトリのルート>" \
@@ -40,7 +40,7 @@ agy -p "<リポジトリのルート>/CLAUDE.md を読み、そのルールに�
   --print-timeout 9m
 ```
 
-※ `--mode accept-edits` および `--add-dir` は必須パラメータである。`--add-dir` には `CLAUDE.md` と対象ファイルの両方が読み込めるようディレクトリを指定する。指定しない場合、headless モードでファイルの読み書き権限が自動的に拒否され、ファイルが更新されないまま正常終了する。実行後にファイルが変更されていない場合は、出力ログに Permission エラーが含まれていないか確認する。
+※ `--mode accept-edits` と `--add-dir` は必ず指定する。`--add-dir` には `CLAUDE.md` と対象ファイルの両方が読み込めるようディレクトリを指定する。指定しない場合、headless モードでファイルの読み書き権限が自動的に拒否され、ファイルが更新されないまま正常終了する。実行後にファイルが変更されていない場合は、出力ログに Permission エラーが含まれていないか確認する。
 
 また、agy 内で textlint を実行するには `~/.gemini/antigravity-cli/settings.json` への権限追加が必要となる。`command` の権限エラーで停止した場合は、ユーザーに以下の設定追加を依頼する。
 
@@ -64,7 +64,7 @@ pnpm exec textlint "<絶対パス>"
 - frontmatter、コードブロック、URL、MDX コンポーネント、コメントに影響が及んでいる変更
 - `.claude/skills/blog-writing/references/style.md` の文体プロファイルから外れる変更（記事の場合）
 
-textlint の指摘が残っている場合は、手動で修正を行う。
+textlint の指摘が残っている場合は、手動で修正する。
 
 ## Step 5: 結果の報告
 

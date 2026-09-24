@@ -15,6 +15,7 @@ import {
   paginate,
   postPermalink,
   sortByDateDesc,
+  withoutDrafts,
 } from './post-list'
 
 function post(slug: string, frontmatter: Partial<Frontmatter> = {}): Post {
@@ -63,6 +64,17 @@ describe('sortByDateDesc', () => {
     sortByDateDesc(original)
 
     expect(original.map(p => p.frontmatter.title)).toEqual(['old', 'new'])
+  })
+})
+
+describe('withoutDrafts', () => {
+  it('draft: true の記事だけを除く', () => {
+    const posts = withoutDrafts([
+      post('published'),
+      post('draft', { draft: true }),
+      post('explicit', { draft: false }),
+    ])
+    expect(posts.map(p => p.slug)).toEqual(['published', 'explicit'])
   })
 })
 

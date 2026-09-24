@@ -7,13 +7,16 @@ import { blockGap, space } from '../styles/spacing'
 import { hoverTransition } from '../styles/transition'
 
 const postDetailsCss = css`
+  display: flex;
+  flex-wrap: wrap;
   width: fit-content;
   padding-bottom: ${blockGap};
 `
 
 const tagCss = css`
   color: ${textMuted};
-  text-decoration: none;
+  text-decoration-line: none;
+  white-space: nowrap;
   padding: 0 ${space['2xs']};
 
   ${hoverTransition(['color'])}

@@ -1,0 +1,503 @@
+---
+title: OpenAIとClaudeのAgent SDKから学ぶAgentの基本構成
+date: 2026-09-25T00:00:00+09:00
+description: OpenAIのドキュメントをもとにAgentの基本構成を整理し、OpenAI Agents SDKとClaude Agent SDKの違いを比較したうえで、Goで最小のAgentを実装します。
+category: 生成AI
+tags:
+  - Agent
+  - Agent Engineering の基礎
+  - Anthropic
+  - OpenAI
+  - Go
+---
+
+こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
+
+最近、Agent を「使う側」ではなく「作る側」に興味を持ち始めています。
+色々と新しい学びが多いなぁと感じているので、せっかくなので自分が学んだ Agent の開発について、何回かに分けて記事を書いていこうと思います。
+
+現在予定しているテーマは次の 7 つです。
+
+1. Agent の基本構成 (この記事)
+2. Tool の設計
+3. コンテキスト管理
+4. ハーネス
+5. Multi-Agent
+6. Workflow と Guardrails
+7. Observability と Eval
+
+この記事はその 1 本目で、Agent を構成する要素など Agent の全体像を整理します。
+
+<Note>
+  基本的なことなので専門でやられている方からすると初歩の内容になっていると思います。
+</Note>
+
+---
+
+OpenAI と Anthropic はそれぞれ Agent SDK を開発していますが、2 つの SDK における Agent の捉え方はほぼ同じです。
+どちらも「Model、Instructions、Tool を備え、最終出力を返すまでループを回す」という形で Agent を組み立てています。
+
+この記事では、まず Agent を理解する前提となる Tool Call の仕組みを確認し、OpenAI が公開しているドキュメントを元に Agent の基本構成を整理します。
+そのうえで、OpenAI Agents SDK と Claude Agent SDK がその構成をどう表現しているのかを比較し、最後に Go で API を直接呼び出す最小限の Agent を実装します。
+
+{/* <!--more--> */}
+
+## Tool Call の仕組み
+
+Tool Call は、LLM が外部の関数や API の呼び出しを要求できるようにする仕組みです。
+
+LLM は単体では最新情報の取得や、外部システムの操作ができません。
+そこで処理を Tool として切り出し、アプリケーション側のコードがその Tool を実行することで、Model がその結果を踏まえて応答を生成できるようにします。
+
+Model の役割はどの Tool をどんな引数で呼び出すかを判断し、構造化データ (一般的には JSON Schema に基づいたデータ)を生成することです。
+
+```mermaid
+sequenceDiagram
+  participant A as アプリケーション
+  participant M as Model
+  participant T as Tool (外部の API など)
+  A->>M: ユーザーの入力、Tool の定義 (名前、説明、引数の JSON Schema)
+  M-->>A: Tool Call (Tool の名前と引数)
+  A->>T: 実行
+  T-->>A: 結果
+  A->>M: Tool の実行結果
+  M-->>A: 結果を踏まえた応答
+```
+
+_Tool Call の 1 往復。Model は Tool の呼び出しを指定するだけで、実行はアプリケーションが担う_
+
+この Tool Call を 1 回実行するだけなら、ただの関数呼び出しに過ぎません。
+Agent の真骨頂は Model が Tool Call を何度も繰り返していく(ループする)ことで、複雑な処理をこなしていくことにあります。
+
+## Agent の基本構成
+
+OpenAI の「A practical guide to building agents」というドキュメントを元に、Agent の基本構成を整理します。
+
+<ExLinkCard url="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" />
+
+### Model、Instructions、Tool の 3 要素
+
+このドキュメントでは、Model、Instructions、Tool を備えてループを回す構造を Agent の基本構成として整理しています。
+
+| 要素         | ドキュメントの説明                                                |
+| ------------ | ----------------------------------------------------------------- |
+| Model        | The LLM powering the agent's reasoning and decision-making        |
+| Tool         | External functions or APIs the agent can use to take action       |
+| Instructions | Explicit guidelines and guardrails defining how the agent behaves |
+
+Model は、次に Tool を呼ぶのか、ユーザーに回答を返すのかを判断する LLM そのものを指します。
+Instructions は、Agent の役割や守るべき制約を書いた指示 (いわゆるプロンプト)です。
+そして Tool は、前のセクションで見た Tool Call で呼び出される関数や API です。
+
+具体例を上げると、Model は `gpt-6-sol`、Instructions は「天気を答えるアシスタントとして振る舞ってください。天気は必ず `get_weather` Tool で調べてください。」という指示、Tool は `get_weather` にあたります。
+
+### Agent Loop
+
+次は Agent Loop です。
+
+Agent Loop は Agent の実行を終了条件を満たすまで Tool Call を繰り返すループのことです。
+指定された出力形式やエラー、最大ターン数への到達といった終了条件を満たすまでループを回し、与えられた指示を遂行します。
+
+なお、Anthropic も「Building effective agents」というドキュメントの中で、Agent を次の 1 文で説明しています。
+
+> They are typically just LLMs using tools based on environmental feedback in a loop.
+
+<ExLinkCard url="https://www.anthropic.com/engineering/building-effective-agents" />
+
+どちらの説明でも、LLM が Tool Call の往復を自分で判断しながら繰り返すループ構造を Agent の中心に据えています。
+
+### ここまでのまとめ
+
+ここまでの内容を元にすると、Agent は次のように組み立てられます。
+
+- Model に Instructions と使える Tool の一覧を渡す
+- Model が Tool Call を返したら、コードがそれを実行し、その結果を会話に含めてもう一度 Model を呼ぶ
+- Model が終了条件を満たしたら終了する。無限に回らないよう最大ターン数を設ける
+
+```mermaid
+flowchart TD
+  start([Instructions、Tool の一覧、ユーザーの入力]) --> invoke[Model を呼ぶ]
+  invoke --> kind{Tool Call を含むか}
+  kind -->|含まない| done([最終出力を返す])
+  kind -->|含む| exec[Tool を実行し、結果を会話に足す]
+  exec --> turns{最大ターン数に達したか}
+  turns -->|いいえ| invoke
+  turns -->|はい| stop([エラーで終了])
+```
+
+_Agent Loop_
+
+以降ではこのまとめを「Agent の基本構成」と呼び、2 つの SDK をこれに当てはめて見ていきます。
+
+## OpenAI Agents SDK の Agent
+
+まずは OpenAI Agents SDK における Agent の設計を見ていきます。
+
+<ExLinkCard url="https://openai.github.io/openai-agents-python/agents/" />
+
+### 3 要素を持つ Agent クラス
+
+先ほど見た 3 要素はそのまま `Agent` クラスのフィールドに対応しています。
+`Agent` は `model`、`instructions`、`tools` を持つ構造になっています。
+
+例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。
+
+- ライブラリ: openai-agents 0.22.3
+- 環境変数: `OPENAI_API_KEY`
+- ソースコード: [GitHub](https://github.com/p1ass/blog/blob/main/app/routes/posts/agent-foundations/sdk-agent/openai_agent.py)
+
+```python
+from agents import Agent, Runner, function_tool
+
+# 関数のシグネチャと docstring から Tool の定義 (名前、説明、引数の JSON Schema) を生成するアノテーション
+@function_tool
+def get_weather(city: str) -> str:
+    """指定した都市の現在の天気を返す"""
+    return f"{city} は晴れ、気温は 24 度"
+
+agent = Agent(
+    name="Weather agent",
+    model="gpt-6-sol",
+    instructions="あなたは天気を答えるアシスタントです。天気は必ず get_weather で調べてください。",
+    tools=[get_weather],
+)
+
+result = Runner.run_sync(agent, "東京と大阪の天気を教えてください", max_turns=10)
+print(result.final_output)
+```
+
+### Agent Loop の実装
+
+`Agent` 自体は設定を保持するだけのオブジェクトで、Agent Loop に相当する処理は `Runner` が担っています。
+ループも Tool の実行も、すべて Python のプロセスの中で動作します。
+
+```mermaid
+flowchart LR
+  subgraph app[Python のプロセス]
+    loop["Runner (Agent Loop)"]
+    tools[独自の Tool]
+  end
+  subgraph api[OpenAI の API]
+    model[Model]
+  end
+  loop --> tools
+  loop <-->|Responses API| model
+```
+
+_OpenAI Agents SDK の構成_
+
+## Claude Agent SDK の Agent
+
+次に、Claude Agent SDK を使った実装も見ていきます。
+
+<ExLinkCard url="https://code.claude.com/docs/en/agent-sdk/agent-loop" />
+
+### 3 要素を持つ ClaudeAgentOptions
+
+Claude Agent SDK には `Agent` クラスがありません。代わりに、`ClaudeAgentOptions` というクラスが Model、Instructions、Tool を持ち、`ClaudeSDKClient` に渡す仕組みです。
+
+Tool の仕組みは独特で、MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool として認識されます。
+
+OpenAI Agents SDK の例と同様の Agent を実装してみると、次のようになります。
+
+- ライブラリ: claude-agent-sdk 0.2.158
+- 環境変数: `ANTHROPIC_API_KEY`
+- ソースコード: [GitHub](https://github.com/p1ass/blog/blob/main/app/routes/posts/agent-foundations/sdk-agent/claude_agent.py)
+
+```python
+import anyio
+from claude_agent_sdk import ClaudeAgentOptions, ClaudeSDKClient, ResultMessage, create_sdk_mcp_server, tool
+
+@tool("get_weather", "指定した都市の現在の天気を返す", {"city": str})
+async def get_weather(args):
+    return {"content": [{"type": "text", "text": f"{args['city']} は晴れ、気温は 24 度"}]}
+
+weather = create_sdk_mcp_server(name="weather", version="1.0.0", tools=[get_weather])
+
+options = ClaudeAgentOptions(
+    model="sonnet",
+    system_prompt="あなたは天気を答えるアシスタントです。天気は必ず get_weather で調べてください。",
+    mcp_servers={"weather": weather},
+    # 承認なしで実行する Tool の指定で、Bash や Read などの組み込み Tool も使える状態のまま
+    allowed_tools=["mcp__weather__get_weather"],
+    max_turns=10,
+)
+
+async def main():
+    async with ClaudeSDKClient(options=options) as client:
+        await client.query("東京と大阪の天気を教えてください")
+        async for message in client.receive_response():
+            if isinstance(message, ResultMessage):
+                if message.subtype == "success":
+                    print(message.result)
+                else:
+                    print(f"failed: {message.subtype}")
+
+anyio.run(main)
+```
+
+### Agent Loopの実装
+
+Claude Agent SDK は OpenAI Agents SDK とループの実行方法が大きく異なります。
+Claude Agent SDK は、パッケージに同梱された Claude Code の CLI をサブプロセスとして起動し、標準入出力を介して JSON 形式のメッセージをやり取りします。
+
+```mermaid
+flowchart LR
+  subgraph app[Python のプロセス]
+    sdk[Claude Agent SDK]
+    custom[独自 Tool の MCP サーバー]
+  end
+  subgraph cli[Claude Code のプロセス]
+    loop[Agent Loop]
+    builtin[組み込みの Tool]
+  end
+  subgraph api[Anthropic の API]
+    model[Model]
+  end
+  sdk <-->|標準入出力| loop
+  loop --> builtin
+  loop -.->|Tool Call| custom
+  loop <-->|Messages API| model
+```
+
+_Claude Agent SDK の構成_
+
+OpenAI Agents SDK が Agent をオブジェクトとして組み立てて `Runner` で動かすのに対し、Claude Agent SDK は Claude Code を `ClaudeAgentOptions` で設定して動作させるようになっています。
+
+## 2 つの SDK の対応
+
+Agent の基本構成の要素ごとに、2 つの SDK を並べると次のようになります。
+
+| Agent の基本構成 | OpenAI Agents SDK               | Claude Agent SDK                        |
+| ---------------- | ------------------------------- | --------------------------------------- |
+| Model            | `Agent.model`                   | `ClaudeAgentOptions.model`              |
+| Instructions     | `Agent.instructions`            | `ClaudeAgentOptions.system_prompt`      |
+| Tool             | `@function_tool` で定義した関数 | `@tool` で定義した MCP の Tool          |
+| ループを回す場所 | Python の `Runner`              | Claude Code の CLI                      |
+| 最終出力         | `RunResult.final_output`        | `ResultMessage.result`                  |
+| 最大ターン数     | `max_turns`                     | `max_turns` (Tool を使うターンを数える) |
+
+要素の名前は違っても、主要な要素は対応が取れます。
+両者の違いは、Agent クラスの設計や、Agent Loop のランタイムの違いなどになります。
+
+<Note>
+  Agent の基本構成には含めていませんが、どちらの SDK にも Agent
+  の実行前後に処理を差し込む仕組みがあります。OpenAI Agents SDK では
+  Guardrails、Claude Agent SDK では hooks
+  と権限モードがその役割を担っています。詳細は今後の記事で紹介します。
+</Note>
+
+## Go で最小の Agent を実装する
+
+最後に、2 つの SDK が提供している Agent Loop を自分で再実装してみます。環境は次のとおりです。
+
+- Go 1.27.1
+- [github.com/openai/openai-go/v3](https://pkg.go.dev/github.com/openai/openai-go/v3) v3.65.0
+- [github.com/anthropics/anthropic-sdk-go](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go) v1.75.0
+
+題材はこれまでと同じく `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまで Agent Loop を回します。
+コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-foundations/minimal-agent) にプッシュしています。
+
+### OpenAI Responses API 版
+
+OpenAI 版では、Instructions を `Instructions` に、Tool の定義を `Tools` に渡します。Tool の引数は JSON Schema で定義します。
+
+```go
+tools := []responses.ToolUnionParam{{OfFunction: &responses.FunctionToolParam{
+	Name:        "get_weather",
+	Description: openai.String("指定した都市の現在の天気を返す"),
+	Parameters: map[string]any{
+		"type":       "object",
+		"properties": map[string]any{"city": map[string]string{"type": "string"}},
+		"required":   []string{"city"},
+	},
+}}}
+params := responses.ResponseNewParams{
+	Model:        openai.ChatModelGPT6Sol,
+	Instructions: openai.String(instructions),
+	Input: responses.ResponseNewParamsInputUnion{OfInputItemList: responses.ResponseInputParam{
+		responses.ResponseInputItemParamOfMessage(prompt, responses.EasyInputMessageRoleUser),
+	}},
+	Tools: tools,
+	Store: openai.Bool(false),
+}
+
+for turn := range maxTurns {
+	resp, err := client.Responses.New(ctx, params)
+	if err != nil {
+		log.Fatal(err)
+	}
+	output, err := outputAsInput(resp.Output)
+	if err != nil {
+		log.Fatal(err)
+	}
+	params.Input.OfInputItemList = append(params.Input.OfInputItemList, output...)
+
+	var results responses.ResponseInputParam
+	for _, item := range resp.Output {
+		if item.Type != "function_call" {
+			continue
+		}
+		call := item.AsFunctionCall()
+		log.Printf("turn %d: %s %s", turn+1, call.Name, call.Arguments)
+		out, err := runTool(call.Name, []byte(call.Arguments))
+		if err != nil {
+			out = err.Error()
+		}
+		result := responses.ResponseInputItemParamOfFunctionCallOutput(out)
+		result.OfFunctionCallOutput.CallID = openai.String(call.CallID)
+		results = append(results, result)
+	}
+
+	if len(results) == 0 {
+		fmt.Println(resp.OutputText())
+		return
+	}
+
+	params.Input.OfInputItemList = append(params.Input.OfInputItemList, results...)
+}
+log.Fatalf("max turns (%d) exceeded", maxTurns)
+
+// Go の SDK には応答を次の入力に変換する関数がないため、JSON を経由して変換する。
+func outputAsInput(output []responses.ResponseOutputItemUnion) (responses.ResponseInputParam, error) {
+	input := make(responses.ResponseInputParam, 0, len(output))
+	for _, item := range output {
+		var converted responses.ResponseInputItemUnion
+		if err := json.Unmarshal([]byte(item.RawJSON()), &converted); err != nil {
+			return nil, err
+		}
+		input = append(input, converted.ToParam())
+	}
+	return input, nil
+}
+```
+
+Tool の実行は、Tool 名で分岐する関数にまとめました。
+
+```go
+func runTool(name string, input []byte) (string, error) {
+	switch name {
+	case "get_weather":
+		var args struct {
+			City string `json:"city"`
+		}
+		if err := json.Unmarshal(input, &args); err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("%s は晴れ、気温は 24 度", args.City), nil
+	default:
+		return "", fmt.Errorf("unknown tool: %s", name)
+	}
+}
+```
+
+Model の出力と Tool の実行結果を `Input` に追加し、次のリクエストで会話履歴全体を送り直します。
+「東京と大阪の天気」のように、Model は 1 回の応答で複数の Tool Call を返すことがあります。そのため、応答に含まれる Tool Call をすべて実行し、それぞれの結果を `function_call_output` のアイテムとして追加します。
+
+### Anthropic Messages API 版
+
+Anthropic 版では、Instructions を `System` に、Tool の定義を `Tools` に渡します。`runTool` の実装は OpenAI 版と共通です。
+
+```go
+tools := []anthropic.ToolUnionParam{{OfTool: &anthropic.ToolParam{
+	Name:        "get_weather",
+	Description: anthropic.String("指定した都市の現在の天気を返す"),
+	InputSchema: anthropic.ToolInputSchemaParam{
+		Properties: map[string]any{"city": map[string]string{"type": "string"}},
+		Required:   []string{"city"},
+	},
+}}}
+params := anthropic.MessageNewParams{
+	Model:     anthropic.ModelClaudeSonnet5,
+	MaxTokens: 1024,
+	System:    []anthropic.TextBlockParam{{Text: instructions}},
+	Messages:  []anthropic.MessageParam{anthropic.NewUserMessage(anthropic.NewTextBlock(prompt))},
+	Tools:     tools,
+}
+
+for turn := range maxTurns {
+	resp, err := client.Messages.New(ctx, params)
+	if err != nil {
+		log.Fatal(err)
+	}
+	params.Messages = append(params.Messages, resp.ToParam())
+
+	var results []anthropic.ContentBlockParamUnion
+	for _, block := range resp.Content {
+		call, ok := block.AsAny().(anthropic.ToolUseBlock)
+		if !ok {
+			continue
+		}
+		log.Printf("turn %d: %s %s", turn+1, call.Name, call.Input)
+		out, err := runTool(call.Name, call.Input)
+		isError := err != nil
+		if isError {
+			out = err.Error()
+		}
+		results = append(results, anthropic.NewToolResultBlock(call.ID, out, isError))
+	}
+
+	if len(results) == 0 {
+		for _, block := range resp.Content {
+			if text, ok := block.AsAny().(anthropic.TextBlock); ok {
+				fmt.Println(text.Text)
+			}
+		}
+		return
+	}
+
+	params.Messages = append(params.Messages, anthropic.NewUserMessage(results...))
+}
+log.Fatalf("max turns (%d) exceeded", maxTurns)
+```
+
+ループの基本的な構造は OpenAI 版と同じで、Model の応答と Tool の実行結果を `params.Messages` に蓄積し、次のリクエストで会話履歴全体を送り直します。
+Tool の実行結果は、`tool_result` ブロックとして 1 つの user メッセージにまとめて返します。
+
+### 実行結果
+
+環境変数 `OPENAI_API_KEY` と `ANTHROPIC_API_KEY` を設定し、それぞれのコードを実行すると、次のようなログが出力されました。
+
+```text
+$ go run ./openai
+2026/09/23 13:50:41 turn 1: get_weather {"city":"東京"}
+2026/09/23 13:50:41 turn 1: get_weather {"city":"大阪"}
+現在、東京も大阪も晴れで、気温はどちらも24℃です。
+```
+
+```text
+$ go run ./anthropic
+2026/09/23 13:50:45 turn 1: get_weather {"city":"東京"}
+2026/09/23 13:50:45 turn 1: get_weather {"city":"大阪"}
+お調べしました。
+
+**東京**:晴れ、気温24度
+**大阪**:晴れ、気温24度
+
+どちらも晴れで、気温は24度と同じ気候になっています。過ごしやすい一日になりそうですね!
+```
+
+どちらの実装も、1 ターン目で東京と大阪の 2 つの Tool Call を 1 回のレスポンスで返しています。2 つの結果をまとめて返すと、2 ターン目で Tool Call を含まない最終出力が返り、ループが終わります。最終出力の文面はモデルによって異なりますが、ループの動きは同じです。
+
+### Agent の基本構成との対応
+
+2 つの実装を Agent の基本構成の要素ごとに並べると、次のようになります。
+
+| Agent の基本構成 | OpenAI Responses API 版                          | Anthropic Messages API 版                        |
+| ---------------- | ------------------------------------------------ | ------------------------------------------------ |
+| Model            | `Model`                                          | `Model`                                          |
+| Instructions     | `Instructions`                                   | `System`                                         |
+| Tool             | `Tools` と `runTool`                             | `Tools` と `runTool`                             |
+| 会話             | `params.Input`                                   | `params.Messages`                                |
+| Agent Loop       | `for` 文                                         | `for` 文                                         |
+| 終了条件         | 最終出力なら `return`、`maxTurns` を超えたら終了 | 最終出力なら `return`、`maxTurns` を超えたら終了 |
+
+API に違いはあっても、Agent Loop の実装はほとんど同じです。違いは API ごとの細かな作法程度です。
+
+## おわりに
+
+この記事では、OpenAI のドキュメントをもとに、Agent を Model、Instructions、Tool の 3 要素と、Tool Call を繰り返す Agent Loop として整理しました。
+また、OpenAI Agents SDK と Claude Agent SDK はどちらもこの構造を基本としていることを確認しました。
+
+今後の記事では、ここで整理した要素やその周辺のテーマを 1 つずつ取り上げます。
+次回は Tool の設計を扱い、その後はコンテキスト管理、ハーネス、Multi-Agent、Workflow と Guardrails、Observability と Eval の順に進める予定です。

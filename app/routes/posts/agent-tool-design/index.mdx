@@ -1,0 +1,693 @@
+---
+title: Agent の Tool 設計
+date: 2026-09-24T19:00:00+09:00
+description: 既存の API をラップした会議予約 Agent の Tool を改善しながら、Agent の Tool をどう設計すればよいかを整理します。
+category: 生成AI
+tags:
+  - Agent
+  - Agent Engineering の基礎
+  - Anthropic
+  - Go
+draft: true
+---
+
+こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
+
+Agent の開発について学んだことを整理する連載の 2 本目です。連載の構成は次のとおりです。
+
+1. Agent の基本構成
+2. Tool の設計 (この記事)
+3. コンテキスト管理
+4. ハーネス
+5. Multi-Agent
+6. Workflow と Guardrails
+7. Observability と Eval
+
+1 本目では、Agent を Model、Instructions、Tool の 3 つの要素に整理し、Agent Loop が処理を実行することを学びました。
+
+<ExLinkCard url="https://blog.p1ass.com/posts/agent-foundations/" />
+
+この記事では、その中から Tool をピックアップし、Agent に適した設計について考えていきます。
+題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
+既存の API をそのまま Tool にした会議予約 Agent を実装し、Tool の定義と結果、Tool の粒度の順に改善しながら、それぞれの段階で Agent の動きがどう変わるかを実行結果で確かめます。
+あわせて、MCP で Tool を提供する場合にも同じ指針が当てはまることを確認します。
+
+<ExLinkCard url="https://www.anthropic.com/engineering/writing-tools-for-agents" />
+
+{/* <!--more--> */}
+
+## Tool の設計の進め方
+
+1 本目で見たとおり、Model は Tool を自分では実行しません。
+Model はリクエストに含まれる Tool の定義 (名前、説明、引数の JSON Schema) を読んで、どの Tool をどんな引数で呼ぶかを決めます。そして、アプリケーションが返す実行結果を読んで、次の行動を決めます。
+
+人間の開発者であれば、API のドキュメントを読み込んだり、ソースコードを確かめたり、同僚に質問したりできます。
+一方、Model が Tool について知る手がかりは、基本的に Tool の定義と実行結果の 2 つに限られます。ここに書かれていないことは Model に伝わりません。
+
+Anthropic の「Writing effective tools for agents」は、この関係を次のように表現しています。
+
+> Tools are a new kind of software which reflects a contract between deterministic systems and non-deterministic agents.
+
+従来の API は、同じ入力に同じ出力を返すシステム同士の契約でした。
+Tool は、同じ依頼でも毎回同じ行動をとるとは限らない Agent との契約です。そのため、Tool は呼び出し側の Model が定義と結果をどう読むかを前提に設計します。
+
+この記事では、Anthropic と OpenAI のドキュメントや事例をもとに、Tool の設計を次の 3 つの段階で進めます。
+
+1. Tool の粒度を決める。Agent に任せたい作業から逆算して、どの Tool を用意するかを決める
+2. 定義と結果を整える。名前、説明、引数、戻り値、エラーを、Model が読んで正しく判断できる形にする
+3. 評価して改善する。実際のタスクで Agent を動かし、Tool の呼び出し回数やエラー、消費したトークンを確かめて改善する
+
+新しく Tool を作る場合は、この順に進めます。
+ただ、実際には既存の API をそのまま Tool として公開するところから始めることも多いと思います。
+そこでこの記事では、既存の API をラップした Tool を出発点にして、定義と結果、粒度の順に改善し、最後に 3 つのバージョンを比較します。
+
+## 既存の API をラップした会議予約 Agent
+
+題材は社内の予定を調整する Agent です。
+Anthropic の「Writing effective tools for agents」は、`list_users`、`list_events`、`create_event` の 3 つの Tool を、空き時間を探して予定を登録する `schedule_event` にまとめる例を挙げています。この記事では、この例をもとに Agent を実装します。
+
+「来週月曜の午後に、伊波太郎さんと一ノ瀬さんとの 30 分の打ち合わせを入れてください」と依頼し、カレンダーに予定を登録させます。
+
+カレンダーは Go のコードの中に疑似データとして用意しました。社員は 20 人で、そのうち「伊波」は 2 人います。
+来週月曜 (2026-09-28) の 2 人の予定は次のとおりです。12 時から 18 時の間で 2 人とも空いている 30 分の枠は、16:00〜16:30 の 1 つだけです。
+
+| 時間        | 伊波 太郎    | 一ノ瀬 奈々 |
+| ----------- | ------------ | ----------- |
+| 12:00-13:00 |              | ランチ MTG  |
+| 13:00-14:00 | 設計レビュー |             |
+| 14:00-15:00 |              | 採用面接    |
+| 15:00-16:00 | 1on1         |             |
+| 16:00-16:30 |              |             |
+| 16:30-18:00 |              | 定例        |
+
+Model は Claude Sonnet 5 です。
+Agent は、1 本目で見た OpenAI Agents SDK にならって、Model、Instructions、Tool を持つ `Agent` と、Agent Loop を回す `Runner` に分けて実装しました。
+
+```go
+type Tool struct {
+	Name        string
+	Description string
+	Properties  map[string]any
+	Required    []string
+	Strict      bool
+	Run         func(ctx context.Context, input json.RawMessage) (string, error)
+}
+
+type Agent struct {
+	Model        anthropic.Model
+	Instructions string
+	Tools        []Tool
+}
+
+type Runner struct {
+	Client   anthropic.Client
+	MaxTurns int
+}
+
+func (r *Runner) Run(ctx context.Context, a *Agent, input string) (*Result, error)
+```
+
+`Tool` は Model に渡す定義 (名前、説明、引数の JSON Schema) と、Tool Call を受けて実行する関数をまとめた型です。
+`Runner.Run` の Agent Loop は、1 本目で Anthropic Messages API を使って実装したものと同じです。
+ループの中で、ターン数、Tool Call とエラーの回数、入力トークンを集計して `Result` に含めます。
+
+Instructions には今日の日付とタイムゾーンを書きました。
+
+```go
+const (
+	instructions = "あなたは社内の予定調整アシスタントです。今日は 2026-09-23 (水) で、時刻は日本時間 (JST) で扱います。依頼者本人の予定は考慮しなくてかまいません。登録する前に依頼者へ確認する必要はありません。"
+	prompt       = "来週月曜の午後に、伊波太郎さんと一ノ瀬さんとの 30 分の打ち合わせを入れてください"
+)
+```
+
+同じ依頼を繰り返し実行して計測するため、登録前の確認は省きました。
+実際に運用する Agent では、誤った相手を招待してしまわないよう、登録の前に参加者のフルネームと日時を依頼者へ確認するようにします。
+
+環境は次のとおりです。コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-tool-design/calendar-agent) にあります。
+
+- Go 1.27.1
+- [github.com/anthropics/anthropic-sdk-go](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go) v1.75.0
+
+`calendar-agent` ディレクトリで環境変数 `ANTHROPIC_API_KEY` を設定し、`go run . -version v1 -n 10` のように実行します。
+`-version` で Tool のバージョンを、`-n` で実行回数を指定すると、1 回ごとのターン数、Tool Call とエラーの回数、入力トークン、正しく登録できたかが `run N: ...` の行に出力されます。
+
+### 3 つの Tool
+
+最初のバージョン (以降は v1 と呼びます) は、カレンダーの API のエンドポイントを 1 対 1 で Tool にしたものです。
+
+| Tool           | 説明                 | 引数                                 | 戻り値                                                    |
+| -------------- | -------------------- | ------------------------------------ | --------------------------------------------------------- |
+| `list_users`   | ユーザーの一覧を返す | なし                                 | 全員の ID、名前、メールアドレス、部署、作成日時の JSON    |
+| `list_events`  | ユーザーの予定を返す | `user`、`time_min`、`time_max`       | 予定の ID、件名、参加者の ID、UTC の開始・終了時刻の JSON |
+| `create_event` | 予定を作成する       | `title`、`attendees`、`start`、`end` | 作成した予定の ID と状態の JSON                           |
+
+エラーは HTTP のステータスをそのまま文字列にして返します。
+存在しないユーザーを指定すると `404 Not Found`、日時の形式が違えば `400 Bad Request`、予定が重なれば `409 Conflict` です。
+
+API のドキュメントや既存のクライアントコードがあれば、人間の開発者はこの API を迷わず使えます。
+一方、Model が受け取るのは、表の名前と 1 行の説明に、引数の型だけを書いた JSON Schema を加えたものだけです。
+
+### 実行結果
+
+v1 を 10 回実行したうちの 9 回目のログです。時刻は省いています。Tool の結果は、Agent Loop の中で 120 文字に切り詰めてログに出しています。
+
+```text
+$ go run . -version v1 -n 10
+turn 1: list_users {} -> [{"id":"usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000","name":"伊波 太郎","email":"user01@example.com","department":"開発部","create...
+turn 2: list_events {"user":"伊波 太郎","time_min":"2026-09-28T12:00:00+09:00","time_max":"2026-09-28T18:00:00+09:00"} -> 404 Not Found
+turn 2: list_events {"user":"一ノ瀬 奈々","time_min":"2026-09-28T12:00:00+09:00","time_max":"2026-09-28T18:00:00+09:00"} -> 404 Not Found
+turn 3: list_events {"user":"user01@example.com","time_min":"2026-09-28T12:00:00+09:00","time_max":"2026-09-28T18:00:00+09:00"} -> 404 Not Found
+turn 3: list_events {"user":"user03@example.com","time_min":"2026-09-28T12:00:00+09:00","time_max":"2026-09-28T18:00:00+09:00"} -> 404 Not Found
+turn 4: list_events {"user":"usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000","time_min":"2026-09-28T12:00:00+09:00","time_max":"2026-09-28T18:00:00+09:00"} -> [{"id":"evt_01","summary":"設計レビュー","attendees":["usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000"],"start":"2026-09-28T04:00:00...
+turn 4: list_events {"user":"usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232","time_min":"2026-09-28T12:00:00+09:00","time_max":"2026-09-28T18:00:00+09:00"} -> [{"id":"evt_03","summary":"ランチ MTG","attendees":["usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232"],"start":"2026-09-28T03:00:0...
+turn 5: create_event {"title":"伊波太郎さん・一ノ瀬さん 打ち合わせ","attendees":["usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000","usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232"],"start":"2026-09-28T16:00:00+09:00","end":"2026-09-28T16:30:00+09:00"} -> {"id":"evt_06","status":"confirmed"}
+final: 以下の内容で打ち合わせを登録しました。
+
+- **日時**:2026年9月28日(月)16:00〜16:30
+- **参加者**:伊波太郎さん、一ノ瀬さん
+- **タイトル**:伊波太郎さん・一ノ瀬さん 打ち合わせ
+
+なお、この日の午後はお二人とも予定が多く詰まっており、共通で空いていたのはこの30分枠のみでした。ご確認ください。
+run 9: turns=6 calls=8 errors=4 input_tokens=19154 ok=true
+```
+
+Model は `list_users` で 2 人を見つけたあと、`user` に名前を渡して `404 Not Found` を受け取っています。次にメールアドレスを試して再び 404 になり、3 回目で UUID を渡してようやく予定を取得できました。
+`user` という引数名からは、名前、メールアドレス、ID のどれを渡せばよいかが分かりません。`404 Not Found` も何が間違っていたのかを伝えてくれないため、Model は推測で引数を変えて試行錯誤するしかありません。
+
+さらに、予定の時刻は UTC で返るため、Model は自分で JST に変換してから空いている枠を探しています。
+
+同じ依頼でも Model の行動は毎回変わるので、各バージョンを `-n 10` で 10 回ずつ実行し、`run N: ...` の行を集計しました。
+v1 の結果は次のとおりです。
+
+| 項目                 | v1                             |
+| -------------------- | ------------------------------ |
+| 正しく登録できた回数 | 10 回中 9 回                   |
+| ターン数の平均       | 5.0                            |
+| Tool Call の平均     | 5.8 回                         |
+| エラーが起きた回数   | 10 回中 5 回                   |
+| 入力トークンの平均   | 15,699 (最小 793、最大 24,007) |
+
+Claude Sonnet 5 は、v1 の Tool でも 10 回中 9 回は正しい枠に予定を登録できました。
+登録できなかった 1 回は、Model が Tool Call を本文のテキストとして出力してしまい、Tool を 1 度も呼ばずに終わった回です。Tool の設計とは関係のない Model 側の不具合で、入力トークンの最小値 793 はこの回のものです。
+問題になるのは、正解にたどり着くまでの遠回りです。1 本目で見たとおり、Agent Loop は毎ターン会話全体を送り直すため、ターンが増えるほど入力トークンが積み上がります。遠回りをした分だけ応答は遅くなり、利用料金も増えます。
+
+そこで以降のセクションでは、正答率ではなく、ターン数、エラー、入力トークンの変化を見ていきます。
+
+## Tool の定義と結果の改善
+
+v1 のログを Model の動きに沿って見ると、Model がつまずいた場面は次の 3 つです。
+
+- Tool を呼ぶときに、引数に何を渡せばよいかが分からない
+- エラーを受け取ったときに、何が間違っていたのかが分からない
+- 結果を読むときに、UTC の時刻や ID だけの参加者を自分で読み解く必要がある
+
+次のバージョン (v2) では、Tool の数と役割は v1 のまま、Model が参照する名前、説明、引数、戻り値、エラーを改善します。
+名前と説明は今回のログでは問題になっていませんが、Tool が増えたときに Model が Tool を選ぶ手がかりになるので、あわせて見直します。
+
+| Tool           | v1             | v2                      |
+| -------------- | -------------- | ----------------------- |
+| ユーザーの一覧 | `list_users`   | `calendar_list_users`   |
+| 予定の一覧     | `list_events`  | `calendar_list_events`  |
+| 予定の登録     | `create_event` | `calendar_create_event` |
+
+### 名前と説明
+
+Tool の名前には、サービス名のプレフィックスを付けました。
+Anthropic の「Writing effective tools for agents」は、サービスやリソースの単位で名前空間を分けると、Model が場面に合った Tool を選びやすくなると述べています。
+
+> namespacing tools by service (e.g., `asana_search`, `jira_search`) and by resource (e.g., `asana_projects_search`, `asana_users_search`), can help agents select the right tools at the right time.
+
+今回のように Tool が 3 つだけであれば、名前空間がなくても Model は正しい Tool を選べます。
+名前空間は複数の MCP サーバーをつないで、`list_events` のような似た名前の Tool が並んだときに役立ちます。
+
+Tool の説明には、何を返すかに加えて、いつ使うか、他の Tool とどう関係するかを書きます。
+同じ記事はチームの新しいメンバーへ説明するつもりで書くよう勧めています。
+
+> When writing tool descriptions and specs, think of how you would describe your tool to a new hire on your team.
+
+v2 の `calendar_list_users` と `calendar_list_events` の定義は次のとおりです。
+v1 の「ユーザーの一覧を返す」と比べると、何を返すか、どの Tool と組み合わせて何のために使うかが説明から分かります。
+
+```go
+{
+	Name:        "calendar_list_users",
+	Description: "社内のユーザーの user_id、名前、部署の一覧を返す。他の Tool に渡す user_id を名前から調べるために使う。",
+	Properties:  map[string]any{},
+	Strict:      true,
+	Run:         ...,
+},
+{
+	Name:        "calendar_list_events",
+	Description: "指定したユーザーの、指定した日の予定を返す。時刻はすべて日本時間 (JST)。空き時間を調べるために使う。",
+	Properties: map[string]any{
+		"user_id": map[string]string{"type": "string", "description": "calendar_list_users で調べた usr_ で始まる ID"},
+		"date":    map[string]string{"type": "string", "description": "予定を調べる日付。YYYY-MM-DD 形式"},
+	},
+	Required: []string{"user_id", "date"},
+	Strict:   true,
+	Run:      ...,
+},
+```
+
+Tool の使い方は、Instructions ではなく Tool の説明に書きます。
+Anthropic の「The new rules of context engineering for Claude 5 generation models」は、以前のモデルでは Instructions と Tool の説明の両方に同じ指示を書くこともありましたが、最新のモデルでは説明に書くだけで十分であると述べています。
+
+> We found we could delete these repeat examples and put instructions on how to use tools in the tool descriptions rather than the system prompt.
+
+<ExLinkCard url="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models" />
+
+### 引数のスキーマ
+
+v1 では、`list_events` の `user` という引数名が最も大きな遠回りの原因になりました。
+Anthropic の記事は、引数名について次のように書いています。
+
+> instead of a parameter named `user`, try a parameter named `user_id`.
+
+v2 では引数名を `user_id` にし、説明に「`calendar_list_users` で調べた `usr_` で始まる ID」と書きました。
+名前やメールアドレスを渡す余地がなくなり、どの Tool の結果を使えばよいかも分かります。
+
+引数の形も、依頼の単位に合わせて変えました。
+
+| Tool       | v1 の引数                                       | v2 の引数                                                                           |
+| ---------- | ----------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 予定の一覧 | `user`、`time_min`、`time_max` (RFC 3339)       | `user_id`、`date` (YYYY-MM-DD)                                                      |
+| 予定の登録 | `title`、`attendees`、`start`、`end` (RFC 3339) | `title`、`attendee_user_ids`、`start` (JST の YYYY-MM-DDTHH:MM)、`duration_minutes` |
+
+依頼は「月曜の午後に 30 分」なので、日付と長さで受け取れば、Model がタイムゾーン付きの時刻や終了時刻を組み立てる必要はありません。
+v2 の `calendar_create_event` の定義は次のとおりです。
+
+```go
+attendeeUserIDsSchema := map[string]any{
+	"type":        "array",
+	"items":       map[string]string{"type": "string"},
+	"description": "参加者の user_id。calendar_list_users で調べた usr_ で始まる ID",
+}
+
+// ...
+
+{
+	Name:        "calendar_create_event",
+	Description: "参加者全員のカレンダーに予定を登録する。誰かの予定と重なる場合は登録せず、重なっている予定を返す。",
+	Properties: map[string]any{
+		"title":             map[string]string{"type": "string", "description": "予定の件名"},
+		"attendee_user_ids": attendeeUserIDsSchema,
+		"start":             map[string]string{"type": "string", "description": "開始日時 (JST)。YYYY-MM-DDTHH:MM 形式"},
+		"duration_minutes":  map[string]any{"type": "integer", "description": "予定の長さ (分)"},
+	},
+	Required: []string{"title", "attendee_user_ids", "start", "duration_minutes"},
+	Strict:   true,
+	Run:      ...,
+},
+```
+
+使い方を例で示すより、引数そのものに意味を持たせるほうが効果的です。
+先ほどの Claude 5 世代向けの記事は、最新のモデルでは例を示すとかえって Model の探索の幅を狭めると述べ、引数の設計で表現するよう勧めています。
+
+> Instead of using examples, think more about the design of your tools, scripts and files- what parameters does Claude have and how can they be more expressive?
+
+v2 では、あわせて strict mode を有効にしました。
+Claude の API で Tool の定義へ `strict: true` を付けると、Model の出力はスキーマに合うトークンだけに制約されます。そのため、Tool の入力は必ずスキーマどおりになります。スキーマには `additionalProperties: false` が必要です。
+`agent.Tool` では、`Strict` が `true` のときに両方を設定します。
+
+<ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" />
+
+ただし、strict mode が保証するのは形だけです。
+v1 の `user` に名前を渡す呼び出しは、文字列というスキーマには合っているので、strict mode を有効にしても防げません。何を渡すべきかは、引数名と説明で伝える必要があります。
+
+### 戻り値
+
+戻り値は Model が次の判断に使う情報だけに絞り込みます。
+Anthropic の記事は、UUID のような技術的な識別子より、名前のように次の行動に直接役立つ情報を返すよう勧めています。
+ただし、後続の Tool Call に ID が必要な場合もあるので、次の Tool に渡す ID は残しつつ、Model が判断に使う名前もあわせて返します。
+v2 の `calendar_list_users` はメールアドレスや作成日時を省き、`user_id` と名前と部署を 1 行ずつ返します。
+
+```text
+usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000: 伊波 太郎 (開発部)
+usr_3a91deef-4f1c-4b7a-9e3d-00005d2f9919: 伊波 修 (営業部)
+usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232: 一ノ瀬 奈々 (開発部)
+...
+```
+
+v1 の予定一覧は参加者の ID と UTC の時刻を含む JSON でしたが、v2 では JST の時刻と件名を含む自然言語のテキストにしました。
+v1 と v2 の結果を並べると、次のとおりです。
+
+```text
+v1: [{"id":"evt_01","summary":"設計レビュー","attendees":["usr_3a91c000-..."],"start":"2026-09-28T04:00:00Z","end":"2026-09-28T05:00:00Z"},...]
+v2: 伊波 太郎 の 2026-09-28 (月) の予定: 13:00-14:00「設計レビュー」、15:00-16:00「1on1」
+```
+
+予定の登録も、v1 は `{"id":"evt_06","status":"confirmed"}` を返していました。
+v2 では、登録した件名、日時、参加者の名前を返します。Model は依頼どおりに登録できたかをこの結果で確かめられます。
+
+```text
+「打ち合わせ」を 2026-09-28 (月) 16:00-16:30 に登録しました。参加者: 伊波 太郎、一ノ瀬 奈々
+```
+
+### エラーの返し方
+
+v1 が返していた `404 Not Found` は何が間違っていたのかを Model に伝えられません。
+Anthropic の記事は、エラーでは分かりにくいエラーコードやトレースバックではなく、具体的で行動につながる改善点を伝えるよう勧めています。
+
+> you can prompt-engineer your error responses to clearly communicate specific and actionable improvements, rather than opaque error codes or tracebacks.
+
+v2 では、存在しない `user_id` を受け取ったときに次のエラーを返します。
+
+```go
+func unknownUserError(id string) error {
+	return fmt.Errorf("user_id %q のユーザーはいません。user_id には calendar_list_users で調べた usr_ で始まる ID を指定してください", id)
+}
+```
+
+受け取った値と、正しい値の調べ方を含めています。
+予定が重なったときも、`409 Conflict` ではなく、重なっている予定の時間と件名を返します。たとえば 16:30 から登録しようとすると、次のエラーになります。
+
+```text
+次の予定と重なるため登録しませんでした: 16:30-18:00「定例」。空いている時間帯を指定し直してください
+```
+
+エラーが発生しても例外として Agent Loop を止めず、Tool の実行結果として Model に返します。
+Anthropic Messages API では、`tool_result` に `is_error: true` を付けて返します。
+今回の Agent Loop では、Tool の関数が `error` を返したら、そのメッセージを `is_error: true` の結果にしています。
+
+```go
+out, err := a.call(ctx, call)
+if err != nil {
+	// ...
+	out = err.Error()
+}
+// ...
+results = append(results, anthropic.NewToolResultBlock(call.ID, out, err != nil))
+```
+
+<ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls" />
+
+### 実行結果
+
+v2 を 10 回実行したうちの 1 回目のログです。
+
+```text
+$ go run . -version v2 -n 10
+turn 1: calendar_list_users {} -> usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000: 伊波 太郎 (開発部)
+usr_3a91deef-4f1c-4b7a-9e3d-00005d2f9919: 伊波 修 (営業部)
+usr_3a91fdde...
+turn 2: calendar_list_events {"date":"2026-09-28","user_id":"usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000"} -> 伊波 太郎 の 2026-09-28 (月) の予定: 13:00-14:00「設計レビュー」、15:00-16:00「1on1」
+turn 2: calendar_list_events {"date":"2026-09-28","user_id":"usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232"} -> 一ノ瀬 奈々 の 2026-09-28 (月) の予定: 12:00-13:00「ランチ MTG」、14:00-15:00「採用面接」、16:30-18:00「定例」
+turn 3: calendar_create_event {"attendee_user_ids":["usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000","usr_3a91fdde-4f1c-4b7a-9e3d-00005d313232"],"duration_minutes":30,"start":"2026-09-28T16:00","title":"打ち合わせ"} -> 「打ち合わせ」を 2026-09-28 (月) 16:00-16:30 に登録しました。参加者: 伊波 太郎、一ノ瀬 奈々
+final: 来週月曜(2026-09-28) 16:00〜16:30に「打ち合わせ」として、伊波太郎さんと一ノ瀬奈々さんとの30分の予定を登録しました。
+
+なお、この時間帯以外の午後は両者のスケジュールが重なってしまうため、この時間のみが空いていた枠でした。
+run 1: turns=4 calls=4 errors=0 input_tokens=9208 ok=true
+```
+
+Model は最初から `user_id` に UUID を渡し、1 回で予定を取得できています。
+10 回実行した結果を v1 と並べると、次のとおりです。
+
+| 項目                 | v1           | v2            |
+| -------------------- | ------------ | ------------- |
+| 正しく登録できた回数 | 10 回中 9 回 | 10 回中 10 回 |
+| ターン数の平均       | 5.0          | 4.0           |
+| Tool Call の平均     | 5.8 回       | 4.0 回        |
+| エラーが起きた回数   | 10 回中 5 回 | 10 回中 0 回  |
+| 入力トークンの平均   | 15,699       | 9,016         |
+
+v2 では 10 回ともエラーが起きず、入力トークンは v1 の 6 割弱になりました。
+エラーが一度も起きなかったため、今回の実験では改善したエラーメッセージが使われる場面はありませんでした。
+
+一方で、v2 でも Tool の組み合わせ方は変わっていません。
+ユーザーの一覧を取得し、2 人の予定を取得し、空いている枠を探して登録するという手順を、Model が 4 ターンかけて組み立てています。空いている枠の計算も、Model が会話の中で行っています。
+
+## Tool の粒度
+
+Anthropic の記事は、既存の API をそのままラップしただけの Tool をよくある失敗例として挙げ、次のようにまとめることを勧めています。
+
+> Instead of implementing a `list_users`, `list_events`, and `create_event` tools, consider implementing a `schedule_event` tool which finds availability and schedules an event.
+
+OpenAI の Function calling のガイドにも、いつも続けて呼ぶ関数は 1 つにまとめるよう書かれています。
+
+> Combine functions that are always called in sequence.
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/function-calling" />
+
+Model のコンテキストは限られていますが、コードで扱えるメモリは十分にあります。
+ユーザーの検索や空き時間の計算のように、手順が決まっている処理はコードに任せ、Model には依頼の解釈と判断を任せます。
+
+### 空き時間の検索と予約
+
+v3 では、Tool を `calendar_find_free_slots` と `calendar_schedule_event` の 2 つに作り直しました。
+
+```go
+participantsSchema := map[string]any{
+	"type":        "array",
+	"items":       map[string]string{"type": "string"},
+	"description": "参加者の名前。「伊波 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない",
+}
+
+// ...
+
+{
+	Name: "calendar_find_free_slots",
+	Description: "指定した参加者全員の予定が空いている時間帯を、指定した日付の範囲で探す。" +
+		"会議を登録する前に、候補の時間帯を決めるために使う。時刻はすべて日本時間 (JST)。" +
+		"名前が複数の人に該当する場合は候補の一覧をエラーとして返すので、フルネームで指定し直す。",
+	Properties: map[string]any{
+		"participants":     participantsSchema,
+		"date":             map[string]string{"type": "string", "description": "探す日付。YYYY-MM-DD 形式"},
+		"duration_minutes": map[string]any{"type": "integer", "description": "会議の長さ (分)"},
+		"earliest":         map[string]string{"type": "string", "description": "探し始める時刻。HH:MM 形式。午後なら 12:00"},
+		"latest":           map[string]string{"type": "string", "description": "会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00"},
+	},
+	Required: []string{"participants", "date", "duration_minutes", "earliest", "latest"},
+	Strict:   true,
+	Run:      ...,
+},
+{
+	Name: "calendar_schedule_event",
+	Description: "参加者全員のカレンダーに会議を登録する。" +
+		"登録する時間帯は calendar_find_free_slots で空いていることを確かめてから指定する。" +
+		"誰かの予定と重なる場合は登録せず、重なっている予定を返す。",
+	Properties: map[string]any{
+		"title":            map[string]string{"type": "string", "description": "会議の件名"},
+		"participants":     participantsSchema,
+		"start":            map[string]string{"type": "string", "description": "開始日時 (JST)。YYYY-MM-DDTHH:MM 形式"},
+		"duration_minutes": map[string]any{"type": "integer", "description": "会議の長さ (分)"},
+	},
+	Required: []string{"title", "participants", "start", "duration_minutes"},
+	Strict:   true,
+	Run:      ...,
+},
+```
+
+v2 から変えたのは次の 3 点です。
+
+- 参加者を `user_id` ではなく名前で受け取り、Tool の中でユーザーを探す。`calendar_list_users` はなくなる
+- 予定の一覧ではなく、全員が空いている枠を返す。空き時間の計算はコードが行う
+- Tool の説明に、2 つの Tool をどの順で使うかを書く
+
+名前で受け取ると、同じ姓の人が複数いる場合に誰を指すのかがあいまいになります。
+その場合は候補の一覧をエラーとして返し、Model にフルネームで指定し直してもらいます。たとえば `participants` に「伊波」とだけ渡すと、次のエラーになります。
+
+```text
+「伊波」に該当する人が 2 人います: 伊波 太郎 (開発部)、伊波 修 (営業部)。フルネームで指定してください
+```
+
+Anthropic の例のように、空き時間の検索と登録を 1 つの Tool にまとめる設計も考えられます。
+今回は読み取りだけの検索と、カレンダーを書き換える登録を分けました。書き込みを別の Tool にしておくと、登録の前だけ人間の承認を挟むといった制御を Tool の単位でかけられるためです。
+
+### 実行結果
+
+v3 を 10 回実行したうちの 2 回目のログです。
+
+```text
+$ go run . -version v3 -n 10
+turn 1: calendar_find_free_slots {"date":"2026-09-28","duration_minutes":30,"earliest":"12:00","latest":"18:00","participants":["伊波 太郎","一ノ瀬"]} -> 2026-09-28 (月) に 伊波 太郎、一ノ瀬 奈々 が全員空いている 30 分の枠: 16:00-16:30
+turn 2: calendar_schedule_event {"duration_minutes":30,"participants":["伊波 太郎","一ノ瀬 奈々"],"start":"2026-09-28T16:00","title":"打ち合わせ"} -> 「打ち合わせ」を 2026-09-28 (月) 16:00-16:30 に登録しました。参加者: 伊波 太郎、一ノ瀬 奈々
+final: 来週月曜(9/28)16:00〜16:30で、伊波太郎さんと一ノ瀬奈々さんとの打ち合わせを登録しました。この時間帯が3名全員空いている枠でした。
+run 2: turns=3 calls=2 errors=0 input_tokens=4708 ok=true
+```
+
+Model は 1 ターン目で空いている枠を探し、2 ターン目で登録しています。
+`participants` には依頼文のとおり `一ノ瀬` と渡していますが、Tool の中で `一ノ瀬 奈々` に絞り込めたため、そのまま空き枠を得られています。
+ただし、v3 は名前の部分一致で参加者を探すので、社員が増えると同じ入力が別の人に一致することがあります。実際に運用する場合は、完全一致や姓・名の単位での一致に限り、登録前の確認と組み合わせます。
+
+10 回実行すると、正しく登録できたのは 10 回中 9 回でした。
+ターン数の平均は 3.1、Tool Call の平均は 2.1 回で、入力トークンの平均は 5,043 と、v2 の 6 割弱、v1 の 3 割程度です。
+
+登録できなかった 1 回では、Model が「来週月曜」を 2026-09-29 と計算し、火曜の枠に登録していました。Tool の結果には「(火)」と出ていましたが、Model は気付いていません。v3 でも日付の計算は Model に任せています。「来週月曜」を日付に直すのも、手順が決まっている処理なのでコードに任せられます。たとえば `date` と一緒に曜日も受け取り、合わなければエラーを返せば、Model は自分で日付を直せます。
+エラーが起きた 1 回は、Model が参加者の名前を意味のない文字列で渡した回です。Tool が「該当する人が見つかりません」と返したので、Model は次のターンで名前を指定し直し、正しく登録できました。v2 で整えたエラーの返し方が、ここで役立っています。
+
+### Tool をまとめる範囲
+
+ここまで Tool をまとめる方向で改善してきましたが、まとめすぎることにも問題があります。
+Anthropic の「Seeing like an agent」は、Claude Code の `AskUserQuestion` を作るまでの試行錯誤を紹介しています。
+
+<ExLinkCard url="https://claude.com/blog/seeing-like-an-agent" />
+
+Claude Code の開発チームは最初、計画を提出する `ExitPlanTool` に質問の配列を渡す引数を追加しました。
+しかし、計画と、その計画についての質問を同時に求めることになり、Claude が混乱したと書かれています。
+
+> it confused Claude because we were simultaneously asking for a plan and a set of questions about the plan.
+
+最終的に、質問するための専用の Tool を作って解決しています。
+1 つの Tool に 2 つの目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなります。
+
+一方で、同じ記事は Tool を増やすことにもコストがあると述べています。
+
+> The bar to add a new tool is high, because this gives the model one more option to think about.
+
+Tool の境界を決めるときの目安として、Anthropic の「Effective context engineering for AI agents」の次の一文が参考になります。
+
+> If a human engineer can't definitively say which tool should be used in a given situation, an AI agent can't be expected to do better.
+
+<ExLinkCard url="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" />
+
+Tool が増えたときに、すべての定義を毎回コンテキストに載せなくて済む仕組みもあります。
+OpenAI の Tool search では、`tool_search` を Tool に加え、関数や MCP サーバーに `defer_loading: true` を付けます。Model は、最初に Tool の名前と説明だけを読み、必要になった Tool の引数のスキーマを後から読み込みます。
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/tools-tool-search" />
+
+OpenAI は、namespace か MCP サーバーの単位で遅延読み込みを使い、1 つの namespace の関数を 10 個未満に抑えることを勧めています。v2 で付けたような名前空間は、Model が読み込む Tool を探す手がかりにもなります。
+ただし、遅延読み込みで減るのはコンテキストに載る定義の量で、似た Tool どうしの境界があいまいになる問題は残ります。遅延読み込みの詳細は、次回のコンテキスト管理で扱います。
+
+v3 の 2 つの Tool は、読み取りと書き込みで目的が分かれているので、どちらを使うべきか迷う場面はありません。
+
+## Tool の評価
+
+ここまでの改善を、各バージョンで変えたものと結果の対応で並べると、次のとおりです。
+
+| バージョン | Tool                                                                   | 変えたもの                        | ターン数の平均 | エラーが起きた回数 | 入力トークンの平均 |
+| ---------- | ---------------------------------------------------------------------- | --------------------------------- | -------------- | ------------------ | ------------------ |
+| v1         | `list_users`、`list_events`、`create_event`                            | なし (API をそのまま Tool にした) | 5.0            | 10 回中 5 回       | 15,699             |
+| v2         | `calendar_list_users`、`calendar_list_events`、`calendar_create_event` | 名前、説明、引数、戻り値、エラー  | 4.0            | 10 回中 0 回       | 9,016              |
+| v3         | `calendar_find_free_slots`、`calendar_schedule_event`                  | Tool の粒度                       | 3.1            | 10 回中 1 回       | 5,043              |
+
+v1 から v2 では、引数を推測して試すためのエラーと、それを取り返すためのターンが減りました。
+v2 から v3 では、ユーザーの検索や空き時間の計算のように、Model が組み立てていた手順そのものが減りました。
+正しく登録できた回数はどのバージョンもほぼ同じなので、Tool の改善の効果は、正解できるかどうかではなく、正解までの遠回りの量に表れています。
+
+なお、v1 でも最初から UUID を渡してエラーなく完了する回がありました。1 回の実行結果を比較しただけでは、こうした振る舞いのばらつきに気付けません。
+
+<Note>
+  今回の評価タスクは 1 つですが、実際の Agent
+  では想定する依頼を多数用意して評価します。 Anthropic の cookbook の「[Tool
+  evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation)」は、評価タスクを実行して正答率や
+  Tool Call の回数を集計し、Model 自身に Tool
+  の名前、引数、説明へのフィードバックを書かせる例です。 Agent の評価は、連載の
+  7 本目で詳しく扱います。
+</Note>
+
+## MCP による Tool の提供
+
+ここまでは Tool を Agent のコードの中に定義してきました。
+MCP (Model Context Protocol) を使うと、Tool を Agent から切り離し、サーバーとして提供できます。Claude Code や Codex のような既存の Agent にも、自分で作った Tool を渡せるようになります。
+
+MCP のサーバーが提供するものは、仕様で次の 3 つに分けられています。
+
+| 要素      | 使うかどうかを決める主体 | 例                                 |
+| --------- | ------------------------ | ---------------------------------- |
+| Tools     | Model                    | API の呼び出し、ファイルの書き込み |
+| Resources | アプリケーション         | ファイルの内容、Git の履歴         |
+| Prompts   | ユーザー                 | スラッシュコマンド                 |
+
+<ExLinkCard url="https://modelcontextprotocol.io/specification/2026-07-28/server" />
+
+MCP の Tool も、名前、説明、引数の JSON Schema (`inputSchema`) を持ちます。
+Model が読むものはこの記事で扱ってきた Tool の定義と同じなので、ここまでの設計の指針はそのまま当てはまります。
+
+v3 の `calendar_find_free_slots` を、MCP の公式 Go SDK ([github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk) v1.8.0) で定義すると次のようになります。
+
+```go
+type findFreeSlotsInput struct {
+	Participants    []string `json:"participants" jsonschema:"参加者の名前。「伊波 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない"`
+	Date            string   `json:"date" jsonschema:"探す日付。YYYY-MM-DD 形式"`
+	DurationMinutes int      `json:"duration_minutes" jsonschema:"会議の長さ (分)"`
+	Earliest        string   `json:"earliest" jsonschema:"探し始める時刻。HH:MM 形式。午後なら 12:00"`
+	Latest          string   `json:"latest" jsonschema:"会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00"`
+}
+
+func findFreeSlots(ctx context.Context, req *mcp.CallToolRequest, in findFreeSlotsInput) (*mcp.CallToolResult, any, error) {
+	// ...
+}
+
+func main() {
+	server := mcp.NewServer(&mcp.Implementation{Name: "calendar", Version: "v1.0.0"}, nil)
+	mcp.AddTool(server, &mcp.Tool{
+		Name: "calendar_find_free_slots",
+		Description: "指定した参加者全員の予定が空いている時間帯を、指定した日付の範囲で探す。" +
+			"会議を登録する前に、候補の時間帯を決めるために使う。時刻はすべて日本時間 (JST)。" +
+			"名前が複数の人に該当する場合は候補の一覧をエラーとして返すので、フルネームで指定し直す。",
+	}, findFreeSlots)
+	if err := server.Run(context.Background(), &mcp.StdioTransport{}); err != nil {
+		log.Fatal(err)
+	}
+}
+```
+
+`mcp.AddTool` は引数の構造体から `inputSchema` を生成します。
+このサーバーに `tools/list` を送ると、次の定義が返ります (説明は一部省略しています)。`jsonschema` タグが各引数の `description` になり、`required` と `additionalProperties: false` も付いています。
+
+```json
+{
+  "name": "calendar_find_free_slots",
+  "description": "指定した参加者全員の予定が空いている時間帯を、...",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "participants": {
+        "type": ["null", "array"],
+        "items": { "type": "string" },
+        "description": "参加者の名前。..."
+      },
+      "date": { "type": "string", "description": "探す日付。YYYY-MM-DD 形式" },
+      "duration_minutes": {
+        "type": "integer",
+        "description": "会議の長さ (分)"
+      },
+      "earliest": {
+        "type": "string",
+        "description": "探し始める時刻。HH:MM 形式。午後なら 12:00"
+      },
+      "latest": {
+        "type": "string",
+        "description": "会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00"
+      }
+    },
+    "required": [
+      "participants",
+      "date",
+      "duration_minutes",
+      "earliest",
+      "latest"
+    ],
+    "additionalProperties": false
+  }
+}
+```
+
+エラーの扱いも、この記事で見てきた方針と同じです。
+MCP の仕様は、Tool のエラーを JSON-RPC のエラーではなく、`isError: true` を付けた Tool の結果として返すよう定めています。
+
+> Any errors that originate from the tool SHOULD be reported inside the result object, with `isError` set to true, _not_ as an MCP protocol-level error response. Otherwise, the LLM would not be able to see that an error occurred and self-correct.
+
+<ExLinkCard url="https://modelcontextprotocol.io/specification/2026-07-28/schema#calltoolresult" />
+
+Go SDK では、ハンドラーが `error` を返すと、SDK がそれを `isError: true` の結果に変換します。
+エラーメッセージを、Model が次にどうすればよいか分かる文にしておくことは、MCP でも変わりません。
+
+MCP の Tool には、`readOnlyHint` や `destructiveHint` のような annotations も付けられます。
+v3 で検索と登録を分けたように読み取りと書き込みの Tool を分けておけば、読み取りの Tool に `readOnlyHint` を付け、クライアント側で承認の要否を分けるといった使い方ができます。
+ただし annotations はあくまでヒントに過ぎません。MCP の仕様は、信頼できるサーバーから受け取ったもの以外は信頼しないよう、クライアントに求めています。
+
+## おわりに
+
+この記事では、既存の API をそのまま Tool にした会議予約 Agent を題材に、Tool の定義と結果、Tool の粒度の順に改善しました。
+正しく登録できる回数はどのバージョンもほぼ同じでしたが、ターン数の平均は 5.0 から 3.1 に、入力トークンの平均は 15,699 から 5,043 に減りました。
+
+Model が Tool について知る手がかりは、Tool の定義と実行結果です。
+そのため、Tool の設計は、Model がそれをどう読むかを基準に考えます。
+Agent に任せたい作業の単位で Tool の粒度を決め、Model が迷わず次の行動を決められるように定義と結果を整えます。そして、同じ依頼を繰り返し実行し、ターン数やエラー、トークンの変化を確かめます。
+
+MCP で Tool をサーバーとして提供する場合も、Model が読むのは同じ定義と結果なので、これらの指針はそのまま使えます。
+
+この記事では既存の API から出発したので、定義と結果を先に直しました。新しく Tool を作る場合は、粒度を決めるところから始めます。
+
+次回はコンテキスト管理を扱います。Tool の数が増えたときに、Tool の定義そのものがコンテキストを圧迫する問題と、その対策もそこで取り上げます。

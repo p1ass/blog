@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .wrangler/
+**/.venv/**
 
 # テストは検出したい書き方そのものを例として書いてあるので、コメントを検査しない。
 textlint/**

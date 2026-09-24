@@ -7,6 +7,7 @@ import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { hoverTransition, transition } from '../styles/transition'
 import { fontSize, lineHeight } from '../styles/typography'
+import { DraftBadge } from './DraftBadge'
 import { PostDetails } from './PostDetails'
 
 const sectionCss = css`
@@ -102,6 +103,7 @@ export function PostSummarySection({ post }: Props) {
           <time datetime={post.frontmatter.date} class={timeCss}>
             {formatDate(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
+          {post.frontmatter.draft ? <DraftBadge /> : null}
           <h2 class={titleCss} data-post={permalink} data-post-part='title'>
             {post.frontmatter.title}
           </h2>

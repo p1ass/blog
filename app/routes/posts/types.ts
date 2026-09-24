@@ -15,6 +15,7 @@ export const frontmatterSchema = z.object({
   category: z.string().min(1),
   tags: z.array(z.string().min(1)).optional(),
   ogImage: z.string().startsWith('/').optional(),
+  draft: z.boolean().optional(),
 })
 
 export type Frontmatter = z.infer<typeof frontmatterSchema>
