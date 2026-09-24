@@ -194,7 +194,7 @@ _OpenAI Agents SDK の構成_
 
 ### 3 要素を持つ ClaudeAgentOptions
 
-Claude Agent SDK には `Agent` クラスがありません。代わりに、`ClaudeAgentOptions` というクラスが Model、Instructions、Tool を持ち、`ClaudeSDKClient` に渡す仕組みになっています。
+Claude Agent SDK には `Agent` クラスがありません。代わりに、`ClaudeAgentOptions` というクラスが Model、Instructions、Tool を持ち、`ClaudeSDKClient` に渡す仕組みです。
 
 Tool の仕組みは独特で、MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool として認識されます。
 
@@ -496,7 +496,7 @@ API に違いはあっても、Agent Loop の実装はほとんど同じです�
 
 ## おわりに
 
-この記事では、OpenAI のドキュメントをもとに、Agent を Model、Instructions、Tool の3要素と、Tool Call を繰り返す Agent Loop として整理しました。
+この記事では、OpenAI のドキュメントをもとに、Agent を Model、Instructions、Tool の 3 要素と、Tool Call を繰り返す Agent Loop として整理しました。
 また、OpenAI Agents SDK と Claude Agent SDK はどちらもこの構造を基本としていることを確認しました。
 
 今後の記事では、ここで整理した要素やその周辺のテーマを 1 つずつ取り上げます。
