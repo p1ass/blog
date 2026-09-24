@@ -1,3 +1,5 @@
+export const highlightBackground = '#282c34'
+
 // highlight.js の src/styles/atom-one-dark.css を写したもの。配布元の帰属表示をそのまま残す。
 //
 //   Atom One Dark by Daniel Gamage
@@ -7,7 +9,7 @@
 const atomOneDark = `
   .hljs {
     color: #abb2bf;
-    background: #282c34;
+    background: ${highlightBackground};
   }
   .hljs-comment,
   .hljs-quote {
