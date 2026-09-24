@@ -85,6 +85,15 @@ Agent の基本構成を理解するうえで、OpenAI の「A practical guide t
 | Tool         | External functions or APIs the agent can use to take action       |
 | Instructions | Explicit guidelines and guardrails defining how the agent behaves |
 
+Model は、次に Tool を呼ぶのか、ユーザーに回答を返すのかを判断する LLM です。
+
+Instructions は、Agent の役割や守るべき制約を書いた指示で、API ではシステムプロンプトとして渡します。
+
+Tool は、前のセクションで見た Tool Call で呼び出される関数や API です。
+Model には名前、説明、引数の JSON Schema を渡し、実行はアプリケーションが担います。
+
+後で実装する天気の Agent で言えば、Model は `gpt-6-sol`、Instructions は「天気を答えるアシスタントとして振る舞い、天気は必ず `get_weather` で調べる」という指示、Tool は `get_weather` にあたります。
+
 ### Agent Loop
 
 ドキュメントでは Agent の実行を終了条件を満たすまで回す処理を Agent Loop と定義しています。
