@@ -169,7 +169,7 @@ print(result.final_output)
 ### Agent Loop の実装
 
 `Agent` 自体は設定を保持するだけのオブジェクトで、Agent Loop に相当する処理は `Runner` が担っています。
-ループも Tool の実行はクラスの中に閉じ込めていているようです。また、ループはすべて Python のプロセスの中で動作します。
+ループや Tool の実装はクラスの中に閉じ込めていていて開発者が意識しなくても良いようになっています。また、ループはすべて Python のプロセスの中で動作しています。
 
 ```mermaid
 flowchart LR
@@ -194,9 +194,9 @@ _OpenAI Agents SDK の構成_
 
 ### 3 要素を持つ ClaudeAgentOptions
 
-Claude Agent SDK には `Agent` クラスがありません。代わりに、`ClaudeAgentOptions` というクラスが Model、Instructions、Tool を持ち、`ClaudeSDKClient` に渡す仕組みです。
+Claude Agent SDK には `Agent` クラスがありません。代わりに、`ClaudeAgentOptions` というクラスが Model、Instructions、Tool を持ち、`ClaudeSDKClient` に渡す仕組みとなっています。
 
-Tool の仕組みは独特で、MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool として認識されます。
+また、Tool の仕組みは独特で、MCP サーバーとして登録します。Model からは `mcp__<サーバー名>__<Tool 名>` という名前の Tool として認識されます。
 
 OpenAI Agents SDK の例と同様の Agent を実装してみると、次のようになります。
 
@@ -289,7 +289,7 @@ Agent の基本構成の要素ごとに、2 つの SDK を並べると次のよ�
 
 ## Go で最小の Agent を実装する
 
-最後に、2 つの SDK が提供している Agent Loop を自分で再実装してみます。環境は次のとおりです。
+最後に、2 つの SDK が提供している Agent Loop を Agent SDK を使わず、自分で再実装してみます。環境は次のとおりです。
 
 - Go 1.27.1
 - [github.com/openai/openai-go/v3](https://pkg.go.dev/github.com/openai/openai-go/v3) v3.65.0
