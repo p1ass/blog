@@ -35,7 +35,7 @@ tags:
 ---
 
 OpenAI と Anthropic はそれぞれ Agent SDK を開発していますが、2 つの SDK における Agent の捉え方はほぼ同じです。
-どちらも「Model、Instructions、Tool を備え、最終出力を返すまでループを回す」という形で Agent を組み立てています。
+どちらも「Model、Instructions、Tool の3 つの概念を持ち、最終出力を返すまでループを回す」という形で Agent を組み立てています。
 
 この記事では、まず Agent を理解する前提となる Tool Call の仕組みを確認し、OpenAI が公開しているドキュメントを元に Agent の基本構成を整理します。
 そのうえで、OpenAI Agents SDK と Claude Agent SDK がその構成をどう表現しているのかを比較し、最後に Go で API を直接呼び出す最小限の Agent を実装します。
@@ -44,12 +44,12 @@ OpenAI と Anthropic はそれぞれ Agent SDK を開発していますが、2 �
 
 ## Tool Call の仕組み
 
-Tool Call は、LLM が外部の関数や API の呼び出しを要求できるようにする仕組みです。
+Tool Call とは、LLM が外部の関数や API の呼び出しを要求できるようにする仕組みです。
 
 LLM は単体では最新情報の取得や、外部システムの操作ができません。
-そこで処理を Tool として切り出し、アプリケーション側のコードがその Tool を実行することで、Model がその結果を踏まえて応答を生成できるようにします。
+そこで処理を Tool として切り出し、アプリケーション側でその Tool を実行することで、Model がその結果を踏まえてレスポンスを生成できるようにします。
 
-Model の役割はどの Tool をどんな引数で呼び出すかを判断し、構造化データ (一般的には JSON Schema に基づいたデータ)を生成することです。
+ここでの Model の役割はどの Tool をどんな引数で呼び出すかを判断し、構造化データ (一般的には JSON Schema に基づいたデータ)を生成することです。
 
 ```mermaid
 sequenceDiagram
@@ -71,7 +71,7 @@ Agent の真骨頂は Model が Tool Call を何度も繰り返していく(ル�
 
 ## Agent の基本構成
 
-OpenAI の「A practical guide to building agents」というドキュメントを元に、Agent の基本構成を整理します。
+次に OpenAI の「A practical guide to building agents」というドキュメントを元に、Agent の基本構成を整理します。
 
 <ExLinkCard url="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" />
 
@@ -93,12 +93,12 @@ Instructions は、Agent の役割や守るべき制約を書いた指示 (い�
 
 ### Agent Loop
 
-次は Agent Loop です。
+次に Agent Loop です。
 
 Agent Loop は Agent の実行を終了条件を満たすまで Tool Call を繰り返すループのことです。
 指定された出力形式やエラー、最大ターン数への到達といった終了条件を満たすまでループを回し、与えられた指示を遂行します。
 
-なお、Anthropic も「Building effective agents」というドキュメントの中で、Agent を次の 1 文で説明しています。
+なお、この考えは Anthropic も同様です。「Building effective agents」というドキュメントの中で、Agent を次の 1 文で説明しています。
 
 > They are typically just LLMs using tools based on environmental feedback in a loop.
 
@@ -127,11 +127,11 @@ flowchart TD
 
 _Agent Loop_
 
-以降ではこのまとめを「Agent の基本構成」と呼び、2 つの SDK をこれに当てはめて見ていきます。
-
 ## OpenAI Agents SDK の Agent
 
-まずは OpenAI Agents SDK における Agent の設計を見ていきます。
+ここからは先程まで見てきた Agent の基本構成を 2 つの SDK に当てはめて見ていきます。
+
+まずは OpenAI Agents SDK の Agent の設計です。
 
 <ExLinkCard url="https://openai.github.io/openai-agents-python/agents/" />
 
@@ -140,7 +140,7 @@ _Agent Loop_
 先ほど見た 3 要素はそのまま `Agent` クラスのフィールドに対応しています。
 `Agent` は `model`、`instructions`、`tools` を持つ構造になっています。
 
-例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ります。
+例として、固定の天気を返す `get_weather` という Tool を 1 つ持つ Agent を作ってみます。
 
 - ライブラリ: openai-agents 0.22.3
 - 環境変数: `OPENAI_API_KEY`
@@ -169,7 +169,7 @@ print(result.final_output)
 ### Agent Loop の実装
 
 `Agent` 自体は設定を保持するだけのオブジェクトで、Agent Loop に相当する処理は `Runner` が担っています。
-ループも Tool の実行も、すべて Python のプロセスの中で動作します。
+ループも Tool の実行はクラスの中に閉じ込めていているようです。また、ループはすべて Python のプロセスの中で動作します。
 
 ```mermaid
 flowchart LR
@@ -295,7 +295,7 @@ Agent の基本構成の要素ごとに、2 つの SDK を並べると次のよ�
 - [github.com/openai/openai-go/v3](https://pkg.go.dev/github.com/openai/openai-go/v3) v3.65.0
 - [github.com/anthropics/anthropic-sdk-go](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go) v1.75.0
 
-題材はこれまでと同じく `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」と頼み、最終出力を返すまで Agent Loop を回します。
+題材はこれまでと同じく `get_weather` を持つ Agent です。「東京と大阪の天気を教えてください」というプロンプトを送り、最終出力を返すまで Agent Loop を回してみます。
 コードの全体は [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-foundations/minimal-agent) にプッシュしています。
 
 ### OpenAI Responses API 版
@@ -392,7 +392,7 @@ func runTool(name string, input []byte) (string, error) {
 ```
 
 Model の出力と Tool の実行結果を `Input` に追加し、次のリクエストで会話履歴全体を送り直します。
-「東京と大阪の天気」のように、Model は 1 回の応答で複数の Tool Call を返すことがあります。そのため、応答に含まれる Tool Call をすべて実行し、それぞれの結果を `function_call_output` のアイテムとして追加します。
+「東京と大阪の天気」のように、Model は 1 回のレスポンスで複数の Tool Call を返すことがあります。そのため、レスポンスに含まれる Tool Call をすべて実行し、それぞれの結果を `function_call_output` のアイテムとして追加します。
 
 ### Anthropic Messages API 版
 
