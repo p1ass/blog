@@ -1,0 +1,15 @@
+/posts/ / 301
+
+/tags/claude%20code/* /tags/claude-code/:splat 301
+/tags/cloud%20run/* /tags/cloud-run/:splat 301
+/tags/computer%20science/* /tags/computer-science/:splat 301
+/tags/cyber%20agent/* /tags/cyberagent/:splat 301
+/tags/cyber-agent/* /tags/cyberagent/:splat 301
+/tags/google%20cloud/* /tags/google-cloud/:splat 301
+/tags/google%20domains/* /tags/google-domains/:splat 301
+/tags/jupyter%20notebooks/* /tags/jupyter-notebooks/:splat 301
+/tags/protocol%20buffers/* /tags/protocol-buffers/:splat 301
+/tags/semantic%20versioning/* /tags/semantic-versioning/:splat 301
+/tags/vs%20code/* /tags/vs-code/:splat 301
+
+/categories/web%20サービス/* /categories/webサービス/:splat 301
