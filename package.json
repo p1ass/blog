@@ -51,7 +51,7 @@
     "rehype-mdx-code-props": "^3.0.1",
     "rehype-mdx-import-media": "^1.4.0",
     "remark-frontmatter": "^5.0.0",
-    "remark-mdx-frontmatter": "^5.2.0",
+    "remark-mdx-frontmatter": "^6.0.0",
     "satori": "^0.33.5",
     "textlint": "^15.8.0",
     "textlint-filter-rule-comments": "^1.3.0",
