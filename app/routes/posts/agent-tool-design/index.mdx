@@ -27,9 +27,10 @@ Agent の開発について学んだことを整理する連載の 2 本目で�
 
 <ExLinkCard url="https://blog.p1ass.com/posts/agent-foundations/" />
 
-この記事では、その中から Tool をピックアップし、Agent に適した設計について考えていきます。
+この記事では、その中から Tool を取り上げ、Agent に適した設計を整理します。
 
 既存の API をそのまま Tool にした会議予約 Agent を実装し、Tool の定義とレスポンス、Tool の粒度の順に改善しながら、それぞれの段階で Agent の動きがどう変わるかを実行結果で確かめます。
+最終的に、ターン数の平均は 4.1 から 3.0 に減り、入力トークンの平均は約 4 割になりました。
 
 題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
 
@@ -52,9 +53,9 @@ Claude Code のように、ドキュメントやソースコードを自分で�
 
 そこで、この記事では Anthropic と OpenAI のドキュメントや事例をもとに、そうした Tool を次の 3 つの段階で改善します。
 
-1. Tool の定義とレスポンスを整理する。名前や説明、引数、レスポンス、エラーを、Model が読んで正しく判断できる形にする
-2. Tool の粒度を見直す。Agent に任せたい作業から逆算して、どの Tool を用意するか考える
-3. 実行結果を評価する。同じ依頼で Agent を繰り返し動かし、ターン数や Tool Call の回数、消費したトークンを比べる
+1. Tool の定義とレスポンスを整理する。引数とレスポンスを、Model が読んで正しく判断できる形にする。
+2. Tool の粒度を見直す。Agent に任せたい作業から逆算して、どの Tool を用意するか考える。
+3. 実行結果を評価する。同じ依頼で Agent を繰り返し動かし、ターン数や Tool Call の回数、消費したトークンを比べる。
 
 既存の API をそのまま Tool にしたものを v1、1 の段階で定義とレスポンスを整えたものを v2、2 の段階で粒度を見直したものを v3 と呼びます。
 
@@ -268,22 +269,22 @@ attendeeUserIDsSchema := map[string]any{
 ```
 
 なお、Tool の使い方は例で示すより、引数そのものに意味を持たせるほうが効果的です。
-Anthropic の「The new rules of context engineering for Claude 5 generation models」は、最新のモデルでは例を示すとかえって Model の探索の幅を狭めると述べ、引数の設計で表現するよう勧めています。
+Anthropic の「The new rules of context engineering for Claude 5 generation models」は、最新の Model では例を示すとかえって探索の幅を狭めると述べ、引数の設計で表現するよう勧めています。
 
 > Instead of using examples, think more about the design of your tools, scripts and files- what parameters does Claude have and how can they be more expressive?
 
 <ExLinkCard url="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models" />
 
-また、v2 では strict mode を有効にしました。Tool の定義に `strict: true` を付けると、Tool の入力は必ずスキーマの通りになります。
+また、v2 では strict mode を有効にしました。Tool の定義に `strict: true` を付けると、Tool の入力は必ずスキーマのとおりになります。
 
 <ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" />
 
 ### レスポンス
 
-レスポンスは Model が次の判断に使う情報だけに絞り込みます。
+レスポンスには、Model が次の判断に使う情報を絞り込んで返します。
 Anthropic の記事は、UUID のような技術的な識別子より、名前のように次の行動に直接役立つ情報を返すよう勧めています。
 ただし、後続の Tool Call に ID が必要な場合もあるので、次の Tool に渡す ID は残しつつ、Model が判断に使う名前もあわせて返します。
-v2 の `calendar_list_users` はメールアドレスや作成日時を省き、`user_id` と名前と部署を 1 行ずつ返します。
+v2 の `calendar_list_users` はメールアドレスや作成日時を省き、`user_id` と名前と部署を 1 人 1 行で返します。
 
 ```text
 usr_3a91c000-4f1c-4b7a-9e3d-00005d2e0000: 伊波 太郎 (開発部)
@@ -372,13 +373,11 @@ OpenAI の Function calling のガイドにも、いつも続けて呼ぶ関数�
 
 v3 では、Tool を `calendar_find_free_slots` と `calendar_schedule_event` の 2 つに作り直しました。
 Anthropic の例のように 1 つの Tool にまとめず、読み取りだけの検索と、カレンダーを書き換える登録に分けています。
+書き込みを別の Tool にしておけば、登録の前だけ人間の承認を挟むといった制御を Tool の単位でかけられるためです。
 
-1 つの Tool に複数の目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなります。Anthropic の「Seeing like an agent」では、Claude Code で計画の提出と質問を 1 つの Tool にまとめたところ、Claude が混乱したと紹介されています。
+また、1 つの Tool に複数の目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなります。Anthropic の「Seeing like an agent」では、Claude Code で計画の提出と質問を 1 つの Tool にまとめたところ、Claude が混乱したと紹介されています。
 
 <ExLinkCard url="https://claude.com/blog/seeing-like-an-agent" />
-
-なお、今回は検索と登録は目的が分かれているので、Model がどちらを使うべきか迷う場面はありません。
-ただ、書き込みを別の Tool にしておくと、登録の前だけ人間の承認を挟むといった制御を Tool の単位でかけられるので、将来的な拡張を見越してこのような形にしています。
 
 ```go
 participantsSchema := map[string]any{
@@ -468,7 +467,7 @@ Model は 1 ターン目で空いている枠を探し、2 ターン目で登録
 | バージョン | Tool                                                                   | 変えたもの                        | ターン数の平均 | Tool Call の平均 | 入力トークンの平均 |
 | ---------- | ---------------------------------------------------------------------- | --------------------------------- | -------------- | ---------------- | ------------------ |
 | v1         | `calendar_list_users`、`calendar_list_events`、`calendar_create_event` | なし (API をそのまま Tool にした) | 4.1            | 4.3 回           | 11,309             |
-| v2         | `calendar_list_users`、`calendar_list_events`、`calendar_create_event` | 説明、引数、レスポンス            | 4.0            | 4.0 回           | 8,414              |
+| v2         | `calendar_list_users`、`calendar_list_events`、`calendar_create_event` | 引数、レスポンス                  | 4.0            | 4.0 回           | 8,414              |
 | v3         | `calendar_find_free_slots`、`calendar_schedule_event`                  | Tool の粒度                       | 3.0            | 2.0 回           | 4,596              |
 
 v1 から v2 では、引数を誤ったエラーがなくなり、レスポンスが小さくなった分だけ入力トークンが減りました。
@@ -497,20 +496,12 @@ Anthropic の「Writing effective tools for agents」は、Tool を決定的な�
 
 ### ログを読んで原因を探す
 
-指標で分かるのは Tool Call やトークンが増えたことまでで、その原因は分かりません。
+指標からは Tool Call やトークンが増えたことは分かりますが、その原因までは分かりません。
 同じ記事は Tool Call と Tool のレスポンスを含むトランスクリプトをそのまま読むよう勧めています。
 
 > Review the raw transcripts (including tool calls and tool responses) to catch any behavior not explicitly described in the agent’s CoT.
 
 この記事でも、v1 のエラーの原因は、`user` にメールアドレスを渡しているログから判明しました。
-
-<Note>
-  今回の評価タスクは 1 つですが、Anthropic の cookbook の「[Tool
-  evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation)」では、評価タスクを実行して正答率や
-  Tool Call の回数を集計し、Model 自身に Tool
-  の名前、引数、説明へのフィードバックを書かせています。 Agent の評価は連載の 7
-  本目で詳しく扱います。
-</Note>
 
 ## おわりに
 
