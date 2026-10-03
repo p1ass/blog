@@ -2,7 +2,7 @@ module github.com/p1ass/blog/app/routes/posts/agent-tool-design/calendar-agent
 
 go 1.27.0
 
-require github.com/anthropics/anthropic-sdk-go v1.75.0
+require github.com/anthropics/anthropic-sdk-go v1.78.0
 
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect

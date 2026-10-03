@@ -39,7 +39,7 @@ func main() {
 		cal := calendar.New()
 		seeded := len(cal.Events)
 		a := &agent.Agent{
-			Model:        anthropic.ModelClaudeSonnet5,
+			Model:        anthropic.ModelClaudeSonnet5_5,
 			Instructions: instructions,
 			Tools:        newTools(cal),
 		}
@@ -50,7 +50,7 @@ func main() {
 			log.Printf("final: %s", res.FinalOutput)
 		}
 		u := res.Usage
-		fmt.Printf("run %d: turns=%d calls=%d errors=%d input_tokens=%d ok=%v\n", i+1, u.Turns, u.ToolCalls, u.ToolErrors, u.InputTokens, scheduledCorrectly(cal, seeded))
+		fmt.Printf("run %d: turns=%d calls=%d errors=%d input_tokens=%d cache_read=%d ok=%v\n", i+1, u.Turns, u.ToolCalls, u.ToolErrors, u.InputTokens+u.CacheWriteTokens+u.CacheReadTokens, u.CacheReadTokens, scheduledCorrectly(cal, seeded))
 	}
 }
 

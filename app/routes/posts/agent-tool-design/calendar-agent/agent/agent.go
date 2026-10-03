@@ -25,10 +25,12 @@ func (a *Agent) tool(name string) (Tool, bool) {
 }
 
 type Usage struct {
-	Turns       int
-	ToolCalls   int
-	ToolErrors  int
-	InputTokens int64
+	Turns            int
+	ToolCalls        int
+	ToolErrors       int
+	InputTokens      int64
+	CacheWriteTokens int64
+	CacheReadTokens  int64
 }
 
 type Result struct {
@@ -47,11 +49,12 @@ func (r *Runner) Run(ctx context.Context, a *Agent, input string) (*Result, erro
 		tools = append(tools, t.param())
 	}
 	params := anthropic.MessageNewParams{
-		Model:     a.Model,
-		MaxTokens: 4096,
-		System:    []anthropic.TextBlockParam{{Text: a.Instructions}},
-		Messages:  []anthropic.MessageParam{anthropic.NewUserMessage(anthropic.NewTextBlock(input))},
-		Tools:     tools,
+		Model:        a.Model,
+		MaxTokens:    4096,
+		System:       []anthropic.TextBlockParam{{Text: a.Instructions}},
+		Messages:     []anthropic.MessageParam{anthropic.NewUserMessage(anthropic.NewTextBlock(input))},
+		Tools:        tools,
+		CacheControl: anthropic.NewCacheControlEphemeralParam(),
 	}
 
 	var usage Usage
@@ -62,6 +65,8 @@ func (r *Runner) Run(ctx context.Context, a *Agent, input string) (*Result, erro
 		}
 		usage.Turns = turn + 1
 		usage.InputTokens += resp.Usage.InputTokens
+		usage.CacheWriteTokens += resp.Usage.CacheCreationInputTokens
+		usage.CacheReadTokens += resp.Usage.CacheReadInputTokens
 		params.Messages = append(params.Messages, resp.ToParam())
 
 		results := a.runTools(ctx, turn+1, resp.Content, &usage)

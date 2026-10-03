@@ -14,7 +14,7 @@ import (
 func v1Tools(c *calendar.Calendar) []agent.Tool {
 	return []agent.Tool{
 		{
-			Name:        "list_users",
+			Name:        "calendar_list_users",
 			Description: "ユーザーの一覧を返す",
 			Properties:  map[string]any{},
 			Run: func(context.Context, json.RawMessage) (string, error) {
@@ -34,7 +34,7 @@ func v1Tools(c *calendar.Calendar) []agent.Tool {
 			},
 		},
 		{
-			Name:        "list_events",
+			Name:        "calendar_list_events",
 			Description: "ユーザーの予定を返す",
 			Properties: map[string]any{
 				"user":     map[string]string{"type": "string"},
@@ -75,7 +75,7 @@ func v1Tools(c *calendar.Calendar) []agent.Tool {
 			},
 		},
 		{
-			Name:        "create_event",
+			Name:        "calendar_create_event",
 			Description: "予定を作成する",
 			Properties: map[string]any{
 				"title":     map[string]string{"type": "string"},
