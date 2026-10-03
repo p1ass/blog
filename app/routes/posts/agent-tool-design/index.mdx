@@ -51,10 +51,10 @@ Claude Code のように、ドキュメントやソースコードを自分で�
 この記事では Anthropic と OpenAI のドキュメントや事例をもとに、Tool を次の 3 つのバージョンで改善します。
 
 1. v1 では、既存の API をそのまま Tool にする。
-2. v2 では、Tool の定義とレスポンスを整理する。引数とレスポンスを、Model が読んで正しく判断できる形にする。
-3. v3 では、Tool の粒度を見直す。Agent に任せたい作業から逆算して、どの Tool を用意するか考える。
+2. v2 では、Tool の定義とレスポンスを整理する。Model が引数とレスポンスを正しく判断できる形にする。
+3. v3 では、Tool の粒度を見直す。Agent に任せたい作業から逆算して、どのような Tool を用意するか再設計する。
 
-各バージョンでは同じ依頼で Agent を繰り返し動かし、ターン数や Tool Call の回数、消費したトークンを比べます。
+各バージョンでは同じプロンプトで Agent を繰り返し動かし、ターン数や Tool Call の回数、消費したトークンを比べます。
 
 ## 既存の API をラップした会議予約 Agent (v1)
 
@@ -90,7 +90,7 @@ type Tool struct {
 }
 ```
 
-Instructions には今日の日付とタイムゾーンを書きました。
+Instructions とプロンプトは次のようにしました。
 
 ```go
 const (
@@ -111,7 +111,7 @@ const (
 
 ### v1 の Tool の定義
 
-v1 では、API の名前、引数、レスポンスをそのまま Tool の定義にしました。説明も 1 行だけです。
+v1 では、API の名前、引数、レスポンスをそのまま Tool の定義にしました。説明はシンプルに 1 行だけです。
 
 ```go
 {
@@ -278,7 +278,7 @@ Anthropic の「The new rules of context engineering for Claude 5 generation mod
 ### レスポンス
 
 レスポンスには、Model が次の判断に使う情報を絞り込んで返します。
-後続の Tool Call 必要な ID とModel が判断に使う名前をあわせて返します。
+後続の Tool Call に必要な ID と、Model が判断に使う名前をあわせて返します。
 
 v2 の `calendar_list_users` はメールアドレスや作成日時を省き、`user_id` と名前と部署を 1 人 1 行で返します。
 
@@ -369,7 +369,7 @@ OpenAI の Function calling のガイドにも、いつも続けて呼ぶ関数�
 
 v3 では、Tool を `calendar_find_free_slots` と `calendar_schedule_event` の 2 つに作り直しました。
 
-まとめるのは良いものの、1 つの Tool に複数の目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなってしまいます。
+まとめるのは良いものの、1 つの Tool に複数の目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなってしまうため、今回は 2 つにしました。
 
 <ExLinkCard url="https://claude.com/blog/seeing-like-an-agent" />
 
