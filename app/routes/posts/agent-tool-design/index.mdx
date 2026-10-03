@@ -1,6 +1,6 @@
 ---
 title: Agent の Tool 設計
-date: 2026-09-24T19:00:00+09:00
+date: 2026-10-02T19:00:00+09:00
 description: 既存の API をラップした会議予約 Agent の Tool を改善しながら、Agent の Tool をどう設計すればよいかを整理します。
 category: 生成AI
 tags:
@@ -23,14 +23,15 @@ Agent の開発について学んだことを整理する連載の 2 本目で�
 6. Workflow と Guardrails
 7. Observability と Eval
 
-1 本目では、Agent を Model、Instructions、Tool の 3 つの要素に整理し、Agent Loop が処理を実行することを学びました。
+1 本目の記事では、Agent を Model、Instructions、Tool の 3 つの要素に整理し、Agent Loop を回して処理を実行することを学びました。
 
 <ExLinkCard url="https://blog.p1ass.com/posts/agent-foundations/" />
 
 この記事では、その中から Tool をピックアップし、Agent に適した設計について考えていきます。
-題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
 既存の API をそのまま Tool にした会議予約 Agent を実装し、Tool の定義と結果、Tool の粒度の順に改善しながら、それぞれの段階で Agent の動きがどう変わるかを実行結果で確かめます。
 あわせて、MCP で Tool を提供する場合にも同じ指針が当てはまることを確認します。
+
+題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
 
 <ExLinkCard url="https://www.anthropic.com/engineering/writing-tools-for-agents" />
 
