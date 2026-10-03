@@ -29,7 +29,6 @@ Agent の開発について学んだことを整理する連載の 2 本目で�
 
 この記事では、その中から Tool をピックアップし、Agent に適した設計について考えていきます。
 既存の API をそのまま Tool にした会議予約 Agent を実装し、Tool の定義と結果、Tool の粒度の順に改善しながら、それぞれの段階で Agent の動きがどう変わるかを実行結果で確かめます。
-あわせて、MCP で Tool を提供する場合にも同じ指針が当てはまることを確認します。
 
 題材には Anthropic の「Writing effective tools for agents」で例に挙げられている会議予約の Tool を使います。
 
@@ -219,7 +218,7 @@ Anthropic の「Writing effective tools for agents」は、サービスやリソ
 > namespacing tools by service (e.g., `asana_search`, `jira_search`) and by resource (e.g., `asana_projects_search`, `asana_users_search`), can help agents select the right tools at the right time.
 
 今回のように Tool が 3 つだけであれば、名前空間がなくても Model は正しい Tool を選べます。
-名前空間は複数の MCP サーバーをつないで、`list_events` のような似た名前の Tool が並んだときに役立ちます。
+複数のサービスの Tool をつないで、`list_events` のような似た名前の Tool が並んだときに名前空間が役立ちます。
 
 Tool の説明には、何を返すかに加えて、いつ使うか、他の Tool とどう関係するかを書きます。
 同じ記事はチームの新しいメンバーへ説明するつもりで書くよう勧めています。
@@ -542,11 +541,11 @@ Tool の境界を決めるときの目安として、Anthropic の「Effective c
 <ExLinkCard url="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" />
 
 Tool が増えたときに、すべての定義を毎回コンテキストに載せなくて済む仕組みもあります。
-OpenAI の Tool search では、`tool_search` を Tool に加え、関数や MCP サーバーに `defer_loading: true` を付けます。Model は、最初に Tool の名前と説明だけを読み、必要になった Tool の引数のスキーマを後から読み込みます。
+OpenAI の Tool search では、`tool_search` を Tool に加え、関数に `defer_loading: true` を付けます。Model は、最初に Tool の名前と説明だけを読み、必要になった Tool の引数のスキーマを後から読み込みます。
 
 <ExLinkCard url="https://developers.openai.com/api/docs/guides/tools-tool-search" />
 
-OpenAI は、namespace か MCP サーバーの単位で遅延読み込みを使い、1 つの namespace の関数を 10 個未満に抑えることを勧めています。v2 で付けたような名前空間は、Model が読み込む Tool を探す手がかりにもなります。
+OpenAI は、namespace の単位で遅延読み込みを使い、1 つの namespace の関数を 10 個未満に抑えることを勧めています。v2 で付けたような名前空間は、Model が読み込む Tool を探す手がかりにもなります。
 ただし、遅延読み込みで減るのはコンテキストに載る定義の量で、似た Tool どうしの境界があいまいになる問題は残ります。遅延読み込みの詳細は、次回のコンテキスト管理で扱います。
 
 v3 の 2 つの Tool は、読み取りと書き込みで目的が分かれているので、どちらを使うべきか迷う場面はありません。
@@ -576,108 +575,6 @@ v2 から v3 では、ユーザーの検索や空き時間の計算のように�
   7 本目で詳しく扱います。
 </Note>
 
-## MCP による Tool の提供
-
-ここまでは Tool を Agent のコードの中に定義してきました。
-MCP (Model Context Protocol) を使うと、Tool を Agent から切り離し、サーバーとして提供できます。Claude Code や Codex のような既存の Agent にも、自分で作った Tool を渡せるようになります。
-
-MCP のサーバーが提供するものは、仕様で次の 3 つに分けられています。
-
-| 要素      | 使うかどうかを決める主体 | 例                                 |
-| --------- | ------------------------ | ---------------------------------- |
-| Tools     | Model                    | API の呼び出し、ファイルの書き込み |
-| Resources | アプリケーション         | ファイルの内容、Git の履歴         |
-| Prompts   | ユーザー                 | スラッシュコマンド                 |
-
-<ExLinkCard url="https://modelcontextprotocol.io/specification/2026-07-28/server" />
-
-MCP の Tool も、名前、説明、引数の JSON Schema (`inputSchema`) を持ちます。
-Model が読むものはこの記事で扱ってきた Tool の定義と同じなので、ここまでの設計の指針はそのまま当てはまります。
-
-v3 の `calendar_find_free_slots` を、MCP の公式 Go SDK ([github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk) v1.8.0) で定義すると次のようになります。
-
-```go
-type findFreeSlotsInput struct {
-	Participants    []string `json:"participants" jsonschema:"参加者の名前。「伊波 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない"`
-	Date            string   `json:"date" jsonschema:"探す日付。YYYY-MM-DD 形式"`
-	DurationMinutes int      `json:"duration_minutes" jsonschema:"会議の長さ (分)"`
-	Earliest        string   `json:"earliest" jsonschema:"探し始める時刻。HH:MM 形式。午後なら 12:00"`
-	Latest          string   `json:"latest" jsonschema:"会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00"`
-}
-
-func findFreeSlots(ctx context.Context, req *mcp.CallToolRequest, in findFreeSlotsInput) (*mcp.CallToolResult, any, error) {
-	// ...
-}
-
-func main() {
-	server := mcp.NewServer(&mcp.Implementation{Name: "calendar", Version: "v1.0.0"}, nil)
-	mcp.AddTool(server, &mcp.Tool{
-		Name: "calendar_find_free_slots",
-		Description: "指定した参加者全員の予定が空いている時間帯を、指定した日付の範囲で探す。" +
-			"会議を登録する前に、候補の時間帯を決めるために使う。時刻はすべて日本時間 (JST)。" +
-			"名前が複数の人に該当する場合は候補の一覧をエラーとして返すので、フルネームで指定し直す。",
-	}, findFreeSlots)
-	if err := server.Run(context.Background(), &mcp.StdioTransport{}); err != nil {
-		log.Fatal(err)
-	}
-}
-```
-
-`mcp.AddTool` は引数の構造体から `inputSchema` を生成します。
-このサーバーに `tools/list` を送ると、次の定義が返ります (説明は一部省略しています)。`jsonschema` タグが各引数の `description` になり、`required` と `additionalProperties: false` も付いています。
-
-```json
-{
-  "name": "calendar_find_free_slots",
-  "description": "指定した参加者全員の予定が空いている時間帯を、...",
-  "inputSchema": {
-    "type": "object",
-    "properties": {
-      "participants": {
-        "type": ["null", "array"],
-        "items": { "type": "string" },
-        "description": "参加者の名前。..."
-      },
-      "date": { "type": "string", "description": "探す日付。YYYY-MM-DD 形式" },
-      "duration_minutes": {
-        "type": "integer",
-        "description": "会議の長さ (分)"
-      },
-      "earliest": {
-        "type": "string",
-        "description": "探し始める時刻。HH:MM 形式。午後なら 12:00"
-      },
-      "latest": {
-        "type": "string",
-        "description": "会議が終わっていなければならない時刻。HH:MM 形式。午後なら 18:00"
-      }
-    },
-    "required": [
-      "participants",
-      "date",
-      "duration_minutes",
-      "earliest",
-      "latest"
-    ],
-    "additionalProperties": false
-  }
-}
-```
-
-エラーの扱いも、この記事で見てきた方針と同じです。
-MCP の仕様は、Tool のエラーを JSON-RPC のエラーではなく、`isError: true` を付けた Tool の結果として返すよう定めています。
-
-> Any errors that originate from the tool SHOULD be reported inside the result object, with `isError` set to true, _not_ as an MCP protocol-level error response. Otherwise, the LLM would not be able to see that an error occurred and self-correct.
-
-<ExLinkCard url="https://modelcontextprotocol.io/specification/2026-07-28/schema#calltoolresult" />
-
-Go SDK では、ハンドラーが `error` を返すと、SDK がそれを `isError: true` の結果に変換します。
-エラーメッセージを、Model が次にどうすればよいか分かる文にしておくことは、MCP でも変わりません。
-
-MCP の Tool には、`readOnlyHint` や `destructiveHint` のような annotations も付けられます。
-v3 で検索と登録を分けたように読み取りと書き込みの Tool を分けておけば、読み取りの Tool に `readOnlyHint` を付け、クライアント側で承認の要否を分けるといった使い方ができます。
-ただし annotations はあくまでヒントに過ぎません。MCP の仕様は、信頼できるサーバーから受け取ったもの以外は信頼しないよう、クライアントに求めています。
-
 ## おわりに
 
 この記事では、既存の API をそのまま Tool にした会議予約 Agent を題材に、Tool の定義と結果、Tool の粒度の順に改善しました。
@@ -686,8 +583,6 @@ v3 で検索と登録を分けたように読み取りと書き込みの Tool �
 Model が Tool について知る手がかりは、Tool の定義と実行結果です。
 そのため、Tool の設計は、Model がそれをどう読むかを基準に考えます。
 Agent に任せたい作業の単位で Tool の粒度を決め、Model が迷わず次の行動を決められるように定義と結果を整えます。そして、同じ依頼を繰り返し実行し、ターン数やエラー、トークンの変化を確かめます。
-
-MCP で Tool をサーバーとして提供する場合も、Model が読むのは同じ定義と結果なので、これらの指針はそのまま使えます。
 
 この記事では既存の API から出発したので、定義と結果を先に直しました。新しく Tool を作る場合は、粒度を決めるところから始めます。
 
