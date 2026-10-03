@@ -33,7 +33,7 @@ v3 の `calendar_find_free_slots` を、MCP の公式 Go SDK ([github.com/modelc
 
 ```go
 type findFreeSlotsInput struct {
-	Participants    []string `json:"participants" jsonschema:"参加者の名前。「伊波 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない"`
+	Participants    []string `json:"participants" jsonschema:"参加者の名前。「坂本 太郎」のようなフルネームか、社内で 1 人に絞れる姓や名。依頼者本人は含めない"`
 	Date            string   `json:"date" jsonschema:"探す日付。YYYY-MM-DD 形式"`
 	DurationMinutes int      `json:"duration_minutes" jsonschema:"会議の長さ (分)"`
 	Earliest        string   `json:"earliest" jsonschema:"探し始める時刻。HH:MM 形式。午後なら 12:00"`
