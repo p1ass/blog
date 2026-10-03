@@ -49,7 +49,11 @@
     "description": "7 月 13 日更新: AI Assistant は JetBrains IDE 各製品の v.2023.2 以降のバージョンにはバンドルされていません。利用のためには専用のプラグインのインストールが必要です。現在、AI Assistantへのアクセスはキャンセル待ちリストによって制限されていますのでご留意ください。また、データの取り扱いや正式版リリース等に関する情報はFAQページをご覧ください。",
     "image": "https://blog.jetbrains.com/wp-content/uploads/2023/06/Social-Share-Blog-image-1280x720-2x-2.png"
   },
-  "https://blog.p1ass.com/posts/agent-foundations/": null,
+  "https://blog.p1ass.com/posts/agent-foundations/": {
+    "title": "OpenAIとClaudeのAgent SDKから学ぶAgentの基本構成 - ぷらすのブログ",
+    "description": "OpenAIのドキュメントをもとにAgentの基本構成を整理し、OpenAI Agents SDKとClaude Agent SDKの違いを比較したうえで、Goで最小のAgentを実装します。",
+    "image": "https://blog.p1ass.com/posts/agent-foundations/og.png"
+  },
   "https://blog.p1ass.com/posts/hatena-to-hugo-one-year/": {
     "title": "はてなブログからHugoに移行にして1年が経った - ぷらすのブログ",
     "description": "ブログをはてなブログから移行して一年経ったので、アクセス数などを見つつ感想を書いていこうと思います。",
