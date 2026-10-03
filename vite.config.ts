@@ -6,8 +6,8 @@ import client from 'honox/vite/client'
 import recmaExportFilepath from 'recma-export-filepath'
 import { defineConfig } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
-import { mdxSummary } from './app/lib/mdx-summary'
+import { rehypePlugins, remarkPlugins } from './app/lib/mdx.ts'
+import { mdxSummary } from './app/lib/mdx-summary.ts'
 
 const entry = './app/server.ts'
 

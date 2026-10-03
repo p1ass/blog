@@ -1,7 +1,7 @@
 import type { Element, Root } from 'hast'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
-import { type Assignment, light } from '../styles/theme'
+import { type Assignment, light } from '../styles/theme.ts'
 
 const roles = {
   background: 'surface',

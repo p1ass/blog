@@ -6,13 +6,13 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import type { PluggableList } from 'unified'
-import { rehypeImageSize } from './rehype-image-size'
+import { rehypeImageSize } from './rehype-image-size.ts'
 import {
   mermaidThemeVariables,
   rehypeMermaidTheme,
-} from './rehype-mermaid-theme'
-import { rehypeToc } from './rehype-toc'
-import { remarkExcerpt } from './remark-excerpt'
+} from './rehype-mermaid-theme.ts'
+import { rehypeToc } from './rehype-toc.ts'
+import { remarkExcerpt } from './remark-excerpt.ts'
 
 export const remarkPlugins: PluggableList = [
   remarkFrontmatter,
