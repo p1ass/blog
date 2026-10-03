@@ -1,7 +1,7 @@
 import type { MDXProps } from 'mdx/types'
-import type { Frontmatter } from '../routes/posts/types'
-import { parseDate } from './time'
-import { groupBy } from './util'
+import type { Frontmatter } from '../routes/posts/types.ts'
+import { parseDate } from './time.ts'
+import { groupBy } from './util.ts'
 
 export const POSTS_PER_PAGE = 10
 

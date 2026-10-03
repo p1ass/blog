@@ -3,8 +3,8 @@ import GithubSlugger from 'github-slugger'
 import type { Element, Root, RootContent } from 'hast'
 import type { Plugin } from 'unified'
 import { SKIP, visit } from 'unist-util-visit'
-import { summarySuffix } from './mdx-summary'
-import type { TocItem } from './toc'
+import { summarySuffix } from './mdx-summary.ts'
+import type { TocItem } from './toc.ts'
 
 const headingDepth: Record<string, 2 | 3> = { h2: 2, h3: 3 }
 

@@ -2,7 +2,7 @@ import path from 'node:path'
 import type { Root, RootContent } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { Plugin } from 'unified'
-import { postPermalink } from './post-list'
+import { postPermalink } from './post-list.ts'
 
 function isMarker(node: RootContent): boolean {
   return node.type === 'mdxFlowExpression' && node.value.includes('<!--more-->')
