@@ -371,6 +371,14 @@ OpenAI の Function calling のガイドにも、いつも続けて呼ぶ関数�
 ### 空き時間の検索と予約
 
 v3 では、Tool を `calendar_find_free_slots` と `calendar_schedule_event` の 2 つに作り直しました。
+Anthropic の例のように 1 つの Tool にまとめず、読み取りだけの検索と、カレンダーを書き換える登録に分けています。
+
+1 つの Tool に複数の目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなります。Anthropic の「Seeing like an agent」では、Claude Code で計画の提出と質問を 1 つの Tool にまとめたところ、Claude が混乱したと紹介されています。
+
+<ExLinkCard url="https://claude.com/blog/seeing-like-an-agent" />
+
+なお、今回は検索と登録は目的が分かれているので、Model がどちらを使うべきか迷う場面はありません。
+ただ、書き込みを別の Tool にしておくと、登録の前だけ人間の承認を挟むといった制御を Tool の単位でかけられるので、将来的な拡張を見越してこのような形にしています。
 
 ```go
 participantsSchema := map[string]any{
@@ -420,20 +428,19 @@ v2 から変えたのは次の 3 点です。
 - 予定の一覧ではなく、全員が空いている枠を返す。空き時間の計算はコードが行う。
 - Tool の説明に 2 つの Tool をどの順で使うかを書く。
 
-Tool が名前を受け取ると、同じ姓の人が複数いる場合に誰を指すのかがあいまいになります。
-その場合は候補の一覧をエラーとして返し、Model にフルネームで指定し直してもらいます。たとえば `participants` に「伊波」とだけ渡すと、次のエラーになります。
+なお、Tool が名前を受け取れるようにすると、同じ姓の人が複数いる場合に誰を指すのかがあいまいになってしまいます。
+その場合は候補の一覧をエラーとして返し、Model にフルネームで指定し直してもらうようにしました。たとえば `participants` に「伊波」とだけ渡すと、次のエラーになります。
 
 ```text
 「伊波」に該当する人が 2 人います: 伊波 太郎 (開発部)、伊波 修 (営業部)。フルネームで指定してください
 ```
 
-Anthropic の記事は、エラーでは分かりにくいエラーコードやトレースバックではなく、具体的で行動につながる改善点を伝えるよう勧めています。
+このアイデアは Anthropic の記事にも記載されており、分かりにくいエラーコードやトレースバックではなく、具体的で行動につながる改善点を伝えるよう勧めています。
 
 > you can prompt-engineer your error responses to clearly communicate specific and actionable improvements, rather than opaque error codes or tracebacks.
 
-このようにエラーを返せば候補の一覧が分かるので、Model は次のターンでフルネームを指定し直せます。
 予定が重なったときも、`409 Conflict` のようなステータスだけではなく、重なっている予定の時間と件名を返します。
-どちらのエラーも、例外として Agent Loop を止めずに Tool のレスポンスとして Model に返すことで、Model が自分で次の行動を決められます。
+このように、どちらのエラーも例外とせず、Tool のレスポンスとして Model に返すことで、Model が自分で次の行動を決められます。
 
 ### 実行結果
 
@@ -453,43 +460,6 @@ Model は 1 ターン目で空いている枠を探し、2 ターン目で登録
 `participants` には依頼文のとおり `一ノ瀬` と渡していますが、Tool の中で `一ノ瀬 奈々` に絞り込めたため、そのまま空き枠を得られています。
 
 結果は 30 回とも正しく登録でき、エラーは起きませんでした。
-v2 と比べると、ターン数は 1 つ、Tool Call は 2 回減り、入力トークンは約 55% になりました。各バージョンの数値は、「Tool の評価」のセクションでまとめて比較します。
-
-### Tool をまとめる範囲
-
-ここまで Tool をまとめる方向で改善してきましたが、まとめすぎることにも問題があります。
-Anthropic の「Seeing like an agent」は、Claude Code の `AskUserQuestion` を作るまでの試行錯誤を紹介しています。
-
-<ExLinkCard url="https://claude.com/blog/seeing-like-an-agent" />
-
-Claude Code の開発チームは最初、計画を提出する `ExitPlanTool` に質問の配列を渡す引数を追加しました。
-しかし、計画と、その計画についての質問を同時に求めることになり、Claude が混乱したと書かれています。
-
-> it confused Claude because we were simultaneously asking for a plan and a set of questions about the plan.
-
-最終的に、質問するための専用の Tool を作って解決しています。
-1 つの Tool に 2 つの目的を持たせると、Model はその Tool をいつ、どう呼べばよいか判断しにくくなります。
-
-一方で、同じ記事は Tool を増やすことにもコストがあると述べています。
-
-> The bar to add a new tool is high, because this gives the model one more option to think about.
-
-Tool の境界を決めるときの目安として、Anthropic の「Effective context engineering for AI agents」の次の一文が参考になります。
-
-> If a human engineer can't definitively say which tool should be used in a given situation, an AI agent can't be expected to do better.
-
-<ExLinkCard url="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" />
-
-Tool が増えたときに、すべての定義を毎回コンテキストに載せなくて済む仕組みもあります。
-OpenAI の Tool search では、`tool_search` を Tool に加え、関数に `defer_loading: true` を付けます。Model は、最初に Tool の名前と説明だけを読み、必要になった Tool の引数のスキーマを後から読み込みます。
-
-<ExLinkCard url="https://developers.openai.com/api/docs/guides/tools-tool-search" />
-
-OpenAI は、namespace の単位で遅延読み込みを使い、1 つの namespace の関数を 10 個未満に抑えることを勧めています。v1 から付けている `calendar_` のようなプレフィックスは、Model が読み込む Tool を探す手がかりにもなります。
-ただし、遅延読み込みで減るのはコンテキストに載る定義の量で、似た Tool どうしの境界があいまいになる問題は残ります。遅延読み込みの詳細は、次回のコンテキスト管理で扱います。
-
-v3 では、Anthropic の例のように空き時間の検索と登録を 1 つの Tool にまとめず、読み取りだけの検索と、カレンダーを書き換える登録に分けました。
-2 つの Tool は目的が分かれているので、Model がどちらを使うべきか迷う場面はありません。また、書き込みを別の Tool にしておくと、登録の前だけ人間の承認を挟むといった制御を Tool の単位でかけられます。
 
 ## Tool の評価
 
@@ -504,55 +474,48 @@ v3 では、Anthropic の例のように空き時間の検索と登録を 1 つ�
 v1 から v2 では、引数を誤ったエラーがなくなり、レスポンスが小さくなった分だけ入力トークンが減りました。
 v2 から v3 では、ユーザーの検索や空き時間の計算のように、Model が組み立てていた手順そのものが減りました。
 
-この記事で Tool を改善するときに行ったことを振り返ると、Tool の評価は次の 3 つに分けられます。
+この記事では、Tool を評価するときに次の 3 つのことを行いました。
 
 ### 同じ依頼を繰り返し実行する
 
-Anthropic の「Writing effective tools for agents」は、Tool を次のように表現しています。
+Agent は、同じ依頼でも毎回同じ行動をとるとは限りません。
+Anthropic の「Writing effective tools for agents」は、Tool を決定的なシステムと非決定的な Agent の間の契約と表現しています。
 
 > Tools are a new kind of software which reflects a contract between deterministic systems and non-deterministic agents.
 
-従来の API は、同じ入力に同じ出力を返すシステム同士の契約でした。
-Tool の呼び出し側の Agent は、同じ依頼でも毎回同じ行動をとるとは限りません。
-1 回の実行結果だけを比べると、違いが Tool を改善した効果なのか、たまたまのばらつきなのかを区別できません。
-今回も、v1 で引数を誤ってエラーになったのは 30 回中 4 回だけでした。数回実行しただけでは、このエラーと、それによって増える Tool Call に気付かない可能性があります。
+そのため、1 回の実行結果だけを比べても、違いが Tool を改善した効果なのか、たまたまのばらつきなのかを区別できません。
+この記事でも、v1 で引数を誤ってエラーになったのは 30 回中 4 回だけでした。数回の実行では、このエラーに気付かなかった可能性があります。
 
-### 正答率以外の指標を見る
+### 正答率以外の指標も集計する
 
-どのバージョンも 30 回とも正しく登録できました。差が出たのは、ターン数、Tool Call の回数、入力トークンです。
-同じ記事も、正答率に加えて、Tool Call の回数やトークンの消費量、Tool のエラーを集計するよう勧めています。
+正答率だけでは、Tool を改善した効果を確かめられないことがあります。
+同じ記事は正答率に加えて、Tool Call の回数やトークンの消費量、Tool のエラーも集計するよう勧めています。
 
 > As well as top-level accuracy, we recommend collecting other metrics like the total runtime of individual tool calls and tasks, the total number of tool calls, the total token consumption, and tool errors.
 
-Model の性能が高いほど、Tool の良し悪しは正解できるかどうかではなく、正解までの遠回りの量に表れます。
-この記事では、Agent Loop の中でこれらの値を集計しました。
+この記事では、Agent Loop の中でターン数、Tool Call とエラーの回数、入力トークンを集計しました。
 
-### ログを読んで遠回りの原因を探す
+### ログを読んで原因を探す
 
-指標で分かるのは遠回りの量だけで、その原因は分かりません。
+指標で分かるのは Tool Call やトークンが増えたことまでで、その原因は分かりません。
 同じ記事は Tool Call と Tool のレスポンスを含むトランスクリプトをそのまま読むよう勧めています。
 
 > Review the raw transcripts (including tool calls and tool responses) to catch any behavior not explicitly described in the agent’s CoT.
 
-v1 のエラーの原因は、`user` にメールアドレスを渡しているログから分かりました。また、v1 と v2 のログを並べると、エラーになった回を除いて Tool の呼び出し方は同じです。
-定義とレスポンスを整えても手順は減らないので、次に見直すべきは Tool の粒度だと判断できます。
+この記事でも、v1 のエラーの原因は、`user` にメールアドレスを渡しているログから判明しました。
 
 <Note>
-  今回の評価タスクは 1 つですが、実際の Agent
-  では想定する依頼を多数用意して評価します。 Anthropic の cookbook の「[Tool
-  evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation)」は、評価タスクを実行して正答率や
+  今回の評価タスクは 1 つですが、Anthropic の cookbook の「[Tool
+  evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation)」では、評価タスクを実行して正答率や
   Tool Call の回数を集計し、Model 自身に Tool
-  の名前、引数、説明へのフィードバックを書かせる例です。 Agent の評価は、連載の
-  7 本目で詳しく扱います。
+  の名前、引数、説明へのフィードバックを書かせています。 Agent の評価は連載の 7
+  本目で詳しく扱います。
 </Note>
 
 ## おわりに
 
 この記事では、既存の API をそのまま Tool にした会議予約 Agent を題材に、Tool の定義とレスポンス、Tool の粒度の順に改善しました。
-どのバージョンも正しく登録できましたが、ターン数の平均は 4.1 から 3.0 に、入力トークンの平均は 11,309 から 4,596 に減りました。
 
-Model が Tool について知る手がかりは、Tool の定義とレスポンスです。
-そのため、Tool の設計は、Model がそれをどう読むかを基準に考えます。
-Agent に任せたい作業の単位で Tool の粒度を決め、Model が迷わず次の行動を決められるように定義とレスポンスを整えます。そして、同じ依頼を繰り返し実行し、ターン数やエラー、トークンの変化を確かめます。
+Tool の改善によって、ターン数の平均は 4.1 から 3.0 に、入力トークンの平均は 11,309 から 4,596 に減りました。
 
-次回はコンテキスト管理を扱います。Tool の数が増えたときに、Tool の定義そのものがコンテキストを圧迫する問題と、その対策もそこで取り上げます。
+次回はコンテキスト管理を扱おうと思います。
