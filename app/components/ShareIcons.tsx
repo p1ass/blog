@@ -1,11 +1,16 @@
 import { css } from 'hono/css'
 import { brandWhite, hatenaBlue, xBlack, xBlackHover } from '../styles/brand'
-import { brandSurfaceBorder, icon, surfaceHover } from '../styles/color'
+import {
+  brandSurfaceBorder,
+  icon,
+  surfaceHover,
+  textMuted,
+} from '../styles/color'
 import { canHover } from '../styles/motion'
 import { borderWidth, radius } from '../styles/shape'
 import { blockGap, space } from '../styles/spacing'
 import { hoverTransition, transition } from '../styles/transition'
-import { fontSize } from '../styles/typography'
+import { fontSize, lineHeight } from '../styles/typography'
 
 const shareIconsSectionCss = css`
     text-align: center;
@@ -104,6 +109,21 @@ const preferredSourceCss = css`
     }
 `
 
+const preferredSourceCaptionCss = css`
+    margin: ${space.sm} 0 0;
+    color: ${textMuted};
+    font-size: ${fontSize.caption};
+    line-height: ${lineHeight.heading};
+`
+
+const withPreferredSourceSectionCss = css`
+    ${shareIconsSectionCss}
+
+    &:not(:has([data-initialized])) ${preferredSourceCaptionCss} {
+        display: none;
+    }
+`
+
 type Props = {
   title: string
   permalink: string
@@ -115,7 +135,13 @@ export function ShareButtons({ title, permalink, withPreferredSource }: Props) {
   const sharedText = encodeURIComponent(`${title} - ぷらすのブログ`)
 
   return (
-    <section class={shareIconsSectionCss}>
+    <section
+      class={
+        withPreferredSource
+          ? withPreferredSourceSectionCss
+          : shareIconsSectionCss
+      }
+    >
       <div class={shareIconWrapperCss}>
         <div class={xCss}>
           <a
@@ -143,6 +169,11 @@ export function ShareButtons({ title, permalink, withPreferredSource }: Props) {
           <div class={preferredSourceCss} data-preferred-source />
         ) : null}
       </div>
+      {withPreferredSource ? (
+        <p class={preferredSourceCaptionCss}>
+          Google のトップニュースにこのブログが出やすくなります
+        </p>
+      ) : null}
     </section>
   )
 }
