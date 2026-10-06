@@ -24,6 +24,11 @@
     "description": "惑星改造によって生まれ変わった水の星｢アクア｣。その観光都市ネオ・ヴェネツィアを舞台に、ウンディーネ(水先案内人)を夢みてマンホーム(地球)からやってきた15歳の少女、水無灯里を主人公に優しくてちょっぴり切ない物語が広がります。",
     "image": "https://cs1.animestore.docomo.ne.jp/anime/1/01/95/jF0r2g/10195_1_d2.jpg?1551183678000"
   },
+  "https://blog.cloudflare.com/code-mode/": {
+    "title": "Code Mode: the better way to use MCP",
+    "description": "It turns out we've all been using MCP wrong. Most agents today use MCP by exposing the \"tools\" directly to the LLM. We tried something different: Convert the MCP tools into a TypeScript API, and then ask an LLM to write code that calls that API. The results are striking.",
+    "image": "https://blog.cloudflare.com/_emdash/api/media/file/01KW47KP2ERHW0YYWZBD4YRP8X.png"
+  },
   "https://blog.golang.org/generics-next-step": {
     "title": "The Next Step for Generics - The Go Programming Language",
     "description": "An updated generics design draft, and a translation tool for experimentation",
@@ -54,6 +59,7 @@
     "description": "OpenAIのドキュメントをもとにAgentの基本構成を整理し、OpenAI Agents SDKとClaude Agent SDKの違いを比較したうえで、Goで最小のAgentを実装します。",
     "image": "https://blog.p1ass.com/posts/agent-foundations/og.png"
   },
+  "https://blog.p1ass.com/posts/agent-tool-design/": null,
   "https://blog.p1ass.com/posts/hatena-to-hugo-one-year/": {
     "title": "はてなブログからHugoに移行にして1年が経った - ぷらすのブログ",
     "description": "ブログをはてなブログから移行して一年経ったので、アクセス数などを見つつ感想を書いていこうと思います。",
@@ -154,6 +160,16 @@
     "description": "Caddy is a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go",
     "image": "https://caddyserver.com/resources/images/open-graph-square.png?v=1a6bbd7"
   },
+  "https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them": {
+    "title": "When to use multi-agent systems (and when not to) | Claude by Anthropic",
+    "description": "When to use multi-agent systems—and when not to. Anthropic's guidance on orchestrator patterns, building on our multi-agent research system.",
+    "image": "https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69740110f2171c758f27bd32_og_building-multi-agent-systems-when-and-how-to-use-them.jpg"
+  },
+  "https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform": {
+    "title": "Reducing cost and improving performance with Claude Platform | Claude by Anthropic",
+    "description": "Tuning prompt caching, instructions, and effort can reduce Claude's cost without sacrificing application performance.",
+    "image": "https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6aa04a6665e27a80275b0317_og_reducing-cost-and-improving-performance-with-claude-platform%20(1).jpg"
+  },
   "https://claude.com/blog/seeing-like-an-agent": {
     "title": "Seeing like an agent: how we design tools in Claude Code / claude.dev",
     "description": "Learn how the Claude Code team designs, tests, and evolves tools by thinking from the model's point of view.",
@@ -163,6 +179,11 @@
     "title": "The new rules of context engineering for Claude 5 generation models / claude.dev",
     "description": "We removed over 80% of Claude Code's system prompt for more advanced models. How to apply the lessons we learned to your own context engineering in Claude Code and with your own agents.",
     "image": "/ogp/f3392a5f2a3840b4.png"
+  },
+  "https://claude.com/blog/using-claude-code-session-management-and-1m-context": {
+    "title": "Using Claude Code: session management and 1M context | Claude by Anthropic",
+    "description": "Learn how to manage context in Claude Code—when to continue, rewind, compact, or clear a session, and how subagents keep parent context clean.",
+    "image": "https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69e0297a2d5ec2483b1343c3_og_using-claude-code-session-management-and-1m-context.jpg"
   },
   "https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja": {
     "title": "サービス間認証 | Cloud Run | Google Cloud Documentation",
@@ -178,6 +199,11 @@
     "title": "Hooks reference - Claude Code Docs",
     "description": "Reference for Claude Code hook events, configuration schema, JSON input/output formats, exit codes, async hooks, HTTP hooks, prompt hooks, and MCP tool hooks.",
     "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DReference%26title%3DHooks%2Breference%26description%3DReference%2Bfor%2BClaude%2BCode%2Bhook%2Bevents%252C%2Bconfiguration%2Bschema%252C%2BJSON%2Binput%252Foutput%2Bformats%252C%2Bexit%2Bcodes%252C%2Basync%2Bhooks%252C%2BHTTP%2Bhooks%252C%2Bprompt%2Bhooks%252C%2Band%2BMCP%2Btool%2Bhooks.%26theme%3D03628e99c753a03aec319053&w=1200&q=100"
+  },
+  "https://code.claude.com/docs/en/mcp": {
+    "title": "Connect Claude Code to tools via MCP - Claude Code Docs",
+    "description": "Learn how to connect Claude Code to your tools with the Model Context Protocol.",
+    "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DMCP%26title%3DConnect%2BClaude%2BCode%2Bto%2Btools%2Bvia%2BMCP%26description%3DLearn%2Bhow%2Bto%2Bconnect%2BClaude%2BCode%2Bto%2Byour%2Btools%2Bwith%2Bthe%2BModel%2BContext%2BProtocol.%26theme%3D03628e99c753a03aec319053&w=1200&q=100"
   },
   "https://cyberagent.connpass.com/event/300386/": {
     "title": "ERROR: The request could not be satisfied",
@@ -224,15 +250,25 @@
     "description": "Protect personal data with WHOIS redaction.",
     "image": "https://developers.cloudflare.com/og-docs.png"
   },
+  "https://developers.openai.com/api/docs/guides/compaction": {
+    "title": "Compaction | OpenAI API",
+    "description": "Manage long-running conversations with server-side and standalone compaction.",
+    "image": "https://developers.openai.com/og/api/docs/guides/compaction.png"
+  },
+  "https://developers.openai.com/api/docs/guides/conversation-state": {
+    "title": "Conversation state | OpenAI API",
+    "description": "Learn how to manage conversation state during a model interaction with the OpenAI API.",
+    "image": "https://developers.openai.com/og/api/docs/guides/conversation-state.png"
+  },
   "https://developers.openai.com/api/docs/guides/function-calling": {
     "title": "Function calling | OpenAI API",
     "description": "Learn how function calling enables large language models to connect to external data and systems.",
     "image": "https://developers.openai.com/og/api/docs/guides/function-calling.png"
   },
-  "https://developers.openai.com/api/docs/guides/tools-tool-search": {
-    "title": "Tool search | OpenAI API",
-    "description": "Use tool search to defer large tool surfaces, group related tools with namespaces, and load only the relevant functions at runtime.",
-    "image": "https://developers.openai.com/og/api/docs/guides/tools-tool-search.png"
+  "https://developers.openai.com/api/docs/guides/prompt-caching": {
+    "title": "Prompt caching | OpenAI API",
+    "description": "Learn how prompt caching reduces latency and cost for long prompts in OpenAI's API.",
+    "image": "https://developers.openai.com/og/api/docs/guides/prompt-caching.png"
   },
   "https://docs.anthropic.com/ja/docs/claude-code/github-actions": {
     "title": "Claude Code GitHub Actions - Claude Code Docs",
@@ -468,6 +504,11 @@
     "title": "GitHub - morikuni/failure: failure is a utility package for handling application errors.",
     "description": "failure is a utility package for handling application errors. - morikuni/failure",
     "image": "https://opengraph.githubassets.com/8734371c794e5049e15fff4f4de6f1b81505f26c68bd5b6128e1f5a67c02294c/morikuni/failure"
+  },
+  "https://github.com/openai/openai-agents-python": {
+    "title": "GitHub - openai/openai-agents-python: A lightweight, powerful framework for multi-agent workflows",
+    "description": "A lightweight, powerful framework for multi-agent workflows - openai/openai-agents-python",
+    "image": "https://opengraph.githubassets.com/5277e1414fdcb4c6ff5d6f013e9cf6fdd6f608be7e105587a409cfd91f57fbe6/openai/openai-agents-python"
   },
   "https://github.com/p1ass/graphql-redis-realtime-chat": {
     "title": "GitHub - p1ass/graphql-redis-realtime-chat: 💬 Realtime Chat Server using GraphQL Subscriptions and Redis PubSub (Unmaintained)",
@@ -909,15 +950,40 @@
     "description": "",
     "image": null
   },
-  "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls": {
-    "title": "Handle tool calls",
-    "description": "Parse tool_use blocks, format tool_result responses, and handle errors with is_error.",
-    "image": "/ogp/7a72961103a9963b.png"
+  "https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool": {
+    "title": "Memory tool",
+    "description": "Let Claude store and retrieve information across conversations by implementing the memory tool's file operations in your application.",
+    "image": "/ogp/1876f043be30c775.png"
   },
   "https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use": {
     "title": "Strict tool use",
     "description": "Enforce JSON Schema compliance on Claude's tool inputs with grammar-constrained sampling.",
     "image": "/ogp/e64256dd914aeed1.png"
+  },
+  "https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool": {
+    "title": "Tool search tool",
+    "description": "Scale to hundreds or thousands of tools by letting Claude search your tool catalog and load only the tools it needs.",
+    "image": "/ogp/7061cb8bc4f06a72.png"
+  },
+  "https://platform.claude.com/docs/en/build-with-claude/compaction": {
+    "title": "Compaction overview",
+    "description": "Learn what compaction does, how compaction on demand and compaction at a token threshold differ, and which page covers your task.",
+    "image": "/ogp/acc508350d9aae76.png"
+  },
+  "https://platform.claude.com/docs/en/build-with-claude/context-editing": {
+    "title": "Context editing",
+    "description": "Automatically manage conversation context as it grows with context editing.",
+    "image": "/ogp/3303ea2e4536485c.png"
+  },
+  "https://platform.claude.com/docs/en/build-with-claude/prompt-caching": {
+    "title": "Prompt caching",
+    "description": "Cache prompt prefixes with `cache_control` to cut costs and latency, using automatic caching or explicit breakpoints with 5-minute or 1-hour TTLs.",
+    "image": "/ogp/55903a0efa44dd10.png"
+  },
+  "https://platform.claude.com/docs/en/build-with-claude/working-with-messages": {
+    "title": "Using the Messages API",
+    "description": "Practical patterns and examples for using the Messages API effectively",
+    "image": "/ogp/2ea518e66a3cb7bf.png"
   },
   "https://play.golang.org/p/3j5V3yHWx4G": {
     "title": "Go Playground - The Go Programming Language",
@@ -1019,15 +1085,30 @@
     "description": "",
     "image": "https://typescript-jp.gitbook.io/deep-dive/~gitbook/ogimage/-LTmp-8X76z87tbuPyD9"
   },
+  "https://www.anthropic.com/engineering/advanced-tool-use": {
+    "title": "Introducing advanced tool use on the Claude Developer Platform",
+    "description": "Claude can now discover, learn, and execute tools dynamically to enable agents that take action in the real world. Here’s how.",
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/c73197ee700f6a705cafaadec47d29cdee816132-2400x1260.png"
+  },
   "https://www.anthropic.com/engineering/building-effective-agents": {
     "title": "Building Effective AI Agents",
     "description": "Discover how Anthropic approaches the development of reliable AI agents. Learn about our research on agent capabilities, safety considerations, and technical framework for building trustworthy AI.",
     "image": "https://cdn.sanity.io/images/4zrzovbb/website/76b5733c669f0dfb9c7aa7fc512a495867cf12e6-2400x1260.png"
   },
+  "https://www.anthropic.com/engineering/code-execution-with-mcp": {
+    "title": "Code execution with MCP: building more efficient AI agents",
+    "description": "Learn how code execution with the Model Context Protocol enables agents to handle more tools while using fewer tokens, reducing context overhead by up to 98.7%.",
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/8071ace7b1158ab6d3f8fa04679cef31234425ab-2400x1260.png"
+  },
   "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents": {
     "title": "Effective context engineering for AI agents",
     "description": "Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
     "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/ea2bf01aa874d7ab776453e97dfeed5d2bf5a116-2400x1260.png"
+  },
+  "https://www.anthropic.com/engineering/managed-agents": {
+    "title": "Scaling Managed Agents: Decoupling the brain from the hands",
+    "description": "Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/c4c716fb31cdbd336b628549cdac0f14e10d0099-2000x1050.heif"
   },
   "https://www.anthropic.com/engineering/writing-tools-for-agents": {
     "title": "Writing effective tools for AI agents—using AI agents",

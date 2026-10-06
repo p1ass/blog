@@ -1,40 +1,702 @@
 ---
-title: Agent のコンテキスト管理
+title: リポジトリ調査 Agent で比べる Agent のコンテキスト管理
 date: 2099-12-31T00:00:00+09:00
-description: Agent 開発の連載の 3 本目。コンテキスト管理を扱う。
+description: リポジトリを調べる Agent にプロンプトキャッシュ、Tool の結果のクリア、会話の圧縮、メモリ、Tool Search を適用し、トークンと料金の変化を比べて Agent のコンテキスト管理を整理します。
 category: 生成AI
 tags:
   - Agent
   - Agent Engineering の基礎
+  - Anthropic
+  - Go
 draft: true
 ---
 
+こんにちは、ぷらす([@p1ass](https://x.com/p1ass))です。
+
+Agent の開発について学んだことを整理する連載の 3 本目です。連載の構成は次のとおりです。
+
+1. Agent の基本構成
+2. Tool の設計
+3. コンテキスト管理 (この記事)
+4. ハーネス
+5. Multi-Agent
+6. Workflow と Guardrails
+7. Observability と Eval
+
+1 本目の記事では、Agent Loop が Model の応答と Tool の実行結果を会話に足しながら、会話履歴全体を毎回送り直すことを確認しました。
+
+<ExLinkCard url="https://blog.p1ass.com/posts/agent-foundations/" />
+
+2 本目の記事では、Tool の定義とレスポンスを見直して、ターン数と入力トークンを減らしました。
+
+<ExLinkCard url="https://blog.p1ass.com/posts/agent-tool-design/" />
+
+この記事では、Agent Loop を回すうちに膨らんでいくコンテキストを扱います。
+OpenAI Agents SDK のリポジトリを調べる Agent を実装し、プロンプトキャッシュ、Tool の結果のクリア、会話の圧縮、メモリ、Tool Search を 1 つずつ適用して、入力トークンと料金がどう変わるかを実行結果で確かめます。
+
 {/* <!--more--> */}
 
-## メモ: プロンプトキャッシュ
+## コンテキストが膨らむ理由
 
-1 本目では触れず、この記事で扱う。
+Anthropic の Messages API はステートレスです。Working with the Messages API には次のように書かれています。
 
-- Anthropic の Messages API はステートレスで、会話全体を毎回送る (Working with the Messages API に「The Messages API is stateless, which means that you always send the full conversational history to the API.」とある)。2026-09-22 に確認
-- 会話の状態はクライアントが持つので、送る内容はクライアントが決められる。ただし、途中の会話を書き換えると、プロンプトキャッシュはそこから後ろが外れる。さらに Claude Fable 5.1 以降の preserved thinking では、途中の会話を編集・削除すると、その後ろの thinking ブロックが無効化される (2026-08-31 以降に作成したアカウントでは 400)。古い Tool の結果を消すなら、サーバー側の Tool 結果のクリア (context editing) を使う。「自由に編集できる」とは書かない
-- OpenAI の Responses API は会話をサーバーに保存し、`previous_response_id` で続けられる。Conversation state のガイドには「Even when using `previous_response_id`, all previous input tokens for responses in the chain are billed as input tokens in the API.」と書かれている。過去の会話も入力トークンとして課金される。2026-09-22 に確認
-- Response オブジェクトは何も指定しなければ 30 日保存され、`store: false` で保存しないようにできる。長く続く会話には、TTL のない Conversations API がある
-- プロンプトキャッシュは、リクエストの先頭 (`tools`、`system`、`messages` の順) が一致する部分をキャッシュから読む。途中が 1 バイトでも変わると、そこから後ろはキャッシュされない
-- トップレベルに `cache_control: {type: "ephemeral"}` を付けると、最後のキャッシュ可能なブロックに区切りが置かれ、会話が伸びるたびに区切りも後ろへ動く。Agent Loop と相性がよい
-- TTL は指定しなければ 5 分、`ttl: "1h"` で 1 時間。読むたびに期限が延びる
-- 読み込みは入力の約 0.1 倍、書き込みは 5 分の TTL で 1.25 倍、1 時間で 2 倍
-- キャッシュできる先頭部分の最小サイズはモデルによって 512〜4096 トークンで、これより短いと、エラーは出ないままキャッシュされない
-- Go では `MessageNewParams` に `CacheControl: anthropic.NewCacheControlEphemeralParam()` を足す。キャッシュから読めたかどうかは `resp.Usage.CacheReadInputTokens` で確かめる
+> The Messages API is stateless, which means that you always send the full conversational history to the API.
 
-## メモ: Tool が増えたときの扱い
+<ExLinkCard url="https://platform.claude.com/docs/en/build-with-claude/working-with-messages" />
 
-2 本目 (Tool の設計) では扱わず、この記事で扱う。いずれも未検証で、執筆前に一次情報で確認する。
+Agent Loop では、ターンを重ねるたびに Model の応答と Tool の結果が会話に積み上がり、それをすべて送り直します。
+1 ターン目に読んだファイルの内容は、最終出力を返すまで毎ターン入力トークンとして数えられます。
+そのため、入力トークンの合計はターン数に比例するのではなく、ターンを重ねるほど急に増えていきます。
 
-- Tool の定義そのものがコンテキストを圧迫する。MCP サーバーを複数つなぐと、ユーザーの入力を読む前に大量のトークンを消費する
-- Anthropic の Tool Search: Tool に `defer_loading: true` を付け、Model が検索してから必要な Tool の定義だけを読み込む。[Introducing advanced tool use](https://www.anthropic.com/engineering/advanced-tool-use) (2025-11-24) に Programmatic Tool Calling、Tool Use Examples と合わせて書かれている。2026 年 2 月から GA という二次情報がある
-- OpenAI の Tool search: `tool_search` を Tool に加え、関数に `defer_loading: true` を付ける。namespace か MCP サーバー単位での利用を推奨している ([Tool search](https://developers.openai.com/api/docs/guides/tools-tool-search))
-  - 2026-09-23 に確認: 最初は名前と説明だけを読み、引数のスキーマは必要な Tool の分だけ後から読み込む。namespace の関数は 10 個未満を推奨。読み込んだ Tool はコンテキストの末尾に足すので、プロンプトキャッシュが保たれる。Responses API の `gpt-5.4` 以降が対応
-  - 2 本目の「Tool をまとめる範囲」で、Tool search を 1 段落だけ紹介し、詳細はこの記事で扱うと予告した。2 本目では仕組みと namespace の推奨まで触れている。この記事では重複を避け、2 本目で触れていない点を中心に書く (キャッシュとの関係、Anthropic との比較、計測したトークンの削減量など)
-- Claude Code は MCP の Tool の定義がコンテキストの 10% を超えると遅延読み込みに切り替わるという二次情報がある
-- Code Execution: Tool を直接呼ばず、Model が書いたコードから呼ばせて、必要な結果だけをコンテキストに戻す ([Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)、Cloudflare の Code Mode)
-- Tool の結果によるコンテキストの圧迫 (大きな結果の要約、古い結果のクリア) もあわせて扱う。[Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) が参考になる
+コンテキストが長くなると、料金だけでなく回答の質にも影響します。Anthropic の「Effective context engineering for AI agents」では、コンテキストが長くなるほど Model が情報を正確に思い出せなくなる現象を context rot と呼んでいます。
+
+> as the number of tokens in the context window increases, the model's ability to accurately recall information from that context decreases.
+
+同じ記事によると、LLM には「attention budget」があり、トークンが 1 つ増えるたびにその予算を消費します。
+
+> LLMs have an "attention budget" that they draw on when parsing large volumes of context. Every new token introduced depletes this budget by some amount
+
+<ExLinkCard url="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" />
+
+Agent に送るコンテキストは、大きく分けて Tool の定義、Instructions、会話 (ユーザーの入力、Model の応答、Tool の結果) の 3 つです。
+何がコンテキストを膨らませているかによって、選ぶ対策は異なります。この記事で扱う対策は次のとおりです。
+
+| 膨らませているもの | 対策 | この記事での扱い |
+| --- | --- | --- |
+| 毎ターン送り直す会話 | プロンプトキャッシュ | 計測 |
+| 大きな Tool の結果 | Tool の結果のクリア | 計測 |
+| 長く続く会話そのもの | 会話の圧縮 | 計測 |
+| 消した後に必要になる情報 | メモリ | 計測 |
+| 多数の Tool の定義 | Tool Search | 計測 |
+| 多数の Tool の定義、大きな Tool の結果 | Code Execution | 紹介のみ |
+| 調査の途中経過 | サブ Agent | 紹介のみ |
+
+以降のセクションでは、表の上から順に対策を適用し、結果を比べます。
+
+## リポジトリ調査 Agent
+
+題材にはリポジトリのソースコードを読んで質問に答える Agent を使います。
+ファイルの内容を読むたびに大きな Tool の結果が会話に積み上がるため、コンテキストが膨らみやすい題材です。
+
+調査対象は 1 本目の記事でも扱った OpenAI Agents SDK の v0.23.1 です。
+
+<ExLinkCard url="https://github.com/openai/openai-agents-python" />
+
+Agent には、ディレクトリを一覧する `list_files`、正規表現で検索する `grep`、ファイルを読む `read_file` の 3 つの Tool を持たせます。
+`read_file` はファイルの内容をすべて返す素朴な実装にしています。
+
+```go
+{
+	Name:        "read_file",
+	Description: "リポジトリ内のファイルの内容をすべて返します。",
+	Properties: map[string]any{
+		"path": map[string]any{"type": "string", "description": "リポジトリのルートからの相対パス"},
+	},
+	Required: []string{"path"},
+	Run: func(_ context.Context, input json.RawMessage) (string, error) {
+		var in struct{ Path string }
+		if err := json.Unmarshal(input, &in); err != nil {
+			return "", err
+		}
+		b, err := fs.ReadFile(repo, path.Clean(in.Path))
+		if err != nil {
+			return "", err
+		}
+		return string(b), nil
+	},
+},
+```
+
+Agent に与える質問は、SDK の各所に散らばった既定値や名前を問う 10 問です。
+
+```go
+const prompt = `src/agents のソースコードを読んで、次の質問に答えてください。
+
+q1. Runner.run の max_turns の既定値
+q2. max_turns を超えたときに送出される例外のクラス名
+q3. MCPServerStdio の client_session_timeout_seconds の既定値
+q4. function_tool デコレーターの timeout_behavior の既定値
+q5. RunConfig の workflow_name の既定値
+q6. RunConfig の tool_not_found_behavior の既定値
+q7. Tool の実行に失敗したときに、既定で Model に返されるメッセージの文字列
+q8. name が "Billing Agent" の Agent へ Handoff するときの、既定の Tool の名前
+q9. 入力のガードレールの tripwire が発火したときに送出される例外のクラス名
+q10. Agent の tool_use_behavior の既定値
+
+最後に、q1 から q10 をキーとし、答えを値とした JSON オブジェクトを ` + "```json" + ` のコードブロックで出力してください。数値は数値型、それ以外は文字列型にしてください。`
+```
+
+最終出力の JSON を正解と比べ、正解数を数えます。正解はすべて v0.23.1 のソースコードで確認しています。
+
+- ソースコード: [GitHub](https://github.com/p1ass/blog/tree/main/app/routes/posts/agent-context-management/repo-agent)
+
+### 計測する指標
+
+2 本目の記事と同様に、Agent Loop の中でターン数、Tool Call とエラーの回数、トークンを集計します。
+この記事では入力トークンをキャッシュの読み込みと書き込みに分け、1 回のリクエストで送ったコンテキストの最大長 (`PeakContext`) も記録します。
+
+```go
+func (u *Usage) add(turn int, resp *anthropic.BetaMessage) {
+	ru := resp.Usage
+	u.InputTokens += ru.InputTokens
+	u.CacheWriteTokens += ru.CacheCreationInputTokens
+	u.CacheReadTokens += ru.CacheReadInputTokens
+	u.OutputTokens += ru.OutputTokens
+	u.PeakContext = max(u.PeakContext, ru.InputTokens+ru.CacheCreationInputTokens+ru.CacheReadInputTokens)
+	// ...
+}
+```
+
+Anthropic の API が返す `input_tokens` にはキャッシュから読み込んだ分と、キャッシュに書き込んだ分が含まれません。
+3 つを足したものが、そのリクエストで送った入力トークンの合計です。
+
+料金は Claude Sonnet 5.5 の入力の単価 ($2 / 100 万トークン) に、キャッシュの書き込みは 1.25 倍、読み込みは 0.1 倍の倍率を掛けて計算します。
+この記事で扱う対策はどれも入力トークンを減らすものなので、出力トークンの料金は含めていません。
+
+### ベースラインの実行結果
+
+対策を何も入れずに実行した結果です。
+
+```text
+$ go run . -repo ../openai-agents-python -n 1
+run 1: turns=5 calls=9 errors=0 input_tokens=183957 cache_read=0 cache_write=0 output_tokens=2068 peak_context=71682 clears=0 compactions=0 compaction_tokens=0 score=10/10
+```
+
+10 問すべてに正解し、5 ターンで入力トークンの合計は 183,957、料金は約 $0.37 でした。
+
+ログを見ると、2 ターン目で `tool.py` をまるごと読んでいます。`tool.py` は約 114KB あり、このファイルの内容が残りのすべてのターンで送り直されています。
+
+```text
+turn 1: grep {"pattern":"DEFAULT_MAX_TURNS\\s*=|class MaxTurnsExceeded|client_session_timeout_seconds|timeout_behavior|tool_not_found_behavior|workflow_name: |class InputGuardrailTripwireTriggered","path":"src/agents"} -> src/agents/exceptions.py:444: class MaxTurnsExceeded(AgentsException):\nsrc/agents/exceptions.py:519: class InputGuardra...
+turn 1: grep {"pattern":"def default_tool_error_function|An error occurred while running the tool|def default_tool_name|transfer_to_|tool_use_behavior:","path":"src/agents"} -> src/agents/agent.py:396:     tool_use_behavior: (\nsrc/agents/agent.py:447:             tool_use_behavior: (\nsrc/agents...
+turn 2: read_file {"path":"src/agents/handoffs/__init__.py"} -> from __future__ import annotations\n\nimport inspect\nimport json\nimport weakref\nfrom collections.abc import Awaitable...
+turn 2: grep {"path":"src/agents","pattern":"^class MCPServer|tool_use_behavior: .*=|max_turns: int|^def default_tool_error|^def _transform_string_function_style"} -> src/agents/agent.py:617:         max_turns: int | None = None,\nsrc/agents/mcp/manager.py:260: class MCPServerManager(Ab...
+turn 2: read_file {"path":"src/agents/tool.py"} -> from __future__ import annotations\n\nimport ast\nimport asyncio\nimport copy\nimport functools\nimport inspect\nimport ...
+turn 3: grep {"path":"src/agents/agent.py","pattern":"tool_use_behavior.*(=|:)"} -> src/agents/agent.py:396:     tool_use_behavior: (\nsrc/agents/agent.py:447:             tool_use_behavior: (
+turn 3: read_file {"path":"src/agents/util/_transforms.py"} -> import re\n\nfrom ..logger import logger\n\n\ndef transform_string_function_style(name: str, *, warn_on_whitespace: bool...
+turn 4: read_file {"path":"src/agents/agent.py","startLine":390,"endLine":410} -> from __future__ import annotations\n\nimport asyncio\nimport contextvars\nimport dataclasses\nimport inspect\nfrom colle...
+turn 4: grep {"path":"src/agents","pattern":"tool_use_behavior = |tool_use_behavior: .*\"run_llm_again\"|\"run_llm_again\""} -> src/agents/agent.py:397:         Literal["run_llm_again", "stop_on_first_tool"] | StopAtTools | ToolsToFinalOutputFuncti...
+```
+
+4 ターン目では、スキーマにない `startLine` と `endLine` を渡して `agent.py` の一部だけを読もうとしています。
+`read_file` は範囲の指定に対応していないため、ファイル全体が返りました。
+2 本目の記事で扱ったように、範囲を指定して読める Tool にすれば、Tool の結果そのものを小さくできます。
+この記事では Tool の設計には手を入れず、API の機能でコンテキストを管理する方法を比べます。
+
+<Note>
+  この記事の数値は、各パターンを 1 回ずつ実行した結果です。Agent は同じ依頼でも毎回同じファイルを読むとは限らないため、パターン間の差には実行ごとのばらつきも含まれています。
+</Note>
+
+{/* TODO: 各パターン 10 回の計測結果に差し替える */}
+
+## プロンプトキャッシュ
+
+プロンプトキャッシュは、リクエストの先頭から一致する部分をキャッシュから読み込む機能です。
+Agent Loop では前のターンまでの会話がそのまま先頭に残るため、送り直す部分の大半をキャッシュから読めます。
+
+キャッシュは `tools`、`system`、`messages` の順に先頭から作られ、途中が変わるとそこから後ろはキャッシュから読めなくなります。
+
+> Cache prefixes are created in the following order: `tools`, `system`, then `messages`. This order forms a hierarchy where each level builds upon the previous ones.
+
+<ExLinkCard url="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" />
+
+リクエストのトップレベルに `cache_control` を付けると、最後のキャッシュ可能なブロックにキャッシュの区切りが置かれます。
+会話が伸びると区切りも後ろへ動くので、Agent Loop と相性がよい指定方法です。
+
+> With automatic caching, the cache point moves forward automatically as conversations grow.
+
+Go では、`CacheControl` を指定します。
+
+```go
+if c.Cache {
+	p.CacheControl = anthropic.NewBetaCacheControlEphemeralParam()
+}
+```
+
+キャッシュの有効期間は、何も指定しなければ 5 分、`ttl: "1h"` を指定すると 1 時間です。キャッシュを読むたびに期間が延びます。
+料金は通常の入力に比べて、キャッシュの書き込みが 1.25 倍 (1 時間の場合は 2 倍)、読み込みが 0.1 倍です。読み込みの倍率は Claude Fable 5.1 では 0.025 倍、Claude Opus 5.5 では 0.05 倍と、モデルによって異なります。
+
+キャッシュできる先頭部分には最小の長さがあり、Claude Sonnet 5.5 では 512 トークンです。
+これより短いとキャッシュされませんが、エラーにはならずそのまま処理されます。
+
+### キャッシュの実行結果
+
+```text
+$ go run . -repo ../openai-agents-python -n 1 -cache
+run 1: turns=5 calls=9 errors=0 input_tokens=171011 cache_read=115048 cache_write=55951 output_tokens=1711 peak_context=55953 clears=0 compactions=0 compaction_tokens=0 score=10/10
+```
+
+入力トークンの合計 171,011 のうち、115,048 をキャッシュから読み込み、55,951 をキャッシュに書き込みました。料金は約 $0.16 で、ベースラインの半分以下です。
+
+入力トークンの合計はほとんど変わらず、料金だけが下がっています。
+キャッシュはコンテキストの長さを変えないので、context rot への対策にはなりません。
+
+また、書き込みが 1.25 倍の料金になるため、ターン数が少ないと書き込みの割合が大きくなります。
+この実行では料金の 8 割以上が書き込みの分でした。
+
+### キャッシュが外れる操作
+
+Tool の定義 (名前、説明、引数) を変えると、キャッシュ全体が無効になります。
+
+> Modifying tool definitions (names, descriptions, parameters) invalidates the entire cache
+
+会話の途中で Tool の定義を差し替えたり、`system` を書き換えたりすると、そのリクエストではキャッシュをほとんど読めません。
+Agent Loop の途中で変えたい指示があれば、`system` を書き換えずに会話へ足すほうがキャッシュを保てます。
+
+## コンテキストを短くする
+
+プロンプトキャッシュは料金を下げますが、コンテキストの長さは変えません。
+コンテキストそのものを短くするには、古い Tool の結果をクリアするか、会話を要約して圧縮します。
+
+Effective context engineering for AI agents は、Tool の結果のクリアを最も安全で手軽な圧縮の 1 つとしています。
+
+> One of the safest lightest touch forms of compaction is tool result clearing, most recently launched as a feature on the Claude Developer Platform.
+
+Anthropic の API では、どちらもサーバー側の機能として提供されています。
+いつ発動させるかは、入力トークンの閾値で指定します。
+
+### 古い Tool の結果のクリア
+
+`context_management` に `clear_tool_uses_20250919` を指定すると、入力トークンが `trigger` を超えたときに、古い Tool の結果から順にプレースホルダーへ置き換えます。
+直近の Tool の結果は、`keep` で指定した数 (指定しなければ 3 つ) だけ残ります。
+
+<ExLinkCard url="https://platform.claude.com/docs/en/build-with-claude/context-editing" />
+
+Tool の結果を消すと、そこから後ろはキャッシュから読めなくなります。
+そのため、1 回に消すトークン数の下限を `clear_at_least` で指定し、少しずつ消してキャッシュを何度も作り直すことを避けます。
+
+> Invalidates cached prompt prefixes when content is cleared. To account for this, clear enough tokens to make the cache invalidation worthwhile. Use the `clear_at_least` parameter to ensure a minimum number of tokens is cleared each time.
+
+Go SDK では Beta の API から指定します。
+
+```go
+if c.ClearTrigger > 0 {
+	p.Betas = append(p.Betas, anthropic.AnthropicBetaContextManagement2025_06_27)
+	p.ContextManagement.Edits = append(p.ContextManagement.Edits, anthropic.BetaContextManagementConfigEditUnionParam{
+		OfClearToolUses20250919: &anthropic.BetaClearToolUses20250919EditParam{
+			Trigger:      anthropic.BetaClearToolUses20250919EditTriggerUnionParam{OfInputTokens: &anthropic.BetaInputTokensTriggerParam{Value: c.ClearTrigger}},
+			ClearAtLeast: anthropic.BetaInputTokensClearAtLeastParam{Value: c.ClearAtLeast},
+		},
+	})
+}
+```
+
+ベースラインの最大長が約 72,000 トークンだったので、40,000 トークンを超えたらクリアし、1 回に 20,000 トークン以上を消す設定で実行しました。
+
+```text
+$ go run . -repo ../openai-agents-python -n 1 -cache -clear 40000 -clear-at-least 20000
+run 1: turns=6 calls=18 errors=0 input_tokens=117262 cache_read=86431 cache_write=30817 output_tokens=2386 peak_context=28856 clears=4 compactions=0 compaction_tokens=0 score=10/10
+```
+
+最大長は 28,856 トークンに収まり、料金は約 $0.09 でした。10 問すべてに正解しています。
+
+ログを見ると、2 ターン目に `tool.py`、`agent.py`、`handoffs/__init__.py` を読んだ後、3 ターン目以降は毎ターン同じ数の Tool の結果がクリアされています。
+
+```text
+turn 2: read_file {"path":"src/agents/tool.py"} -> from __future__ import annotations\n\nimport ast\nimport asyncio\nimport copy\nimport functools\nimport inspect\nimport ...
+turn 2: grep {"path":"src/agents/mcp/server.py","pattern":"^class |client_session_timeout_seconds: float"} -> src/agents/mcp/server.py:80: class RequireApprovalToolList(TypedDict, total=Fals
+turn 2: read_file {"path":"src/agents/agent.py"} -> from __future__ import annotations\n\nimport asyncio\nimport contextvars\nimport dataclasses\nimport inspect\nfrom colle...
+turn 2: read_file {"path":"src/agents/handoffs/__init__.py"} -> from __future__ import annotations\n\nimport inspect\nimport json\nimport weakref\nfrom collections.abc import Awaitable...
+turn 3: cleared 9 tool uses (42606 tokens)
+turn 3: grep {"path":"src/agents","pattern":"DEFAULT_MAX_TURNS\\s*=|class MaxTurnsExceeded|class InputGuardrailTripwireTriggered"} -> src/agents/exceptions.py:444: class MaxTurnsExceeded(Age
+turn 3: grep {"path":"src/agents","pattern":"timeout_behavior: |workflow_name: |tool_not_found_behavior: |def default_tool_error_function|An error occurred while running the tool"} -> src/ag
+turn 3: grep {"path":"src/agents/util/_transforms.py","pattern":"."} -> src/agents/util/_transforms.py:1: import re\nsrc/agents/util/_transforms.py:3: from ..logger import logger\nsrc/agents
+turn 4: cleared 9 tool uses (42797 tokens)
+turn 4: grep {"path":"src/agents/run.py","pattern":"max_turns: int"} -> src/agents/run.py:267:         max_turns: int | None = DEFAULT_MAX_TURNS,\nsrc/agents/run.py:372:         max_turns: i
+turn 4: grep {"path":"src/agents","pattern":"raise MaxTurnsExceeded"} -> 
+turn 5: cleared 9 tool uses (42848 tokens)
+turn 5: grep {"path":"src/agents","pattern":"MaxTurnsExceeded\\("} -> src/agents/exceptions.py:444: class MaxTurnsExceeded(AgentsException):\nsrc/agents/result.py:1114:             max_turns
+turn 6: cleared 9 tool uses (42848 tokens)
+```
+
+クリアはサーバー側で行われ、クライアントが持つ会話はそのまま残ります。
+
+> Your client application maintains the full, unmodified conversation history.
+
+この実装では会話をすべて送り続けているので、サーバーはリクエストのたびに同じ Tool の結果をクリアしています。
+
+一方で、クリアした後の会話をもう一度読み直す動きも見られました。3 ターン目には、2 ターン目までの `grep` で分かっていた内容を検索し直しています。
+クリアした情報が後で必要になると、その分だけ Tool Call が増えます。この実行でも Tool Call は 18 回で、ベースラインの 2 倍でした。
+
+### 会話の圧縮
+
+会話の圧縮 (compaction) は、それまでの会話を要約して置き換える機能です。
+Effective context engineering for AI agents では次のように説明しています。
+
+> Compaction is the practice of taking a conversation nearing the context window limit, summarizing its contents, and reinitiating a new context window with the summary.
+
+Anthropic の API には、2 つの方式があります。
+
+- 閾値方式 (`compact_20260112`) では、`context_management` に指定した `trigger` を入力トークンが超えたときにサーバーが要約します。`trigger` を指定しなければ 150,000 トークンで、最小は 50,000 トークンです
+- オンデマンド方式は、トップレベルに `"compaction": {"type": "summarize"}` を指定したリクエストで要約を作ります。要約された元のメッセージは、クライアントが会話から取り除きます
+
+<ExLinkCard url="https://platform.claude.com/docs/en/build-with-claude/compaction" />
+
+ドキュメントは、使える環境ではオンデマンド方式を推奨しています。
+
+> Use on-demand compaction wherever it is available.
+
+ただし、オンデマンド方式は `context_management` と同じリクエストでは使えません。
+
+> You can't combine `compaction` with `context_management` on one request.
+
+この記事では Tool の結果のクリアと組み合わせて比べたいので、クリアと同じく `context_management` に指定できる閾値方式を使います。
+クリアを使わない場合は、オンデマンド方式を検討するのがよいでしょう。
+
+```go
+if c.CompactTrigger > 0 {
+	p.Betas = append(p.Betas, anthropic.AnthropicBetaCompact2026_01_12)
+	p.ContextManagement.Edits = append(p.ContextManagement.Edits, anthropic.BetaContextManagementConfigEditUnionParam{
+		OfCompact20260112: &anthropic.BetaCompact20260112EditParam{
+			Trigger: anthropic.BetaInputTokensTriggerParam{Value: c.CompactTrigger},
+		},
+	})
+}
+```
+
+圧縮の要約を作るためのトークンは、レスポンスの `usage` のトップレベルには含まれず、`iterations` に `compaction` として記録されます。
+料金を集計するときは、こちらも足す必要があります。
+
+```go
+for _, it := range ru.Iterations {
+	if c, ok := it.AsAny().(anthropic.BetaCompactionIterationUsage); ok {
+		u.Compactions++
+		u.CompactionTokens += c.InputTokens + c.CacheCreationInputTokens + c.CacheReadInputTokens + c.OutputTokens
+	}
+}
+```
+
+`trigger` を最小の 50,000 トークンにして実行しました。
+
+```text
+$ go run . -repo ../openai-agents-python -n 1 -cache -compact 50000
+run 1: turns=4 calls=12 errors=0 input_tokens=58861 cache_read=10450 cache_write=48401 output_tokens=2026 peak_context=48403 clears=0 compactions=0 compaction_tokens=0 score=10/10
+```
+
+この実行では最大長が 48,403 トークンにとどまり、圧縮は一度も発動しませんでした。
+この実行の Agent は `agent.py` 全体を読まずに答えたので、コンテキストが閾値へ届く前に最終出力を返しています。
+
+{/* TODO: 10 回の計測で圧縮が発動したら、その結果とログを載せる */}
+
+### 閾値の決め方
+
+圧縮は会話全体を要約するので、細かい情報が失われます。また、要約を作るたびに Model を呼ぶ料金もかかります。
+クリアは古い Tool の結果を消すだけなので、Model の判断の経緯は会話に残ります。
+
+どちらの方法でも、消した情報は取り戻せません。Anthropic の「Scaling Managed Agents」は、次のように指摘しています。
+
+> But irreversible decisions to selectively retain or discard context can lead to failures. It is difficult to know which tokens the future turns will need.
+
+<ExLinkCard url="https://www.anthropic.com/engineering/managed-agents" />
+
+また、圧縮の要約を作るのは、コンテキストが最も長くなった時点の Model です。Claude Code のセッション管理を解説した記事では、context rot のため、圧縮するときの Model は最も賢くない状態にあると説明しています。
+
+> due to context rot, the model is at its least intelligent point when compacting.
+
+<ExLinkCard url="https://claude.com/blog/using-claude-code-session-management-and-1m-context" />
+
+このため、コンテキストウィンドウの上限ぎりぎりまで待たず、余裕のあるうちに発動させるほうが安全です。
+以上を踏まえて、閾値は次の順に設定するのがよいと考えています。
+
+1. ベースラインで最大長を計測し、Agent のコンテキストがどこまで伸びるかを確かめる
+2. 最大長より低い位置に、Tool の結果のクリアの閾値を置く。`clear_at_least` はキャッシュの書き込みを何度も繰り返さない程度に大きくする
+3. クリアしても伸び続ける長い作業に備えて、それより高い位置に圧縮の閾値を置く
+
+今回の質問は 5 ターン前後で終わるため、最大長は 5〜7 万トークンでした。
+圧縮の最小値の 50,000 トークンとほぼ同じなので、この規模の作業ではクリアで十分です。
+
+なお、Claude Fable 5.1、Claude Opus 5.5、Claude Sonnet 5.5 では、クライアント側で過去の会話を編集すると、それより後ろの thinking ブロックが無効になります。
+サーバー側のクリアや圧縮はこの影響を受けないため、会話を短くしたいときはクライアント側で編集するよりも API の機能を使うほうが安全です。
+
+> On Claude Fable 5.1, Claude Opus 5.5, and Claude Sonnet 5.5, server-side context management never invalidates thinking blocks. Client-side edits to earlier turns can invalidate the thinking blocks in every later assistant turn.
+
+## 消す前にメモリへ書き出す
+
+クリアや圧縮で消えた情報が後で必要になると、Agent はファイルを読み直します。
+Effective context engineering for AI agents では、Agent がコンテキストの外にメモを書き残し、後で読み戻す手法を structured note-taking と呼んでいます。
+
+> Structured note-taking, or agentic memory, is a technique where the agent regularly writes notes persisted to memory outside of the context window. These notes get pulled back into the context window at later times.
+
+Anthropic の API には、この手法のための Memory tool があります。
+
+<ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool" />
+
+### Memory tool の仕組み
+
+Memory tool は、クライアント側で実行する Tool です。
+Model は `/memories` ディレクトリに対して `view`、`create`、`str_replace`、`insert`、`delete`、`rename` の 6 つのコマンドを呼び、アプリケーションがそれを実際のストレージに対して実行します。
+
+Tool の定義は `{"type": "memory_20250818", "name": "memory"}` の指定だけで済みます。
+Memory tool を `tools` に含めると、API が次の指示をシステムプロンプトに自動で追加します。
+
+```text
+IMPORTANT: ALWAYS VIEW YOUR MEMORY DIRECTORY BEFORE DOING ANYTHING ELSE.
+MEMORY PROTOCOL:
+1. Use the `view` command of your `memory` tool to check for earlier progress.
+2. ... (work on the task) ...
+   - As you make progress, record status / progress / thoughts etc in your memory.
+ASSUME INTERRUPTION: Your context window might be reset at any moment, so you risk losing any progress that is not recorded in your memory directory.
+```
+
+また、Tool の結果のクリアと組み合わせると、コンテキストがクリアの閾値へ近づくと、Model に警告が届きます。
+
+> When your conversation context approaches the configured clearing threshold, Claude receives an automatic warning to preserve important information.
+
+警告がどの時点で、どのような形式で届くかは、ドキュメントに書かれていません。
+
+### Memory tool の実装
+
+Go の SDK には Memory tool のヘルパーがないため、6 つのコマンドを自前で実装しました。
+
+Model が渡すパスは信頼できません。`/memories/../../secrets.env` のようなパスでディレクトリの外へ出る操作を防ぎます。
+この実装では、Go の `os.Root` でメモリのディレクトリを開き、その外にあるファイルを操作できないようにしています。
+
+```go
+type Memory struct {
+	root *os.Root
+}
+
+func NewMemory(dir string) (*Memory, error) {
+	root, err := os.OpenRoot(dir)
+	if err != nil {
+		return nil, err
+	}
+	return &Memory{root: root}, nil
+}
+
+func (m *Memory) rel(p string) (string, error) {
+	if p != memoryDir && !strings.HasPrefix(p, memoryDir+"/") {
+		return "", fmt.Errorf("Error: The path %s must start with %s", p, memoryDir)
+	}
+	rel := strings.TrimPrefix(strings.TrimPrefix(p, memoryDir), "/")
+	if rel == "" {
+		return ".", nil
+	}
+	return rel, nil
+}
+```
+
+Model からの入力は、Go SDK の `BetaMemoryTool20250818CommandUnion` でデコードし、コマンドごとに処理を分けます。
+
+```go
+func (m *Memory) Run(cmd anthropic.BetaMemoryTool20250818CommandUnion) (string, error) {
+	switch c := cmd.AsAny().(type) {
+	case anthropic.BetaMemoryTool20250818ViewCommand:
+		return m.view(c.Path)
+	case anthropic.BetaMemoryTool20250818CreateCommand:
+		return m.create(c.Path, c.FileText)
+	case anthropic.BetaMemoryTool20250818StrReplaceCommand:
+		return m.strReplace(c.Path, c.OldStr, c.NewStr)
+	case anthropic.BetaMemoryTool20250818InsertCommand:
+		return m.insert(c.Path, int(c.InsertLine), c.InsertText)
+	case anthropic.BetaMemoryTool20250818DeleteCommand:
+		return m.delete(c.Path)
+	case anthropic.BetaMemoryTool20250818RenameCommand:
+		return m.rename(c.OldPath, c.NewPath)
+	}
+	return "", fmt.Errorf("Error: unknown command %q", cmd.Command)
+}
+```
+
+各コマンドの返す文字列は、ドキュメントで推奨されている文言に合わせています。
+
+### メモリの実行結果
+
+Tool の結果のクリアと同じ設定に、Memory tool を加えて実行しました。
+
+```text
+$ go run . -repo ../openai-agents-python -n 1 -cache -clear 40000 -clear-at-least 20000 -memory
+run 1: turns=8 calls=18 errors=0 input_tokens=217552 cache_read=90399 cache_write=127135 output_tokens=3086 peak_context=55512 clears=4 compactions=0 compaction_tokens=0 score=10/10
+```
+
+Memory tool の呼び出しだけを抜き出すと、次のとおりです。
+
+```text
+turn 1: memory {"command":"view","path":"/memories"}
+turn 4: memory {"command":"create","path":"/memories/progress.md","file_text":"q1 10 (run_config.py DEFAULT_MAX_TURNS); q2 MaxTurnsExceeded; q3 5 (server.py:1973 is MCPServerStdio, verify); q4 \"error_as_result\"; q5 \"Agent workflow\"; q6 \"raise_error\"\nq7 \"An error occurred while running the tool. Please try again.\"; q8 transfer_to_ + transform_string_function_style (verify lowercase->transfer_to_billing_agent); q9 InputGuardrailTripwireTriggered\nq10 TODO check agent.py ~line 396 (don't read whole tool.py - huge)\n"}
+turn 5: memory {"command":"str_replace","path":"/memories/progress.md","old_str":"q10 TODO","new_str":"VERIFIED: q3=5, q8 lowercase transform => transfer_to_billing_agent (don't read server.py again, huge)\nq10 TODO"}
+```
+
+Model は 1 ターン目でメモリを確認し、4 ターン目で `tool.py` や `mcp/server.py` を読んだ後に、q1 から q9 までの途中経過を書き出しています。
+最初のクリアは 5 ターン目なので、クリアの前に書き出せています。
+メモには「`tool.py` は大きいので全体を読まない」「`server.py` は読み直さない」といった、次の行動への注意も含まれていました。
+
+ただし、この実行ではターン数が 8 に増え、入力トークンの合計は 217,552、料金は約 $0.34 でした。
+メモリの読み書きでターンが増え、キャッシュの書き込みも 127,135 トークンと多くなっています。
+今回の質問は数ターンで終わるため、メモリの効果よりも呼び出しの増加が上回りました。
+コンテキストウィンドウを何度もまたぐような長い作業でこそ、途中経過を残す効果が出ると考えています。
+
+{/* TODO: 10 回の計測で、クリアのみとクリア + メモリの差を確かめる */}
+
+## Tool の定義を遅延読み込みする
+
+ここまでは会話を扱いましたが、Tool の定義もコンテキストを占めます。
+MCP サーバーを複数つなぐと、ユーザーの入力を読む前から多くのトークンを消費します。
+
+Anthropic の「Introducing advanced tool use」では、5 つの MCP サーバーの例を挙げています。
+
+> That's 58 tools consuming approximately 55K tokens before the conversation even starts.
+
+<ExLinkCard url="https://www.anthropic.com/engineering/advanced-tool-use" />
+
+### Tool の定義のトークン数
+
+リポジトリ調査 Agent に、GitHub、Slack、Sentry、Linear、Grafana、Notion を模した 40 個の Tool を追加しました。
+いずれも今回の質問には使わない Tool で、呼ばれたらエラーを返します。
+
+```go
+var extraToolSpecs = []extraTool{
+	{"github_list_issues", "GitHub リポジトリの Issue を一覧します。状態やラベルで絞り込めます。", map[string]string{"owner": "リポジトリのオーナー", "repo": "リポジトリ名", "state": "open、closed、all のいずれか", "labels": "カンマ区切りのラベル名"}},
+	{"github_get_issue", "GitHub の Issue の本文とコメントを取得します。", map[string]string{"owner": "リポジトリのオーナー", "repo": "リポジトリ名", "issue_number": "Issue の番号"}},
+	// ...
+}
+```
+
+Messages API の count_tokens で、1 回目のリクエストの入力トークンを数えた結果は次のとおりです。
+
+| Tool | 入力トークン |
+| --- | ---: |
+| なし | 454 |
+| リポジトリ用の 3 個 | 1,173 |
+| 3 個 + 追加の 40 個 | 7,189 |
+| 3 個 + 追加の 40 個を遅延読み込み | 1,558 |
+
+追加した 40 個の定義は約 6,000 トークンです。使わない Tool でも、毎ターンこの分を送り直すことになります。
+
+### Tool Search
+
+Anthropic の Tool Search を使うと、Tool の定義を必要になるまで読み込まないようにできます。
+Tool に `defer_loading: true` を付け、`tools` に Tool Search の Tool を加えます。
+
+<ExLinkCard url="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool" />
+
+```go
+if a.ToolSearch {
+	tools = append(tools, anthropic.BetaToolUnionParam{OfToolSearchToolRegex20251119: &anthropic.BetaToolSearchToolRegex20251119Param{
+		Type: anthropic.BetaToolSearchToolRegex20251119TypeToolSearchToolRegex20251119,
+	}})
+}
+```
+
+```go
+if t.Deferred {
+	p.DeferLoading = anthropic.Bool(true)
+}
+```
+
+`defer_loading: true` を付けた Tool は、リクエストの `tools` に含めて送りますが、先頭のプロンプトからは除かれます。
+Model が Tool Search で見つけた Tool だけが、会話の中に定義として追加されます。
+先頭が変わらないので、プロンプトキャッシュも保たれます。
+
+> The prefix is untouched, so prompt caching is preserved.
+
+Anthropic のコスト削減の記事でも、めったに使わない Tool は `defer_loading` にして、キャッシュする先頭部分から外すよう勧めています。
+
+> Defer rarely used tools. Declare all your tools up front but mark the rarely used ones defer_loading: they stay out of the cached prefix and are appended into the conversation only when Claude looks them up with tool search, so the cache is preserved.
+
+<ExLinkCard url="https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform" />
+
+Tool Search のほかにも、キャッシュを保ったまま会話の途中で Tool を増減する機能が beta で追加されています。
+2026 年 7 月には `tools` を書き換えずに Tool を追加・削除できる mid-conversation tool changes が、9 月には会話の途中の system メッセージの中で Tool を定義できる inline tools が加わりました。
+
+上の表のとおり、遅延読み込みにすると 40 個の定義の分がなくなり、Tool Search の Tool の分の 385 トークンが増えるだけになりました。
+
+### Tool Search の実行結果
+
+追加の 40 個をそのまま読み込んだ場合と、遅延読み込みにした場合を実行しました。
+
+```text
+$ go run . -repo ../openai-agents-python -n 1 -cache -extra-tools
+run 1: turns=5 calls=15 errors=0 input_tokens=200298 cache_read=138717 cache_write=61569 output_tokens=2414 peak_context=61571 clears=0 compactions=0 compaction_tokens=0 score=10/10
+$ go run . -repo ../openai-agents-python -n 1 -cache -tool-search
+run 1: turns=4 calls=16 errors=0 input_tokens=53751 cache_read=21737 cache_write=32004 output_tokens=2396 peak_context=32006 clears=0 compactions=0 compaction_tokens=0 score=10/10
+```
+
+どちらも 10 問すべてに正解しました。遅延読み込みにした実行では、Model は Tool Search を一度も呼ばず、40 個の定義は最後まで読み込まれませんでした。
+
+入力トークンの合計には大きな差がありますが、そのほとんどは Agent が読んだファイルの違いによるものです。
+Tool Search を使った実行では `tool.py` を読まずに答えています。
+Tool の定義の差は 1 ターンあたり約 6,000 トークンなので、5 ターンでおよそ 30,000 トークンです。
+
+なお、Claude Code は設定を変えなければ MCP サーバーの Tool をすべて遅延読み込みにします。
+
+<ExLinkCard url="https://code.claude.com/docs/en/mcp" />
+
+### Code Execution
+
+Tool の結果をコンテキストに入れない方法として、Model が書いたコードの中から Tool を呼ばせる方法もあります。
+Anthropic の「Code execution with MCP」では、Tool の中間結果を実行環境の中で処理し、必要な結果だけを Model に返すことで、トークンが 150,000 から 2,000 に減った例を紹介しています。
+
+> This reduces the token usage from 150,000 tokens to 2,000 tokens—a time and cost saving of 98.7%.
+
+<ExLinkCard url="https://www.anthropic.com/engineering/code-execution-with-mcp" />
+
+Messages API では、Programmatic Tool Calling として、code execution の Tool から自前の Tool を呼べるようになっています。
+Cloudflare も同じ考え方を Code Mode として公開しています。
+
+<ExLinkCard url="https://blog.cloudflare.com/code-mode/" />
+
+## 対策の選び方
+
+ベースライン、キャッシュ、クリアの結果を並べると、次のとおりです。
+
+| パターン | ターン数 | 入力トークン | 最大長 | 入力の料金 | 正解数 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ベースライン | 5 | 183,957 | 71,682 | $0.368 | 10 |
+| キャッシュ | 5 | 171,011 | 55,953 | $0.163 | 10 |
+| キャッシュ + クリア | 6 | 117,262 | 28,856 | $0.094 | 10 |
+
+キャッシュは料金を、クリアはコンテキストの最大長を減らしました。
+圧縮、メモリ、Tool Search の結果は、Agent が読んだファイルの違いによる差が大きいため、表には含めていません。それぞれのセクションの説明を参照してください。
+
+{/* TODO: 10 回の計測の平均に差し替え、圧縮、メモリ、Tool Search の行も加える */}
+
+プロンプトキャッシュは、Agent の動きを変えずに料金を下げられるので、最初に入れる対策です。
+そのうえで、ベースラインのログと最大長を見て、何がコンテキストを占めているかを確かめてから、クリアや圧縮の閾値を決めます。
+
+冒頭の表に挙げたサブ Agent は、この記事では計測していない対策です。
+サブ Agent は自分のコンテキストウィンドウで調査を進め、親の Agent には結果の要約だけを返します。
+読んだファイルの中身は親のコンテキストに入らないので、今回のように多くのファイルを読む作業を切り出すと、親のコンテキストを小さく保てます。
+Effective context engineering for AI agents でも、圧縮や structured note-taking と並ぶ手法として紹介されています。
+
+> specialized sub-agents can handle focused tasks with clean context windows. ... returns only a condensed, distilled summary of its work (often 1,000-2,000 tokens).
+
+ただし、サブ Agent はそれぞれが自分のコンテキストで調査するため、全体のトークンは増えます。Anthropic の Multi-Agent の記事では、同じ作業で 3〜10 倍のトークンを使うと報告しています。
+
+> In our testing, multi-agent implementations typically use 3-10x more tokens than single-agent approaches for equivalent tasks.
+
+<ExLinkCard url="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" />
+
+サブ Agent の使いどころは、5 本目の Multi-Agent の記事で扱います。
+
+## OpenAI の対応する機能
+
+ここまで Anthropic の API を使ってきましたが、OpenAI の Responses API にも対応する機能があります。
+
+プロンプトキャッシュは、何も指定しなくても有効です。GPT-5.6 以降では、キャッシュの有効期間が 30 分、書き込みは 1.25 倍、読み込みは多くのモデルで 0.1 倍です。
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/prompt-caching" />
+
+Responses API は `previous_response_id` を指定すると、会話をサーバー側で引き継げます。
+ただし、会話を送り直さなくてよくなるだけで、過去の入力も毎回課金されます。
+
+> Even when using `previous_response_id`, all previous input tokens for responses in the chain are billed as input tokens in the API.
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/conversation-state" />
+
+会話の圧縮には、`context_management` に `compact_threshold` を指定するサーバー側の圧縮と、`/responses/compact` のエンドポイントがあります。
+圧縮の結果は、暗号化された compaction アイテムとして返ります。
+
+<ExLinkCard url="https://developers.openai.com/api/docs/guides/compaction" />
+
+一方で、Tool の結果だけをクリアする機能は見当たりませんでした。
+`truncation: "auto"` を指定すると、コンテキストウィンドウを超えたときに会話の先頭から削られますが、古い Tool の結果を選んで消す機能ではありません。
+
+## おわりに
+
+この記事では、リポジトリ調査 Agent を題材に、プロンプトキャッシュ、Tool の結果のクリア、会話の圧縮、メモリ、Tool Search を比べました。
+
+プロンプトキャッシュで入力の料金は $0.37 から $0.16 に下がり、Tool の結果のクリアを加えると、コンテキストの最大長は約 72,000 から約 29,000 トークンに減りました。
+一方で、圧縮の閾値に届かない短い作業や、メモリの読み書きでターンが増える作業もあり、ログで Agent の動きを確かめながら閾値を決める必要があります。
+
+次回の記事では、Agent Loop を回す場所であるハーネスについてまとめようと思います。
