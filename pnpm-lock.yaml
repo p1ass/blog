@@ -12,11 +12,11 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       hono:
-        specifier: ^4.13.11
-        version: 4.13.11
+        specifier: ^4.13.13
+        version: 4.13.13
       honox:
-        specifier: 0.1.61
-        version: 0.1.61(hono@4.13.11)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1))
+        specifier: 0.1.62
+        version: 0.1.62(hono@4.13.13)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1))
       rehype-mermaid:
         specifier: ^3.0.0
         version: 3.0.0(playwright@1.63.0)(supports-color@10.2.2)
@@ -24,8 +24,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1(supports-color@10.2.2)
       zod:
-        specifier: ^4.6.5
-        version: 4.6.5
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@biomejs/biome':
         specifier: 2.5.14
@@ -35,10 +35,10 @@ importers:
         version: 5.20260924.1
       '@hono/vite-cloudflare-pages':
         specifier: ^0.4.3
-        version: 0.4.3(hono@4.13.11)
+        version: 0.4.3(hono@4.13.13)
       '@hono/vite-ssg':
         specifier: 0.3.3
-        version: 0.3.3(hono@4.13.11)
+        version: 0.3.3(hono@4.13.13)
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1(supports-color@10.2.2)
@@ -2587,15 +2587,15 @@ packages:
     resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
     engines: {node: '>=12.0.0'}
 
-  hono@4.13.11:
-    resolution: {integrity: sha512-/SMX/RQNJn7oNmFwH6DtwDqcrzZU2otm1FD6OJe2cWF6cfy/F8hq0XVBv7xW3FTJshRQwuBnXHDq2kNsdZnshg==}
+  hono@4.13.13:
+    resolution: {integrity: sha512-CQ46U0ZkAGmbT/4UxdzzGJpacP2IeKgY4a5/tOI9AABbpOMfK739wfDXmv1usCk+3RkKj1hQy4/fjhiwa2xlrA==}
     engines: {node: '>=16.9.0'}
 
-  honox@0.1.61:
-    resolution: {integrity: sha512-HMvVTyAIJYIWjHUvdowQvnMVA3I1HKeKD71TVCAKiTdUI+xU7cYRryMK+ASmnRb7lFV6Yak4/d1VqXjJnEYSvg==}
+  honox@0.1.62:
+    resolution: {integrity: sha512-fPvoP9MhjMA38gM+NhfOZTFOcxMeI764l+k5o79gETOcpobzkSLrPZnx2JlVLAbaj0LuUrMjcN5Lh3acAEgCUg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
-      hono: '>=4.*'
+      hono: '>=4.* || ^5.0.0-0'
 
   hookified@1.15.1:
     resolution: {integrity: sha512-MvG/clsADq1GPM2KGo2nyfaWVyn9naPiXrqIe4jYjXNZQt238kWyOGrsyc/DmRAQ+Re6yeo6yX/yoNCG5KAEVg==}
@@ -4572,8 +4572,8 @@ packages:
   zlibjs@0.3.1:
     resolution: {integrity: sha512-+J9RrgTKOmlxFSDHo0pI1xM6BLVUv+o0ZT9ANtCxGkjIVCCUdx9alUF8Gm+dGLKbkkkidWIHFDZHDMpfITt4+w==}
 
-  zod@4.6.5:
-    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
+  zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
@@ -4873,26 +4873,26 @@ snapshots:
 
   '@fortawesome/fontawesome-free@6.5.2': {}
 
-  '@hono/node-server@1.19.17(hono@4.13.11)':
+  '@hono/node-server@1.19.17(hono@4.13.13)':
     dependencies:
-      hono: 4.13.11
+      hono: 4.13.13
 
-  '@hono/vite-cloudflare-pages@0.4.3(hono@4.13.11)':
+  '@hono/vite-cloudflare-pages@0.4.3(hono@4.13.13)':
     dependencies:
-      hono: 4.13.11
+      hono: 4.13.13
 
-  '@hono/vite-dev-server@0.25.3(hono@4.13.11)(miniflare@4.20260124.0)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1))':
+  '@hono/vite-dev-server@0.25.3(hono@4.13.13)(miniflare@4.20260124.0)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1))':
     dependencies:
-      '@hono/node-server': 1.19.17(hono@4.13.11)
-      hono: 4.13.11
+      '@hono/node-server': 1.19.17(hono@4.13.13)
+      hono: 4.13.13
       minimatch: 9.0.5
     optionalDependencies:
       miniflare: 4.20260124.0
       wrangler: 4.139.0(@cloudflare/workers-types@5.20260924.1)
 
-  '@hono/vite-ssg@0.3.3(hono@4.13.11)':
+  '@hono/vite-ssg@0.3.3(hono@4.13.13)':
     dependencies:
-      hono: 4.13.11
+      hono: 4.13.13
 
   '@iconify/types@2.0.0': {}
 
@@ -5218,12 +5218,12 @@ snapshots:
 
   '@modelcontextprotocol/core@2.3.1':
     dependencies:
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@modelcontextprotocol/server@2.3.1':
     dependencies:
       '@modelcontextprotocol/core': 2.3.1
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7044,16 +7044,16 @@ snapshots:
 
   highlight.js@11.11.1: {}
 
-  hono@4.13.11: {}
+  hono@4.13.13: {}
 
-  honox@0.1.61(hono@4.13.11)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1)):
+  honox@0.1.62(hono@4.13.13)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1)):
     dependencies:
       '@babel/generator': 7.29.1
       '@babel/parser': 7.29.3
       '@babel/traverse': 7.29.0(supports-color@10.2.2)
       '@babel/types': 7.29.0
-      '@hono/vite-dev-server': 0.25.3(hono@4.13.11)(miniflare@4.20260124.0)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1))
-      hono: 4.13.11
+      '@hono/vite-dev-server': 0.25.3(hono@4.13.13)(miniflare@4.20260124.0)(wrangler@4.139.0(@cloudflare/workers-types@5.20260924.1))
+      hono: 4.13.13
       jsonc-parser: 3.3.1
       precinct: 12.2.0(supports-color@10.2.2)
     optionalDependencies:
@@ -9549,7 +9549,7 @@ snapshots:
       rc-config-loader: 4.1.4(supports-color@10.2.2)
       read-package-up: 11.0.0
       structured-source: 4.0.0
-      zod: 4.6.5
+      zod: 4.6.7
     transitivePeerDependencies:
       - supports-color
 
@@ -10041,7 +10041,7 @@ snapshots:
 
   zlibjs@0.3.1: {}
 
-  zod@4.6.5: {}
+  zod@4.6.7: {}
 
   zwitch@1.0.5: {}
 
