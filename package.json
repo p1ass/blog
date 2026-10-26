@@ -21,11 +21,11 @@
   "private": true,
   "dependencies": {
     "@formkit/tempo": "^1.1.0",
-    "hono": "^4.13.11",
-    "honox": "0.1.61",
+    "hono": "^4.13.13",
+    "honox": "0.1.62",
     "rehype-mermaid": "^3.0.0",
     "remark-gfm": "^4.0.1",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
