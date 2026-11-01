@@ -24,6 +24,9 @@ export default defineConfig(({ mode }) => {
       process.env.NODE_ENV === 'production' ? 'https://blog.p1ass.com' : '/',
     build: {
       emptyOutDir: false,
+      // SVG を data URI に埋め込むと、画像を開くリンクが機能しなくなるため。
+      assetsInlineLimit: (filePath: string) =>
+        filePath.endsWith('.svg') ? false : undefined,
     },
     server: {
       watch: {
@@ -40,7 +43,7 @@ export default defineConfig(({ mode }) => {
         devServer: {
           exclude: [
             ...devServerDefaultOptions.exclude,
-            /^\/app\/routes\/posts\/.+\.(png|jpe?g|webp)$/i,
+            /^\/app\/routes\/posts\/.+\.(png|jpe?g|webp|svg)$/i,
           ],
         },
       }),
@@ -61,6 +64,7 @@ export default defineConfig(({ mode }) => {
               './app/routes/posts/**/*.jpg',
               './app/routes/posts/**/*.jpeg',
               './app/routes/posts/**/*.webp',
+              './app/routes/posts/**/*.svg',
             ],
             dest: 'posts',
             rename: { stripBase: 3 },
