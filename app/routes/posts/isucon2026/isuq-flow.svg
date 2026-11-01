@@ -12,13 +12,13 @@
   </defs>
   <rect width="1200" height="600" fill="#ffffff"/>
 
-  <text x="115" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">implementer</text>
+  <text x="115" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">実装の Agent</text>
   <g font-size="16" text-anchor="middle" fill="#1e2126">
-    <rect x="40" y="64" width="150" height="56" rx="8" fill="#ffffff" stroke="#8d97a5" stroke-width="1.5"/>
+    <rect x="40" y="64" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
     <text x="115" y="98">インフラ担当</text>
-    <rect x="40" y="136" width="150" height="56" rx="8" fill="#ffffff" stroke="#8d97a5" stroke-width="1.5"/>
+    <rect x="40" y="136" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
     <text x="115" y="170">アプリ担当</text>
-    <rect x="40" y="208" width="150" height="56" rx="8" fill="#ffffff" stroke="#8d97a5" stroke-width="1.5"/>
+    <rect x="40" y="208" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
     <text x="115" y="242">司令塔</text>
   </g>
   <g stroke="#636e7d" stroke-width="2" fill="none">
@@ -29,30 +29,30 @@
   <text x="270" y="170" font-size="15" fill="#636e7d" text-anchor="middle">ジョブ</text>
 
   <text x="735" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">isuq</text>
-  <rect x="300" y="60" width="870" height="250" rx="14" fill="#f9f9fa" stroke="#4172b5" stroke-width="2"/>
+  <rect x="300" y="60" width="870" height="250" rx="14" fill="#ffffff" stroke="#42464c" stroke-width="2"/>
   <path d="M250,180 L314,180" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
 
   <text x="398" y="96" font-size="16" fill="#1e2126" font-weight="bold" text-anchor="middle">キュー</text>
-  <rect x="318" y="108" width="160" height="182" rx="10" fill="#ffffff" stroke="#dde0e4" stroke-width="1.5"/>
+  <rect x="318" y="108" width="160" height="182" rx="10" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
   <g font-size="15" fill="#1e2126">
-    <rect x="330" y="120" width="136" height="38" rx="6" fill="#ffffff" stroke="#8d97a5"/>
+    <rect x="330" y="120" width="136" height="38" rx="6" fill="#ffffff" stroke="#c0c6ce"/>
     <text x="344" y="145">ジョブ #136</text>
-    <rect x="330" y="166" width="136" height="38" rx="6" fill="#ffffff" stroke="#8d97a5"/>
+    <rect x="330" y="166" width="136" height="38" rx="6" fill="#ffffff" stroke="#c0c6ce"/>
     <text x="344" y="191">ジョブ #135</text>
-    <rect x="330" y="212" width="136" height="38" rx="6" fill="#ffffff" stroke="#8d97a5"/>
+    <rect x="330" y="212" width="136" height="38" rx="6" fill="#ffffff" stroke="#c0c6ce"/>
     <text x="344" y="237">ジョブ #134</text>
     <text x="398" y="276" text-anchor="middle" fill="#636e7d">⋮</text>
   </g>
 
   <path d="M480,180 L530,180" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
   <g font-size="16" text-anchor="middle" fill="#1e2126">
-    <rect x="536" y="152" width="128" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <rect x="536" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="600" y="186">マージとビルド</text>
-    <rect x="688" y="152" width="128" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <rect x="688" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="752" y="186">presubmit</text>
-    <rect x="840" y="152" width="128" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <rect x="840" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="904" y="186">全台にデプロイ</text>
-    <rect x="992" y="152" width="128" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <rect x="992" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="1056" y="186">ベンチ</text>
   </g>
   <g stroke="#636e7d" stroke-width="2" marker-end="url(#a)">
@@ -69,7 +69,7 @@
   <path d="M966,440 L866,440" stroke="#1f7a3d" stroke-width="2" marker-end="url(#g)"/>
   <text x="916" y="428" font-size="15" fill="#1f7a3d" text-anchor="middle">合格</text>
   <rect x="646" y="412" width="216" height="56" rx="8" fill="#e8f6ec" stroke="#1f7a3d" stroke-width="1.5"/>
-  <text x="754" y="446" font-size="16" text-anchor="middle" fill="#1e2126">main を進める</text>
+  <text x="754" y="446" font-size="16" text-anchor="middle" fill="#1e2126">main にマージ</text>
 
   <path d="M1056,502 L1056,540 L866,540" fill="none" stroke="#535a65" stroke-width="2" marker-end="url(#r)"/>
   <text x="961" y="530" font-size="15" fill="#535a65" text-anchor="middle">不合格</text>
