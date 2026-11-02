@@ -16,9 +16,9 @@
   <text x="115" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">実装の Agent</text>
   <g font-size="16" text-anchor="middle" fill="#1e2126">
     <rect x="40" y="64" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
-    <text x="115" y="98">インフラ担当</text>
+    <text x="115" y="98">実装担当 A</text>
     <rect x="40" y="136" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
-    <text x="115" y="170">アプリ担当</text>
+    <text x="115" y="170">実装担当 B</text>
     <rect x="40" y="208" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
     <text x="115" y="242">司令塔</text>
   </g>
@@ -68,12 +68,12 @@
   <text x="1056" y="456" font-size="15" text-anchor="middle" fill="#1e2126">97% 以上?</text>
 
   <path d="M966,440 L866,440" stroke="#1f7a3d" stroke-width="2" marker-end="url(#g)"/>
-  <text x="916" y="428" font-size="15" fill="#1f7a3d" font-weight="bold" text-anchor="middle">合格</text>
+  <text x="916" y="428" font-size="15" fill="#1f7a3d" font-weight="bold" text-anchor="middle">はい</text>
   <rect x="646" y="412" width="216" height="56" rx="8" fill="#e8f6ec" stroke="#1f7a3d" stroke-width="1.5"/>
   <text x="754" y="446" font-size="16" text-anchor="middle" fill="#1e2126">main にマージ</text>
 
   <path d="M1056,502 L1056,540 L866,540" fill="none" stroke="#535a65" stroke-width="2" marker-end="url(#r)"/>
-  <text x="961" y="530" font-size="15" fill="#535a65" font-weight="bold" text-anchor="middle">不合格</text>
+  <text x="961" y="530" font-size="15" fill="#535a65" font-weight="bold" text-anchor="middle">いいえ</text>
   <rect x="646" y="512" width="216" height="56" rx="8" fill="#f9f9fa" stroke="#535a65" stroke-width="1.5"/>
   <text x="754" y="546" font-size="16" text-anchor="middle" fill="#1e2126">レポートだけ返す</text>
   <path d="M644,540 L115,540 L115,270" fill="none" stroke="#8d97a5" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#a)"/>
