@@ -16,7 +16,7 @@
   <text x="730" y="288" font-size="22" fill="#4172b5" font-weight="bold" text-anchor="middle">改善のループ</text>
     <g font-size="19" text-anchor="middle">
     <rect x="370" y="50" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
-    <text x="495" y="99" fill="#1e2126" font-weight="bold">司令塔の Agent</text>
+    <text x="495" y="99" fill="#1e2126" font-weight="bold">方針担当の Agent</text>
     <rect x="840" y="50" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
     <text x="965" y="99" fill="#1e2126" font-weight="bold">実装の Agent</text>
     <rect x="840" y="426" width="250" height="84" rx="10" fill="#ffffff" stroke="#42464c" stroke-width="2"/>

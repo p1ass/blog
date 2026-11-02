@@ -20,7 +20,7 @@
     <rect x="40" y="136" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
     <text x="115" y="170">実装担当 B</text>
     <rect x="40" y="208" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
-    <text x="115" y="242">司令塔</text>
+    <text x="115" y="242">方針担当</text>
   </g>
   <g stroke="#636e7d" stroke-width="2" fill="none">
     <path d="M192,92 C226,92 226,180 250,180"/>
