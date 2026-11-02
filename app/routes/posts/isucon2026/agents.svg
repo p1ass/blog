@@ -22,7 +22,9 @@
     <rect x="850" y="80" width="280" height="72" rx="10"/>
   </g>
   <g fill="#ffffff" stroke="#4172b5" stroke-width="2" stroke-dasharray="6 4">
-    <rect x="70" y="230" width="280" height="72" rx="10"/>
+    <rect x="90" y="250" width="260" height="72" rx="10"/>
+    <rect x="80" y="240" width="260" height="72" rx="10"/>
+    <rect x="70" y="230" width="260" height="72" rx="10"/>
     <rect x="480" y="250" width="260" height="72" rx="10"/>
     <rect x="470" y="240" width="260" height="72" rx="10"/>
     <rect x="460" y="230" width="260" height="72" rx="10"/>
@@ -34,17 +36,18 @@
     <text x="210" y="123">方針担当の Agent</text>
     <text x="600" y="123">実装担当の Agent</text>
     <text x="990" y="123">実装担当の Agent</text>
-    <text x="210" y="273">分析のサブエージェント</text>
+    <text x="200" y="273">分析のサブエージェント</text>
     <text x="590" y="273">実装のサブエージェント</text>
     <text x="980" y="273">実装のサブエージェント</text>
   </g>
   <g stroke="#4172b5" stroke-width="3" fill="none" marker-end="url(#arrowB)">
-    <path d="M210,154 L210,226"/>
+    <path d="M200,154 L200,226"/>
     <path d="M590,154 L590,226"/>
     <path d="M980,154 L980,226"/>
   </g>
   <g font-size="16" fill="#636e7d" font-weight="bold">
-    <text x="224" y="196">ベンチごとに起動する</text>
+    <text x="214" y="184">main の更新ごとに</text>
+    <text x="214" y="206">起動する</text>
     <text x="604" y="196">タスクごとに起動する</text>
     <text x="994" y="196">タスクごとに起動する</text>
   </g>

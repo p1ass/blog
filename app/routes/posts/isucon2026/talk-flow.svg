@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>会話の文字起こしの流れ</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#636e7d"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="340" fill="#ffffff"/>
+  <g fill="#f9f9fa" stroke-width="2">
+    <rect x="20" y="20" width="390" height="300" rx="20" stroke="#cfe2fc"/>
+    <rect x="490" y="20" width="400" height="300" rx="20" stroke="#42464c"/>
+  </g>
+  <g font-size="18" font-weight="bold" text-anchor="middle">
+    <text x="215" y="56" fill="#4172b5">@atrn0 の Mac</text>
+    <text x="690" y="56" fill="#1e2126">isuq</text>
+  </g>
+  <g fill="#e8f5fe" stroke="#4172b5" stroke-width="2">
+    <rect x="45" y="138" width="130" height="64" rx="10"/>
+    <rect x="235" y="138" width="150" height="64" rx="10"/>
+    <rect x="950" y="138" width="220" height="64" rx="10"/>
+  </g>
+  <g fill="#ffffff" stroke="#42464c" stroke-width="1.5">
+    <rect x="520" y="78" width="340" height="56" rx="8"/>
+    <rect x="520" y="148" width="340" height="56" rx="8"/>
+    <rect x="520" y="218" width="340" height="56" rx="8"/>
+  </g>
+  <g font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">
+    <text x="110" y="177">マイク</text>
+    <text x="310" y="167">文字起こし</text>
+    <text x="1060" y="177">方針担当の Agent</text>
+  </g>
+  <text x="310" y="190" font-size="14" fill="#636e7d" text-anchor="middle">Qwen3-ASR</text>
+  <g font-size="16" fill="#1e2126" text-anchor="middle">
+    <text x="690" y="112">書き起こしの資料（時刻付き）</text>
+    <text x="690" y="182">要約の資料（2 分ごとに上書き）</text>
+    <text x="690" y="252">アイデア（起票者 talk）</text>
+  </g>
+  <g stroke="#636e7d" stroke-width="2" fill="none" marker-end="url(#a)">
+    <path d="M177,170 L231,170"/>
+    <path d="M387,170 C450,170 450,106 516,106"/>
+    <path d="M387,170 L516,176"/>
+    <path d="M387,170 C450,170 450,246 516,246"/>
+    <path d="M862,176 L946,172"/>
+    <path d="M862,246 C910,246 910,190 946,186"/>
+  </g>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>見積もりの区分ごとの、5% 以上伸びたジョブの割合</title>
+  <rect width="1200" height="300" fill="#ffffff"/>
+  <g stroke="#e3e6ea" stroke-width="1">
+    <path d="M320,30 L320,250"/>
+    <path d="M500,30 L500,250"/>
+    <path d="M680,30 L680,250"/>
+    <path d="M860,30 L860,250"/>
+    <path d="M1040,30 L1040,250"/>
+  </g>
+  <g font-size="14" fill="#636e7d" text-anchor="middle">
+    <text x="320" y="278">0%</text>
+    <text x="500" y="278">10%</text>
+    <text x="680" y="278">20%</text>
+    <text x="860" y="278">30%</text>
+    <text x="1040" y="278">40%</text>
+  </g>
+  <g font-size="18" fill="#1e2126" font-weight="bold" text-anchor="end">
+    <text x="300" y="76">+30% 以上</text>
+    <text x="300" y="146">+10〜30%</text>
+    <text x="300" y="216">+10% 未満</text>
+  </g>
+  <g font-size="14" fill="#636e7d" text-anchor="end">
+    <text x="300" y="98">48 件</text>
+    <text x="300" y="168">41 件</text>
+    <text x="300" y="238">26 件</text>
+  </g>
+  <g fill="#4172b5">
+    <rect x="320" y="58" width="720" height="36" rx="4"/>
+    <rect x="320" y="128" width="216" height="36" rx="4"/>
+    <rect x="320" y="198" width="270" height="36" rx="4"/>
+  </g>
+  <g font-size="18" fill="#1e2126" font-weight="bold">
+    <text x="1052" y="83">40%</text>
+    <text x="548" y="153">12%</text>
+    <text x="602" y="223">15%</text>
+  </g>
+</svg>
