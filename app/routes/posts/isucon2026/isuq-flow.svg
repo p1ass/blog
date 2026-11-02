@@ -13,7 +13,7 @@
   </defs>
   <rect width="1200" height="600" fill="#ffffff"/>
 
-  <text x="115" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">実装の Agent</text>
+  <text x="115" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">各担当の Agent</text>
   <g font-size="16" text-anchor="middle" fill="#1e2126">
     <rect x="40" y="64" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
     <text x="115" y="98">実装担当 A</text>

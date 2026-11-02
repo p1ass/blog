@@ -17,18 +17,20 @@
     <g font-size="19" text-anchor="middle">
     <rect x="370" y="50" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
     <text x="495" y="99" fill="#1e2126" font-weight="bold">方針担当の Agent</text>
+    <rect x="850" y="60" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
     <rect x="840" y="50" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
-    <text x="965" y="99" fill="#1e2126" font-weight="bold">実装の Agent</text>
+    <text x="965" y="88" fill="#1e2126" font-weight="bold">実装担当の Agent</text>
+    <text x="965" y="114" fill="#1e2126" font-weight="bold" font-size="16">A・B</text>
     <rect x="840" y="426" width="250" height="84" rx="10" fill="#ffffff" stroke="#42464c" stroke-width="2"/>
     <text x="965" y="475" fill="#1e2126" font-weight="bold">isuq</text>
     <rect x="370" y="426" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
-    <text x="495" y="475" fill="#1e2126" font-weight="bold">分析の Agent</text>
+    <text x="495" y="475" fill="#1e2126" font-weight="bold">分析のサブエージェント</text>
     <rect x="40" y="50" width="160" height="84" rx="10" fill="#fff4e5" stroke="#a35b00" stroke-width="2"/>
     <text x="120" y="99" fill="#1e2126" font-weight="bold">人間</text>
   </g>
     <g stroke="#4172b5" stroke-width="3" fill="none" marker-end="url(#arrowB)">
     <path d="M622,92 L836,92"/>
-    <path d="M965,136 L965,422"/>
+    <path d="M965,146 L965,422"/>
     <path d="M838,468 L624,468"/>
     <path d="M495,424 L495,138"/>
   </g>
