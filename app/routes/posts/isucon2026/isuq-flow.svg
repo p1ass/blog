@@ -26,7 +26,7 @@
     <path d="M192,164 C226,164 226,180 250,180"/>
     <path d="M192,236 C226,236 226,180 250,180"/>
   </g>
-  <text x="270" y="170" font-size="15" fill="#636e7d" text-anchor="middle">ジョブ</text>
+  <text x="270" y="170" font-size="15" fill="#636e7d" font-weight="bold" text-anchor="middle">ジョブ</text>
 
   <text x="735" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">isuq</text>
   <rect x="300" y="60" width="870" height="250" rx="14" fill="#ffffff" stroke="#42464c" stroke-width="2"/>
@@ -67,12 +67,12 @@
   <text x="1056" y="456" font-size="15" text-anchor="middle" fill="#1e2126">97% 以上?</text>
 
   <path d="M966,440 L866,440" stroke="#1f7a3d" stroke-width="2" marker-end="url(#g)"/>
-  <text x="916" y="428" font-size="15" fill="#1f7a3d" text-anchor="middle">合格</text>
+  <text x="916" y="428" font-size="15" fill="#1f7a3d" font-weight="bold" text-anchor="middle">合格</text>
   <rect x="646" y="412" width="216" height="56" rx="8" fill="#e8f6ec" stroke="#1f7a3d" stroke-width="1.5"/>
   <text x="754" y="446" font-size="16" text-anchor="middle" fill="#1e2126">main にマージ</text>
 
   <path d="M1056,502 L1056,540 L866,540" fill="none" stroke="#535a65" stroke-width="2" marker-end="url(#r)"/>
-  <text x="961" y="530" font-size="15" fill="#535a65" text-anchor="middle">不合格</text>
+  <text x="961" y="530" font-size="15" fill="#535a65" font-weight="bold" text-anchor="middle">不合格</text>
   <rect x="646" y="512" width="216" height="56" rx="8" fill="#f9f9fa" stroke="#535a65" stroke-width="1.5"/>
   <text x="754" y="546" font-size="16" text-anchor="middle" fill="#1e2126">レポートだけ返す</text>
   <path d="M644,540 L115,540 L115,270" fill="none" stroke="#8d97a5" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#a)"/>

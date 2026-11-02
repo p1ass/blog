@@ -31,12 +31,12 @@
     <path d="M838,468 L624,468"/>
     <path d="M495,424 L495,138"/>
   </g>
-  <g font-size="16" fill="#636e7d" text-anchor="middle">
+  <g font-size="16" fill="#636e7d" font-weight="bold" text-anchor="middle">
     <text x="729" y="80">タスクを割り当てる</text>
     <text x="985" y="220" text-anchor="start">ジョブを実行する</text>
     <text x="729" y="456">レポートを渡す</text>
     <text x="515" y="220" text-anchor="start">タスクを提案する</text>
   </g>
     <path d="M202,92 L366,92" stroke="#a35b00" stroke-width="3" fill="none" stroke-dasharray="8 6" marker-end="url(#arrowO)"/>
-  <text x="284" y="78" font-size="16" fill="#636e7d" text-anchor="middle">アイデアを伝える</text>
+  <text x="284" y="78" font-size="16" fill="#636e7d" font-weight="bold" text-anchor="middle">アイデアを伝える</text>
 </svg>
