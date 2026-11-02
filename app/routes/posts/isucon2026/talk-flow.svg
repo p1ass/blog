@@ -31,9 +31,9 @@
   </g>
   <text x="310" y="190" font-size="14" fill="#636e7d" text-anchor="middle">Qwen3-ASR</text>
   <g font-size="16" fill="#1e2126" text-anchor="middle">
-    <text x="690" y="112">書き起こしの資料（時刻付き）</text>
-    <text x="690" y="182">要約の資料（2 分ごとに上書き）</text>
-    <text x="690" y="252">アイデア（起票者 talk）</text>
+    <text x="690" y="112">文字起こしの資料</text>
+    <text x="690" y="182">要約の資料</text>
+    <text x="690" y="252">アイデア</text>
   </g>
   <g stroke="#636e7d" stroke-width="2" fill="none" marker-end="url(#a)">
     <path d="M177,170 L231,170"/>

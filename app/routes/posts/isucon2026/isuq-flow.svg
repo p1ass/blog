@@ -49,17 +49,14 @@
   <g font-size="16" text-anchor="middle" fill="#1e2126">
     <rect x="536" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="600" y="186">マージとビルド</text>
-    <rect x="688" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
-    <text x="752" y="186">presubmit</text>
-    <rect x="840" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
-    <text x="904" y="186">全台にデプロイ</text>
+    <rect x="764" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
+    <text x="828" y="186">全台にデプロイ</text>
     <rect x="992" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="1056" y="186">ベンチ</text>
   </g>
   <g stroke="#636e7d" stroke-width="2" marker-end="url(#a)">
-    <path d="M666,180 L684,180"/>
-    <path d="M818,180 L836,180"/>
-    <path d="M970,180 L988,180"/>
+    <path d="M666,180 L760,180"/>
+    <path d="M894,180 L988,180"/>
   </g>
 
   <path d="M1056,210 L1056,372" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
