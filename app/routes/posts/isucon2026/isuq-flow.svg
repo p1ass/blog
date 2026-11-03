@@ -48,7 +48,7 @@
   <path d="M480,180 L530,180" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
   <g font-size="16" text-anchor="middle" fill="#1e2126">
     <rect x="536" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
-    <text x="600" y="186">マージとビルド</text>
+    <text x="600" y="186">ビルド</text>
     <rect x="764" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
     <text x="828" y="186">全台にデプロイ</text>
     <rect x="992" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
