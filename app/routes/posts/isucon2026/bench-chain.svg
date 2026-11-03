@@ -1,44 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="270" viewBox="0 0 1200 270" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
   <title>投稿期間ごとの利用者の増え方</title>
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#636e7d"/>
     </marker>
-    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
-      <path d="M0,0 L10,5 L0,10 z" fill="#a35b00"/>
-    </marker>
   </defs>
-  <rect width="1200" height="320" fill="#ffffff"/>
+  <rect width="1200" height="270" fill="#ffffff"/>
   <g fill="#f9f9fa" stroke="#cfe2fc" stroke-width="2">
-    <rect x="20" y="20" width="520" height="220" rx="20"/>
-    <rect x="620" y="20" width="560" height="220" rx="20"/>
+    <rect x="20" y="20" width="560" height="230" rx="20"/>
+    <rect x="620" y="20" width="560" height="230" rx="20"/>
   </g>
   <g font-size="18" fill="#4172b5" font-weight="bold" text-anchor="middle">
-    <text x="280" y="54">投稿期間 N</text>
+    <text x="300" y="54">投稿期間 N</text>
     <text x="900" y="54">投稿期間 N+1</text>
   </g>
   <g fill="#e8f5fe" stroke="#4172b5" stroke-width="2">
     <rect x="50" y="80" width="150" height="64" rx="10"/>
-    <rect x="360" y="80" width="150" height="64" rx="10"/>
+    <rect x="290" y="80" width="250" height="64" rx="10"/>
     <rect x="660" y="80" width="150" height="64" rx="10"/>
     <rect x="990" y="80" width="150" height="64" rx="10"/>
   </g>
   <g font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">
     <text x="125" y="118">利用者</text>
-    <text x="435" y="118">通過者</text>
+    <text x="415" y="118">投稿が間に合った利用者</text>
     <text x="735" y="118">新規登録</text>
     <text x="1065" y="118">利用者</text>
   </g>
   <g stroke="#636e7d" stroke-width="2.5" fill="none" marker-end="url(#a)">
-    <path d="M202,112 L356,112"/>
-    <path d="M512,112 L656,112"/>
+    <path d="M202,112 L286,112"/>
+    <path d="M542,112 L656,112"/>
     <path d="M812,112 L986,112"/>
-    <path d="M435,146 L435,200 L1065,200 L1065,148"/>
+    <path d="M125,146 L125,210 L1065,210 L1065,148"/>
   </g>
   <g font-size="16" fill="#636e7d" font-weight="bold" text-anchor="middle">
-    <text x="279" y="100">投稿が間に合う</text>
-    <text x="584" y="100">×2</text>
+        <text x="599" y="100">×2</text>
+    <text x="595" y="198">そのまま残る</text>
   </g>
-  <path d="M125,146 L125,286" stroke="#a35b00" stroke-width="2.5" fill="none" stroke-dasharray="7 5" marker-end="url(#o)"/>
-  <text x="141" y="282" font-size="16" fill="#a35b00" font-weight="bold">投稿が遅れると脱落</text>
 </svg>
