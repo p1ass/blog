@@ -4,7 +4,7 @@ jobs:
   vrt:
     runs-on: ubuntu-24.04-arm
     container:
-      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
     permissions:
       contents: read
     steps:
