@@ -15,8 +15,7 @@ docker run --rm --platform linux/arm64 \
   "${IMAGE}" \
   bash -c "
     set -euo pipefail
-    corepack enable
-    corepack prepare pnpm@10.8.0 --activate
+    npm install -g pnpm@10.8.0
     pnpm config set store-dir /pnpm-store
     pnpm install --frozen-lockfile
     ./vrt/install-fonts.sh
