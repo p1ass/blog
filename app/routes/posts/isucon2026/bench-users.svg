@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>投稿期間ごとの利用者数と、4 回目の取りこぼしがなかった場合の人数</title>
+  <rect width="1200" height="520" fill="#ffffff"/>
+  <path d="M90,450.0 L1160,450.0" stroke="#636e7d" stroke-width="1"/>
+  <text x="78" y="455.0" font-size="15" fill="#636e7d" text-anchor="end">0</text>
+  <path d="M90,363.6 L1160,363.6" stroke="#e3e6ea" stroke-width="1"/>
+  <text x="78" y="368.6" font-size="15" fill="#636e7d" text-anchor="end">250</text>
+  <path d="M90,277.3 L1160,277.3" stroke="#e3e6ea" stroke-width="1"/>
+  <text x="78" y="282.3" font-size="15" fill="#636e7d" text-anchor="end">500</text>
+  <path d="M90,190.9 L1160,190.9" stroke="#e3e6ea" stroke-width="1"/>
+  <text x="78" y="195.9" font-size="15" fill="#636e7d" text-anchor="end">750</text>
+  <path d="M90,104.5 L1160,104.5" stroke="#e3e6ea" stroke-width="1"/>
+  <text x="78" y="109.5" font-size="15" fill="#636e7d" text-anchor="end">1,000</text>
+  <text x="179.2" y="480" font-size="16" fill="#1e2126" text-anchor="middle">1 回目</text>
+  <text x="179.2" y="502" font-size="14" fill="#636e7d" text-anchor="middle">9 秒</text>
+  <rect x="122.2" y="443.8" width="34" height="6.2" fill="#2f6fd0"/>
+  <rect x="162.2" y="447.6" width="34" height="2.4" fill="#1f9d7a"/>
+  <rect x="202.2" y="447.9" width="34" height="2.1" fill="#c2410c"/>
+  <text x="357.5" y="480" font-size="16" fill="#1e2126" text-anchor="middle">2 回目</text>
+  <text x="357.5" y="502" font-size="14" fill="#636e7d" text-anchor="middle">9 秒</text>
+  <rect x="300.5" y="435.8" width="34" height="14.2" fill="#2f6fd0"/>
+  <rect x="340.5" y="442.7" width="34" height="7.3" fill="#1f9d7a"/>
+  <rect x="380.5" y="443.8" width="34" height="6.2" fill="#c2410c"/>
+  <text x="535.8" y="480" font-size="16" fill="#1e2126" text-anchor="middle">3 回目</text>
+  <text x="535.8" y="502" font-size="14" fill="#636e7d" text-anchor="middle">9 秒</text>
+  <rect x="478.8" y="408.9" width="34" height="41.1" fill="#2f6fd0"/>
+  <rect x="518.8" y="428.2" width="34" height="21.8" fill="#1f9d7a"/>
+  <rect x="558.8" y="430.7" width="34" height="19.3" fill="#c2410c"/>
+  <text x="714.2" y="480" font-size="16" fill="#1e2126" text-anchor="middle">4 回目</text>
+  <text x="714.2" y="502" font-size="14" fill="#636e7d" text-anchor="middle">9 秒</text>
+  <rect x="657.2" y="330.8" width="34" height="119.2" fill="#2f6fd0"/>
+  <rect x="697.2" y="385.1" width="34" height="64.9" fill="#1f9d7a"/>
+  <rect x="737.2" y="394.0" width="34" height="56.0" fill="#c2410c"/>
+  <text x="892.5" y="480" font-size="16" fill="#1e2126" text-anchor="middle">5 回目</text>
+  <text x="892.5" y="502" font-size="14" fill="#636e7d" text-anchor="middle">9 秒</text>
+  <rect x="835.5" y="88.0" width="34" height="26.9" fill="none" stroke="#2f6fd0" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="835.5" y="114.9" width="34" height="335.1" fill="#2f6fd0"/>
+  <rect x="875.5" y="254.5" width="34" height="20.0" fill="none" stroke="#1f9d7a" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="875.5" y="274.5" width="34" height="175.5" fill="#1f9d7a"/>
+  <rect x="915.5" y="281.1" width="34" height="8.3" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="915.5" y="289.4" width="34" height="160.6" fill="#c2410c"/>
+  <text x="1070.8" y="480" font-size="16" fill="#1e2126" text-anchor="middle">世界グランプリ</text>
+  <text x="1070.8" y="502" font-size="14" fill="#636e7d" text-anchor="middle">8 秒</text>
+  <rect x="1013.8" y="88.0" width="34" height="26.9" fill="none" stroke="#2f6fd0" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="1013.8" y="114.9" width="34" height="335.1" fill="#2f6fd0"/>
+  <rect x="1053.8" y="254.5" width="34" height="20.0" fill="none" stroke="#1f9d7a" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="1053.8" y="274.5" width="34" height="175.5" fill="#1f9d7a"/>
+  <rect x="1093.8" y="281.4" width="34" height="8.3" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="1093.8" y="289.7" width="34" height="160.3" fill="#c2410c"/>
+  <rect x="110" y="22" width="18" height="18" rx="3" fill="#2f6fd0"/>
+  <text x="136" y="37" font-size="16" fill="#1e2126">asia</text>
+  <rect x="260" y="22" width="18" height="18" rx="3" fill="#1f9d7a"/>
+  <text x="286" y="37" font-size="16" fill="#1e2126">europe</text>
+  <rect x="410" y="22" width="18" height="18" rx="3" fill="#c2410c"/>
+  <text x="436" y="37" font-size="16" fill="#1e2126">america</text>
+  <rect x="560" y="22" width="18" height="18" rx="3" fill="none" stroke="#636e7d" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="586" y="37" font-size="16" fill="#1e2126">4 回目に取りこぼさなければ増えていた人数</text>
+</svg>

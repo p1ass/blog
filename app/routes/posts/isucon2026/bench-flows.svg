@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="370" viewBox="0 0 1200 370" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>点が入る 2 つの流れ</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#636e7d"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="370" fill="#ffffff"/>
+  <g fill="#f9f9fa" stroke="#cfe2fc" stroke-width="2">
+    <rect x="20" y="20" width="1160" height="170" rx="20"/>
+    <rect x="20" y="210" width="1160" height="140" rx="20"/>
+  </g>
+  <g font-size="18" fill="#4172b5" font-weight="bold">
+    <text x="50" y="56">過去の投稿を見返す利用者</text>
+    <text x="50" y="246">投稿する利用者</text>
+  </g>
+  <g fill="#e8f5fe" stroke="#4172b5" stroke-width="2">
+    <rect x="50" y="74" width="200" height="72" rx="10"/>
+    <rect x="330" y="74" width="300" height="72" rx="10"/>
+    <rect x="710" y="74" width="170" height="72" rx="10"/>
+    <rect x="960" y="74" width="180" height="72" rx="10"/>
+    <rect x="50" y="264" width="140" height="72" rx="10"/>
+    <rect x="250" y="264" width="130" height="72" rx="10"/>
+    <rect x="440" y="264" width="230" height="72" rx="10"/>
+    <rect x="730" y="264" width="200" height="72" rx="10"/>
+    <rect x="990" y="264" width="170" height="72" rx="10"/>
+  </g>
+  <g font-size="17" fill="#1e2126" font-weight="bold" text-anchor="middle">
+    <text x="150" y="116">ログイン</text>
+    <text x="480" y="104">Memories かエクスポート</text>
+    <text x="795" y="116">画像 4 枚</text>
+    <text x="1050" y="116">ログアウト</text>
+    <text x="120" y="294">通知</text>
+    <text x="315" y="306">投稿</text>
+    <text x="555" y="294">友達のフィードを見る</text>
+    <text x="830" y="294">投稿や画像を見て回る</text>
+    <text x="1075" y="294">RealMoji</text>
+  </g>
+  <g font-size="14" fill="#636e7d" text-anchor="middle">
+    <text x="480" y="128">Memories 2〜3 点、エクスポート 20 点</text>
+    <text x="120" y="318">1 点</text>
+    <text x="555" y="318">10 点（最後は 20 点）</text>
+    <text x="830" y="318">1 回 1〜2 点</text>
+    <text x="1075" y="318">1 回 5 点</text>
+  </g>
+  <g stroke="#636e7d" stroke-width="2.5" fill="none" marker-end="url(#a)">
+    <path d="M252,110 L326,110"/>
+    <path d="M632,110 L706,110"/>
+    <path d="M882,110 L956,110"/>
+    <path d="M1050,148 L1050,172 L150,172 L150,150"/>
+    <path d="M192,300 L246,300"/>
+    <path d="M382,300 L436,300"/>
+    <path d="M672,300 L726,300"/>
+    <path d="M932,300 L986,300"/>
+  </g>
+</svg>

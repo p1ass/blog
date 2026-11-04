@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="370" viewBox="0 0 1200 370" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>各担当の Mac で動く Agent</title>
+  <defs>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4172b5"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="370" fill="#ffffff"/>
+  <g fill="#f9f9fa" stroke="#cfe2fc" stroke-width="2">
+    <rect x="30" y="20" width="360" height="330" rx="20"/>
+    <rect x="420" y="20" width="360" height="330" rx="20"/>
+    <rect x="810" y="20" width="360" height="330" rx="20"/>
+  </g>
+  <g font-size="18" fill="#4172b5" font-weight="bold" text-anchor="middle">
+    <text x="210" y="56">方針担当（@p1ass）の Mac</text>
+    <text x="600" y="56">実装担当 A（@km_conner）の Mac</text>
+    <text x="990" y="56">実装担当 B（@atrn0）の Mac</text>
+  </g>
+  <g fill="#e8f5fe" stroke="#4172b5" stroke-width="2">
+    <rect x="70" y="80" width="280" height="72" rx="10"/>
+    <rect x="460" y="80" width="280" height="72" rx="10"/>
+    <rect x="850" y="80" width="280" height="72" rx="10"/>
+  </g>
+  <g fill="#ffffff" stroke="#4172b5" stroke-width="2" stroke-dasharray="6 4">
+    <rect x="90" y="250" width="260" height="72" rx="10"/>
+    <rect x="80" y="240" width="260" height="72" rx="10"/>
+    <rect x="70" y="230" width="260" height="72" rx="10"/>
+    <rect x="480" y="250" width="260" height="72" rx="10"/>
+    <rect x="470" y="240" width="260" height="72" rx="10"/>
+    <rect x="460" y="230" width="260" height="72" rx="10"/>
+    <rect x="870" y="250" width="260" height="72" rx="10"/>
+    <rect x="860" y="240" width="260" height="72" rx="10"/>
+    <rect x="850" y="230" width="260" height="72" rx="10"/>
+  </g>
+  <g font-size="19" fill="#1e2126" font-weight="bold" text-anchor="middle">
+    <text x="210" y="123">方針担当の Agent</text>
+    <text x="600" y="123">実装担当の Agent</text>
+    <text x="990" y="123">実装担当の Agent</text>
+    <text x="200" y="273">分析のサブエージェント</text>
+    <text x="590" y="273">実装のサブエージェント</text>
+    <text x="980" y="273">実装のサブエージェント</text>
+  </g>
+  <g stroke="#4172b5" stroke-width="3" fill="none" marker-end="url(#arrowB)">
+    <path d="M200,154 L200,226"/>
+    <path d="M590,154 L590,226"/>
+    <path d="M980,154 L980,226"/>
+  </g>
+  <g font-size="16" fill="#636e7d" font-weight="bold">
+    <text x="214" y="184">main の更新ごとに</text>
+    <text x="214" y="206">起動する</text>
+    <text x="604" y="196">タスクごとに起動する</text>
+    <text x="994" y="196">タスクごとに起動する</text>
+  </g>
+</svg>

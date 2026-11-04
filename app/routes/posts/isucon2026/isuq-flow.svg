@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>isuq の処理の流れ</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#636e7d"/>
+    </marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f7a3d"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#535a65"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="600" fill="#ffffff"/>
+
+  <text x="115" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">各担当の Agent</text>
+  <g font-size="16" text-anchor="middle" fill="#1e2126">
+    <rect x="40" y="64" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <text x="115" y="98">実装担当 A</text>
+    <rect x="40" y="136" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <text x="115" y="170">実装担当 B</text>
+    <rect x="40" y="208" width="150" height="56" rx="8" fill="#e8f5fe" stroke="#4172b5" stroke-width="1.5"/>
+    <text x="115" y="242">方針担当</text>
+  </g>
+  <g stroke="#636e7d" stroke-width="2" fill="none">
+    <path d="M192,92 C226,92 226,180 250,180"/>
+    <path d="M192,164 C226,164 226,180 250,180"/>
+    <path d="M192,236 C226,236 226,180 250,180"/>
+  </g>
+  <text x="270" y="170" font-size="15" fill="#636e7d" font-weight="bold" text-anchor="middle">ジョブ</text>
+
+  <text x="735" y="44" font-size="18" fill="#1e2126" font-weight="bold" text-anchor="middle">isuq</text>
+  <rect x="300" y="60" width="870" height="250" rx="14" fill="#ffffff" stroke="#42464c" stroke-width="2"/>
+  <path d="M250,180 L314,180" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="398" y="96" font-size="16" fill="#1e2126" font-weight="bold" text-anchor="middle">キュー</text>
+  <rect x="318" y="108" width="160" height="182" rx="10" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
+  <g font-size="15" fill="#1e2126">
+    <rect x="330" y="120" width="136" height="38" rx="6" fill="#ffffff" stroke="#c0c6ce"/>
+    <text x="344" y="145">ジョブ #136</text>
+    <rect x="330" y="166" width="136" height="38" rx="6" fill="#ffffff" stroke="#c0c6ce"/>
+    <text x="344" y="191">ジョブ #135</text>
+    <rect x="330" y="212" width="136" height="38" rx="6" fill="#ffffff" stroke="#c0c6ce"/>
+    <text x="344" y="237">ジョブ #134</text>
+    <text x="398" y="276" text-anchor="middle" fill="#636e7d">⋮</text>
+  </g>
+
+  <path d="M480,180 L530,180" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
+  <g font-size="16" text-anchor="middle" fill="#1e2126">
+    <rect x="536" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
+    <text x="600" y="186">ビルド</text>
+    <rect x="764" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
+    <text x="828" y="186">全台にデプロイ</text>
+    <rect x="992" y="152" width="128" height="56" rx="8" fill="#f9f9fa" stroke="#c0c6ce" stroke-width="1.5"/>
+    <text x="1056" y="186">ベンチ</text>
+  </g>
+  <g stroke="#636e7d" stroke-width="2" marker-end="url(#a)">
+    <path d="M666,180 L760,180"/>
+    <path d="M894,180 L988,180"/>
+  </g>
+
+  <path d="M1056,210 L1056,372" stroke="#636e7d" stroke-width="2" marker-end="url(#a)"/>
+  <polygon points="1056,380 1146,440 1056,500 966,440" fill="#ffffff" stroke="#636e7d" stroke-width="1.5"/>
+  <text x="1056" y="436" font-size="15" text-anchor="middle" fill="#1e2126">main の</text>
+  <text x="1056" y="456" font-size="15" text-anchor="middle" fill="#1e2126">97% 以上?</text>
+
+  <path d="M966,440 L866,440" stroke="#1f7a3d" stroke-width="2" marker-end="url(#g)"/>
+  <text x="916" y="428" font-size="15" fill="#1f7a3d" font-weight="bold" text-anchor="middle">はい</text>
+  <rect x="646" y="412" width="216" height="56" rx="8" fill="#e8f6ec" stroke="#1f7a3d" stroke-width="1.5"/>
+  <text x="754" y="446" font-size="16" text-anchor="middle" fill="#1e2126">main にマージ</text>
+
+  <path d="M1056,502 L1056,540 L866,540" fill="none" stroke="#535a65" stroke-width="2" marker-end="url(#r)"/>
+  <text x="961" y="530" font-size="15" fill="#535a65" font-weight="bold" text-anchor="middle">いいえ</text>
+  <rect x="646" y="512" width="216" height="56" rx="8" fill="#f9f9fa" stroke="#535a65" stroke-width="1.5"/>
+  <text x="754" y="546" font-size="16" text-anchor="middle" fill="#1e2126">レポートだけ返す</text>
+  <path d="M644,540 L115,540 L115,270" fill="none" stroke="#8d97a5" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#a)"/>
+</svg>

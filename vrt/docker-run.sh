@@ -4,10 +4,10 @@ set -euo pipefail
 IMAGE="mcr.microsoft.com/playwright:v1.64.1-noble"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-docker run --rm --platform linux/amd64 \
+docker run --rm --platform linux/arm64 \
   -v "${REPO_ROOT}:/work" \
-  -v blog-vrt-node-modules:/work/node_modules \
-  -v blog-vrt-pnpm-store:/pnpm-store \
+  -v blog-vrt-node-modules-arm64:/work/node_modules \
+  -v blog-vrt-pnpm-store-arm64:/pnpm-store \
   -w /work \
   -e CI=1 \
   -e PNPM_HOME=/pnpm \
@@ -15,8 +15,7 @@ docker run --rm --platform linux/amd64 \
   "${IMAGE}" \
   bash -c "
     set -euo pipefail
-    corepack enable
-    corepack prepare pnpm@10.8.0 --activate
+    npm install -g pnpm@10.8.0
     pnpm config set store-dir /pnpm-store
     pnpm install --frozen-lockfile
     ./vrt/install-fonts.sh

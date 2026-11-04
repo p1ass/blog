@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif">
+  <title>ハーネスの改善のループ</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#636e7d"/>
+    </marker>
+    <marker id="arrowO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a35b00"/>
+    </marker>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4172b5"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="560" fill="#ffffff"/>
+    <rect x="340" y="24" width="780" height="512" rx="24" fill="#f9f9fa" stroke="#cfe2fc" stroke-width="2"/>
+  <text x="730" y="288" font-size="22" fill="#4172b5" font-weight="bold" text-anchor="middle">改善のループ</text>
+    <g font-size="19" text-anchor="middle">
+    <rect x="370" y="50" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
+    <text x="495" y="99" fill="#1e2126" font-weight="bold">方針担当の Agent</text>
+    <rect x="850" y="60" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
+    <rect x="840" y="50" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
+    <text x="965" y="88" fill="#1e2126" font-weight="bold">実装担当の Agent</text>
+    <text x="965" y="114" fill="#1e2126" font-weight="bold" font-size="16">A・B</text>
+    <rect x="840" y="426" width="250" height="84" rx="10" fill="#ffffff" stroke="#42464c" stroke-width="2"/>
+    <text x="965" y="475" fill="#1e2126" font-weight="bold">isuq</text>
+    <rect x="370" y="426" width="250" height="84" rx="10" fill="#e8f5fe" stroke="#4172b5" stroke-width="2"/>
+    <text x="495" y="475" fill="#1e2126" font-weight="bold">分析のサブエージェント</text>
+    <rect x="40" y="50" width="160" height="84" rx="10" fill="#fff4e5" stroke="#a35b00" stroke-width="2"/>
+    <text x="120" y="99" fill="#1e2126" font-weight="bold">人間</text>
+  </g>
+    <g stroke="#4172b5" stroke-width="3" fill="none" marker-end="url(#arrowB)">
+    <path d="M622,92 L836,92"/>
+    <path d="M965,146 L965,422"/>
+    <path d="M838,468 L624,468"/>
+    <path d="M495,424 L495,138"/>
+  </g>
+  <g font-size="16" fill="#636e7d" font-weight="bold" text-anchor="middle">
+    <text x="729" y="80">タスクを割り当てる</text>
+    <text x="985" y="220" text-anchor="start">ジョブを実行する</text>
+    <text x="729" y="456">レポートを渡す</text>
+    <text x="515" y="220" text-anchor="start">タスクを提案する</text>
+  </g>
+    <path d="M202,92 L366,92" stroke="#a35b00" stroke-width="3" fill="none" stroke-dasharray="8 6" marker-end="url(#arrowO)"/>
+  <text x="284" y="78" font-size="16" fill="#636e7d" font-weight="bold" text-anchor="middle">アイデアを伝える</text>
+</svg>

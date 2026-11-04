@@ -73,7 +73,7 @@ subagent の起動プロンプトに含める事項:
 
 ### Step 4: 本文の執筆
 
-[`references/style.md`](references/style.md) と [`references/mdx-conventions.md`](references/mdx-conventions.md) を事前に確認してから執筆に入る。
+[`references/style.md`](references/style.md) と [`references/mdx-conventions.md`](references/mdx-conventions.md) を事前に確認してから執筆に入る。図を描く場合は [`references/diagrams.md`](references/diagrams.md) に従い、SVG で描く。
 
 節ごとに執筆を進め、都度ユーザーの確認（レビュー）を受ける。**文体の一貫性を保つため、執筆はメインエージェントが一貫して担当する。**
 
