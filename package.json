@@ -28,13 +28,13 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.4",
-    "@cloudflare/workers-types": "^5.20261030.1",
+    "@biomejs/biome": "2.6.5",
+    "@cloudflare/workers-types": "^5.20261106.1",
     "@hono/vite-cloudflare-pages": "^0.4.3",
     "@hono/vite-ssg": "0.3.3",
     "@mdx-js/mdx": "^3.1.1",
     "@mdx-js/rollup": "^3.1.1",
-    "@playwright/test": "1.64.1",
+    "@playwright/test": "1.65.0",
     "@resvg/resvg-js": "^2.6.2",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "@textlint/textlint-plugin-markdown": "^15.8.0",
@@ -52,7 +52,7 @@
     "rehype-mdx-import-media": "^1.4.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^6.0.0",
-    "satori": "^0.33.5",
+    "satori": "^0.63.2",
     "textlint": "^15.8.0",
     "textlint-filter-rule-comments": "^1.3.0",
     "textlint-plugin-comment-ja": "file:./textlint/plugins/comment-ja",
@@ -62,10 +62,10 @@
     "typescript": "^5.8.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.2.0",
-    "vite": "^8.3.5",
+    "vite": "^8.3.6",
     "vite-plugin-static-copy": "^4.1.1",
-    "vitest": "^5.0.5",
-    "wrangler": "^4.156.0",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.158.0",
     "yaml": "^2.9.1"
   }
 }
