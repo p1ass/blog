@@ -55,8 +55,8 @@ importers:
         specifier: ^1.7.0
         version: 1.7.0
       '@textlint/textlint-plugin-markdown':
-        specifier: ^15.8.0
-        version: 15.8.0(supports-color@10.2.2)
+        specifier: ^16.1.1
+        version: 16.1.1
       '@types/hast':
         specifier: ^3.0.5
         version: 3.0.5
@@ -144,12 +144,6 @@ importers:
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
-
-  textlint/plugins/comment-ja:
-    dependencies:
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
 packages:
 
@@ -1398,6 +1392,9 @@ packages:
   '@textlint/ast-node-types@15.8.0':
     resolution: {integrity: sha512-5CiH9COYmovWmExQgs7763DzX6Gy9zjkjJ7JxCC95wyTcjwQn/8poNF6fv3qzRlmx8CRRde8DHr9FcgAAiPzgw==}
 
+  '@textlint/ast-node-types@16.1.1':
+    resolution: {integrity: sha512-61wYGuMgBRPZM+3w7Bx0ipnxv9/ltw+7p7esc1kTZxlo84pE96D5ktgj/HbVPwXxk1IGaa3mVds58IkBaP1pvw==}
+
   '@textlint/ast-tester@13.4.1':
     resolution: {integrity: sha512-YSHUR1qDgMPGF5+nvrquEhif6zRJ667xUnfP/9rTNtThIhoTQINvczr5/7xa43F1PDWplL6Curw+2jrE1qHwGQ==}
 
@@ -1439,6 +1436,9 @@ packages:
   '@textlint/markdown-to-ast@15.8.0':
     resolution: {integrity: sha512-gWOcd2+UCqODMLGIIY5WiPE9zmR9L4aut3FIkxH8gSCiZ6EVkBaU2mgm+8KiGOjJqdtT98xkWocCwDtQ1kypOQ==}
 
+  '@textlint/markdown-to-ast@16.1.1':
+    resolution: {integrity: sha512-Nfrk2txfvmp3MGiC1GndjPxVoLIUSpMvKRyD0+zAPnczW0FaOxB39xGb8onRAm9lu+35XWzQatA39XczQs3YDg==}
+
   '@textlint/module-interop@14.8.4':
     resolution: {integrity: sha512-1LdPYLAVpa27NOt6EqvuFO99s4XLB0c19Hw9xKSG6xQ1K82nUEyuWhzTQKb3KJ5Qx7qj14JlXZLfnEuL6A16Bw==}
 
@@ -1472,6 +1472,9 @@ packages:
   '@textlint/textlint-plugin-markdown@15.8.0':
     resolution: {integrity: sha512-susQtSt0omGIkQmb3vNXx3CQS92OViTHD7Qe79quSMxYv0jgN/bCZUa8ej96qOOqPeuoSDDDpMdEZ4D+B6Lb+A==}
 
+  '@textlint/textlint-plugin-markdown@16.1.1':
+    resolution: {integrity: sha512-LrHEQ2okVUMYJsKNqNmvFtmm4UQ0UXIIBVdG+rJcUgsM3P26pevoeuWfCbt+laxVEbH30o/zH9E+So7kvCQAkA==}
+
   '@textlint/textlint-plugin-text@13.4.1':
     resolution: {integrity: sha512-z0p5B8WUfTCIRmhjVHFfJv719oIElDDKWOIZei4CyYkfMGo0kq8fkrYBkUR6VZ6gofHwc+mwmIABdUf1rDHzYA==}
 
@@ -1483,6 +1486,9 @@ packages:
 
   '@textlint/types@15.8.0':
     resolution: {integrity: sha512-Anhc6y5736YIsvqae0U6k0YmB2M/QVHkEeOv2aydAn/WIkdI69dCOiDbe3/+RagS3qstFTSFWJzNRA2lUjv19w==}
+
+  '@textlint/types@16.1.1':
+    resolution: {integrity: sha512-K8VmOG8ZnNtTlH4iS4TygnU6cMQr9zciHB55sg/c892xPgnELdld2UngibS5V3vT+SDHf5glxuhWcbYeQFYW7A==}
 
   '@textlint/utils@13.4.1':
     resolution: {integrity: sha512-wX8RT1ejHAPTDmqlzngf0zI5kYoe3QvGDcj+skoTxSv+m/wOs/NyEr92d+ahCP32YqFYzXlqU7aDx2FkULKT+g==}
@@ -4047,6 +4053,9 @@ packages:
   textlint-filter-rule-comments@1.3.0:
     resolution: {integrity: sha512-kSk/XcZYKYe4sb44XhYAYPeMFtqKJIMtcju/jwyZxpkn8gRuRMZ4+rB0wJmGRrD0c8tx3hHDAH1JY9ccahMKcA==}
 
+  textlint-plugin-comment-ja@file:textlint/plugins/comment-ja:
+    resolution: {directory: textlint/plugins/comment-ja, type: directory}
+
   textlint-rule-helper@2.5.0:
     resolution: {integrity: sha512-QIbFPtyqLy0g5BJn8mryk9iHzGYicNaFIpLFPiEnb4RXxrEGeQ2W2aARQ9yEXLIAqo+OwK4ndWBAWkbgJEPzTQ==}
 
@@ -5537,6 +5546,8 @@ snapshots:
 
   '@textlint/ast-node-types@15.8.0': {}
 
+  '@textlint/ast-node-types@16.1.1': {}
+
   '@textlint/ast-tester@13.4.1(supports-color@10.2.2)':
     dependencies:
       '@textlint/ast-node-types': 13.4.1
@@ -5665,6 +5676,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@textlint/markdown-to-ast@16.1.1':
+    dependencies:
+      '@textlint/ast-node-types': 16.1.1
+
   '@textlint/module-interop@14.8.4': {}
 
   '@textlint/module-interop@15.8.0': {}
@@ -5722,6 +5737,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@textlint/textlint-plugin-markdown@16.1.1':
+    dependencies:
+      '@textlint/markdown-to-ast': 16.1.1
+      '@textlint/types': 16.1.1
+
   '@textlint/textlint-plugin-text@13.4.1':
     dependencies:
       '@textlint/text-to-ast': 13.4.1
@@ -5738,6 +5758,10 @@ snapshots:
   '@textlint/types@15.8.0':
     dependencies:
       '@textlint/ast-node-types': 15.8.0
+
+  '@textlint/types@16.1.1':
+    dependencies:
+      '@textlint/ast-node-types': 16.1.1
 
   '@textlint/utils@13.4.1': {}
 
@@ -9316,6 +9340,10 @@ snapshots:
   text-table@0.2.0: {}
 
   textlint-filter-rule-comments@1.3.0: {}
+
+  textlint-plugin-comment-ja@file:textlint/plugins/comment-ja:
+    dependencies:
+      typescript: 5.8.3
 
   textlint-rule-helper@2.5.0:
     dependencies:

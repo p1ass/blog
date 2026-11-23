@@ -37,7 +37,7 @@
     "@playwright/test": "1.65.1",
     "@resvg/resvg-js": "^2.6.2",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
-    "@textlint/textlint-plugin-markdown": "^15.8.0",
+    "@textlint/textlint-plugin-markdown": "^16.1.1",
     "@types/hast": "^3.0.5",
     "@types/mdx": "^2.0.14",
     "@types/mdx-js__react": "2.0.0",
