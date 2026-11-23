@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@formkit/tempo':
-        specifier: ^1.1.1
-        version: 1.1.1
+        specifier: ^1.3.0
+        version: 1.3.0
       hono:
-        specifier: ^4.13.18
-        version: 4.13.18
+        specifier: ^4.13.19
+        version: 4.13.19
       honox:
-        specifier: 0.1.62
-        version: 0.1.62(hono@4.13.18)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1))
+        specifier: 0.1.63
+        version: 0.1.63(hono@4.13.19)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1))
       rehype-mermaid:
         specifier: ^3.0.0
         version: 3.0.0(playwright@1.65.0)(supports-color@10.2.2)
@@ -35,10 +35,10 @@ importers:
         version: 5.20261113.1
       '@hono/vite-cloudflare-pages':
         specifier: ^0.4.3
-        version: 0.4.3(hono@4.13.18)
+        version: 0.4.3(hono@4.13.19)
       '@hono/vite-ssg':
         specifier: 0.3.3
-        version: 0.3.3(hono@4.13.18)
+        version: 0.3.3(hono@4.13.19)
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1(supports-color@10.2.2)
@@ -144,12 +144,6 @@ importers:
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
-
-  textlint/plugins/comment-ja:
-    dependencies:
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
 packages:
 
@@ -577,8 +571,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@formkit/tempo@1.1.1':
-    resolution: {integrity: sha512-ONW1H43AfTbIgDALg89xzG0PAQZvMMM1l3z4Oq7ZXJ+GlTK486ni0MqDHiqa8oExWcGkqE8en9Mo8YXu4AGULQ==}
+  '@formkit/tempo@1.3.0':
+    resolution: {integrity: sha512-1Eeo4T3Tvvdq9j8viIRsk1ihr0HVx0IKiiP8s3ZsSHUFP+aZLYF8et18bVLClU5T2KhORPrr9aJkgNC/u10I2g==}
 
   '@fortawesome/fontawesome-free@6.5.2':
     resolution: {integrity: sha512-hRILoInAx8GNT5IMkrtIt9blOdrqHOnPBH+k70aWUAqPZPgopb9G5EQJFpaBx/S8zp2fC+mPW349Bziuk1o28Q==}
@@ -1325,6 +1319,7 @@ packages:
     resolution: {integrity: sha512-a8G4wiQxQG2BAvo+gU6XrReRRqj+pLS2NGXKm8io19goR+K8lw269eTrPkSdDTALwMmJp4th2Uh0D8J9bEV1vg==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.55.1':
     resolution: {integrity: sha512-bD+zjpFrMpP/hqkfEcnjXWHMw5BIghGisOKPj+2NaNDuVT+8Ds4mPf3XcPHuat1tz89WRL+1wbcxKY3WSbiT7w==}
@@ -2567,12 +2562,12 @@ packages:
     resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
     engines: {node: '>=12.0.0'}
 
-  hono@4.13.18:
-    resolution: {integrity: sha512-H9q/E1XizaWstJxUW881dmLxEj+t/TrGGnyxINkm4+sK0qUwsMtFdo2BWI9Vs3cIS19MU6b6iCijoUoEf4f3DA==}
+  hono@4.13.19:
+    resolution: {integrity: sha512-KmXvQAXwcAHV+muzbIwoJ23niEB5nMoDVr9WcRkU8mvjUECm/1+7v4Jgp7P7a+H6MLFrh+vXrGonGrGS+RQfkA==}
     engines: {node: '>=16.9.0'}
 
-  honox@0.1.62:
-    resolution: {integrity: sha512-fPvoP9MhjMA38gM+NhfOZTFOcxMeI764l+k5o79gETOcpobzkSLrPZnx2JlVLAbaj0LuUrMjcN5Lh3acAEgCUg==}
+  honox@0.1.63:
+    resolution: {integrity: sha512-lWxCkD5f6/FvrNkRPvNXU0uYxGrnnYGMd8jo3TWkbexmOh7ugKTxt94r4A3mDZEQpqm+AIQxOLBbRS5NBPzFLg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '>=4.* || ^5.0.0-0'
@@ -3422,11 +3417,6 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  nanoid@3.3.19:
-    resolution: {integrity: sha512-Y2tUNy4ouw6tq5oDSKeQYGOyhkUBhNOcGV/02KC+6kd9eDGqdZd++mjMiIDilrBYvjEnCYvVtsuHCuP+okSfug==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
   nanoid@3.3.20:
     resolution: {integrity: sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -3580,10 +3570,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       postcss: ^8.2.9
-
-  postcss@8.5.28:
-    resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
-    engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.5.32:
     resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
@@ -3964,6 +3950,9 @@ packages:
 
   textlint-filter-rule-comments@1.3.0:
     resolution: {integrity: sha512-kSk/XcZYKYe4sb44XhYAYPeMFtqKJIMtcju/jwyZxpkn8gRuRMZ4+rB0wJmGRrD0c8tx3hHDAH1JY9ccahMKcA==}
+
+  textlint-plugin-comment-ja@file:textlint/plugins/comment-ja:
+    resolution: {directory: textlint/plugins/comment-ja, type: directory}
 
   textlint-rule-helper@2.5.0:
     resolution: {integrity: sha512-QIbFPtyqLy0g5BJn8mryk9iHzGYicNaFIpLFPiEnb4RXxrEGeQ2W2aARQ9yEXLIAqo+OwK4ndWBAWkbgJEPzTQ==}
@@ -4823,30 +4812,30 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@formkit/tempo@1.1.1': {}
+  '@formkit/tempo@1.3.0': {}
 
   '@fortawesome/fontawesome-free@6.5.2': {}
 
-  '@hono/node-server@1.19.17(hono@4.13.18)':
+  '@hono/node-server@1.19.17(hono@4.13.19)':
     dependencies:
-      hono: 4.13.18
+      hono: 4.13.19
 
-  '@hono/vite-cloudflare-pages@0.4.3(hono@4.13.18)':
+  '@hono/vite-cloudflare-pages@0.4.3(hono@4.13.19)':
     dependencies:
-      hono: 4.13.18
+      hono: 4.13.19
 
-  '@hono/vite-dev-server@0.25.3(hono@4.13.18)(miniflare@4.20260124.0)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1))':
+  '@hono/vite-dev-server@0.25.3(hono@4.13.19)(miniflare@4.20260124.0)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1))':
     dependencies:
-      '@hono/node-server': 1.19.17(hono@4.13.18)
-      hono: 4.13.18
+      '@hono/node-server': 1.19.17(hono@4.13.19)
+      hono: 4.13.19
       minimatch: 9.0.5
     optionalDependencies:
       miniflare: 4.20260124.0
       wrangler: 4.161.0(@cloudflare/workers-types@5.20261113.1)
 
-  '@hono/vite-ssg@0.3.3(hono@4.13.18)':
+  '@hono/vite-ssg@0.3.3(hono@4.13.19)':
     dependencies:
-      hono: 4.13.18
+      hono: 4.13.19
 
   '@iconify/types@2.0.0': {}
 
@@ -5770,7 +5759,7 @@ snapshots:
       '@vue/shared': 3.5.13
       estree-walker: 2.0.2
       magic-string: 0.30.17
-      postcss: 8.5.28
+      postcss: 8.5.32
       source-map-js: 1.2.2
 
   '@vue/compiler-ssr@3.5.13':
@@ -6316,11 +6305,11 @@ snapshots:
     dependencies:
       node-source-walk: 7.0.1
 
-  detective-postcss@7.0.1(postcss@8.5.28):
+  detective-postcss@7.0.1(postcss@8.5.32):
     dependencies:
       is-url: 1.2.4
-      postcss: 8.5.28
-      postcss-values-parser: 6.0.2(postcss@8.5.28)
+      postcss: 8.5.32
+      postcss-values-parser: 6.0.2(postcss@8.5.32)
 
   detective-sass@6.0.1:
     dependencies:
@@ -6941,16 +6930,16 @@ snapshots:
 
   highlight.js@11.11.1: {}
 
-  hono@4.13.18: {}
+  hono@4.13.19: {}
 
-  honox@0.1.62(hono@4.13.18)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1)):
+  honox@0.1.63(hono@4.13.19)(miniflare@4.20260124.0)(supports-color@10.2.2)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1)):
     dependencies:
       '@babel/generator': 7.29.1
       '@babel/parser': 7.29.3
       '@babel/traverse': 7.29.0(supports-color@10.2.2)
       '@babel/types': 7.29.0
-      '@hono/vite-dev-server': 0.25.3(hono@4.13.18)(miniflare@4.20260124.0)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1))
-      hono: 4.13.18
+      '@hono/vite-dev-server': 0.25.3(hono@4.13.19)(miniflare@4.20260124.0)(wrangler@4.161.0(@cloudflare/workers-types@5.20261113.1))
+      hono: 4.13.19
       jsonc-parser: 3.3.1
       precinct: 12.2.0(supports-color@10.2.2)
     optionalDependencies:
@@ -8297,8 +8286,6 @@ snapshots:
 
   ms@2.1.3: {}
 
-  nanoid@3.3.19: {}
-
   nanoid@3.3.20: {}
 
   neotraverse@0.6.18: {}
@@ -8455,18 +8442,12 @@ snapshots:
 
   postcss-value-parser@4.2.0: {}
 
-  postcss-values-parser@6.0.2(postcss@8.5.28):
+  postcss-values-parser@6.0.2(postcss@8.5.32):
     dependencies:
       color-name: 1.1.4
       is-url-superb: 4.0.0
-      postcss: 8.5.28
+      postcss: 8.5.32
       quote-unquote: 1.0.0
-
-  postcss@8.5.28:
-    dependencies:
-      nanoid: 3.3.19
-      picocolors: 1.1.1
-      source-map-js: 1.2.2
 
   postcss@8.5.32:
     dependencies:
@@ -8481,7 +8462,7 @@ snapshots:
       detective-amd: 6.0.1
       detective-cjs: 6.0.1
       detective-es6: 5.0.1
-      detective-postcss: 7.0.1(postcss@8.5.28)
+      detective-postcss: 7.0.1(postcss@8.5.32)
       detective-sass: 6.0.1
       detective-scss: 5.0.1
       detective-stylus: 5.0.1
@@ -8489,7 +8470,7 @@ snapshots:
       detective-vue2: 2.2.0(supports-color@10.2.2)(typescript@5.8.3)
       module-definition: 6.0.1
       node-source-walk: 7.0.1
-      postcss: 8.5.28
+      postcss: 8.5.32
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
@@ -9137,6 +9118,10 @@ snapshots:
   text-table@0.2.0: {}
 
   textlint-filter-rule-comments@1.3.0: {}
+
+  textlint-plugin-comment-ja@file:textlint/plugins/comment-ja:
+    dependencies:
+      typescript: 5.8.3
 
   textlint-rule-helper@2.5.0:
     dependencies:
